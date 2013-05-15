@@ -1,0 +1,71 @@
+//===================== Cronus Script ========================
+//= Quests da Presilha de Tulipa
+//===== Por: ==============================================
+//= Halca
+//===== Versão Atual: ========================================
+//= 1.6
+//===== Compatível com: ======================================
+//= Cronus GIT
+//===== Descrição: ===========================================
+//= NPC da quest da Presilha de Tulipa
+//===== Comentários Adicionais: =============================
+//= 1.1 Scrit original por Halca
+//= 1.2 Labels incorretas arrumadas, texto que faltava adicionado [Lupus]
+//= 1.3 Arrumado possível exploit e adicionado um close; ausente [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//= 1.6 Script otimizado, comentários traduzidos e gramática revisada [Schrwaizer]
+//====================================================================
+geffen,84,189,6	script	Ses	815,{
+mes "[Ses]";
+ if(BaseJob == Job_Novice) {
+	mes "Eu amo flores... Você as ama também?";
+	close;
+ }
+ mes "Woo,Óla! fruta fruta!";
+ mes "Desculpa, mas é que eu amo flores, frutas e tudo que me faça";
+ mes "paracer mais com elas.";
+ next;
+switch(select("Faça-me uma Presilha de Tulipa!:O que eu preciso?:Adeus!")){
+case 1:
+ mes "[Ses]";
+ mes "Você já tem os itens?";
+ next;
+ if(select("Sim!:Não!") == 2) {
+ mes "[Ses]";
+ mes "Okay!";
+ mes "Atê mais!";
+ close;
+}
+ if(countitem(2278) < 1 || countitem(975) < 1) { // Itens: Máscara Feliz e Tintura vermelha.
+ mes "[Ses]";
+ mes "Você não tem itens sufuciente para eu criar uma Presilha de Tulipa!";
+ close;
+ }
+ delitem 2278,1;//Items: Máscara Feliz
+ delitem 975,1;//Items: Tintura Vermelha
+ next;
+ mes "[Ses]";
+ mes "Iai! Obrigado! Abacaxi!";
+ mes "Aqui está!";
+ next;
+ getitem 5077,1;//Items: Presilha de Tulipa
+ mes "[Ses]";
+ mes "Aproveite ele!";
+ close;
+ 
+ case 2:
+ mes "[Ses]";
+ mes "Bem, eu vou precisar de...";
+ mes "1 Máscara Feliz para a substância";
+ mes "e 1 Tintura Vermelha!";
+ mes "Traga eles para eu fazer seu item";
+ close;
+
+ case 3:
+ mes "[Ses]";
+ mes "Okay!";
+ mes "Atê mais!";
+ close;
+}
+}

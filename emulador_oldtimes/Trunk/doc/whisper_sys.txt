@@ -1,0 +1,49 @@
+//===== Cronus DOC ========================================
+//= NPC: Sistema de PM.
+//===== Por ===============================================
+//= lordalfa, Massdriller
+//===== Versão ===========================================
+//= 1.2
+//=========================================================
+//= 1.0 - Versão Inicial do rAthena. [lordalfa & Massdriller]
+//= 1.1 - Limpeza. [Euphy]
+//= 1.2 - Traduzido. [Schrwaizer]
+//===== Descrição =========================================
+//= Uma descrição do Sistema de PM para NPCs.
+//=========================================================
+ 
+Este pedaço de código permite que personagem executem eventos em NPCs os enviando
+mensagens com até dez parâmetros. O NPC deve conter a Label "OnWhisperGlobal", ou
+o erro "evento não encontrado"(Event not found) irá aparecer.
+ 
+        NPC:<Nome exato do NPC>  <Texto>{#Texto 2{#...{#Texto 10}}}
+       
+Os textos enviados são separados pelo símbolo "#", e são temporariamente salvos nas
+seguintes variáveis:
+ 
+        @whispervar0$, @whispervar1$, ... @whispervar9$
+ 
+---------------------------------------------------------------------------------
+ 
+     Exemplificação:
+A baixo há um exemplo de como esta função deve ser utilizada.
+Você envia uma mensagem para o npc "ComandoNPC" in-game com as seguintes instruções:
+ 
+        NPC:ComandoNPC        Reportar#KS#Lordalfa
+ 
+Os parâmetros são repassados para a label "OnWhisperGlobal", e podem ser processados
+da seguinte maneira:
+ 
+        -       script  ComandoNPC    -1,{
+        OnWhisperGlobal:
+                // Este código informará que o jogador "Lordalfa" deu KS em você.
+                if (@whispervar0$ == "Reportar" && @whispervar1$ == "KS")
+                {
+                message strcharinfo(0),"Você acaba de denunciar o jogador "+@whispervar2$+" por te dar KS.";
+                end;
+                }
+                message strcharinfo(0),"Mande uma mensagem com o texto Reportar#KS#Nome do Personagem para denunciar alguém que deu KS em você";
+                end;
+        }
+         
+---------------------------------------------------------------------------------

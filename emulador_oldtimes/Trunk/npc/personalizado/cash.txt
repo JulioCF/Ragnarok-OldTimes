@@ -1,0 +1,93 @@
+// variável dos cash points: #RMPOINTS
+
+prontera,159,184,4	script	Mr. Cash#rm	807,{
+
+	mes "[Mr. Cash]";
+	if (getgmlevel() == 99)
+	{
+		mes "Deseja receber #RMPOINTS ?";
+		mes "Digite 0 para prosseguir.";
+		input .@valor;
+		if (.@valor != 0)
+			set #RMPOINTS, #RMPOINTS + .@valor;
+		next;
+		mes "[Mr. Cash]";
+	}
+	mes "Olá, "+strcharinfo(0)+", o que deseja comprar?";
+	callsub S_MesAmountThenNext;
+	switch (select ("Dias VIP:Cancelar"))
+	{
+		mes "[Mr. Cash]";
+
+		case 1:
+		{
+			mes "Quantos dias você quer comprar?";
+			callsub S_MesAmountThenNext;
+			switch (select ("7 Dias VIP [^FF00002.000 RM Points^000000]",
+							"15 Dias VIP [^FF00004.000 RM Points^000000]",
+							"30 Dias VIP [^FF00006.000 RM Points^000000]",
+							"60 Dias VIP [^FF000010.000 RM Points^000000]",
+							"90 Dias VIP [^FF000016.000 RM Points^000000]",
+							"180 Dias VIP [^FF000030.000 RM Points^000000]",
+							"365 Dias VIP [^FF000058.000 RM Points^000000]"))
+			{
+				case 1: callsub S_ActivateVIP,	  7,	2000;
+				case 2: callsub S_ActivateVIP,	 15,	4000;
+				case 3: callsub S_ActivateVIP,	 30,	6000;
+				case 4: callsub S_ActivateVIP,	 60,	10000;
+				case 5: callsub S_ActivateVIP,	 90,	16000;
+				case 6: callsub S_ActivateVIP,	180,	30000;
+				case 7: callsub S_ActivateVIP,	365,	58000;
+			}
+		}
+		
+		case 2: callsub S_MesThenClose, "Tudo bem então, até mais ^^";
+	}
+	
+	// Função referente a ativação de dias VIP.
+	S_ActivateVIP:
+		mes "[Mr. Cash]";
+		mes "Tem certeza que deseja comprar ^008B00"+getarg(0)+" Dias de VIP^000000?";
+		callsub S_MesAmountThenNext;
+		if (select ("Não:Sim") == 1) close;
+		mes "[Mr. Cash]";
+		if (#RMPOINTS < getarg(1))
+			callsub S_MesThenClose, "Você não tem a quantia de RM Points necessária!";
+		else
+		{
+			set #RMPOINTS, #RMPOINTS - getarg(1);
+			query_sql "UPDATE `login` SET `diasvip`=`diasvip`+'"+getarg(0)+"' WHERE `account_id`='"+getcharid(3)+"'";
+			query_sql "UPDATE `login` SET `level`='1' WHERE `account_id`='"+getcharid(3)+"'";
+			callsub S_MesThenClose, "Pronto! Relogue para computar os dias de VIP adicionados em sua conta.";
+		}
+	return;
+	
+	S_MesAmountThenNext:
+		mes "^0000CDVocê possui ^FF0000"+#RMPOINTS+" ^0000CDRM Points^000000";
+		next;
+	return;
+	
+	S_MesThenClose:
+		mes getarg(0);
+		close;
+	return;
+}
+
+function	script	F_VIP	{
+	query_sql "UPDATE `login` SET `diasvip`=`diasvip`+'7' WHERE `account_id`='"+getcharid(3)+"'";
+	query_sql "UPDATE `login` SET `level`='1' WHERE `account_id`='"+getcharid(3)+"'";
+	dispbottom "[VIP] Você acaba de receber 7 dias de VIP, relogue para ativar!";
+	end;
+}		
+
+-	script	F_CountVIPDays	-1,{
+
+	OnClock0001:
+		query_sql "UPDATE `login` SET `diasvip`=`diasvip`-'1' WHERE `level`='1' AND `diasvip`>'0'";
+		end;
+	
+	OnClock0002:
+		query_sql "UPDATE `login` SET `level`='0' WHERE `level`='1' AND `diasvip`<='0'";
+		query_sql "UPDATE `login` SET `diasvip`='0' WHERE `level`='0' OR `diasvip`<'0'"; //debug
+		end;
+}

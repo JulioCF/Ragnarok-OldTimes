@@ -1,0 +1,137 @@
+//= otRag ??
+prt_in,243,168,4	script	Jovovich	91,{
+	mes "[Cabeleireiro Jovovich]";
+	mes "Bem vindo ao salão de beleza!";
+	mes "Como Posso Ajudar??";
+	next;
+	mes "[Hairdresser Jovovich]";
+	if (sex) mes "Oh, não! Seu cabelo está danificado. Parece Nescecitar de um tratamento profissional. Vem sentar aqui, por favor. Venha.";
+	else {
+		if (rand(20) > 11) {
+			mes "Eh!? Oh meu! Ah, não não não não! Seu cabelo está danificado  Não é bom deixar seu cabelo assim.";
+			next;
+			mes "[Cabeleireiro Jovovich]";
+			mes "voce gostaria de tratar seu cabelo?";
+		}
+		else mes "Uau! Seu cabelo e perfeito quando tingido?";
+	}
+	next;
+	while(1) {
+		switch(select("Tingir Cabelo:Dicas de Informações:Cancelar")) {
+		case 1:
+			mes "[Cabeleireiro Jovovich]";
+			mes "Sim, sim, uma boa escolha~";
+			mes "essa e sua chance de florecer, escolha a cor.";
+			next;
+			while(1) {
+				if (.@choose_success == 1) {
+					mes "[Cabeleireiro Jovovich]";
+					mes "O que você acha? Você deseja uma cor diferente?";
+					next;
+					if (select("Sim:Não") == 1) {
+						mes "[Cabeleireiro Jovovich]";
+						mes "Ok! Escolha a cor que você gostaria.";
+						next;
+					}
+					else  {
+						mes "[Cabeleireiro Jovovich]";
+						mes "Hmm estou decepicionado , eu queria fazer um trabalho melhor da proxima ves , volte novamente~";
+						close;
+					}
+				}
+
+				while(1) {
+					switch(select("Vermelho, Por favor.:Amarelo, Por favor.:Roxo, Por favor.:Laranja, Por favor.:Verde, Por favor.:Azul, Por favor.:Branco, Por favor.:Preto, Por favor.:Na verdade prefiro meu cabelo assim.")) {
+					case 1: set .@headpalette,8; break;
+					case 2: set .@headpalette,1; break;
+					case 3: set .@headpalette,2; break;
+					case 4: set .@headpalette,3; break;
+					case 5: set .@headpalette,4; break;
+					case 6: set .@headpalette,5; break;
+					case 7: set .@headpalette,6; break;
+					case 8: set .@headpalette,7; break;
+					case 9:
+						if (.@choose_success != 0) {
+							mes "[Cabeleireiro Jovovich]";
+							mes "Você deve gostar da cor do seu cabelo~";
+							close;
+						}
+						mes "[Cabeleireiro Jovovich]";
+						mes "Eehh~? voce nao esta usando corante no seu cabelo , estou triste...";
+						close;
+					}
+
+					if (.@headpalette == getlook(7)) {
+						mes "[Cabeleireiro Jovovich]";
+						mes "Eh? Mas essa é a cor do cabelo que você já tem. Escolha uma cor diferente.";
+						next;
+					}
+					else {
+						switch(.@headpalette) {
+						case 1: callsub S_NoDye,976,"amarelo";
+						case 2: callsub S_NoDye,978,"roxo";
+						case 3: callsub S_NoDye,979,"laranja";
+						case 4: callsub S_NoDye,980,"verde";
+						case 5: callsub S_NoDye,981,"azul";
+						case 6: callsub S_NoDye,982,"branco"; 
+						case 7: callsub S_NoDye,983,"preto";
+						Case 8: callsub S_NoDye,975,"vermelho";
+						}
+						if (zeny < 1000) {
+							mes "[Cabeleireiro Jovovich]";
+							mes "A taxa é de 1000 zeny. Você não têm o suficiente...?";
+							close;
+						}
+
+						switch(.@headpalette) {
+						case 1: delitem 976,1; //corante_limão
+						case 2: delitem 978,1; //corante_roxo
+						case 3: delitem 979,1; //corante_laranja
+						case 4: delitem 980,1; //corante_verdeescuro
+						case 5: delitem 981,1; //corante_azul
+						case 6: delitem 982,1; //corante_branco
+						case 7: delitem 983,1; //corante_preto
+						case 8: delitem 975,1; //corante_escarlatina
+						}
+						set Zeny,Zeny-1000;
+						setlook 6,.@headpalette;
+						set .@choose_success,1;
+						break;
+					}
+
+				}
+
+			}
+
+		case 2:
+			mes "[Cabeleireiro Jovovich]";
+			mes "Quando você quer se destacar, se mostrar, quando você se sente mau...";
+			next;
+			mes "[Cabeleireiro Jovovich]";
+			mes "Em quanto voce tiver as tinturas eu vou fazer seu cabelo o mais lindo.";
+			next;
+			mes "[Cabeleireiro Jovovich]";
+			mes "Tente não se preocupar  com a taxa. Aquisição de beleza é o mesmo que adquirir tudo. Hehe ~";
+			next;
+			mes "[Cabeleireiro Jovovich]";
+			mes "* Taxas e Informações *";
+			mes "- 1 tintura da cor do cabelo desejada.";
+			mes "- Taxa de 1000 Zenys.";
+			break;
+
+		case 3:
+			mes "[Cabeleireiro Jovovich]";
+			mes "Homens e Mulheres...";
+			mes "Toda a pessoa tem o direito ea obrigação de ser bonito.";
+			close;
+		}
+
+	}
+
+S_NoDye:
+	if (countitem(getarg(0)) == 0) {
+		mes "[Cabeleireiro Jovovich]";
+		mes "Eh! Mas você precisa do item '"+getitemname(getarg(0))+"' de corante seu cabelo "+getarg (1)+"...";
+		close;
+	}
+}

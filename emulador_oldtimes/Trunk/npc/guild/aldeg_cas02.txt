@@ -1,0 +1,142 @@
+//===== Cronus Script ========================================
+//= Guerra do Emperium (Al De baran)
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.0/1.2b
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= NPCs relativos ao 2º Castelo de Al De Baran
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Corrected flag-in spawn point. [L0ne_W0lf]
+//= 1.2 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2 Corrigido erros [Soulblaker]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Removido show	[Yum]
+//============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+aldebaran,149,97,4	script	Astrum#a2-1::Hohenschwangau	722,{
+
+	callfunc "Guild_Flags", "aldeg_cas02";
+
+OnRecvCastleA02:
+	FlagEmblem GetCastleData("aldeg_cas02",1);
+	end;
+}
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+alde_gld,99,251,4	script	Astrum#a2-2::Hohenschwangau2	722,{
+	set .@GID, GetCastleData("aldeg_cas02",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("aldeg_cas02",1)) {
+					warp "aldeg_cas02",84,74;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastleA02:
+	FlagEmblem GetCastleData("aldeg_cas02",1);
+	end;
+}
+
+alde_gld,99,244,4	duplicate(Hohenschwangau2)	Astrum#a2-3	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+aldeg_cas02,82,71,2	script	Hohenschwangau#a2-4::Hohenschwangau3	722,{
+	end;
+
+OnRecvCastleA02:
+	FlagEmblem GetCastleData("aldeg_cas02",1);
+	end;
+}
+
+aldeg_cas02,67,30,2	duplicate(Hohenschwangau3)	Astrum#a2-5	722
+aldeg_cas02,183,140,2	duplicate(Hohenschwangau3)	Astrum#a2-6	722
+aldeg_cas02,212,152,2	duplicate(Hohenschwangau3)	Astrum#a2-7	722
+aldeg_cas02,108,39,2	duplicate(Hohenschwangau3)	Astrum#a2-8	722
+aldeg_cas02,57,213,2	duplicate(Hohenschwangau3)	Astrum#a2-9	722
+aldeg_cas02,91,181,2	duplicate(Hohenschwangau3)	Astrum#a2-10	722
+aldeg_cas02,103,53,2	duplicate(Hohenschwangau3)	Astrum#a2-11	722
+aldeg_cas02,73,53,2	duplicate(Hohenschwangau3)	Astrum#a2-12	722
+aldeg_cas02,63,41,2	duplicate(Hohenschwangau3)	Astrum#a2-13	722
+aldeg_cas02,229,6,2	duplicate(Hohenschwangau3)	Astrum#a2-14	722
+aldeg_cas02,230,40,2	duplicate(Hohenschwangau3)	Astrum#a2-15	722
+aldeg_cas02,197,40,2	duplicate(Hohenschwangau3)	Astrum#a2-16	722
+aldeg_cas02,32,213,2	duplicate(Hohenschwangau3)	Astrum#a2-17	722
+aldeg_cas02,121,29,2	duplicate(Hohenschwangau3)	Astrum#a2-18	722
+
+// AGIT Manager
+//============================================================
+aldeg_cas02,214,24,0	duplicate(Gld_Agit_Manager)	Agit#aldeg_cas02	-1
+
+// Steward
+//============================================================
+aldeg_cas02,78,74,0	duplicate(Gld_Mngr_Template)	Chenchenlie#aldeg_cas02	55
+
+// Guardians
+//============================================================
+aldeg_cas02,78,74,0	duplicate(Gld_Guard_Template)	Guardian#aldeg_cas02	-1
+
+// Kafra Staff
+//============================================================
+aldeg_cas02,84,74,0	duplicate(Gld_Kafra_Template)	Kafra#aldeg_cas02	117
+
+// Saída da Sala do Mestre
+//============================================================
+aldeg_cas02,139,235,0	script	#switch_A02	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "aldeg_cas02",78,75;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+aldeg_cas02,135,230,0	duplicate(Gld_Trea_Protect)	ban_warp#aldeg_cas02	-1,8,8
+
+// Guild Treasure Spawns
+//============================================================
+aldeg_cas02,135,230,0	duplicate(Gld_Trea_Spawn)	Treasure#aldeg_cas02	-1
+
+// Guild Dungeon Switch
+//============================================================
+aldeg_cas02,194,136,0	duplicate(Gld_Dun_Template)	#aldeg_cas02	111

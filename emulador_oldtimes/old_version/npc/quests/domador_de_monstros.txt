@@ -1,0 +1,120 @@
+izlude_in,128,64,3	script	Domador de Monstros#03	125,{
+	mes "[Domador de Monstros Shogo]";
+	mes "Você está super ocupado atrás de itens para domesticar um monstro? Quer uma folga? Deixe que eu arrumo tais itens para você.";
+	set .@loop,1;
+	while(.@loop){
+		switch(select("^5555FFItens de Domesticar Monstros?^000000","^5555FF'Livro do Diabo'^000000","^5555FF'Sem Destinatário'^000000","^5555FF'Horror da Tribo'^000000","Faça um pra mim, por favor.","Cancelar")){
+			case 1:
+				mes "[Domador de Monstros Shogo]";
+				mes "Domesticar Monstros é o jeito que os aventureiros encontraram de ter seus bichos de estimação.";
+				mes "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro para ser seu bicho de estimação.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses Itens de Domesticação são muito raros de se conseguir, mas os membros do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitas dificuldades.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses são os itens que ofereço:";
+				mes "^5555FF'Livro do Diabo'^000000,";
+				mes "^5555FF'Sem Destinatário'^000000,";
+				mes "^5555FF'Horror da Tribo'^000000.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses itens são fantásticos! Você deveria tentar usar um!";
+				break;
+			case 2:
+				mes "[Domador de Monstros Shogo]";
+				mes "Esse livro é poderoso demais para que qualquer mero mortal tente ler, e comtém o método secreto de invocar feras!";
+				mes "Use-o para fisgar um ^FF5555'Bafomé Jr.'^000000.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Eu posso te dar um  ^5555FF'Livro do Diabo'^000000 em troca de:";
+				mes "-^FF5555'1 Grimório Antigo'";
+				mes "-'2 Mandíbulas Horrendas'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei o livro com o maior orgulho!";
+				break;
+			case 3:
+				mes "[Domador de Monstros Shogo]";
+				mes "Uma velha carta que não foi entregue porque havia um destinatário desconhecido.";
+				mes "Não tem significado algum para qualquer ser humano, mas as ^FF5555'Munaks'^000000 parecem apreciar muito este item.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Eu posso te dar um ^5555FF'Sem Destinatário'^000000 em troca de:";
+				mes "-^FF5555'1 Retrato Velho'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei a carta com o maior orgulho!";
+				break;
+			case 4:
+				mes "[Domador de Monstros Shogo]";
+				mes "Esse troféu é um dos itens favoritos dos ^FF5555'Guerreiros Orc'^000000.";
+				mes "Eu posso te dar um ^5555FF'Horror da Tribo'^000000 em troca de:";
+				mes "-^FF5555'1 Insígnia da Cavalaria'";
+				mes "-'1 Cauda de Escorpião'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei o troféu com o maior orgulho!";
+				break;
+			case 5:
+				mes "[Domador de Monstros Shogo]";
+				mes "Qual Item de Domesticação você deseja?";
+				next;
+				switch(select("^5555FF'Livro do Diabo'^000000","^5555FF'Sem Destinatário'^000000","^5555FF'Horror da Tribo'^000000","Nenhum")){
+					case 1:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(1006)<1 || countitem(958)<2)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 1006,1;
+							delitem 958,2;
+							mes "Tudo bem, um minutinho enquanto eu preparo o item...";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Livro do Diabo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 642,1;
+						}
+						close;
+					case 2:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(7014)<1)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 7014,1;
+							mes "[Domador de Monstros Shogo]";
+							mes "Tudo bem, um minutinho enquanto eu preparo o item...";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Sem Destinatário! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 636,1;
+						}
+						close;
+					case 3:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(1004)<1 || countitem(904)<1)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 1004,1;
+							delitem 904,1;
+							mes "[Domador de Monstros Shogo]";
+							mes "Tudo bem, um minutinho enquanto eu preparo o item....";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Horror da Tribo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 635,1;
+						}
+						close;
+					case 4:
+						set .@loop,0;
+						break;
+				}
+				break;
+			case 6:
+				set .@loop,0;
+				break;
+		}
+	}
+	mes "[Domador de Monstros Shogo]";
+	mes "Oh... Eu vejo. Você provavelmente não decidiu qual monstro quer como bicho de estimação. É uma decisão muito importante, então volte quando conseguir.";
+	close;
+}

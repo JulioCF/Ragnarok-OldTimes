@@ -1,0 +1,115 @@
+//===== Cronus Script ======================================== 
+//= Guias da Cidade de Morroc
+//===== Por: ================================================= 
+//= mkbu95
+//===== Versão: ============================================== 
+//= 1.1
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Comentários adicionais: ============================== 
+//= 1.0 Versão inicial [mkbu95]
+//= 1.1 Revisado e otimizado [mkbu95]
+//============================================================
+
+morocc,153,286,6	script	Guia#moc1::gMoc	105,{
+	mes "[Guia de Morroc]";
+	mes "Bem vindo à Morroc, a cidade do deserto.";
+	mes "Nós estamos aqui para ajudar os visitantes da cidade. Se você tem alguma dúvida, consulte-nos.";
+	mes "Se esta é a sua primeira vez utilizando um guia, por favor selecione 'Tutorial'.";
+	while (1)
+	{
+		next;
+		switch (select ("Indicações","Limpar indicações","Tutorial","Cancelar."))
+		{
+			case 1:
+				mes "[Guia de Morroc]";
+				mes "Por favor, selecione uma das opções.";
+				if (.@compass_check == 0)
+				{
+					mes "Você gostaria que as indicações permaneçam no mini-mapa?";
+    				if (select ("Sim.","Não.") == 1)
+						set .@compass_check, 1;
+				}					
+				while (1)
+				{
+					next;
+					switch (select ("^FF0000Guilda dos Gatunos.^000000","Loja de Armas","Estalagem.","Bar.","Covil","Cancelar."))
+					{
+										
+						case 1:
+							mes "[Guia de Morroc]";
+							mes "Ouvi dizer que a Guilda dos Gatunos, o lugar aonde Aprendizes podem se tornar Gatunos, se encontra na Pirâmide da saída Noroeste da cidade.";
+							if (.@compass_check == 1)
+								viewpoint 1,24,297,2,0xFF0000;												
+							break;
+						
+						case 2:
+							mes "[Guia de Morroc]";
+							mes "A 'Loja de Armas' se encontra na ponta sudeste da cidade.";
+							if (.@compass_check == 1)
+								viewpoint 1,253,56,3,0xFF00FF;							
+							break;
+						
+						case 3:
+							mes "[Guia de Morroc]";
+							mes "As 'Estalagens' se encontram ao sul e a nordeste do centro da cidade.";
+							if (.@compass_check == 1)
+							{
+								viewpoint 1,197,66,4,0xFF00FF;
+								viewpoint 1,273,269,5,0xFF00FF;
+							}															
+							break;
+
+						case 4:
+							mes "[Guia de Morroc]";
+							mes "O 'Bar' se encontra a noroeste do centro da cidade.";
+							if (.@compass_check == 1)
+								viewpoint 1,52,259,6,0xFF00FF;							
+							break;
+													
+						case 5:
+							mes "[Guia de Morroc]";						
+							mes "O 'Covil' se encontra na ponta leste da cidade.";
+							if (.@compass_check == 1)
+								viewpoint 1,284,171,7,0x00FF00;								
+							break;
+						
+						case 6:
+							set .@compass_check, 1;
+							mes "[Guia de Morroc]";
+							mes "Se você deseja apagar as indicações do seu mini-mapa, por favor selecione 'Limpar indicações'.";					
+							close;
+					}
+				}	
+				break;
+				
+			case 2:
+				viewpoint 2,24,297,2,0xFF0000;
+				viewpoint 2,253,56,3,0xFF00FF;
+				viewpoint 2,197,66,4,0xFF00FF;
+				viewpoint 2,273,269,5,0xFF00FF;
+				viewpoint 2,52,259,6,0xFF00FF;
+				viewpoint 2,284,171,7,0x00FF00;	                       
+				set .@compass_check, 0;
+				break;
+				
+			case 3:
+				mes "[Guia de Morroc]";
+				mes "Nós fomos exaustivamente treinados para serví-lo da melhor maneira possível e sem falhas.";
+				mes "Assim você tem a garantia das melhores indicações possiveis.";
+				next;					
+				mes "[Guia de Morroc]";
+				mes "As indicações que lhe daremos podem ser marcadas no seu mini-mapa.";
+				mes "Para visualizar o seu mini-mapa, aperte 'ctrl+tab', ou clique no botão 'mapa' no menu principal.";
+				mes "Controle o seu 'zoom' no mini-mapa por meio dos símbolos '+' e '-'.";
+				break;
+				
+			case 4:
+				mes "[Guia de Morroc]";
+				mes "Espero que você tenha uma jornada segura e aproveite sua estadia.";
+				close;
+		}
+	}
+}
+
+morocc,54,97,0	duplicate(gMoc)	Guia#moc2	105

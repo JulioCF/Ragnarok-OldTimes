@@ -1,0 +1,97 @@
+//===== Cronus Script ======================================== 
+//= Guias da Cidade de Alberta
+//===== Por: ================================================= 
+//= mkbu95
+//===== Versão: ============================================== 
+//= 1.1
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Comentários adicionais: ============================== 
+//= 1.0 Versão inicial [mkbu95]
+//= 1.1 Revisado e otimizado [mkbu95]
+//============================================================ 
+
+alberta,23,238,4	script	Guia#alb1::gAlb	105,{
+	mes "[Guia de Alberta]";
+	mes "Bem-vind"+(Sex?"o":"a")+" à Alberta, a cidade portuária.";
+	mes "Nós estamos aqui para ajudar os visitantes da cidade. Se você tem alguma dúvida, consulte-nos.";
+	mes "Se esta é a sua primeira vez utilizando um guia, por favor selecione 'Tutorial'.";
+	while (1)
+	{
+		next;
+		switch (select ("Indicações:Limpar indicações:Tutorial:Cancelar."))
+		{
+			case 1:
+				mes "[Guia de Alberta]";
+				mes "Por favor, selecione uma das opções.";
+				if (!.@compass_check)
+				{
+					mes "Você gostaria que as indicações permaneçam no mini-mapa?";
+    				if (select ("Sim.:Não.") == 1) set .@compass_check, 1;
+				}	
+				while(1)
+				{
+					next;
+					switch (select ("^FF0000Guilda dos Mercadores.^000000:Loja de Armas.:Loja de Ferramentas.:Estalagem.:Cancelar"))
+					{
+						case 1:
+							mes "[Guia de Alberta]";
+							mes "A Guilda dos Mercadores é o lugar onde Aprendizes podem tornar-se Mercadores. Ela se encontra ao sudoeste da cidade.";
+							if (.@compass_check == 1) viewpoint 1,33,41,2,0xFF0000;
+							break;
+					
+						case 2:
+							mes "[Guia de Alberta]";
+							mes "A 'Loja de Armas' se encontra no sul da cidade.";
+							if (.@compass_check == 1) viewpoint 1,117,37,3,0xFF00FF;
+							break;
+					
+						case 3:
+							mes "[Guia de Alberta]";
+							mes "A 'Loja de Ferramentas' se encontra bem no centro da cidade.";
+							if (.@compass_check == 1) viewpoint 1,98,154,4,0xFF00FF;
+							break;
+													
+						case 4:
+							mes "[Guia de Alberta]";
+							mes "A 'Estalagem' se encontra no norte da cidade.";
+							if (.@compass_check == 1) viewpoint 1,65,233,5,0xFF00FF;
+							break;
+				
+						case 5:
+							set .@compass_check, 1;
+							mes "[Guia de Alberta]";
+							mes "Se você deseja apagar as indicações do seu mini-mapa, por favor selecione 'Limpar indicações'.";						
+							close;
+					}
+				}
+				break;
+			
+			case 2:
+				viewpoint 2,237,41,2,0xFF0000;
+				viewpoint 2,237,41,3,0xFF00FF;
+				viewpoint 2,46,345,4,0xFF00FF;
+				viewpoint 2,175,220,5,0xFF00FF;
+				set .@compass_check, 0;
+				break;
+				
+			case 3:
+				mes "[Guia de Alberta]";
+				mes "Nós fomos exaustivamente treinados para servi-l"+(Sex?"o":"a")+" da melhor maneira possivel e sem falhas.";
+				mes "Assim você tem a garantia das melhores indicações possiveis.";
+				next;
+				mes "[Guia de Alberta]";
+				mes "As indicações que lhe daremos podem ser marcadas no seu mini-mapa.";
+				mes "Para visualizar o seu mini-mapa, aperte 'ctrl+tab', ou clique no botão 'mapa' no menu principal.";
+				mes "Controle o seu 'zoom' no mini-mapa por meio dos símbolos '+' e '-'.";
+				break;
+			
+			case 4:
+				mes "[Guia de Alberta]";
+				mes "Espero que você tenha uma jornada segura e aproveite sua estadia.";
+				close;
+		}
+	}
+}
+
+alberta,120,60,3	duplicate(gAlb)	Guia#alb2	105

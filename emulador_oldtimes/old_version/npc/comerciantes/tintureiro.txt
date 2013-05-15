@@ -1,0 +1,120 @@
+//= otRag ??
+prt_in,284,168,2	script	Tintureiro Ginedin	55,{
+	mes "[Tintureiro Ginedin]";
+	mes "11... 12... Mmm... bom.  Eu acho que esta tudo terminado antes da festa dessa noite.";
+	mes "Oh! eu não havia visto que voce estava aqui.  de qualquer modo como posso ajudar voce?";
+	M_Menu:
+	next;
+	menu "-Conversar",M_0,"-Tingir roupas",M_1,"-Listar preços",M_2,"-Cancelar",M_End;
+
+M_End:
+close;
+M_0:
+  mes "[Tintureiro Ginedin]";
+  mes "A vida pode ter começado um pouco melhor.... mas quando eu olho todos os pedidos que eu tenho recebido!";
+  mes "parece que as jovens mulheres de Rune Midgard devem ser muito ricas hoje em dia.";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Não que eu pense de que elas estejam entregando-se a qualquer coisa que pensem luxuosa.";
+  mes "Eu não vejo nada errado com a perseguição da beleza e estar na moda.";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Para nós os seres humanos, que não têm nenhuma pele colorida ou escama decorativa, roupa são uma de poucas maneiras que nós temos que mostrar nossa personalidade, estilo, e beleza.";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Haha...  Quando eu penso sobre isso, eu sinto que realmente meu trabalho possui valor.  Eu acredito que eu forneça um serviço que as pessoas desejem.";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Pode você sentir isso tambem?  A energia que é liberada quando a tela e o couro ásperos forem trazidos à vida com cor?.....";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Embora o processo seja muito tedioso e consuma muito tempo, a alegria e a felicidade que eu sinto quando um vestido é terminado.....";
+  mes "Mais do que compensa por todo o trabalho duro!!";
+  goto M_Menu;
+
+M_1:
+  mes "[Tintureiro Ginedin]";
+  mes "Oh... você necessita do meu trabalho?Bem  OK mãos a obra.";
+  next;
+  mes "[Tintureiro Ginedin]";
+  mes "Escolha por favor uma cor que agrade você.";
+  next;
+  menu "-Vermelho por favor.",sM_a, "-Amarelo por favor.",sM_b,  "-Violeta por favor.",sM_c, "-Laranja por favor.",sM_d,
+  "-Azul por favor.",sM_e, "-Sinto muito, eu mudei de ideia.",LEnd;
+
+  sM_a:
+  mes "[Tintureiro Ginedin]";
+  if(countitem(975) < 1) goto sL_NoDye;
+  if(Zeny < 5000) goto sL_Zeny;
+  mes "Ok. Eu vou tingir suas roupas de vermelho.";
+  setlook 7,2;
+  delitem 975,1;
+  set Zeny, Zeny - 5000;
+  close;
+
+  sM_b:
+  mes "[Tintureiro Ginedin]";
+  if(countitem(976) < 1) goto sL_NoDye;
+  if(Zeny < 5000) goto sL_Zeny;
+  mes "Ok. Eu vou tingir suas roupas de amarelo.";
+  setlook 7,0;
+  delitem 976,1;
+  set Zeny, Zeny - 5000;
+  close;
+
+  sM_c:
+  mes "[Tintureiro Ginedin]";
+  if(countitem(981) < 1) goto  sL_NoDye;
+  if(Zeny < 5000) goto sL_Zeny;
+  mes "Ok. Eu vou tingir suas roupas de violeta.";
+  setlook 7,4;
+  delitem 981,1;
+  set Zeny, Zeny - 5000;
+  close;
+
+  sM_d:
+  mes "[Tintureiro Ginedin]";
+  if(countitem(980) < 1) goto sL_NoDye;
+  if(Zeny < 5000) goto sL_Zeny;
+  mes "Ok. Eu vou tingir suas roupas de laranja.";
+  setlook 7,1;
+  delitem 980,1;
+  set Zeny, Zeny - 5000;
+  close;
+
+  sM_e:
+  mes "[Tintureiro Ginedin]";
+  if(countitem(978) < 1) goto sL_NoDye;
+  if(Zeny < 5000) goto sL_Zeny;
+  mes "Ok. Eu vou tingir suas roupas de azul.";
+  setlook 7,2;
+  delitem 978,1;
+  set Zeny, Zeny - 5000;
+  close;
+  
+  LEnd:
+  close;
+
+  sL_NoDye:
+  mes "Para que eu tinja sua roupa, eu necessitarei da tintura apropriada.  Verifique por favor minha lista de preço para ver se há a informação.";
+  close;
+
+  sL_Zeny:
+  mes "Eu sinto muito mas você não tem dinheiro o suficiente.";
+  close;
+
+M_2:
+  mes "[Tintureiro Ginedin]";
+  mes "Aqui a lista das cores que você pode escolher de e seus preços:";
+  mes " - Vermelho: 5000 zeny, 1 Tintura Vermelha";
+  mes " - Amarelo: 5000 zeny, 1 Tintura Amarela";
+  mes " - Violeta: 5000 zeny, 1 Tintura Violeta";
+  mes " - Laranja: 5000 zeny, 1 Tintura Laranja";
+  mes " - Azul: 5000 zeny, 1 Tintura Azul";
+  goto M_Menu;
+
+Cancel:
+  mes "[Tintureiro Ginedin]";
+  mes "Finja que esta em sua casa.  Mesmo que eu não tenha o tempo para você.";
+  close;
+}

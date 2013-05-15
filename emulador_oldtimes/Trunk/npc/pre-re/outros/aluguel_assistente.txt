@@ -1,0 +1,725 @@
+//===== Cronus Script ========================================
+//= Aluguel de Assistentes
+//===== Por: ================================================= 
+//= L0ne_W0lf; Otimização SoulBlaker
+//===== Versão Atual: ======================================== 
+//= 1.2b
+//===== Comentários Adicionais: ============================== 
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.1 Optimization. [Zephyrus]
+//= 1.2 Transversão do eAthena para Sistema do bRO. [SoulBlaker]
+//	Foram feitas alguns melhoramentos no mercador de itens.
+//= 1.2a Corrigido o preço dos Assistentes. [RoM]
+//= 1.2b Revisado. [RoM]
+//============================================================ 
+
+prontera,41,337,5	script	Gerente do Clã de Assis::Spear	105,{
+	set .@faith_lancer, mercenary_get_faith(SPEAR_MERC_GUILD);
+	mes "[Gerente de Assistentes]";
+	mes "Bem-vindo à";
+	mes "Guilda dos Assistentes Lanceiros.";
+	mes "Em que posso ajudar?";
+	next;
+	switch( select("Contratar Assistente:Informações sobre Assistentes:Nada:Assistentes de 10º Nível") )
+	{
+	case 1:
+		mes "[Gerente de Assistentes]";
+		mes "Você deseja contratar um Assistente Lanceiro?";
+		mes "Qual Nível de Assistente você gostaria de contratar?";
+		next;
+		set .@Grade, select("Assistente Lançeiro 1º Nível:Assistente Lançeiro 2º Nível:Assistente Lançeiro 3º Nível:Assistente Lançeiro 4º Nível:Assistente Lançeiro 5º Nível:Assistente Lançeiro 6º Nível:Assistente Lançeiro 7º Nível:Assistente Lançeiro 8º Nível:Assistente Lançeiro 9º Nível");
+		set .@BaseLevel, 5 + (.@Grade * 10);
+		if( .@BaseLevel > 90 )
+			set .@BaseLevel, 90;
+
+		set .@ZenyCost, 10 * .@Grade;
+
+		if( .@Grade == 7 )
+			set .@FaithCost, 50;
+		else if( .@Grade == 8 )
+			set .@FaithCost, 100;
+		else if( .@Grade == 9 )
+			set .@FaithCost, 300;
+		else
+			set .@FaithCost, 0;
+
+		mes "[Gerente de Assistentes]";
+		mes "Então você quer contratar um Assistente";
+		mes "Lanceiro de " + .@Grade + "º Nível?";
+		mes "Você precisa ter";
+		mes "Nível de Base " + .@BaseLevel + " ou maior, além de";
+		mes "pagar a taxa de serviço de " + .@ZenyCost + ",000 zenys.";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Oh, é mesmo? Bem, agora";
+			mes "talvez não seja uma boa hora";
+			mes "para você pensar em contratar";
+			mes "um Assistente, mas sinta-se à vontade";
+			mes "para voltar caso mude";
+			mes "de idéia. Obrigado.";
+
+		}
+		else if( .@FaithCost && .@faith_lancer < .@FaithCost )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de " + .@Grade + "º Nível. Você deve ter";
+			mes .@FaithCost+" ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+		}
+		else if( BaseLevel < .@BaseLevel )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível de Base " + .@BaseLevel + ".";
+
+		}
+		else if( Zeny < .@ZenyCost * 1000 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas";
+			mes "você não tem zeny";
+			mes "para contratar este Assistente.";
+			mes "A taxa de contratação é de " + .@ZenyCost + ",000 zenys.";
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+			set Zeny, Zeny - (.@ZenyCost * 1000);
+			getitem 12172 + .@Grade, 1;
+		}
+		close;
+	case 2:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes são soldados";
+		mes "que lutarão a seu lado";
+		mes "no campo de batalham, mas existem";
+		mes "alguns termos e condições";
+		mes "que você deve cumprir para";
+		mes "contratá-los.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você deve cumprir o requisito";
+		mes "de nível e pagar uma taxa em zeny";
+		mes "para contratar um Assistente.";
+		mes "Assistente de alto nível";
+		mes "também tem como condição que você";
+		mes "tenha um certo nível de Lealdade a nós.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Contratos de Assistentes não podem";
+		mes "ser transferidos para outras pessoas,";
+		mes "e nós só permitimos uma diferença";
+		mes "de 5 Níveis de Base entre Assistente";
+		mes "e cliente, então você não pode";
+		mes "contratar alguém muito mais forte que você.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Bem, você pode se informar melhor dos";
+		mes "detalhes quando você de fato";
+		mes "contratar um de nossos";
+		mes "Assistentes e receber";
+		mes "o Pergaminho de Invocação, que irá";
+		mes "convocar um Assistente para lhe escoltar.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você não pode dar esse pergaminho";
+		mes "para outra pessoa e o";
+		mes "Assistente só ficará";
+		mes "com você até 30 minutos depois";
+		mes "que você convocá-lo. Não esqueça";
+		mes "do limite de tempo, ok?";
+		close;
+	case 3:
+		mes "[Gerente de Assistentes]";
+		mes "Não? Você não precisa de nenhuma";
+		mes "ajuda? Bem, fique à vontade para";
+		mes "perguntar o que quiser";
+		mes "saber sobre Assistentes.";
+		close;
+	case 4:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes de 10º Nível são";
+		mes "os melhores que temos,";
+		mes "por isso usamos outros critérios";
+		mes "para nossos clientes contratá-los";
+		mes "Não há taxa de zeny, mas você";
+		mes "deve ter 500 pontos de Lealdade à Guilda.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Ao fazer um contrato";
+		mes "com um Assistente de 10º Nível,";
+		mes "sua taxa de Lealdade será";
+		mes "reduzida em 400 pontos. Ou seja,";
+		mes "você paga 400 pontos de Lealdade";
+		mes "para contratar um Assistente de 10º Nível.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você também deve ter";
+		mes "Nível Base 90 ou maior para";
+		mes "contratar um Assistente de 10º Nível.";
+		mes "Você ainda está interessado em fazer este contrato?";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Entendo... É necessário";
+			mes "muito esforço e sacrifício para";
+			mes "alcançar os requisitos";
+			mes "de contrato de um Assistente";
+			mes "de 10º Nível. Você já pensou em";
+			mes "contratar um Assistente de nível menor?";
+
+		}
+		else if( .@faith_lancer < 500 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de 10º Nível.Você deve ter";
+			mes "500 ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+
+		}
+		else if( BaseLevel < 90 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível Base 90.";
+
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+
+			mercenary_set_faith SPEAR_MERC_GUILD,-400;
+			getitem 12182,1;
+		}
+		close;
+	}
+}
+
+izlude,47,139,5	script	Gerente do Clã de Assis::Sword	734,{
+	set .@faith_sword, mercenary_get_faith(SWORD_MERC_GUILD);
+	mes "[Gerente de Assistentes]";
+	mes "Bem-vindo à";
+	mes "Guilda dos Assistentes Espadachins.";
+	mes "Em que posso ajudar?";
+	next;
+	switch( select("Contratar Assistente:Informações sobre Assistentes:Nada:Assistentes de 10º Nível") )
+	{
+	case 1:
+		mes "[Gerente de Assistentes]";
+		mes "Você deseja contratar um Assistente Espadachim?";
+		mes "Qual Nível de Assistente você gostaria de contratar?";
+		next;
+		set .@Grade, select("Assistente Espadachim 1º Nível:Assistente Espadachim 2º Nível:Assistente Espadachim 3º Nível:Assistente Espadachim 4º Nível:Assistente Espadachim 5º Nível:Assistente Espadachim 6º Nível:Assistente Espadachim 7º Nível:Assistente Espadachim 8º Nível:Assistente Espadachim 9º Nível");
+		set .@BaseLevel, 5 + (.@Grade * 10);
+		if( .@BaseLevel > 90 )
+			set .@BaseLevel, 90;
+		
+		set .@ZenyCost, 10 * .@Grade;
+
+		if( .@Grade == 7 )
+			set .@FaithCost, 50;
+		else if( .@Grade == 8 )
+			set .@FaithCost, 100;
+		else if( .@Grade == 9 )
+			set .@FaithCost, 300;
+		else
+			set .@FaithCost, 0;
+
+		mes "[Gerente de Assistentes]";
+		mes "Então você quer contratar um Assistente";
+		mes "Espadachim de " + .@Grade + "º Nível?";
+		mes "Você precisa ter";
+		mes "Nível de Base " + .@BaseLevel + " ou maior, além de";
+		mes "pagar a taxa de serviço de " + .@ZenyCost + ",000 zenys.";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Oh, é mesmo? Bem, agora";
+			mes "talvez não seja uma boa hora";
+			mes "para você pensar em contratar";
+			mes "um Assistente, mas sinta-se à vontade";
+			mes "para voltar caso mude";
+			mes "de idéia. Obrigado.";
+
+		}
+		else if( .@FaithCost && .@faith_sword < .@FaithCost )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de " + .@Grade + "º Nível. Você deve ter";
+			mes .@FaithCost+" ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+		}
+		else if( BaseLevel < .@BaseLevel )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível de Base " + .@BaseLevel + ".";
+
+		}
+		else if( Zeny < .@ZenyCost * 1000 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas";
+			mes "você não tem zeny";
+			mes "para contratar este Assistente.";
+			mes "A taxa de contratação é de " + .@ZenyCost + ",000 zeny.";
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+			set Zeny, Zeny - (.@ZenyCost * 1000);
+			getitem 12162 + .@Grade, 1;
+		}
+		close;
+	case 2:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes são soldados";
+		mes "que lutarão a seu lado";
+		mes "no campo de batalham, mas existem";
+		mes "alguns termos e condições";
+		mes "que você deve cumprir para";
+		mes "contratá-los.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você deve cumprir o requisito";
+		mes "de nível e pagar uma taxa em zeny";
+		mes "para contratar um Assistente.";
+		mes "Assistente de alto nível";
+		mes "também tem como condição que você";
+		mes "tenha um certo nível de Lealdade a nós.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Contratos de Assistentes não podem";
+		mes "ser transferidos para outras pessoas,";
+		mes "e nós só permitimos uma diferença";
+		mes "de 5 Níveis de Base entre Assistente";
+		mes "e cliente, então você não pode";
+		mes "contratar alguém muito mais forte que você.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Bem, você pode se informar melhor dos";
+		mes "detalhes quando você de fato";
+		mes "contratar um de nossos";
+		mes "Assistentes e receber";
+		mes "o Pergaminho de Invocação, que irá";
+		mes "convocar um Assistente para lhe escoltar.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você não pode dar esse pergaminho";
+		mes "para outra pessoa e o";
+		mes "Assistente só ficará";
+		mes "com você até 30 minutos depois";
+		mes "que você convocá-lo. Não esqueça";
+		mes "do limite de tempo, ok?";
+		close;
+	case 3:
+		mes "[Gerente de Assistentes]";
+		mes "Não? Você não precisa de nenhuma";
+		mes "ajuda? Bem, fique à vontade para";
+		mes "perguntar o que quiser";
+		mes "saber sobre Assistentes.";
+		close;
+	case 4:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes de 10º Nível são";
+		mes "os melhores que temos,";
+		mes "por isso usamos outros critérios";
+		mes "para nossos clientes contratá-los";
+		mes "Não há taxa de zeny, mas você";
+		mes "deve ter 500 pontos de Lealdade à Guilda.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Ao fazer um contrato";
+		mes "com um Assistente de 10º Nível,";
+		mes "sua taxa de Lealdade será";
+		mes "reduzida em 400 pontos. Ou seja,";
+		mes "você paga 400 pontos de Lealdade";
+		mes "para contratar um Assistente de 10º Nível.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você também deve ter";
+		mes "Nível de Base 90 ou maior para";
+		mes "contratar um Assistente de 10º Nível.";
+		mes "Você ainda está interessado em fazer este contrato?";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Entendo... É necessário";
+			mes "muito esforço e sacrifício para";
+			mes "alcançar os requisitos";
+			mes "de contrato de um Assistente";
+			mes "de 10º Nível. Você já pensou em";
+			mes "contratar um Assistente de nível menor?";
+
+		}
+		else if( .@faith_sword < 500 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de 10º Nível. Você deve ter";
+			mes "500 ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+
+		}
+		else if( BaseLevel < 90 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível Base 90.";
+
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+
+			mercenary_set_faith SWORD_MERC_GUILD,-400;
+			getitem 12172,1;
+		}
+		close;
+	}
+}
+
+pay_arche,99,167,4	script	Gerente do Clã de Assis::Bow	732,{
+	set .@faith_archer,  mercenary_get_faith(ARCH_MERC_GUILD);
+	mes "[Gerente de Assistentes]";
+	mes "Bem-vindo à";
+	mes "Guilda dos Assistentes Arqueiros.";
+	mes "Em que posso ajudar?";
+	next;
+	switch( select("Contratar Assistente:Informações sobre Assistentes:Nada:Assistentes de 10º Nível") )
+	{
+	case 1:
+		mes "[Gerente de Assistentes]";
+		mes "Você deseja contratar um Assistente Arqueiro?";
+		mes "Qual Nível de Assistente você gostaria de contratar?";
+		next;
+		set .@Grade, select("Assistente Arqueiro 1º Nível:Assistente Arqueiro 2º Nível:Assistente Arqueiro 3º Nível:Assistente Arqueiro 4º Nível:Assistente Arqueiro 5º Nível:Assistente Arqueiro 6º Nível:Assistente Arqueiro 7º Nível:Assistente Arqueiro 8º Nível:Assistente Arqueiro 9º Nível");
+		set .@BaseLevel, 5 + (.@Grade * 10);
+		if( .@BaseLevel > 90 )
+			set .@BaseLevel, 90;
+		
+		set .@ZenyCost, 10 * .@Grade;
+
+		if( .@Grade == 7 )
+			set .@FaithCost, 50;
+		else if( .@Grade == 8 )
+			set .@FaithCost, 100;
+		else if( .@Grade == 9 )
+			set .@FaithCost, 300;
+		else
+			set .@FaithCost, 0;
+
+		mes "[Gerente de Assistentes]";
+		mes "Então você quer contratar um Assistente";
+		mes "Arqueiro de " + .@Grade + "º Nível?";
+		mes "Você precisa ter";
+		mes "Nível de Base " + .@BaseLevel + " ou maior, além de";
+		mes "pagar a taxa de serviço de " + .@ZenyCost + ",000 zenys.";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Oh, é mesmo? Bem, agora";
+			mes "talvez não seja uma boa hora";
+			mes "para você pensar em contratar";
+			mes "um Assistente, mas sinta-se à vontade";
+			mes "para voltar caso mude";
+			mes "de idéia. Obrigado.";
+
+		}
+		else if( .@FaithCost && .@faith_archer < .@FaithCost )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de " + .@Grade + "º Nível. Você deve ter";
+			mes .@FaithCost+" ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+		}
+		else if( BaseLevel < .@BaseLevel )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível de Base " + .@BaseLevel + ".";
+
+		}
+		else if( Zeny < .@ZenyCost * 1000 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas";
+			mes "você não tem zeny";
+			mes "para contratar este Assistente.";
+			mes "A taxa de contratação é de " + .@ZenyCost + ",000 zeny.";
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes " Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+			set Zeny, Zeny - (.@ZenyCost * 1000);
+			getitem 12152 + .@Grade, 1;
+		}
+		close;
+	case 2:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes são soldados";
+		mes "que lutarão a seu lado";
+		mes "no campo de batalham, mas existem";
+		mes "alguns termos e condições";
+		mes "que você deve cumprir para";
+		mes "contratá-los.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você deve cumprir o requisito";
+		mes "de nível e pagar uma taxa em zeny";
+		mes "para contratar um Assistente.";
+		mes "Assistente de alto nível";
+		mes "também têm como condição que você";
+		mes "tenha um certo nível de Lealdade a nós.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Contratos de Assistentes não podem";
+		mes "ser transferidos para outras pessoas,";
+		mes "e nós só permitimos uma diferença";
+		mes "de 5 Níveis de Base entre Assistente";
+		mes "e cliente, então você não pode";
+		mes "contratar alguém muito mais forte que você.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Bem, você pode se informar melhor dos";
+		mes "detalhes quando você de fato";
+		mes "contratar um de nossos";
+		mes "Assistentes e receber";
+		mes "o Pergaminho de Invocação, que irá";
+		mes "convocar um Assistente para lhe escoltar.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você não pode dar esse pergaminho";
+		mes "para outra pessoa e o";
+		mes "Assistente só ficará";
+		mes "com você até 30 minutos depois";
+		mes "que você convocá-lo. Não esqueça";
+		mes "do limite de tempo, ok?";
+		close;
+	case 3:
+		mes "[Gerente de Assistentes]";
+		mes "Não? Você não precisa de nenhuma";
+		mes "ajuda? Bem, fique à vontade para";
+		mes "perguntar o que quiser";
+		mes "saber sobre Assistentes.";
+		close;
+	case 4:
+		mes "[Gerente de Assistentes]";
+		mes "Assistentes de 10º Nível são";
+		mes "os melhores que temos,";
+		mes "por isso usamos outros critérios";
+		mes "para nossos clientes contratá-los";
+		mes "Não há taxa de zeny, mas você";
+		mes "deve ter 500 pontos de Lealdade à Guilda.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Ao fazer um contrato";
+		mes "com um Assistente de 10º Nível,";
+		mes "sua taxa de Lealdade será";
+		mes "reduzida em 400 pontos. Ou seja,";
+		mes "você paga 400 pontos de Lealdade";
+		mes "para contratar um Assistente de 10º Nível.";
+		next;
+		mes "[Gerente de Assistentes]";
+		mes "Você também deve ter";
+		mes "Nível de Base 90 ou maior para";
+		mes "contratar um Assistente de 10º Nível.";
+		mes "Você ainda está interessado em fazer este contrato?";
+		next;
+		if( select("Sim:Não") == 2 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Entendo... É necessário";
+			mes "muito esforço e sacrifício para";
+			mes "alcançar os requisitos";
+			mes "de contrato de um Assistente";
+			mes "de 10º Nível. Você já pensou em";
+			mes "contratar um Assistente de nível menor?";
+
+		}
+		else if( .@faith_archer < 500 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas sua";
+			mes "taxa de Lealdade é muito";
+			mes "baixa para contratar um Assistente";
+			mes "de 10º Nível. Você deve ter";
+			mes "500 ou mais pontos de Lealdade para";
+			mes "fazer um contrato com um deles.";
+
+		}
+		else if( BaseLevel < 90 )
+		{
+			mes "[Gerente de Assistentes]";
+			mes "Sinto muito, mas seu Nível de";
+			mes "Base não é alto o suficiente";
+			mes "para contratar este Assistente.";
+			mes "Por favor, volte";
+			mes "assim que tiver atingido o Nível Base 90.";
+
+		}
+		else
+		{
+			mes "[Gerente de Assistentes]";
+			mes " Ótimo! Nossos Assistentes";
+			mes "são honestos e devotados";
+			mes "à proteção de nossos clientes.";
+			mes "Os Assistentes convocados";
+			mes "oferecerão seus serviços a você por";
+			mes "30 minutos. Cuide-se.";
+
+			mercenary_set_faith ARCH_MERC_GUILD,-400;
+			getitem 12162,1;
+		}
+		close;
+	}
+}
+
+// Comerciantes para Itens de Assistente
+//============================================================
+prontera,30,337,4	script	Itens para Assistente#Sp::MercMerchant	700,{
+	mes "[Itens para Assistente]";
+	mes "Olá, eu vendo mercadorias";
+	mes "que os Assistentes podem";
+	mes "utilizar. Posso ajudar";
+	mes "em alguma coisa? Algo em particular";
+	mes "que você deseja?";
+	next;
+	switch( select ("Poção Vermelha de Assistente:Poção Azul de Assistente:Poção de Concentração de Assistente:Poção do Despertar de Assistente:Poção da Fúria Selvagem de Assistente") ) 
+	{
+	case 1:
+		set .@Item,12184;
+		set .@ZenyCost,2500;
+		break;
+	case 2:
+		set .@Item,12185;
+		set .@ZenyCost,5000;
+		break;
+	case 3:
+		set .@Item,12241;
+		set .@ZenyCost,800;
+		break;
+	case 4:
+		set .@Item,12242;
+		set .@ZenyCost,1500;
+		break;
+	case 5:
+		set .@Item,12243;
+		set .@ZenyCost,3000;
+		break;
+	}
+	mes "[Itens para Assistente]";
+	mes getitemname(.@Item);
+	mes "custam " + .@ZenyCost + " zeny cada.";
+	mes "Quantas você quer?";
+	next;
+	input .@Amount;
+	if( .@Amount == 0 )
+	{
+		mes "[Itens para Assistente]";
+		mes "Você mudou de idéia?";
+		mes "Tudo bem, fique à vontade para";
+		mes "voltar aqui sempre que quiser";
+		mes "comprar alguma Poção de Assistente.";
+
+	}
+	else if (Zeny < .@Amount * .@ZenyCost )
+	{
+		mes "[Itens para Assistente]";
+		mes "Desculpe, mas você não";
+		mes "tem zeny suficientes para";
+		mes "tantas poções. Bem, estarei";
+		mes "aqui quando estiver pronto";
+		mes "para comprar algo";
+		mes "para seus Assistentes.";
+
+	}
+	else if ( checkweight(.@Item, .@Amount) == 0 )
+	{
+		mes "[Itens para Assistente]";
+		mes "Se eu te dar muitas";
+		mes "poções, você não seria";
+		mes "capaz de carrega-las.";
+		mes "Volte depois que você";
+		mes "estiver com mais espaço";
+		mes "em seu Inventário.";
+
+	}
+	else
+	{
+		mes "[Itens para Assistente]";
+		mes "Aqui está a sua " + getitemname(.@Item) + ". Obrigado, e volte sempre que";
+		mes "precisar de mais poções para seus Assistentes.";
+		set Zeny,Zeny - .@Amount * .@ZenyCost;
+		getitem .@Item,.@Amount;
+	}
+	close;
+}
+
+izlude,56,139,4	duplicate(MercMerchant)	Itens para Assistente#Sw	892
+pay_arche,102,167,5	duplicate(MercMerchant)	Itens para Assistente#Bw	879

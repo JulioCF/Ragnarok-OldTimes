@@ -1,0 +1,143 @@
+//===== Cronus Script ================================================= 
+//= Cidade de Moscóvia
+//===== Por: ==========================================================
+//= Blaze
+//===== Versão Atual: ================================================= 
+//= 1.1a
+//===== Descrição: ==================================================== 
+//= NPC's da Cidade de Moscóvia
+//===== Changelog: ==================================================== 
+//= 1.0 Script original do jA. [Blaze]
+//= 1.0a Traduzido de Japonês para Português. [RoM]
+//= 1.0b Algumas correções nas coordenadas e adicionado NPC's faltantes. [RoM]
+//= 1.1 Removido NPC's que fazem parte das quest's. [RoM]
+//= 1.1a Removido show [Yum]
+//=====================================================================
+
+//====================================================
+//= NPC's de Acesso e Saída de Moscóvia
+//====================================================
+
+alberta,245,66,3	script	R. Públicas de Moscóvia	960,{
+	mes "[Relações Públicas]";
+	mes "Moscóvia! Você conhece Moscóvia?";
+	mes "O paraíso em meio ao mar sem fim!";
+	mes "Moscóvia é um lugar místico e de aventuras.";
+	next;
+	switch (select("Sobre Moscóvia...","Ir para Moscóvia.","Cancelar")){
+	Case 1:
+		mes "[Relações Públicas]";
+		mes "Moscóvia é um lindo reino";
+		mes "que fica em uma ilha";
+		mes "localizada ao norte de";
+		mes "Rune-Midgard.";
+		next;
+		mes "[Relações Públicas]";
+		mes "Estou certa de que você vai se";
+		mes "encantar com as";
+		mes "maravilhosas paisagens de";
+		mes "Moscóvia,";
+		mes "a esplêndida capela";
+		mes "e o palácio.";
+		next;
+		mes "[Relações Públicas]";
+		mes "Estou feliz que posso mostrar a";
+		mes "você a nossa linda terra-natal";
+		mes "depois que o longo inverno de";
+		mes "Moscóvia passou.";
+		mes "Nosso inverno é muito frio!";
+		next;
+		mes "[Relações Públicas]";
+		mes "Se estiver com vontade de visitar";
+		mes "Moscóvia, aproveite esta chance!";
+		mes "Eu garanto que vai ter uma ótima";
+		mes "viagem para Moscóvia!";
+		close;
+	Case 2:
+		mes "[Relações Públicas]";
+		mes "Certo então, vamos começar.";
+		mes "O preço total é de 10.000 zenys";
+		mes "para ir até Moscóvia.";
+		mes "Mas quando quiser voltar,";
+		mes "você não vai precisar pagar...";
+		next;
+		mes "[Relações Públicas]";
+		mes "Podemos ir agora?";
+		next;
+		if (select("Vamos!","Cancelar") == 2){
+			mes "[Relações Públicas]";
+			mes "Se você estiver ocupado agora,";
+			mes "por favor, fale comigo de novo";
+			mes "quando quiser.";
+			mes "estou sempre pronta para ser sua";
+			mes "guia pela Moscóvia.";
+			close;
+		}
+		if (Zeny < 10000){
+			mes "[Relações Públicas]";
+			mes "Me desculpe,";
+			mes "A taxa para embarcar é de 10.000 zenys.";
+			mes "Confira seu dinheiro novamente.";
+			close;
+		}
+		mes "[Relações Públicas]";
+		mes "Certo, então, estamos partindo.";
+		close2;
+		set Zeny,Zeny-10000;
+		warp "moscovia",163,55;
+		end;
+	Case 3:
+		mes "[Relações Públicas]";
+		mes "Estarei aqui se mudar de idéia.";
+		mes "Fale comigo a qualquer momento!";
+		close;
+	}
+}
+
+moscovia,166,53,3	script	Relações Públicas#mk	960,{
+	mes "[Relações Públicas]";
+	mes "E então, como foi a sua viagem?";
+	mes "Leva boas lembranças de Moscóvia?";
+	mes "Um navio está saindo agora";
+	mes "para Rune-Midgard.";
+	next;
+	if (select("Retornar para Alberta","Cancelar") == 2){
+		mes "[Relações Públicas]";
+		mes "Se você quiser ver mais,";
+		mes "leve o tempo que quiser.";
+		close;
+	}
+	mes "[Relações Públicas]";
+	mes "O navio está esperando por você!";
+	close2;
+	warp "alberta",243,67;
+	end;
+}
+
+//====================================================
+//= NPC's da Cidade de Moscóvia
+//====================================================
+
+moscovia,253,166,4	script	Soldado#mosk1	966,{
+	mes "[Soldado]";
+	mes "Lá está nosso Czar no palácio. Ele";
+	mes "governa a nossa Moscóvia.";
+	mes "Por favor, tome cuidado para não";
+	mes "irritá-lo.";
+	close;
+}
+
+//====================================================
+//= Palácio de Moscóvia
+//====================================================
+
+-	script	Soldado#mosk::MoscSoldier	966,{
+	mes "[Soldado]";
+	mes "Por favor, fique quieto ou o Czar vai se irritar.";
+	close;
+}
+
+mosk_in,118,66,5	duplicate(MoscSoldier)	Soldado#mosk02	966
+mosk_in,133,110,3	duplicate(MoscSoldier)	Soldado#mosk03	966
+mosk_in,133,73,3	duplicate(MoscSoldier)	Soldado#mosk04	966
+mosk_in,113,124,5	duplicate(MoscSoldier)	Soldado#mosk05	966

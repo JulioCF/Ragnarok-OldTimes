@@ -1,0 +1,81 @@
+//====================== Cronus Script ===============================
+//= Teletransportadores da Guerra do Emperium de Bebês
+//===== Por: =========================================================
+//= kobra_k88
+//===== Versão Atual: ================================================
+//= 1.9
+//===== Compatível com: ==============================================
+//= Cronus GIT;
+//===== Descrição: ===================================================
+//= Teletransportadores da Guerra do Emperium de Bebês
+//===== Comentários Adicionais: ======================================
+//= 1.9 Removido Show. [Axl]
+//====================================================================
+
+prontera,146,163,6	script	Castelos Novatos	729,{
+	mes "[Cita]";
+	if(getcharid(2)){
+		if(getgdskilllv(getcharid(2),10013)){
+			mes "Deixe me ver,hmm seu clã possui chamado urgente.";
+			mes "Você não poderá entrar neste sagrado local.";
+			emotion e_hmm;
+			emotion e_wah,1;
+			close;
+		}
+		if(
+			getgdskilllv(getcharid(2),10000) +
+			getgdskilllv(getcharid(2),10001) +
+			getgdskilllv(getcharid(2),10002) +
+			getgdskilllv(getcharid(2),10003) +
+			getgdskilllv(getcharid(2),10004) +
+			getgdskilllv(getcharid(2),10005) +
+			getgdskilllv(getcharid(2),10006) +
+			getgdskilllv(getcharid(2),10007) +
+			getgdskilllv(getcharid(2),10008) +
+			getgdskilllv(getcharid(2),10009) +
+			getgdskilllv(getcharid(2),10010) +
+			getgdskilllv(getcharid(2),10011) +
+			getgdskilllv(getcharid(2),10012) +
+			getgdskilllv(getcharid(2),10013) +
+			getgdskilllv(getcharid(2),10014) > 9
+		){
+			mes "Deixe me ver,hmm seu clã possui chamado urgente.";
+			mes "Você não poderá entrar neste sagrado local.";
+			emotion e_hmm;
+			emotion e_wah,1;
+			close;
+		}
+	} else {
+		mes "^FF0000Você deve possuir um clã!^000000";
+	}
+	mes "Eu sou o porteiro para os castelos";
+	next;
+	if(!(eaclass() & (EAJL_2|EAJL_UPPER)) && BaseLevel < 60)
+		if(select("Entrar nos castelos novatos","Nada") == 2) close;
+		//remove several unallowed buffs
+		sc_end SC_ASSUMPTIO;
+		sc_end SC_IMPOSITIO;
+		sc_end SC_SUFFRAGIUM;
+		sc_end SC_MAGNIFICAT;
+		sc_end SC_WEAPONPERFECTION;
+		sc_end SC_GOSPEL;
+		sc_end SC_BASILICA;
+		sc_end SC_MAGICPOWER;
+		sc_end SC_MARIONETTE;
+		sc_end SC_MARIONETTE2;
+		sc_end SC_DEVOTION;
+		sc_end SC_SACRIFICE;
+		sc_end SC_MAXOVERTHRUST;
+		sc_end SC_SPIRIT;
+		warp "n_castle",102,93+rand(14);
+		close;
+}
+
+n_castle,102,107,5	script	Cita	729,{
+	mes "[Cita]";
+	mes "Olá, "+ strcharinfo(0) +". Como posso ajudar?";
+	next;
+	if(select("Me mande para prontera!","Nada") == 2) close;
+	warp "prontera",155,177+rand(5);
+	close;
+}

@@ -1,0 +1,195 @@
+//===== Cronus Script ========================================
+//= Gerenciador de Feudos - In Game
+//===== Por: =================================================
+//= SoulBlaker
+//===== Versão Atual: ========================================
+//= 1.3b
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= Simplesmente, você entra no jogo e gerencia os feudos que
+//= vai ter woe.
+//= 30 feudos de 6 Castelos, e você configura  tudo in-game.
+//===== Comentários Adicionais: ==============================
+//= 1.0 Iniciado o NPC. [SoulBlaker]
+//= 1.1 Adicionado Comandos de Suporte a Woe 2.0 separada. [SoulBlaker]
+//= 1.2 Adicionado opção em relação aos horários da WoE e feita uma pequena otimização [Heaven]
+//= 1.2b Reestruturado case que mostra os horários de WoE/GdE [Heaven]
+//= 1.3 Otimizada parte do npc [Keoy]
+//= 1.3b Removido show [Keoy]
+//============================================================
+prontera,163,182,4	script	Gerenciador de Feudos::GuildManagerCustom	61,{
+	function Show_time;
+
+	mes "^0000CD[Gerenciador de Feudos]^000000";
+	mes "Olá ^FF0000"+strcharinfo(0)+"^000000, o que gostaria de fazer hoje?";
+	if(getgmlevel() < 99)
+	{
+		next;
+		switch(select("- Ver horários de WoE/GdE","- Ver feudos que tem guerra","- Ver feudos que não tem guerra","- Cancelar"))
+		{
+			mes "^0000CD[Gerenciador de Feudos]^000000";
+			case 1:
+				mes "E os horários são:";
+				Show_time;
+				break;
+					
+			case 2:
+				for(set .@num,0; .@num < getarraysize($guildmanager2$); set .@num, .@num + 1){
+					if($guildmanager1[.@num] == 0)
+						mes $guildmanager2$[.@num];
+				}
+				break;
+				
+			case 3:
+				for(set .@num,0; .@num < getarraysize($guildmanager2$); set .@num, .@num + 1){
+					if($guildmanager1[.@num] == 1)
+						mes $guildmanager2$[.@num];
+				}
+				break;
+			default:
+				mes "Muito bem jogador, volte quando desejar ver os feudos que tem guerra!";
+				break;
+		}
+		close;
+	} else {
+		next;
+		switch(select("- Ver horários da WoE/GdE:- Programar Feudos:- Ver status dos feudos:- Cancelar."))
+		{
+			mes "^0000CD[Gerenciador de Feudos]^000000";
+			case 1:
+				mes "E os horários são:";
+				Show_time;
+				break;
+
+			case 2:
+				mes "Muito bem, selecione o feudo que você deseja programar!";
+				next;
+				set .@Choose,select("Al De Baran - "+getcastlename($@maps$[1]),"Al De Baran - "+getcastlename($@maps$[2]),"Al De Baran - "+getcastlename($@maps$[3]),"Al De Baran - "+getcastlename($@maps$[4]),"Al De Baran - "+getcastlename($@maps$[5]),"Geffen - "+getcastlename($@maps$[6]),"Geffen - "+getcastlename($@maps$[7]),"Geffen - "+getcastlename($@maps$[8]),"Geffen - "+getcastlename($@maps$[9]),"Geffen - "+getcastlename($@maps$[10]),"Payon - "+getcastlename($@maps$[11]),"Payon - "+getcastlename($@maps$[12]),"Payon - "+getcastlename($@maps$[13]),"Payon - "+getcastlename($@maps$[14]),"Payon - "+getcastlename($@maps$[15]),"Prontera - "+getcastlename($@maps$[16]),"Prontera - "+getcastlename($@maps$[17]),"Prontera - "+getcastlename($@maps$[18]),"Prontera - "+getcastlename($@maps$[19]),"Prontera - "+getcastlename($@maps$[20]),"Schwaltzvalt - "+getcastlename($@maps$[21]),"Schwaltzvalt - "+getcastlename($@maps$[22]),"Schwaltzvalt - "+getcastlename($@maps$[23]),"Schwaltzvalt - "+getcastlename($@maps$[24]),"Schwaltzvalt - "+getcastlename($@maps$[25]),"Araunafeltz - "+getcastlename($@maps$[26]),"Araunafeltz - "+getcastlename($@maps$[27]),"Araunafeltz - "+getcastlename($@maps$[28]),"Araunafeltz - "+getcastlename($@maps$[29]),"Araunafeltz - "+getcastlename($@maps$[30])) - 1;
+					set .@num,@menu-1;
+
+				mes "^0000CD[Gerenciador de Feudos]^000000";
+				if($guildmanager1[.@Choose] == 0){
+					mes "Este Castelo está ativado, deseja desativá-lo?";
+					if(select("Sim.:Não")==1){
+						mes "Castelo desativado!";
+						setarray $guildmanager1[.@Choose],1;
+					} else
+						mes "Operação cancelada!";
+				} else {
+					mes "Este Castelo está desativado, deseja ativá-lo?";
+					if(select("Sim.:Não")==1){
+						mes "Castelo ativado!";
+						setarray $guildmanager1[.@Choose],0;
+					} else
+						mes "Operação cancelada!";
+				} break;
+				
+			case 3:
+				mes "^0000CD<~~[Status]~~>^000000";
+				for(set .@num,0; .@num < getarraysize($guildmanager2$); set .@num, .@num + 1){
+					mes "------------------";
+					if($guildmanager1[.@num] == 0)
+						mes $guildmanager2$[.@num]+" ^0000CD[Ativado]^000000";
+					else
+						mes $guildmanager2$[.@num]+" ^FF0000[Desativado]^000000";
+				}
+				break;
+				
+			case 4:
+				mes "Muito bem, volte assim que desejar algo senhor!";
+				break;
+		}
+		close;
+	}
+	end;
+
+OnInit:
+	setarray $week_days$[0],"Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado";
+	setarray $@maps$[1],"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05","gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05","payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05","prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05","schg_cas01","schg_cas02","schg_cas03","schg_cas04","schg_cas05","arug_cas01","arug_cas02","arug_cas03","arug_cas04","arug_cas05";
+	setarray $guildmanager2$[0],"Al De Baran - "+getcastlename($@maps$[1]),"Al De Baran - "+getcastlename($@maps$[2]),"Al De Baran - "+getcastlename($@maps$[3]),"Al De Baran - "+getcastlename($@maps$[4]),"Al De Baran - "+getcastlename($@maps$[5]),"Geffen - "+getcastlename($@maps$[6]),"Geffen - "+getcastlename($@maps$[7]),"Geffen - "+getcastlename($@maps$[8]),"Geffen - "+getcastlename($@maps$[9]),"Geffen - "+getcastlename($@maps$[10]),"Payon - "+getcastlename($@maps$[11]),"Payon - "+getcastlename($@maps$[12]),"Payon - "+getcastlename($@maps$[13]),"Payon - "+getcastlename($@maps$[14]),"Payon - "+getcastlename($@maps$[15]),"Prontera - "+getcastlename($@maps$[16]),"Prontera - "+getcastlename($@maps$[17]),"Prontera - "+getcastlename($@maps$[18]),"Prontera - "+getcastlename($@maps$[19]),"Prontera - "+getcastlename($@maps$[20]),"Schwaltzvalt - "+getcastlename($@maps$[21]),"Schwaltzvalt - "+getcastlename($@maps$[22]),"Schwaltzvalt - "+getcastlename($@maps$[23]),"Schwaltzvalt - "+getcastlename($@maps$[24]),"Schwaltzvalt - "+getcastlename($@maps$[25]),"Araunafeltz - "+getcastlename($@maps$[26]),"Araunafeltz - "+getcastlename($@maps$[27]),"Araunafeltz - "+getcastlename($@maps$[28]),"Araunafeltz - "+getcastlename($@maps$[29]),"Araunafeltz - "+getcastlename($@maps$[30]);
+	end;
+
+OnAgitStart:
+	setarray $@map$[1],"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05","gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05","payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05","prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05";
+	set $@num,0;
+	for(set $@num,0; $@num < getarraysize($@map$); set $@num, $@num + 1){
+		if($guildmanager1[$@num] == 1){
+			GvgOff $@map$[$@num];
+			MapRespawnGuildID $@map$[$@num],GetCastleData($@map$[$@num],1),4;
+			KillMonster $@map$[$@num],"";
+			Killmonsterall $@map$;
+			disablenpc "Manager#"+$@map$[$@num];
+		}
+	}
+	end;
+
+OnAgitEnd:
+	setarray $@map$[1],"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05","gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05","payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05","prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05";
+	set $@num,0;
+	for(set $@num,0; $@num < getarraysize($@map$); set $@num, $@num + 1)
+		enablenpc "Manager#"+$@map$[$@num];
+	end;
+
+OnAgitStart2:
+	setarray $@map$[0],"schg_cas01","schg_cas02","schg_cas03","schg_cas04","schg_cas05","arug_cas01","arug_cas02","arug_cas03","arug_cas04","arug_cas05";
+	set $@num,0;
+	for(set $@num,1; $@num < getarraysize($@map$); set $@num, $@num + 1){
+		if($guildmanager1[$@num] == 1){
+			GvgOff $@map$[$@num];
+			MapRespawnGuildID $@map$[$@num],GetCastleData($@map$[$@num],1),4;
+			KillMonster $@map$[$@num],"";
+			Killmonsterall $@map$;
+			disablenpc "Agit#"+$@map$[$@num];
+		}
+	}
+	end;
+
+OnAgitEnd2:
+	setarray $@map$[0],"schg_cas01","schg_cas02","schg_cas03","schg_cas04","schg_cas05","arug_cas01","arug_cas02","arug_cas03","arug_cas04","arug_cas05";
+	set $@num,0;
+	for(set $@num,1; $@num < getarraysize($@map$); set $@num, $@num + 1)
+		enablenpc "Agit#"+$@map$[$@num];
+	end;
+
+function Show_time {
+
+		for(set .@i,0; .@i <= getarraysize($week_days$); set .@i,.@i+1)
+		{
+			if($agit_hora_start[.@i] != -1)
+				set .@horarios$[.@i],$week_days$[.@i];
+			else
+				set .@horarios$[.@i],"";
+		}
+
+		for(set @i,0;@i <= getarraysize($agit_hora_start);set @i,@i+1)
+		{
+			if(.@horarios$[@i] != "")
+			{
+				if($agit_hora_start[@i] < 10)
+					set @agit_hora_start$,"0";
+				else
+					set @agit_hora_start$,"";
+
+				if($agit_hora_end[@i] < 10)
+					set @agit_hora_end$,"0";
+				else
+					set @agit_hora_end$,"";
+
+				if($agit_min_start[@i] < 10)
+					set @agit_min_start$,"0";
+				else
+					set @agit_min_start$,"";
+
+				if($agit_min_end[@i] < 10)
+					set @agit_min_end$,"0";
+				else
+					set @agit_min_end$,"";
+
+				mes .@horarios$[@i]+" - "+$agit_hora_start[@i]+@agit_hora_start$+":"+$agit_min_start[@i]+@agit_min_start$+" às "+$agit_hora_end[@i]+@agit_hora_end$+":"+$agit_min_end[@i]+@agit_min_end$;
+			}
+		}
+	return;
+}
+	
+}

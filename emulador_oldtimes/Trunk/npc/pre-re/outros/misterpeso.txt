@@ -1,0 +1,150 @@
+//===== Cronus Script ========================================
+//= Gym Pass Cash Item NPC
+//===== Por: =================================================
+//= Kisuka
+//===== Versão Atual: ========================================
+//= 1.2b
+//===== Comentários Adicionais: ==============================
+//= 1.0 First version [L0ne_W0lf]
+//= 1.1 Fixed the NPC saying you "00" [L0ne_W0lf]
+//= 1.1a Traduzido. [Reploid]
+//= 1.2 Trocado efeitos numéricos por nomes. [Lord]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Pequenas correções gramaticais [Keoy]
+//============================================================
+
+payon,173,141,4	script	Mister Peso#GymPass	899,{
+	mes "[Mister Peso]";
+	mes "Olá! Como vai?";
+	mes "Eu sou o Mister Peso, vim de";
+	mes "um planeta distante chamado";
+	mes "Plumaria.";
+	next;
+	mes "[Mister Peso]";
+	mes "Sou um viajante muito curioso e um";
+	mes "dia decidi conhecer Rune-Midgard,";
+	mes "mas me deparei com algo";
+	mes "surpreendente!";
+	mes "Tudo aqui é pesado demais!";
+	next;
+	mes "[Mister Peso]";
+	mes "Quase não consegui carregar minha";
+	mes "bagagem por aí! Isso foi um";
+	mes "problemão!";
+	mes "Foi assim que tive uma brilhante";
+	mes "ideia: \"Com a magia de meu planeta";
+	mes "posso me enfeitiçar";
+	mes "para deixar meus";
+	mes "pertences mais leves!\".";
+	next;
+	mes "[Mister Peso]";
+	mes "Foi assim que eu criei o";
+	mes "^FF0000Passe Anti-Gravitacional^000000,";
+	mes "um feitiço que aumenta";
+	mes "sua capacidade de carga em";
+	mes "200 pontos!";
+	mes "Com ele posso até enfeitiçar os";
+	mes "habitantes deste planeta!";
+	next;
+	mes "[Mister Peso]";
+	mes "Mas, receio que a constituição de";
+	mes "vocês não seja a mais adequada";
+	mes "para receber esse feitiço...";
+	mes "Então não posso encantá-los mais";
+	mes "que";
+	mes "^FF000010 vezes^000000.";
+	next;
+	mes "[Mister Peso]";
+	mes "Me diga, você gostaria de";
+	mes "receber o feitiço?";
+	next;
+	switch(select("Sim:Não:O feitiço acabou!")) {
+	case 1:
+		if (countitem(7776) == 0) {
+			mes "[Mister Peso]";
+			mes "Hm, você precisa me dar";
+			mes "um ^FF0000Passe Anti-Gravitacional^000000.";
+			mes "Só assim eu consigo conjurar o";
+			mes "feitiço.";
+			close;
+		}
+		else if (getskilllv("ALL_INCCARRY") >= 10) {
+			mes "[Mister Peso]";
+			mes "Cara, não acho que eu possa";
+			mes "aumentar a sua capacidade de";
+			mes "carga mais do que isso.";
+			mes "É muito perigoso para o seu";
+			mes "corpo sem termos tentado!";
+			mes "Eu lhe avisei sobre os limites.";
+			close;
+		}
+		else {
+			mes "[Mister Peso]";
+			mes "Ah, ótimo, vejo que você";
+			mes "trouxe o seu ^FF0000Passe Anti-Gravitacional^000000.";
+			mes "Certo, lançarei o feitiço,";
+			mes "em você.";
+			mes "Pronto? Lá vai!";
+			next;
+			specialeffect2 EF_EARTHSPIKE;
+			next;
+			specialeffect2 EF_DEVIL;
+			next;
+			specialeffect2 EF_COIN;
+			next;
+			specialeffect2 EF_SIGHTRASHER;
+			next;
+			delitem 7776,1;
+			skill "ALL_INCCARRY",getskilllv("ALL_INCCARRY")+1,0;
+			set gympassmemory,gympassmemory+1;
+			mes "[Mister Peso]";
+			mes "Bem, agora você deve ser capaz";
+			mes "de carregar mais coisas com você.";
+			mes "Vejamos, eu posso aumentar a";
+			mes "sua capacidade de carga por apenas mais";
+			mes "^FF00000" + (10-getskilllv(681)) + "^000000 vezes.";
+			close;
+		}
+	case 2:
+		mes "[Mister Peso]";
+		mes "Ah, que pena.";
+		mes "Bem, volte novamente se";
+		mes "mudar de ideia. Diga a";
+		mes "seus amigos sobre mim,";
+		mes "se eles estiverem precisando do";
+		mes "feitiço terei prazer em ajudá-los.";
+		close;
+	case 3:
+		if (getskilllv("ALL_INCCARRY") == 0) {
+			mes "[Mister Peso]";
+			mes "Epa! Mas, você nunca foi";
+			mes "encantado!";
+			mes "Como é que eu poderia refazer";
+			mes "algo que nunca foi feito antes?";
+			close;
+		}
+		else {
+			mes "[Mister Peso]";
+			mes "O que aconteçeu?";
+			mes "O Feitiço acabou?";
+			mes "Bem vou lançá-lo novamente";
+			mes "em você.";
+			next;
+			specialeffect2 EF_EARTHSPIKE;
+			next;
+			specialeffect2 EF_DEVIL;
+			next;
+			specialeffect2 EF_COIN;
+			next;
+			specialeffect2 EF_SIGHTRASHER;
+			next;
+			skill 681,gympassmemory,0;
+			mes "[Mister Peso]";
+			mes "O que acha disso?";
+			mes "Sua capacidade de carga";
+			mes "aumentou novamente,";
+			mes "igualmente como era antes!";
+			close;
+		}
+	}
+}

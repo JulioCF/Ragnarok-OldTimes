@@ -1,0 +1,144 @@
+//===== Cronus Script ========================================
+//= Guerra do Emperium (Al De baran)
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.0/1.2c
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= NPCs relativos ao 4º Castelo de Al De Baran
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2 Corrigido erros [Soulblaker]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Removido show	[Yum]
+//= 1.2c Corrigido erro na duplicata da Kafra [Mara]
+//============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+aldebaran,131,97,4	script	Rigel#a4-1::Wuerzburg	722,{
+
+	callfunc "Guild_Flags", "aldeg_cas04";
+
+OnRecvCastleA04:
+	FlagEmblem GetCastleData("aldeg_cas04",1);
+	end;
+}
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+alde_gld,239,246,2	script	Rigel#a4-2::Wuerzburg2	722,{
+	set .@GID, GetCastleData("aldeg_cas04",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("aldeg_cas04",1)) {
+					warp "aldeg_cas04",45,88;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastleA04:
+	FlagEmblem GetCastleData("aldeg_cas04",1);
+	end;
+}
+
+alde_gld,239,239,2	duplicate(Wuerzburg2)	Rigel#a4-3	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+aldeg_cas04,167,61,2	script	Rigel#a4-4::Wuerzburg3	722,{
+	end;
+
+OnRecvCastleA04:
+	FlagEmblem GetCastleData("aldeg_cas04",1);
+	end;
+}
+
+aldeg_cas04,164,90,2	duplicate(Wuerzburg3)	Rigel#a4-5	722
+aldeg_cas04,129,193,2	duplicate(Wuerzburg3)	Rigel#a4-6	722
+aldeg_cas04,112,206,2	duplicate(Wuerzburg3)	Rigel#a4-7	722
+aldeg_cas04,113,212,2	duplicate(Wuerzburg3)	Rigel#a4-8	722
+aldeg_cas04,77,117,2	duplicate(Wuerzburg3)	Rigel#a4-9	722
+aldeg_cas04,186,42,2	duplicate(Wuerzburg3)	Rigel#a4-10	722
+aldeg_cas04,30,69,2	duplicate(Wuerzburg3)	Rigel#a4-11	722
+aldeg_cas04,55,97,2	duplicate(Wuerzburg3)	Rigel#a4-12	722
+aldeg_cas04,45,98,2	duplicate(Wuerzburg3)	Rigel#a4-13	722
+aldeg_cas04,33,116,2	duplicate(Wuerzburg3)	Rigel#a4-14	722
+aldeg_cas04,130,180,2	duplicate(Wuerzburg3)	Rigel#a4-15	722
+aldeg_cas04,129,193,2	duplicate(Wuerzburg3)	Rigel#a4-16	722
+aldeg_cas04,33,107,2	duplicate(Wuerzburg3)	Rigel#a4-17	722
+aldeg_cas04,133,220,2	duplicate(Wuerzburg3)	Rigel#a4-18	722
+aldeg_cas04,169,22,2	duplicate(Wuerzburg3)	Rigel#a4-19	722
+aldeg_cas04,169,15,2	duplicate(Wuerzburg3)	Rigel#a4-20	722
+
+// AGIT Manager
+//============================================================
+aldeg_cas04,36,218,0	duplicate(Gld_Agit_Manager)	Agit#aldeg_cas04	-1
+
+// Steward
+//============================================================
+aldeg_cas04,67,116,0	duplicate(Gld_Mngr_Template)	Brymhensen#aldeg_cas04	55
+
+// Guardians
+//============================================================
+aldeg_cas04,67,116,0	duplicate(Gld_Guard_Template)	Guardian#aldeg_cas04	-1
+
+// Kafra Staff
+//============================================================
+aldeg_cas04,45,88,0	duplicate(Gld_Kafra_Template)	Kafra#aldeg_cas04	117
+
+// Saída da Sala do Mestre
+//============================================================
+aldeg_cas04,83,17,0	script	#switch_A04	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "aldeg_cas04",67,117;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+aldeg_cas04,84,13,0	duplicate(Gld_Trea_Protect)	ban_warp#aldeg_cas04	-1,8,8
+
+// Guild Treasure Spawns
+//============================================================
+aldeg_cas04,84,13,0	duplicate(Gld_Trea_Spawn)	Treasure#aldeg_cas04	-1
+
+// Guild Dungeon Switch
+//============================================================
+aldeg_cas04,38,76,0	duplicate(Gld_Dun_Template)	#aldeg_cas04	111

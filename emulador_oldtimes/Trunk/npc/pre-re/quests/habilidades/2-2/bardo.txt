@@ -1,0 +1,56 @@
+//===== Cronus Script ======================================== 
+//= Bardo Skill Quest
+//===== Por: =================================================
+//= Lupus, Reddozen
+//= Mehah [Traduziu para PT(br)]
+//===== Versão Atual: ======================================== 
+//= 1.3a
+//===== Comentários Adicionais: ==============================
+//= Skill ainda não existe no bRO e nem o Item Tropical Sograt
+//============================================================
+
+
+//============================================================
+// BARDO - PANG VOICE
+//============================================================
+prontera,134,328,7	script	Homem tímido	89,{
+	mes "[Homem tímido]";
+	if(BaseJob!=Job_Bard) goto L_nobard;
+	if(getskilllv(1010)) goto L_alreadyhave;
+	if(JobLevel<40) goto L_nojob;
+
+	mes "Eu posso ensinar tudo que eu sei, mas eu quero que você me traga.";
+	mes "1 Tropical Sograt";
+	next;
+	
+	mes "[Homem tímido]";
+	mes "Me deixe conferir.";
+	next;
+	
+	if (countitem(12112)<1) goto L_noitems;//Items: Tropical_Sograt,
+	delitem 12112, 1;//Items: Tropical_Sograt,
+	mes "[Homem tímido]";
+	mes "Bem, to vendo que você trouxe o meu item, então vou ensina minha técnica.";
+	skill 1010,1,0;
+	close;
+	
+L_noitems:
+	mes "[Homem tímido]";
+	mes "Você não possui os items que eu preciso.";
+	mes "Volte quando tiver todos os items exigidos.";
+	close;
+		
+L_nobard:
+	mes "Hum... você não parece ser um músico.";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	mes "Eu já o ensinei";
+	mes "tudo que eu sei...";
+	close;
+
+L_nojob:
+	mes "Volte quando você for um Bardo.";
+	close;
+}

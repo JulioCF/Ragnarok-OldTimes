@@ -1,0 +1,88 @@
+//===== Cronus Script ========================================
+//= Yuno Airport Staff
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Atual Versão: ========================================
+//= 1.3c
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Changelog: ===========================================
+//= 1.0 Cloned from Einbroch [Justin84]
+//= 1.1 Removed Duplicates [Silent]
+//= 1.2 Fixed syntax errors for duplicate [KarLaeda]
+//= 1.3 Removed use of goto. [L0ne_W0lf]
+//= 1.3a Traduzido o NPC e corrigido [Kamper]
+//= 1.3b Revisado e corrigido typo [Reply.]
+//= 1.3c Removido show	[Yum]
+//============================================================
+
+y_airport,126,43,4	script	Equipe do Aeroporto#001::AirportY	90,{
+	mes "[Equipe do Aeroporto]";
+	mes "Bem-vindo ao Aeroporto";
+        mes "Como eu posso te ajudar ?";
+        next;
+	if (select("Embarcar na Aeronave:Cancelar") == 1) {
+		mes "[Equipe do Aeroporto]";
+		mes "A taxa de embarque do Aaeroplano";
+		mes "é de 1,200 zeny, mas se você tem";
+		mes "um Bilhete para Aeroplano,";
+		mes "a taxa não será cobrada.";
+		mes "Você vai embarcar no Aeroplano?";
+		next;
+		if (select("Sim:Não") == 1) {
+			if(countitem(7311) > 0) {
+				delitem 7311,1;
+				warp "y_airport",148,51;
+				close;
+			}
+			if(zeny >= 1200) {
+				set Zeny,zeny-1200;
+				warp "y_airport",148,51;
+				close;
+			}
+			mes "[Airport Staff]";
+			mes "Você não tem Zeny suficiente.";
+			close;
+		}
+	}
+	mes "[Equipe do Aeroporto]";
+	mes "Obrigado e";
+	mes "tenha um bom dia.";
+	close;
+
+}
+
+y_airport,143,43,4	duplicate(AirportY)	Equipe do Aeroporto#002	90
+y_airport,156,43,4	duplicate(AirportY)	Equipe do Aeroporto#003	90
+
+y_airport,126,51,4	script	Equipe do Aeroporto#004::AirportY2	90,{
+	mes "[Equipe do Aeroporto]";
+	mes "Bem-vindo~";
+	mes "Por favor siga por este";
+	mes "caminho para embarcar no Aeroplano.";
+	next;
+	if (select("Sair do Terminal Principal:Cancelar") == 1) {
+		mes "[Equipe do Aeroporto]";
+		mes "Se você deixar o";
+		mes "Terminal Principal, você";
+		mes "terá que pagar a taxa de entrada";
+		mes "novamente para embarcar no";
+		mes "aeroplano. Você tem certeza";
+		mes "que deseja sair?";
+		next;
+		if (select("Sim:Não") == 1) {
+			warp "y_airport",142,40;
+			close;
+		}
+	}
+	mes "[Equipe do Aeroporto]";
+	mes "Tudo bem, obrigado";
+	mes "por ser nosso cliente";
+	mes "e eu espero que você";
+	mes "tenha um vôo agradável~";
+	close;
+
+}
+
+y_airport,143,51,4	duplicate(AirportY2)	Equipe do Aeroporto#005	90
+y_airport,156,51,4	duplicate(AirportY2)	Equipe do Aeroporto#006	90

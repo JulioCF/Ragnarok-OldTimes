@@ -1,0 +1,291 @@
+//===== Cronus Script ========================================
+//= Quest dos Sucos
+//===== Por: =================================================
+//= kobra_k88; SoulBlaker;
+//===== Versão Atual: ========================================
+//= 1.3/1.8
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= Quests dos Sucos
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido o NPC.	[Squall]
+//= 1.1 Corrigido Ortografia.	[Dynasty]
+//= 1.2 Reesturuado o NPC.	[SoulBlaker]
+//= 1.3 Fixado erros do menu.   [SoulBlaker]
+//============================================================
+
+// Morrison ------------------------------------------------
+prt_in,47,173,2	script	Morrison	97,{
+
+	if(MISC_QUEST&1 || #MORRISON > 10) {
+		mes "[Pequeno Morrison]";
+		mes "Pffff... Me deixe sozinho! Você NÃO se preocupa comigo! Eu vou MORRER";
+		mes "por culpa dessas frutas e vegetais estúpidos e você só pensa em VOCÊ!";
+		emotion e_pif;
+		close;
+	} else if(#MORRISON == 10) {
+ 		mes "[Pequeno Morrision]";
+		mes "Ah..Estou satisfeito agora. Você não tem mais nada pra eu COMER. Eu acho que";
+		mes "vou EXPLODIR se continuar comendo.";
+		next;
+		mes "[Pequeno Morrison]";
+		mes "E... hum... Pegue isto.";
+		next;
+		getitem 529,3;
+		getitem 530,1;
+		set #MORRISON,0;
+		mes "[Pequeno Morrison]";
+		mes "Estes são uns doces que peguei escondido de minha mãe. Desde";
+		mes "você me dê mais Carne, eu te dou mais Doces." ;
+		close;
+	}
+	else {
+		mes "[Pequeno Morrision]";
+		mes "Wahhhhh!!! Wahh... CHEGA! CHEGA!";
+		mes "Não vou... continuar comendo ^0000ffFrutas^000000 estúpidas!!";
+		emotion e_sob;
+		next;
+		if(select("Falar","Cancelar")==1) {
+ 			if(countitem(517)){
+				mes "[Pequeno Morrison]";
+				mes "...(sniff)....(sniff)(sniff).... Oh! Isso é ^ff0000CARNE^000000???";
+				emotion e_ic;
+				next;
+				mes "[Pequeno Morrison]";
+				mes "Você tem mais ^ff0000CARNE^000000?!!!~(babando)~";
+				mes "Umm... este cheiro está me dando FOME!!!1";
+				emotion e_rice;
+				next;
+				mes "[Pequeno Morrison]";
+				mes "... Umm... desculpe-me..... você pode me dar mais carne PORR FAVOORRR?";
+				emotion e_sob;
+				next;
+				if(select("Dar Carne a ele","Ignorá-lo")==1) {
+					if(countitem(517) == 0) {
+						mes "[Pequeno Morrison]";
+						mes "Pffff... Me deixe sozinho! Você NÃO se preocupa comigo! Eu vou MORRER";
+						mes "por culpa dessas frutas e vegetais estúpidos e você só pensa em VOCÊ!";
+						emotion e_pif;
+						close;
+					}
+					delitem 517,1;	//Carne
+					set #MORRISON,#MORRISON+1;
+					mes "[Pequeno Morrison]";
+					mes "Whoah~!!! Isso é Carne, Carne!";
+					mes "Mmmm! Isso me dá água na boca.";
+					mes "Oh obrigado. Agora estou feliz. Yum Yum...";
+					emotion e_awsm;
+					close;
+				}
+ 				set #MORRISON,11;
+				mes "[Pequeno Morrison]";
+				mes "Boo...";
+				mes "Boo... Bom... Tudo bem, tudo bem~!!! Egoísta, sovina!";
+				emotion e_bzz;
+				close;
+			}
+			mes "[Pequeno Morrison]";
+			mes "Arhhggg!! JÁ É O SUFICIENTE!!! Eu não posso mais comer ^0000ffFrutas^000000! Elas têm um";
+			mes "gosto tão AMARGO..... Eu tenho que DESCASCAR antes de poder comer.....";
+			mes "elas são pegajosas e moles...... isso é realmente CHATO!!!!";
+			emotion e_wah;
+			next;
+			mes "[Pequeno Morrison]";
+			mes "Eu ODEIO FRUTAS! Eu não me importo mais com nada.(~Suspiro~)";
+			mes "Dê-me algo mais comestível..... me dê...... ^ff0000CARNE^000000!!!";
+			close;
+		}
+		mes "[Pequeno Morrison]";
+		mes "Wahhhh!!! Não importa se vai ser difícil, eu só não como vegetais";
+		mes "ou ^0000ffFrutas^000000! Eles são repugnantes!!";
+		emotion e_sob;
+		close;
+	}
+	end; 
+}
+
+// Dona de Casa Marianne ---------------------------------------------------
+prt_in,49,172,2	script	Dona de Casa Marianne	53,{
+	if(MISC_QUEST&1 || #MORRISON > 10) {
+		mes "[Dona de Casa Marianne]";
+		mes "Obrigado por não dar comida ao meu filho. Estou tentando fazer ele comer";
+		mes "^0000ffFrutas^000000 e vegetais, mais ele não quer comer";
+		mes "nada que não seja Carne...";
+		next;
+		mes "[Dona de Casa Marianne]";
+		mes "Se eu pudesse transformar ^0000ffFrutas^000000 em ^0000ffSucos^000000... Por exemplo...Suco de";
+		mes "Laranja... Acha que meu filho gostaria?";
+		emotion e_hmm;
+		next;
+		mes "[Dona de Casa Marianne]";
+		mes "Ah! Agora me lembrei..Existe uma cidade onde você pode obter vários tipos de";
+		mes "^0000ffFrutas^000000 transformadas em ^0000ffSuco de Frutas^000000.";
+		emotion e_ic;
+		next;
+		mes "[Dona de Casa Marianne]";
+		mes "... É em...^ff0000Payon^000000...ou ^ff0000Morroc^000000...?";
+		emotion e_hmm;
+		set #MORRISON,0;
+		set MISC_QUEST,MISC_QUEST | 1;
+		close;
+	} else if(#MORRISON) {
+		set #MORRISON,0;
+		mes "[Dona de Casa Marianne]";
+		mes "Oh MEU DEUS!!... Oh senhor...";
+		emotion e_omg;
+		next;
+		mes "[Dona de Casa Marianne]";
+		mes "O QUE VOCÊ ESTA FAZENDO!! VOCÊ ESTA dando comida ao meu filho!! É ^ff0000CARNE^000000!!!";
+		next;
+		mes "[Dona de Casa Marianne]";
+		mes "Arrrgh~~!! Pare com isto agora!!!!!!";
+		emotion e_pif;
+		close;
+	}
+	else {
+		mes "Morrison!! Já comeu todas as frutas? Frutas~!";
+		mes "*Choro*~!! Tal pai tal filho...";
+		emotion e_sob;
+		next;
+		if(select("Falar","Cancelar")==1) {
+			mes "[Dona de Casa Marianne]";
+			mes "(~Suspiro~)...Este é Morrison... Meu único filho. Ele";
+			mes "não quer mais comer ^0000ffFrutas^000000 ou";
+			mes "vegetais.";
+			emotion e_shy;
+			next;
+			mes "[Dona de Casa Marianne]";
+			mes "Olha a cara dele..., quando ouve falar em ^0000ffFrutas^000000...";
+			next;
+			mes "[Dona de Casa Marianne]";
+			mes "Ele só quer comer ^ff0000Carne^000000... (Suspiro)...mais precisa de";
+			mes "^0000ffFrutas^000000 e vegetais para uma dieta balanceada.";
+			next;
+		}
+		mes "[Dona de Casa Marianne]";
+		mes "Morrison!! Vou ficar louca se continuar fazendo isso!";
+		emotion e_bzz;
+		close;
+	}
+	end;
+}
+ 
+// Espremedor Marx Hansen ---------------------------------------------------------
+payon_in03,188,146,5	script	Espremedor Marx Hansen	86,{
+	if(MISC_QUEST&1) {
+		mes "[Espremedor Marx Hansen]";
+		mes "Bem-Vindo a minha loja. Está aqui para fazer suco de frutas como todos os outros?";
+		next;
+		switch(select("Sim, estou.","Você deseja fazer suco?","Não.")) {
+			case 1:
+				mes "[Espremedor Marx Hansen]";
+				mes "Então, qual tipo de suco gostaria?";
+				next;
+				set .@loop,1;
+				while(.@loop) {
+					switch(select("Suco de Maçã","Suco de Banana","Suco de Uva","Suco de Cenoura","Nenhum.")) {
+						case 1: setarray .@questsuco[0],512,531; break;
+						case 2: setarray .@questsuco[0],513,532; break;
+						case 3: setarray .@questsuco[0],514,533; break;
+						case 4: setarray .@questsuco[0],515,534; break;
+						case 5:
+							mes "[Espremedor Marx Hansen]";
+							mes "Ótimo... até a próxima.";
+							close;
+					}
+					mes "[Espremedor Marx Hansen]";
+					mes "Quantas garrafas você gostaria?";
+					next;
+					switch(select("Eu quero falar com você.","Quantas for possível.","Eu mudei de idéia.")) {
+						case 1:
+							mes "[Espremedor Marx Hansen]";
+							mes "Muito bem. Digite 0 se você não quiser nenhum. Você não pode";
+							mes "comprar mais de 1000.";
+							next;
+							input .@amount;
+							if(.@amount > 0 < 1001) {
+								if(countitem(.@questsuco[0]) < .@amount) {
+									mes "[Espremedor Marx Hansen]";
+									mes "Você não tem frutas.";
+									mes "Você precisa de " +.@amount+ " " +getitemname(.@questsuco[1])+ " para fazer esta quantidade de suco.";
+									next;
+								}else if(countitem(713) <  .@amount) {
+									mes "[Espremedor Marx Hansen]";
+									mes "Você não tem garrafas.  Você precisa de "+@amount+" garrafa(s) vazia(s) para fazer esta quantidade de suco.";
+									next;
+								}
+								else {
+									delitem .@questsuco[0], .@amount;	//del Fruta
+									delitem 713, .@amount;		//del Garrafa Vazia
+									set Zeny, Zeny - .@amount * 3;
+									getitem .@questsuco[1], .@amount;	//pegar Suco
+									mes "[Espremedor Marx Hansen]";
+									mes "Está aqui. Pegue.";
+									close;
+								}
+							}
+							break;
+						case 2:
+							set .@amount,1000;		//maior quantidade possível
+							//calc max possível # sucos
+							if(Zeny/3 < .@amount) set .@amount, Zeny/3;
+							if(countitem(.@questsuco[0]) < .@amount) set .@amount, countitem(.@questsuco[0]);
+							if(countitem(713) < .@amount) set .@amount, countitem(713);
+							if(.@amount == 0) {
+								mes "[Juicer Marx Hansen]";
+								mes "Doh! Você não tem recursos para NEM UMA garrafa de suco.";
+								emotion e_gasp;
+								close;
+							}
+							delitem .@questsuco[0], .@amount;	//del Fruta
+							delitem 713, .@amount;		//del Garrafa Vazia
+							set Zeny, Zeny - .@amount * 3;
+							getitem .@questsuco[1], .@amount;	//pegar Suco
+							mes "[Espremedor Marx Hansen]";
+							mes "Está aqui. Pegue.";
+							close;
+						case 3:
+							set .@loop,0;
+							break;
+					}
+				}
+				break;
+			case 2:
+				mes "[Espremedor Marx Hansen]";
+				mes "# Informação do Suco de Fruta #";
+				mes "- Suco de ^FF3355Maçã^000000 - Maçã x 1, Garrafa Vazia x 1, 3 zeny.";
+				mes "- Suco de ^D5A500Banana^000000 - Banana x 1, Garrafa Vazia x 1, 3 zeny.";
+				mes "- Suco de ^FF8800Cenoura^000000 - Cenoura x 1, Garrafa Vazia x 1, 3 zeny.";
+				mes "- Suco de ^AA00AAUva^000000 - Uva x 1, Garrafa Vazia x 1, 3 zeny.";
+				close;
+			case 3:
+				break;
+		}
+		mes "[Espremedor Marx Hansen]";
+		mes "Ótimo... até a próxima.";
+		close;
+	}
+	mes "[Espremedor Marx Hansen]";
+	mes "Bem-Vindo a minha loja. O que lhe traz aqui?";
+	next;
+	if(select("Conversar.","Estou olhando por aí.")==1) {
+		mes "[Espremedor Marx Hansen]";
+		mes "Nos primeiros anos da humanidade, as frutas foram as únicas substâncias disponíveis para comer.";
+		mes "Frutas são vitais para sobrevivência, sem elas as pessoas irão morrer.";
+		mes "Durante esse tempo era admiravel a oferta da Mãe Natureza.";
+		next;
+		mes "[Espremedor Marx Hansen]";
+		mes "Hoje a comida é esplêndida e ela vêm em uma grande variedade de formas e sabores.";
+		mes "Com tantas outras coisas para comer, as frutas não são consumidas tanto quanto deveriam ser.";
+		mes "Isso acontece principalmente com as crianças que só querem comer pizza e doces.";
+		next;
+		mes "[Espremedor Marx Hansen]";
+		mes "Por isso quero fazer com que os jovens entendam a importância das frutas.";
+		mes "Descobri que em forma de suco, as frutas ficam mais digestivas e saborosas para as crianças.";
+		close;
+	}
+	mes "[Espremedor Marx Hansen]";
+	mes "Tudo bem.";
+	close;
+}

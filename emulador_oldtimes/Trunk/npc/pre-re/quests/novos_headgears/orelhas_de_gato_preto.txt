@@ -1,0 +1,76 @@
+//===== Cronus Script ========================================
+//= Quests das Orelhas de Gato Preto
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quest das Orelhas de Gato Preto
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text,
+//=	fixed zeny amount [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Soft Feather -> Fluff
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+
+payon_in03,110,160,4	script	NekoNeko	819,{
+ mes "[NekoNeko]";
+ mes "Você simplesmente não ama gatos? O jeito com que eles mechem.";
+ mes "As orelhas e as coisas, é muito fofo";
+ next;
+ mes "[NekoNeko]";
+ mes "Hehe... bem, eu decide, eu vou fazer um Orelhas de Gato Preto!";
+ mes "Ele é modelado no meu gato favorito...o gato PRETO!";
+ mes "Mas é claro, eu peguei a idéia do Hwikebain!";
+ next;
+ mes "[NekoNeko]";
+ mes "Eu posso fazer um para você, mas vou precisar de uns items.";
+ next;
+ menu "Por favor faça-me esse item.",-,"O que eu preciso?",M_REQ,"tchau.",M_EXIT;
+
+ if(countitem(2213) < 1 || countitem(914) < 200 || countitem(983) < 1 || Zeny < 10000) GOTO L_NOITEM;//Items: Kitty Band, Fluff, Black Dyestuff,
+ delitem 2213,1;//Items: Orelha de Gato,
+ delitem 914,200;//Items: Felpa,
+ delitem 983,1;//Items: Tintura Preta,
+ set Zeny,Zeny-10000;
+ mes "[NekoNeko]";
+ mes "Uau! obrigado, eu irei recolher seus items agora!";
+ next;
+ mes "[NekoNeko]";
+ mes "Miau Miau! Obrigado! aqui suas Orelhas de Gato Preto!";
+ next;
+ getitem 5057,1;//Items: Orelhas de Gato Preto,
+ mes "[NekoNeko]";
+ mes "Miau! Obrigado! Foi um prazer cria-la para você!";
+ close;
+
+L_NOITEM:
+ mes "[NekoNeko]";
+ mes "Desculpa, mas você não tem os items necessários...";
+ close;
+
+M_REQ:
+ mes "[NekoNeko]";
+ mes "Para ^670000Orelhas de Gato Preto^000000, esses são os item que eu preciso:";
+ next;
+ mes "[NekoNeko]";
+ mes "1 Orelha de Gato,";
+ mes "200 Felpas,";
+ mes "1 Tintura Preta e";
+ mes "é claro 10,000z para cobrir os gastos.";
+ next;
+ mes "[NekoNeko]";
+ mes "Traga-me os item e o dinheiro que farei as Orelhas de Gato Preto para você.";
+ close;
+
+M_EXIT:
+ mes "[NekoNeko]";
+ mes "Okay, *miau* Tenha um Bom Dia!";
+ close;
+}

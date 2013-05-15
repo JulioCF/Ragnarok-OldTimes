@@ -1,0 +1,142 @@
+//===== Cronus Script ========================================
+//= Evento de São Valentim (Dia dos Namorados)
+//===== By: ================================================== 
+//= Muad_Dib(Prometheus Project)
+//===== Versão Atual: ========================================
+//= 1.0d
+//===== Comentários Adicionais: ==============================
+//= 1.0a Traduzido. [Kamper/rdrake]
+//= 1.0b Reestruturado. [Mehah]
+//= 1.0c Revisado. [RoM]
+//= 1.0d Removido show, digit, additem [Yum]
+//============================================================
+
+// Estefano - Vendedor de Chocolate ----------------
+alberta,26,243,4	script	Estefano	58,{
+	mes "[Estefano]";
+	mes "Adivinhe o que eu consegui?";
+	mes "Um chocolate delicioso difícilmente encontrado em Rune-Midgard...";
+	next;
+	mes "[Estefano]";
+	mes "Chocolate!";
+	mes "Está certo, você não gosta de chocolate?... Eu amo.";
+	mes "E você está com sorte, porque eu estou vendendo eles por apenas 5,000 zeny cada pedaço!";
+	next;
+	switch(select("Eu quero chocolate!","Não, obrigado.")){
+	case 1:
+		mes "[Estefano]";
+		mes "Hah!";
+		mes "Eu sabia disto!";
+		mes "Mas eu não posso vender mais do que 5 de uma vez... Mas, se você realmente precisar mais...";
+		mes "Você pode voltar novamente.";
+		mes "Então quantos você quer?";
+		next;
+		input .@flag_num;
+		if (.@flag_num <= 0) {
+			mes "[Estefano]";
+			mes "Você não quer nenhum chocolate?";
+			mes "Parece que você não está em perfeito juízo.";
+			close;
+		}
+		else if (@flag_num > 5) {
+			mes "[Estefano]";
+			mes "Desculpe-me, mas não posso lhe dar muitos.";
+			close;
+		}
+		set .@needmon,.@flag_num*5000;
+		if (Zeny < .@needmon){
+			mes "[Estefano]";
+			mes "Desculpe-me, mas parece que você não tem recursos para comprar isto de mim.";
+			close;
+		}
+		set Zeny,Zeny-.@needmon;
+		getitem 558,.@flag_num;
+		mes "[Estefano]";
+		mes "Aqui está!";
+		mes "Você pode dar para alguém como presente, ou apreciá-lo você mesmo!";
+		mes "Mmm....doce chocolate...";
+		mes "Visite-me mais vezes...!";
+		close;
+	case 2:
+		mes "[Estefano]";
+		mes "Você não quer nenhum chocolate?";
+		mes "Eu estou te dizendo! Você vai se arrepender!";
+		mes "É melhor você pegar alguns agora... Você nunca mais vai encontrar um chocolate desses de novo!";
+		mes "Pense nisso, e visite-me outra vez.";
+		close;
+	}
+}
+
+// Jainie -- Dá informações sobre o Evento ------------------
+alberta,29,243,4	script	Jainie	53,{
+	mes "[Jainie]";
+	mes "Você sabia? Os chocolates que meu namorado vende são meus!";
+	mes "Eu mesma os faço.";
+	next;
+	mes "[Jainie]";
+	mes "Você sabe ... Em certos países, há uma tradição de presentear um pessoa que você ame com chocolates...";
+	mes "É chamado de, ^3355FFDia de São Valentim^000000 ou ^3355FFDia dos Namorados^000000.";
+	next;
+	mes "[Jainie]";
+	mes "Então eu dei a ele meus deliciosos chocolates...";
+	mes "Ele cozinhou...";
+	mes "E agora ele está vendendo para todos.";
+	mes "Acho que ele está relamente se divertindo.";
+	mes "Mas, me sinto orgulhosa quando alguém compra algo que fiz e gosta.";
+	next;
+	mes "[Jainie]";
+	mes "Seria ótimo se você comprasse alguns...";
+	mes "Eu estarei fazendo chocolates por enquanto...";
+	close;
+}
+
+// Carlos -- Vendedor de Chocolate ------------------------
+prt_castle,54,34,4	script	Carlos	47,{
+	mes "[Carlos]";
+	mes "Sim?";
+	next;
+	switch(select("Eu quero um Chocolate Caseiro...","Estou perdido, desculpe por incomodá-lo.")){
+	case 1:
+		mes "[Carlos]";
+		mes "Bem, vou verificar se você possui os itens...";
+		next;
+		if (countitem(558) >= 3) {
+			delitem 558,3;
+			mes "[Carlos]";
+			mes "Você tem 3 pedaços do chocolate mais puro, eu sei.";
+			mes "Me dê eles...";
+			next;
+			mes "[Carlos]";
+			mes "Ok, agora eu irei apenas criar meus especiais chocolates caseiros se você prometer usá-los sabiamente.";
+			next;
+			mes "[Carlos]";
+			mes "....Hmmmmmm.....";
+			mes "Certo...";
+			next;
+			mes "[Carlos]";
+			mes "Aqui.";
+			getitem 559,1;
+			mes "Eu espero que você dê isso para alguém especial, porque é um chocolate especial.";
+			mes "Como você sabe... Somente eu posso fazê-los.";
+			next;
+			mes "[Carlos]";
+			mes "Divirta-se.";
+			close;
+		}
+		mes "[Carlos]";
+		mes "Me desculpe, mas você não tem chocolates necessários para o processo.";
+		close;
+	case 2:
+		mes "[Carlos]";
+		mes "Oh... Bem, se você quiser que eu faça alguns de meus Chocolates Caseiros...";
+		mes "Você precisará me dar pelo menos ^0000FF3 Chocolates^000000.";
+		next;
+		mes "[Carlos]";
+		mes "Isso mesmo, apenas ^0000FF3 Chocolates^000000";
+		mes "Traga-os para mim e você irá ter um Chocolate Caseiro.";
+		next;
+		mes "[Carlos]";
+		mes "Até mais.";
+		close;
+	}
+}

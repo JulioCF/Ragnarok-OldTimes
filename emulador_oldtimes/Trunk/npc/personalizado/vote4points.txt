@@ -1,0 +1,47 @@
+prontera,150,150,5	script	Vote Por Pontos	61,{
+
+	setarray @vote_item[0],			501;	// Item ID
+	setarray @vote_item_count[0],	1;		// Item Count wich will be given
+	setarray @vote_cost[0],			100;	// Cost in Vote Points
+
+	query_sql ("SELECT `point` FROM `vote_point` WHERE `account_id` = '"+getcharid(3)+"'", @vote);
+
+	mes "[Vote Por Pontos]";
+	mes "Você possui ^ff0000"+@vote+"^000000 Pontos de Voto!";
+	if (select("Trocar meus pontos!","Cancelar~") == 2) 
+		close;
+
+	next;
+	mes "[^ff0000Lista^000000]";
+	mes "^0000ffItem^000000 = ^00aa00Preço^000000";
+	for( set .@i, 0; .@i < getarraysize(@vote_item); set .@i, .@i + 1 ) {
+		mes "^0000ff"+@vote_item_count[.@i]+"x "+getitemname(@vote_item[.@i])+"^000000 = ^00aa00"+@vote_cost[.@i]+"^000000";
+		if( .@i < 1 )
+			set .@menu$, getitemname(@vote_item[.@i]);
+		else
+			set .@menu$, .@menu$+":"+getitemname(@vote_item[.@i]);
+	}
+
+	next;
+	select(.@menu$);
+	set @choice, @menu - 1;
+
+	mes "[Vote Por Pontos]";
+	if( @vote_cost[@choice] > @vote ) {
+		mes "^ff0000Você não tem Pontos de Voto suficiente para comprar "+@vote_item_count[@choice]+"x '"+getitemname(@vote_item[@choice])+"' :/^000000";
+		close;
+	}
+	mes "Você tem certeza que deseja trocar "+@vote_item_count[@choice]+"x '^ff0000"+getitemname(@vote_item[@choice])+"^000000' por ^00aa00"+@vote_cost[@choice]+"^000000 Pontos de Voto?";
+	if(select("Não! Cancelar!:Sim, Trocar!") == 1 ) {
+		mes "^ff0000Tudo bem, cancelado~^000000";
+		close;
+	}
+
+	set .@new, @vote - @vote_cost[@choice];
+	if( .@new < 0 ) // safty first..
+		set .@new, 0;
+	query_sql("UPDATE `vote_point` SET `point` = '"+.@new+"' WHERE `account_id` = '"+getcharid(3)+"'");
+	getitem @vote_item[@choice], @vote_item_count[@choice];
+	mes "^00aa00A Troca foi um sucesso ^_^ esperamos vê-l"+(Sex?"o":"a")+" de novo!^000000";
+	close;
+}

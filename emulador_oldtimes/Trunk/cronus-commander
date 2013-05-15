@@ -1,0 +1,30 @@
+#!/bin/bash
+# Atalho para funções Cronus-Commander - http://Cronus-Emulator.com [Raizen]
+case $1 in
+	'recompilar') chmod 777 configure ; ./configure ;
+make clean ; make sql;;
+	'compilar') chmod 777 configure ; ./configure ;
+make clean ; make sql;;
+	'atualizarsistema') yum update -y ; yum upgrade -y ; apt-get 
+update -y ;;
+	'mapcache') make tools ; echo "Map_Cache compilado com sucesso!" ;;
+	'versao') echo "A versão atual do cronus-commander é 1.2" ;;
+	'ligar') exec ./login-server_sql & exec ./char-server_sql & exec 
+./map-server_sql & ;;
+	'desligar') killall map-server_sql char-server_sql login-server_sql ;;
+	'reiniciar') killall map-server_sql char-server_sql login-server_sql ; exec ./login-server_sql & exec ./char-server_sql & exec ./map-server_sql & ;;
+	'atualizaremulador') svn update ;;
+	'tutorial') echo "As funções existentes atualmente neste script 
+são unicamente para ajudar o usuário na utilização de comandos via 
+shell.
+Para utilizar este script, basta que através do ssh acesse seu emulador 
+e digite:
+./cronus-commander PARAMETRO_DE_USO
+Para ver os parâmetros disponíveis digite:
+./cronus-commander comandos
+Caso tenha qualquer dúvida sobre este sistema, abra um tópico de suporte 
+em http://forum.cronus-emulator.com/";;
+	*) echo "Os parâmetros válidos são: 
+ligar|desligar|reiniciar|compilar|recompilar|versao|atualizarsistema|atualizaremulador." 
+;;
+esac

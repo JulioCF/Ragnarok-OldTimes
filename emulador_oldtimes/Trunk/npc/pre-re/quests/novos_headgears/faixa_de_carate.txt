@@ -1,0 +1,81 @@
+//===== Cronus Script ========================================
+//= Quest Chapéu de Caratê
+//===== Por: =================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest do Chapéu de Caratê
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text
+//=	fixed wrong items ID [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//= 1.5 Adicionado mais falar [Kamper]
+//============================================================
+
+
+yuno,300,188,6	script	Zhenbolt	826,{
+ mes "[Zhenbolt]";
+ mes "Por que, você não acha que olhar o mundo é mais importante?";
+ mes "Apesar de tudo. Nós temos que nós achar neste mundo!";
+ next;
+ mes "[Zhenbolt]";
+ mes "Eu sou o único que pode te fazer sentir-se renovado.";
+ mes "como eu posso criar uma ^000090Faixa de Caratê^000000.";
+ mes "Você pode ouvir, e acerta seu punho sem saber";
+ mes "Por causa do seu grande poder que sente!";
+ next;
+ menu "Uau! Faça me um!",-,"O que eu preciso?",M_REQ,"Não, tchau",M_EXIT;
+
+ if(countitem(7216) < 300 || countitem(7097) < 300 || countitem(982) < 1 || countitem(2211) < 1) GOTO L_NOITEM;//Items: Red Muffler, Burning Heart, White Dyestuff, Bandana,
+ delitem 7216,300;//Items: Cachecol Vermelho,
+ delitem 7097,300;//Items: Coração Incandescente,
+ delitem 982,1;//Items: Tintura Branca,
+ delitem 2211,1;//Items: Bandana,
+ mes "[Zhenbolt]";
+ mes "Muito bem.";
+ next;
+ mes "[Zhenbolt]";
+ mes "Agora eu posso fazer...";
+ next;
+ mes "[Zhenbolt]";
+ mes "Uh oh... Terminei.";
+ mes "Se você usar isto,";
+ mes "você sentirá um pouco de calor,";
+ mes "neste mundo frio.";
+ mes "Um grande item acaba de surgir neste mundo.";
+ mes "Senhoras e Senhores, apresento-lhes a grande ^FF0000Faixa de Caratê^000000!!";
+ getitem 5070,1; //Items: Faixa de Caratê,
+ next;
+ mes "[Zhenbolt]";
+ mes "Com isto, eu poderei";
+ mes "voltar a ser a pessoa que eu era.";
+ mes "Meu nome é";
+ mes "Zhenbolt";
+ mes "O distribuidor principal da melhor faixa!";
+ close;
+
+L_NOITEM:
+ mes "[Zhenbolt]";
+ mes "Onde está os items? Ok, eu irei lista-los denovo...";
+ next;
+
+M_REQ:
+ mes "[Zhenbolt]";
+ mes "Traga-me";
+ mes "300 Cachecóis Vermelhos,";
+ mes "300 Corações Incandescentes,";
+ mes "1 Tintura Branca";
+ mes "e 1 Bandana.";
+ close;
+
+M_EXIT:
+ mes "[Zhenbolt]";
+ mes "Então tchau.";
+ close;
+}

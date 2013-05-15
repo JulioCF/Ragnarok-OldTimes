@@ -1,0 +1,163 @@
+//===== Cronus Script ======================================== 
+//= Guias de Einbech
+//===== Por: ================================================= 
+//= Muad_dib; L0ne_W0lf
+//===== Versão Atual: ======================================== 
+//= 1.5a
+//===== Compatível com: ====================================== 
+//= Cronus
+//===== Changelog: ===========================================
+//= 1.0 Einbech guide by Muad_dib in prometheus format
+//= 1.0a Conversion to eA format [MasterOfMuppets]
+//= 1.1 missing tabs [Lupus]
+//= 1.2 Optimized, updated common guide names [Lupus]
+//= 1.3 Fitted the many lines into 1 or 2, and corrected some typos [erKURITA]
+//= 1.4 Removed Duplicates [Silent]
+//= 1.4a missing tabs [KarLaeda]
+//= 1.5 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//= 1.5a Traduzido. [RoM]
+//============================================================
+
+einbech,67,37,4	script	Guia#4ein::EinGuide2	852,{
+	cutin "ein_soldier",2;
+	mes "[Guia de Einbech]";
+	mes "Bem-vindo a Einbech,";
+	mes "a Cidade da Mineração. Nós estamos";
+	mes "aqui para ajudar os turistas,";
+	mes "então se você tiver alguma pergunta,";
+	mes "sinta-se à vontade para nos perguntar.";
+	set .@loop1,1;
+	while (.@loop1) {
+		next;
+		switch(select("Indicações:Remover Indicações:Tutorial:Cancelar")) {
+		case 1:
+			mes "[Guia de Einbech]";
+			mes "Por favor selecione";
+			mes "uma localização no";
+			mes "menu a seguir.";
+			if (.@compass_check == 0) {
+				mes "Você gostaria que eu";
+				mes "marcasse as localizações";
+				mes "no seu Mini-Mapa?";
+				next;
+				if (select("Sim:Não") == 1) set .@compass_check,1;
+			}
+			set .@loop2,1;
+			while (.@loop2) {
+				if (.@wait_button_chk == 0) set .@wait_button_chk,1;
+				else next;
+
+				switch(select("Estação de Trem:Taverna:Loja de Utilidades:Guilda dos Espadachins:Mina:Cancelar")) {
+				case 1:
+					mes "[Guia de Einbech]";
+					mes "A Estação de Trem fica";
+					mes "localizada nas partes";
+					mes "noroeste e nordeste de";
+					mes "Einbech. Lá, você pode";
+					mes "pegar um trem para Einbroch.";
+					if (.@compass_check)
+						viewpoint 1,43,213,2,0xFF0000;
+					break;
+				case 2:
+					mes "[Guia de Einbech]";
+					mes "A Taverna é localizada";
+					mes "na parte sul de";
+					mes "Einbech. É um bom lugar";
+					mes "para relaxar depois de um longo dia.";
+					if (.@compass_check)
+						viewpoint 1,142,112,3,0xFF00FF;
+					break;
+				case 3:
+					mes "[Guia de Einbech]";
+					mes "Você pode encontrar a Loja";
+					mes "de Utilidades no centro de";
+					mes "Einbech. Lá, você pode";
+					mes "comprar qualquer utilidade que";
+					mes "você precise para suas viajen.";
+					if (.@compass_check)
+						viewpoint 1,176,136,4,0xFF00FF;
+					break;
+				case 4:
+					mes "[Guia de Einbech]";
+					mes "A Guilda dos Espadachins";
+					mes "é localizada na parte leste";
+					mes "da periferia de Einbech. Está";
+					mes "em construção e eles ainda";
+					mes "não começaram a aceitar";
+					mes "aplicações.";
+					if (.@compass_check)
+						viewpoint 1,250,110,5,0xFF00FF;
+					break;
+				case 5:
+					mes "[Guia de Einbech]";
+					mes "A Mina, que é a maior";
+					mes "indústria de Einbech,";
+					mes "é localizada na parte";
+					mes "norte desta cidade. É onde";
+					mes "nós pegamos todos nossos minérios, apesar de monstros ficarem no caminhos dos mineradores.";
+					if (.@compass_check)
+						viewpoint 1,138,251,6,0x00FF00;
+					break;
+				case 6:
+					mes "[Guia de Einbech]";
+					mes "Por favor me peça para 'Remover";
+					mes "Indicações' se você não quiser";
+					mes "mais ter as indicações";
+					mes "mostradas no seu Mini-Mapa";
+					set .@loop2,0;
+				}
+			}
+			break;
+		case 2:
+			viewpoint 2,43,213,2,0xFF0000;
+			viewpoint 2,142,112,3,0xFF00FF;
+			viewpoint 2,176,136,4,0xFF00FF;
+			viewpoint 2,250,110,5,0xFF00FF;
+			viewpoint 2,138,251,6,0x00FF00;
+			set .@compass_check,0;
+			mes "[Guia de Einbech]";
+			mes "Tudo bem, as marcas do";
+			mes "seu Mini-Mapa foram";
+			mes "removidas. Se você precisar";
+			mes "de alguma indicação em Einbech,";
+			mes "é só perguntar a mim ou a";
+			mes "outros Guias de Einbech.";
+			break;
+		case 3:
+			mes "[Guia de Einbech]";
+			mes "Através da tecnologia da";
+			mes "República de Schwaltzvalt,";
+			mes "nós melhoramos para um sistema";
+			mes "de informação digital que nos permite";
+			mes "marcar as localizações no seu";
+			mes "Mini-Mapa para uma navegação melhor.";
+			next;
+			mes "[Guia de Einbech]";
+			mes "Seu Mini-Mapa é localizado";
+			mes "no canto superior direito";
+			mes "da tela. Se você não puder vê-lo,";
+			mes "pressione as teclas 'Ctrl + Tab'";
+			mes "ou clique no botão 'Mapa' na sua Janela de Informações Básicas.";
+			next;
+			mes "[Guia de Einbech]";
+			mes "No seu Mini-Mapa,";
+			mes "clique nos símbolos '+' e '-'";
+			mes "para aumentar ou diminuir o";
+			mes "zoom do seu Mini-Mapa. Nós";
+			mes "esperamos que você aproveite sua";
+			mes "viajem aqui em Einbech, aventureiro.";
+			break;
+		case 4:
+			mes "[Guia de Einbech]";
+			mes "Nós esperamos que você";
+			mes "aproveite sua viagem";
+			mes "aqui em Einbech.";
+			close2;
+			set .@loop1,0;
+		}
+	}
+	cutin "ein_soldier",255;
+	end;
+}
+
+einbech,48,214,4	duplicate(EinGuide2)	Guia#5ein	852

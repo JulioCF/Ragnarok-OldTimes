@@ -1,0 +1,65 @@
+//===== Cronus Script ======================================== 
+//= Quest das Habilidades de Arruaceiro
+//===== Por: ================================================= 
+//= Lupus, Reddozen & Page [PT-BR]
+//===== Versão Atual: ======================================== 
+//= 1.1b (eA 1.3a)
+//===== Compatível Com: ====================================== 
+//= RO 10.2+
+//===== Descrição: =========================================== 
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ============================== 
+//= 1.0b Puxado do eA, traduzido e adaptado [Page]
+//= 1.1b corrigido, mes ao inves de mes [ADM Endless]
+//============================================================
+
+//============================================================
+// ROGUE - CLOSE CONFINE
+//============================================================
+in_rogue,387,94,3	script	Hyzaragrack	84,{
+	mes "[Hyzaragrack]";
+	if(BaseJob!=Job_Rogue) goto L_norogue;
+	if(getskilllv(1005)) goto L_alreadyhave;
+
+	mes "Eu irei ensiná-lo tudo o quê";
+	mes "eu sei, mas você precisará de";
+	mes "furtar algumas coisas para";
+	mes "mim, primeiramente...";
+	mes "5 Corações Imortais";
+	mes "5 Corações de Pedra";
+	mes "2 Corações Incandescentes";
+	next;
+	
+	mes "[Hyzaragrack]";
+	mes "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(929)<5 || countitem(953)<5 || countitem(7097)<2) goto L_noitems;//Items: Immortal_Heart, Stone_Heart, Burning_Heart,
+	delitem 929, 5;//Items: Coração Imortal
+	delitem 953, 5;//Items: Coração de Pedra
+	delitem 7097, 2;//Items: Coração Incandescente
+	
+	mes "[Hyzaragrack]";
+	mes "Eu vejo que você tem o que";
+	mes "preciso, então irei lhe ensinar";
+	mes "o meu taleno.";
+	skill 1005,1,0;
+	close;
+
+L_noitems:
+	mes "[Hyzaragrack]";
+	mes "Você não tem os itens suficientes.";
+	mes "Volte apenas quando você possuir";
+	mes "todos os itens requeridos para mim.";
+	close;
+	
+L_norogue:
+	mes "Olhando para seu showtre?";
+	emotion e_gasp;
+	close;
+	
+L_alreadyhave:
+	mes "Eu já lhe ensinei tudo";
+	mes "o que eu sei...";
+	close;
+}

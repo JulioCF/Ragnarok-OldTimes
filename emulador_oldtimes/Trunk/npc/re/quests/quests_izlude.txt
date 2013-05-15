@@ -1,0 +1,94 @@
+//===== Cronus Script ======================================= 
+//= Quest relacionada a Izlude
+//===== By: ================================================== 
+//= Evera and The rAthena Dev Team
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.3
+//===== Compatible With: ===================================== 
+//= Cronus GIT
+//===== Description: ========================================= 
+//= Edgar, o marinheiro.
+//===== Additional Comments: ================================= 
+//= 1.0 Initial release [Evera]
+//= 1.1 Updated to 10.3 standard. [L0ne_W0lf]
+//= 1.2 Updated to match the new Izlude Map. [Masao]
+//= 1.3 Traduzido para o Português. [Matheus]
+//============================================================
+
+// Edgar's Offer
+//============================================================
+izlude,179,219,4	script	Edgar#izlude	49,{
+	if (MISC_QUEST & 16) {
+		mes "[Edgar]";
+		mes "Então você está indo para Alberta novamente ? Deixe-me lhe dar um desconto e cobrar apenas 250 zeny, como na última vez.";
+		mes "O que você acha ?";
+		next;
+		if ( select( "Certo!:Por que está sendo tão legal comigo ?" ) == 1 ) {
+			if (Zeny < 250) {
+				mes "[Edgar]";
+				mes "Hm ...";
+				mes "A quantidade de zeny que você possui não é suficiente.";
+				mes "Por que não vai conseguir um pouco mais de dinheiro ?";
+				close;
+			}
+			set zeny,zeny-250;
+			warp "alberta",195,164;
+			end;
+		}
+		mes "[Edgar]";
+		mes "É apenas meu jeito.";
+		mes "Isso e seu sorriso diabólico que me lembra do meu filho amado de cabelos loiros que saiu de casa anos atrás para se tornar um marinheiro de seu próprio navio. Abençoe sua alma, seja aonde ele estiver.";
+		close;
+	}
+	mes "[Edgar]";
+	mes "Izlude, é conectada a Alberta pelo porto no lado oeste. Há muita movimentação entra nós, eu quase me tornei um Albertiano. Hehehe.";
+	next;
+	mes "[Edgar]";
+	mes "Há um cara que eu conheço muito bem, Phelix, ele vive em Alberta. Ele é bem mesquinho... Ele cobra por tudo!";
+	next;
+	mes "[Edgar]";
+	mes "Mas ele é um cara bem legal e gosta de ajudar outras pessoas. Ele tem um bom coração e lhe dará apoio se você encontrar seu preço.";
+	next;
+	mes "[Edgar]";
+	mes "Ultimamente as pessoas em Alberta dizem que ele está realmente tentando ajudar pessoas e que sua demanda por Jellopy é apenas um disfarce. Bom, você deveria dar uma olhada no que ele tem para oferecer.";
+	next;
+	if ( select( "Você pode me dizer como chegar a Alberta ?:Encerrar Conversa" ) == 1 ) {
+		mes "[Edgar]";
+		mes "Ãn ? Você pode usar seus pés e andar. Mas se tiver dinheiro, aconselho a pegar um navio.";
+		next;
+		if ( select( "Certo.:Estou cansado e sem dinheiro!!" ) == 1 ) {
+			mes "[Edgar]";
+			mes "Certo, se cuide!";
+			close;
+		}
+		mes "[Edgar]";
+		mes "Certo ...";
+		mes "Você não quer andar e não tem dinheiro, mas ainda assim quer ir lá ?";
+		next;
+		mes "[Edgar]";
+		mes "Certo certo. Eu, sendo capitão do navio, posso te levar lá por um preço menor. Que tal 250 zeny ?";
+		next;
+		if ( select( "Certo!:Não, isso é um absurdo!" ) == 1 ) {
+			set MISC_QUEST,MISC_QUEST | 16;
+			if (Zeny < 250) {
+				mes "[Edgar]";
+				mes "Hm ...";
+				mes "Esse dinheiro que você tem não é suficiente..";
+				mes "Vá e consiga mais dinheiro.";
+				close;
+			}
+			set zeny,zeny-250;
+			warp "alberta",195,164;
+			end;
+		}
+		mes "[Edgar]";
+		mes "Jovem garoto ..";
+		mes "Se você acha que isso é um absurdo ...";
+		close;
+	}
+	mes "[Edgar]";
+	mes "Certo.";
+	mes "Vejo você outra hora.";
+	close;
+}

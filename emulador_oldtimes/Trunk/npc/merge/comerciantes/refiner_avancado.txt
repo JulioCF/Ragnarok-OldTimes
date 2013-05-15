@@ -1,0 +1,148 @@
+//===== Cronus Script ========================================
+//= Refinador Avançado
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.4c
+//===== Compatível Com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= Refinador que utiliza minérios enriquecidos para
+//= melhoramentos do processo.
+//===== Comentários Adicionais: ==============================
+//= 1.0 First Version. [L0ne_W0lf]
+//= 1.1 Fixed a weird carriage return. o_o [L0ne_W0lf]
+//= 1.2 Optimizing refine method [Zephyrus]
+//= 1.3 Typo fixes [Yommy]
+//= 1.4 Removed unnecessary dialogs [Zephyrus]
+//= 1.4a Traduzido. [SoulBlaker]
+//= 1.4b Revisado. [RoM]
+//= 1.4c Removido show [Yum]
+//============================================================
+
+payon,174,138,0	script	Suhnbi#cash	85,{
+	mes "[Suhnbi]";
+	mes "Eu sou o ferreiro responsável por";
+	mes "refinar armas e equipamentos";
+	mes "utilizando pedras especiais, como o";
+	mes "Elunium e Oridecon Enriquecidos.";
+	mes "O que você deseja refinar?";
+	next;
+	setarray .@position$[1], "Cabeça","Corpo","Mão Esquerda","Mão Direita","Capa","Calçado","Accessório 1","Accessório 2","Cabeça 2","Cabeça 3";
+	set .@menu$,"";
+	for( set .@i,1; .@i <= 10; set .@i,.@i+1 )
+	{
+		if( getequipisequiped(.@i) )
+			set .@menu$, .@menu$ + .@position$[.@i] + "-" + "[" + getequipname(.@i) + "]";
+
+		set .@menu$, .@menu$ + ":";
+	}
+	set .@part,select(.@menu$);
+
+	if( !getequipisequiped(.@part) )
+		close;
+
+	if( !getequipisenableref(.@part) ) {
+		mes "[Suhnbi]";
+		mes "Eu acho que não consigo refinar este item.";
+		close;
+	}
+	if( !getequipisidentify(.@part) ) {
+		mes "[Suhnbi]";
+		mes "É, isto não foi identificado. Portanto, não pode ser refinado...";
+		close;
+	}
+	if( getequiprefinerycnt(.@part) >= 10 ) {
+		mes "[Suhnbi]";
+		mes "Este item não pode ser refinado, pois já atingiu o seu nível máximo...";
+		close;
+	}
+
+	// Make sure you have the neccessary items and Zeny to refine your items
+	// Determines chance of failure and verifies that you want to continue.
+	switch(getequipweaponlv(.@part)) {
+	case 1: callsub S_RefineValidate,1,7620,50,.@part; break;
+	case 2: callsub S_RefineValidate,2,7620,200,.@part; break;
+	case 3: callsub S_RefineValidate,3,7620,5000,.@part; break;
+	case 4: callsub S_RefineValidate,4,7620,20000,.@part; break;
+	default: callsub S_RefineValidate,0,7619,2000,.@part; break;
+	}
+
+	if (getequippercentrefinery(.@part) > rand(100) || getequippercentrefinery(.@part) > rand(100)) {
+		mes "[Suhnbi]";
+		mes "Clink! Clank! Clunk!";
+		SuccessRefItem .@part;
+		next;
+		Emotion e_no1;
+		mes "[Suhnbi]";
+		mes "Aqui está! Está feito.";
+		mes "Faz tempo que eu não faço uma arma tão fina. Você deve estar feliz porque se tornou mais forte!";
+		close;
+	}
+	else {
+		mes "[Suhnbi]";
+		mes "Clink! Clank! Clunk!";
+		FailedRefItem .@part;
+		next;
+		if (rand(5) == 1)
+			Emotion e_cash;
+		else 
+			Emotion e_omg;
+		mes "[Suhnbi]";
+		mes "Tosse!!!!";
+		next;
+		mes "[Suhnbi]";
+		mes "Tosse...Tosse..";
+		mes "Que vergonha...";
+		mes "Seu equipamento quebrou durante o processo de refinação. Eu havia dito anteriormente que isto poderia acontecer!";
+		close;
+	}
+
+S_RefineValidate:
+	mes "[Suhnbi]";
+	if (getarg(0))
+		mes "Uma arma nível "+getarg(0)+"...";
+	mes "Para refinar este item eu preciso de 1 ^ff9999"+getitemname(getarg(1))+"^000000 e "+getarg(2)+"z pela taxa de serviço.";
+	mes "Você realmente deseja continuar?";
+	next;
+	if (select("Sim:Não") == 1) {
+		if (getequippercentrefinery(getarg(3)) < 100) {
+			mes "[Suhnbi]";
+			mes "Uau!!";
+			mes "Este item possivelmente foi";
+			mes "refinado muitas vezes.";
+			mes "Ele pode se quebrar se você";
+			mes "tentar refiná-lo mais uma vez.";
+			next;
+			mes "[Suhnbi]";
+			mes "Se ela quebrar,";
+			mes "toda as cartas";
+			mes "^ff0000serão perdidas";
+			mes "e o item desaparecerá!^000000";
+			mes "Você realmente deseja continuar?";
+			next;
+			if (select("Sim:Não") == 2) {
+				mes "[Suhnbi]";
+				mes "Concordo inteiramente...";
+				mes "Eu poderia ser um grande refinador, mas ainda cometo alguns erros.";
+				close;
+			}
+		}
+		if (countitem(getarg(1)) > 0 && Zeny > getarg(2)) {
+			delitem getarg(1),1;
+			set zeny,zeny-getarg(2);
+			return;
+		}
+		else {
+			mes "[Suhnbi]";
+			mes "Você não parece ter zenys ou "+getitemname(getarg(1))+" suficientes...";
+			mes "Consiga o material. Eu estarei aqui o dia todo.";
+			close;
+		}
+	}
+	else {
+		mes "[Suhnbi]";
+		mes "Sem problema. Vá sem pressa.";
+		close;
+	}
+}

@@ -1,0 +1,174 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Mago
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão Atuak: ========================================
+//= 1.6b
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Descrição: =========================================== 
+//= [Aegis Conversion]
+//= Quest da Habilidade: Proteção Arcana
+//===== Comentários Adicionais: ============================== 
+//= 1.5 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//= 1.6 Fixed a typo in job check. (Bugreport:1531) [L0ne_W0lf]
+//= 1.6a Traduzido script [The Joker]
+//= 1.6b Revisão Geral do Script [Mara]
+//============================================================
+
+geffen_in,151,119,4	script	Grande Mago#qsk_mg	64,{
+	mes "[BLIZZARDRISS]";
+	mes "Ei ! Meu amigo !";
+	mes "Eu estou vendo que você é um mago.";
+	mes "Conheça a si mesmo para descobrir as";
+	mes "suas habilidades secretas!";
+	next;
+	switch(select("Sobre as habilidades secretas de mago:Sobre a habilidade ^3355FF' Proteção Arcana '^000000:Terminar a conversa")) {
+	case 1:
+		mes "[BLIZZARDRISS]";
+		mes "Por muitos anos eu";
+		mes "eu andei estudando a antiga";
+		mes "magia de Geffen.";
+		mes "Recentemente, eu descobri sobre uma";
+		mes "grande habilidade esquecida! ! !";
+		mes "Isso não é ótimo?";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Essa habilidade usa sua energia";
+		mes "mental para bloquear ataques contra você.";
+		mes "Funciona como um escudo ou armadura mágico.";
+		mes "Só algumas pessoas podem";
+		mes "usar esta grande habilidade.";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Mas a melhor parte é que eu posso";
+		mes "usar essa habilidade! ! !";
+		mes "Eu posso usá-la para me proteger de ataques !";
+		mes "hah hah hah !!";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Ok Ok, não fique muito animado.";
+		mes "Ouça com atenção o que eu irei dizer.";
+		mes "Aqueles que usam essa magia devem";
+		mes "liberar a energia e habilidades";
+		mes "que estão presas neles mesmos !";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Se você quer mesmo aprender essa habilidade, você";
+		mes "deve primeiro trazer alguns itens usados";
+		mes "durante o processo.";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "3 ^3355FFBolinha de Gude^000000 ";
+		mes "1 ^3355FFDiamante de 1 quilate^000000 ";
+		mes "5 ^3355FFCasca^000000 ";
+		mes "1 ^3355FFCasca Rija^000000 ";
+		mes "Traga-me estes itens.";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Além disso, mais uma coisa. . .";
+		mes "Você deve ter uma certa experiência";
+		mes "com a arte da magia. Quer dizer que";
+		mes "você deve ter um nivel de classe de Mago 35 ou mais.";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "Bruxos já tem uma grande";
+		mes "experiência no mundo da magia";
+		mes "e não necessitam de nível de classe.";
+		mes "Em qualquer caso, ambos devem estar";
+		mes "treinados nessa arte e ter";
+		mes "um alto grau de poder mental e físico.";
+		next;
+		mes "[BLIZZARDRISS]";
+		mes "OK . .";
+		mes "Não há nada mais a dizer, você está interessado?";
+		close;
+	case 2:
+		if (getskilllv("MG_ENERGYCOAT") == 1) {
+			mes "[BLIZZARDRISS]";
+			mes "Eu posso ver que você já ";
+			mes "desenvolveu essa habilidade.";
+			mes "Sua habilidade com a 'Proteção Arcana' ";
+			mes "é evidente.";
+			mes "Eu sinto muito, ";
+			mes "eu não tenho mais nada para ensiná-lo ...";
+			close;
+		}
+		else {
+			if (countitem(746) > 2 && countitem(730) > 0 && countitem(935) > 4 && countitem(943) > 0) {
+				if ((JobLevel > 34 && BaseJob == Job_Mage) || BaseJob == Job_Wizard || BaseJob == Job_Sage) {
+					mes "[BLIZZARDRISS]";
+					mes "Ok, eu irei atender seu pedido.";
+					mes "Eu irei acordar sua energia adormecida . .";
+					mes ". . . . . .";
+					mes ". . . . . . . . . . . . .";
+					mes ". . . . . . . . . . . . . . . . . . . . . . . . . .";
+					next;
+					mes "[BLIZZARDRISS]";
+					mes "Poderes antigos de";
+					mes "Geffen! Eu procuro a iluminação e";
+					mes "a honra de sua presença. ";
+					mes "Eu me humilho diante de você!";
+					mes " ...";
+					next;
+					mes "[BLIZZARDRISS]";
+					mes "Conceda-me o seu poder!";
+					mes "Libere o espirito";
+					mes "Escudo de Mana! Armadura de Metal!";
+					mes ". . . . . . . . . . . .";
+					mes "PROTEÇÃO ARCANA! ! !";
+					next;
+					delitem 746,3; //Glass_Bead
+					delitem 730,1; //Crystal_Jewel
+					delitem 935,5; //Shell
+					delitem 943,1; //Solid_Shell
+					skill "MG_ENERGYCOAT",1,0;
+					mes "[BLIZZARDRISS]";
+					mes ". . . . .";
+					mes "Pronto. . .";
+					mes "Agora você possui";
+					mes "a habilidade de elite ^3355FF' Proteção Arcana '^000000 .";
+					mes "Use-a bem.";
+					next;
+					mes "[BLIZZARDRISS]";
+					mes "Não ouse manchar o nome da";
+					mes "nossa classe usando mal";
+					mes "esta ou qualquer habilidade.";
+					mes "Sua nova habilidade traz novas responsabilidades.";
+					close;
+				}
+			}
+			mes "[BLIZZARDRISS]";
+			mes "Ei!!";
+			mes "Você não ouviu a minha explicação ? !";
+			mes "Você não está com tudo preparado para";
+			mes "que eu possa lhe ajudar.";
+			mes "Cheque se você tem tudo o que eu pedi.";
+			next;
+			mes "[BLIZZARDRISS]";
+			mes "Se você precisar que eu explique";
+			mes "de novo, venha me perguntar.";
+			mes "Eu ficarei feliz em explicar";
+			mes "se você quiser ouvir. . .";
+			close;
+		}
+	case 3:
+		mes "[BLIZZARDRISS]";
+		mes "O homem sábio deve ter muita paciência !";
+		mes "Prepare-se novamente,";
+		mes "e volte quando você estiver pronto.";
+		close;
+	}
+}
+
+//============================================================ 
+// Old changelog
+//============================================================ 
+//= v1.0a Now using functions found in "Global_Functions.txt"
+//= for class checks.[kobra_k88]
+//= 1.2 Added Baby Class Support [Lupus]
+//= 1.3 Removed callfunc Is_####_Class in favor of baseClass [Silentdragon]
+//= 1.4 Fixed exploit [Lupus]
+//= 1.4a Fixed some typos [IVBela]
+//= 1.4b changed perm. variables to temp ones [Lupus]
+//============================================================

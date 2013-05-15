@@ -1,0 +1,240 @@
+//===== Cronus Script ========================================
+//= Cidade de Brasilis
+//===== Por: =================================================
+//= RoM
+//===== Versão Atual: ========================================
+//= 1.2b CR / N/A eA
+//===== Descrição: ===========================================
+//= Npcs da Cidade de Brasilis
+//===== Changelog: ===========================================
+//= 1.0 Versão Inicial. [RoM]
+//= 1.1 Adicionado o NPC 'Poring'. [RoM]
+//= 1.2 Adicionado os 'Guias Brasileiros'. [RoM]
+//= 1.2b Corrigidos pequenos erros de sintaxe [Keoy]
+//============================================================
+
+//==== Marinheiro de acesso a Brasilis =======================
+alberta,246,116,4	script	Marinheiro#bra1	709,{
+	mes "[Marinheiro]";
+	mes "Ei, já ouviu falar de Brasilis?";
+	mes "É um lugar acolhedor e muito bonito, mas guarda seus mistérios...";
+	next;
+	mes "[Marinheiro]";
+	mes "Podemos levar você para conhecer.";
+	mes "10000 zenys pela viagem de ida e volta! Que tal?";
+	switch(select("Vamos para Brasilis!!:Não fiz minhas malas"))
+	{
+	case 1:
+		if(zeny < 10000)
+		{
+			mes "[Marinheiro]";
+			mes "Me desculpe, mas você não têm o dinheiro suficiente.";
+			next;
+			mes "[Marinheiro]";
+			mes "Não poderei te levar.";
+			close;
+		}
+		mes "[Marinheiro]";
+		mes "Legal! Vamos lá pegar um sol na bela Brasilis!";
+		close2;
+		set zeny,zeny-10000;
+		warp "brasilis",314,60;
+		end;
+	case 2:
+		mes "[Marinheiro]";
+		mes "Ah, tudo bem. Eu esperarei aqui.";
+		mes "Volte logo! Sinto falta daquela paisagem...";
+		close;
+	}
+}
+
+//==== Marinheiro para Alberta =============================
+brasilis,316,57,4	script	Marinheiro#bra2	709,{
+	mes "[Marinheiro]";
+	mes "Ah, que pena... Agora meu navio vai voltar a Alberta, quer ir conosco?";
+	next;
+	if(select("Voltar para Alberta.:Ainda não.") == 1)
+	{
+		mes "[Marinheiro]";
+		mes "Ah, que pena... Sentirei saudades.";
+		close2;
+		warp "alberta",240,113;
+		end;
+	}
+	mes "[Marinheiro]";
+	mes "Tudo bem, ainda não vamos voltar.";
+	close;
+}
+
+//==== Placas ================================================
+brasilis,240,248,4	script	Placa#bra01	858,{
+	mes ":: Feirinha de Brasilis ::";
+	close;
+}
+
+brasilis,303,309,4	script	Placa#bra02	858,{
+	mes ":: Teleférico da Selva ::";
+	mes "- Não é recomendado para pessoas de coração fraco -";
+	close;
+}
+
+brasilis,155,165,4	script	Placa#bra03	858,{
+	mes ":: MAB, Museu de Arte de Brasilis ::";
+	close;
+}
+
+brasilis,278,137,4	script	Placa#bra04	858,{
+	mes ":: Pousada Tucano Feliz ::";
+	close;
+}
+
+//==== Vendedor de Sorvete ===================================
+brasilis,137,77,4	script	Vendedor de Sorvete#bra	85,{
+	mes "[Vendedor de Sorvete]";
+	mes "Picolé e sorvete de massa!";
+	mes "Não tem nada melhor para espantar o calor.";
+	mes "Só ^0000FF100 zenys^000000 hein?";
+	next;
+	switch(select("Eu quero!:Picolé?:Não quero agora"))
+	{
+	case 1:
+		mes "[Vendedor de Sorvete]";
+		mes "Muita gente está pedindo os sorvetes, então só posso lhe vender 5.";
+		mes "Senão, me canso!...?";
+		next;
+		input .@qnt;
+		while(.@qnt > 5)
+		{
+			mes "Uau.";
+			mes "Você pediu demais.";
+			mes "Ei, se você comer mais de 5, vai acabar com dor de barriga! Vá com calma!";
+			next;
+			input .@qnt;
+		}
+		if(.@qnt < 1)
+		{
+			mes "[Vendedor de Sorvete]";
+			mes "Se não quer tomar nenhum, tem mais gente querendo, camarada.";
+			mes "Esse é o sorvete mais popular daqui. Picolé caseiro!";
+			close;
+		}
+		if (Zeny < .@qnt*100)
+		{
+			mes "[Vendedor de Sorvete]";
+			mes "Ei, você não tem dinheiro suficiente.";
+			mes "Cada um custa ^3355FF100 zenys^000000.";
+			close;
+		}
+		set Zeny,Zeny-.@qnt*100;
+		getitem 536,.@qnt;
+		close;
+	case 2:
+		mes "[Vendedor de Sorvete]";
+		mes "O sorvete de é...";
+		mes "Não sabe como é?";
+		mes "Usamos leite, açúcar, ovos...";
+		next;
+		mes "[Vendedor de Sorvete]";
+		mes "Frutas, aroma, corante.. Então batemos tudo e congelamos.";
+		mes "Aí temos um delicioso sorvete.";
+		mes "Caseiro, sabe? Só ingredientes fresquinhos e da melhor qualidade freguesia.";
+		mes "É bem calórico e nutritivo, então faz bem para a saúde se voCê tomar na quantidade certa.";
+		next;
+		mes "[Vendedor de Sorvete]";
+		mes "Mas...";
+		mes "Se você comer demais e ficar com dor de barriga, a culpa não é minha!";
+		close;
+	case 3:
+		mes "[Vendedor de Sorvete]";
+		mes "Se perder esta chance, talvez não consiga mais até o próximo verão.";
+		mes "Aproveite! Vamos!";
+		close;
+	}
+}
+
+//==== Guias Brasileiros =====================================
+brasilis,156,165,5	script	Guia Brasileiro#1	57,{
+	mes "[Guia Brasileiro]";
+	mes "Você já visitou o MAB, o Museu de Arte de Brasilis?";
+	mes "Poucos turistas sabem, mas o nome verdadeiro dele é Museu de Arte Aziz Chatobrian.";
+	mes "Acho que fica mais fácil chamá-lo por seu \"apelido\" mesmo, não concorda?";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "Ele foi projetado pela arquiteta modernista Bina Lom Bardi e é famoso por seu vão-livre, erguido por esses quatro pilares.";
+	mes "Já andou ali debaixo?";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "Não vai me dizer que tem medo do Museu cair na sua cabeça?! Há há há!";
+	mes "Eu recomendo que você visite o interior do Museu.";
+	mes "Seu acervo é ruiquíssimo, cheio de belas obras de arte!";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "Vi algumas crianças dizendo que o Museu era mal assombrado. Crianças inventam cada uma!";
+	close;
+}
+
+brasilis,199,324,5	script	Guia Brasileiro#2	412,{
+	mes "[Guia Brasileiro]";
+	mes "Vejo que está apreciando nossa Catedral. É mesmo uma construção muito bonita!";
+	mes "A Catedral Metropolitana de Brasilis foi projetada pelo famoso arquiteto Nascar Omeyer.";
+	mes "Vários artistas também participaram da sua construção.";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "O que realmente me agrada nela são seus vidros externos.";
+	mes "São tão bonitos e parecem refletir o nosso belo céu azulado!";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "Vou te contar um segredo sobre a Catedral!";
+	mes "Ela foi construída de forma que, se você falar algo perto da sua parede virado para um lado, o som percorre todo o círculo da construção e chega perfeito a quem estiver do outro lado.";
+	next;
+	mes "[Guia Brasileiro]";
+	mes "Assim você pode dizer algo, mas sua voz vai surgir atrás de você!";
+	mes "Engraçado, não?";
+	close;
+}
+
+brasilis,306,330,5	script	Guia Brasileira#3	831,{
+	mes "[Guia Brasileira]";
+	mes "Você está se perguntando o que seria isso?";
+	mes "Essa engenhoca é conhecida aqui como Bondinho.";
+	mes "É um teleférico que liga Brasilis com a mata lá no alto da montanha.";
+	next;
+	mes "[Guia Brasileira]";
+	mes "É um meio de transporte seguro e muito útil.";
+	mes "E você ainda pode ter uma bela vista de toda essa Cidade Maravilhosa!";
+	next;
+	mes "[Guia Brasileira]";
+	mes "Eu gosto do Bondinho porque ele também nos protege.";
+	mes "Como os monstros não sabem usá-lo, a cidade fica protegida de ataques.";
+	next;
+	mes "[Guia Brasileira]";
+	mes "Toda essa falação me deu fome. Quem dera se essa montanha na verdade fosse um pão de açúcar!";
+	close;
+}
+
+brasilis,191,224,5	script	Guia Brasileira#4	430,{
+	mes "[Guia Brasileira]";
+	mes "Impressionante este monumento, não é mesmo?";
+	mes "Ele é conhecido por aqui como Monumento às Expedições, e é uma homenagem aos exploradores de todas as etnias que ajudaram a desbravar e construir Brasilis.";
+	next;
+	mes "[Guia Brasileira]";
+	mes "Feita em granito pelo escultor Victor Brechó, ela foi erguida para comemorar o 399º aniversário da cidade. É bem grande não?";
+	next;
+	mes "[Guia Brasileira]";
+	mes "Me contaram que a obra representa esses exploradores puxando uma canoa de monções, usada nas explorações fluviais.";
+	next;
+	mes "[Guia Brasileira]";
+	mes "Claro que a canoa deles não era de pedra! Já pensou? Hehehe.";
+	close;
+}
+
+//==== NPC's Variados ========================================
+brasilis,59,226,3	script	Poring#bra	876,{
+	end;
+
+OnChange:
+	setarray .@mobs[0],800,876,909;
+	classchange .@mobs[rand(0,getarraysize(.@mobs)-1)],7;
+	misceffect EF_POISONHIT;
+	end;
+}

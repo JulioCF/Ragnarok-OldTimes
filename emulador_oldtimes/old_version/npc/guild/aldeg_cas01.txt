@@ -1,0 +1,144 @@
+//===== Cronus Script ========================================
+//= Guerra do Emperium (Al De baran)
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.1/1.2b
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= NPCs relativos ao 1º Castelo de Al De Baran
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2 Corrigido erros [Soulblaker]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Removido show	[Yum]
+//============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+aldebaran,152,97,4	script	Sirus#a1-1::Neuschwanstein	722,{
+
+	callfunc "Guild_Flags", "aldeg_cas01";
+
+OnRecvCastleA01:
+	FlagEmblem GetCastleData("aldeg_cas01",1);
+	end;
+}
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+alde_gld,61,87,6	script	Sirus#a1-2::Neuschwanstein2	722,{
+	set .@GID, GetCastleData("aldeg_cas01",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("aldeg_cas01",1)) {
+					warp "aldeg_cas01",218,170;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastleA01:
+	FlagEmblem GetCastleData("aldeg_cas01",1);
+	end;
+}
+
+alde_gld,61,79,6	duplicate(Neuschwanstein2)	Sirus#a1-3	722
+alde_gld,45,87,8	duplicate(Neuschwanstein2)	Sirus#a1-4	722
+alde_gld,51,87,8	duplicate(Neuschwanstein2)	Sirus#a1-5	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+aldeg_cas01,30,248,4	script	Neuschwanstein#a1-6::Neuschwanstein3	722,{
+	end;
+
+OnRecvCastleA01:
+	FlagEmblem GetCastleData("aldeg_cas01",1);
+	end;
+}
+
+aldeg_cas01,30,246,4	duplicate(Neuschwanstein3)	Sirus#a1-7	722
+aldeg_cas01,37,248,4	duplicate(Neuschwanstein3)	Sirus#a1-8	722
+aldeg_cas01,37,246,4	duplicate(Neuschwanstein3)	Sirus#a1-9	722
+aldeg_cas01,95,80,2	duplicate(Neuschwanstein3)	Sirus#a1-10	722
+aldeg_cas01,95,59,2	duplicate(Neuschwanstein3)	Sirus#a1-11	722
+aldeg_cas01,62,75,2	duplicate(Neuschwanstein3)	Sirus#a1-12	722
+aldeg_cas01,70,75,2	duplicate(Neuschwanstein3)	Sirus#a1-13	722
+aldeg_cas01,74,75,2	duplicate(Neuschwanstein3)	Sirus#a1-14	722
+aldeg_cas01,62,64,2	duplicate(Neuschwanstein3)	Sirus#a1-15	722
+aldeg_cas01,66,64,2	duplicate(Neuschwanstein3)	Sirus#a1-16	722
+aldeg_cas01,70,64,2	duplicate(Neuschwanstein3)	Sirus#a1-17	722
+aldeg_cas01,74,64,2	duplicate(Neuschwanstein3)	Sirus#a1-18	722
+aldeg_cas01,203,150,4	duplicate(Neuschwanstein3)	Sirus#a1-19	722
+aldeg_cas01,210,150,4	duplicate(Neuschwanstein3)	Sirus#a1-20	722
+aldeg_cas01,66,75,2	duplicate(Neuschwanstein3)	Sirus#a1-21	722
+
+// AGIT Manager
+//============================================================
+aldeg_cas01,216,24,0	duplicate(Gld_Agit_Manager)	Agit#aldeg_cas01	-1
+
+// Steward
+//============================================================
+aldeg_cas01,218,175,0	duplicate(Gld_Mngr_Template)	Alfredo#aldeg_cas01	55
+
+// Guardians
+//============================================================
+aldeg_cas01,218,175,0	duplicate(Gld_Guard_Template)	Guardian#aldeg_cas01	-1
+
+// Kafra Staff
+//============================================================
+aldeg_cas01,218,170,0	duplicate(Gld_Kafra_Template)	Kafra#aldeg_cas01	117
+
+// Saída da Sala do Mestre
+//============================================================
+aldeg_cas01,123,223,0	script	#switch_A01	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "aldeg_cas01",218,176;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+aldeg_cas01,118,223,0	duplicate(Gld_Trea_Protect)	ban_warp#aldeg_cas01	-1,8,8
+
+// Guild Treasure Spawns
+//============================================================
+aldeg_cas01,118,223,0	duplicate(Gld_Trea_Spawn)	Treasure#aldeg_cas01	-1
+
+// Guild Dungeon Switch
+//============================================================
+aldeg_cas01,211,181,0	duplicate(Gld_Dun_Template)	#aldeg_cas01	111

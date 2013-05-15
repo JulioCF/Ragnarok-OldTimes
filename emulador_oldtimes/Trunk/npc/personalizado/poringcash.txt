@@ -1,0 +1,86 @@
+//Nome:
+//Poring Gerenciado de Cash 2.0a
+
+//Autor:
+//GreenBox
+
+//Descrição:
+//Gerenciador de cash que pode entregar cash com o usuário offline.
+
+//Modificações:
+//Trocado atcommand "@cash ... por set #RMPOINTS ...
+
+-	script	CashControl	-1,{
+OnPCLoginEvent:
+    set @nunsrow,query_sql("SELECT `cashid`, `cashamt` FROM `offcash` WHERE `account_id`='"+getcharid(3)+"'",@cashid,@cashamt);
+
+    for (set @i,0; @i < @nunsrow; set @i,@i+1)
+    {
+		set #RMPOINTS, #RMPOINTS + @cashamt[@i];
+		query_sql "DELETE FROM `offcash` WHERE `cashid`='"+@cashid[@i]+"'";
+    }
+    end;
+}
+
+prontera,0,0,0	script	Poring do Cash	-1,{
+    if (getgmlevel() < 99)
+    {
+        //mes "Você não pode falar comgio.";
+        //close;
+		end;
+    }
+    
+    for (;;)
+    {
+        mes "[Gerenciador de Cash]";
+        mes "O que deseja?";
+        next;
+        switch(select("Adicionar Cash:Cancelar"))
+        {
+            case 1:
+                mes "[Gerenciador de Cash]";
+                mes "Digite o login para adicionar o cash.";
+                next;
+                input .login$;
+                
+                set .nunsrow,query_sql("SELECT `account_id` FROM `login` WHERE `userid`='"+.login$+"'",.accid);
+                if (.nunsrow == 0)
+                {
+                    mes "Está conta não existe.";
+                    next;
+                    break;
+                }
+                
+                mes "[Gerenciador de Cash]";
+                mes "Digite a quantidade de cash.";
+                next;
+                input .cash;
+                
+                mes "[Gerenciador de Cash]";
+                mes "Deseja adicionar " + .cash + " pontos de cash na conta " + .login$ + "?";
+                if (select("Sim.", "Não.") == 2) break;
+                
+                if (isloggedin(.accid))
+                {
+                    set .old,getcharid(3);
+                    attachrid(.accid);
+                    //atcommand "@cash " + .cash;
+					set #RMPOINTS, #RMPOINTS + .cash;
+                    announce "Você acaba de receber " + .cash + " pontos de cash.",bc_self;
+                    attachrid(.old);
+                }
+                else
+                {
+                    query_sql "INSERT INTO `offcash`(`account_id`,`cashamt`) VALUES ('"+.accid+"','"+.cash+"')";
+                }
+                
+                mes "Adicionado.";
+                next;
+                break;
+            case 2:
+                mes "[Gerenciador de Cash]";
+                mes "Até mais.";
+                close;
+        }
+    }
+}

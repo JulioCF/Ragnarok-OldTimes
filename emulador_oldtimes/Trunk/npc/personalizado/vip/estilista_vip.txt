@@ -1,0 +1,33 @@
+sec_in01,174,180,5	script	Estilista VIP	122,{
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	mes "[Estilista VIP]";
+	mes "Estilos de Cabelo: ^FF0000"+getbattleflag ("max_hair_style")+"^000000";
+	mes "Cores de Cabelo: ^FF0000"+getbattleflag ("max_hair_color")+"^000000";
+	mes "Cores de Roupa: ^FF0000"+getbattleflag ("max_cloth_color")+"^000000";
+	mes "\rVIP tem mais cores para usar!";
+	mes "Então, o que deseja alterar?";
+	next;
+	if(select("Estilo do Cabelo:Cor do Cabelo:Cor da Roupa:Cancelar") == 4) close;
+	if(@menu == 1) setarray .@cor[0],1,getbattleflag ("min_hair_style"), getbattleflag ("max_hair_style"); //estilos de cabelo
+	if(@menu == 2) setarray .@cor[0],6,getbattleflag ("min_hair_color"), getbattleflag ("max_hair_color"); //cores de cabelo
+	if(@menu == 3) setarray .@cor[0],7,getbattleflag ("min_cloth_color"), getbattleflag ("max_cloth_color"); //cores de roupa
+	while(1) {
+		if(select("Próximo","Anterior","Digitar","Sair") == 4) close;
+		if(@menu == 1)
+			if(getlook(.@cor[0]) >= .@cor[2]) setlook .@cor[0],.@cor[1];
+			else setlook .@cor[0],getlook(.@cor[0])+1;
+		if(@menu == 2)
+			if(getlook(.@cor[0]) <= .@cor[1]) setlook .@cor[0],.@cor[2];
+			else setlook .@cor[0],getlook(.@cor[0])-1;
+		if(@menu == 3) {
+			input .@num,.@cor[1],.@cor[2];
+			setlook .@cor[0],.@num;
+		}
+		mes "Número ^0000CD"+getlook(.@cor[0])+"^000000 de ^008B00"+.@cor[2];
+		specialeffect2 339;		
+	}
+}

@@ -1,0 +1,138 @@
+//= otRag ??
+alberta_in,16,28,4	script	Vovô Farmacêutico	61,{
+	mes "[Vovô Farmacêutico]";
+	mes "Hmmm... oque você quer...?";
+	next;
+	menu "Fazer poções",M_Make, "Conversar",M_Talk, "Informações",M_Info, "Cancelar",M_End;
+	
+	M_Make:
+		mes "[Vovô Farmacêutico]";
+		mes "Você preparou todos os itens necessarios?  Se sim que poção você quer?";
+		M_Menu:
+		next;
+		menu "Poção Vermelha",M_0, "Poção Laranja",M_1, "Poção Amarela",M_2,
+			 "Poção Branca",M_3, "Poção Azul",M_4, "Poção Verde",M_5,
+			 "Nah, Eu mudei de ideia.",M_End;
+		
+		M_0:
+			callsub sF_Make, 507, 0, 2, 501, "red";
+			goto M_Menu;
+		M_1:
+			callsub sF_Make, 507, 508, 5, 502, "orange";
+			goto M_Menu;
+		M_2:
+			callsub sF_Make, 508, 0, 10, 503, "yellow";
+			goto M_Menu;
+		M_3:
+			callsub sF_Make, 509, 0, 20, 504, "white";
+			goto M_Menu;
+		M_4:
+			callsub sF_Make, 510, 0, 30, 505, "blue";
+			goto M_Menu;
+		M_5:
+			callsub sF_Make, 511, 0, 3, 506, "green";
+			goto M_Menu;
+
+	M_Talk:
+		mes "[Vovô Farmacêutico]";
+		mes "Certo tipo de hervas medicinais podem recuperar o HP ou o SP de uma pessoa";
+		mes ".  ~Suspiro~ Eu estou começando relembrar minha juventude.... um sinal que eu";
+		mes "devo estar começando a ficar velho.....";
+		next;
+		mes "[Vovô Farmacêutico]";
+		mes "... Um poção é meramente uma forma de herva medicinal de facil uso";
+		mes "..... nada mais e nada menos.";
+		close;
+	M_Info:
+		mes "[Vovô Farmacêutico]";
+		mes "~Suspiro~... vocês jovens gostam de me aborrecer..  Muito bem, eu";
+		mes "explico como os poções funcionam....";
+		next;
+		mes "[Vovô Farmacêutico]";
+		mes "Apesar dos beneficios de consumir várias hervas encontradas ao redor da";
+		mes "grande Rune-Midgard... Refinando elas em poções";
+		mes "Os efeitos das hervas, são dramaticamente aumentados.";
+		next;
+		mes "[Vovô Farmacêutico]";
+		mes "Eu criei um processo especial para refinar hervas em poções.";
+		mes "Por uma pequena quantia faço quantas poçoes desejar.";
+		next;
+		mes "[Vovô Farmacêutico]";
+		mes "^FF5533Red Potion^000000 - 2 Ervas Vermelha, 1 Garrafa Vazia, 2 Zeny de taxa.";
+		mes "^FF8000Orange Potion^000000 - 1 Erva Vermelha, 1 Erva Amarela, 1 Garrafa Vazia, 5 Zeny de taxa.";
+		mes "^E8CF20Yellow Potion^000000 - 2 Ervas Amarela, 1 Garrafa Vazia, 10 Zeny de taxa.";
+		next;
+		mes "[Vovô Farmacêutico]";
+		mes "^999999White Potion^000000 -  2 Ervas Verde, 1 Garrafa Vazia, 20 Zeny de taxa.";
+		mes "^3355FFBlue Potion^000000 - 2 Ervas Azul, 1 Garrafa Vazia, 30 Zeny de taxa.";
+		mes "^00B000Green Potion^000000 - 2 Ervas Verde, 1 Garrafa Vazia, 3 Zeny de taxa.";
+		close;
+	M_End:
+		mes "[Vovô Farmacêutico]";
+		mes "Você não tinha algo para me dizer?!";
+		close;
+
+// Subfunção para fazer poções
+//================================
+sF_Make:
+	set @herbnum, 2;
+	if(getarg(1) != 0) set @herbnum, 1;
+	if(countitem(getarg(0)) < @herbnum) goto L_NdHerbs;
+	if((countitem(getarg(1)) < @herbnum) && (getarg(1) != 0)) goto L_NdHerbs;
+	if(countitem(713) < 1) goto L_NdBottle;
+	if(Zeny < getarg(2)) goto L_NdZeny;
+
+	mes "[Vovô Farmacêutico]";
+	mes "Quantas?";
+	next;
+	menu "Quantas for possivel.",sM_0a, "Eu ajustarei a quantidade.",sM_0b, "Nah, esquece",M_End;
+
+	sM_0a:
+		set @amount, 1000;
+		if(zeny/getarg(2) < @amount) set @amount, zeny/getarg(2);
+		if(countitem(getarg(0))/@herbnum < @amount) set @amount, countitem(getarg(0))/@herbnum;
+		if((countitem(getarg(1))/@herbnum < @amount) && (countitem(getarg(1)) != 0)) set @amount, countitem(getarg(1))/@herbnum;
+		if(countitem(713) < @amount) set @amount, countitem(713);
+		if(@amount > 0) goto L_End;
+		mes "[Vovô Farmacêutico]";
+		mes "Jeez... você não tem os itens certos.....";
+		close;
+		
+	sM_0b:
+		digit @amount;
+		if(@amount<1 || @amount>1000) goto L_BadAmnt;
+		if(countitem(getarg(0))/@herbnum < @amount) goto L_NdHerbs;
+		if((countitem(getarg(1))/@herbnum < @amount) && (countitem(getarg(1)) != 0)) goto L_NdHerbs;
+		if(countitem(713) < @amount) goto L_NdBottle;
+		if(Zeny < (getarg(2)*@amount)) goto L_NdZeny;
+
+	L_End:
+		mes "[Vovô Farmacêutico]";
+		mes "Aqui esta suas " +getarg(4)+ " poções.";
+		delitem getarg(0), (@amount*@herbnum);
+		if(getarg(1) != 0) delitem getarg(1), (@amount*@herbnum);
+		delitem 713, @amount;
+		set Zeny, Zeny - (getarg(2)*@amount);
+		additem getarg(3), @amount;
+		close;
+
+	L_NdBottle:
+		mes "[Vovô Farmacêutico]";
+		mes "Você não tem garrafas vazias suficientes para pôr a solução. Você é idiota!!";
+		return;
+
+	L_NdHerbs:
+		mes "[Vovô Farmacêutico]";
+		mes "Seu trapaceiro!  Que você espera de mim?  Você não trouxe todas as hervas certas!";
+		return;
+
+	L_NdZeny:
+		mes "[Vovô Farmacêutico]";
+		mes "Voce não tem zeny suficiente para tantas poções.";
+		return;
+
+	L_BadAmnt:
+		mes "[Vovô Farmacêutico]";
+		mes "Oque?! Esta não é uma quantia valida!";	
+		return;
+}

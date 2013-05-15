@@ -1,0 +1,54 @@
+sec_in01,170,159,0	script	Saída#VIP1	45,3,3,{
+end;
+	OnTouch:
+		warp "prontera", 160, 176;
+	end;
+}
+
+sec_in01,167,159,0	script	Saída#VIP2	45,3,3,{
+end;
+	OnTouch:
+		warp "prontera", 160, 176;
+	end;
+}
+
+prontera,152,184,6	script	Sala VIP#01::VIPman	873,{
+	
+	if (getgmlevel() < 1)
+	{
+		mes "-Para ser VIP é muito simples.";
+		mes "Doando a partir de ^FF00002 reais^000000 você já pode ter acesso aos comandos e NPCs VIP!";
+		mes "Acesse http://www.ragnamemories.com/ para mais informações.-";
+		close;
+	}
+	mes "[Sala VIP]";
+	mes "Deseja ir para a sala VIP?";
+	query_sql "SELECT `diasvip` FROM `login` WHERE `account_id`='"+getcharid(3)+"' AND `level`='1' AND `diasvip`>'0'", .@DIASVIP;
+	mes "^FF0000Você possui ^0000CD"+.@DIASVIP+" ^FF0000dia(s) de VIP.^000000";
+	next;
+	if (select ("Sim:Não") == 2) close;
+	close2;
+	warp "sec_in01", 169, 164;
+	end;
+}
+
+sec_in01,0,0,0	script	CheckVIP	-1,500,500,{
+end;
+	OnPCLoadMapEvent:
+		if (getgmlevel() < 1 && strcharinfo(3) == "sec_in01")
+			warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+}
+
+sec_in01	mapflag	nobranch
+sec_in01	mapflag	noicewall
+sec_in01	mapflag	nomemo
+sec_in01	mapflag	nopenalty
+sec_in01	mapflag	noreturn
+sec_in01	mapflag	nosave
+sec_in01	mapflag	noskill
+sec_in01	mapflag	noteleport
+sec_in01	mapflag	novending
+sec_in01	mapflag	nowarp
+sec_in01	mapflag	nowarpto
+sec_in01	mapflag	loadevent

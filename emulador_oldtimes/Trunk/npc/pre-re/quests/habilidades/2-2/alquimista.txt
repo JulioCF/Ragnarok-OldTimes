@@ -1,0 +1,430 @@
+//===== Cronus Script ======================================== 
+//= Quest das Habilidades de Alquimista
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================  
+//= 1.7
+//===== Comentários Adicionais: ============================== 
+//= 1.6 Adaptado para Cronus e Traduzido [Endless]
+//= 1.7 Revisado script, fix languague, erros corrigidos [Page]
+//============================================================
+
+
+//============================================================
+// ALCHEMIST - ELEMENTAL POTION CREATION
+//============================================================
+yuno_in04,33,108,5	script	Pislik	750,{
+	mes "[Pislik]";
+	if(BaseJob != Job_Alchem) goto L_noalche;
+	if(countitem(7434)) goto L_alreadyhave;//Items: Guia_de_Criação_de_Poções_Elementais,
+	if(JobLevel<40) goto L_nojob;
+
+	mes "Poderei lhe ensinar tudo que sei caso";
+	mes "você me traga algumas coisas:";
+	mes "5 Gemas Amarelas,";
+	mes "4 Garrafas de Poção,";
+	mes "10 Corações de Sereia,";
+	mes "10 Pós de Traça,";
+	mes "20 Flores de Planta Carnívora e";
+	mes "1 Quatro-Olhos";
+	next;
+	
+	mes "[Pislik]";
+	mes "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(715)<5 || countitem(1093)<4 || countitem(950)<10 || countitem(1057)<10 || countitem(1032)<20 || countitem(2243)<1) goto L_noitems;//Items: Yellow_Gemstone, Empty_Potion_Bottle, Heart_of_Mermaid, Moth_Dust, Maneater_Blossom, Geek_Glasses,
+	delitem 715, 5;//Items: Gema_Amarela,
+	delitem 1093, 4;//Items: Garrafa_de_Poção,
+	delitem 950, 10;//Items: Coração_de_Sereia,
+	delitem 1057, 10;//Items: Pó_de_Traça,
+	delitem 1032, 20;//Items: Flor_de_Planta_Carnívora,
+	delitem 2243, 1;//Items: Quatro-Olhos,
+	getitem 7434, 1;//Items: Guia_de_Criação_de_Poções_Elementais,
+
+	mes "[Pislik]";
+	mes "Vejo que você têm o que preciso,";
+	mes "assim eu lhe darei meu manual.";
+	close;
+	
+L_noitems:
+	mes "[Pislik]";
+	mes "Você não tem os itens.";
+	mes "Volte quando tiver todos";
+	mes "os itens exigidos por mim.";
+	close;
+	
+L_noalche:
+	mes "Desculpe, mas meu conhecimento é somente sobre alquimia.";
+	mes "Eu não o posso lhe ajudar.";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	mes "Eu já lhe dei meu Guia de Criação da Poção Elementar...";
+	close;
+
+L_nojob:
+	mes "Volte quando você aprender";
+	mes "mais sobre ser um Alquimista.";
+	close;
+}
+
+//============================================================
+// ALCHEMIST - Bio Ethics Quest (Homunculi Skill Branch)
+//============================================================
+// Alquimista -  Bio éticas Quest (Homunculus Skill)
+//=====================Requires Bug Testing=====================
+lhz_in01,46,125,6	script	Guarda Rekenber	867,{
+	mes "[Guarda Rekenber]";
+	if(isequipped(2241) && isequipped(2243)){
+		mes "...";
+		next;
+		switch(select("Ótimo dia, não?","Cancelar"))	{
+			case 1:
+				mes "[Guarda Rekenber]";
+				mes "...";
+				close2;
+				warp "lhz_in01",282,172;
+				end;
+				break;
+			case 2:
+				close;
+				break;
+		}
+	} else {
+		mes "...";
+		close;
+		}
+
+}
+lhz_in01,282,172,0	script	BioEthTrg1::BETrg1	-1,1,1,{
+	OnTouch:
+		mes "[Pesquisador]";
+		mes "Essa é uma àrea restrita!";
+		mes "Por favor, deixe-na imediatamente!";
+		close2;
+		warp "lhz_in01",199,131;
+		end;
+}
+		
+lhz_in01,285,169,7	script	Pesquisador#2	865,{
+//Unknown Text
+	mes "[Pesquisador]";
+	mes "Hmm... Eu desejo saber...";
+	close;
+}
+lhz_in01,199,137,8	script	Cientista#2	865,{
+	mes "[Cientista]";
+	mes "Whoa whoa~!";
+	mes "Por favor! Não";
+	mes "toque em nada!";
+	mes "Estou negociando altamente com";
+	mes "substâncias químicas voláteis aqui!";
+	close;
+}
+lhz_in01,204,138,6	script	Keshibien	750,{
+	if(bioeth >= 2){
+		//Unofficial text
+		mes "[Keshibien]";
+		mes "Olá~";
+		mes "Você está procurando";
+		mes "mais informações sobre";
+		mes "homunculus?";
+		next;
+		mes "[Keshibien]";
+		mes "Eu não deveria dizer";
+		mes "qualquer coisa, mas";
+		mes "procure alguém chamado";
+		mes "Bringel em Lighthalzen.";
+		if(bioeth == 2) set bioeth,3;
+		close;
+		//Unofficial text end
+	}
+	mes "[Keshibien]";
+	mes "Olá~";
+	mes "Você deve ser de";
+	mes "Rune-Midgard, certo?";
+	mes "Prazer em te conhecer.";
+	next;
+	mes "[Keshibien]";
+	mes "Eu ouvi que os";
+	mes "Alquimistas de";
+	mes "lá são bem";
+	mes "qualificados. Eu queria saber se eu";
+	mes "já adquiri a mudança para";
+	mes "colaborar com algum deles...";
+	close;
+}
+lhz_in01,203,123,8	script	Cientista#3	750,{
+	mes "[Cientista]";
+	mes "Certo. *Puxe um tubo de";
+	mes "teste da máquina,";
+	mes "substitua o outro tubo de";
+	mes "teste aqui em cima e então";
+	mes "limpe o primeiro tubo de teste*?";
+	next;
+	mes "[Cientista]";
+	mes "Ou limpo o tubo de teste,";
+	mes "ponha na máquina e";
+	mes "então substitua o outro?";
+	mes "Eu estou tão confuso com este";
+	mes "procedimento! Só se eu não";
+	mes "perdesse as ordens...";
+	close;
+}
+lhz_in01,221,131,3	script	Cientista#4	865,{
+	mes "[Cientista]";
+	mes "É tão demorado para";
+	mes "este dispositivo processar";
+	mes "todos os dados e me dar";
+	mes "os resultados. Ainda, a espera";
+	mes "levanta minha antecipação...";
+	close;
+}
+lhz_in01,218,141,0	script	Alquimista#2	98,{
+	mes "[Alquimista]";
+	mes "Fora de todos os humanos,";
+	mes "Eu acredito que Kellasus é";
+	mes "o primeiro que veio";
+	mes "mais íntimo a descobrir";
+	mes "os segredos de vida. Ele";
+	mes "já não me espanta...";
+	next;
+	mes "[Alquimista]";
+	mes "Eu também sou impressionado pelo";
+	mes "fato que ele não deixa que o seu";
+	mes "trabalho o impeça de ser o";
+	mes "melhor pai e marido que";
+	mes "ele pode ser para sua familia.";
+	mes "Ele é um exemplo para todos nós.";
+	next;
+	mes "[Alquimista]";
+	mes "Kellasus realmente é";
+	mes "uma pessoa surpreendente.";
+	mes "Não há um Alquimista";
+	mes "que sei que não olha";
+	mes "para cima dele ele nos reinos de";
+	mes "ciência e vida pessoal.";
+	close;
+}
+lhz_in01,224,140,8	script	Kellasus	57,{
+	if(MISC_QUEST&64){
+		mes "[Kellasus]";
+		mes "Eu já lhe ensinei a";
+		mes "habilidade dos Homunculus...";
+		if(getskilllv(238) == 0 && BaseJob == Job_Alchem) skill 238,1,0;
+		close;
+	}
+	switch(bioeth){
+	case 4:
+		mes "[Kellasus]";
+		mes "...Você é realmente duro de controlar.";
+		mes "Eu não penso que eu devo";
+		mes "lhe ensinar biotecnologia.";
+		mes "Além isso, você não sabe";
+		mes "nada sobre homunculus!";
+		next;
+		menu "Eu já aprendi isso!",-;
+		mes "[Kellasus]";
+		mes "Oh realmente?";
+		mes "Eu terei que testar";
+		mes "seu conhecimento de";
+		mes "homunculus então.";
+		next;
+		mes "[Kellasus]";
+		mes "Primeiro pergunta.";
+		mes "Qual é a habilidade que deixa o";
+		mes "homunculus ficar em paz?";
+		input @kelques$;
+		next;
+		mes "[Kellasus]";
+		if(@kelques$ != "Vaporizar"){
+			mes "Hmpf. Eu soube que você";
+			mes "não teve nenhum conhecimento em";
+			mes "homunculus.";
+			close;
+		}
+		mes "Isso é certo. Segunda pergunta.";
+		mes "Qual é o item";
+		mes "que é exigido para";
+		mes "chamar ou criar";
+		mes "um homunculus?";
+		input @kelques$;
+		next;
+		mes "[Kellasus]";
+		if(@kelques$ != "Embrião"){
+			mes "Hmpf. Eu soube que você";
+			mes "não teve nenhum conhecimento em";
+			mes "homunculus.";
+			close;
+		}
+		mes "Correto. Mas este não é o fim contudo.";
+		mes "Qual é o nome";
+		mes "da habilidade";
+		mes "que poderia deixar";
+		mes "reviver um homunculus?";
+		input @kelques$;
+		next;
+		mes "[Kellasus]";
+		if(@kelques$ != "Ressuscitar Homunculus"){
+			mes "Hmpf. Eu soube que você";
+			mes "não teve nenhum conhecimento em";
+			mes "homunculus.";
+			close;
+		}
+		mes "Eu não ensinarei ninguém";
+		mes "as habilidades de homunculus.";
+		mes "Ponto final, essa foi minha decisão.";
+		set bioeth,5;
+		close;
+		break;
+	case 5:
+		mes "[Kellasus]";
+		mes "Eu não ensinarei ninguém";
+		mes "as habilidades de homunculus.";
+		mes "Ponto final, essa foi minha decisão.";
+		close;
+		break;
+	case 6:
+	//Unofficial text and story -.-;
+		mes "[Kellasus]";
+		mes "Oh você de novo? Você é realmente determinado.";
+		mes "Bem a maioria dos Alquimistas";
+		mes "são pessoas que nunca";
+		mes "deixaram vão dos sonhos deles";
+		next;
+		menu "Vamos falar sobre outros",-;
+		mes "[Kellasus]";
+		mes "Você tem raio a meu filho?";
+		mes "O que ele disse?";
+		next;
+		mes "[Kellasus]";
+		mes "...";
+		next;
+		mes "[Kellasus]";
+		mes "Ele quer que eu volte? Certo, bem...";
+		mes "Eu adivinho você mereceu isto.";
+		mes "Aqui está, os segredos de homunculus agora são seus~";
+		if(BaseJob == Job_Alchem) skill 238,1,0;
+		set MISC_QUEST,MISC_QUEST|64;
+		set bioeth,0;
+		close;
+	default:
+		break;
+	}
+	switch(@keltalk){
+	case 1:
+	//No official text to put here, so I just repeated first text
+		mes "[Kellasus]";
+		mes "Hmm. Quem decide o que";
+		mes "é certo e errado? O que é";
+		mes "significado ser conhecido e isso que";
+		mes "segredos nunca eram planejados";
+		mes "para o gênero humano entender?";
+		set @keltalk,2;
+		close;
+		break;
+	case 2:
+		mes "[Kellasus]";
+		mes "Não disse para não voltar aqui novamente?";
+		mes "Suma daqui agora!";
+		mes "Não importa o que você faz.";
+		mes "Eu não lhe ensinarei qualquer coisa sobre homunculus";
+		set @keltalk,3;
+		set bioeth,1;
+		close;
+		break;
+	case 3:
+		mes "[Kellasus]";
+		mes "Não disse para não voltar aqui novamente?";
+		mes "Suma daqui agora!";
+		mes "Não importa o que você faz.";
+		mes "Eu não lhe ensinarei qualquer coisa sobre homunculus";
+		close;
+		break;
+	default:
+		mes "[Kellasus]";
+		mes "Hmm. Quem decide o que";
+		mes "é certo e errado? O que";
+		mes "significa ser conhecido, e que";
+		mes "segredos nunca eram planejados";
+		mes "para gênero humano entender?";
+		if(BaseJob == Job_Alchem) set @keltalk,1;
+		close;
+		break;
+	}
+}
+lhz_in01,217,121,6	script	Mecânico	851,{
+	mes "[Mecânico]";
+	mes "Nenhuma maravilha, estas";
+	mes "coisas quebram o tempo todo!";
+	mes "Estas máquinas foram totalmente";
+	mes "má projetadas! Urgh, não há";
+	mes "nenhuma avaliação para toda essa";
+	mes "tecnologia conveniente...";
+	next;
+	mes "[Mecânico]";
+	mes "Sim, todo esse equipamento de";
+	mes "laboratório é realmente sensível,";
+	mes "para não mencionar caro.";
+	mes "Para controlar este material, você";
+	mes "precisa ser extraordinariamente cauteloso.";
+	close;
+}
+lhz_in01,225,122,4	script	Skrajiad	754,{
+	mes "[Skrajiad]";
+	mes "A Alquimia é maravilhosa...";
+	mes "Incorpora toda ciência";
+	mes "e muitos outros campos";
+	mes "de conhecimento;";
+	next;
+	mes "[Skrajiad]";
+	mes "De certo modo, você deve";
+	mes "ser mestre de todos os comércios";
+	mes "para ser competente em Alquimia.";
+	mes "Mas está recompensado inacreditavelmente para";
+	mes "estes de nós que deixaram de perguntar";
+	mes "como, e o por que de nossos trabalhos mundiais.";
+	if(bioeth == 1) set bioeth,2;
+	close;
+}
+lhz_in02,269,273,4	script	Bringel	709,{
+//Unofficial Text
+	if(bioeth == 3){
+		mes "[Bringel]";
+		mes "Oh, você está aqui para aprender sobre Homunculus?";
+		mes "Bem, eu realmente não lhe posso ajudar...";
+		next;
+		mes "[Bringel]";
+		mes "Porém, eu ouvi falar de uma habilidade chamada";
+		mes "Ressuscitar Homunculus.";
+		mes "Parece que é uma coisa muito importante";
+		mes "para pessoas que trabalham neles.";
+		set bioeth,4;
+		close;
+	}
+	mes "[Bringel]";
+	mes "Este hotel não é grande?";
+	mes "Eu posso relaxar no sofá";
+	mes "e esquecer o que";
+	mes "fiz no passado...";
+	close;
+}
+lhz_in03,106,34,4	script	Golin	706,{
+//Unofficial text
+	if(bioeth == 5){
+		mes "[Golin]";
+		mes "Você viu meu";
+		mes "papai no laboratório?";
+		mes "Diga a ele que eu disse olá!";
+		set bioeth,6;
+		close;
+	}
+	mes "[Golin]";
+	mes "Onde o papai está?";
+	mes "Eu realmente quero";
+	mes "que o papai volte";
+	mes "do laboratório..";
+	close;
+}

@@ -1,0 +1,766 @@
+//===== Cronus Script ======================================== 
+//= Scripts de Jawaii
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.2a
+//===== Descrição: =========================================== 
+//= Npcs de Jawaii
+//===== Changelog: =========================================== 
+//= 1.0 Traduzido o Npc [Desconhecido]
+//= 1.1 Organizado e corrigido erros de português [Kamper]
+//= 1.2 Trocado efeitos numéricos por nomes. [Lord]
+//= 1.2a Removido show, digit [Yum]
+//============================================================
+
+//===== Loja: ================================================
+jawaii,186,174,2	shop	Negociante de Jawaii	85,536:150
+
+//===== Scripts de Jawaii ====================================
+jawaii,141,200,3	script	Atendente#Suíte	798,{
+
+	mes "[Alowawu]";
+	mes "Bem vindo.";
+	mes "Esta é a Suíte Doçura.";
+	mes "Eu limpei e organizei o lugar.";
+	mes "Então, pode ficar à vontade.";
+	next;
+	mes "[Alowawu]";
+	mes "O aluguel é 1000 zeny por pessoa.";
+	mes "Se você me pagar,";
+	mes "irei transeferí-lo para dentro.";
+	mes "Não tem como entrar diretamente.";
+	next;
+	mes "[Alowawu]";
+	mes "Irei te ajudar com a bagagem,";
+	mes "senão, meu chefe me pune";
+	mes "com Combo Triplo.";
+	mes "E isso doi muito.";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+			if(Zeny > 999)
+{
+				mes "[Alowawu]";
+				mes "Obrigado.";
+				mes "Vou abrir o portal pra você agora.";
+				mes "Tenha uma boa estadia.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",116,64;
+				end;
+}
+			else
+{
+				mes "[Alowawu]";;
+				mes "Ah. Caro hóspede,";
+				mes "você não tem zeny suficiente para pagar pelo quarto.";
+				mes "Não posso te deixar entrar. Senão,";
+				mes "meu patrão fica bravo e me bate com Combo Triplo.";
+				close;
+}
+s_Cancel:
+			mes "[Alowawu]";
+			mes "Haha, este quarto é melhor que os outros.";
+			mes "Acredite, está bonito e limpo.";
+			mes "Se você mudar de idéia,";
+			mes "volte e procure por mim.";
+			close;
+}
+
+jawaii,108,199,5	script	Atendente#Suíte2	74,{
+
+	mes "[Poyi Oland]";
+	mes "Bem vindo.";
+	mes "Esta é a suíte clássica com dois quartos.";
+	mes "Ela é perfeita pra vocês dois!";
+	mes "Embora essas casas se pareçam por fora,";
+	mes "o interior é completamente diferente!";
+	next;
+	mes "[Poyi Oland]";
+	mes "O aluguel é 1000 zeny por pessoa.";
+	mes "e cobramos quando vocês sairem!";
+	mes "Já que vocês estão viajando,";
+	mes "sugiro que escolham um quarto melhor!";
+	next;
+	mes "[Poyi Oland]";
+	mes "Se precisarem de qualquer coisa, nos chame.";
+	mes "Iremos ajudá-los imediatamente.";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+
+			if (Zeny > 999)
+{
+				mes "[Poyi Oland]";
+				mes "Obrigado por usar.";
+				mes "Tenham uma boa estadia.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",130,109;
+				end;
+}
+			else
+{
+				mes "[Poyi Oland]";
+				mes "Sinto muito!";
+				mes "Você não tem zeny suficiente.";
+				mes "Por favor, confira seu zeny e volte depois!";
+				close;
+}
+s_Cancel:
+			mes "[Poyi Oland]";
+			mes "Então, por favor, volte quando você tiver conferido.";
+			mes "A presença de todo hóspede é sempre bem-vinda.";
+			close;
+}
+
+jawaii,107,189,5	script	Atendente#Suíte3	93,{
+
+	mes "[Saroki Lania]";
+	mes "...Esta é a suíte de Lua-de-Mel e custa 1000 zeny.";
+	next;
+	mes "[Saroki Lania]";
+	mes "...Você quer entrar?";
+	next;
+	mes "[Poyi Oland]";
+	mes "Se precisar de qualquer coisa, nos chame.";
+	mes "Iremos ajudá-los imediatamente.";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			if(Zeny > 999)
+{
+				mes "[Saroki Lania]";
+				mes "...Por favor, entre.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",86,117;
+				end;
+}
+			else
+{
+				mes "[Saroki Lania]";
+				mes "...Não tem zeny suficiente?";
+				close;
+}
+s_Cancel:
+			mes "[Saroki Lania]";
+			mes "...Tudo bem, então.";
+			close;
+}
+jawaii,112,173,7	script	Atendente#Suíte4	93,{
+
+	mes "[Lakers Lania]";
+	mes "Saroki, isso é rude.";
+	mes "Você não consegue tratar os hóspedes de forma educada?";
+	mes "Isso os fará se sentir incomodados. Ah, hóspede!";
+	mes "Bem vindo! Você está aqui viajando?";
+	next;
+	mes "[Lakers Lania]";
+	mes "Esta é a suíte Villa.";
+	mes "É tão confortável quanto sua casa.";
+	mes "O aluguel é apenas 1000 zeny.";
+	next;
+	mes "[Lakers Lania]";
+	mes "Se quiser usá-la, posso te auxiliar agora mesmo.";
+	mes "O que você acha?";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+			if(Zeny > 999)
+{
+				mes "[Lakers Lania]";
+				mes "Obrigado e bom descanso.";
+				mes "Espero que aprecie a viagem.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",87,75;
+				end;
+}
+			else
+{
+				mes "[Lakers Lania]";
+				mes "Oh, você não tem zeny suficiente pela estadia...?";
+				mes "Talvez possa pegar emprestado com seu parceiro.";
+				mes "Huhuhuhu-";
+				close;
+}
+s_Cancel:
+			mes "[Lakers Lania]";
+			mes "Hmm, talvez você queira experimentar a suíte de Lua-de-Mel.";
+			mes "Embora Saroki não seja sociável,";
+			mes "o quarto é uma verdadeira obra de arte!";
+			close;
+}
+
+jawaii,122,263,5	script	Sailor#jaw	100,{
+
+	mes "[Sailor]";
+	mes "Este navio irá levá-lo de volta para Alberta.";
+	mes "Gostou de sua estadia em Jawaii?";
+	mes "Por favor, certifique-se de,";
+	mes "não ter esquecido nada.";
+	next;
+	mes "[Sailor]";
+	mes "Bem, então, você está pronto para retornar a Alberta?";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			mes "[Sailor]";
+			mes "Retirar amarras! Próxima parada: Alberta!!";
+			close2;
+			warp "alberta",192,157;
+			end;
+
+s_Cancel:
+			mes "[Sailor]";
+			mes "Bem, então fique mais um tempo antes de partir!";
+			mes "Não dá pra você vir aqui todos os dias, certo?!";
+			close;
+}
+
+jawaii,239,112,7	script	Sailor#Jawaii2	100,{
+
+	mes "[Sailor]";
+	mes "Este navio irá te levar de volta a Izlude.";
+	mes "Gostou de sua estadia em Jawaii?";
+	mes "Por favor, certifique-se de,";
+	mes "não ter esquecido nada.";
+	next;
+	mes "[Sailor]";
+	mes "Bem, então, você está pronto para retornar a Izlude?";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			mes "[Sailor]";
+			mes "Retirar amarras! Próxima parada: Izlude!!";
+			close2;
+			warp "izlude",176,182;
+			end;
+
+s_Cancel:
+			mes "[Sailor]";
+			mes "Bem, então fique mais um tempo antes de partir!";
+			mes "Não dá pra você vir aqui todos os dias, certo?!";
+			close;
+}
+
+jawaii,220,235,3	script	Habitante#LoveBo	724,{
+
+	mes "[JawaJawa]";
+	mes "Você sabe qual o lugar mais bonito de Jawaii?";
+	mes "É a 'Ilha do Amor',";
+	mes "localizada a norte de Jawaii.";
+	mes "Como a água é rasa,";
+	mes "Você poderá chegar lá se for cuidadoso.";
+	next;
+	mes "[JawaJawa]";
+	mes "É também um lugar adequado para um casal relaxar e passar momentos agradáveis.";
+	mes "Se ficar lá sozinho,";
+	mes "vai parecer estar perdido,";
+	mes "em uma ilha deserta!";
+	next;
+	mes "[JawaJawa]";
+	mes "Bem, claro que você pode brincar de Perdido";
+	mes "com a carta na garrafa vazia!";
+	mes "Mas isso não parece idiota?";
+	close;
+}
+
+jawaii,239,146,3	script	Habitante#Explain1	100,{
+
+	mes "[WaiiWaii]";
+	mes "Bem vindo a Jawaii!";
+	mes "O que seria um casamento sem a lua-de-mel?";
+	mes "Neste lugar,";
+	mes "você pode ignorar a ameaça daqueles bobões sem namorada.";
+	next;
+	mes "[WaiiWaii]";
+	mes "Você poderá encontrar alguns montros aqui.";
+	mes "Mas, se os deixar em paz, eles não te incomodarão!";
+	mes "Eles habitam este lugar há muito tempo,";
+	mes "então encare-os como parte da paisagem.";
+	close;
+}
+
+jawaii,168,247,5	script	Habitante#Explain2	724,{
+
+	mes "[WajaWaja]";
+	mes "Os albergues ficam a Oeste.";
+	mes "Cada quarto tem um ambiente diferente.";
+	mes "Escolha o mais adequado para você.";
+	mes "É melhor se você perguntar os funcionários lá.";
+	next;
+	mes "[WajaWaja]";
+	mes "Por favor, use este navio para ir para noroeste";
+	mes "e sudeste, se quiser voltar.";
+	mes "Há barcos que vão para";
+	mes "Alberta e Izlude.";
+	close;
+}
+
+jawaii,165,121,1	script	Habitante#Explain3	724,{
+
+	mes "[IwaIwa]";
+	mes "Jawaii~ Não é uma terra de grande alegria?";
+	mes "Você pode descansar";
+	mes "e não fazer nada o dia todo.";
+	mes "É pra isso que Jawaii serve.";
+	next;
+	mes "[IwaIwa]";
+	mes "Este é um palco,";
+	mes "onde fazem algumas apresentações.";
+	mes "Você quer subir lá e cantar para nós?";
+	mes "Jawaii~ Ilha da Felicidade.";
+	close;
+}
+
+jawaii_in,43,115,0	script	Freguês#jaw_1	97,{
+
+	mes "[Boogie]";
+	mes "uhOh....Ai meu Deus! Como vim parar num lugar desses?";
+	mes "Todos aqui estão repletos de alegria!";
+	next;
+	mes "[Boogie]";
+	mes "Mas para um solteirão como eu, só me faz parecer mais idiota ainda!!";
+	mes "Você, você deve ter se sentido assim também, né?";
+	next;
+	mes "[Boogie]";
+	mes "Urgh....";
+	mes "Chefe, me dá outra aí!";
+	close;
+}
+
+jawaii_in,41,106,3	script	Freguês#KyleJeet	98,{
+
+	mes "[Kyle Jeet]";
+	mes "Comer e comer...!!";
+	mes "Beber! Beber...!!";
+	next;
+	mes "[Kyle Jeet]";
+	mes "Nós somos libertados...!";
+	mes "de sermos um casal no inferno...!";
+	mes "para ser um solteiro saudável e precioso no paraíso...!";
+	close;
+}
+
+jawaii_in,15,104,0	script	Atendente#jawaii2	80,{
+
+	mes "[Atendente]";
+	mes "....Bem, eu não sei qual seu propósito em vir aqui.";
+	//Emotion?
+	next;
+	mes "[Atendente]";
+	mes "Se você tentar perturbar essas pessoas na sua felicidade,";
+	mes "pegue uma bebida com o garçom e vá embora quando terminar!";
+	next;
+	menu "Eu sou um ótimo solteiro!!",-,"...Só vim aqui parabenizar...",s_Cong;
+
+		mes "[Atendente]";
+		mes "Que egoísmo o seu...";
+		mes "Você deveria parabenizar aqueles casais felizes!";
+		mes "Sendo solteiro ou casado, não cause problemas!!";
+		next;
+		mes "[Atendente]";
+		mes "Se não, case-se e volte aqui para sua lua-de-mel. Ficaremos felizes em te receber.";
+		close;
+s_Cong:
+		mes "[Atendente]";
+		mes "....? O quê? Estamos aqui para celebrar?";
+		mes "Ai meu Deus! Sinto muito! Como fui rude!";
+		mes "Por favor, descanse bem, então~";
+		close;
+}
+
+jawaii_in,28,124,0	script	Bartender#jaw2	46,{
+
+	set @drinkcount,0;
+	mes "[Bartender]";
+	mes "Bem vindo, querido freguês.";
+	mes "Então, o que você deseja?";
+	next;
+	Loopback:
+		menu "Especial do dia",-,"Nimi",s_Nimi,"Refresco",s_Refreshing,"Misa",s_Misa,"Azul Magnífico",s_Magn;
+
+			if(@drinkcount >= 4)
+{
+				mes "[Bartender]";
+				mes "Você já bebeu vários drinks. Ainda quer continuar?";
+				next;
+				input @jawaiitstring$;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Chefia, como eu ";
+				mes @jawaiitstring$;
+				mes "não estou me sentindo bem...";
+				next;
+				mes "[Bartender]";
+				mes "....Toma, esta é minha recomendação, ^0000FF`Especial J&J estilo picante.¨¤«×¾¹'^000000 ";
+				mes "Por conta da casa.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Valeu, chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				set @randomdrink,rand(1,4);
+				if(@randomdrink == 1)
+{
+					mes "[Bartender]";
+					mes "Bem...E que tal isso..?";
+					if (Zeny >= 100) set Zeny, Zeny - 100;
+					else set Zeny, 0;
+					next;
+					mes "[Bartender]";
+					mes "Eu recomendo esse ^0000FF`Assalto do Beijo Fervente'^000000¡A";
+					mes "uma mistura de sabor doce com uma cor avermelhada única, para trazer grandes paixões.";
+					next;
+					mes "Você recebeu uma taça triangular coberta com açúcar na borda. -";
+					mes "Está liberando um odor doce muito agradável.-";
+					mes "Embora esse cheiro seja bom, parece ser perigoso. -";
+					next;
+					mes "[Bartender]";
+					mes "O primeiro encontro é a fase mais importante.";
+					mes "O sabor do açúcar caindo na boca é incrível.";
+					next;
+					mes "Ajuste o local em que encosta os lábios e prove lentamente.";
+					percentheal -20,0;
+					specialeffect2 EF_DECAGILITY;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "Chefia...Me dá mais uma dose...";
+					next;
+}
+				else if(@randomdrink == 2)
+{
+					mes "[Bartender]";
+					mes "E que tal este?";
+					next;
+					mes "[Bartender]";
+					mes "Eu recomendo este ^0000FF`Tiro Duplo Negro Siberiano'^000000 ";
+					mes "Uma bebida que permite que você sinta o poder da Rússia e a dimensão da terra.";
+					next;
+					mes "- Você olha para a mistura de cubos de gelo e líquido negro.-";
+					mes "- Embora o odor seja doce-";
+					mes "- Você sente um pouco de cheiro de loção pós-barba.-";
+					next;
+					mes "[Bartender]";
+					mes "É adequado para ser tomado aos poucos, devido ao seu sabor forte.";
+					mes "É uma mistura especial que os siberianos adoram.";
+					next;
+					mes "- você sente o cheiro e toma aos golinhos. -";
+					percentheal -20,0;
+					specialeffect2 EF_BARRIER;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "Chefia...Me dá mais uma dose...";
+					next;
+}
+				else if(@randomdrink == 3)
+{
+					mes "[Bartender]";
+					mes "Deixe-me recomendar...";
+					next;
+					mes "[Bartender]";
+					mes "Eu recomendo esse ^0000FF`Magarita Claramente Quente'^000000 ";
+					mes "O odor azedo do limão é muito especial, principalmente quando você sente estar com a alma mexicana!";
+					next;
+					mes "- Você recebe uma taça triangular coberta com suco de limão.-";
+					mes "- Está liberando um odor agri-doce.-";
+					mes "- Embora pareça muito atrativo, você não pode ignorar o perigo por trás.";
+					next;
+					mes "[Bartender]";
+					mes "O sabor doce e refrescante o torna popular entre as garotas,";
+					mes "especialmente quando contém a sensação de um mexicano.";
+					next;
+					mes "- Você consegue se imaginar usando um Sombrero mexicano-";
+					mes "- e bebendo esse coquetel! -";
+					percentheal -20,0;
+					specialeffect2 EF_MAGNUMBREAK;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "Chefia...Me dá outra dose...";
+					next;
+}
+				else if(@randomdrink == 4)
+{
+					mes "[Bartender]";
+					mes "Hmm... E que tal esse?";
+					next;
+					mes "[Bartender]";
+					mes "Eu recomendo esse ^0000FF`Barcardi 151 Barcelona Crusade'^000000";
+					mes "É um coquetel pirata, com muitas memórias";
+					next;
+					mes "-Você olha para o líquido amarelo na pequena taça. -";
+					mes "-Embora pareça que você pode beber tudo em um único gole, -";
+					mes "-parece ser perigoso demais pra beber. -";
+					next;
+					mes "[Bartender]";
+					mes "Esse aí vai te fazer pegar fogo.";
+					mes "Beba tudo em um só gole para sentir a sensação de queimar.";
+					next;
+					mes "- Você bebe tudo num só gole. -";
+					percentheal -20,0;
+					specialeffect2 EF_VENOMDUST2;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					mes "[" + strcharinfo(0) + "]";
+					mes "Chefia...Me dá outra dose...";
+					next;
+}
+}
+
+s_Nimi:
+			if(@drinkcount >= 5)
+{
+				mes "[Bartender]";
+				mes "...Eu vou te pagar uma bebida.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				mes "[Bartender]";
+				mes "Aqui, prove isto.";
+				if (Zeny >= 100) set Zeny, Zeny - 100;
+				else set Zeny, 0;
+				next;
+				mes "[Bartender]";
+				mes "Se quiser mostrar interesse para uma garota, escolha este!";
+				mes "Com seu aroma forte e especial,";
+				mes "faz parecer que você também é uma pessoa especial.";
+				next;
+				mes "- você recebe uma taça simples com um líquido branco-";
+				mes "- Embora tenha um suave odor doce, o sabor é azedo-";
+				mes "- E te faz querer gritar. - ";
+				next;
+				mes "[Bartender]";
+				mes "Muitas pessoas dizem que esse sabor misturado de doce e amargo é parecido com o sabor da vida.";
+				mes "Então é melhor provar com a ponta da língua.";
+				next;
+				mes "- Beba com a ponta da língua -";
+				next;
+				mes "-E faz-me sentir.... Bang !!' -";
+				percentheal -10,0;
+				specialeffect2 EF_STEAL;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Chefia...Me dá outra bebida...";
+				next;
+}
+s_Refreshing:
+			if (@drinkcount >= 5)
+{
+				mes "[Bartender]";
+				mes "...Eu vou te pagar uma bebida.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				mes "[Bartender]";
+				mes "Aqui, prove isto.";
+				if (Zeny >= 100) set Zeny, Zeny - 100;
+				else set Zeny, 0;
+				next;
+				mes "[Bartender]";
+				mes "Esse tem sabor de velhas amizades.";
+				mes "Quanto mais você bebe, melhor você se sente.";
+				mes "Você pode beber quando, onde e com quem quiser.";
+				next;
+				mes "- O líquido azul de aparência saborosa é servido para você. -";
+				mes "- dentro de uma taça elegante, -";
+				mes "- ele traz uma excitação às narinas com seu odor azedo, mas doce. -";
+				next;
+				mes "[Bartender]";
+				mes "Não tome apenas uma dose desse.";
+				mes "Ficará melhor quanto mais você beber!";
+				next;
+				mes "- Sua boca é preenchida com o sabor agri-doce depois que você termina a bebida em 3 goles-";
+				mes "- Realmente é uma mistura especial... -";
+				percentheal -10,0;
+				specialeffect2 EF_IMPOSITIO;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Chefia...Me dá outra bebida...";
+				next;
+}
+s_Misa:
+			if (@drinkcount >= 5)
+{
+				mes "[Bartender]";
+				mes "...Eu vou te pagar uma bebida.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				mes "[Bartender]";
+				mes "Aqui, prove isto.";
+				if (Zeny >= 100) set Zeny, Zeny - 100;
+				else set Zeny, 0;
+				next;
+				mes "[Bartender]";
+				mes "Esse tem sabor de velhas amizades.";
+				mes "Quanto mais você bebe, melhor você se sente.";
+				mes "Você pode beber quando, onde e com quem quiser.";
+				next;
+				mes "- O líquido azul de aparência saborosa é servido para você. -";
+				mes "- dentro de uma taça elegante, -";
+				mes "- ele traz uma excitação às narinas com seu odor azedo, mas doce. -";
+				next;
+				mes "[Bartender]";
+				mes "Não tome apenas uma dose desse.";
+				mes "Ficará melhor quanto mais você beber!";
+				next;
+				mes "- Sua boca é preenchida com o sabor agri-doce depois que você termina a bebida em 3 goles-";
+				mes "- Realmente é uma mistura especial... -";
+				percentheal -10,0;
+				specialeffect2 EF_IMPOSITIO;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Chefia...Me dá outra bebida...";
+				next;
+}
+
+s_Magn:
+			if (@drinkcount >= 5)
+{
+				mes "[Bartender]";
+				mes "...Eu vou te pagar uma bebida.";
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				mes "[Bartender]";
+				mes "Aqui, prove isto.";
+				if (Zeny >= 100) set Zeny, Zeny - 100;
+				else set Zeny, 0;
+				next;
+				mes "[Bartender]";
+				mes "É recomendado para aqueles que têm saudade das memórias gloriosas do passado...";
+				mes "Para aqueles que iniciam uma guerra para preservar a paz...";
+				mes "E, claro... Para aqueles que fingem a verdade da história.";
+				next;
+				mes "- Você recebe um líquido marrom numa coqueteleira. -";
+				mes "- Você sente o cheiro grosso e pesado de óleo de maquinário. -";
+				mes "- Cheiro de fogos de artifício? Não, é um pouco diferente... -";
+				next;
+				mes "[Bartender]";
+				mes "Pode parecer ser muito, mas é melhor você terminar tudo em um gole.";
+				mes "Você vai perder o sabor se beber muito devagar.";
+				next;
+				mes "- Ao pegar a coqueteleira, você imediatamente termina a bebida.-";
+				next;
+				mes "- E parece que você foi atingido por um canhão.-";
+				percentheal -10,0;
+				specialeffect2 EF_GRIMTOOTHATK;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				mes "[" + strcharinfo(0) + "]";
+				mes "Chefia...Me dá outra bebida...";
+				next;
+}
+goto Loopback;
+}
+
+jawaii_in,25,94,5	script	Atendente#jaw11	724,{
+
+	mes "[Atendente Teleteer]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	mes "Espero que goste de sua estadia aqui...";
+	mes "Mas não beba demais e cause problemas!";
+	close;
+}
+
+jawaii_in,25,96,5	script	Atendente#jaw12	724,{
+
+	mes "[Atendente PoYi]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	mes "Espero que goste de sua estadia aqui...";
+	mes "Mas, não tenha inveja e critique as pessoas que foram abençoadas com a felicidade!";
+	close;
+}
+
+jawaii_in,25,98,5	script	Atendente#jaw13	724,{
+
+	mes "[Atendente Poppy]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	next;
+	mes "[Atendente Poppy]";
+	mes "Deixe-me te perguntar... você é de uma terra estrangeira?";
+	mes "Você ainda é solteiro, certo?";
+	mes "Sou uma ótima cozinheira também, será que você não gostaria de me considerar?";
+	mes "Que tal? Heim?";
+	close;
+}
+
+jawaii_in,25,100,5	script	Atendente#jaw14	724,{
+
+	mes "[Atendente Ether]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	mes "Proibido criticar! Proibido desencorajar!";
+	mes "Proibido ficar bêbado! Parabenizar, SEMPRE!";
+	close;
+}
+
+jawaii_in,30,94,4	script	Atendente#jaw15	724,{
+
+	mes "[Atendente Donna]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	mes "......Oh não.....";
+	mes "...Bem vindo! Mas por favor, não fique bêbado e cause problemas de novo! ";
+	close;
+}
+
+jawaii_in,30,96,4	script	Atendente#jaw16	724,{
+
+	mes "[Atendente Ken]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	mes "Você pode relaxar, mas...";
+	mes "Por favor, controle-se...";
+	close;
+}
+
+jawaii_in,30,98,4	script	Atendente#jaw17	724,{
+
+	mes "[Atendente Emater]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	next;
+	mes "[Atendente Emater]";
+	mes "...Você parece uma alma penada.";
+	mes "Este lugar não é adequado para você!";
+	mes "Bem, já que você gosta,";
+	mes "divirta-se, mas por favor não cause problemas~";
+	close;
+}
+
+jawaii_in,30,100,4	script	Atendente#jaw18	724,{
+
+	mes "[Atendente GoYa]";
+	mes "Bem vindo à Pousada de Jawaii~";
+	next;
+	mes "[Atendente GoYa]";
+	mes "Como uma história faltando um capítulo,";
+	mes "você parece péssimo.";
+	mes "Encontre um parceiro para você, para que possam apreciar sua aventura~";
+	close;
+}

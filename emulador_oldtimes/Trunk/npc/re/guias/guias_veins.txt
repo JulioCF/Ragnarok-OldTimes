@@ -1,0 +1,138 @@
+//===== Cronus Script ======================================== 
+//= Guias da Cidade de Veins
+//===== Por: ================================================= 
+//= mkbu95
+//===== Versão: ============================================== 
+//= 1.1
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Comentários adicionais: ============================== 
+//= 1.0 Versão inicial [mkbu95]
+//= 1.1 Revisado e otimizado [mkbu95]
+//============================================================ 
+
+veins,210,345,5	script	Guia de Veins#ve1::gVe	934,{
+	mes "[Guia de Veins]";
+	mes "A Cidade Desértica de Veins dá as boas-vindas aos aventureiros que buscam abrigo das terríveis tempestades de areia.";
+	mes "Se essa é a primeira vez que você usa nossos Serviços de guia, por que não consulta antes o menu ''Aviso''?";
+	while (1)
+	{
+		next;
+		switch (select ("Guia da Vila","Limpar as indicações do Minimapa","Aviso","Cancelar"))
+		{
+			case 1:
+				mes "[Guia de Veins]";
+				mes "Eu posso dizer a você onde fica cada edifício que procura, desde que ele fique em Veins.";
+				mes "E então, aonde você gostaria de ir?";
+				if (.@compass_check == 0)
+				{
+					mes "Você gostaria que eu";
+					mes "indicasse os locais";
+					mes "em seu Minimapa?";
+					next;
+ 					if (select ("Sim.","Não.") == 1)
+						set .@compass_check, 1;
+				}
+				while (1)
+				{
+   					if (.@wait_button_chk == 0)
+						set .@wait_button_chk, 1;
+					else
+	   					next;
+  					switch (select ("Templo","Pousada","Loja de Armas","Loja de Utilidades","Aeroplano","Taverna","Instituto de Pesquisas Geológicas","Cancelar"))
+					{
+  						case 1:
+  							mes "[Guia de Veins]";
+  							mes "Nosso templo fica ao norte,";
+  							mes "e está sempre lotado com seguidores fiéis da Deusa Freya.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,196,274,2,0xFF0000;
+  							break;
+
+  						case 2:
+  							mes "[Guia de Veins]";
+  							mes "Você pode descansar de sua viagem na Pousada. O edifício à minha esquerda é a Pousada de Rachel.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,131,280,3,0xFF00FF;
+  							break;
+
+  						case 3:
+  							mes "[Guia de Veins]";
+  							mes "Sim, você precisa se proteger do perigo, não é?";
+  							mes "Compre armas de alta qualidade a preços acessíveis";
+  							mes "na Loja de Armas de Veins, a oeste.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,149,184,4,0x99FFFF;
+  							break;
+
+  						case 4:
+  							mes "[Guia de Veins]";
+  							mes "Você tem tudo o que precisa para suas aventuras?";
+							mes "Se não tem, sugiro que você veja o que a Loja de Utilidades de Veins, no centro, tem a oferecer.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,230,172,5,0x0000FF;
+  							break;
+
+  						case 5:
+  							mes "[Guia de Veins]";
+  							mes "Lembre-se que Veins só opera com aeroplanos de carga.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,272,292,6,0xCE9CFF;
+  							break;
+
+  						case 6:
+  							mes "[Guia de Veins]";
+  							mes "Se quiser fazer amizade com o povo daqui, sugiro que você ";
+  							mes "vá tomar uma bebida na taverna a oeste.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,140,227,7,0xCECE31;
+  							break;
+
+  						case 7:
+  							mes "[Guia de Veins]";
+  							mes "Está interessado em estudar geologia?";
+  							mes "Então você deve ir ao instituto de pesquisas geológicas, no segundo andar da Loja de Armas.";
+  							if (.@compass_check == 1)
+  								viewpoint 1,149,184,8,0xFF9C00;
+  							break;
+
+  						case 8:
+							mes "[Guia de Veins]";
+  							mes "Se você quiser remover todas essas marcas de localização de seu mapa,";
+							mes " é só falar comigo de novo, e escolher 'Limpar as indicações do Minimapa'.";
+  							close;
+					}
+				}
+				break;
+
+			case 2:
+				viewpoint 2,196,274,2,0xFF0000;
+				viewpoint 2,131,280,3,0xFF00FF;
+				viewpoint 2,149,184,4,0x99FFFF;
+				viewpoint 2,230,172,5,0x0000FF;
+				viewpoint 2,272,292,6,0xCE9CFF;
+				viewpoint 2,140,227,7,0xCECE31;
+				viewpoint 2,149,184,8,0xFF9C00;
+          		set .@compass_check, 0;
+				mes "[Guia de Veins]";
+				mes "Pronto, elas já sumiram. Se você quiser informações sobre outros lugares, é só falar comigo.";
+				mes "Aproveite sua estada em Veins.";
+				break;
+
+			case 3:
+				mes "[Guia de Veins]";
+				mes "Quando usar o menu ''Guia da Vila'', ";
+				mes "lembre-se que a posição dos lugares que você procura será marcada em seu mapa, no canto superior direito da tela.";
+				mes "Se você não estiver vendo seu mapa, use a tecla de atalho \"ctrl+tab\" ou pressione o botão ''mapa'' em sua janela de informações básicas, tudo bem?";
+				mes "E você também pode aproximar a visão de seu mapa usando o botão \"-\" caso você não consiga visualizar o mapa da vila inteiro.";
+				break;
+
+			case 4:
+				mes "[Guia de Veins]";
+				mes "Aproveite sua estada em Veins.";
+				close;
+		}
+	}
+}
+
+veins,189,101,5	duplicate(gVe)	Guia de Veins#ve2	934

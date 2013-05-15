@@ -1,0 +1,126 @@
+prontera,139,201,6	script	 Poring Ball	69,{
+
+	cutin "god_kukur02",2;
+
+	if (getgmlevel() == 99) {
+		mes "Deseja desligar ?";
+		next;
+		if (select ("Continuar:Sim") == 2)
+			set $PoringBallLigar, 0;
+		next;
+	}
+	if ($PoringBallLigar == 0) {
+		mes "^BF0073[Game Hoster]^000000";
+		mes "O evento começa às 18h no Horário de Brasília.";
+		close2;
+		cutin "", 255;
+		end;
+	}
+	callfunc "F_Game_Hoster";
+	close;
+	
+	OnClock1800:
+		set $WinnerPoring, 0;
+		set $PoringBallLigar, 1;
+		announce "[Poring Ball] O evento irá começar, faça seu time!", bc_all;
+		end;
+}
+
+function	script	F_Game_Hoster	{
+	cutin "god_kukur02",2;
+	mes "^BF0073[Game Hoster]^000000";
+	mes "Olá, eu posso lhe dar informações sobre a Poring Ball e também enviá-lo para o campo.";
+
+OnMenu:
+	next;
+	menu "Informações", OnPoringBall,"Cancelar",-;
+	close2;
+	cutin "",255;
+	end;
+
+OnPoringBall:
+	cutin "",255;
+	cutin "god_kukur01",2;
+	mes "^BF0073[Game Hoster]^000000";
+
+	if ($@state_match>=2)
+		mes "Há uma partida em progresso. ["+getmapusers("ball2")+" Jogadores]";
+	else
+		mes "Não há partidas acontecendo.";
+		mes "Porém há "+getareausers("quiz_02",321,333,378,394)+" Jogadores na Sala de Espera.";
+		next;
+
+	set @accessPoring, 1;
+
+	if (@accessPoring==1) {
+		menu "Quero JOGAR!",-,"Cancelar",OnCancel;
+		cutin "",255;
+		cutin "god_kukur02",2;
+		mes "^BF0073[Game Hoster]^000000";
+		mes "Para voltar a Prontera, fale com a Game Hoster na Sala de Espera.";
+		close2;
+		cutin "",255;
+		warp "quiz_02",350,374;
+	} else  {
+		mes "^BF0073[Game Hoster]^000000";
+		mes "Poring Ball is not open to the General Public.";
+		goto OnMenu;
+	}
+	close;
+
+OnCancel:
+	cutin "",255;
+	cutin "god_kukur02",2;
+	mes "^BF0073[Game Hoster]^000000";
+	mes "Te vejo em breve!";
+	close2;
+	cutin "",255;
+	end;
+}
+
+
+quiz_02,335,384,5	script	 Game Hoster#hjPb1	69,{
+
+	cutin "god_kukur01",2;
+	mes "^BF0073[Game Hoster]^000000";
+	mes "Você quer ficar ou sair da Sala de Espera?";
+	next;
+	set @palette, getlook(7);
+	menu "Quero minhas roupas de volta.",OnReturnShirt, "Quero retornar a Prontera.",OnLeaveRoom,"Quero ficar.",-;
+	close2;
+	cutin "",255;
+	end;
+
+OnReturnShirt:
+	cutin "",255;
+	cutin "god_kukur03",2;
+	mes "^BF0073[Game Hoster]^000000";
+
+	if ((@palette == $paletteRed) ||(@palette == $paletteBlue)) {
+		mes "Vou mandar você pra lá, e aqui estão suas roupas!";
+		setlook 7, savePalette;
+	} else {
+		mes "Você ainda não está jogando Poring Ball! Você está tentando roubar a roupa de alguém!?";
+		mes "Saia da minha frente ! Fora !!!";
+		emotion e_omg;
+	}
+	close2;
+	cutin "",255;
+	end;
+
+OnLeaveRoom:
+	cutin "",255;
+
+	if ((@palette == $paletteRed) ||(@palette == $paletteBlue)) {
+		cutin "god_kukur03",2;
+		mes "^BF0073[Game Hoster]^000000";
+		mes "Antes de você sair, irei devolver suas roupas!";
+		setlook 7, savePalette;
+		next;
+		cutin "",255;
+	}
+
+	savepoint "prontera",156,187;
+	warp "prontera",156,187;
+	end;
+}

@@ -1,0 +1,189 @@
+prontera,135,201,5	script	Roleta Russa	853,{
+
+	set .Zeny, 0;
+	setarray .ItemID[0], 7180;
+	setarray .ItemAmount[0], 15;
+
+	setarray .DeathDialog$[0], "Sayonara!", "Hasta la vista, baby!", "Morra!", "Muahahahaha !", "Morre, diabo!"; //What do you want the NPC will say when someone dies?
+	setarray .AliveDialog$[0], "Que sorte!", "Essa foi por pouco!", "Porque você não morre?!", "Cagadaa !!", "Esse tem sorte hein?!"; //What do you want the NPC will say when someone lives?
+
+	mes "["+strnpcinfo(1)+"]";
+	mes "Roleta Russa é um jogo potencialmente letal onde é colocada uma bala no revólver, gira-se o cilindro, aponta-se a arma na cabeça da pessoa e então aperta-se o gatilho.";
+	mes "Ele ocorre sempre às 19h no Horário de Brasília.";
+	
+	if( .play == 2 )
+	{
+		if (getgmlevel() == 99)
+		{
+			next;
+			select ("Desbugar");
+			close2;
+			callsub CleanUp;
+			end;
+		}
+		close;
+	}
+
+	switch (select ("Jogar:"+((getgmlevel() >= 99)?"Ativar":"")+""))
+	{
+		case 1:
+			if((.play == 1) && (.pReg < .maxplayer))
+			{
+				for(set .@i, 0; .@i < .maxplayer; set .@i, .@i + 1)
+				{
+					if(.playerlist$[.@i] == strcharinfo(0))
+					{
+						next;
+						mes "["+strnpcinfo(1)+"]";
+						mes "Você já está registrado!";
+						close;
+					}
+				}
+				set .playerlist$[.pReg], strcharinfo(0);
+				set .pReg, .pReg + 1;
+				mapannounce "prontera", "[Roleta Russa] ("+.pReg+"/"+.maxplayer+") "+strcharinfo(0)+" está registrado.",bc_map;
+				if( .pReg == .maxplayer )
+					goto PlayRR;
+				close;
+			}
+			else if((.pReg == .maxplayer) && (.play == 1))
+			{
+				next;
+				mes "["+strnpcinfo(1)+"]";
+				mes "Não há mais espaço para jogar esta rodada.";
+				close;
+			}
+			next;
+			mes "["+strnpcinfo(1)+"]";
+			mes "O evento ainda não começou.";
+			close;
+
+		case 2:
+			next;
+			mes "["+strnpcinfo(1)+"]";
+			mes "Qual é o número máximo de jogadores?";
+			input .maxplayer;
+			if(.maxplayer < 2){ dispbottom "Max player must be greater than 1."; close; }
+			set .maxplayer, .maxplayer;
+			set .play, 1;
+			announce "[Roleta Russa] O cadastro está aberto. "+.maxplayer+" jogadores necessários!",bc_all;
+			close;
+	}
+	
+	OnClock1900:
+		set .play, 1;
+		set .maxplayer, 4;
+		announce "[Roleta Russa] O cadastro está aberto. "+.maxplayer+" jogadores necessários!",bc_all;
+		end;
+	 
+	PlayRR:
+		close2;
+		detachrid;
+		copyarray .copiedplayer$[0], .playerlist$[0], 128;
+		set .play, 2;
+		mapannounce "prontera", "[Roleta Russa] Os apertos nos gatilhos estão para começar!",bc_map;
+		mapannounce "prontera", "[Roleta Russa] Lista de Jogadores:",bc_map,0xFFFFFF;
+		for(set .@i, 0; .@i < getarraysize(.playerlist$); set .@i, .@i + 1)
+		{
+			set .@j, .@j + 1;
+			mapannounce "prontera", "[Roleta Russa] "+.@j+". "+.playerlist$[.@i]+"",bc_map,0xFFFFFF;
+			sleep2 1000;
+		}
+		mapannounce "prontera", "[Roleta Russa] Não desconecte, você será desqualificado.",bc_map,0xFFFFFF;
+		callsub OnSpin;
+		close;
+	 
+	OnSpin:
+		set .spin, rand(0, .pReg - 1);
+		attachrid(getcharid(3, .playerlist$[.spin]));
+		callsub OnCheck;
+		mapannounce "prontera", "[Roleta Russa] O revólver está girando . . .",bc_map;
+		sleep2 3000;
+		mapannounce "prontera", "[Roleta Russa] O revólver está parando lentamente . . .",bc_map;
+		sleep2 2000;
+		mapannounce "prontera", "[Roleta Russa] O revólver está apontando para "+ strcharinfo(0) +" . . .",bc_map;
+		sleep2 3000;
+		mapannounce "prontera", "[Roleta Russa] Aperte o gatilho, "+ strcharinfo(0),bc_map;
+		callsub OnCheck;
+		callsub OnShoot;
+		sleep2 3000;
+		callsub OnSpin;
+	return;
+		   
+	OnShoot:
+		if(rand(1, 6) == 1)
+		{
+			soundeffectall "ghost_revolver.wav", 0;
+			sleep2 2300;
+			specialeffect2 669;
+			specialeffect2 531;
+			percentheal -100, -100;
+			deletearray .playerlist$[.spin], 1;
+			set .pReg, .pReg - 1;
+			mapannounce "prontera", "[Roleta Russa] ("+.pReg+"/"+.maxplayer+") "+strcharinfo(0)+" está fora!",bc_map,0xFF0000;
+			mapannounce "prontera", "[Roleta Russa] "+.deathdialog$[rand(1, getarraysize(.deathdialog))]+"", bc_map,0xFF0000;
+		}
+		else
+		{
+			soundeffectall "ghost_revolver.wav", 0;
+			sleep2 2300;
+			specialeffect2 675;
+			specialeffect2 522 + rand(1,14);
+			mapannounce "prontera", "[Roleta Russa] "+.alivedialog$[rand(1, getarraysize(.alivedialog))]+"", bc_map,0xFF0000;
+		}
+	return;
+	 
+	OnCheck:
+		if( .pReg <= 0 )
+		{
+			mapannounce "prontera", "[Roleta Russa] Não há vencedores! Todos sumiram!",bc_map;
+			callsub CleanUp;
+		}
+		else if( ( .pReg == 1 ) && ( .maxplayer <= 2 ) && ( getarraysize(.disqualified$) ) )
+		{
+			mapannounce "prontera", "[Roleta Russa] Sem vencedores! Um jogador foi desqualificado no modo de 2 jogadores.",bc_map;
+			callsub CleanUp;
+		}
+		else if( ( .pReg == 1 ) && ( .maxplayer >= 2) )
+		{
+			mapannounce "prontera", "[Roleta Russa] Temos um vencedor! Parabéns a "+strcharinfo(0)+"!",bc_map;
+			for( set .@i, 0; .@i < getarraysize(.ItemID); set .@i, .@i + 1 )
+			{
+				if(.ItemID)
+				{
+					getitem .ItemID[.@i], .ItemAmount[.@i];
+				}
+			}
+			if(.Zeny)
+				set Zeny, Zeny + .Zeny;
+			callsub CleanUp;
+		}
+		return;
+	 
+	OnPCLogoutEvent:
+		if( .play )
+		{
+			setarray .disqualified$[.@l], strcharinfo(0);
+			set .@l, .@l + 1;
+			for( set .@i, 0; .@i < .maxplayer; set .@i, .@i + 1 )
+			{
+				if( .playerlist$[.@i] == strcharinfo(0) )
+				{
+					deletearray .playerlist$[.@i], 1;
+					set .pReg, .pReg - 1;
+					mapannounce "prontera", "[Roleta Russa] ("+.pReg+"/"+.maxplayer+") "+strcharinfo(0)+" foi desqualificad"+((Sex)?"o":"a")+".", bc_map, 0xFF0000;
+					break;
+				}
+			}
+		}
+		end;
+
+	CleanUp:
+		set .play, 0;
+		set .pReg, 0;
+		set .maxplayer, 0;
+		deletearray .playerlist$, 128;
+		deletearray .copiedplayer$, 128;
+		deletearray .disqualified$, 128;
+		end;
+}

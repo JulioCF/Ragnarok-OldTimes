@@ -1,0 +1,57 @@
+//===== Cronus Script ========================================
+//= Quest da Mascara do Alarme
+//===== Por: =================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest da Mascara de Alarme
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text and labels,
+//= changed Zeny amount, fixed wrong item ID [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Added correct item list. [shadow] & [Lupus]
+//= 1.4a fixed coords [Lupus]
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+alde_alche,104,171,3	script	Muslam	819,{
+	mes "[Muslam]";
+	mes "Eu amo os Alarmes, tão mals, assim como eu.";
+	mes "Toque em mim e eu arrancarei o seu braço fora!";
+	next;
+	mes "[Muslam]";
+	mes "Então... se você quer uma Máscara de Alarme, traga-me:";
+	mes "3000 Ponteiros";
+	mes "e 1 Máscara Assustadora.";
+	next;
+	mes "[Muslam]";
+	mes "Você já tem eles?";
+	next;
+	menu "Sim!",-,"Não!",M_EXIT;
+
+	if(countitem(1095) < 3000 || countitem(2288) < 1) GOTO L_NOITEM;//Items: Mr Scream,
+	delitem 1095,3000;//Item: Ponteiro
+	delitem 2288,1; //Item: Máscara Assustadora
+	mes "[Muslam]";
+	mes "Ótimo!";
+	next;
+	getitem 5086,1; //Item: Máscara de Alarme,
+	mes "[Muslam]";
+	mes "Haha, quer ver você usando heimm!! Aproveite seu item!";
+	close;
+
+L_NOITEM:
+	mes "[Muslam]";
+	mes "Onde está os 3000 Ponteiros e a Máscara Assustadora?";
+	close;
+
+M_EXIT:
+	mes "[Muslam]";
+	mes "Ah, não sabe o que está perdendo. A Máscara de Alarme é relamente um sucesso.";
+	close;
+}

@@ -1,0 +1,56 @@
+//===== Cronus Script ================================================= 
+//= Garota Negociante
+//===== Por: ==========================================================
+//= Euphy
+//===== Versão Atual: ================================================= 
+//= 1.0a
+//===== Descrição: ==================================================== 
+//= Aluga montarias
+//===== Changelog: ====================================================
+//= 1.0 First version. [Euphy]
+//= 1.0a Traduzido. [mkbu95]
+//=====================================================================
+
+prontera,130,196,5	script	Garota Negociante	726,{
+
+	// Preço do aluguel em zeny. Deixe 0 para que seja grátis.
+	set .@preco, 0;
+
+	if (.@preco && .@preco > Zeny) {
+		message strcharinfo(0),"Você não possui a quantia de "+.@preco+" Zeny.";
+		close;
+	}
+	if (ismounting()) {
+		message strcharinfo(0),"Remova sua montaria primeiro.";
+		close;
+	}
+	else if ((eaclass()&EAJ_THIRDMASK==EAJ_RANGER) && !countitem(6124)) {
+		if (!checkfalcon() && getskilllv("HT_FALCON") && !checkwug()) {
+			if(select(" ~ Falcão: ~ Lobo")==1) setfalcon;
+			else getitem 6124,1;
+		}
+		else getitem 6124,1;
+	}
+	else if ((eaclass()&EAJ_THIRDMASK==EAJ_MECHANIC) && !checkcart() && getskilllv("MC_PUSHCART")) {
+		if (!checkmadogear() && getskilllv("NC_MADOLICENCE")) {
+			if(select(" ~ Carrinho: ~ M.E.C.H.A.")==1) setcart;
+			else setmadogear;
+		}
+		else setcart;
+	}
+	else if (!checkcart() && getskilllv("MC_PUSHCART")) setcart;
+	else if (!checkfalcon() && getskilllv("HT_FALCON") && !checkwug()) setfalcon;
+	else if (!checkriding() && getskilllv("KN_RIDING")) {
+		if (eaclass()&EAJ_THIRDMASK==EAJ_RUNE_KNIGHT) setdragon;
+		else setriding;
+	}
+	else if (!checkmadogear() && getskilllv("NC_MADOLICENCE")) setmadogear;
+	else {
+		message strcharinfo(0),"Você não possui os requerimentos necessários.";
+		close;
+	}
+	if (.@preco)
+		set Zeny, Zeny - .@preco;
+	specialeffect2 276;
+	close;
+}

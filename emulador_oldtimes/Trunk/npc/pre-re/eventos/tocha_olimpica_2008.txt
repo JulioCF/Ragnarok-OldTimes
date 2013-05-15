@@ -1,0 +1,447 @@
+//===== Cronus Script ========================================
+//= Evento Tocha Olímpica (2008)
+//===== Por: =================================================
+//= BlacKK
+//===== Versão Atual: ========================================
+//= 1.0c
+//===== Comentários Adicionais: ==============================
+//= 1.0 Iniciado o NPC. [BlacKK]
+//= 1.0a Revisado. [RoM]
+//= 1.0b Otimizado [TecnoCronus]
+//= 1.0c Removido show, additem [Yum]
+//============================================================
+
+prontera,145,168,4	script	Citius	68,{
+	if (event_tocha >= 1 && event_tocha < 6) {
+		mes "[Citius]";
+		mes "O que está esperando? Corra antes que a chama apague.";
+		close;
+	}
+	else if (event_tocha == 6) {
+		mes "[Citius]";
+		mes "Como sua jornada está indo? Oh!";
+		mes "Você trouxe notícias de Ferdast?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Sim, viajei muito pelo reino e encontrei muita gente legal. Todo mundo me contou sobre a importância das Olimpíadas.";
+		next;
+		mes "[Citius]";
+		mes "Ótimo! Sabia que podia contar com você!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Que bom que pude ajudar. Aprendi muito e gostei de toda essa viagem.";
+		mes "Tchau! Vejo você por aí!";
+		next;
+		mes "[Citius]";
+		mes "E-espere! Onde você pensa que vai?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Por quê? Tem mais alguma coisa para fazer?";
+		next;
+		mes "[Citius]";
+		mes "Hum... Não, mas... Não me diga que fez tudo isso sem esperar nada em troca!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Ora, é isso mesmo. Você e os outros me disseram tanta coisa sobre a jornada ser mais importante que a recompensa, que me convenceram.";
+		mes "Ajudar todo mundo me fez sentir bem, e satisfeito até. Acho que não preciso de mais nada nessa jornada.";
+		next;
+		mes "[Citius]";
+		mes "Bom, se você diz... Mas mesmo assim, posso lhe dar algo para demonstrar agradecimento?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Hum, claro! Acho que tudo bem.";
+		next;
+		mes "[Citius]";
+		mes "Lá vai!";
+		mes "- Citius estende as mãos lentamente em sua direção. Você se sente mais forte e revigorado. -";
+		mes "Não é muito, mas sei que será útil em sua jornada. Mais uma vez, obrigada por me ajudar!";
+		sc_start SC_STRFood,1200000, 10;
+		sc_start SC_AGIFood,1200000, 10;
+		sc_start SC_VITFood,1200000, 10;
+		sc_start SC_INTFood,1200000, 10;
+		sc_start SC_DEXFood,1200000, 10;
+		sc_start SC_LUKFood,1200000, 10;
+		set event_tocha, 7;
+		close;
+	}
+	else if (event_tocha > 6) {
+		mes "[Citius]";	
+		mes "Obrigada por me ajudar.";
+		mes "Espero que a experiência tenha sido boa para você.";
+		close;
+	}
+	mes "[Citius]";
+	mes "Há! Estou tão empolgada com as Olimpíadas! É melhor eu levar esta tocha a Altius antes que a chama se apague, ou não vão poder fazer a cerimônia de abertura.";
+	next;
+	mes "[Citius]";
+	mes "Ei! Você ai! Sinto que seu espírito é forte. É de você que preciso para me ajudar!";
+	next;
+	switch(select("Essa garota me assuta, melhor fugir:Hein? Está falando comigo?")) {
+	case 1:
+		mes "[Citius]";
+		mes "Ei, aonde você vai?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Melhor sair daqui rápido, essa garota me dá arrepios...";
+		close;
+	case 2:
+		mes "[Citius]";
+		mes "Isso mesmo! Oi, eu sou Citius. Uma viajante que veio de muito longe e que quer trazer as Olimpíadas para este reino.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Hmm, posso ajudar com algo?";
+		next;
+		mes "[Citius]";
+		mes "As Olimpíadas começaram na cidade de Olímpia, na Grécia Antiga, há muito, muito tempo.";
+		next;
+		mes "[Citius]";
+		mes "A cerimônia de abertura inclui o percurso da tocha olímpica por todo o mundo. Estou com ela bem aqui.";
+		next;
+		mes "[Citius]";
+		mes "Mas sua chama está muito fraca, e precisa de mais combustível. Minha irmã, Altius, sabe como resolver isso... Mas preciso de alguém que leve a tocha até ela.";
+		next;
+		switch(select("Eu posso fazer isso.:Hm, estou meio ocupado agora.")) {
+		case 1:
+			mes "[Citius]";
+			mes "Mesmo!? Puxa, que bacana!";
+			mes "Você vai encontrá-la no mapa logo ao norte de Al De Baran, ^000080perto de uma ponte comprida^000000.";
+			next;
+			mes "- Citius lhe entrega a Tocha Olímpica. É linda, mas parece muito velha e gasta, sem contar que a chama está muito fraca. -";
+			set event_tocha, 1;
+			next;
+			mes "[Citius]";
+			mes "Não demore! Se a chama apagar, não poderemos dar início às olimpíadas!";
+			close;
+		case 2:
+			mes "[Citius]";
+			mes "Que pena... Será que alguém deste reino tem um tempinho?";
+			close;
+		}
+	}
+}
+
+yuno_fild01,185,121,4	script	Altius	814,{
+	if (event_tocha < 1) {
+		mes "[Altius]";
+		mes "Você já foi em Prontera saber da Olimpíadas? Visite Citius, próximo à Estátua da Amizade.";
+		close;
+	}
+	else if (event_tocha >= 3) {
+		mes "[Altius]";
+		mes "O que faz aqui? Continue o percurso da tocha.";
+		close;
+	}
+	else if (event_tocha == 1) {
+		mes "[Altius]";
+		mes "Você deve ser a pessoa de quem minha irmã Citius falou.";
+		mes "Espero que tenha feito uma viagem segura.";
+		next;
+		mes "[Altius]";
+		mes "Sou Altius e estou encarregada de escolher o melhor lugar para um estádio neste reino.";
+		mes "Muito prazer. Bem, minhã irmã pediu que você me trouxesse algo, não é mesmo";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Sim, ela me pediu para trazer esta tocha.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Fiz o que pude para mantê-la acesa e inteira, mas acho que ela não vai durar muito mais.";
+		next;
+		mes "[Altius]";
+		mes "Por Zeus! Como...?";
+		mes "Como pode...?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Ei! Não olhe pra mim! Sua irmã me entregou a tocha nesse estado! Não fiz nada além de conservá-la!";
+		next;
+		mes "[Altius]";
+		mes "Que desrespeito! Eu não devia ter dado a ela a responsabilidade de tomar conta do nosso símbolo sagrado. Devo agradecer por seu trabalho em mantê-la inteira. Mas acho que é melhor fazer uma outra, antes que a chama se apague.";
+		next;
+		mes "[Altius]";
+		mes "Preciso que você me traga alguns itens antes que seja tarde demais.";
+		mes "Você pode me ajudar?";
+		next;
+		switch(select("Com certeza.:Lamento... Não mesmo.")) {
+		case 1:
+			mes "[Altius]";
+			mes "Obrigada. Eu preciso de... ^0000801 Faca [3], 1 Óleo de Cozinha, 5 Troncos, 100 Flechas de Fogo, 75 Plumas de Ave e 75 Felpas^000000.";
+			set event_tocha, 2;
+		case 2:
+			close;
+		}
+	}
+	else if (event_tocha == 2) {
+		if(countitem(1201) >= 1 && countitem(7457) >= 1 && countitem(1019) >= 5 && countitem(1752) >= 100 && countitem(916) >= 75 && countitem(914) >= 75) {
+			mes "[Altius]";
+			mes "Fabuloso, você trouxe tudo. Espere um instante enquanto construo a tocha.";	
+			next;
+			mes "- Altius usa os materiais que você deu a ela e forma uma tocha nova em folha. Sua chama já está alta, e muito mais viva do que a outra. -";
+			delitem 1201,1;
+			delitem 7457,1;
+			delitem 1019,5;
+			delitem 1752,100;
+			delitem 916,75;
+			delitem 914,75;
+			next;
+			mes "[Altius]";
+			mes "Não há como ficar melhor do que isso. Fico tão orgulhosa de poder criar um objeto como esse... Meu irmão Fortius ficaria orgulhoso.";
+			next;
+			mes "[Altius]";
+			mes "Por que não vai mostrá-la para ele?";
+			mes "Você pode encontrá-lo em ^000080Juno^000000. Ele está correndo em volta da cidade mais alta do mundo, como treino para a maratona.";
+			set event_tocha, 3;
+			close;
+		}
+		else {
+			mes "[Altius]";
+			mes "Você não trouxe tudo que preciso.";
+			mes "Eu preciso de... ^0000801 Faca [3], 1 Óleo de Cozinha, 5 Troncos, 100 Flechas de Fogo, 75 Plumas de Ave e 75 Felpas^000000.";
+			close;
+		}
+	}
+}
+
+yuno,161,202,4	script	Fortius	828,{
+	if (event_tocha < 3 && event_tocha > 4) {
+		mes "[Fortius]";
+		mes "Uff, uff, uff... Uau, acho que quebrei meu recorde na última volta!";
+		mes "- Ele checa o relógio -";
+		next;
+		mes "[Fortius]";
+		mes "A-ha! Como eu esperava! Estou correndo cada vez mais rápido!";
+		mes "Mas... Isso é mesmo exaustivo! Treinar em terreno alto não é tão fácil quanto eu esperava...";
+		close;
+	}
+	else if (event_tocha == 3) {
+		mes "[Fortius]";
+		mes "Uff, uff, uff... Uau, acho que quebrei meu recorde na última volta!";
+		mes "- Ele checa o relógio -";
+		next;
+		mes "[Fortius]";
+		mes "A-ha! Como eu esperava! Estou correndo cada vez mais rápido!";
+		mes "Mas... Isso é mesmo exaustivo! Treinar em terreno alto não é tão fácil quanto eu esperava...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Você é Fortius, não é?";
+		mes "Altius disse que você estaria aqui.";
+		next;
+		mes "- Ele está tomando fôlego. -";
+		next;
+		mes "[Fortius]";
+		mes "Ah, é mesmo? Como a Altius está indo?";
+		mes "Sempre com seus planos de construir coisas enormes... Ei, mas o que é isso que você tem na mão? É uma tocha?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Exatamente, é uma tocha olímpica.";
+		next;
+		mes "[Fortius]";
+		mes "É uma tocha fantástica! Muito melhor do que a que está com Citius!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Bem, na verdade deveria ser a tocha de Citius, mas ela teve de ser...";
+		mes "Hum... Reconstruída. Foi Altius quem a fez.";
+		next;
+		mes "[Fortius]";
+		mes "Ah, entendo... Só podia ser.";
+		mes "Ei, já que você está aqui e quer ajudar, pode me dar uma mão?";
+		next;
+		mes "[Fortius]";
+		mes "Estou muito cansado e sedento com tanto treino, e seria ótimo se tivesse algo para refrescar a garganta, sabe?";
+		mes "Se importaria de me trazer uma garrafa de suco? Pode ser de qualquer fruta";
+		set event_tocha, 4;
+		close;
+	}
+	else if (event_tocha == 4) {
+		mes "[Fortius]";
+		mes "Hey! Por que demorou tanto? Pensei que ia morrer de sede!";
+		mes "Hehe, estou brincando. O que me trouxe?";
+		next;
+		if(countitem(531) < 1) {
+			mes "[Fortius]";
+			mes "Ah, não trouxe nada.";
+			mes "Consiga algum suco e volte.";
+			close;
+		}
+		else {
+			mes "[Fortius]";
+			mes "Trouxe um suco de maçã.";
+			delitem 531,1;
+			next;
+			mes "[Fortius]";
+			mes "Obrigado, vamos ver...";
+			mes "- Fortius bebe o suco. -";
+			next;
+			mes "[Fortius]";
+			mes "Hmm! Gostoso. Ah, estava uma delícia!";
+			mes "Sabe do que mais? Vou lhe fazer alguma perguntas sobre as Olimpíadas, para ver se posso recomendar você a Ferdast.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Quê? Eu acho que...";
+			next;
+			mes "[Fortius]";
+			mes "Ótimo! Vamos a elas.";
+			next;
+			mes "[Fortius]";
+			mes "Primeira pergunta.";
+			mes "Por que os Jogos Olímpicos têm esse nome?";
+			if((select("Porque começaram na cidade de Olímpia.:Porque têm a bênção da deusa Olímpia.:Porque Olímpicus foi o primeiro atleta:Porque 'Olímpia!' é como a platéia torcia no estádio")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Segunda pergunta.";
+			mes "Em que ano o Comitê Olímpico Internacional foi fundado?";
+			if ((select("1894:1824:1915:1842"))== 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "A terceita pergunta é bem fácil.";
+			mes "Quantos anéis tem a bandeira olímpica?";
+			if((select("5:4:3:2")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Quarta pergunta.";
+			mes "O que esses anéis representam?";
+			if((select("Os deuses gregos que abençoam os jogos:As cores das bandeiras de todos os países:A união de todos os continentes:O número de esportes com que os Jogos contém")) == 3)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Quinta pergunta.";
+			mes "Em qual dos Jogos Olímpico a pira olímpica foi acesa com uma flecha em chamas?";
+			if((select("Barcelona, 1992:Seul, 1988:Atlanta, 1996:Atenas, 2004")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Sexta pergunta.";
+			mes "Quais classes de Ragnarok poderiam entrar nos Jogos Olímpicos sem nenhum treinamento adicional?";
+			if((select("Gatunos, Espadachins e Mercadores:Mercadores e Noviços:Magos, Noviços e Ninjas:Arqueiros, Taekwons e Justiceiros")) == 4)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Sétima pergunta.";
+			mes "Os Jogos Olímpicos do Centenário foram disputados em qual país?";
+			if((select("Estados Unidos:Grécia:França:Suíça")) == 2)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Oitava pergunta.";
+			mes "Qual é o nome da mascote das Olimpíadas de Moscou, em 1980?";
+			if((select("Misha:Nala:Makoe:Tuulo")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "Nona pergunta.";
+			mes "Qual é a cidade-sede dos Jogos Olímpicos deste ano?";
+			if((select("Pequim:Seul:Veneza:Rio de Janeiro")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Muito bem. Próxima pergunta...";
+			next;
+			mes "[Fortius]";
+			mes "A última pergunta.";
+			mes "Quando foi que o futebol se tornou esporte olímpico?";
+			if((select("1900:1996:2004:2002")) == 1)
+				set .@acertos,.@acertos+1;
+			next;
+			mes "[Fortius]";
+			mes "Certo... Terminamos!";
+			next;
+			if (.@acertos < 8) {
+				mes "[Fortius]";
+				mes "Infelizmente, você não atingiu a meta de acertos.";
+				mes "Leia mais sobre os jogos olímpicos e volte para tentar novamente.";
+				close;
+			}
+			else {
+				mes "[Fortius]";
+				mes "Você só errou uma ou duas perguntas.";
+				mes "Mesmo assim, seu conhecimento é incrível!! Parabéns!";
+				next;
+				mes "[Fortius]";
+				set event_tocha, 5;
+				mes "Como prometi, vou dar minha recomendação a Ferdast para você.";
+				mes "Mostre este bilhete e a tocha a ele. Ele vai ficar contente em lhe ver! Ele está em Hugel, bem perto das docas. Agora, se me dá licença, vou continuar treinando!";
+				next;
+				mes "- Fortius dispara para correr mais uma volta, sem olhar para trás.";
+				mes "Você deve ir ver Ferdast agora... -";
+				close;
+			}
+		}
+	}
+}
+
+hugel,100,133,4	script	Ferdast	754,{
+	if (event_tocha < 5) {
+		mes "[Ferdast]";
+		mes "Mais alto, mais rápido, mais forte... O lema olímpico...";
+		close;
+	}
+	else if (event_tocha == 5) {
+		mes "[Ferdast]";
+		mes "Mais alto, mais rápido, mais forte... O lema olímpico...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "- Ele parece muito absorto e concentrado, mas preciso falar com ele, como Fortius disse. -";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Hum, com licença, senhor Ferdast?";
+		next;
+		mes "[Ferdast]";
+		mes "Sim, sou eu. Ooh! Essa aí é a tocha olímpica?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Ah, é sim. Fortius me mandou. Disse que tinha de trazê-la para você.";
+		next;
+		mes "[Ferdast]";
+		mes "Mas é claro! O velho Fortius...";
+		mes "Hehe, ele ainda está correndo como um louco, contra o relógio e contra si mesmo?";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Acho que sim. Ele estava bem concentrado em correr quando o encontrei.";
+		next;
+		mes "[Ferdast]";
+		mes "Hehehe...";
+		mes "Ele ainda tem muito que aprender sobre o verdadeiro espírito olímpico.";
+		next;
+		mes "[Ferdast]";
+		mes "O mais importante não é vencer, é competir. Não importa se você vença ou não, desde que você se esforce.";
+		next;
+		mes "[Ferdast]";
+		mes "E você, ao me trazer esta tocha sagrada, se esforçou de verdade.";
+		mes "Agora devo levar esta tocha e começar a cerimônia. Acho que você deve visitar a irmã de Fortius e dizer a ela que a tocha está segura comigo. Citius vai ficar satisfeita por ter confiado em alguém como você.";
+		getexp 2000000,0;
+		set event_tocha, 6;
+		close;
+	}
+	else if (event_tocha == 6) {
+		mes "[Ferdast]";
+		mes "Obrigado por sua ajuda.";
+		mes "Não esqueça do espírito olímpico e do seu significado.";
+		mes "E por favor, fale com ^000080Citius^000000.";
+		close;
+	}
+}

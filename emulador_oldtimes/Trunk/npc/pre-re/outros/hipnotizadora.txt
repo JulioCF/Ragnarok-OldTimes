@@ -1,0 +1,94 @@
+//===== Cronus Script ========================================
+//= Hipnotizadora
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.0b
+//===== Comentários Adicionais: ==============================
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.0a Traduzido. [SoulBlaker]
+//= 1.0b Revisado. [RoM]
+//============================================================
+
+prontera,146,232,4	script	Hipnotizadora#2	124,{
+	mes "[Hipnotizadora]";
+	mes "Olá, aventureiro!";
+	mes "Fui mandada pela Academia de Hipnotismo";
+	mes "para ajudar os iniciantes que se arrependem de não terem aprendido suas habilidades do jeito que gostariam.";
+	next;
+	mes "[Hipnotizadora]";
+	mes "Se seu Nível de Base não for maior que 40, e se você estiver numa Classe 1-1, como:";
+	mes "Espadachim, Noviço, Mago, Gatuno, Arqueiro, Mercador, Taekwon, Ninja ou Justiceiro.";
+	mes "Então você pode usufruir de meu Serviço de Redistribuição de Pontos de Habilidades.";
+	next;
+	mes "[Hipnotizadora]";
+	mes "Desde que você atenda a essas condições, poderei prestar meu Serviço de Redistribuição de Pontos de Habilidade";
+	mes "sem qualquer limitação. Agora, que tal isso?";
+	next;
+	switch(select("Redistribuição de Pontos de Habilidade?:^FF0000Redistribuir os Pontos de Habilidade^000000:Cancelar")) {
+
+	case 1:
+		mes "[Hipnotizadora]";
+		mes "A Redistribuição de Pontos de Habilidade dá outra chance aos aventureiros de distribuir seus Pontos.";
+		mes "Se não estiver satisfeito com suas habilidades atuais, então você pode usufruir meu serviço.";
+		next;
+		mes "[Hipnotizadora]";
+		mes "Lembre-se que só é possível redistribuir seus pontos de Habilidade se não estiver carregando nenhum item com você.";
+		mes "Por favor, antes use o serviço de Armazenagem Kafra para reduzir seu peso.";
+		next;
+		mes "[Hipnotizadora]";
+		mes "Ah, e se por acaso você estiver equipado com um ^FF0000Carrinho^000000, livre-se deles antes.";
+		mes "Esse item costuma interferir na hipnose por alguma razão estranha e inexplicável.";
+		close;
+
+	case 2:
+		mes "[Hipnotizadora]";
+		mes "Então, você já decidiu que quer ^FF0000Redistribuir os Pontos de Habilidade^000000.";
+		mes "Podemos continuar?";
+		next;
+		if (select("Sim:Não") == 1) {
+			if (BaseLevel > 40) {
+				mes "[Hipnotizadora]";
+				mes "Lamento, mas personagens com o Nível de Base maior que 40 são inelegíveis para";
+				mes "que eu possa redistribuir os Pontos de Habilidades.";
+				close;
+			}
+			if ((Class > 0 && Class < 7 && Upper == 0) || (Class == Job_Gunslinger) || (Class == Job_Ninja) || (Class == Job_Taekwon)) {
+				if (checkcart()) {
+					mes "[Hipnotizadora]";
+					mes "Oh! Remova o seu carrinho antes de restribuir os seus pontos de habilidades.";
+					mes "Obrigado por colaborar!";
+					close;
+				}
+				if (Weight) {
+					mes "[Hipnotizadora]";
+					mes "Ah, você poderia reduzir o peso que está carregando em seu iventário para ^FF00000^00000?";
+					mes "Desculpe, mas não vou poder redistribuir seus pontos de Habilidade de outra forma...";
+					close;
+				}
+				mes "[Hipnotizadora]";
+				mes "Obrigado por você usar os meus serviços de redistribuição de Pontos de Habilidades.";
+				mes "Oh, e muita sorte para você em suas viagens, aventureiro.";
+				ResetSkill;
+				close;
+			}
+			mes "[Hipnotizadora]";
+			mes "Desculpe, mas sua Classe não está apta para o Serviço de Redistribuição de Pontos de Habilidade.";
+			mes "Posso redistribuir os pontos apenas para:";
+			mes "Espadachins, Noviços, Magos, Gatunos, Arqueiros, Mercadores, Taekwon, Ninjas ou Justiceiros.";
+			mes "Ou seja, Classes 1-1.";
+			close;
+		}
+		mes "[Hipnotizadora]";
+		mes "Muito obrigado, e boa sorte em suas aventuras.";
+		mes "Bem, então tome cuidado. Não seria nada bom se machucar por aí.";
+		close;
+
+	case 3:
+		mes "[Hipnotizadora]";
+		mes "Hmm...? Saindo para suas aventuras?";
+		mes "Bem, então tome cuidado. Não seria nada bom se machucar por aí.";
+		close;
+	}
+
+}

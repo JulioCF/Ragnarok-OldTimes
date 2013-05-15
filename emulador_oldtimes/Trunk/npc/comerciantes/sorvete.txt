@@ -1,0 +1,41 @@
+//= otRag ??
+alberta,120,45,2	script	Fabricante de Sorvete::IceCreamer	85,{
+	mes "[Fabricante de Sorvete]";
+	mes "Sorvete fresco feito com a neve de Lutie!";
+	mes "Agora desfrute, não estará à venda durante muito tempo";
+	mes "E custara apenas ^0000FF100 Zenys^000000";
+	next;
+	menu "Eu Gostaria!",-,"Cancelar Compra",L_End;
+	
+		mes "[Fabricante de Sorvete]";
+		mes "Todo mundo quer nosso sorvete delicioso, mas nós limitamos a quantia,";
+		mes "você so pode comprar ate 5 de cada !!";
+		next;
+		digit @input;
+		mes "[Fabricante de Sorvete]";
+		if(@input<1) goto L_inpC;
+		if(@input>5) goto L_inpM;
+		if(Zeny< @input*100) goto L_NoZ;
+		additem 536,@input;
+		set Zeny,Zeny-100*@input;
+		mes "Aqui vai  " +@input+ "  Sorvete para você.";
+		close;
+		
+		L_inpC:
+			mes "Transação foi cancelada.";
+			close;
+		L_inpM:
+			mes "Desculpe, mas você só pode comprar 5 de cada vez.";
+			close;
+		L_NoZ:
+			mes "Desculpe, mas você precisa de mais dinheiro.";
+			close;
+	L_End:
+		mes "[Fabricante de Sorvete]";
+		mes "Você tem certeza que não quer um sorvete?";
+		mes "Ja ja estou indo em bora, e não voltarei em breve";
+		close;
+}
+
+moc_fild16,88,304,4	duplicate(IceCreamer)	Fabricante de Sorvete#2	85
+omorocc,160,144,4	duplicate(IceCreamer)	Fabricante de Sorvete#3	85

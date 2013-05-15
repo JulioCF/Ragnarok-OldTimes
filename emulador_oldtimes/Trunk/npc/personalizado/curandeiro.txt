@@ -1,0 +1,56 @@
+//===== Cronus Script ========================================
+//= Curandeiro
+//===== Por: =================================================
+//= Euphy
+//===== Versão Atual: ========================================
+//= 1.0a
+//===== Descrição: ===========================================
+//= Recupera HP e SP, dá buffs e com opção de delay
+//===== Changelog: ===========================================
+//= 1.0 First version. [Euphy]
+//= 1.0a Traduzido. [mkbu95]
+//============================================================
+
+-	script	Curandeiro	-1,{
+	
+	set .@Price,	0;	// Zeny necessário para curar. 0 = Gratuito
+	set .@Buffs,	0;	// Dar buffs básicos ao jogador? (1 = Sim/0 = Não)
+	set .@Delay,	0;	// Delay para usar o npc, em segundos. 0 = Desativado
+
+	callfunc "F_ClearGarbage", 0;
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		message strcharinfo(0),"A cura custa "+.@Price+" Zeny.";
+		if (Zeny < .@Price) end;
+		if(select("^0055FFCurar^000000:^777777Cancelar^000000")==2) close;
+		set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 313; percentheal 100,100;
+	if (gethominfo(1)) healhomun 100, 100;
+	if (.@Buffs) {
+		specialeffect2 37; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 42; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+	close;
+}
+
+prontera,150,184,5	duplicate(Curandeiro)	Curandeiro#pront	742
+morocc,159,96,5	duplicate(Curandeiro)	Curandeiro#moc	742
+ayothaya,155,111,5	duplicate(Curandeiro)	Curandeiro#ayo	742
+geffen,121,61,5	duplicate(Curandeiro)	Curandeiro#gef	742
+umbala,94,162,5	duplicate(Curandeiro)	Curandeiro#umb	742
+payon,180,105,5	duplicate(Curandeiro)	Curandeiro#pay	742
+alberta,185,144,5	duplicate(Curandeiro)	Curandeiro#alb	742
+aldebaran,134,123,5	duplicate(Curandeiro)	Curandeiro#alde	742
+izlude,125,118,5	duplicate(Curandeiro)	Curandeiro#izl	742
+xmas,149,136,5	duplicate(Curandeiro)	Curandeiro#xmas	742
+comodo,188,162,5	duplicate(Curandeiro)	Curandeiro#com	742
+amatsu,200,80,5	duplicate(Curandeiro)	Curandeiro#ama	742
+gonryun,164,130,5	duplicate(Curandeiro)	Curandeiro#gon	742
+yuno,152,186,5	duplicate(Curandeiro)	Curandeiro#yuno	742
+niflheim,188,180,5	duplicate(Curandeiro)	Curandeiro#nif	742
+louyang,225,103,5	duplicate(Curandeiro)	Curandeiro#lou	742
+rachel,131,117,5	duplicate(Curandeiro)	Curandeiro#rac	742
+veins,212,124,5	duplicate(Curandeiro)	Curandeiro#vei	742
+moscovia,221,192,5	duplicate(Curandeiro)	Curandeiro#mosc	742

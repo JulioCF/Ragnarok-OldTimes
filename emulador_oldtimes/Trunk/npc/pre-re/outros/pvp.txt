@@ -1,0 +1,401 @@
+//===== Cronus Script ===========================================================
+//= PvP
+//===== Por: ====================================================================
+//= kobra_k88
+//===== Versão Atual: ===========================================================
+//= 1.4
+//===== Compativel com: =========================================================
+//= Cronus 282+, eAthena 5.0.4
+//===== Descrição: ==============================================================
+//= Npcs de PvP, Narrador, Ajudante e Porteiro
+//===== Additional Comments: ==================================================== 
+//= v1.1 Fixado nome das arena no modo Pesadelo.  Adicionado 
+//= limite por sala. [kobra_k88]
+//= v1.2 Fixado o bug de sempre salvar seu ponto em geffen. [shadowlady]
+//= v1.2a Adicionada a função do narrador. Usando "args" para ajudar [kobra_k88]
+//= v1.3 Traduzido para o Cronus [Kamper/Pudim]
+//= v1.4 Coordenadas dos npcs convertidas para a nova payon [Pudim]
+//===============================================================================
+
+
+// Narradores de PVP
+// Alberta
+alberta_in,22,146,4	script	Narrador do PvP#1	84,{
+	callfunc "F_PvPNarr", "alberta_in", 24, 143;
+	end;
+}
+// Payon
+payon_in01,6,55,4	script	Narrador do PvP#2	84,{
+	callfunc "F_PvPNarr", "payon_in01", 169, 108;
+	end;
+}
+// Prontera
+prt_in,56,140,4	script	Narrador do PvP#3	84,{
+	callfunc "F_PvPNarr", "prt_in", 54, 137;
+	end;
+}
+// Morocc
+morocc_in,144,138,4	script	Narrador do PvP#4	84,{
+	callfunc "F_PvPNarr", "morocc_in", 141, 140;
+	end;
+}
+// Geffen
+geffen_in, 67,63,4	script	Narrador do PvP#5	84,{
+	callfunc "F_PvPNarr", "geffen_in", 64, 60;
+	end;
+}
+
+// Função do Narrador de PvP
+function	script	F_PvPNarr	{
+	mes "[Narrador do PvP]";
+	mes "Olá!";
+	mes "Minha função é explicar... o que é o modo PvP... Eu sou o Narrador do PvP!";
+M_Menu:
+	next;
+	menu "^5533FF'Modo PvP'^000000?",M_0, "O que é Modo PvP?",M_1, "Como são as regras?",M_2, "Salvar minha posição atual",M_3, "Sair",M_Exit;
+
+	M_0:
+		mes "[Narrador do PvP]";
+		mes "PvP é uma abreviação de 'Player versus Player'! Esse é o unico modo de jogo que possibilita jogadores enfrentarem uns aos outros!";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Se você estiver interessado é só falar com o ^5533FFPorteiro do PVP'^000000.  Ele irá te levar para a arena PvP.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "É isso, Se você tem tem no mínimo nível de base 30 e ter 500 de zeny para o custo de entrada.";
+		mes "Esses são os requerimentos para participar do PvP.";
+		goto M_Menu;
+	M_1:
+		mes "[Narrador do PvP]";
+		mes "Há dois modos de PvP para escolher.";
+		mes "O Primeiro chamado Modo ^5533FF'Yoyo'^000000 e outro chamado ^5533FF'Modo Pesadelo'^000000 de PVP.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Modo Yoyo essencialmente deixa você jogar sem risco. Você pode experimentar a emoção do PvP sem restrições e penaltes.";
+		mes "É recomendado que você pretique suas habilidades nesse modo antes de escolher outro.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Modo Pesadelo é muito perigoso! Por Favor seja cuidadoso ao usar este modo.";
+		mes "Você irá perder EXP real se você for derrotado.  Há uma pequena chance de você derrubar algums itens e equipamentos.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "É claro se você vencer, a recompensa será grandiosa!! Mesmo assim você deve realmente pensar duas vezes antes que você tente o modo Pesadelo.";
+		mes "De qualquer jeito, Boa Sorte.";
+		goto M_Menu;
+	M_2:
+		mes "[Narrador do PvP]";
+		mes "Antes de você entrar numa arena de PvP, você deve primeiramente escolher seu nível da abilidade baseado em seu nível de base.";
+		mes "Você fará isto numa sala pré-luta.  Terá uma fileira de narradores cada um que representa um nível de jogo.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Fale com o narrador que representa seu nível.  Você será questionado a escolher cinco mapas.";
+		mes "Você conseguirá ver quantas pessoas estão participando em cada mapa.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "O número será representado por 'Participantes/Total' no canto da tela.  Há um limite de jogadores para cada mapa.";
+		mes "Há um valor e EXP oculto no modo PvP.  Esta EXP somente se aplica dentro da zona de PvP e não fora.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Toda vez que você entrar no PvP você receberá 5 pontos de EXP.  Se você ganhar esses pontos irão aumentar em 1.";
+		mes "Se você perder você perderá 5 pontos, então seja cuidadoso!";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Se você for derrotado e sua EXP for menor ou igual que 0, você será removido do PvP.";
+		mes "Se sua EXP for maior que 0 então você continuará lutando e conseguindo ajuda de curandeiros.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Os comandos dentro do PvP são os mesmos que fora.  Mas se lembre que você não poderá salvar dentro da arena PvP.";
+		next;
+		mes "[Narrador do PvP]";
+		mes "Se lembre dessa regras e elas poderão ajudar a você vencer.";
+		goto M_Menu;
+	M_3:
+		savepoint getarg(0), getarg(1), getarg(2);
+		mes "[Narrador do PvP]";
+		mes "Sua posição foi salva.";
+		close;
+	M_Exit:
+		mes "[Narrador do PvP]";
+		mes "Aqui acontece uma guerra entre jogadores.";
+		mes "Muitos jogadores... gostam muito disso.";
+		mes "Modo PVP!";
+		mes "Bem vindo!";
+		mes "Aceite o desafio!";
+		close;
+}
+
+// Porteiros do PVP
+// Alberta -----------------------------------
+alberta_in, 26,146,4	script	Porteiro do PvP#1::GateKeep	83,{
+	mes "[Porteiro do PvP]";
+	mes "Olá.  Estou contente em serví-lo.  Eu abrirei a arena de PvP para você!";
+	mes "Se você tem alguma dúvida sobre os modos de PvP ou regras por favor fale com o narrador.....";
+	next;
+	menu	"Entrar no ^5533FFModo Yoyo^000000 de PvP",M_0, 
+		"Entrar no ^FF5533Modo Pesadelo^000000 de PvP",M_1, 
+		"Entrar em ^5533FFEvento de Combate^000000",M_2, 
+		"Desistir",M_End;
+	M_0:
+		set @mode$, "Yoyo";
+		set @players1, 128;
+		set @players2, 128;
+		set @room1$, "Prontera";
+		set @room2$, "Izlude";
+		set @room3$, "Payon";
+		set @room4$, "Alberta";
+		set @room5$, "Morroc";
+		callsub sF_Move;
+		warp "pvp_y_room", 51, 23;
+		end;
+	M_1:
+		set @mode$, "Pesadelo";
+		set @players1, 64;
+		set @players2, 32;
+		set @room1$, "Arena Sanduiche";
+		set @room2$, "Arena de Pedra";
+		set @room3$, "Arena quadrada";
+		set @room4$, "Arena SobCruz";
+		set @room5$, "Arena Compasso";
+		callsub sF_Move;
+		warp "pvp_n_room", 51, 23;
+		end;
+	M_2:
+
+		mes "[Porteiro do PvP]";
+		mes "Para entrar na arena de duelo (Luta) você tem que ter um passe de admissão.  Você tem um?";
+		next;
+		menu "Sim eu tenho.",-, "Não, Não tenho.",sM_1;
+
+			if(countitem(7029) < 1) goto sM_1;
+			delitem 7029, 1;
+			set @mode$, "de Luta";
+			callsub sF_Move;
+			warp "pvp_y_room", 51, 23;
+			end;
+
+		sM_1:
+			mes "[Porteiro do PvP]";
+			mes "Uhh!? Você não tem um? Me desculpe mas a arena de luta é apenas para pessoas que tem o passe de admissão.";
+			mes "Você não pode entrar comigo.";
+			close;
+	M_End:
+		mes "[Porteiro do PvP]";
+		mes "Nessa guerra entre monstros e humanos essa competição entre pessoas, PvP, nos encoraja a ser-mos mais fortes.";
+		mes "Volte quando quiser.  Seja bem-vindo ao desafio!";
+		close;
+
+sF_Move:
+	mes "[Porteiro do PvP]";
+	mes "A taxa de admissão é de 500 de Zeny.  Você gostaria de entrar na arena "+@mode$+"?";
+	next;
+	menu "Sim",-, "Não",M_End;
+
+		if(BaseLevel < 31) goto sL_LowLvl;
+		if(Zeny < 500) goto sL_NdZeny;
+		set Zeny, Zeny - 500;
+		mes "[Porteiro do PvP]";
+		mes "Se prepare você está teleportado para a arena.....";
+		next;
+		return;
+
+		sL_LowLvl:
+			mes "[Porteiro do PvP]";
+			mes "Para participar do PvP você tem que ter no mínimo nível ^FF4444'31'^000000 de base.";
+			close;
+		sL_NdZeny:
+			mes "[Porteiro do PvP]";
+			mes "A taxa de admissão é de ^FF4444'500'^000000 de Zeny.  Você parece não ter Zeny o suficiente.";
+			close;
+}
+
+// Geffen
+geffen_in, 63,63,4	duplicate(GateKeep)	Porteiro do PvP#2	83
+// Morroc
+morocc_in, 144,142,4	duplicate(GateKeep)	Porteiro do PvP#3	83
+// Payon
+payon_in01,10,54,4	duplicate(GateKeep)	Porteiro do PvP#4	83
+// Prontera
+prt_in,52,140,4	duplicate(GateKeep)	Porteiro do PvP#5	83
+
+
+
+// LV31 ~ 40 ---------------------------------
+pvp_y_room,30,85,4	script	Ajudante de PvP::YHelper1	105,{
+	callfunc "F_PvPRoom", "y_1", 31, 40;
+OnInit:
+	waitingroom "NV31 ~ NV40",0;
+	end;
+}
+
+// LV41 ~ 50 --------------------------------
+pvp_y_room,38,85,4	script	Ajudante de PvP::YHelper2	105,{
+	callfunc "F_PvPRoom", "y_2", 41, 50;
+OnInit:
+	waitingroom "NV41 ~ NV50",0;
+	end;
+}
+
+// LV51 ~ 60 ---------------------------------
+pvp_y_room,46,85,4	script	Ajudante de PvP::YHelper3	105,{
+	callfunc "F_PvPRoom", "y_3", 51, 60;
+OnInit:
+	waitingroom "NV51 ~ NV60", 0;
+	end;
+}
+
+// LV61 ~ 70 ------------------------------------
+pvp_y_room,54,85,4	script	Ajudante de PvP::YHelper4	105,{
+	callfunc "F_PvPRoom", "y_4", 61, 70;
+OnInit:
+	waitingroom "NV61 ~ NV70", 0;
+	end;
+}
+
+// LV71 ~ 80 ------------------------------------
+pvp_y_room,62,85,4	script	Ajudante de PvP::YHelper5	105,{
+	callfunc "F_PvPRoom", "y_5", 71, 80;
+OnInit:
+	waitingroom "NV71 ~ NV80", 0;
+	end;
+}
+
+// LV81 ~ 90 --------------------------------------
+pvp_y_room,70,85,4	script	Ajudante de PvP::YHelper6	105,{
+	callfunc "F_PvPRoom", "y_6", 81, 90;
+OnInit:
+	waitingroom "NV81 ~ NV90", 0;
+	end;
+}
+
+// LV91 ~  --------------------------------------------
+pvp_y_room,78,85,4	script	Ajudante de PvP::YHelper7	105,{
+	callfunc "F_PvPRoom", "y_7", 91, 255;
+OnInit:
+	waitingroom "NV91 ~ ", 0;
+	end;
+}
+
+// No Limit  -----------------------------------------
+pvp_y_room,86,85,4	script	Ajudante de PvP::YHelper8	105,{
+	callfunc "F_PvPRoom", "y_8", 0, 255;
+OnInit:
+	waitingroom "Sem Limite", 0;
+	end;
+}
+
+
+// Ajudanted de PVP do Modo Pesadelo
+// LV31 ~ 40 -------------------------------------
+pvp_n_room,30,85,4	script	Ajudante de PvP#N1	105,{
+	callfunc "F_PvPRoom", "n_1", 31, 40;
+OnInit:
+	waitingroom "NV31 ~ NV40",0;
+	end;
+}
+
+// LV41 ~ 50 --------------------------------------
+pvp_n_room,38,85,4	script	Ajudante de PvP#N2	105,{
+	callfunc "F_PvPRoom", "n_2", 41, 50;
+OnInit:
+	waitingroom "NV41 ~ NV50",0;
+	end;
+}
+
+// LV51 ~ 60 -------------------------------------
+pvp_n_room,46,85,4	script	Ajudante de PvP#N3	105,{
+	callfunc "F_PvPRoom", "n_3", 51, 60;
+OnInit:
+	waitingroom "NV51 ~ NV60", 0;
+	end;
+}
+
+// LV61 ~ 70 ------------------------------------
+pvp_n_room,54,85,4	script	Ajudante de PvP#N4	105,{
+	callfunc "F_PvPRoom", "n_4", 61, 70;
+OnInit:
+	waitingroom "NV61 ~ NV70", 0;
+	end;
+}
+
+// LV71 ~ 80 -----------------------------------
+pvp_n_room,62,85,4	script	Ajudante de PvP#N5	105,{
+	callfunc "F_PvPRoom", "n_5", 71, 80;
+OnInit:
+	waitingroom "NV71 ~ NV80", 0;
+	end;
+}
+
+// LV81 ~ 90 ------------------------------------
+pvp_n_room,70,85,4	script	Ajudante de PvP#N6	105,{
+	callfunc "F_PvPRoom", "n_6", 81, 90;
+OnInit:
+	waitingroom "NV81 ~ NV90", 0;
+	end;
+}
+
+// LV91 ~  ---------------------------------------
+pvp_n_room,78,85,4	script	Ajudante de PvP#N7	105,{
+	callfunc "F_PvPRoom", "n_7", 91, 255;
+OnInit:
+	waitingroom "NV91 ~ ", 0;
+	end;
+}
+
+// No Limit  ----------------------------------
+pvp_n_room,86,85,4	script	Ajudante de PvP#N8	105,{
+	callfunc "F_PvPRoom", "n_8", 0, 255;
+OnInit:
+	waitingroom "Sem Limite", 0;
+	end;
+}
+
+// Função do Ajudante de PvP
+function	script	F_PvPRoom	{
+
+	mes "[Ajudante de PvP]";
+	if(BaseLevel < getarg(1)) goto L_LowLvl;
+	if(BaseLevel > getarg(2)) goto L_HiLvl;
+	mes "Por Favor escolha a arena de luta...";
+	M_Menu:
+	next;
+	menu 	@room1$ + " [" + getmapusers("pvp_" + getarg(0) + "-1") + "/" +@players1+ "]",M_Rm1, 
+		@room2$ + " [" + getmapusers("pvp_" + getarg(0) + "-2") + "/" +@players2+ "]",M_Rm2, 
+		@room3$ + " [" + getmapusers("pvp_" + getarg(0) + "-3") + "/" +@players2+ "]",M_Rm3, 
+		@room4$ + " [" + getmapusers("pvp_" + getarg(0) + "-4") + "/" +@players2+ "]",M_Rm4, 
+		@room5$ + " [" + getmapusers("pvp_" + getarg(0) + "-5") + "/" +@players2+ "]",M_Rm5, "Cancel",M_End;
+	M_Rm1:
+		if (getmapusers("pvp_" + getarg(0) + "-1") == @players1) goto L_Full;
+		warp "pvp_" + getarg(0) + "-1",0,0;
+		end;
+	M_Rm2:
+		if (getmapusers("pvp_" + getarg(0) + "-2") == @players2) goto L_Full;
+		warp "pvp_" + getarg(0) + "-2",0,0;
+		end;
+	M_Rm3:
+		if (getmapusers("pvp_" + getarg(0) + "-3") == @players2) goto L_Full;
+		warp "pvp_" + getarg(0) + "-3",0,0;
+		end;
+	M_Rm4:
+		if (getmapusers("pvp_" + getarg(0) + "-4") == @players2) goto L_Full;
+		warp "pvp_" + getarg(0) + "-4",0,0;
+		end;
+	M_Rm5:
+		if (getmapusers("pvp_" + getarg(0) + "-5") == @players2) goto L_Full;
+		warp "pvp_" + getarg(0) + "-5",0,0;
+		end;
+	M_End:
+		close;
+
+	L_LowLvl:
+		mes "Me desculpe mais você não tem Nível de Base o suficiente para entrar.  Por favor tente uma sala mais fácil.";
+		close;
+	L_HiLvl:
+		mes "Me desculpe mas seu Nível de Base é muito alto para esta sala.  Por favor tente uma sala mais difícil.";
+		close;
+	L_Full:
+		mes "[Ajudante de PvP]";
+		mes "Me desculpe mas esta arena está cheia.  Por favor escolha outra sala para participar.";
+		goto M_Menu;
+}
+
+

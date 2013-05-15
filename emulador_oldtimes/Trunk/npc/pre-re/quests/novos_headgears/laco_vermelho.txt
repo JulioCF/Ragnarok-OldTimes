@@ -1,0 +1,64 @@
+//===== Cronus Script ========================================
+//= Quest do Laço Vermelho
+//===== Por: =================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest do Laço Vermelho
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+prontera,164,232,5	script	Netpia	815,{
+ mes "[Netpia]";
+ mes "Ueee! Você simplesmente não adora ficar bonito!?";
+ mes "Eu adoro usar os melhores acessórios!";
+ next;
+ mes "[Netpia]";
+ mes "Já ouviu falar sobre o ^560000Laço Vermelho^000000?";
+ mes "Eu posso fazer um para você, e você também ficará fascinado!";
+ next;
+ menu "Fazer um ^670000Laço Vermelho^000000.",-,"Quais são os requerimentos?",M_REQ,"Não, eu não quero uma.",M_EXIT;
+
+ if(countitem(2244) < 1 || countitem(2209) < 1 || countitem(10007) < 1) GOTO L_NOITEM;//Items: Big Ribbon, Ribbon, Silk Ribbon,
+ delitem 2244,1;//Items: Laço Grande,
+ delitem 2209,1;//Items: Laço,
+ delitem 10007,1;//Items: Laço de Seda,
+ mes "[Netpia]";
+ mes "Uau, Obrigada! Me deixe pegar seus itens.";
+ next;
+ getitem 5083,1;//Items: Back Ribbon,
+ mes "[Netpia]";
+ mes "Então, aqui está o seu item.";
+ next;
+ mes "[Netpia]";
+ mes "Agora comece a ser bonito!";
+ close;
+
+L_NOITEM:
+ mes "[Netpia]";
+ mes "Auu... desculpa, mas eu não posso fazer o Back Ribbon se você não me trouxer os materiais.";
+ next;
+
+M_REQ:
+ mes "[Netpia]";
+ mes "Bem, para eu lhe fazer o meu LINDO Laço Vermelho...";
+ mes "Eu vou precisar desse itens:";
+ mes "1 Laço Grande,";
+ mes "1 Laço com 1 slot e";
+ mes "1 Laço de Seda.";
+ close;
+
+M_EXIT:
+ mes "[Netpia]";
+ mes "Auu, bem, ok então!";
+ mes "Fique bonito outra hora";
+ close;
+}

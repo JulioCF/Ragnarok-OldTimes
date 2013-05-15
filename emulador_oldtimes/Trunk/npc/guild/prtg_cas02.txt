@@ -1,0 +1,140 @@
+//===== Cronus Script =========================================
+//= Guerra do Emperium (Prontera)
+//===== Por: ==================================================
+//= L0ne_W0lf
+//===== Versão Atual: =========================================
+//= 1.2/1.2b
+//===== Compatível com: =======================================
+//= Cronus SVN
+//===== Descrição: ============================================
+//= NPCs relativos ao 2º Castelo de Prontera
+//===== Comentários Adicionais: ===============================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2 Corrigido erros [Soulblaker]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Removido show	[Yum]
+//===============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+/*prontera,152,196,4	script	Hrist#p2-1::Swanhild	722,{
+
+	callfunc "Guild_Flags", "prtg_cas02";
+
+OnRecvCastlePt02:
+	FlagEmblem GetCastleData("prtg_cas02",1);
+	end;
+}*/
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+prt_gld,244,126,8	script	Hrist#p2-2::Swanhild2	722,{
+	set .@GID, GetCastleData("prtg_cas02",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("prtg_cas02",1)) {
+					warp "prtg_cas02",71,36;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastlePt02:
+	FlagEmblem GetCastleData("prtg_cas02",1);
+	end;
+}
+
+prt_gld,244,128,8	duplicate(Swanhild2)	Hrist#p2-3	722
+prt_gld,236,126,8	duplicate(Swanhild2)	Hrist#p2-4	722
+prt_gld,236,128,8	duplicate(Swanhild2)	Hrist#p2-5	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+prtg_cas02,40,227,4	script	Hrist#p2-6::Swanhild3	722,{
+	end;
+
+OnRecvCastlePt02:
+	FlagEmblem GetCastleData("prtg_cas02",1);
+	end;
+}
+
+prtg_cas02,46,227,4	duplicate(Swanhild3)	Hrist#p2-7	722
+prtg_cas02,11,219,4	duplicate(Swanhild3)	Hrist#p2-8	722
+prtg_cas02,11,214,4	duplicate(Swanhild3)	Hrist#p2-9	722
+prtg_cas02,20,219,4	duplicate(Swanhild3)	Hrist#p2-10	722
+prtg_cas02,20,214,4	duplicate(Swanhild3)	Hrist#p2-11	722
+prtg_cas02,79,227,8	duplicate(Swanhild3)	Hrist#p2-12	722
+prtg_cas02,70,227,8	duplicate(Swanhild3)	Hrist#p2-13	722
+prtg_cas02,38,189,8	duplicate(Swanhild3)	Hrist#p2-14	722
+prtg_cas02,34,189,8	duplicate(Swanhild3)	Hrist#p2-15	722
+prtg_cas02,153,161,4	duplicate(Swanhild3)	Hrist#p2-16	722
+prtg_cas02,162,161,4	duplicate(Swanhild3)	Hrist#p2-17	722
+
+// AGIT Manager
+//============================================================
+prtg_cas02,158,174,0	duplicate(Gld_Agit_Manager)	Agit#prtg_cas02	-1
+
+// Steward
+//============================================================
+prtg_cas02,94,61,4	duplicate(Gld_Mngr_Template)	Roy#prtg_cas02	55
+
+// Guardians
+//============================================================
+prtg_cas02,94,61,4	duplicate(Gld_Guard_Template)	Guardian#prtg_cas02	-1
+
+// Serviço Kafra
+//============================================================
+prtg_cas02,71,36,4	duplicate(Gld_Kafra_Template)	Kafra#prtg_cas02	117
+
+// Saída da Sala do Mestre
+//============================================================
+prtg_cas02,207,228,0	script	#switch_Pt02	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "prtg_cas02",94,62;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+prtg_cas02,202,228,0	duplicate(Gld_Trea_Protect)	ban_warp#prtg_cas02	-1,6,6
+
+// Guild Treasure Spawns
+//============================================================
+prtg_cas02,202,228,0	duplicate(Gld_Trea_Spawn)	Treasure#prtg_cas02	-1
+
+// Guild Dungeon Switch
+//============================================================
+prtg_cas02,84,72,0	duplicate(Gld_Dun_Template)	#prtg_cas02	111

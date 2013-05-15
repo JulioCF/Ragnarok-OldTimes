@@ -1,0 +1,416 @@
+//===== Cronus Script ========================================
+//= Corporação de Eventos Incríveis
+//===== Por: =================================================
+//= Dojo
+//===== Versão Atual: ========================================
+//= 1.1
+//===== Compatível com: ======================================
+//= Cronus GIT
+//===== Descrição: ===========================================
+//= Corporação de Eventos Incríveis
+//===== Comentários Adicionais: ==============================
+//= 1.1 Traduzido de acordo com os diálogos oficiais do bRO [Schrwaizer]
+//============================================================
+
+
+hugel,88,168,4	script	Corporação de Eventos::StaffHugel	874,{
+	cutin "zonda_01",2;
+	mes "[Corporação de Eventos Incríveis]";
+	mes "Bem-vindo a Corporação de Eventos incríveis.";
+	mes "Nós estamos sempre trabalhando";
+	mes "para superar suas expectativas";
+	mes "de um serviço de qualidade. Como";
+	mes "posso lhe ser útil?";
+	next;
+	switch(select("Salver:Usar armazém:Alugar Carrinho:Senha do Armazém:Cancelar")){
+	case 1:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Seu ponto de retorno";
+		mes "foi salvo aqui, na vila";
+		mes "de Hugel. Obrigado por";
+		mes "usar o serviço da Corporação";
+		mes "de Eventos Incríveis~";
+		savepoint "hugel",96,155;
+		close2;
+		break;
+	case 2:
+		mes "[Corporação de Eventos Incríveis]";
+		if(basicskillcheck() && getskilllv("NV_BASIC") < 6){
+			mes "Sinto muito, mas você";
+			mes "precisa de Habilidades";
+			mes "Básicas nível 6 para";
+			mes "usar o serviço de armazém.";
+			close2;
+			break;
+		}
+		if(Zeny < 40){
+			mes "Desculpe, mas você não";
+			mes "possui zeny suficiente para";
+			mes "usar o serviço de armazém. Nossa";
+			mes "taxa de armazém é de 40 zeny.";
+			close2;
+			break;
+		}
+		set Zeny, Zeny - 40;
+		mes "Obrigador por apoiar a";
+		mes "Corporação de Eventos Incríveis.";
+		mes "Deixe-me abrir seu";
+		mes "armazém pessoal imediatamente";
+		mes "Tenha um ótimo dia~";
+		callfunc("F_CheckKafCode");	//checa a senha do seu armazém, caso a mesma exista
+		close2;
+		openstorage;
+		break;
+	case 3:
+		mes "[Corporação de Eventos Incríveis]";
+		if(BaseClass != Job_Merchant){
+			mes "Sinto muito, mas";
+			mes "o serviço de aluguél de carrinhos";
+			mes "está disponível apenas para Mercadores,";
+			mes "Ferreiros, Mestres-Ferreiros,";
+			mes "Alquimistas e Criadores.";
+			close2;
+			break;
+		}
+		if(getskilllv("MC_PUSHCART") == 0){
+			mes "Você só pode alugar um carrinho";
+			mes "após aprender a habilidade ''Usar Carrinho''.";
+			close2;
+			break;
+		}
+		if(checkcart() == 1){
+			mes "Você já possui";
+			mes "um carrinho alugado.";
+			mes "Infelizmente, não podemos";
+			mes "alugar mais de um carrinho";
+			mes "simultâneamente para um cliente.";
+			close2;
+			break;
+		}
+		if(countitem(7061)){
+			delitem 7061,1;
+			setcart;
+			close2;
+			break;
+		}
+		mes "O aluguél de carrinhos";
+		mes "custa 800 zeny. Você deseja";
+		mes "alugar um carrinho?";
+		next;
+		if(select("Alugar um Carrinho:Cancelar") == 1){
+			if(Zeny < 800){
+				mes "[Corporação de Eventos Incríveis]";
+				mes "Sinto muito, mas";
+				mes "você não possui a quantidade";
+				mes "de zenys necessária para";
+				mes "o serviço de aluguél de carrinhos.";
+			} else {
+				set Zeny, Zeny - 800;
+				setcart;
+			}
+		}
+		close2;
+		break;
+	case 4:
+		callfunc("F_SetKafCode","[Corporação de Eventos Incríveis]","Corporação de Eventos Incríveis.");
+		//a função fecha a caixa de mensagem e remove todos os Cutins
+	case 5:
+	default:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Corporação de Eventos Incríveis está sempre";
+		mes "procurando a melhor maneira de apoiar";
+		mes "os aventureiros de Rune Midgard.";
+		mes "Nos ajude a nos tornarmos os melhores";
+		mes "fornecendo-nos sua opinião";
+		mes "honesta e sincera. Obrigado.";
+		close2;
+	}
+	cutin "", 255;
+	end;
+}
+
+rachel,109,138,5	script	Corporação de Eventos::StaffRachel	874,{
+	cutin "zonda_01",2;
+	mes "[Corporação de Eventos Incríveis]";
+	mes "Bem-vindo a Corporação de Eventos incríveis.";
+	mes "Nós estamos sempre trabalhando";
+	mes "para superar suas expectativas";
+	mes "de um serviço de qualidade. Como";
+	mes "posso lhe ser útil?";
+	next;
+	switch(select("Salvar:Abrir armazém:Serviço de teleporte:Alugar carrinho:Senha do armazém:Cancelar")){
+	case 1:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Seu ponto de retorno";
+		mes "foi salvo aqui";
+		mes "na cidade de Rachel.";
+		mes "Obrigado por usar os serviços da";
+		mes "Corporação de Eventos Incríveis~";
+		savepoint "rachel",113,137;
+		close2;
+		break;
+	case 2:
+		mes "[Corporação de Eventos Incríveis]";
+		if(basicskillcheck() && getskilllv("NV_BASIC") < 6){
+			mes "Sinto muito, mas você";
+			mes "precisa de Habilidades Básicas";
+			mes "Nível 6 para utilizar";
+			mes "usar o serviço de armazém.";
+			close2;
+			break;
+		}
+		if(Zeny < 40){
+			mes "Sinto muito mas você não";
+			mes "possui zeny suficiente para usar";
+			mes "o serviço de armazém. Nossa taxa";
+			mes "de armazém é de 40 zeny.";
+			close2;
+			break;
+		}
+		set Zeny, Zeny - 40;
+		mes "Obrigado por apoiar a";
+		mes "Corporação de Eventos Incríveis.";
+		mes "Estou abrindo o seu armazém";
+		mes "pessoal agora mesmo.";
+		mes "Tenha um ótimo dia~";
+		callfunc("F_CheckKafCode");	//checa a senha do seu armazém, caso exista
+		close2;
+		openstorage;
+		break;
+	case 3:
+		mes "Por favor, escolha";
+		mes "o seu destino.";
+		next;
+		if (select("Veins -> 2200 z:Cancelar") == 1) {
+			if ((countitem(7060) != 0) || (Zeny >= 2200)) {
+				if (countitem(7060) != 0) {
+					delitem 7060,1;
+				}
+				else {
+					set Zeny,Zeny-2200;
+				}
+				warp "veins",205,101;
+				cutin "",255;
+				end;
+			}
+			else {
+				mes "[Corporação de Eventos Incríveis]";
+				mes "Desculpe, mas você não tem";
+				mes "zeny suficiente para utilizar";
+				mes "o serviço de teleporte. Nossa taxa";
+				mes "é de 2200 zeny para teleporte";
+				mes "a Rachel.";
+			}
+		}
+		close2;
+		break;
+	case 4:
+		mes "[Corporação de Eventos Incríveis]";
+		if(BaseClass != Job_Merchant){
+			mes "Sinto muito, mas";
+			mes "o serviço de aluguél de carrinho";
+			mes "está disponível apenas para mercadores,";
+			mes "Ferreiros, Mestres-Ferreiros,";
+			mes "Alquimistas e Criadores.";
+			close2;
+			break;
+		}
+		if(getskilllv("MC_PUSHCART") == 0){
+			mes "Você só pode alugar um carrinho após";
+			mes "aprender a habilidade ''Usar Carrinho''.";
+			close2;
+			break;
+		}
+		if(checkcart() == 1){
+			mes "Você já alugou";
+			mes "um carrinho.";
+			mes "Infelizmente, nós não podemos";
+			mes "alugar mais de um carrinho simultâneamente";
+			mes "para o mesmo cliente.";
+			close2;
+			break;
+		}
+		if(countitem(7061)){
+			delitem 7061,1;
+			setcart;
+			close2;
+			break;
+		}
+		mes "A taxa do serviço de aluguél";
+		mes "de carrinho é de 800 zeny. Você";
+		mes "gostaria de alugar um carrinho?";
+		next;
+		if(select("Alugar carrinho:Cancelar") == 1){
+			if(Zeny < 800){
+				mes "[Corporação de Eventos Incríveis]";
+				mes "Sinto muito, mas você";
+				mes "não possui zeny suficiente";
+				mes "para o serviço de aluguél de carrinho.";
+				mes "Nossa taxa é de 800 zeny.";
+			} else {
+				set Zeny, Zeny - 800;
+				setcart;
+			}
+		}
+		close2;
+		break;
+	case 5:
+		callfunc("F_SetKafCode","[Corporação de Eventos Incríveis]","Corporação de Eventos Incríveis");
+		//a função fecha a caixa de msg e os cutins
+	case 6:
+	default:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Corporação de Eventos Incríveis está sempre";
+		mes "procurando a melhor maneira de apoiar";
+		mes "os aventureiros de Rune Midgard.";
+		mes "Nos ajude a nos tornarmos os melhores";
+		mes "fornecendo-nos sua opinião";
+		mes "honesta e sincera. Obrigado.";
+		close2;
+	}
+	cutin "", 255;
+	end;
+}
+
+veins,208,128,5	script	Corporação de Eventos::StaffVeins	874,{
+	cutin "zonda_01",2;
+	mes "[Corporação de Eventos Incríveis]";
+	mes "Bem-vindo a Corporação de Eventos incríveis.";
+	mes "Nós estamos sempre trabalhando";
+	mes "para superar suas expectativas";
+	mes "de um serviço de qualidade. Como";
+	mes "posso lhe ser útil?";
+	next;
+	switch(select("Salvar:Usar Armazém:Serviço de Teleporte:Alugar Carrinho:Senha do Armazém:Cancelar")){
+	case 1:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Seu ponto de retorno";
+		mes "foi salvo aqui, na vila";
+		mes "de Hugel. Obrigado por";
+		mes "usar o serviço da Corporação";
+		mes "de Eventos Incríveis~";
+		savepoint "veins",204,103;
+		close2;
+		break;
+	case 2:
+		mes "[Cool Event Corp. Staff]";
+		if(basicskillcheck() && getskilllv("NV_BASIC") < 6){
+			mes "Sinto muito mas você precisa";
+			mes "de Habilidades Básicas Nível 6";
+			mes "para usar o serviço de";
+			mes "armazém.";
+			close2;
+			break;
+		}
+		if(Zeny < 40){
+			mes "Sinto muito, mas você não";
+			mes "possui zeny suficiente para";
+			mes "o serviço de armazém. Nossa taxa";
+			mes "de armazém é de 40 zeny.";
+			close2;
+			break;
+		}
+		set Zeny, Zeny - 40;
+		mes "Obrigador por apoiar a";
+		mes "Corporação de Eventos Incríveis.";
+		mes "Estarei abrindo o seu";
+		mes "armazém pessoal imediatamente.";
+		mes "Tenha um bom dia~";
+		callfunc("F_CheckKafCode");	//checa sua senha de armazem, caso exista
+		close2;
+		openstorage;
+		break;
+	case 3:
+		mes "Por favor, escolha";
+		mes "seu destino.";
+		next;
+		if (select("Rachel -> 2200 z:Cancelar") == 1) {
+			if ((countitem(7060) != 0) || (Zeny >= 2200)) {
+				if (countitem(7060) != 0) {
+					delitem 7060,1;
+				}
+				else {
+					set Zeny,Zeny-2200;
+				}
+				warp "rachel",115,125;
+				cutin "",255;
+				end;
+			}
+			else {
+				mes "[Corporação de Eventos Incríveis]";
+				mes "Sinto muito mas, você não";
+				mes "possui zeny suficiente para";
+				mes "o serviço de de teleporte. Nossa taxa";
+				mes "a Rachel é de 2200 zeny.";
+			}
+		}
+		close2;
+		break;
+	case 4:
+		mes "[Corporação de Eventos Incríveis]";
+		if(BaseClass != Job_Merchant){
+			mes "Sinto muito, mas o serviço";
+			mes "de aluguél de carrinhos está";
+			mes "disponível apenas para mercadores,";
+			mes "Ferreiros, Mestres-Ferreiros,";
+			mes "Alquimistas e Criadores.";
+			close2;
+			break;
+		}
+		if(getskilllv("MC_PUSHCART") == 0){
+			mes "Você só pode alugar um carrinho após";
+			mes "aprender a habilidade ''Usar Carrinho''.";
+			close2;
+			break;
+		}
+		if(checkcart() == 1){
+			mes "Você já alugou";
+			mes "um carrinho.";
+			mes "Infelizmente, nós não podemos";
+			mes "alugar mais de um carrinho simultâneamente";
+			mes "para o mesmo cliente.";
+			close2;
+			break;
+		}
+		if(countitem(7061)){
+			delitem 7061,1;
+			setcart;
+			close2;
+			break;
+		}
+		mes "A taxa de aluguel de";
+		mes "carrinhos é de 800 zeny.";
+		mes "Você gostaria de alugar um carrinho?";
+		next;
+		if(select("Alugar carrinho:Cancelar") == 1){
+			if(Zeny < 800){
+				mes "[Corporação de Eventos Incríveis]";
+				mes "Sinto muito, mas você";
+				mes "não tem zeny suficiente";
+				mes "para alugar um carrinho.";
+				mes "A taxa é de 800 zeny.";
+				close2;
+			} else {
+				set Zeny, Zeny - 800;
+				setcart;
+			}
+		}
+		close2;
+		break;
+	case 5:
+		callfunc("F_SetKafCode","[Corporação de Eventos Incríveis]","Corporação de Eventos Incríveis");
+		//the function closes msg and remoes cutins
+	case 6:
+	default:
+		mes "[Corporação de Eventos Incríveis]";
+		mes "Corporação de Eventos Incríveis está sempre";
+		mes "procurando a melhor maneira de apoiar";
+		mes "os aventureiros de Rune Midgard.";
+		mes "Nos ajude a nos tornarmos os melhores";
+		mes "fornecendo-nos sua opinião";
+		mes "honesta e sincera. Obrigado.";
+		close2;
+	}
+	cutin "", 255;
+	end;
+}

@@ -1,0 +1,185 @@
+//===== Cronus Script ========================================
+//= Arjen
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Compatível Com: ======================================
+//= Cronus, Bro Episódio 10
+//===== Descrição: ===========================================
+//= Npc que faz Presilha de X, Curativo Gigante e Presilha Flor
+//===== Comentários Adicionais: ==============================
+//= 1.0: Traduzido [Kamper]
+//============================================================
+
+geffen,129,148,3	script	Arjen	779,{
+	mes "[Arjen]";
+	mes "Ahhh! Aborrecida! Estou muito aborrecida!";
+	mes "Não há ninguém que eu preciso ver, e o tempo esta tão bom!";
+	mes "Estou aborrecida asim por que não tenho nada pra fazer.";
+	emotion e_gasp;
+	next;
+	mes "[Arjen]";
+	mes "Oh sim, hei! Você!!";
+	mes "VOcê quer ter um grampo pra cabelo?";
+	mes "Para uma pessoa tão hábil como eu, não há nada que eu não posso fazer!! Ua haha!";
+	mes "Clap ! Estará pronto logo, como este.";
+	emotion e_omg;
+	next;
+	mes "[Arjen]";
+	mes "Afortunada. Eu sou livre certamente agora. Então, traga-me os materiais e eu irei cria-lo para você!";
+	mes "Então, alguma idéia de que acessório você gostaria de ter?";
+	emotion e_heh; //ET_SMILE
+	next;
+	switch(select("^3131FFPresilha de X:Curativo Gigante:Presilha de Flor^000000:Terminar Conversa.")) {
+	case 1:
+		if ((countitem(2294) > 0) && (countitem(7220) > 399)) {
+			mes "[Arjen]";
+			mes "Presilha de X!";
+			mes "Elá é realmente ótima!!";
+			next;
+			mes "[Arjen]";
+			mes "Oh sim!";
+			mes "^CE3100Durante a produção, o Nível de Refinamento desaparecerá, está tudo bem apra você?^000000";
+			next;
+			switch(select("Tudo certo, faça isto logo para mim!:Eu vou voltar em outra hora.")) {
+			case 1:
+				mes "[Arjen]";
+				mes "Oh bem. Então,";
+				mes "é hora de mostrar minha habilidade após toda esta conversa!";
+				next;
+				mes "^3131FF - Sha Sha !! - ^000000";
+				mes "^3131FF - Cha Sha Haa  !! - ^000000";
+				next;
+				if ((countitem(2294) > 0) && (countitem(7220) > 399)) {
+					delitem 2294,1;
+					delitem 7220,400;
+					getitem 5079,1; //Presilha de X
+					mes "[Arjen]";
+					mes "Tome ai a Presilha de X! Ela é realmente ótima!";
+				} else {
+					mes "[Arjen]";
+					mes "Parece que você não tem os materiais.";
+				}
+				next;
+				mes "[Arjen]";
+				mes "Se você tiver alguma necessidade, venha aqui me encontrar a qualquer hora!";
+				mes "Então, até mais.";
+				close;
+			case 2:
+				mes "[Arjen]";
+				mes "Certo, certo, volte aqui quando estiver pronto!";
+				close;
+			}
+	 } else {
+			mes "[Arjen]";
+			mes "Certo - a ^3131FFPresilha de X!^000000";
+			mes "É simples!";
+			next;
+			mes "[Arjen]";
+			mes "1 ^FF0000Presilha de Estrela^000000";
+			mes "400 ^FF0000Ectoplasma^000000";
+			mes "Se você tiver preparado tudo isto, eu irei ajudar a criar isto para você!";
+			close;
+		}
+	case 2:
+		if (countitem(970) > 0) && (countitem(930) > 499) {
+			mes "[Arjen]";
+			mes "Curativo Gigante??..";
+			mes "Oh bem. Então,";
+			mes "é hora de mostrar minha habilidade após toda esta conversa!";
+			next;
+			mes "^3131FF - Sha Sha !! - ^000000";
+			mes "^3131FF - Cha Sha Haa  !! - ^000000";
+			next;
+			if (countitem(970) > 0) && (countitem(930) > 499) {
+				delitem 970,1;
+				delitem 930,500;
+				getitem 5063,1;
+				mes "[Arjen]";
+				mes "Tome ai o Curativo Gigante! Ele é realmente ótimo!";
+			} else {
+				mes "[Arjen]";
+				mes "Parece que você não tem os materiais.";
+			}
+				next;
+				mes "[Arjen]";
+				mes "Se você tiver alguma necessidade, venha aqui me encontrar a qualquer hora!";
+				mes "Então, até mais.";
+				close;
+		} else {
+			mes "[Arjen]";
+			mes "Hoho! ^3131FF Curativo Gicante!^000000";
+			mes "Se alguém perguntar, onde é que está este curativo quando algúem é ferido.";
+			mes "Diga-os que este é o verdadeiro curativo para as pessoas feridas.";
+			mes "Hmm, não é facil?";
+			next;
+			mes "[Arjen]";
+			mes "1 ^FF0000Ácool ^000000 e";
+			mes "500 ^FF0000Bandagens Estragadas^000000";
+			mes "Se você tiver preparado todos os itens, eu irei ajudar a criar isto para você!";
+			close;
+		}
+	case 3:
+		if ((countitem(2269) > 0) & (countitem(999) > 9) & (Zeny > 19999)) {
+			mes "[Arjen]";
+			mes "Ótimo!! Presilha de Flor!";
+			mes "É hora de mostrar minha habilidade após toda esta conversa!";
+			next;
+			mes "^3131FF - Sha Sha !! - ^000000";
+			mes "^3131FF - Cha Sha Haa  !! - ^000000";
+			next;
+			if ((countitem(2269) > 0) & (countitem(999) > 9) & (Zeny > 19999)) {
+				delitem 2269,1;
+				delitem 999,10;
+				set Zeny,Zeny-20000;
+				getitem 5061,1; //finally a non-changed name =X
+				mes "[Arjen]";
+				mes "Tome ai a Presilha de Flor! Ela é realmente ótima!";
+			} else {
+				mes "[Arjen]";
+				mes "Parece que você não tem os materiais.";
+			}
+			next;
+			mes "[Arjen]";
+			mes "Se você tiver alguma necessidade, venha aqui me encontrar a qualquer hora!";
+			mes "Então, até mais.";
+			close;
+		} else {
+			mes "[Arjen]";
+			mes "Sim - ^3131FFPresilha de Flor!^000000";
+			mes "Às vezes, eu vejo umas garotas com pés descalsos e uma flor em suas bocas.";
+			mes "Observando-as, eu tive uma idéia!";
+			next;
+			mes "[Arjen]";
+			mes "^3131FFFlor^000000, ^3131FFFlor^000000!";
+			mes "Ua ha ha, não é que é uma idéia perfeita?";
+			mes "Some even equip it on the Orc Warrior, you should be proud of it, right?";
+			mes "Verdade...";
+			next;
+			mes "[Arjen]";
+			mes "Mas o processo precisa de um pouco mais de esforço,";
+			mes "I need to take some process fee.";
+			next;
+			mes "[Arjen]";
+			mes "Você deve saber que,";
+			mes "preciso estabilizar uma frágil flor na cabeça";
+			mes "tendo muita concentração";
+			mes "e muita habilidade.";
+			next;
+			mes "[Arjen]";
+			mes "Então, traga pro favor,";
+			mes "1 ^FF0000Flor Romântica^000000";
+			mes "10 ^FF0000Aços^000000";
+			mes "junto com ^3131FF20,000 zeny^000000!";
+			mes "Se você preparar todos os itens, eu irei criar o item para você!";
+			mes "Você entendeu?";
+			close;
+		}
+	case 4:
+		mes "[Arjen]";
+		mes "Ha, o que? Você não quer nenhum?";
+		mes "Rumblerumblerumble";
+		close;
+	}
+}

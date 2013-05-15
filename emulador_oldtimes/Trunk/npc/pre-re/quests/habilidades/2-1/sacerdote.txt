@@ -1,0 +1,79 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Sacerdote
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.1 (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//= 1.0c Corrigidos requerimentos e no nome da freira [Keoy]
+//= 1.1 Script otimizado [Keoy]
+//============================================================
+
+//============================================================
+// PRIEST - REDEMPTIO
+//============================================================
+prt_church,111,112,3	script	Freira Linus	79,{
+	mes "[Freira Linus]";
+	if(BaseJob!=Job_Priest)
+	{
+		mes "Desculpe, você precisa ter fé em Deus.";
+		emotion e_gasp;
+		close;
+	}
+	if(getskilllv(1014))
+	{
+		mes "Eu já lhe ensinei";
+		mes "tudo o que eu sei.";
+		close;
+	}
+	if(getskilllv(54)<1)
+	{
+		mes "Meu irmão, volte quando";
+		mes "aprender mais sobre Deus.";
+		close;
+	}
+
+	mes "Eu posso lhe ensinar a clemência de Deus";
+	mes "se você me trouxer algumas coisas,";
+	mes "e se Deus lhe achar merecedor:";
+	mes "20 Gemas Azuis";
+	mes "30 Águas Bentas";
+	next;
+	mes "[Freira Linus]";
+	mes "Deixe-me checar seus itens.";
+	next;
+	mes "[Freira Linus]";
+	if(countitem(717) < 20 || countitem(523) < 30) //Items: Gema_Azul, Água_Benta,
+	{
+		mes "Você não tem todos os itens.";
+		mes "Volte quando tiver tudo";
+		mes "que eu lhe pedi.";
+		close;
+	}
+	delitem 717, 20;//Items: Gema_Azul,
+	delitem 523, 30;//Items: Água_Benta,
+	
+	mes "Eu vejo que você tem todos os itens,";
+	mes "assim nós veremos se Deus acha";
+	mes "você merecedor!";
+	next;
+	mes "[Freira Linus]";
+	if(rand(100)<JobLevel+25)
+	{
+		mes "Hum... Eu vejo que Deus lustrou algo";
+		mes "em você neste momento.";
+		skill 1014,1,0;
+		close;
+	}
+	mes "Desculpe, mas Deus não está";
+	mes "lustrado até o momento em você.";
+	mes "Tente novamente quando você for um";
+	mes "Sacerdote mais forte.";
+	close;
+}

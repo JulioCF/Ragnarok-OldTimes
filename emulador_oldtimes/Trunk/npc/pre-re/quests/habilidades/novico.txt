@@ -1,0 +1,119 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Noviço
+//===== Por: =================================================
+//= Kobra_k88
+//===== Versão Atual: ========================================
+//= 1.6b
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= [Aegis Conversion]
+//=  Quest para habilidade: 'Luz Divina'
+//===== Comentários Adicionais: ==============================
+//= 1.5 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//= 1.6 Fixed a typo in job check. (Bugreport:1531) [L0ne_W0lf]
+//= 1.6a Traduzido script [Sirius]
+//= 1.6b Revisão Geral do Script [Mara]
+//============================================================
+
+prt_church,173,23,4	script	Clérigo#qsk_al	79,{
+
+	mes "[Noviço Klift]";
+	mes "Ahh . Irmãos ! A tarefa de cuidar";
+	mes "do nosso rebanho de ovelhas";
+	mes "cansou vocês?";
+	mes "Eu estou aqui para ajudá-los.";
+	next;
+	switch(select("^3355FF' O treinamento da habilidade secreta dos noviços '^000000 ..:^3355FF' Luz Divina '^000000:Sair")) {
+	case 1:
+		mes "[Noviço Klift]";
+		mes "Nossos membros do clero";
+		mes "normalmente aprendem as suas habilidades";
+		mes "na medida que amadurecem. Quanto mais perto";
+		mes "da idade como um noviço,";
+		mes "aprendem essa habilidade especial.";
+		next;
+		mes "[Noviço Klift]";
+		mes "Para combater o grande perigo e";
+		mes "a interminável luta contra o mal,";
+		mes "nossos irmãos precisam de muita ajuda.";
+		mes "E ^3355FF' Luz Divina '^000000 é essa ajuda.";
+		mes "Para adquirir essa habildade por você mesmo,";
+		mes "dá um pouco de trabalho.";
+		next;
+		mes "[Noviço Klift]";
+		mes "Se você quer ganhar esta habilidade, você vai precisar de.";
+		mes "^FF33551 Opala^000000";
+		mes "^FF33551 Cristal Azul^000000";
+		mes "^FF33551 Rosário^000000 ";
+		next;
+		mes "[Noviço Klift]";
+		mes "E também, para poder usar esta habilidade,";
+		mes "é necessário uma certa experiência";
+		mes "como noviço, que é ^FF3355 nível de Classe 30^000000.";
+		next;
+		mes "[Noviço Klift]";
+		mes "E para os sacerdotes, por causa";
+		mes "da sua vasta experiência,";
+		mes "eles podem usar esta habilidade com qualquer nível de Classe.";
+		close;
+	case 2:
+		if (getskilllv("AL_HOLYLIGHT") == 1) {
+		mes "[Noviço Klift]";
+			mes "Irmão, você já possui";
+			mes "a habilidade ' Luz Divina '.";
+			close;
+		}
+		else {
+			if (countitem(727) > 0 && countitem(991) > 0 && countitem(2608) > 0) {
+				if ((JobLevel > 29 && BaseJob == Job_Acolyte) || BaseJob == Job_Monk || BaseJob == Job_Priest) {
+					mes "[Noviço Klift]";
+					mes "Você provou que você tem uma fé e é digno";
+					mes "de ter a habilidade ' Luz Divina '.";
+					mes "Você já pode usar esta habilidade.";
+					mes "Mas use-a sabiamente...";
+					next;
+					delitem 727,1; //White_Jewel
+					delitem 991,1; //Crystal_Blue
+					delitem 2608,1; //Rosary
+					skill 156,1,0;
+					mes "[Noviço Klift]";
+					mes "Você agora já sabe como utilizar a ' Luz Divina '";
+					mes "Só use esta habilidade em situações necessárias.";
+					close;
+				}
+			}
+			mes "[Noviço Klift]";
+			mes "Oh, está claro ...";
+			mes "Você não está pronto ainda para";
+			mes "receber a habilidade ' Luz Divina ' .";
+			next;
+			mes "[Noviço Klift]";
+			mes "Você deve escutar com muito cuidado o que é";
+			mes "necessário para esta habilidade.";
+			mes "Se você escutar cuidadosamente,";
+			mes "talvez você aprenda o que está faltando.";
+			mes "Para que você melhore por si só.";
+			close;
+		}
+	case 3:
+		mes "[Noviço Klift]";
+		mes ". . . . .";
+		mes "Eu entendo seu entusiasmo.";
+		mes "Você ainda tem muito tempo para";
+		mes "praticar e ganhar experiência.";
+		mes "Bença . . . . .";
+		close;
+	}
+}
+
+//============================================================ 
+// Old changelog
+//============================================================ 
+//= v1.0a Now using functions found in "Global_Functions.txt"
+//= for class checks.
+//= 1.2 Added Baby Class Support [Lupus]
+//= 1.3 Removed callfunc Is_####_Class in favor of baseClass [Silentdragon]
+//= 1.4 Fixed an exploit [Lupus]
+//= 1.4a changed perm. variables to temp ones [Lupus]
+//============================================================

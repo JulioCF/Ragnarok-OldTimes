@@ -1,0 +1,277 @@
+function	script	K_Custom	{
+	cutin getarg(0), 2;
+	mes "["+strnpcinfo(1)+"]";
+	mes "Bem-vindo à Corporação Kafra, nós estaremos ao seu lado onde quer que você vá.";
+	next;
+	if (getarg(3))
+	{
+		mes "["+strnpcinfo(1)+"]";
+		callsub toWarpService;
+	}
+	switch (select ("Usar Serviço de Teletransporte:Salvar:Usar Armazém "+((getgmlevel() < 1) ? "[30z]" : "")+"","Usar Serviço de Aluguel:Cancelar"))
+	{
+		mes "["+strnpcinfo(1)+"]";
+
+		case 1:
+		{
+		toWarpService:
+			mes "Para qual destino você deseja ir?";
+			next;
+			switch (select (((lwarpx)?"Último Destino":"")+"","Cidades:Outros Lugares:Cancelar"))
+			{
+				case 1:
+				{
+					if (lwarpx)
+						callfunc "SubWarp", lwarp$, lwarpx, lwarpy;
+				}
+				break;
+				
+				case 2:
+				{
+					mes "["+strnpcinfo(1)+"]";
+					mes "Escolha a cidade para onde você deseja ir:";
+					next;
+					switch (select ("Prontera ["+getmapusers("prontera")+"]:Alberta ["+getmapusers("alberta")+"]:Aldebaran ["+getmapusers("aldebaran")+"]:Amatsu ["+getmapusers("amatsu")+"]",
+									"Comodo ["+getmapusers("comodo")+"]:Geffen ["+getmapusers("geffen")+"]:Gonryun ["+getmapusers("gonryun")+"]:Izlude ["+getmapusers("izlude")+"]",
+									"Juno ["+getmapusers("yuno")+"]:Lutie ["+getmapusers("xmas")+"]:Morocc ["+getmapusers("omorocc")+"]:Payon ["+getmapusers("opayon")+"]"))
+					{
+						case 1: callfunc "SubWarp", "prontera", 160, 176;	break;
+						case 2:	callfunc "SubWarp", "alberta", 	192, 147;	break;
+						case 3: callfunc "SubWarp", "aldebaran",140, 131;	break;
+						case 4: callfunc "SubWarp", "amatsu",	198,  84;	break;
+						case 5: callfunc "SubWarp", "comodo",	209, 143;	break;
+						case 6: callfunc "SubWarp", "geffen",	119,  59;	break;
+						case 7: callfunc "SubWarp", "gonryun",	160, 120;	break;
+						case 8: callfunc "SubWarp", "izlude",	128, 114;	break;
+						case 9: callfunc "SubWarp", "yuno",		157,  51;	break;
+						case 10:callfunc "SubWarp", "xmas",		147, 134;	break;
+						case 11:callfunc "SubWarp", "omorocc", 	156,  93; 	break;
+						case 12:callfunc "SubWarp", "opayon",	 92, 116;	break;
+					}	
+				}
+				break;
+				
+				case 3:
+				{
+					mes "["+strnpcinfo(1)+"]";
+					mes "Escolha para onde deseja ir:";
+					next;
+					switch (select ("Labirinto de Tatames:Formigueiro Infernal:Ilha de Byalan:Caverna de Comodo",
+									"Torre do Relógio:Mina Abandonada de Mjolnir:Calabouço de Geffen:Glast Heim:Santuário de Xi Wang Mu:Labirinto da Floresta",
+									"Calabouço de Magma:Caverna dos Orcs:Caverna de Payon:Esgoto de Prontera:Pirâmide:Esfinge",
+									"Navio Fantasma:Fábrica de Brinquedos:Ilha da Tartaruga:Poringlândia:Praia das Focas"))
+					{
+						case 1: callfunc "SubWarp", "ama_dun01",	229,  10;	break;
+						case 2: callfunc "SubWarp", "moc_fild15",	267, 260;	break;
+						case 3: callfunc "SubWarp", "izlu2dun",		107,  89;	break;
+						case 4:
+						{
+							mes "["+strnpcinfo(1)+"]";
+							mes "Por favor, seja mais específico:";
+							next;
+							switch (select ("Caverna do Oeste:Caverna do Norte:Caverna do Leste"))
+							{
+								case 1: callfunc "SubWarp", "comodo",  30, 215;	break;
+								case 2: callfunc "SubWarp", "comodo", 176, 352;	break;
+								case 3: callfunc "SubWarp", "comodo", 327, 175;	break;
+							}
+						}
+						break;
+
+						case 5:  callfunc "SubWarp", "c_tower1",	199, 159;	break;
+						case 6:  callfunc "SubWarp", "mjolnir_02",	 79, 360;	break;
+						case 7:  callfunc "SubWarp", "gef_tower",	153,  34;	break;
+						case 8:  callfunc "SubWarp", "glast_01",	370, 304;	break;
+						case 9:  callfunc "SubWarp", "gon_dun01",	153,  48;	break;
+						case 10: callfunc "SubWarp", "prt_maze01",	 99,  31;	break;
+						case 11: callfunc "SubWarp", "yuno_fild03",	 38, 138;	break;
+						case 12: callfunc "SubWarp", "gef_fild10",	 62, 329;	break;
+						case 13: callfunc "SubWarp", "pay_arche",	 41, 135;	break;
+						case 14: callfunc "SubWarp", "prt_sewb1",	131, 247;	break;
+						case 15: callfunc "SubWarp", "moc_ruins",	 64, 155;	break;
+						case 16: callfunc "SubWarp", "moc_fild19",	106,  99;	break;
+						case 17: callfunc "SubWarp", "alb2trea",	 75,  98;	break;
+						case 18: callfunc "SubWarp", "xmas_dun01",	205,  16;	break;
+						case 19: callfunc "SubWarp", "tur_dun01",	157,  39;	break;
+						case 20: callfunc "SubWarp", "pay_fild04",	 20, 165;	break;
+						case 21: callfunc "SubWarp", "cmd_fild02",	222, 372;	break;
+					}
+				}
+				break;
+				
+				case 4:
+					break;
+			}
+		}
+
+		case 2:
+		{
+			mes "O seu ponto foi salvo.";
+			close2;
+			savepoint strcharinfo(3), getarg(1), getarg(2);
+			emotion e_thx;
+		}
+		break;
+		
+		case 3:
+		{
+			if (Zeny < 30 && getgmlevel() < 1)
+			{
+				mes "O serviço de armazém custa 30 Zenys.";
+				close2;
+				break;
+			}
+			else if (!#kafra_code)
+			{
+				mes "Voce não possui senha para seu armazém.";
+				mes "Deseja criá-la?";
+				next;
+				if (select ("Sim:Não") == 1)
+				{
+					L_DoTypePass:
+					mes "["+strnpcinfo(1)+"]";
+					mes "A senha deve conter apenas números, e deve possuir 4 dígitos.";
+					next;
+					input .@senha;
+					mes "["+strnpcinfo(1)+"]";
+					if (!.@senha || .@senha > 9999)
+					{
+						mes "Sua senha não atende aos requerimentos.";
+						mes "Deseja tentar novamente?";
+						next;
+						if (select ("Sim:Não") == 1)
+						{
+							goto L_DoTypePass;
+						}
+						else
+						{
+							goto L_Continue;
+						}
+					}
+					mes "A senha é: ^0000CD"+.@senha;
+					mes "^000000Tem certeza que deseja utilizá-la?";
+					next;
+					if (select ("Sim:Não") == 1)
+					{
+						mes "["+strnpcinfo(1)+"]";
+						mes "Pronto, na próxima vez que você for utilizar o armazém precisará digitá-la!";
+						set #kafra_code, .@senha;
+						next;
+					}
+				}
+				goto L_Continue;
+			}
+			else if (#kafra_code)
+			{
+				set .@i, 0;
+				L_TypePass:
+				mes "Digite a sua senha:";
+				next;
+				input .@senha;
+				while ((.@senha != #kafra_code))
+				{
+					set .@i, .@i + 1;
+					if (.@i > 2)
+					{
+						mes "Você errou sua senha três vezes. Operação cancelada.";
+						close2;
+						cutin "", 255;
+						end;
+					}
+					mes "Senha errada. ^FF0000"+.@i+"º vez^000000.";
+					goto L_TypePass;
+				}
+				goto L_Continue;
+			}
+				
+			L_Continue:
+			mes "["+strnpcinfo(1)+"]";
+			mes "Feche esta janela para abrir seu armazém.";
+			mes "Nós esperamos vê-lo novamente.";
+			close2;
+			openstorage;
+		}
+		break;
+
+		case 4:
+		{
+			mes "Olá, aqui você pode alugar um carrinho, pecopeco ou falcão depedendo de sua profissão.";
+			next;
+			mes "["+strnpcinfo(1)+"]";
+			if ((BaseClass == 5 || Class == 23) && !checkcart() && getskilllv(39)) setcart;
+			else if (BaseClass == 1 && !checkriding() && getskilllv(63)) setriding;
+			else if (BaseClass == 3 && !checkfalcon() && getskilllv(127)) setfalcon;
+			else
+			{
+				mes "Desculpe, mas não posso ajudar você.";
+				mes "Verifique se você já possui a habilidade necessária ou se já está com algo alugado!";
+				close;
+			}
+			mes "Aqui está, faça bom proveito!";
+			close2;
+			cutin "", 255;
+			end;
+		}
+		break;
+
+		case 5:
+		{
+			mes "Até mais ^^";
+			close2;
+		}
+		break;
+	}
+	cutin "", 255;
+	end;
+return;
+}
+
+function	script	SubWarp	{
+	close2;
+	percentheal 100, 100;
+	warp getarg(0), getarg(1), getarg(2);
+	set lwarp$, getarg(0);
+	set lwarpx, getarg(1);
+	set lwarpy, getarg(2);
+	end;
+return;
+}
+
+//= Cidades
+prontera,157,190,4	script	Funcionária Kafra#k1	112,{callfunc "K_Custom", "kafra_06", 156, 182, 0;}
+omorocc,156,97,4	script	Funcionária Kafra#k2	115,{callfunc "K_Custom", "kafra_03", 158, 90, 0;}
+geffen,120,62,8	script	Funcionária Kafra#k3	115,{callfunc "K_Custom", "kafra_03", 119, 40, 0;}
+opayon,99,116,4	script	Funcionária Kafra#k4	113,{callfunc "K_Custom", "kafra_05", 69, 99, 0;}
+alberta,113,60,5	script	Funcionária Kafra#k5	112,{callfunc "K_Custom", "kafra_06", 117, 57, 0;}
+izlude,134,87,3	script	Funcionária Kafra#k6	117,{callfunc "K_Custom", "kafra_01", 69, 107, 0;}
+aldebaran,143,119,4	script	Funcionária Kafra#k7	113,{callfunc "K_Custom", "kafra_05", 143, 109, 0;}
+xmas,146,136,6	script	Funcionária Kafra#k8	115,{callfunc "K_Custom", "kafra_03", 147, 131, 0;}
+comodo,200,148,4	script	Funcionária Kafra#k9	721,{callfunc "K_Custom", "kafra_07", 204, 143, 0;}
+yuno,153,187,6	script	Funcionária Kafra#k10	114,{callfunc "K_Custom", "kafra_04", 332, 107, 0;}
+amatsu,102,149,4	script	Funcionária Kafra#k11	116,{callfunc "K_Custom", "kafra_02", 108, 157, 0;}
+gonryun,159,122,4	script	Funcionária Kafra#k12	116,{callfunc "K_Custom", "kafra_02", 153, 116, 0;}
+
+//= Outros Lugares
+ama_dun01,231,12,4	script	Kafra Memories#k13	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+moc_fild15,266,262,6	script	Kafra Memories#k14	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+izlu2dun,103,86,7	script	Kafra Memories#k15	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+comodo,32,218,6	script	Kafra Memories#k16	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+comodo,173,353,5	script	Kafra Memories#k17	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+comodo,326,178,4	script	Kafra Memories#k18	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+mjolnir_02,84,363,4	script	Kafra Memories#k19	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+gef_tower,156,34,5	script	Kafra Memories#k20	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+glast_01,371,307,4	script	Kafra Memories#k21	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+yuno_fild03,36,142,5	script	Kafra Memories#k22	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+gef_fild10,58,329,5	script	Kafra Memories#k23	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+pay_arche,37,135,4	script	Kafra Memories#k24	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+prt_sewb1,127,253,5	script	Kafra Memories#k25	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+moc_ruins,57,152,6	script	Kafra Memories#k26	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+moc_fild19,106,101,5	script	Kafra Memories#k27	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+alb2trea,73,101,5	script	Kafra Memories#k28	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+xmas_dun01,209,17,9	script	Kafra Memories#k29	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+tur_dun01,162,33,3	script	Kafra Memories#k30	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+pay_fild04,21,169,6	script	Kafra Memories#k31	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+cmd_fild02,217,373,5	script	Kafra Memories#k32	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}
+
+//= VIP
+sec_in01,176,175,4	script	Kafra Memories#k33	721,{callfunc "K_Custom", "kafra_07", 0, 0, 1;}

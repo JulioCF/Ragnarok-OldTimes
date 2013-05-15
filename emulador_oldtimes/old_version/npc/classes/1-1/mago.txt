@@ -1,0 +1,617 @@
+//= otRag ??
+
+geffen_in,164,124,4	script	Maga Guardiã	123,{
+	if(BaseJob == Job_Novice && job_magician_q >= 1) goto L_BeMage;
+
+	mes "[Maga Guardiã]";
+	mes "Oi oi!  Como posso ajuda-lo?";
+M_Menu:
+	next;
+	menu "Sou um apaixonado por magias, quero ser um Mago!",M_0,"Fale-me os Requirimentos.",M_1,"Nada, Obrigado.",M_End;
+
+	M_0:
+		mes "[Maga Guardiã]";
+		mes "Você quer ser um Mago? Hmmm.....";
+		next;
+		mes "[Maga Guardiã]";
+		if(BaseJob == 2){
+			mes "Voc ê deveria se olhar no espelho. Só assim você veria que ^ff0000já é um Mago^000000.";
+			mes "Talvez eu possa te ajudar a se reconhecer, mudando a cor do seu cabelo...";
+			emotion 4;
+			close;
+		}else
+		if(BaseJob != 0){
+			mes "Oh...desculpe. Eu sei que dois é melhor que um, mas para o caso de trabalho isso não se aplica.";
+			mes "Seja otimista. O seu trabalho atual não deve ser tão ruim assim...";
+			emotion 22;
+			close;
+		}
+		mes "Está bem, então preencha esta ficha de candidatura, por favoooor.";
+		next;
+		mes "(você preenche o formulário e devolve para ela avaliar)";
+		next;
+		mes "[Maga Guardiã]";
+		if(JobLevel < 10){
+			mes "Oh...desculpe. Você precisa estar no ^ff0000Nível de trabalho 9^000000 e gasto todos os ^0000ffPontos de Habiliadde Básico^000000 antes de se tornar um Mago.";
+			mes "Vá e mate uns cogumelos ou Salgueiros ou Porings até ficar tudo em ordem.";
+			emotion 22;
+			close;
+		}
+		mes "Oooh~ Você tem uma linda letra ^0000dd"+ strcharinfo(0) +"^000000, e o mais importante, você possui os requisitos necessários para se tornar um Mago.";
+		next;
+		mes "[Maga Guardiã]";
+		mes "A única coisa que precisa é passar no teste dos Magos de Geffen. Deixe-me ver uma coisinha...";
+		next;
+		set job_magician_q, rand(1,4);
+
+		L_Explain:
+		mes "[Maga Guardiã]";
+		if(job_magician_q == 1) mes "Seu teste é fazer a ^0000ff'Solução Mista No.1'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 2) mes "Seu teste é fazer a ^00aa00'Solução Mista No.2'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 3) mes "Seu teste é fazer a ^ff0000'Solução Mista No.3'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 4) mes "Seu teste é fazer a ^ffbb00'Solução Mista No.4'^000000 e trazer de volta para mim.";
+
+		next;
+		if(countitem(1092) == 0) additem 1092,1;//Items: Empty_Test_Tube,
+		mes "[Maga Guardiã]";
+		mes "Você pode adquirir os ingredientes necessários no ^5533FF'Livro de Guia'^000000 nesta sala.";
+		mes "Recorrem a isto para ver a lista dos ingredientes necessários para a solução.";
+		next;
+		mes "[Maga Guardiã]";
+		mes "Quando você estiver pronto para misturar isto, use a ^ff0000'Máquina Misturadora'^000000 no centro para misturar a solução.";
+		next;
+		mes "[Maga Guardiã]";
+		mes "Boa Sorte!  Eu estarei esperando.";
+		close;
+
+	M_1:
+		mes "[Maga Guardiã]";
+		mes "Antes de tudo, tem de conseguir nível 10 de classe de Aprendiz e todas as habilidades básicas.";
+		mes "Depois, você tem que passar no teste dos Magos.";
+		goto M_Menu;
+	M_End:
+		mes "[Maga Guardiã]";
+		mes "Ok.  Tchau!.";
+		close;
+
+L_BeMage:
+	mes "[Maga Guardiã]";
+	mes "Oh, você voltou.  Deixa eu ver....";
+	next;
+	mes "[Maga Guardiã]";
+	if(countitem(1090) >= 1) goto L_Retry;//Items: Unknown_Test_Tube,
+	if((countitem(1071)<1) && (countitem(1085)<1) && (countitem(1086)<1) && (countitem(1087)<1)) goto L_NoSol;//Items: Unknown_Test_Tube, Unknown_Test_Tube, Unknown_Test_Tube, Unknown_Test_Tube,
+
+	if(SkillPoint > 0) mes "Você precisa gastar todos os seus pontos de habilidade antes que eu possa lhe tornar um Mago.";
+	if(SkillPoint > 0) close;
+
+	mes ".....As cores não estão muito certas.... percebe-se uma pequena diferença..... hmmm......";
+	next;
+	mes "[Maga Guardiã]";
+	mes "Bem, não está perfeito mas parece que você trabalhou muito duro nisto assim...... certo! Eu o deixarei passar!  Você esta agora ofcialmente qualificado para se tornar um Mago!";
+	emotion 21;
+	next;
+	mes "[Maga Guardiã]";
+	mes "Abrakadabra, transforme esse jovem Aprendiz em um ^00aa00MAGO^000000!!";
+	next;
+	callfunc "Job_Change",Job_Mage;
+
+	set Zeny,Zeny+500;
+	if(job_magician_q == 1) delitem 1071,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 2) delitem 1085,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 3) delitem 1086,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 4) delitem 1087,1;//Items: Unknown_Test_Tube,
+
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+	mes "[Maga Guardiã]";
+	mes "'Bem-vindo a Meu Mundo' ~ hehe .  Eu sempre quis dizer isso.  De qualquer maneira, parabéns!. Você é agora um de nós, então que  sejamos os amigos!";
+	emotion 18;
+	next;
+	mes "[Maga Guardiã]";
+	mes "Booa sorte com os itens que você terá que pegar!";
+	close;
+
+	L_Retry:
+		mes "Eu sinto muito mas a solução que você tem não é boa.  Eu acho que você não passou no teste.  Entretanto você pode tentar novamente.";
+		mes "Deixe-me explicar novamente o teste para você";
+		emotion 4;
+		next;
+		delitem 1090,1;//Items: Unknown_Test_Tube,
+		goto L_Explain;
+
+	L_NoSol:
+		mes "Onde a solução é que eu pedi?  Eu sinto muito mas eu não posso conferir a solução se você não tive-la. Deixe-me lembrar de que solução você precisa.";
+		emotion 1;
+		next;
+		goto L_Explain;
+
+}
+
+// -- Solutions Guide Book --
+geffen_in,177,112,1	script	Livro de Guia	111,{
+	mes "[Livro de Guia de Soluções]";
+	mes "Eu pertenço a Academia de Mágica de Geffen.  Por favor use-me com cuidado.";
+	next;
+	menu "Solução Nº. 1.",Sol1,"Solução Nº. 2.",Sol2,"Solução Nº. 3.",Sol3,"Solução Nº. 4.",Sol4,"Sair.",Cancel;
+
+	Sol1:
+		mes "[Teste de Mago - Solução No. 1]";
+		mes "* Lista de Ingredientes *";
+		mes " - 2 Jellopy";
+		mes " - 3 Felpas";
+		mes " - 1 Leite";
+		next;
+		mes "[Teste de Mago - Solução No. 1]";
+		mes "* Solvente *";
+		mes " - Solução de Payon ";
+		mes "   Onde achar: em uma pequna fonte na";
+		mes "   Vila dos Arqueiros, Payon.";
+		next;
+		mes "[Teste de Mago - Solução No. 1]";
+		mes "* Número Mágico *";
+		mes " - 8472";
+		next;
+		mes "[Teste de Mago - Solução No. 1]";
+		mes "* Pedra de Catalisador *";
+		mes " - Gema Amarela";
+		mes "   (Maquina de Mistura irá providenciar";
+		mes "   este item.)";
+		close;
+	Sol2:
+		mes "[Teste de Mago - Solução No. 2]";
+		mes "* Lista de Ingredientes *";
+		mes " - 3 Jellopy";
+		mes " - 1 Felpa";
+		mes " - 1 Leite";
+		next;
+		mes "[Teste de Mago - Solução No. 2]";
+		mes "* Solvente *";
+		mes " - Nenhum.";
+		next;
+		mes "[Teste de Mago - Solução No. 2]";
+		mes "* Número Mágico *";
+		mes " - 3735";
+		next;
+		mes "[Teste de Mago - Solução No. 2]";
+		mes "* Pedra de Catalisador *";
+		mes " - Gema Vermelha";
+		mes "   (Maquina de Mistura irá providenciar";
+		mes "   este item.)";
+		close;
+	Sol3:
+		mes "[Teste de Mago - Solução No. 3]";
+		mes "* Lista de Ingredientes *";
+		mes " - 6 Jellopy";
+		mes " - 1 Felpa";
+		next;
+		mes "[Teste de Mago - Solução No. 3]";
+		mes "* Solvent Agent *";
+		mes " - Solução de Payon ";
+		mes "   Onde achar: em uma pequna fonte na";
+		mes "   Vila dos Arqueiros, Payon.";
+		next;
+		mes "[Teste de Mago - Solução No. 3]";
+		mes "* Número Mágico *";
+		mes " - 2750";
+		next;
+		mes "[Teste de Mago - Solução No. 3]";
+		mes "* Pedra de Catalisador *";
+		mes " - Gema Azul";
+		mes "   (Maquina de Mistura irá providenciar";
+		mes "   este item.)";
+		close;
+	Sol4:
+		mes "[Teste de Mago - Solução No. 4]";
+		mes "* Lista de Ingredientes **";
+		mes " - 2 Jellopy";
+		mes " - 3 Felpas";
+		next;
+		mes "[Teste de Mago - Solução No. 4]";
+		mes "* Solvent Agent *";
+		mes " - Solução de Morroc ";
+		mes "   Onde achar: em uma pequena fonte";
+		mes "   Perto da entrada da Pirâmede";
+		mes "   em Morroc.";
+		next;
+		mes "[Teste de Mago - Solução No. 4]";
+		mes "* Número Mágico *";
+		mes " - 5429";
+		next;
+		mes "[Teste de Mago - Solução No. 4]";
+		mes "* Pedra de Catalisador *";
+		mes " - 1 Diamante";
+		mes "   (Maquina de Mistura irá providenciar";
+		mes "   este item.)";
+		close;
+	Cancel:
+		close;
+}
+
+geffen_in,164,112,4	script	Máquina de Mistura	111,{
+	mes "[Máquina de Mistura]";
+	mes "Está é a Máquina de Mistura. Sem igual, projetada só para fazer soluções mágicas. Isto é propriedade da Academia Mágica de Geffen.";
+	next;
+	if (select("Usar Maquina.:Cancelar.") == 1) {
+		mes "[Máquina de Mistura]";
+		mes "Escolha o";
+		mes "Solvente para";
+		mes "a Solução.";
+		next;
+		switch(select("Solução de Payon.:Solução de Morroc.:Sem Solvente.")) {
+		case 1:
+			if (countitem(1089) == 0) {
+				mes "[Máquina de Mistura]";
+				mes "Erro.";
+				mes "Não foi possivel encontrar o item.";
+				mes "Por favor cheque novamente.";
+				mes "Processo encerrado.";
+				close;
+			}
+			set .@mixitem2,1;
+			break;
+		case 2:
+			if (countitem(1088) == 0) {
+				mes "[Máquina de Mistura]";
+				mes "Erro.";
+				mes "Não foi possivel encontrar o item.";
+				mes "Por favor cheque novamente.";
+				mes "Processo encerrado.";
+				close;
+			}
+			set .@mixitem2,2;
+			break;
+		case 3:
+			set .@mixitem2,0;
+			break;
+		}
+		while (1) {
+			if (.@progress == 2) {
+				mes "[Máquina de Mistura]";
+				if (.@mixitem1_1 != 0) mes "Jellopy: " + .@mixitem1_1 + " cada.";
+				if (.@mixitem1_2 != 0) mes "Felpa: " + .@mixitem1_2 + " cada.";
+				if (.@mixitem1_3 != 0) mes "Leite: " + .@mixitem1_3 + " cada.";
+				if (.@mixitem2 == 0) mes "Solvente: Solução de Nenhuma.";
+				if (.@mixitem2 == 1) mes "Solvente: Solução de Payon.";
+				if (.@mixitem2 == 2) mes "Solvente: Solução de Morroc";
+				next;
+				mes "[Máquina de Mistura]";
+				mes "Por favor, escolha se você deseja começar a mistura, ou re-adicionar os números de itens à ser misturado.";
+				next;
+				switch(select("Começar a Mistura.:Re-adicionar o número de itens.:Resetar.")) {
+				case 1:
+					mes "[Máquina de Mistura]";
+					mes "Coloque os itens em recipientes de mistura. Certifique-se o item valores estão corretos.";
+					next;
+					mes "[Máquina de Mistura]";
+					mes "Você não pode ajustar ou restaurar itens quando eles são colocados em recipientes de mistura.";
+					next;
+					mes "[Máquina de Mistura]";
+					mes "Se tudo estiver correto, pressione o botão 'Misturar' quando estiver pronto. Caso contrário, pressione o botão 'Cancelar'.";
+					next;
+					if (select("Apertar o botão 'Misturar':Apertar o botão 'Cancelar'.") == 1) {
+						mes "[Máquina de Mistura]";
+						mes "Coloque a mistura em itens Recipiente agora. Aguarde.";
+						next;
+						mes "[Máquina de Mistura]";
+						if (countitem(909) < .@mixitem1_1) {
+							mes "Jellopys insuficiente.";
+							mes "Verifique novamente.";
+							mes "Processo Interrompido.";
+							close;
+						}
+						else if (countitem(914) < .@mixitem1_2) {
+							mes "Felpas insuficiente.";
+							mes "Verifique novamente.";
+							mes "Processo Interrompido.";
+							close;
+						}
+						else if (countitem(519) < .@mixitem1_3) {
+							mes "Leites insuficiente.";
+							mes "Verifique novamente.";
+							mes "Processo Interrompido.";
+							close;
+						}
+						else if (.@mixitem2 == 1 || .@mixitem2 == 2) {
+							if (countitem(1089) == 0 && countitem(1088) == 0) {
+								mes "Solução não encontrada.";
+								mes "Verifique novamente.";
+								mes "Processo Interrompido.";
+								close;
+							}
+						}
+						if (.@mixitem1_1 != 0) delitem 909,.@mixitem1_1; //Jellopy
+						if (.@mixitem1_2 != 0) delitem 914,.@mixitem1_2; //Fluff
+						if (.@mixitem1_3 != 0) delitem 519,.@mixitem1_3; //Milk
+						if (.@mixitem2 == 1) delitem 1089,1; //Payon_Potion
+						if (.@mixitem2 == 2) delitem 1088,1; //Morocc_Potion
+						mes "Itens estão prontos..";
+						mes "Feche a tampa.";
+						set .@progress,3;
+						next;
+					}
+					break;
+				case 2:
+					set .@continue,0;
+					next;
+					break;
+				case 3:
+					set .@mixitem1_1,0;
+					set .@mixitem1_2,0;
+					set .@mixitem1_3,0;
+					set .@progress,0;
+					set .@continue,0;
+					mes "[Máquina de Mistura]";
+					mes "Resetado.";
+					mes "Iniciar novamente?";
+					next;
+					if (select("Sim.:Não.") == 1)
+						break;
+					mes "[Máquina de Mistura]";
+					mes "Processo Interrompido.";
+					mes "Obrigado.";
+					close;
+				}
+				if (.@progress == 3) break;
+			}
+			else if (.@progress == 1) {
+				mes "[Máquina de Mistura]";
+				mes "Nada encontrado.";
+				next;
+			}
+			mes "[Máquina de Mistura]";
+			mes "Selecione itens para misturar.";
+			while(1) {
+				switch(select("Jellopy.:Felpa.:Leite.:Pronto para Misturar.")) {
+				case 1:
+					while(1) {
+						input .@input;
+						if (.@input > 10000) {
+							next;
+							mes "[Máquina de Mistura]";
+							mes "Erro: Número limite excedido. Digite valores inferiores a 10.000 tente novamente.";
+							next;
+						}
+						else {
+							if (countitem(909) > 0) set .@mixitem1_1,.@mixitem1_1 + .@input;
+							set .@progress,2;
+							break;
+						}
+					}
+					break;
+				case 2:
+					while(1) {
+						input .@input;
+						if (.@input > 10000) {
+							next;
+							mes "[Máquina de Mistura]";
+							mes "Erro: Número limite excedido. Digite valores inferiores a 10.000 tente novamente.";
+							next;
+						}
+						else {
+							if (countitem(914) > 0) set .@mixitem1_2,.@mixitem1_2 + .@input;
+							set .@progress,2;
+							break;
+						}
+					}
+					break;
+				case 3:
+					while(1) {
+						input .@input;
+						if (.@input > 10000) {
+							next;
+							mes "[Máquina de Mistura]";
+							mes "Erro: Número limite excedido. Digite valores inferiores a 10.000 tente novamente.";
+							next;
+						}
+						else {
+						if (countitem(519) > 0) set .@mixitem1_3,.@mixitem1_3 + .@input;
+							set .@progress,2;
+							break;
+						}
+					}
+					break;
+
+				case 4:
+					if (.@progress != 2)
+						set .@progress,1;
+					set .@continue,1;
+					next;
+				}
+				if (.@continue) break;
+			}
+		}
+		mes "[Máquina de Mistura]";
+		mes "Por favor indique o ";
+		mes "numero de série da";
+		mes "poção mágica.";
+		next;
+		while(1) {
+			input .@input;
+			if (.@input < 1000 || .@input > 9999) {
+				mes "[Máquina de Mistura]";
+				if (.@input == 0) {
+					mes "Quer pular este menu?";
+					next;
+					if (select("Yes.:No.") == 1) {
+						break;
+					}
+				}
+				else {
+					mes "Numero de serie invalido.";
+					mes "Tente novamente.";
+					next;
+				}
+			}
+			else {
+				mes "[Máquina de Mistura]";
+				mes "O numero de serie é #" + .@input + ", certo?";
+				next;
+				if (select("Confirmar.:Cancelar.") == 1) {
+					if (.@input == 8472)
+						set .@magic_powder,1;
+					else if (.@input == 3735)
+						set .@magic_powder,2;
+					else if (.@input == 2750)
+						set .@magic_powder,3;
+					else if (.@input == 5429)
+						set .@magic_powder,4;
+					else
+						set .@magic_powder,5;
+				}
+				break;
+			}
+		}
+		mes "[Máquina de Mistura]";
+		mes "Escolha a";
+		mes "pedra catalizadora.";
+		next;
+		switch(select("Gema Amarela.:Gema Vermelha.:Gema Azul.:Diamante de 1 quilate.:Pular.")) {
+		case 1: set .@mixitem3,1; break;
+		case 2: set .@mixitem3,2; break;
+		case 3: set .@mixitem3,3; break;
+		case 4: set .@mixitem3,4; break;
+		case 5: break;
+		}
+		mes "[Máquina de Mistura]";
+		mes "Tudo Pronto.";
+		mes "Inicializando";
+		mes "Processo de mistura.";
+		mes "Aguarde.";
+		next;
+		mes "[Máquina de Mistura]";
+		mes "- Provérbio do Dia -";
+		switch(rand(1,5)) {
+		case 1:
+			mes "Olho por olho: Quando você tirar uma pessoa, você deve substituir ou reembolsar de alguma forma.";
+			break;
+		case 2:
+			mes "A credibilidade é um homem da Moeda: Não há um valor em uma verdadeira confiança que não pode ser medido.";
+			break;
+		case 3:
+			mes "A credibilidade é um homem da Moeda: Não há um valor em uma verdadeira confiança que não pode ser medido.";
+			mes "Significa 'Quando você vai prejudicar Outra ser prejudicadas por ele em uma situação inevitável.'";
+			break;
+		case 4:
+			mes "Um bom vizinho é melhor do que um irmão distante: Quando você precisar de ajuda, você pode contar com os perto de você.";
+			break;
+		default:
+			mes "Aves de um todo Juntos: Você pode olhar para uma pessoa de amigos como um indicador do seu carácter.";
+		}
+		next;
+		if (.@mixitem1_1 == 2 && .@mixitem1_2 == 3 && .@mixitem1_3 == 1 && .@mixitem2 == 1 && .@mixitem3 == 1 && .@magic_powder == 1) {
+			mes "[Máquina de Mistura]";
+			mes "Solução mágica No. 1.";
+			additem 1071,1; //Mage_Test_1
+			next;
+		}
+		else if (.@mixitem1_1 == 3 && .@mixitem1_2 == 1 && .@mixitem1_3 == 1 && .@mixitem2 == 0 && .@mixitem3 == 2 && .@magic_powder == 2) {
+			mes "[Máquina de Mistura]";
+			mes "Solução mágica No. 2.";
+			additem 1085,1; //Mage_Test_2
+			next;
+		}
+		else if (.@mixitem1_1 == 6 && .@mixitem1_2 == 1 && .@mixitem1_3 == 0 && .@mixitem2 == 1 && .@mixitem3 == 3 && .@magic_powder == 3) {
+			mes "[Máquina de Mistura]";
+			mes "Solução mágica 3.";
+			additem 1086,1; //Mage_Test_3
+			next;
+		}
+		else if (.@mixitem1_1 == 2 && .@mixitem1_2 == 3 && .@mixitem1_3 == 0 && .@mixitem2 == 2 && .@mixitem3 == 4 && .@magic_powder == 4) {
+			mes "[Máquina de Mistura]";
+			mes "Solução mágica 4.";
+			additem 1087,1; //Mage_Test_4
+			next;
+		}
+		else {
+			mes "[Máquina de Mistura]";
+			mes "Ocorreu um erro.";
+			additem 1090,1; //Mage_Test_Etc
+			next;
+		}
+		mes "[Máquina de Mistura]";
+		mes "Mistura completa.";
+		mes "Obrigado.";
+		close;
+	}
+	close;
+}
+
+
+// -- Morroc Solution --
+moc_ruins,91,150,5	script	Ponka-Hontas	93,{
+	mes "[Ponka-Hontas]";
+	mes "Você quer a Solução? Então me dê 50 Zeny e pelo menos 1 Tubo de teste vazio.";
+	next;
+	menu "Tudo bem, vou dar",L0,"Nah, esqueça.",L1;
+
+	L0:
+		if(countitem(1092)<1) goto L0NoT;//Items: Empty_Test_Tube,
+		if(Zeny<50) goto L0NoZ;
+		mes "[Ponka-Hontas]";
+		mes "Ok, você tem dinheiro e um tubo de testes vazio, isso é bom!";
+		delitem 1092,1;//Items: Empty_Test_Tube,
+		set Zeny,Zeny-50;
+		next;
+		mes "[Ponka-Hontas]";
+		additem 1088,1;//Items: Morroc_Solution,
+		mes "Obrigado. E acho que você será um grande Mago, és muito generoso";
+		mes "Eu espero o ver novamente aqui";
+		emotion 21;
+		close;
+
+		L0NoT:
+			mes "[Ponka-Hontas]";
+			mes "Você não pode continuar sem uma garrafa, você está seguro você quer se tornar um Mago?";
+			mes "Traga um Tubo de testes vazio";
+			close;
+
+		L0NoZ:
+			mes "[Ponka-Hontas]";
+			mes "Pfff, Você é muito pobre para para comprar nossa Solução nobre!";
+			mes "Traga 50 Zeny. Vá para o mercado e venda algo, não será muito duro, eu espero.";
+			close;
+	L1:
+		mes "[Ponka-Hontas]";
+		mes "Ok, até mais.";
+		close;
+}
+
+
+// -- Payon Solution --
+pay_arche,122,100,5	script	Dollshoi	88,{
+	mes "[Dollshoi]";
+	mes "Você quer a Solução? Então me dê 50 Zeny e pelo menos 1 Tubo de teste vazio.";
+	next;
+	menu "Tudo bem, vou dar",L0,"Nah, esqueça.",L1;
+
+	L0:
+		if(countitem(1092)<1) goto L0NoT;//Items: Empty_Test_Tube,
+		if(Zeny<50) goto L0NoZ;
+		mes "[Dollshoi]";
+		mes "Ok, você tem dinheiro e um tubo de testes vazio, isso é bom!";
+		delitem 1092,1;//Items: Empty_Test_Tube,
+		set Zeny,Zeny-50;
+		next;
+		mes "[Dollshoi]";
+		additem 1089,1;//Items: Payon_Solution,
+		mes "Obrigado. E acho que você será um grande Mago, és muito generoso";
+		mes "Eu espero o ver novamente aqui";
+		emotion 21;
+		close;
+
+		L0NoT:
+			mes "[Dollshoi]";
+			mes "Você não pode continuar sem uma garrafa, você está seguro você quer se tornar um Mago?";
+			mes "Traga um Tubo de testes vazio";
+			close;
+
+		L0NoZ:
+			mes "[Dollshoi]";
+			mes "Pfff, Você é muito pobre para para comprar nossa Solução nobre!";
+			mes "Traga 50 Zeny. Vá para o mercado e venda algo, não será muito duro, eu espero.";
+			close;
+	L1:
+		mes "[Dollshoi]";
+		close;
+}
+

@@ -1,0 +1,1120 @@
+//===== Cronus Script ========================================
+//= Izlude Arena nv 60
+//===== Por: =================================================
+//= SinSloth
+//===== Versão Atual: ========================================
+//= 1.2b
+//===== Comentários Adicionais: ==============================
+//= 1.0 First version.
+//= 1.1 Fixed coordinate typo. (bugreport:1663) [L0ne_W0lf]
+//= 1.2 Replaced effect numerics with constants. [Samuray22]
+//= 1.2a Traduzido. [Sirius]
+//= 1.2b Revisado. [RoM]
+//============================================================
+
+arena_room,38,88,5	script	Sala de Espera nv 60 	124,{
+
+OnInit:
+	waitingroom "Individual; nv 60 ou superior",50,"Sala de Espera nv 60::OnStartArena",1;
+	enablewaitingroomevent;
+	end;
+
+OnStartArena:
+	donpcevent "arena#60::Onstart";
+	enablenpc "ArenaFee#60";
+	warpwaitingpc "force_2-1",99,12;
+	disablewaitingroomevent;
+	end;
+
+Onstart:
+	enablewaitingroomevent;
+	end;
+
+}
+
+force_2-1,99,12,1	script	ArenaFee#60	139,1,1,{
+
+OnInit:
+	disablenpc "ArenaFee#60";
+	end;
+
+OnTouch:
+	set Zeny,Zeny -1000;
+	disablenpc "ArenaFee#60";
+	end;
+}	
+
+force_2-1,99,20,4	script	Minilover#arena	124,{
+
+OnInit:
+	set $@mapcount60, 0;	
+	end;
+
+Onstart:
+	initnpctimer;
+	set $arena_min60st,gettime(2);
+	set $arena_sec60st,gettime(1);
+	end;
+
+OnTimer3000:
+	mapannounce "force_2-1","Bom dia!, me chamo Minilover, o guia da Batalha Contra o Tempo para nível 60!",0;
+	end;
+	
+OnTimer4000:
+	mapannounce "force_2-1","Lembre-se, a certa decisão sua vai lhe poupar muito tempo!",0;
+	end;
+	
+OnTimer5000:
+	mapannounce "force_2-1","Para atingir o objetivo desta batalha, você deve começar na esquerda do ponto mais longe desta sala em direção ao ponteiro. Por favor, vá até o ponto esquerdo mais longe desta sala. Você tem 6 minutos a partir de agora.",0;
+	end;
+	
+OnTimer60000:
+	set $@mapcount60, getmapusers ("force_2-1");
+	if ($@mapcount60 == 0) {	
+		donpcevent "Minilover#arena::Onfailclearstage";
+	}
+	mapannounce "force_2-1","Tempo Restante :  5 minutos ",0;
+	end;
+	
+OnTimer120000:
+	set $@mapcount60, getmapusers ("force_2-1");
+	if ($@mapcount60 == 0) {	
+		donpcevent "Minilover#arena::Onfailclearstage";
+	}
+	mapannounce "force_2-1","Tempo Restante :  4 minutos ",0;
+	end;
+	
+OnTimer180000:
+	set $@mapcount60, getmapusers ("force_2-1");
+	if ($@mapcount60 == 0) {	
+		donpcevent "Minilover#arena::Onfailclearstage";
+	}
+	mapannounce "force_2-1","Tempo Restante :  3 minutos ",0;
+	end;
+	
+OnTimer240000:
+	set $@mapcount60, getmapusers ("force_2-1");
+	if ($@mapcount60 == 0) {	
+		donpcevent "Minilover#arena::Onfailclearstage";
+	}
+	mapannounce "force_2-1","Tempo Restante :  2 minutos ",0;
+	end;
+	
+OnTimer300000:
+	set $@mapcount60, getmapusers ("force_2-1");	
+	if ($@mapcount60 == 0) {	
+		donpcevent "Minilover#arena::Onfailclearstage";
+	}
+	mapannounce "force_2-1","Tempo Restante :  1 minuto ",0;
+	end;
+	
+OnTimer360000:
+	mapannounce "force_2-1","Seu tempo acabou. Espero que você tenha se divertido~",0;
+	end;
+	
+OnTimer365000:
+OnTimer366000:
+OnTimer367000:
+OnTimer368000:
+OnTimer369000:
+OnTimer370000:
+OnTimer371000:
+OnTimer372000:
+OnTimer373000:
+OnTimer374000:
+	mapwarp "force_2-1","prt_are_in",126,139,0,0;
+	end;
+	
+OnTimer375000:
+	mapwarp "force_2-1","prt_are_in",126,139,0,0;
+	donpcevent "Minilover#arena::Onfailclearstage";
+	end;
+	
+Ontimeroff:
+	stopnpctimer;
+	end;
+	
+Onfailclearstage:
+ 	donpcevent "cast#60::Ontimeover1";
+	mapwarp "force_2-1","prt_are_in",126,139,0,0;
+	donpcevent "Minilover#arena::Ontimeroff";
+	donpcevent "arena#60::Onreset_all";
+	donpcevent "alloff#60::Onon";
+	donpcevent "Sala de Espera nv 60 ::Onstart";
+	end;
+	
+On01_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar no mínimo 5 Goblins enquanto os Gir-Globins lhe atacam!",0;
+	end;
+	
+On01_end:
+	mapannounce "force_2-1","Uma porta ao norte da sala está aberta!",0;
+	end;
+	
+On02_start:
+	mapannounce "force_2-1","Corra dos monstros pela porta!",0;
+	end;
+	
+On02_end:
+	mapannounce "force_2-1","Uma porta ao norte da sala está aberta!",0;
+	end;
+	
+On03_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar todos os Louva-a-Deus!",0;
+	end;
+	
+On03_end:
+	mapannounce "force_2-1","Uma porta no lado leste está aberta!",0;
+	end;
+	
+On04_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar todos os monstros não-agressivos enquanto os monstros agressivos lhe atacam!",0;
+	end;
+	
+On04_end:
+	mapannounce "force_2-1","Uma porta no lado leste está aberta!",0;
+	end;
+	
+On05_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar todos os monstros exceto Hidras e Kaphas!",0;
+	end;
+	
+On05_end:
+	mapannounce "force_2-1","Uma porta no lado sul abriu!",0;
+	end;
+	
+On06_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar todas os Bonecos de Miyabi e correr para a saída do lado sul!",0;
+	end;
+	
+On06_end:
+	mapannounce "force_2-1","Uma porta no lado sul abriu!",0;
+	end;
+	
+On07_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar todos os monstros!",0;
+	end;
+	
+On07_end:
+	mapannounce "force_2-1","Feito! Uma porta no oeste está aberta!",0;
+	end;
+	
+On08_start:
+	mapannounce "force_2-1","Por favor corra para a saída norte!",0;
+	end;
+	
+On09_start:
+	mapannounce "force_2-1","Para completar esta etapa, você precisa matar o Líder Goblin!",0;
+	end;
+	
+On09_end:
+	mapannounce "force_2-1","Feito! - Uma porta ao norte está aberta. Obrigado.",0;
+	end;
+
+}
+
+force_2-1,10,56,4	script	arena#60	139,{
+
+Onreset_01:
+	donpcevent "force_01ex#60::Onreset";
+	donpcevent "force_01mob#60::Onreset";
+	donpcevent "force_02start#60::Onon";
+	enablenpc "force_01_02#60";
+	enablenpc "force_02_03#60";
+	end;
+
+Onreset_02:
+	donpcevent "force_02mob#60::Onreset";
+	donpcevent "force_03start#60::Onon";
+	end;
+
+Onreset_03:
+	enablenpc "force_03_04#60";
+	donpcevent "force_04start#60::Onon";
+	donpcevent "force_03ex#60::Onreset";
+	end;
+
+Onreset_04:
+	enablenpc "force_04_05#60";
+	donpcevent "force_05start#60::Onon";
+	donpcevent "force_04ex#60::Onreset";
+	end;
+
+Onreset_05:
+	enablenpc "force_05_06#60";
+	donpcevent "force_06start#60::Onon";
+	donpcevent "force_05ex#60::Onreset";
+	donpcevent "force_05mob#60::Onreset";
+	end;
+
+Onreset_06:
+	enablenpc "force_06_07#60";
+	donpcevent "force_07start#60::Onon";
+	donpcevent "force_06ex#60::Onreset";
+	donpcevent "force_06mob#60::Onreset";
+	end;
+
+Onreset_07:
+	enablenpc "force_07_08#60";
+	donpcevent "force_08start#60::Onon";
+	end;
+
+Onreset_08:
+	donpcevent "force_09start#60::Onon";
+	enablenpc "force_08_09#60";
+	end;
+
+Onreset_09:
+	enablenpc "force_exit#60";
+	end;
+
+Onstart:
+	disablenpc "force_01_02#60";
+	disablenpc "force_02_03#60";
+	disablenpc "force_03_04#60";
+	disablenpc "force_04_05#60";
+	disablenpc "force_05_06#60";
+	disablenpc "force_06_07#60";
+	disablenpc "force_07_08#60";
+	disablenpc "force_08_09#60";
+	disablenpc "force_exit#60";
+	donpcevent "Minilover#arena::Ontimeroff";
+	donpcevent "force_01mob#60::Onreset";
+	donpcevent "force_02mob#60::Onreset";
+	donpcevent "force_03mob#60::Onreset";
+	donpcevent "force_04mob#60::Onreset";
+	donpcevent "force_05mob#60::Onreset";
+	donpcevent "force_06mob#60::Onreset";
+	donpcevent "force_07mob#60::Onreset";
+	donpcevent "force_08mob#60::Onreset";
+	donpcevent "force_09mob#60::Onreset";
+	donpcevent "force_01ex#60::Onreset";
+	donpcevent "force_03ex#60::Onreset";
+	donpcevent "force_04ex#60::Onreset";
+	donpcevent "force_05ex#60::Onreset";
+	donpcevent "force_06ex#60::Onreset";
+	donpcevent "force_08ex#60::Onreset";
+	donpcevent "force_09ex#60::Onreset";
+	enablenpc "force_08_01#60";
+	donpcevent "force_01start#60::Onon";
+	donpcevent "Minilover#arena::Onstart";
+	end;
+
+Onreset_all:
+	donpcevent "force_01mob#60::Onreset";
+	donpcevent "force_02mob#60::Onreset";
+	donpcevent "force_03mob#60::Onreset";
+	donpcevent "force_04mob#60::Onreset";
+	donpcevent "force_05mob#60::Onreset";
+	donpcevent "force_06mob#60::Onreset";
+	donpcevent "force_07mob#60::Onreset";
+	donpcevent "force_08mob#60::Onreset";
+	donpcevent "force_09mob#60::Onreset";
+	donpcevent "force_01ex#60::Onreset";
+	donpcevent "force_03ex#60::Onreset";
+	donpcevent "force_04ex#60::Onreset";
+	donpcevent "force_05ex#60::Onreset";
+	donpcevent "force_06ex#60::Onreset";
+	donpcevent "force_08ex#60::Onreset";
+	donpcevent "force_09ex#60::Onreset";
+	end;
+
+}
+
+force_2-1,62,26,1	script	force_08_01#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On01_start";
+	warp "force_2-1",40,26;
+	end;
+}
+
+force_2-1,25,44,1	script	force_01_02#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On02_start";
+	warp "force_2-1",25,69;
+	end;
+}
+
+force_2-1,25,134,1	script	force_02_03#60	45,1,1,{
+
+OnTouch:
+	donpcevent "arena#60::Onreset_02";
+	donpcevent "Minilover#arena::On03_start";
+	warp "force_2-1",25,159;
+	end;
+}
+
+force_2-1,44,174,1	script	force_03_04#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On04_start";
+	warp "force_2-1",69,174;
+	end;
+}
+
+force_2-1,134,174,1	script	force_04_05#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On05_start";
+	warp "force_2-1",159,174;
+	end;
+}
+
+force_2-1,174,155,1	script	force_05_06#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On06_start";
+	warp "force_2-1",174,130;
+	end;
+}
+
+force_2-1,174,65,1	script	force_06_07#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On07_start";
+	warp "force_2-1",174,40;
+	end;
+}
+
+force_2-1,155,26,1	script	force_07_08#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On08_start";
+	warp "force_2-1",132,26;
+	enablenpc "force_08_09#60";
+	end;
+}
+
+force_2-1,99,54,1	script	force_08_09#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::On09_start";
+	warp "force_2-1",99,82;
+	end;
+}
+
+force_2-1,99,124,1	script	force_exit#60	45,1,1,{
+
+OnTouch:
+	donpcevent "Minilover#arena::Ontimeroff";
+	donpcevent "#arn_timer_60::Onon";
+	mapwarp "force_2-1","prt_are_in",22,139,0,0;
+	end;
+}
+
+force_2-1,1,1,1	script	force_01start#60	-1,{
+
+Onon:
+	donpcevent "force_01mob#60::Onon";
+end;
+}
+
+force_2-1,10,56,4	script	force_01ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_01ex#60::OnMobEx";
+	end;
+	
+Onon:
+	monster "force_2-1",25,25,"Rotar Zairo",1392,1,"force_01ex#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,10,55,4	script	force_01mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_01mob#60::OnMobDeath";
+	end;
+	
+Onon:
+	donpcevent "force_01ex#60::Onon";
+	monster "force_2-1",25,32,"Goblin Arqueiro",1577,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",21,26,"Goblin",1534,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",25,36,"Goblin",1536,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",25,15,"Goblin",1534,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",40,30,"Goblin",1536,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",25,24,"Goblin",1534,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",25,9,"Goblin",1536,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",28,15,"Goblin Arqueiro",1577,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",12,33,"Goblin",1536,1,"force_01mob#60::OnMobDeath";
+	monster "force_2-1",24,20,"Goblin",1535,1,"force_01mob#60::OnMobDeath";
+	set $force_01_60,5;
+	end;
+
+OnMobDeath:
+	set $force_01_60,$force_01_60 -1;
+	if ($force_01_60 < 1) {	
+		donpcevent "Minilover#arena::On01_end";
+		donpcevent "arena#60::Onreset_01";
+	}
+	end;
+}
+
+force_2-1,1,1,1	script	force_02start#60	-1,{
+
+Onon:
+	donpcevent "force_02mob#60::Onon";
+	end;
+}
+
+force_2-1,10,54,4	script	force_02mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_02mob#60::OnMobEx";
+	end;
+Onon:
+	monster "force_2-1",24,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",24,86,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",24,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",24,86,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",24,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,76,"Drainliar",1434,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",23,76,"Requiem",1468,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",27,76,"Requiem",1468,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",25,86,"Requiem",1468,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",26,86,"Carniçal",1423,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",25,100,"Carniçal",1423,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",26,118,"Carniçal",1423,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",25,100,"Carniçal",1423,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",26,118,"Carniçal",1423,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,79,"Zerom",1470,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",23,87,"Zerom",1470,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,99,"Zerom",1470,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",23,112,"Zerom",1470,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Matyr",1460,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Matyr",1460,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Matyr",1460,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Orc Zumbi",1463,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Orc Zumbi",1463,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Orc Zumbi",1463,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Orc Zumbi",1463,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Orc Zumbi",1463,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Matyr",1460,1,"force_02mob#60::OnMobEx";
+	monster "force_2-1",28,128,"Matyr",1460,1,"force_02mob#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,1,1,1	script	force_03start#60	-1,{
+
+Onon:
+	donpcevent "force_03mob#60::Onon";
+	end;
+}
+
+force_2-1,10,53,4	script	force_03ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_03ex#60::OnMobEx";
+	end;
+	
+Onon:
+	monster "force_2-1",26,173,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",21,173,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",31,173,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",26,178,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",21,178,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",31,178,"Hidra",1579,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",19,174,"Obeaune",1425,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",26,161,"Obeaune",1425,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",13,173,"Obeaune",1425,1,"force_03ex#60::OnMobEx";
+	monster "force_2-1",38,173,"Obeaune",1425,1,"force_03ex#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,11,56,4	script	force_03mob#60	139,{
+
+Onon:
+	donpcevent "force_03ex#60::Onon";
+	monster "force_2-1",23,174,"Lova-a-Deus",1457,1,"force_03mob#60::OnMobDeath";
+	monster "force_2-1",18,173,"Lova-a-Deus",1457,1,"force_03mob#60::OnMobDeath";
+	monster "force_2-1",33,173,"Lova-a-Deus",1457,1,"force_03mob#60::OnMobDeath";
+	monster "force_2-1",26,181,"Lova-a-Deus",1457,1,"force_03mob#60::OnMobDeath";
+	set $force_03_60,4;
+	end;
+
+Onreset:
+	killmonster "force_2-1","force_mob01#60::OnMobDeath";
+	end;
+
+OnMobDeath:
+	set $force_03_60,$force_03_60 -1;
+	if ($force_03_60 < 1) {	
+		donpcevent "Minilover#arena::On03_end";
+		donpcevent "arena#60::Onreset_03";
+	}
+	end;
+}
+
+force_2-1,1,1,1	script	force_04start#60	-1,{
+
+Onon:
+	donpcevent "force_04mob#60::Onon";
+	end;
+}
+
+force_2-1,10,56,4	script	force_04ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_04ex#60::OnMobEx";
+	end;
+
+Onon:
+	monster "force_2-1",84,177,"Sasquatch",1442,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",125,170,"Sasquatch",1442,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",109,172,"Leopardo Filhote",1524,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",121,172,"Leopardo Filhote",1524,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",104,173,"Chepet",1444,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",75,174,"Dokebi",1491,1,"force_04ex#60::OnMobEx";
+	monster "force_2-1",102,176,"Dokebi",1491,1,"force_04ex#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,11,57,4	script	force_04mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_04mob#60::OnMobDeath";
+	end;
+
+Onon:
+	donpcevent "force_04ex#60::Onon";
+	monster "force_2-1",79,174,"Golem",1540,1,"force_04mob#60::OnMobDeath";
+	monster "force_2-1",131,178,"Marte",1551,1,"force_04mob#60::OnMobDeath";
+	set $force_04_60,2;
+	end;
+
+OnMobDeath:
+	set $force_04_60,$force_04_60 -1;
+	if ($force_04_60 < 1) {	
+		donpcevent "force_04ex#60::Onreset";
+		donpcevent "Minilover#arena::On04_end";
+		donpcevent "arena#60::Onreset_04";
+	}
+	end;
+}
+
+force_2-1,1,1,1	script	force_05start#60	-1,{
+
+Onon:
+	donpcevent "force_05mob#60::Onon";
+	end;
+}
+
+force_2-1,12,56,4	script	force_05ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_05ex#60::OnMobEx";
+	end;
+	
+Onsummonmob_05:
+	monster "force_2-1",168,177,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",170,179,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",177,179,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",179,178,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",179,170,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",177,168,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",170,168,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",173,174,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",174,174,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",173,173,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",174,173,"Hidra",1579,1,"force_05ex#60::OnMobEx";
+	monster "force_2-1",173,181,"Kapha",1543,1,"force_05ex#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,24,56,4	script	force_05mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_05mob#60::OnMobDeath";
+	end;
+	
+Onon:
+	donpcevent "force_05ex#60::Onsummonmob_05";
+	monster "force_2-1",163,173,"Drainliar",1434,1,"force_05mob#60::OnMobDeath";
+	monster "force_2-1",173,173,"Névoa",1553,1,"force_05mob#60::OnMobDeath";
+	monster "force_2-1",181,173,"Orc Esqueleto",1462,1,"force_05mob#60::OnMobDeath";
+	monster "force_2-1",171,177,"Orc Esqueleto",1462,1,"force_05mob#60::OnMobDeath";
+	monster "force_2-1",173,181,"Raggler",1445,1,"force_05mob#60::OnMobDeath";
+	set $force_05_60,5;
+	end;
+
+OnMobDeath:
+	set $force_05_60,$force_05_60 -1;
+	if ($force_05_60 < 1) {	
+		donpcevent "Minilover#arena::On05_end";
+		donpcevent "arena#60::Onreset_05";
+	}
+	end;
+}
+
+force_2-1,1,1,1	script	force_06start#60	-1,{
+
+Onon:
+	donpcevent "force_06mob#60::Onon";
+	end;
+}
+
+force_2-1,10,56,4	script	force_06ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_06ex#60::OnMobEx";
+	end;
+
+Onon:
+	monster "force_2-1",169,130,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,130,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,125,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,125,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,120,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,120,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,115,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,115,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,110,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,110,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,105,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,105,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,100,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,100,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,95,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,95,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,90,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,90,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,85,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,85,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,80,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,80,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",169,75,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	monster "force_2-1",178,75,"Guardião da Floresta",1541,1,"force_06ex#60::OnMobEx";
+	end;
+	
+Onsubon:
+	set $@randmonster60,rand(1,3);	
+	switch($@randmonster60) {
+	case 1:
+		monster "force_2-1",rand(170,177),rand(70,120),"Sorrateiro",1424,1,"force_06ex#60::OnMobEx";
+		break;
+	case 2:
+		monster "force_2-1",rand(170,177),rand(70,120),"Ermitão Selvagem",1565,1,"force_06ex#60::OnMobEx";
+		break;
+	case 3:
+		monster "force_2-1",rand(170,177),rand(70,120),"Soldadinho de Chumbo",1443,1,"force_06ex#60::OnMobEx";
+		break;
+	}
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,18,56,4	script	force_06mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_06mob#60::OnMobDeath";
+	end;
+
+Onon:
+	donpcevent "force_06ex#60::Onon";
+	monster "force_2-1",174,100,"Boneco de Miyabi",1552,1,"force_06mob#60::OnMobDeath";
+	monster "force_2-1",174,80,"Boneco de Miyabi",1552,1,"force_06mob#60::OnMobDeath";
+	set $force_06_60,2;
+	end;
+
+OnMobDeath:
+	set $force_06_60,$force_06_60 -1;
+	if ($force_06_60 < 1) {	
+		set door, 1;	
+		donpcevent "Minilover#arena::On06_end";
+		donpcevent "arena#60::Onreset_06";
+	}
+	else donpcevent "force_06ex#60::Onsubon";
+	end;
+}
+
+force_2-1,1,1,1	script	force_07start#60	-1,{
+
+Onon:
+	donpcevent "force_07mob#60::Onon";
+	end;
+}
+
+force_2-1,19,56,4	script	force_07mob#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_07mob#60::OnMobDeath";
+	end;
+	
+Onon:
+	monster "force_2-1",170,25,"Jakk",1436,1,"force_07mob#60::OnMobDeath";
+	monster "force_2-1",170,25,"Jakk",1436,1,"force_07mob#60::OnMobDeath";
+	monster "force_2-1",175,25,"Névoa",1553,1,"force_07mob#60::OnMobDeath";
+	monster "force_2-1",179,25,"Ísis",1421,1,"force_07mob#60::OnMobDeath";
+	set $force_07_50,4;
+	end;
+
+OnMobDeath:
+	set $force_07_50,$force_07_50 -1;
+	if ($force_07_50 < 1) {	
+		donpcevent "Minilover#arena::On07_end";
+		donpcevent "arena#60::Onreset_07";
+	}
+	end;
+}
+
+force_2-1,1,1,1	script	force_08start#60	-1,{
+
+Onon:
+	donpcevent "force_08ex#60::Onon";
+	end;
+}
+
+force_2-1,18,57,4	script	force_08ex#60	139,{
+
+Onon:
+	donpcevent "arena#60::Onreset_08";
+	end;
+}
+
+force_2-1,1,1,1	script	force_09start#60	-1,{
+
+Onon:
+	donpcevent "force_09mob#60::Onon";
+	end;
+}
+
+force_2-1,10,59,4	script	force_09ex#60	139,{
+
+Onreset:
+	killmonster "force_2-1","force_09ex#60::OnMobEx";
+	end;
+	
+Onsummonmob_09:
+	monster "force_2-1",90,100,"Horong",1578,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",92,100,"Horong",1578,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",99,100,"Horong",1578,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",105,100,"Horong",1578,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",91,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",91,104,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",91,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",91,96,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",91,92,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",95,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",99,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",100,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",104,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",108,108,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",108,104,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",108,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",108,96,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",108,92,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",104,102,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",196,102,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",114,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",121,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",85,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",78,100,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",96,118,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	monster "force_2-1",103,118,"Guardião da Floresta",1541,1,"force_09ex#60::OnMobEx";
+	end;
+
+OnMobEx:
+	end;
+}
+
+force_2-1,16,56,4	script	force_09mob#60	139,{
+
+Onon:
+	donpcevent "force_09ex#60::Onsummonmob_09";
+	monster "force_2-1",99,99,"Goblin Leader",1539,1,"force_09mob#60::OnMobDeath";
+	set $force_09_60,1;
+	end;
+	
+Onreset:
+	killmonster "force_2-1","force_09mob#60::OnMobDeath";
+	end;
+
+OnMobDeath:
+	set $force_09_60,$force_09_60 -1;
+	if ($force_09_60 < 1) {	
+		donpcevent "Minilover#arena::On09_end";
+		donpcevent "arena#60::Onreset_09";
+		donpcevent "arena#60::Onreset_all";
+		set $arena_min60end,gettime(2);
+		set $arena_sec60end,gettime(1);
+	}
+	end;
+}
+
+prt_are_in,129,135,3	script	Equipe#60-1	67,{
+
+	mes "[Equipe]";	
+	mes "Você fez um bom trabalho.";
+	mes "Mesmo que você tenha falhado em completar uma Batalha Contra o Tempo, eu irei lhe recompensar com uma pequena quantidade de pontos de arena.";	
+	next;
+	if (arena_point == 30000) {	
+		mes "[Equipe]";
+		mes "Uh huh!";
+		mes "Você tem pontos de arenas suficientes.";	
+		mes "Por favor gaste alguns desses pontos depois. Quando eu encontrar com você denovo, irei fazer questão de dar uma recompensa.";
+		next;
+	}
+	else set arena_point, arena_point + 1;
+	mes "[Equipe]";	
+	mes "Deixe-me levá-lo para fora. Espero que você tenha se divertido.";
+	close2;
+	specialeffect2 EF_EXIT;
+	warp "arena_room",100,75;
+	end;
+}
+
+prt_are_in,25,135,3	script	Equipe#60-2	67,{
+
+	if($arena_min60end < $arena_min60st)
+	{
+		if($arena_sec60end < $arena_sec60st)
+		{
+			set @record_min60,60 - $arena_min60st + $arena_min60end -1;
+			set @record_sec60,60 - $arena_sec60st + $arena_sec60end;
+		}
+		else
+		{
+			set @record_min60,60 - $arena_min60st + $arena_min60end;
+			set @record_sec60,$arena_sec60end - $arena_sec60st;
+		}
+	}
+	else
+	{
+		if($arena_sec60end < $arena_sec60st)
+		{
+			set @record_min60,$arena_min60end - $arena_min60st -1;
+			set @record_sec60,60 - $arena_sec60st + $arena_sec60end;
+		}
+		else
+		{
+			set @record_min60,$arena_min60end - $arena_min60st;
+			set @record_sec60,$arena_sec60end - $arena_sec60st;
+		}
+	}
+	set @gap60,(60 * $top_60min + $top_60sec) - (60 * @record_min60 + @record_sec60);
+	mes "[Equipe]";	
+	mes "Wow, você fez um bom trabalho~ ";	
+	mes "Seu nome é... ^3131FF" + strcharinfo(0) +"^000000, correto?";	
+	mes "^3131FF"+ strcharinfo(0) +"^000000, - tempo total gasto para completar a batalha";
+	
+	next;
+	mes "[Equipe]";	
+	mes "foi de "+@record_min60+" minutos e "+@record_sec60+" segundos.";	
+	mes "Parabéns!";	
+	next;
+	mes "[Equipe]";	
+	mes "O jogador mais rápido entre as pessoas que completaram a arena nível 60 no modo de tempo foi ^3131FF"+$arena_60topn$+"^000000.";	
+	next;
+	mes "[Equipe]";	
+	mes "O tempo de ^3131FF"+$arena_60topn$+"^000000 foi de ^3131FF"+$top_60min+"^000000 minutos e de ^3131FF"+$top_60segs+"^000000 segundos.";
+	next;
+	if (@gap60 < 0) {
+		mes "[Equipe]";	
+		mes "Apesar de você ter falhado em fazer um novo recorde, eu espero que você tenha mais sorte na próxima vez.";
+		next;
+		if (arena_point > 29980) {	
+			mes "[Equipe]";	
+			mes "Deixe-me recompensar você com alguns pontos.";	
+			mes "A quantidade de pontos que você tem excedeu o máximo permitido. Eu não posso lhe dar mais pontos se você não gastar alguns.";	
+			next;
+			mes "[Equipe]";	
+			mes "Você pode ver quantos pontos você tem na Sala de Espera.";	
+			next;
+			mes "[Equipe]";	
+			mes "Espero que você tenha se divertido e deixe-me guiá-lo até a entrada da arena.";	
+			mes "Obrigado.";	
+			close2;
+		}
+		else
+		{
+			set arena_point, arena_point + 20;
+			mes "[Equipe]";	
+			mes "Deixe-me recompensá-lo com alguns pontos.";	
+			mes "Se você quiser ver quantos pontos você possui, fale com o ^3131FFVendigos^000000 na arena de entrada.";	
+			next;
+			mes "[Equipe]";	
+			mes "Deixe-me guiá-lo até a entrada da arena.";	
+			mes "Vejo você depois~";	
+			close2;
+		}
+		specialeffect2 EF_EXIT;
+ 		donpcevent "cast#60::Onnomal1";
+		warp "arena_room",100,75;
+		donpcevent "#arn_timer_60::Onstop";
+		donpcevent "alloff#60::Onon";
+		donpcevent "Sala de Espera nv 60::Onstart";
+		end;
+	}
+	else
+	{
+		emotion e_omg;
+		mes "[Equipe]";	
+		mes "Wow! Você bateu o recorde! Ótimo trabalho!";
+		next;
+		mes "[Equipe]";
+		mes "Você foi o jogador mais rápido entre as pessoas que completaram a ^FF0000Batalha Contra o Tempo na arena de nível 60^000000, ^3131FF"+strcharinfo(0)+"^000000.";
+		set $top_60min, @record_min60;
+		set $top_60sec, @record_sec60;
+		set $arena_60topn$,strcharinfo(0);	
+		donpcevent "Vendigos::Onlinerec_60";
+		next;
+		if (arena_point > 29950) {	
+			mes "[Equipe]";	
+			mes "Deixe-me recompensá-lo com alguns pontos.";	
+			mes "A quantidade de pontos que você tem excedeu o máximo permitido. Eu não posso lhe dar mais pontos se você não gastar alguns.";	
+			next;
+			mes "[Equipe]";
+			mes "Você pode ver quantos pontos você tem na Sala de Espera.";
+			next;
+			mes "[Equipe]";	
+			mes "Espero que você tenha se divertido e deixe-me guiá-lo até a entrada da arena.";	
+			mes "Obrigado.";
+			close2;
+		}
+		else
+		{
+			mes "[Equipe]";
+			mes "Deixe-me recompensa-lo com alguns pontos.";	
+			mes "Como você também bateu o recorde, lhe darei uma quantidade extra de pontos.";
+			next;
+			set arena_point, arena_point + 50;
+			mes "[Equipe]";
+			mes "Deixe-me recompensá-lo com alguns pontos.";
+			mes "Se você quiser ver quantos pontos você possui, fale com o ^3131FFVendigos^000000 na arena de entrada.";
+			next;
+			mes "[Equipe]";
+			mes "Espero que você tenha se divertido e deixe-me guiá-lo até a entrada da arena.";
+			mes "Obrigado.";
+			close2;
+		}
+		specialeffect2 EF_HIT5;
+ 		donpcevent "cast#60::Onnomal2";
+		warp "arena_room",100,75;
+		donpcevent "#arn_timer_60::Onstop";
+		donpcevent "alloff#60::Onon";
+		donpcevent "Sala de Espera nv 60::Onstart";
+		end;
+	}	
+
+}
+
+prt_are_in,14,143,3	script	#arn_timer_60	139,{
+
+Onon:
+	initnpctimer;
+	end;
+
+OnTimer2000:
+	mapannounce "prt_are_in","Essa mensagem informa a restrição para arenas de nível 60+.",0,0xFFCE00;
+	end;
+
+OnTimer3000:
+	mapannounce "prt_are_in","Para um jogo tranquilo, o portal de saída será ativado em 1 minuto.",0,0xFFCE00;
+	end;
+
+OnTimer4000:
+		mapannounce "prt_are_in","Por favor, vá para a batalha o quanto antes para não ficar em desvantagem. Obrigado pela cooperação.",0,0xFFCE00;
+	end;
+
+OnTimer60000:
+ 	donpcevent "cast#60::timeover2";
+	donpcevent "arn_warp_60::Onout";
+	donpcevent "#arn_timer_60::Onstop";
+	donpcevent "alloff#60::Onon";
+	donpcevent "Sala de Espera nv 60::Onstart";
+	end;
+
+Onstop:
+	stopnpctimer;
+	end; 
+}
+
+prt_are_in,1,1,1	script	arn_warp_60	-1,{
+
+Onout:
+	areawarp "prt_are_in",23,131,20,20,"arena_room",100,75;
+	end;
+}
+
+force_2-1,10,55,4	script	cast#60	139,{
+
+Ontimeover1:
+	mapannounce "force_2-1","A arena será reativada devido a um erro ocorrido na batalha.",0,0xFFCE00;
+	end;
+
+Onnomal1:
+	mapannounce "force_2-1","A arena será reativada.",0,0xFFCE00;
+	end;
+
+Onnomal2:
+	mapannounce "force_2-1","A arena será reativada.",0,0xFFCE00;
+	end;
+
+Ontimeover2:
+	mapannounce "force_2-1","A arena será reativada devido a um erro ocorrido Sala de Espera.",0,0xFFCE00;
+	end;
+}
+
+force_2-1,100,60,3	script	alloff#60	139,{
+
+Onon:
+	mapwarp "force_2-1","prt_are_in",126,139,0,0;
+	donpcevent "force_01mob#60::Onreset";
+	donpcevent "force_02mob#60::Onreset";
+	donpcevent "force_03mob#60::Onreset";
+	donpcevent "force_04mob#60::Onreset";
+	donpcevent "force_05mob#60::Onreset";
+	donpcevent "force_06mob#60::Onreset";
+	donpcevent "force_07mob#60::Onreset";
+	donpcevent "force_08mob#60::Onreset";
+	donpcevent "force_09mob#60::Onreset";
+	donpcevent "force_01ex#60::Onreset";
+	donpcevent "force_03ex#60::Onreset";
+	donpcevent "force_04ex#60::Onreset";
+	donpcevent "force_05ex#60::Onreset";
+	donpcevent "force_06ex#60::Onreset";
+	donpcevent "force_08ex#60::Onreset";
+	donpcevent "force_09ex#60::Onreset";
+	donpcevent "Minilover#arena::Ontimeroff";
+	disablenpc "Minilover#arena";
+	disablenpc "force_01_02#60";
+	disablenpc "force_02_03#60";
+	disablenpc "force_03_04#60";
+	disablenpc "force_04_05#60";
+	disablenpc "force_05_06#60";
+	disablenpc "force_06_07#60";
+	disablenpc "force_07_08#60";
+	disablenpc "force_08_09#60";
+	disablenpc "force_exit#60";
+	disablenpc "arena#60";
+	donpcevent "#arn_timer_60::Onstop";
+	enablenpc "Minilover#arena";
+	enablenpc "arena#60";
+	end;
+
+OnInit:	
+	if(!$top_60min && !$top_60sec) set $top_60min,6;
+	end;
+
+}

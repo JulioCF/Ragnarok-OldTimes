@@ -1,0 +1,75 @@
+prontera,141,201,4	script	SafeZoneEvent	803,{
+	if(.event==2)end;
+	select("[Join]");
+	if(!.event)initnpctimer;
+	warp "ggpro",19,19;
+	set .event,1;
+	close;
+OnTimer5000:
+	mapannounce "ggpro","[SafeZone]: Partida iniciada!",bc_map;
+	sleep 3000;
+	for(set .@i,1;.@i<=10;set .@i,.@i+1)
+		callsub Start;
+	mapannounce "ggpro","[SafeZone]: Fim de Jogo",bc_map;
+	sleep 3000;
+	callsub WarpNoSafe;
+	end;
+Start:
+	set .event,2;
+	set .e_x,rand(1,35);
+	set .e_y,rand(1,35);
+	set .e_t,5;
+	callsub WarpShow,.e_x,.e_y;
+	while(sleep(1000))
+		if(set(.e_t,.e_t-1)<0)
+			break;
+		else
+			callsub ShowEffect;
+	callsub WarpNoSafe,.e_x,.e_y;
+	sleep 1000;
+	return;
+OnInit:
+	callsub WarpNoSafe;
+	end;
+WarpNoSafe:
+	if(!getarg(0,0)&&!getarg(1,0))
+	{
+		mapwarp "ggpro","prontera",150,180;
+		set .event,0;
+		set .e_x,0;
+		set .e_y,0;
+		set .e_t,0;
+		return;
+	}
+	areawarp	"ggpro",0,0,40,getarg(1)-1,"prontera",150,180;
+	areawarp	"ggpro",0,getarg(1)+3,40,40,"prontera",150,180;
+	areawarp	"ggpro",0,getarg(1),getarg(0)-1,getarg(1)+2,"prontera",150,180;
+	areawarp	"ggpro",getarg(0)+3,getarg(1),40,getarg(1)+2,"prontera",150,180;
+	return;
+ShowEffect:
+	for(set .@i,1; .@i<=8; set .@i,.@i+1)
+		initnpctimer "SafeZoneEvent#Effect"+.@i;
+	return;
+WarpShow:
+	movenpc	"SafeZoneEvent#Effect1",getarg(0),getarg(1);
+	movenpc	"SafeZoneEvent#Effect2",getarg(0)+1,getarg(1);
+	movenpc	"SafeZoneEvent#Effect3",getarg(0)+2,getarg(1);
+	movenpc	"SafeZoneEvent#Effect4",getarg(0),getarg(1)+1;
+	movenpc	"SafeZoneEvent#Effect5",getarg(0),getarg(1)+2;
+	movenpc	"SafeZoneEvent#Effect6",getarg(0)+1,getarg(1)+2;
+	movenpc	"SafeZoneEvent#Effect7",getarg(0)+2,getarg(1)+2;
+	movenpc	"SafeZoneEvent#Effect8",getarg(0)+2,getarg(1)+1;
+	return;
+}
+ggpro,1,1,0	script	SafeZoneEvent#Effect1	139,{
+OnTimer1:
+	specialeffect 59;
+	end;
+}
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect2	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect3	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect4	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect5	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect6	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect7	139
+ggpro,1,1,0	duplicate(SafeZoneEvent#Effect1)	SafeZoneEvent#Effect8	139

@@ -1,0 +1,140 @@
+//===== Cronus Script ========================================
+//= Quests hats
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quests: Chapeu de Fumacento Dorminhoco,
+//= Peixe Azul, Tiara de Folha e Chapéu de Gatinho Dorminhoco
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text
+//=	added missing delitem, fixed nashow, item amount [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Fixed ingredients: Sashimi knife->Raw Fish (Sashimi) [Lupus]
+//= 1.4a fixed coords [Lupus]
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+morocc,273,78,6	script	Viajante	807,{ 
+ mes "[Viajante]";
+ if(BaseJob == Job_Novice) GOTO L_NOVICE;
+ mes "Que tipo de chapeu você quer que eu faça?";
+ next;
+ menu "Chapéu de Fumacento Dorminhoco.",-,"Peixe Azul",M_N2,"Chapéu de Gatinho Dorminhoco",M_N3,"Tiara de Folha",M_N4,"Nada.",M_EXIT;
+
+ mes "[Viajante]";
+ mes "Traga-me 1000 Avelãs,";
+ mes "100 Peles de Lontra";
+ mes "e 10 Folhas de Fumacento";
+ next;
+ mes "[Viajante]";
+ mes "Você tem esses items?";
+ next;
+ menu "Sim.",-,"Não!",M_EXIT;
+
+ if(countitem(1026) < 1000 || countitem(7065) < 100 || countitem(945) < 10) GOTO L_NOITEM;//Items: Acorn, Sea Otter Fur, Raccoon Leaf,
+ delitem 1026,1000;//Items: Avelã,
+ delitem 7065,100;//Items: Pele de Lontra,
+ delitem 945,10;//Items: Folha de Fumacento,
+ mes "[Viajante]";
+ mes "Bem, aqui está seu item";
+ next;
+ getitem 5084,1;//Items: Chapeu de Fumacendo Dorm,
+ mes "[Viajante]";
+ mes "Aproveite.";
+ close;
+
+M_N2:
+ mes "[Viajante]";
+ mes "Traga-me:";
+ mes "1 Peixe Podre";
+ mes "300 Escamas Fétidas,";
+ mes "50 Peixes Crus";
+ mes "1 Cauda de Peixe";
+ mes "e 100 Muco Pegajoso";
+ next;
+ mes "[Viajante]";
+ mes "Você  tem esses item?";
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(624) < 1 || countitem(959) < 300 || countitem(544) < 50 || countitem(1023) < 1 || countitem(938) < 100) GOTO L_NOITEM; //Items: Rotten Fish, Stinky Scale, Sashimi, Fish Tail, Sticky Mucus,
+ delitem 624,1;//Items: Rotten Fish,
+ delitem 959,300;//Items: Stinky Scale,
+ delitem 544,50;//Items: Raw Fish,
+ delitem 1023,1;//Items: Fish Tail,
+ delitem 938,100;//Items: Sticky Mucus,
+ mes "[Viajante]";
+ mes "Okay, Obrigado.";
+ next;
+ getitem 5065,1;//Items: Fresh Blueish Fish,
+ mes "[Viajante]";
+ mes "Obrigado. Adeus.";
+ close;
+
+M_N3:
+ mes "[Viajante]";
+ mes "Traga-me 1 Tiara com 1 slot,";
+ mes "1 Tintura Preta,";
+ mes "300 Bonecos de Gato Preto,";
+ mes "1 Peixe Podre";
+ mes "e 1 Garra de Lobo do Deserto.";
+ next;
+ mes "[Viajante]";
+ mes "Você  tem esses item?";
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2233) && countitem(983) && countitem(7206) > 299 && countitem(7030)){
+ delitem 2233,1;
+ delitem 983,1;
+ delitem 7206,300;
+ delitem 7030,1;
+ mes "[Viajante]";
+ mes "Obrigado, aqui está seu chapéu.";
+ next;
+ getitem 5058,1;
+ mes "[Viajante]";
+ mes "Aproveite seu item.";
+ close;
+ }else{
+ goto L_NOITEM;
+ }
+
+M_N4:
+ mes "[Viajante]";
+ mes "Traga-me 600 Folhas de Fumacento.";
+ next;
+ mes "[Viajante]";
+ mes "Você possui os items?";
+ next;
+ menu "Sim!",-,"Não.",M_EXIT;
+
+ if(countitem(945) < 600) GOTO L_NOITEM;//Items: Raccoon Leaf,
+ delitem 945,600;//Items: Raccoon Leaf,
+ mes "[Viajante]";
+ mes "Obrigado, aqui está sua folha.";
+ next;
+ getitem 5064,1;//Items: Transformation Leaf,
+ mes "[Viajante]";
+ mes "Aproveite seu item.";
+ close;
+
+L_NOITEM:
+ mes "[Viajante]";
+ mes "Sem items, sem trato";
+ mes "Quando tiver todos os item volte.";
+ close;
+
+L_NOVICE:
+ mes "Está quente hoje....";
+ close;
+
+M_EXIT:
+ mes "[Viajante]";
+ mes "Adeus.";
+ close;
+}

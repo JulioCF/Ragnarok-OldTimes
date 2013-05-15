@@ -1,0 +1,108 @@
+//===== Cronus Script ========================================
+//= Velha Sábia
+//===== Por: =================================================
+//= TyrNemesis^
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Descrição: ===========================================
+//= Remove cartas equipadas em itens.
+//===== Changelog: ===========================================
+//= 1.0 First version. [TyrNemesis^]
+//= 1.2 Optimized and fixed getequipname menu. [Kisuka]
+//= 1.2b Traduzido para o Português. [???]
+//= 1.3 Corrigidos erros de português, semi-otimizado [Keoy]
+//= 1.3a Pequeno erro no menu corrigido [Keoy]
+//= 1.4 Otimizado [mkbu95]
+//============================================================
+
+prt_in,28,73,4	script	Velha Sábia	863,{
+
+//===== Configurações: =======================================
+set .@falhar, 0;	// A remoção pode falhar? [1=Sim/0=Não]
+//============================================================
+
+	mes "[Velha Sábia]";
+	mes "Eu tenho o poder místico de remover cartas colocadas em equipamentos. O que acha disso?";
+	next;
+	switch (select ("Me ajudaria muito!:O que você quer em troca?:Não acho nada interessante..."))
+	{
+		mes "[Velha Sábia]";
+	
+		case 1:
+			mes "Então, qual item você quer que eu examine?";
+			setarray .@pos$[1], "Cabeça Topo","Armadura","Mão Esquerda","Mão Direita","Capa","Sapatos","Acessório 1","Acessório 2","Cabeça Meio","Cabeça Baixo";
+			set .@menu$, "";
+			for (set .@i, 1; .@i <= 10; set .@i, .@i + 1)
+			{
+				if (getequipisequiped(.@i))
+					set .@menu$, .@menu$ + .@pos$[.@i] + " ("+getequipname(.@i)+")";
+				set .@menu$, .@menu$ + ":";	
+			}
+			next;
+			set .@menu, select (.@menu$);
+			mes "[Velha Sábia]";
+			if (!getequipisequiped(.@menu))
+				callsub F_MesThenClose, "Não há nada equipado aí.";
+			if (!getequipcardcnt(.@menu))
+				callsub F_MesThenClose, "Não há nenhuma carta nesse equipamento.";
+			if (!checkweight(1202,(getequipcardcnt(.@menu)+1)))
+				callsub F_MesThenClose, "Você está com peso de mais. Vá até o armazém e guarde algumas coisas.";
+			mes "O item escolhido possui "+getequipcardcnt(.@menu)+" carta(s) equipada(s).";
+			mes "Para aprimorar minha magia, serão necessários "+((getequipcardcnt(.@menu)*25000)+200000)+"z,";
+			mes "1 Fragmento Estelar e 1 Gema Amarela.";
+			next;
+			if (select ("Continuar!:Desistir...") == 2) close;
+			mes "[Velha Sábia]";
+			if ((Zeny < (200000+(getequipcardcnt(.@menu)*25000))) || (countitem(1000) < 1) || (countitem(715) < 1))
+				callsub F_MesThenClose, "Você não tem tudo que é necessário para minha mágica; volte quando conseguir.";
+			if (.@falhar)
+			{
+				mes "Bem, antes de continuarmos, tenho que dizer que o processo pode não ter sucesso...";
+				mes "Suas cartas, seu item ou ambos podem ser destruídos. Qual você preza mais?";
+				if (select ("O item:As cartas:Mudei de ideia") == 3) close;
+				set .@escolhafalhar, @menu;
+				next;
+				mes "[Velha Sábia]";
+			}
+			mes "Muito bem, vamos começar!";
+			next;
+			mes "[Velha Sábia]";
+			set Zeny, Zeny - (200000+(getequipcardcnt(.@menu)*25000));
+			delitem 1000, 1;
+			delitem 715, 1;
+			if (.@falhar)
+			{
+				set .@chancefalhar, rand(100);
+				
+				if (.@chancefalhar < 10)
+				{
+					failedremovecards .@menu, 0;
+					callsub F_MesThenClose, "O processo foi uma falha total. Estou envergonhada, seu item e suas cartas foram destruídos.";
+				}
+				else if (.@chancefalhar < 8)
+				{
+					failedremovecards .@menu, .@escolhafalhar;
+					if (.@escolhafalhar)
+						callsub F_MesThenClose, "Eu falhei ao remover as cartas, e elas foram destruídas. O item está em perfeito estado.";
+					else
+						callsub F_MesThenClose, "Eu consegui remover as cartas, mas o seu item foi destruído.";
+				}
+				else if (.@chancefalhar < 20)
+				{
+					failedremovecards .@menu, 3;
+					callsub F_MesThenClose, "Eu falhei ao remover as cartas, e por sorte sua nada foi danificado.";
+				}
+			}
+			successremovecards .@menu;
+			callsub F_MesThenClose, "O processo foi um grande sucesso, tudo ocorreu nos conformes.";	
+	
+		case 2: callsub F_MesThenClose, "Eu vou precisar de 200.000z, mais 25.000z para cada carta em seu equipamento. Além disso, precisarei de 1 un. Fragmento Estelar e 1 un. Gema Amarela para realizar minha mágica.";
+		
+		case 3: callsub F_MesThenClose, "Que pena... T_T";
+	}
+	
+	F_MesThenClose:
+		mes getarg(0);
+		close;
+	return;
+}

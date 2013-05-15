@@ -1,0 +1,5 @@
+CREATE TABLE `offcash` (
+	`cashid` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	`account_id` INT(11) NOT NULL , 
+	`cashamt` INT(11) NOT NULL
+) ENGINE = MYISAM;

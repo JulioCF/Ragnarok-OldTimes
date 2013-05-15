@@ -1,0 +1,306 @@
+sec_in01,176,172,5	script	Refinador VIP	63,{
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	callfunc "refinemain1","Refinador VIP",1;
+	end;
+}
+
+function	script	refinemain1	{
+	set .@features,getarg(1);
+	mes "[" + getarg(0) + "]";
+	mes "Eu sou um refinador.";
+	mes "Eu posso refinar todos os tipos de armas e armadura, só preciso que você me";
+	mes "diga o que quer refinar.";
+	next;
+
+	setarray .@position$[1], "Cabeça cima","Corpo","Mão esquerda","Mão direita","Capa","Botas","Accessório 1","Accessório 2","Cabeça meio","Cabeça baixo";
+	set .@menu$,"";
+	for( set .@i,1; .@i <= 10; set .@i,.@i+1 )
+	{
+		if( getequipisequiped(.@i) )
+			set .@menu$, .@menu$ + .@position$[.@i] + "-" + "[" + getequipname(.@i) + "]";
+
+		set .@menu$, .@menu$ + ":";
+	}
+	set .@part,select(.@menu$);
+	if(!getequipisequiped(.@part)) {
+		mes "[" + getarg(0) + "]";
+		mes "Você não está usando";
+		mes "nada que eu";
+		mes "possa refinar.";
+		emotion 6;
+		close;
+	}
+	//Check if the item is refinable...
+	if(!getequipisenableref(.@part)) {
+		mes "[" + getarg(0) + "]";
+		mes "Eu acho que não posso";
+		mes "refinar este item...";
+		close;
+	}
+	//Check if the item is identified... (Don't know why this is in here... but kept it anyway)
+	if(!getequipisidentify(.@part)) {
+		mes "[" + getarg(0) + "]";
+		mes "Você não pode refinar um item";
+		mes "se você não o identificou";
+		mes "primeiro. Certifique-se de";
+		mes "que ele esteja identificado antes que";
+		mes "eu possa refiná-lo.";
+		close;
+	}
+	//Check to see if the items is already +10
+	if(getequiprefinerycnt(.@part) >= 10) {
+		mes "[" + getarg(0) + "]";
+		mes "Eu não posso refinar esse item";
+		mes "mais. Ele já foi refinado";
+		mes "ao máximo permitido!";
+		close;
+	}
+	set .@refineitemid, getequipid(.@part); // save id of the item
+	set .@refinerycnt, getequiprefinerycnt(.@part); //save refinery count
+	switch(getequipweaponlv(.@part)){
+	case 0: 	//Refine Armor
+		set .@price,2000;
+		set .@material,985;
+		set .@safe,4;
+		break;
+	case 1: 	//Refine Level 1 Weapon
+		set .@price,50;
+		set .@material,1010;
+		set .@safe,7; 
+		break;
+	case 2: 	//Refine Level 2 Weapon
+		set .@price,200;
+		set .@material,1011;
+		set .@safe,6; 
+		break;
+	case 3: 	//Refine Level 3 Weapon
+		set .@price,5000;
+		set .@material,984;
+		set .@safe,5; 
+		break;
+	case 4: 	//Refine Level 4 Weapon
+		set .@price,20000;
+		set .@material,984;
+		set .@safe,4; 
+		break;
+	case 5: 	//Refine other stuff?
+		set .@price,2000;
+		set .@material,985;
+		set .@safe,4; 
+		break;
+	}
+	if(.@features != 1) {
+		mes "[" + getarg(0) + "]";
+		mes "Para refinar isto eu precisa de";
+		mes "um ^003366"+getitemname(.@material)+"^000000 e";
+		mes "uma taxa de " + .@price + " Zeny.";
+		mes "Você realmente deseja continuar?";
+		next;
+		if(select("Sim:Não") == 2){
+			mes "[" + getarg(0) + "]";
+			mes "OK...";
+			mes "Não  há necessidade de se ter";
+			mes "pressa. Nós temos tempo.";
+			close;
+		}
+		if(getequippercentrefinery(.@part) < 100) {
+			mes "[" + getarg(0) + "]";
+			mes "Oh não! Se você continuar a";
+			mes "refinar isso, há um risco de";
+			switch(.@material) {
+			case 985:
+				mes "ser destruido! Isso quer dizer que ^FF0000esse equipamento^000000, assim como ^FF0000qualquer cartas^000000 ou propriedades especiais adicionados nessa armadura, ^FF0000irão sumir^000000.";
+				break;
+			default:
+				mes "ser destruido, e você iria ^FF0000perder essa arma^000000, e qualquer ^FF0000cartas nesta arma^000000,";
+				mes "ou propriedades especiais dela.";
+				break;
+			}
+			next;
+			mes "["+getarg(0)+"]";
+			mes "Eu serei claro com você.";
+			mes "Se a arma for destruida,";	
+			mes "você não a terá de volta.";
+			mes "Você realmente tem uma chance de";
+			mes "^FF0000perder a sua arma^000000 para sempre.";
+			mes "Você ainda quer refinar?";
+			next;
+			if(select("Sim:Não") == 2){
+				mes "[" + getarg(0) + "]";
+				mes "Eu entendo completamente...";
+				mes "Eu posso ser um grande refinador, mas também posso cometer erros.";
+				close;
+			}
+		}
+		if((countitem(.@material) < 1) || (Zeny < .@price)) {
+			mes "[" + getarg(0) + "]";
+			mes "Você não tem";
+			mes "Zeny suficiente ou não tem "+getitemname(.@material)+"...";
+			mes "Vá pegar o que eu preciso. Irei";
+			mes "estar aqui todos os dias que você precisar.";
+			close;
+		}
+		set Zeny,Zeny-.@price;
+		delitem .@material,1;
+		if(getequipisequiped(.@part) == 0) { // hacker has removed the item (not changed, why?)
+			mes "[" + getarg(0) + "]";
+			mes "Olhe... você não está com o item equipado...";
+			close;
+		}
+		if(getequiprefinerycnt(.@part) != .@refinerycnt || getequipid(.@part) != .@refineitemid) { // hacker has changed the item
+			mes "[" + getarg(0) + "]";
+			Emotion e_an;
+			mes "Espere um segundo...";
+			mes "Você está pensando que eu sou idiota?!";
+			mes "Você trocou de item enquanto eu não estava olhando! Saia daqui agora!";
+			close;
+		}
+		if(getequippercentrefinery(.@part) <= rand(100)) {
+			failedrefitem .@part;
+			mes "[" + getarg(0) + "]";
+			set .@emo,rand(1,5);
+			if (.@emo == 1) {
+				Emotion e_cash;
+			} else {
+				Emotion e_swt;
+			}
+			set .@lose,rand(1,3);
+			if (.@lose == 1) {
+				mes "OH! MEU DEUS!";
+				mes "Que porcaria! De novo não!";
+				mes "Eu realmente sinto muito, mas você sabe que eu preciso praticar para melhorar.";
+				mes "Um, certo? Heh heh...";
+			} else if(.@lose == 2) {
+				mes "Nãããoo!";
+				mes "Quebrou!";
+				mes "M-Me desculpe!";
+			} else {
+				mes "Droga!";
+				mes "Eu poderia ter";
+				mes "tido mais cautela!";
+				mes "Eu sinto muito...";
+			}
+			close;
+		}
+		mes "["+getarg(0)+"]";
+		successrefitem .@part;
+		Emotion e_heh;
+		set .@win,rand(1,3);
+		if (.@win == 1) {
+			mes "Perfeito!";
+			mes "Heh heh!";
+			mes "Mais uma vez,";
+			mes "um trabalho";
+			mes "de um mestre~";
+		} else if(.@win == 2) {
+			mes "Successo...!";
+			mes "Mais uma vez, meu grande";
+			mes "talento deslumbrante";
+			mes "funcionou hoje.";
+		} else {
+			mes "Heh heh!";
+			mes "Está pronto.";
+			mes "Sem dúvida, meu trabalho é para";
+			mes "a sua satisfação.";
+			mes "Bom, ótimo trabalho!~";
+		}
+		close;
+	}
+
+// New Refining Functions ========================
+	if(getequiprefinerycnt(.@part) < .@safe) {
+		mes "[" + getarg(0) + "]";
+		mes "Eu posso refinar até um limite seguro ou uma quantidade de vezes desejada.... É sua escolha...";
+		next;
+		set .@menu2,select("Para um limite seguro por favor.","Eu irei decidir quantas vezes.","Eu mudei de idéia...");
+	} else set .@menu2,2;
+	switch(.@menu2){
+	case 1: 
+		set .@refinecnt,.@safe - getequiprefinerycnt(.@part);
+		break;
+	case 2:
+		next;
+		mes "[" + getarg(0) + "]";
+		mes "Quantas vezes você quer que eu refine o seu item?";
+		next;
+		input .@refinecnt;
+		set .@refinecheck,.@refinecnt + getequiprefinerycnt(.@part);
+		if (.@refinecnt < 1 || .@refinecheck > 10) {
+			mes "[" + getarg(0) + "]";
+			mes "Eu não posso refinar este item tantas vezes.";
+			close;
+		}
+		if(.@refinecheck > .@safe) {
+			set .@refinecheck,.@refinecheck - .@safe;
+			mes "[" + getarg(0) + "]";
+			mes "Eu irei tentar refinar o equipamento " + .@refinecheck + " além do limite seguro. Seu equipamento pode ser destruido... Está bem?";
+			next;
+			if(select("Sim...","Não...") == 2){
+				mes "[" + getarg(0) + "]";
+				mes "Bem..Que assim seja...";
+				close;
+			}
+		}
+		break;
+	case 3:
+		next;
+		mes "[" + getarg(0) + "]";
+		mes "Bem..Que assim seja...";
+		close;
+	}
+	set .@fullprice,.@price * .@refinecnt;
+	mes "[" + getarg(0) + "]";
+	mes "Irá custar para refinar " + .@refinecnt + " " + getitemname(.@material) + " e " + .@fullprice + " Zeny. Está certo?";
+	next;
+	if(select("Sim","Não...") == 2){
+		mes "[" + getarg(0) + "]";
+		mes "Bem..Que assim seja...";
+		close;
+	}
+	if(countitem(.@material) < .@refinecnt || Zeny < .@fullprice) {
+		mes "[" + getarg(0) + "]";
+		mes "É tudo que você tem? Infelizmente, não posso trabalhar para você a um preço mais baixo ou sem os itens necessários.";
+		close;
+	}
+	set Zeny,Zeny - .@fullprice;
+	delitem .@material,.@refinecnt;
+	while(.@refinecnt){
+		if (getequipisequiped(.@part) == 0) {
+			mes "[" + getarg(0) + "]";
+			mes "Veja... Você não está com nenhum item equipado...";
+			close;
+		}
+		if (getequipid(.@part) != .@refineitemid || (.@menu2 == 1 && getequippercentrefinery(.@part) < 100)) {
+			mes "[" + getarg(0) + "]";
+			mes "Mas você imagina que eu sou um cara estupido!?!";
+			mes "Você trocou de item...";
+			mes "Saia daqui antes que eu te estoure com o meu martelo!!!";
+			close;
+		} 
+		mes "Clang, clang!!!";
+		if(.@menu2 == 2 && getequippercentrefinery(.@part) <= rand(100)) {
+			failedrefitem .@part;
+			emotion 23;
+			mes "[" + getarg(0) + "]";
+			mes "WAHHHH!!! Me desculpe... Eu avisei que isso podia acontecer...";
+			set .@refinecnt,.@refinecnt - 1;
+			if(.@refinecnt == 0) close;
+			mes "Aqui está o material e o zeny não usados...";
+			getitem .@material,.@refinecnt;
+			set .@fullprice,.@refinecnt * .@price;
+			set Zeny,Zeny + .@fullprice;
+			close;
+		}
+		successrefitem .@part;
+		emotion 21;
+		set .@refinecnt,.@refinecnt - 1;
+		next;
+	}
+	mes "[" + getarg(0) + "]";
+	mes "Tudo pronto...Volte aqui novamente.";
+	close;
+}

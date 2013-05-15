@@ -1,0 +1,59 @@
+//===== Cronus Script ========================================
+//= Guerra do Emperium - Início Automático da WoE
+//===== Por: =================================================
+//= kalen (1.0)
+//= 1.1 by Akaru and ho|yAnge|
+//===== Versão Atual: ========================================
+//= 2.4
+//===== Descrição: ===========================================
+//= Início Automático da Guerra do Emperium
+//= Para configuração do mesmo, leia por favor o arquivo em doc\woe_time_explanation.txt
+//= Tempo de Início/Fim da WoE 
+//===== Comentários Adicionais: ==============================
+//= 2.0 Trazido do eAthena. [Asus]
+//= 2.1 Adicionado announce oficial do bRO. [SoulBlaker]
+//= 2.2 Modificação de configuração de horário e preparamento para quests futuras. [Reply.]
+//= 2.2a Correção no Script, não pode usar duas labels iguals. [RoM]
+//= 2.3 Reestruturado. [RoM]
+//= 2.3b Alterado de label para função [Heaven]
+//= 2.4 Adicionado o suporte ao Log da WoE para broadcasts. [RoM]
+//= 2.5a Corrigido pequeno erro de sintaxe nos callsubs [Wilk Maia]
+//============================================================
+-	script	Agit_Event	-1,{
+	end;
+
+OnInit:
+OnMinute00:
+OnTimer60000:
+
+stopnpctimer;
+if(gettime(3) == $agit_hora_start[gettime(4)] && gettime(2) == $agit_min_start[gettime(4)] && !agitcheck()){
+	announce "O Período de Guerras começou!",8;
+	announce "Desejamos boa sorte a todos!",8;
+	AgitStart;
+	callsub DisplayOwners;
+}
+else if(gettime(3) == $agit_hora_end[gettime(4)] && gettime(2) == $agit_min_end[gettime(4)] && agitcheck()){
+	announce "Neste momento está encerrado o Período de Guerras.",8;
+	announce "Obrigado a todos que participaram!",8;
+	AgitEnd;
+	callsub DisplayOwners;
+}
+initnpctimer;
+end;
+
+DisplayOwners:
+	setarray .@maps$[0],"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05";
+	setarray .@maps$[5],"gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05";
+	setarray .@maps$[10],"payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05";
+	setarray .@maps$[15],"prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05";
+	for( set .@i, 0; .@i <= 19; set .@i, .@i+1 ) {
+		if (GetCastleData(.@maps$[.@i],1)) {
+			Announce "O Castelo de [" + GetCastleName(.@maps$[.@i]) + "] foi conquistado pelo Clã [" + GetGuildName(GetCastleData(.@maps$[.@i],1)) + "].",bc_all|bc_woe;
+		}
+		else {
+			Announce "O Castelo de [" + GetCastleName(.@maps$[.@i]) + "] está totalmente desocupado.",bc_all|bc_woe;
+		}		
+	}
+	return;
+}

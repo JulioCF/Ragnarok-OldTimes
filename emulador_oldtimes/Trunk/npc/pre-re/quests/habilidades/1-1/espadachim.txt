@@ -1,0 +1,359 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Espadachim
+//===== Por: =================================================
+//= Plinio Marcos
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Descrição: ===========================================
+//= Quest das habilidades de Espadachim
+//= Retirado do Amazon
+//===== Changelog: ===========================================
+//= 1.0 Traduzido [Tassadar]
+//============================================================
+
+prt_in,75,88,5	script	Leon	85,{
+	mes "[Leon]";
+	if(baseClass == Job_Swordman) goto L_Start;
+	if(BaseJob == Job_Novice) goto L_Novice;
+
+	mes "Olá. Eu sou Leon, como você deve saber sou um dos respeitados cavaleiros de Prontera.";
+	next;
+	mes "[Leon]";
+	mes "Você quer saber mais sobre a cavalaria, ou sobre as glórias dos cavaleiros? Hahahaha!";
+	emotion 18;
+	close;
+
+L_Novice:
+	mes "Bem aprendiz.... eu não tenho nada para lhe explicar.";
+	mes "Acho que eu não tenho nada prá falar a ninguém, que não seja um Espadachim.";
+	next;
+	mes "[Leon]";
+	mes "Vejo você por ai!";
+	close;
+
+L_Start:
+	if (FATALBLOW == 1) goto L_Check;
+	if (getskilllv(145)>0) goto L_Done;
+
+	if(sex==1)mes "Oooh! Vejo que você é um forte Espadachim.";
+	if(sex==0)mes "Oooh! Vejo que você também tem uma coragem avassaladora.";
+	mes "Como eu sei disso? Hahaha! Eu vejo tudo pelos seus olhos, meu jovem!";
+	next;
+	mes "[Leon]";
+	mes "Você deve usar muito a habilidade ^0000ff'Golpe Fulminante'^000000, huh? Hahaha!";
+	emotion 18;
+	next;
+	mes "[Leon]";
+	if(sex==1)mes "Eu gosto de ver um espadachim que não tenha medo de usar uma habilidade tão forte como está.";
+	if(sex==0)mes "Vamos lá não seja timido.  As garotas adoram quando você mostra a força do Golpe Fulminante.";
+	if(sex==0)mes "Afinal, para saber qual Espadachim é mais forte, somente o Golpe Fulminante decidi!";
+	next;
+	mes "[Leon]";
+	mes "Como eu gostava muito do Golpe Fulminante, foi então que percebi que poderia melhorá-lô.";
+	mes "Resolvi então pesquisar um jeito de tontear meus oponentes com o Golpe Fulminante.";
+	next;
+	mes "[Leon]";
+	mes "Com isso descobri que se eu conseguisse acerta em um determinado ponto, a vítima ficaria paralizada!!";
+	next;
+	mes "[Leon]";
+	mes "E assim eu desenvolvi a habilidade, ^ff0000'Golpe Fatal'^000000. ";
+	mes "Ele exige um rigoroso treinamento, pois utiliza da força do Golpe Fulminante para tontear o oponente.";
+	next;
+	mes "[Leon]";
+	mes "Se você aprimorou bem seu Golpe Fulminante, eu poderia ensiná-lo.";
+	mes "Com tudo, eu digo que o treinamento é muito dificil.";
+	next;
+	mes "[Leon]";
+	mes "Mesmo assim, você quer tentar?";
+	next;
+	menu "Sim!!",M_0, "Nah.... Nem.",M_1, "Como se como sushi?",M_2;
+
+	M_0:
+		set FATALBLOW,1;
+		mes "[Leon]";
+		mes "Hahaha! Eu sabia que você adorava o Golpe Fulminante como eu.";
+		next;
+		mes "[Leon]";
+		mes "Mas para mim te ensinar o Golpe Fatal, você deve ter que aperfeiçoar seu Golpe Fulminante até o ^5555FFNível 5^000000.  E ainda me entregar os seguintes itens:";
+		mes "- 10 ^FF0000Flehcas de Fogo^000000,";
+		mes "- 10 ^FF0000Flechas de Prata^000000,";
+		mes "- 1 ^FF0000Suco de Banana^000000,";
+		mes "- 30 ^FF0000Tentáculos^000000,";
+		mes "- e 5 ^FF0000Geléia Real^000000.";
+		next;
+		mes "[Leon]";
+		mes "Quando conseguir estes itens, volte para me ver.";
+		close;
+	M_1:
+		mes "[Leon]";
+		mes "Vejo a covardia em seus olhos, mas tudo bem...";
+		close;
+	M_2:
+		mes "[*Rei do Sushi* Leon]";
+		mes "O melhor jeito de comer sushi é usando suas mãos. Esse é o metodo tradicional.";
+		next;
+		mes "[*Rei do Sushi* Leon]";
+		mes "Assim não terá nenhum problema em apreciá-lô.";
+		mes "Ainda mais acompanhado com saquê....!";
+		next;
+		mes "[*Rei do Sushi* Leon]";
+		mes "Mmmmm..... Eu adoro sushi!!!";
+		emotion 33;
+		close;
+
+L_Check:
+	mes "Bem.  Oque você quer saber?";
+	next;
+	mes "[Leon]";
+	if(countitem(1752)<10 || countitem(1751)<10 || countitem(532)<1 || countitem(962)<30 || countitem(526)<5) goto L_NoItems;
+	if(getskilllv(5)<5) goto L_BashLvl;
+
+	mes "Bom trabalho.  Você tem todos os requisitos para aprender o Golpe Fatal.";
+	next;
+	mes "[Leon]";
+	mes "Ok, Vamos começar.";
+	next;
+	mes "!SMACK!~!CRACK!~!THWACK!~!GOLPE FULMINANTE!.......... !SMACK!~!CRACK!~!THWACK!~!BASH!..........";
+	next;
+	mes "(5 horas depois)";
+	next;
+	mes "[Leon]";
+	mes "Muito bom! Este é o Golpe Fatal!";
+	emotion 21;
+	next;
+	delitem 1752,10;
+	delitem 1751,10;
+	delitem 532,1;
+	delitem 962,30;
+	delitem 526,5;
+	skill 145,1,0;
+	set FATALBLOW,0;
+	mes "[Leon]";
+	mes "Use-o com justiça, jovem aventureiro!!";
+	close;
+
+	L_NoItems:
+		mes "Hmm... você não conseguiu os itens que lhe pedi, volte depois.";
+		close;
+	L_BashLvl:
+		mes "Espera ai... você ainda não aprimorou seu Golpe Fulminante até o nivel apropriado.";
+		mes "Você precisa ter no mínimo um ^5555FFNível 5 de Golpe Fulminante^000000.";
+		close;
+
+L_Done:
+	mes "Este é o Golpe Fatal? Não é incrivel!! Hahaha! Eu sei que é.";
+	next;
+	mes "[Leon]";
+	mes "Vá e use seu Golpe Fulminante nas cabeças desses monstros idiotas! Hahaha.";
+	emotion 18;
+	close;
+
+}
+
+
+izlude_in,175,130,2	script	Cavaleiro Thomas	98,{
+	mes "[Cavaleiro Thomas]";
+	if(baseClass == Job_Swordman) goto L_Start;
+
+L_Other:
+	mes "Eu sou Thomas um dos Cavaleiros de Prontera.  Estou muito ocupado no momento, deixe-me.";
+	close;
+
+L_Start:
+	if (MOVHPREC == 1) goto L_Check;
+	if (getskilllv(144)>0) goto L_GotSkill;
+	mes "Oh não! Você se feriu em batalha! Você está bem?";
+	mes "É muito dificil lutar quando está muito ferido....";
+	emotion 19;
+	next;
+	mes "[Cavaleiro Thomas]";
+	mes "Ser um Espadachim ou Cavaleiro requer muita responsabilidade e sacrifício.";
+	mes "Para um Espadachim e Cavaleiro, a habilidade de se recuperar-se em movimento pode ser de suma importância.";
+	next;
+	mes "[Cavaleiro Thomas]";
+	mes "Por isso eu apresento a você..... ^5555FF'Recuperação de HP em Movimento'^000000!! Essa habilidade ajuda você a recuperar seu HP enquanto se move!";
+	next;
+	mes "[Cavaleiro Thomas]";
+	mes "Essa habilidade ainda não foi aperfeiçoada.  Por causa de sua baixa taxa de recuperação de HP.";
+	mes "Então, te interessou essa habilidade? Gostaria de aprendê-lá?";
+	next;
+	menu "Sim!",M_0, "Não",M_End;
+
+	M_0:
+		mes "[Cavaleiro Thomas]";
+		mes "Pois bem.  Eu vou ensina-lá.  Mas primeiro, você precisa estar em nível 35 de classe.";
+		mes "Mas isso não se aplica a Cavaleiro e um Templário.  E precisa me entregar os seguintes itens:";
+		mes "^5555FF200 Garrafas Vazias^000000,";
+		mes "^5555FF1 Armadura Acolchoada^000000,";
+		mes "e ^5555FF1 Asa de Traça^000000.";
+		next;
+		mes "[Cavaleiro Thomas]";
+		mes "As Garrafas Vazias são a prova que você lutou duro e precisou de muitas poções.  A Armadura Acolchoada é a prova que você é experiente.";
+		mes "A Asa de Traça..... Bem... falando sério, nem precisaria.  É para mim mesmo, afinal eu preciso de um troféu, hehehe.......";
+		next;
+		mes "[Cavaleiro Thomas]";
+		mes "Eu gostaria de pega-lá eu mesmo... mas sabe... Estou com muitos afazeres aqui.......";
+		next;
+		mes "[Cavaleiro Thomas]";
+		mes "Nem me lembro mais a última vez que sai para procurar meus troféus??";
+		mes "Mas como você é um aventureiro, sei que vai consegui-las?";
+		emotion 28;
+		next;
+		mes "[Cavaleiro Thomas]";
+		mes "Afinal, você quer aprender a Habilidade!! Muahahahaha!!";
+		emotion 29;
+		set MOVHPREC, 1;
+		close;
+	M_End:
+		mes "[Cavaleiro Thomas]";
+		mes "Eu sabia que você era fraco.";
+		emotion 1;
+		close;
+
+L_Check:
+	mes "Ah, você está de volta.  Deixe-me ver... você quer aprender a habilidade de Recuperar HP em Movimento?....";
+	next;
+	mes "[Cavaleiro Thomas]";
+	if ((countitem(713)<200) || (countitem(1058)<1) || (countitem(2312)<1)) goto L_NoItems;
+	if (Class==Job_Swordman && JobLevel < 35) goto L_LowLvl;
+
+	mes "Muito bem! Você tem tudo oque é necessário.  Respire fundo.... e vamos começar.";
+	next;
+	mes "(2 horas depois)";
+	next;
+	mes "[Cavaleiro Thomas]";
+	mes "você pode sentir a sua energia se restabelecendo, muito bem?";
+	mes "Haha! isso significa que você dominou a habilidade de Recuperar HP em Movimento!";
+	delitem 713,200;
+	delitem 1058,1;
+	skill 144,1,0;
+	set MOVHPREC, 0;
+	next;
+	mes "[Cavaleiro Thomas]";
+	mes "Parabéns, você aprendeu sua nova habilidade e obrigado pela Asa de Traça! ^_^";
+	emotion 21;
+	close;
+
+	L_NoItems:
+		mes "Você precisa conseguir os seguintes itens:";
+		mes "^5555FF200 Garrafas Vazias^000000,";
+		mes "^5555FF1 Armadura Acolchoada^000000,";
+		mes "and ^5555FF1 Asa de Traça^000000.";
+		close;
+	L_LowLvl:
+		mes "Você não tem experiência suficiente.  Volte quando tiver nível 35 de classe.";
+		close;
+	L_GotSkill:
+		mes "Ah, vejo que aprendeu bem. A habilidade Recuperar HP em Movimento deve lhe ajudar muito.";
+		mes "Bem, continue com sua aventura!";
+		close;
+
+}
+
+prt_in,94,57,3	script	Juan	85,{
+	mes "[Juan]";
+	if(baseClass == Job_Swordman) goto L_Start;
+
+L_Other:
+	mes "Vejo que você é um aventureiro? Venha conversar comigo quando tiver algum tempo.";
+	next;
+	mes "[Juan]";
+	mes "Quem sou eu? Oh, Eu me chamo Juan, sou um Cavaleiro. Hahahaha....";
+	emotion 18;
+	close;
+
+L_Start:
+	if (Class==Job_Swordman && JobLevel<34) goto L_LowLvl;
+	if (BERSERK == 1) goto L_Check;
+	if (getskilllv(146)>0) goto L_GotSkill;
+
+	mes "Oh não! Vejo que você está com várias cicatrizes de batalhas.";
+	mes "E mesmo assim você? Isso me parece uma tolice.";
+	next;
+	mes "[Juan]";
+	mes "Mesmo que você seje muito forte, não há muito oque fazer quando você chega no seu limite.";
+	mes "Mas você não deve subestimar suas forças.";
+	next;
+	mes "[Juan]";
+	mes "Mas claro que se você aprender uma certa ^5555FF'Habilidade'^000000 Você terá uma boa vantagem.....";
+	next;
+	menu "Que habilidade?",M_0, "Haha! Você tá me zuando....",M_1, "Keuuuuuhhh!",M_3;
+
+	M_0:
+		mes "[Juan]";
+		mes "Essa habilidade é chamada de ^5555FFInstinto de Sobrevivência^000000.  E é muito útil no campo de batalha!";
+		mes "Quando seuHP está muito baixo, uma furia bestial toma conta de você.";
+		next;
+		mes "[Juan]";
+		mes "Fazendo com que seus ataques fiquem muito mais fortes, mas por causa da fúria você não consegue se defender direito.";
+		mes "Isso é bom e ruim ao mesmo tempo, mas dependendo do momento...pode ser útil!!";
+		next;
+		mes "[Juan]";
+		mes "Com certeza o inimigo levará um susto, quando receber um ataque em fúria!!";
+		mes "Essa habilidade é especial, principalmente para aqueles que não precisam de filosofia ou poder mental.";
+		next;
+		mes "[Juan]";
+		mes "Mas para aprender essa habilidade você precisará me entregar uns itens:";
+		mes "^5555FF35 Pó de Borboleta,";
+		mes "10 Mandíbulas Horrendas,";
+		mes "10 Unhas Apodrecidas^000000,";
+		mes "e ^5555FF10 Mel^000000!";
+		next;
+		mes "[Juan]";
+		mes "Quanto conseguir estes itens volte aqui para me ver.";
+		set BERSERK, 1;
+		close;
+	M_1:
+		mes "[Juan]";
+		mes "Bleh! Você acha que eu sou tolo né?? Siga seu caminho, e não fale comigo.";
+		emotion 32;
+		close;
+	M_3:
+		mes "[Juan]";
+		mes "Keuuuuuuuuuuuuuuuuuuh!";
+		mes "Oooowwwwwwwwuuuuuuuuuuhhhhhh!";
+		mes "Keuaaaaaaaaaaaaaaaaaah!";
+		close;
+
+	L_LowLvl:
+		mes "Oh, Muito bem.";
+		next;
+		mes "[Juan]";
+		mes "Siga seu caminho agora.";
+		emotion 33;
+		close;
+
+L_Check:
+	if ((countitem(924)<35) && (countitem(957)<10) && (countitem(958)<10) && (countitem(518)<10)) goto L_NoItems;
+	mes "Bom meu amigo.  Você conseguiu todos os itens que eu lhe pedi.";
+	mes "Eu irei lhe ensinar a Habilidade: ^FF0000Instinto de Sobrevivência^000000.";
+	next;
+	mes "[Juan]";
+	mes "Bom trabalho, amigo.";
+	next;
+	delitem 924,35;
+	delitem 958,10;
+	delitem 957,10;
+	delitem 518,10;
+	skill 146,1,0;
+	set BERSERK, 0;
+	mes "[Juan]";
+	mes "Muhahahaha!! Nunca recue, não tema, deixe sua fúria lhe guiar!!";
+	emotion 29;
+	close;
+
+	L_NoItems:
+		mes "[Juan]";
+		mes "Para aprender essa habilidade eu necessito dos seguintes itens:";
+		mes "^5555FF35 Pó de Borboleta,";
+		mes "10 Mandíbulas Horrendas,";
+		mes "10 Unhas Apodrecidas^000000,";
+		mes "e ^5555FF10 Mel^000000!";
+		close;
+L_GotSkill:
+
+	mes "Você tem que sentir a morte, e lutar para ela não te levar!!";
+	mes "Essa habilidade já me salvou muitas vezes.";
+	emotion 0;
+	close;
+}

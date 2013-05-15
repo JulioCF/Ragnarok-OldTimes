@@ -1,0 +1,56 @@
+//===== Cronus Script ========================================
+//= Guia da Batalha de Clãs
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.2
+//===== Compatível com: ======================================
+//= Cronus GIT;
+//===== Descrição: ===========================================
+//= Batalha de Clãs oficial do bRO
+//===== Comentários Adicionais: ==============================
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.1 Optimized. [Euphy]
+//= 1.2 Adicionado diálogos Oficiais do bRO. [Axl]
+//============================================================
+
+pvp_y_room,77,85,4	script	Guia da Batalha de Clãs	105,{
+
+	setarray .@map1X[1],7,9,16,8,20;
+	setarray .@map2X[1],91,90,83,91,79;
+	setarray .@mapY[1],49,49,50,49,50;
+
+    mes "[Guia da Batalha de Clãs]";
+    mes "Como vai?";
+    mes "Sou o Guia da Batalha de Guildas.";
+    mes "Temos novos mapas PvP!!";
+    mes "Os mapas antigos eram desnecessariamente grandes.";
+    mes "Os novos garantem uma batalha PvP mais acirrada";
+    mes "em uma área menor";
+    next;
+    mes "[Guia da Batalha de Clãs]";
+    mes "Para qual mapa você quer ir?";
+    next;
+	set .@i, select("Mapa nº 1:Mapa nº 2:Mapa nº 3:Mapa nº 4:Mapa nº 5");
+	mes "[Guia da Batalha de Clãs]";
+	mes "Você escolheu o "+.@i+".";
+	mes "Você pode optar por ";
+    mes "entrar no Time nº 1 ou no nº 2.";
+    mes "Qual você prefere?";
+	next;
+	set .@j, select("Time nº 1:Time nº 2");
+	mes "[Guia da Batalha de Clãs]";
+	mes "Você quer começar como membro do "+.@j+"?";
+	mes "Se estiver pronto, vou mandar você para lá.";
+	next;
+	if(select("Sim:Não")==2) {
+        mes "[Guia da Batalha de Clãs]";
+        mes "Espero que a gente se encontre de novo.";
+		close; 
+	}
+	mes "[Guia da Batalha de Clãs]";
+	mes "Divirta-se.";
+	close2;
+	warp "guild_vs"+.@i,getd(".@map"+.@j+"X["+.@i+"]"),.@mapY[.@i];
+	end;
+}

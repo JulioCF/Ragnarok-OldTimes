@@ -1,0 +1,246 @@
+//===== Cronus Script ========================================
+//= Quest de Classe - Arqueiro
+//===== Por: ================================================= 
+//= kobra_k88; L0ne_W0lf
+//===== Versão Atual: ======================================== 
+//= 1.9
+//===== Compatibilidade: ===================================== 
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= Fazer um aprendiz se tornar um arqueiro
+//===== Comentários Adicional: =============================== 
+//= v1.1 Added instant job change for High Novice [Lupus]
+//= v1.3 Added Baby Class support [Lupus]
+//= v1.4 Optimised and moved first checker to Jfunc1-1 [massdriller]
+//= 1.5 Now saves/restores all quest skills [Lupus]
+//= 1.6 Merged back JFunc [Lupus]
+//= 1.7 Rescripted to Aegis 10.3 stadards. [L0ne_W0lf]
+//=	Arrow reward is now equal to the type sof trunks brought.
+//=	No longer uses function "F_ToHigh"
+//= 1.7a Fixed minor dialogue bug at Grade==25 [Lupus]
+//= 1.8 Fixed mistake in condition check. [L0ne_W0lf]
+//= 1.8a Traduzido. [.zuport]
+//= 1.8b Revisado. [Heaven]
+//= 1.9 Adicionados comandos do Quest Log. [LEOzinn]
+//= 1.9a Removido show, setjob, additem	[Yum]
+//============================================================
+
+payon_in02,64,71,4	script	Guia de Arqueiro#archer	85,{
+	if (Upper == 1) {
+		if (Class == Job_Novice_High && (ADVJOB == Job_Sniper || ADVJOB == Job_Clown || ADVJOB == Job_Gypsy)) {
+			mes "[Guia de Arqueiro]";
+			mes "Ei, eu te conheço.";
+			mes "Você já fez esse teste";
+			mes "antes, não fez?";
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "Ah, você deve ter ido";
+			mes "para Valhalla e já renasceu.";
+			mes "Uau, isso é tão impressionante!";
+			next;
+			if (getskilllv("NV_BASIC") < 9) {
+				mes "[Guia do Arqueiro]";
+				mes "Err...";
+				mes "Seria melhor que você aprendesse todas Habilidades Básicas primeiro antes de se tornar um Arqueiro.";
+				next;
+				mes "[Guia do Arqueiro]";
+				mes "Tudo bem, até logo.";
+				close;
+			}
+			mes "[Guia do Arqueiro]";
+			mes "Ok então. Eu não";
+			mes "preciso dizer mais nada.";
+			mes "Eu sei que você virou um ótimo Arqueiro...";
+			next;
+			skill 143,0,0;
+			jobchange Job_Archer_high;
+			skill 147,1,0;
+			skill 148,1,0;
+			mes "[Guia do Arqueiro]";
+			mes "Ainda não há nenhuma";
+			mes "recompensa para você desta vez, eu espero que você compreenda. Cuide de si mesmo.";
+			close;
+		}
+		else {
+			mes "[Guia do Arqueiro]";
+			mes "Oh...?";
+			mes "Ei, o que você";
+			mes "está fazendo aqui...?";
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "Eu posso dizer que você não é capacitado para ser um Arqueiro. Parece que você pretende fazer";
+			mes "alguma outra coisa...";
+			close;
+		}
+	}
+	mes "[Guia do Arqueiro]";
+	mes "Bom dia. Como posso ajudá-lo?";
+	next;
+	switch(select("Eu quero ser um Arqueiro.:Eu preciso dos requerimentos, por favor.:Nada, obrigado.")) {
+	case 1:
+		if (BaseJob == Job_Archer) {
+			mes "[Guia do Arqueiro]";
+			mes "Você já é um Arqueiro...";
+			close;
+		}
+		else if (BaseJob != Job_Archer && BaseJob != Job_Novice) {
+			mes "[Guia do Arqueiro]";
+			mes "Hmm...";
+			mes "Você não se parece muito com um Aprendiz...";
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "De qualquer maneira, seja o que for que você seja, você não pode escolher uma classe como Arqueiro porque você já tem uma classe.";
+			close;
+		}
+		if (job_archer_q == 0) {
+			mes "[Guia do Arqueiro]";
+			mes "Você quer ser um Arqueiro?";
+			mes "Caso a resposta seja sim, você precisa preencher esse formulário de cadastro.";
+			next;
+			if (select("Aplicar.:Cancelar") == 1) {
+				set job_archer_q,1;
+				setquest 1004;
+				mes "[Guia do Arqueiro]";
+				mes "Ok, cadastre-se aqui. Tudo bem, hmm, vou te promover assim que você preencher todos requerimentos.";
+				next;
+				mes "[Guia do Arqueiro]";
+				mes "Se você acha que já preencheu todos, podemos checar isso agora.";
+				mes "Está pronto?";
+				next;
+				if (select("Sim, eu estou.:Não, ainda não.") == 1) {
+					mes "[Guia do Arqueiro]";
+					mes "Tubo bem, deixe-me ver.";
+					next;
+				}
+				else {
+					mes "[Guia do Arqueiro]";
+					mes "Eu entendo. Seja meu visitante se você deseja olhar os requerimentos.";
+					close;
+				}
+			}
+			mes "[Guia do Arqueiro]";
+			mes "Tudo bem.";
+			mes "Vejo você na próxima vez.";
+			close;
+		}
+		mes "[Guia do Arqueiro]";
+		mes "Você é..." + strcharinfo(0) + "?";
+		next;
+		if (getskilllv("NV_BASIC") < 9) {
+			mes "[Guia do Arqueiro]";
+			mes "Bem, você não está no nível de classe correto. Por favor verifique os requerimentos novamente.";
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "Seu nível de classe deve ser 10, e não se esqueça que você deve aprender todas Habilidades Básicas. Após ter feito isso, volte aqui.";
+			close;
+		}
+		if (job_archer_q == 1) {
+			set .@archer_item1,countitem(1066) * 5;
+			set .@archer_item2,countitem(1067) * 3;
+			set .@archer_item3,countitem(1068) * 2;
+			set .@archer_item4,countitem(1019);
+			set .@total_archer,.@archer_item1 + .@archer_item2 + .@archer_item3 + .@archer_item4;
+			set .@total_archer2,(((.@archer_item2 + .@archer_item3) * 2) + .@archer_item4);
+			mes "[Guia do Arqueiro]";
+			mes "Excelente!";
+			mes "Então agora,";
+			mes "vamos ver...";
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "Vou avaliar o valor dos diferentes tipos de Troncos, necessários para produzir um Arco, que você trouxe.";
+			next;
+			if (countitem(1066) == 0 && countitem(1067) == 0 && countitem(1068) == 0 && countitem(1019) == 0) {
+				mes "[Guia do Arqueiro]";
+				mes "Hmm...";
+				mes "Infelizmente você não trouxe nenhum dos itens exigidos. Não há nada para ser avaliado.";
+				close;
+			}
+			mes "[Guia do Arqueiro]";
+			if (countitem(1066) != 0) mes " Série S : " + countitem(1066) + " ea, Pontos : " + .@archer_item1 + " . ";
+			if (countitem(1067) != 0) mes " Série A : " + countitem(1067) + " ea, Pontos : " + .@archer_item2 + " . ";
+			if (countitem(1068) != 0) mes " Série B : " + countitem(1068) + " ea, Pontos : " + .@archer_item3 + " . ";
+			if (countitem(1019) != 0) mes " Série C : " + countitem(1019) + " ea, Pontos : " + .@archer_item4 + " . ";
+			if (.@total_archer < 25) {
+				mes "Total de Pontos: ^FF0000" + .@total_archer + "^000000 / 40";
+				next;
+				mes "[Guia do Arqueiro]";
+				mes "Menos que 25!? Você precisa ter ao menos 25 pontos! Vamos, esforça-te mais!";
+				close;
+			}
+			else {
+				mes "Total de Pontos: ^0000FF" + .@total_archer + "^000000 / 40";
+				next;
+				mes "[Guia do Arqueiro]";
+				if (.@total_archer > 40) {
+					mes "Uau! Mais que 40!";
+					mes "Excelente! Parabéns!";
+				}
+				else if (.@total_archer > 30) {
+					mes "Mais que 30! Bom trabalho!";
+					mes "Parabéns!";
+				}
+				else {
+					mes "*Suspiro* Bem, você apenas passou mal... De qualquer maneira, bem feito.";
+				}
+			}
+			next;
+			mes "[Guia do Arqueiro]";
+			mes "Vou transferir esses Troncos ao nosso Departamento de Produção de Arcos. Agora que você já cumpriu os requisitos, deixe-me te promover agora mesmo!";
+			if (countitem(1066) != 0) delitem 1066,countitem(1066); //Tree_Of_Archer_1
+			if (countitem(1067) != 0) delitem 1067,countitem(1067); //Tree_Of_Archer_2
+			if (countitem(1068) != 0) delitem 1068,countitem(1068); //Tree_Of_Archer_3
+			if (countitem(1019) != 0) delitem 1019,countitem(1019); //Wooden_Block
+		}
+		next;
+		callfunc "Job_Change",Job_Archer;
+		callfunc "F_ClearJobVar";
+		completequest 1004;
+		mes "[Guia do Arqueiro]";
+		mes "Parabéns!";
+		mes "Agora você é um Arqueiro!";
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "É claro, nós esperamos que você vai ajudar a contribuir para o futuro do Clã de Arqueiros com seus esforços.";
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Ah, seu arco chegou do Departamento de Produção de Arcos. Aqui, pegue isso! São seus~";
+		getitem 1702,1; //Bow_
+		getitem 1750,.@total_archer2; //Arrow
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Now, off you go. Hunt with pride, knowing you were trained by one of the best!";
+		close;
+	case 2:
+		mes "[Guia do Arqueiro]";
+		mes "Eu explicarei os requerimentos para se tornar um Arqueiro.";
+		if (BaseJob != Job_Novice) {
+			if (BaseJob == Job_Archer) {
+				next;
+				mes "[Guia do Arqueiro]";
+				mes "Mas...";
+				mes "Você já é um Arqueiro. Você já deveria saber disso...";
+			}
+			else {
+				next;
+				mes "[Guia do Arqueiro]";
+				mes "Espere um segundo. Você já escolheu uma classe diferente. Você não precisa saber disso~";
+			}
+			mes "Então...Sim...não há razão para te dizer os requerimentos...";
+		}
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Primeiro de tudo, você deve ter Nível 9 de Classe como Aprendiz, e conheçer todas Habilidades Básicas.";
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Um Arqueiro precisa ter concentração e reflexos extremamente altos, então nós não aceitamos aqueles que tem pouca paciência.";
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Você também tem de recolher ^FF0000Troncos^000000. Existem 4 tipos de Troncos, de qualidades diferentes. Você receberá pontuações diferentes nos seus troncos, dependendo da qualidade.";
+		next;
+		mes "[Guia do Arqueiro]";
+		mes "Para se tornar um Arqueiro, você precisa obter no mínimo ^0000FF25^000000 pontos de 40. Você pode obter Troncos de 'Salgueiro', a árvore. Tenha cuidado, afinal, eles podem ser monstros fortes.";
+		close;
+	case 3:
+		close;
+	}
+}

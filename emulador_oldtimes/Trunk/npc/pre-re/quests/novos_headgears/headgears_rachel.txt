@@ -1,0 +1,486 @@
+//===== Script do Amazon =======================================
+//= 2006 Headgear
+//===== Criado Por: ==================================================
+//= DiviniaRO members, cleaned by reddozen
+//===== Versão Atual: =====================================
+//= 1.0d
+//===== Compatível com: =====================================
+//= Amazon
+//===== Descrição: =========================================
+//= Anonymous Mask, Feather Beret, Valk. Helm, Smiling Mask,
+//= Lion Masquerade, Bride Mask, Judge Hat and A-Yam Hat
+//===== Changelog: =================================
+//= NPC id's and dialog are custom, please replace
+//= 1.0a fixed typos, added missing names, more cleaned and
+//= standartized stuff a bit [Lupus]
+//= 1.0b fixed Helm of Valkyries ingredients
+//= 1.0c corrected item names according to item_db [Lupus]
+//= 1.0d Traduzido para o Português [Tyranus]
+//= 1.0e Erros de sintaxe corrigidos [Nicko]
+//============================================================
+
+
+//===================== Mascara do Anonimato =====================================================
+rachel,91,273,4	script	Homem Mascarado	880,{
+	set @npcname$,"[Homem Mascarado]";
+
+	mes @npcname$;
+	mes "Pssss....";
+	next;
+	mes @npcname$;
+	mes "Shhhh...";
+	mes "Venha aqui, mas com cuidado";
+	next;
+	mes @npcname$;
+	mes "Eu tenho algo que poderia te interessar";
+	next;
+
+	switch(select("Eu acho que você sabe o que quero...","Huh? Desculpe, eu apenas estou dando uma olhada."))
+	{
+
+		case 1:
+			mes @npcname$;
+			mes "Só preciso que me traga algumas coisas";
+			mes "100 Pedaços de Papel,";
+			mes "99 Mucos Pegajosos,";
+			mes "1 Tintura Preta e";
+			mes "100,000 Zeny.";
+			next;
+			mes @npcname$;
+			if ( (countitem(983)<1) || (countitem(7111)<100) || (countitem(938)<99) || (Zeny < 100000) ) {
+				mes "Volte quando tiver tudo de que eu preciso...";
+				close;
+			}
+
+			mes "Eu vejo que você veio preparado.";
+			delitem 7111,100;
+			delitem 938,99;
+			delitem 983,1;
+			set Zeny, Zeny-100000;
+			next;
+			getitem 5175,1;
+			mes @npcname$;
+			mes "Não diga que você obteve isto de mim...";
+			close;
+
+
+		case 2:
+			mes @npcname$;
+			mes "Sim... Eu sei disso.";
+			close;
+	}
+
+}
+
+
+//======================== Boina de Pena ================================================
+rachel,135,121,4	script	Sakyul	933,{
+	set @npcname$,"[Sakyul]";
+
+	mes @npcname$;
+	mes "Conversas conversas..";
+	mes "Estúpido exercito de Arunafelz!";
+	mes "Eu perdi minhas pernas durante Rune-Midgard!";
+	mes "Eu estava em uma unidade especial... Nós tínhamos nossa própia boina!";
+	mes "Wingmen, ele nós chamou..";
+	next;
+	mes @npcname$;
+	mes "Se você realmente deseja um, posso fazer uma replica para você.";
+	next;
+
+	switch(select("Claro, pode faze-la !","Não quero, me deixe ir!"))
+	{
+
+		case 1:
+			mes @npcname$;
+			mes "Certo então, eu só preciso de algumas coisas:";
+			mes "1 Boina,";
+			mes "100 Penas Macias e";
+			mes "1 Tintura Branca.";
+			next;
+			mes @npcname$;
+			if ( (countitem(5172)<1) || (countitem(982)<1) || (countitem(7063)<100) ) {
+				mes "Eh.. Eu estou velho, não louco.. Traga-me o resto dos materiais que pedi!";
+				close;
+			}
+
+			mes "E agradável ver alguém preparado!";
+			delitem 5172,1;
+			delitem 7063,100;
+			delitem 982,1;
+			next;
+			getitem 5170,1;
+			mes @npcname$;
+			mes "Aqui.. Isto me recorda.. Se divirta com isso!";
+			close;
+
+
+		case 2:
+			mes @npcname$;
+			mes "Certo então! Deixe um velho homem em paz! Vá! Vá!";
+			close;
+	}
+
+}
+
+//============================ Capacete da Valkyria =====================================================
+
+hugel,146,105,4	script	Genirhimin	897,{
+	set @npcname$,"[Genirhimin]";
+
+	mes @npcname$;
+	mes "Eh?";
+	if (Zeny < 10000000) goto L_POOR;
+	next;
+	mes @npcname$;
+	mes "A muito tempo atrás nós os mortais fomos permitidos";
+	mes "a servir Odin e as Valkyries em batalhas..";
+	mes "De forma que nós talvez tivéssemos de morrer";
+	mes "honrados em batalha para que devolvesse nós a Val Halla";
+	next;
+	mes @npcname$;
+	mes "Os mais bravos guerreiros foram recompensados com";
+	mes "o Capacete da Valkyria";
+	mes "Mas.. Esses dias passaram a muito tempo..";
+	mes "Eu suponho que poderia lhe fazer um, se você puder";
+	mes "juntar o que preciso.";
+	next;
+
+	switch(select("Serio? Adoraria ter um.","Eu não acredito em nenhum conto de fadas seu velho."))
+	{
+
+		case 1:
+			mes @npcname$;
+			mes "Está aqui o que eu preciso:";
+			mes "1 Carta Verme Sábio,";
+			mes "1 Carta Argiope,";
+			mes "1 Carta Driade,";
+			mes "1 Carta Golem de Madeira,";
+			mes "1 Carta Bongun,";
+			mes "1 Carta Skeleto Pirata,";
+			mes "1 Carta Marduk e...";
+			next;
+			mes @npcname$;
+			mes "1 Carta Hode,";
+			mes "1 Carta Ancião,";
+			mes "1 Carta Pesadelo Sombrio,";
+			mes "1000 Runas da Escuridão e";
+			mes "1000 Runas Sangrenta.";
+			next;
+			mes @npcname$;
+			if ( (countitem(4219)<1) || (countitem(4114)<1) || (countitem(4177)<1) || (countitem(4259)<1) || (countitem(4212)<1) || (countitem(4073)<1) || (countitem(4112)<1) || (countitem(4081)<1) || (countitem(4251)<1) || (countitem(4166)<1) || (countitem(7511)<1000) || (countitem(7563)<1000) ) {
+				mes "Me desculpe, mas eu preciso de todos os itens para fazer o capacete.";
+				close;
+			}
+
+			mes "Me dê um minuto e usarei minha mágica...";
+			delitem 4219,1;
+			delitem 4114,1;
+			delitem 4177,1;
+			delitem 4259,1;
+			delitem 4212,1;
+			delitem 4073,1;
+			delitem 4112,1;
+			delitem 4081,1;
+			delitem 4251,1;
+			delitem 4166,1;
+			delitem 7511,1000;
+			delitem 7563,1000;
+			next;
+			getitem 5171,1;
+			mes @npcname$;
+			mes "Esta é uma verdadeira honra... Você provou ser um Guerreio honrado e valente, Use isto com orgulho.";
+			close;
+
+		case 2:
+			mes @npcname$;
+			mes "Assim seja, acredite no que desejar..";
+			close;
+	}
+
+	L_POOR:
+		mes "Meu tempo é muito maior do que as fortunas de Rune-Midgard e Arunafelz combinadas...";
+		close;
+
+}
+
+
+
+//======================= Máscara Sorridente / Máscara de Leão / Máscara de Noiva ===============================
+
+payon,135,231,5	script	Chung-Wol-Mang	907,{
+	set @npcname$,"[Chung-Wol-Mang]";
+
+	mes @npcname$;
+	mes "Ei, posso fazer três máscaras raras se o senhor me trazer todos itens de que preciso.";
+	next;
+	mes @npcname$;
+	mes "Então, qual deseja?";
+	next;
+	switch(select("Máscara Sorridente","Máscara de Leão","Máscara de Noiva","Eu troquei de ideia."))
+	{
+
+		case 1:
+			mes @npcname$;
+			mes "OK, para uma Máscara Sorridente eu preciso de:";
+			mes "1 Trevo de Quatro Folhas,";
+			mes "500 Toras,";
+			mes "10 Elásticos,";
+			mes "20 Marca-Páginas,";
+			mes "1 Cigarro,";
+			mes "100 Espinhos de Cacto e";
+			mes "100 Crinas.";
+			next;
+
+			if ( (countitem(706) < 1) || (countitem(7201) < 500) || (countitem(7200) < 10) || (countitem(7015) < 20) || (countitem(2267) < 1) || (countitem(952) < 100) || (countitem(1028) < 100) || (countitem(1028) < 100) ){
+				mes @npcname$;
+				mes "Volte e fale comigo apenas quando você juntar todos os itens.";
+				close;
+			}
+
+			mes @npcname$;
+			mes "Você trouxe todos os itens, obrigado. Aqui entregue os min.";
+			delitem 706,1;
+			delitem 7201,500;
+			delitem 7200,10;
+			delitem 7015,20;
+			delitem 2267,1;
+			delitem 952,100;
+			delitem 1028,100;
+			next;
+			getitem 5176,1;
+			mes @npcname$;
+			mes "Obrigado, você pode ter sua máscara agora.";
+			close;
+
+		case 2:
+			mes @npcname$;
+			mes "OK, para uma Máscara de Leão eu preciso de:";
+			mes "1 Trevo de Quatro Folhas,";
+			mes "500 Toras,";
+			mes "10 Elásticos,";
+			mes "500 Cabelos Horrendo,";
+			mes "2 Dentes Fossilizados e";
+			mes "1 Tintura Laranja.";
+			next;
+
+			if ( (countitem(706) < 1) || (countitem(7201) < 500) || (countitem(7200) < 10) || (countitem(1048) < 500) || (countitem(1053) < 2) || (countitem(980) < 1) ) {
+				mes @npcname$;
+				mes "Volte e fale comigo apenas quando você juntar todos os itens.";
+				close;
+			}
+
+			mes @npcname$;
+			mes "Você trouxe todos os itens, obrigado. Aqui entregue os min.";
+			delitem 706,1;
+			delitem 7201,500;
+			delitem 7200,10;
+			delitem 1048,500;
+			delitem 1053,2;
+			delitem 980,1;
+			next;
+			getitem 5177,1;
+			mes @npcname$;
+			mes "Obrigado, você pode ter sua máscara agora.";
+			close;
+
+
+		case 3:
+			mes @npcname$;
+			mes "OK, para uma Máscara de Noiva eu preciso de:";
+			mes "1 Trevo de Quatro Folhas,";
+			mes "500 Toras,";
+			mes "10 Elásticos,";
+			mes "20 Saias Virginais,";
+			mes "500 Mantos Cerimoniais Celestiais,";
+			mes "2 Lábios Fossilizados e";
+			mes "100 Tintas de Polvo.";
+			next;
+
+			if ( (countitem(706) < 1) || (countitem(7201) < 500) || (countitem(7200) < 10) || (countitem(1049) < 20) || (countitem(7165) < 500) || (countitem(1054) < 2) || (countitem(1024) < 100) ) {
+				mes @npcname$;
+				mes "Volte e fale comigo apenas quando você juntar todos os itens.";
+				close;
+			}
+
+			mes @npcname$;
+			mes "Você trouxe todos os itens, obrigado. Aqui entregue os min.";
+			delitem 706,1;
+			delitem 7201,500;
+			delitem 7200,10;
+			delitem 1049,20;
+			delitem 7165,500;
+			delitem 1054,2;
+			delitem 1024,100;
+			next;
+			getitem 5169,1;
+			mes @npcname$;
+			mes "Obrigado, você pode ter sua máscara agora.";
+			close;
+
+
+		case 4:
+			mes @npcname$;
+			mes "OK, volte quando você pensar melhor sobre isso.";
+			close;
+
+	}
+
+}
+
+
+
+//====================== Chapéu de Juiz / Chapéu de A-Yam =============================================
+
+payon,137,123,5	script	Hangaram	740,{
+	set @npcname$,"[Hangaram]";
+
+	mes @npcname$;
+	mes "Olá aventureiro!";
+	mes "Nossa vida e complicada.";
+	next;
+	
+	mes @npcname$;
+	mes "Mas se você querer eu posso lhe ajudar fazer 2 Chapéus.";
+	next;
+ 
+	mes @npcname$;
+	mes "Minhas criações são o Chapéu de Juiz e o Chapéu de A-Yam.";
+	mes "Qual chapéu você quer?";
+	next;
+		
+	switch(select("Chapéu de Juiz","Chapéu A-Yam","Nenhum obrigado"))
+	{
+
+		case 1:
+			mes @npcname$;
+			mes "^3355FFChapéu de Juiz^000000";
+			mes "7 Bijuterias Vermelhas,";
+			mes "7 Bijuterias Azuis,";
+			mes "7 Bijuterias Amarelas,";
+			mes "7 Bijuterias Verdes,";
+			mes "300 Escamas Brilhantes,";
+			next;
+			mes "1 Tintura Preta,";
+			mes "5 Diamantes Rachados e";
+			mes "1 Chapéu com slot.";
+			next;
+			mes @npcname$;
+			if( (countitem(7445)<7) || (countitem(7446)<7) || (countitem(7447)<7) || (countitem(7448)<7) || (countitem(954)<300) || (countitem(983)<1) || (countitem(733)<5) || (countitem(2221)<1) ){
+				mes "Por favor, volte quando você tiver tudo do que preciso.";
+				close;
+			}
+			delitem 7445,7;
+			delitem 7446,7;
+			delitem 7447,7;
+			delitem 7448,7;
+			delitem 954,300;
+			delitem 983,1;
+			delitem 733,5;
+			delitem 2221,1;
+
+			mes "Ok parece que você tem todos os itens.";
+			next;
+
+			mes @npcname$;
+			mes "Hmmm.. Nós temos agora que faze-lo... Mmm.";
+			emotion 9; 	
+			next;
+	
+			mes @npcname$;
+			mes "Agora usaremos a tintura assim.";
+			emotion 23;	
+			next;
+
+			mes @npcname$;
+			mes "OMG!!! isto não era para ficar assim.";
+			emotion 28;	
+			next;
+
+			mes @npcname$;
+			mes "....";
+			next;
+
+			mes @npcname$;
+			mes "Desculpe, não funcionou.";
+			next;
+
+			mes @npcname$;
+			mes "Bem a vida é assim.";
+			next;
+
+			mes @npcname$;
+			mes "JAJAJAJA... Eu estava apenas brincado aqui esta seu chapéu !!";
+			emotion 29;
+			next;
+
+			getitem 5173,1;
+
+			mes @npcname$;
+			mes "Bom Trabalho.";
+			close;
+
+		case 2:
+			mes @npcname$;
+			mes "^3355FFChapéu A-Yam^000000";
+			mes "7 Bijuterias Vermelhas,";
+			mes "7 Bijuterias Azuis,";
+			mes "7 Bijuterias Amarelas,";
+			mes "7 Bijuterias Verdes,";
+			mes "300 Escamas Brilhantes,";
+			next;
+			mes "1 Tintura Vermelha,";
+			mes "5 Diamantes Rachados and";
+			mes "50 Sedas Macias.";
+			next;
+			mes @npcname$;
+			if( (countitem(7445)<7) || (countitem(7446)<7) || (countitem(7447)<7) || (countitem(7448)<7) || (countitem(954)<300) || (countitem(975)<1) || (countitem(733)<5) || (countitem(7166)<50) ){
+				mes "Por favor, volte quando você tiver tudo do que preciso.";
+				close;
+			}
+			delitem 7445,7;
+			delitem 7446,7;
+			delitem 7447,7;
+			delitem 7448,7;
+			delitem 954,300;
+			delitem 975,1;
+			delitem 733,5;
+			delitem 7166,50;
+
+			mes "Bem, você possui tudo.";
+			next;
+
+			mes @npcname$;
+			mes "Agora nós dividimos esta parte...";
+			emotion 9; 	
+			next;
+	
+			mes @npcname$;
+			mes "Nós lançamos isto... Mmm.";
+			emotion 23;	
+			next;
+
+			mes @npcname$;
+			mes "Isto não era para estar assim..";
+			emotion 28;	
+			next;
+
+			mes @npcname$;
+			mes "... pronto!!!";
+			emotion 21;	
+			next;
+		
+			getitem 5174,1;
+
+			mes @npcname$;
+			mes "Aqui, tome meu jovem!";
+			close;
+
+	
+		case 3:
+			mes @npcname$;
+			mes "Adeus então.";
+        		close;
+
+	}
+}

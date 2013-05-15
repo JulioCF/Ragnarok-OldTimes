@@ -1,0 +1,137 @@
+//====================== Cronus Script ===============================
+//= Administradores dos Castelos da Guerra do Emperium de Bebês
+//===== Por: =========================================================
+//= kobra_k88; Axl;
+//===== Versão Atual: ================================================
+//= 1.4
+//===== Compatível com: ==============================================
+//= Cronus GIT;
+//===== Descrição: ===================================================
+//= Administradores dos Castelos da Guerra do Emperium de Bebês
+//===== Comentários Adicionais: ======================================
+//= 1.4 Adicionado diálogos Oficiais da GdE do bRO. [Axl]
+//= - Pequena reestruturação;	
+//====================================================================
+function	script	F_GldManager	{
+	set @GID, GetCastleData(getarg(1),1);
+	mes "[Administrador do Castelo]";
+	if (.@GID == 0) {
+		mes "Meu destino é servir ao senhor deste Castelo.";
+		mes "Bravo guerreiro...... Será você o próximo senhor deste Castelo...?";
+		close;
+	}
+	if (GetGuildMaster(.@GID) != strcharinfo(0)) {
+		mes "Por mais que você me ameaçe, eu somente atenderei às ordens de Vossa Alteza, ^ff0000" + getguildmaster(.@GID) + "^000000! Guardiões! Tirem este vagabundo daqui!";
+		close;
+	}
+	mes "Seja bem-vindo Vossa Alteza ^ff0000" + getguildmaster(.@GID) + "^000000 ...";
+	mes "Me diga quais são suas ordens, eu farei o meu melhor para cumpri-las.";
+	next;
+	switch(select("Contratar/Despedir Kafra:Ir aos Aposentos do Líder:Nada, Obrigado")){
+	Case 1:
+		mes "[Administrador do Castelo]";
+		if (GetCastleData(getarg(1),9) == 1) {
+			mes "Vossa Alteza, uma funcionária Kafra encontra-se trabalhando à nosso serviço. Você deseja demiti-la?";
+			next;
+			if(select("Demitir:Cancelar") == 2) {
+				mes "[Administrador do Castelo]";
+				mes "Ainda bem, iria sentir tanta falta dela *lv*";
+				close;
+				}
+				cutin "kafra_01",2;
+				mes "[ Funcionária Kafra ]";
+				mes "Eu tenho me dedicado tanto ao meu trabalho! Por que você quer me demitir? Eu não sou bonita o bastante!?";
+				next;
+				if(select("Demitir:Cancelar") == 1) {
+					mes "[ Funcionária Kafra ]";
+					mes "ARRRGGGH!! Você é uma pessoa muito cruel, espero que você perca este Castelo fedorento no próximo Período de Guerra! */pif*";
+					next;
+					disablenpc "Kafra#"+getarg(4);
+					SetCastleData getarg(1),9,0;
+					mes "[Administrador do Castelo]";
+					mes "....";
+					mes "A Kafra já foi demitida como ordenado, Vossa Alteza.";
+					close;
+				}
+					mes "[ Funcionária Kafra  ]";
+					mes "Ohhh! Eu sabia, eu sabia que você não podia ser tão cruel assim, obrigada pela sua bondade, eu nunca vou esquecer. */bj*";
+					close;
+				}
+		if (getgdskilllv(@GID,10001) == 0){
+			mes "Senhor, você não possui um contrato com a corporação kafra.";
+			mes "Para contratar uma kafra, o seu clan deve possuir a habilidade ^5533FFContrado com Kafra^000000.";
+			return;
+		}
+		mes "Vossa Alteza deseja contratar uma Funcionária Kafra para trabalhar no Castelo?";
+		mes "o valor do contrato é de ^ff000010000 zeny^000000 ... ";
+		next;
+		if(select("Contratar.:Não contratar") == 2) {
+		mes "[Administrador do Castelo]";
+		mes "Como você desejar, Vossa Alteza. *pif*";
+		close;
+		}
+		mes "[Administrador do Castelo]";
+		if (Zeny < 10000){
+			mes "(Eu finjo que não percebi que o seu bolso está vazio, e você finge que nunca quis contratar uma Kafra, ok?)";
+			close;
+		}
+		set Zeny,Zeny-10000;
+		enablenpc "Kafra#"+getarg(4);
+		SetCastleData getarg(1),9,1;
+		mes "O contrato com o QG das Kafras foi realizado com sucesso. Agora temos nossa própria Funcionária Kafra..";
+		next;
+		cutin "kafra_01",2;
+		mes "[ Funcionária Kafra ]";
+		mes "Oiiiiiiii! Eu sou uma Kafra enviada especialmente para cuidar do seu Castelo!";
+		mes "Pode deixar que eu vou me esforçar para manter a maravilhosa reputação que vocês têm!!!";
+		next;
+		cutin "",255;
+		mes "[Administrador do Castelo]";
+		mes "A Funcionária Kafra trabalhará pra nós durante um mês, depois desse período será necessário pagar uma taxa adicional por mês.";
+		mes "É bom ter uma carinha bonita por aqui, e ainda mais uma que ofereça tantos serviços! *lv*";
+		close;
+	Case 2:
+		mes "[Administrador do Castelo]";
+		mes "Vossa Alteza deseja ir aos Aposentos do Líder?";
+		mes "Estes aposentos pertecem somente à você, e ninguém mais pode entrar neles.";
+		next;
+		if(select("Ir aos Aposentos do Líder:Cancelar") == 1) {
+			mes "[Administrador do Castelo]";
+			mes "Eu vou mostrar-lhe a passagem secreta para chegar até lá.";
+			mes "Quando você quiser voltar, basta acionar a alavanca secreta.";
+			close2;
+			warp getarg(1),getarg(2),getarg(3);
+			end;
+		}
+			mes "[Administrador do Castelo]";
+			mes "A cada dia, haverá um novo item no Tesouro. Você precisa retirá-los todo dia para que o próximo item surja.";
+			mes "Assim, para o crescimento do Clã, você deve investir no tesouro e recolher os itens todos os dias.";
+			close;
+	Case 3:
+		mes "[Administrador do Castelo]";
+		mes "Como você desejar.";
+		close;
+	}
+}
+
+//===========================================================================================
+nguild_alde,218,175,0	script	Frolo	55,{
+	callfunc "F_GldManager","Frolo","nguild_alde",119,223,"N01";
+	close;
+}
+//===========================================================================================
+nguild_gef,40,48,5	script	Leiber	55,{
+	callfunc "F_GldManager","Leiber","nguild_gef",155,112,"N02";
+	close;
+}
+//===========================================================================================
+nguild_pay,120,58,4	script	Dundar	55,{
+	callfunc "F_GldManager","Dundar","nguild_pay",290,7,"N03";
+	close;
+}
+//===========================================================================================
+nguild_prt,112,181,0	script	Thefton	55,{
+	callfunc "F_GldManager","Thefton","nguild_prt",15,209,"N04";
+	close;
+}
+//===========================================================================================

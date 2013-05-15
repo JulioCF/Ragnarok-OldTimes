@@ -1,0 +1,395 @@
+prontera,145,201,5	script	Guerra do Tesouro	730,{
+	
+	mes "[Guerra do Tesouro]";
+
+	if (getgmlevel() == 99) {
+		switch (select ("Ligar/Desligar","Continuar para Menu","Cancelar")) {
+			case 1:
+			{
+				mes "Pronto!";
+				close2;
+				if (!$wot_isOpen)
+					callsub S_CallBegin;
+				else
+					callsub S_CallFinish;
+				end;
+			}
+			
+			case 2:
+				break;
+			
+			case 3:
+				close;
+		}
+	}
+
+	if (!$wot_isOpen) {
+		mes "Desculpe, mas os portões para a Guerra do Tesouro estão fechados.";
+		mes "O evento se inicia às 14h e 21h no Horário de Brasília.";
+		close;
+	}
+
+	mes "Olá, eu sou o guardião dos portões da Guerra do Tesouro.";
+	mes "Para participar do evento, entre no chat criado por mim.";
+	next;
+	if (select ("O que é Guerra do Tesouro?:Cancelar") == 2) close;
+	mes "[Guerra do Tesouro]";
+	mes "Funciona assim: eu anuncio que os portões se abrirão em 5 minutos e crio uma sala de chat onde os jogadores que querem participar devem entrar.";
+	mes "^FF0000Aviso: você não poderá estar em um grupo, caso contrário será expulso da sala!^000000";
+	next;
+	mes "[Guerra do Tesouro]";
+	mes "Todos estes serão teletransportados para uma sala que estará com GVG Ligado.";
+	mes "Existem apenas duas passagens para os baús do tesouro que dão prêmios àqueles que o quebram.";
+	next;
+	mes "[Guerra do Tesouro]";
+	mes "Contudo, existem guardiões de cristal protegendo os tesouros e você terá que destruí-los para liberar a passagem para a sala do tesouro onde se encontra o baú.";
+	next;
+	mes "[Guerra do Tesouro]";
+	mes "O evento termina quando todos os baús tiverem sido quebrados, caso não haja nenhum jogador no mapa ou após 15 minutos do início e nenhuma das coisas anteriores tenham acontecido.";
+	close;
+	
+	// Time events
+	OnClock1400:
+	OnClock2100:
+		callsub S_CallBegin;
+	
+	OnClock1403:
+	OnClock2103:
+		callsub S_CallStart;
+		
+	OnClock1418:
+	OnClock2118:
+		callsub S_CallFinish;
+
+	//----->
+	
+	// Begin label
+	S_CallBegin:
+		set $wot_isOpen, 1;
+		waitingroom "Entrada WOT", 20, "Guerra do Tesouro::OnWarpFromChat", 1;
+		announce "[Guerra do Tesouro] A Guerra do Tesouro irá começar em 3 minutos, se apressem!", bc_all|bc_blue;
+		
+		setmapflag "prt_are_in", 38;
+		
+		enablenpc "CheckStep1";
+		enablenpc "CheckStep2";
+		
+		// Spawn first barricade line
+		set $MyFirstBarricade, 4;
+		//setcell "prt_are_in",113,17,125,10,cell_walkable,0;
+		for (set .@i, 0; .@i < 4; set .@i, .@i + 1)
+			monster "prt_are_in",112,(15 - .@i),"Guardião do Tesouro",1397,1,strnpcinfo(1)+"::OnFirstBarricade";
+		
+		// Spawn second barricade line
+		set $MySecondBarricade, 4;
+		//setcell "prt_are_in",83,10,72,17,cell_walkable,0;
+		for (set .@i, 0; .@i < 4; set .@i, .@i + 1)
+			monster "prt_are_in",84,(15 - .@i),"Guardião do Tesouro",1397,1,strnpcinfo(1)+"::OnSecondBarricade";
+		
+		// Spawn treasures
+		set $MyTrea, 6;
+		monster "prt_are_in", 180, 140, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		monster "prt_are_in", 178, 140, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		monster "prt_are_in", 175, 140, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		monster "prt_are_in", 24, 88, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		monster "prt_are_in", 22, 88, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		monster "prt_are_in", 20, 88, "Baú do Tesouro", 1324, 1, strnpcinfo(1)+"::OnBreakTrea";
+		
+		sleep2 60000;
+		announce "[Guerra do Tesouro] A Guerra do Tesouro irá começar em 2 minutos, se apressem!", bc_all|bc_blue;
+		
+		sleep2 60000;
+		announce "[Guerra do Tesouro] A Guerra do Tesouro irá começar em 1 minuto, se apressem!", bc_all|bc_blue;
+
+		sleep2 60000;
+		announce "[Guerra do Tesouro] A Guerra do Tesouro começou!", bc_all|bc_blue;
+		
+		//callsub S_CallStart;
+
+		end;
+	//----->
+
+	// Start the event
+	S_CallStart:
+		if (!getmapusers("prt_are_in")) {
+			announce "[Guerra do Tesouro] O evento foi cancelado devido a falta de jogadores T_T", bc_all|bc_blue;
+			callsub S_CallFinish;
+			end;
+		}
+
+		disablenpc "Tutorial WOT";
+		disablenpc "wot_1";
+		disablenpc "wot_4";
+		
+		enablenpc "WarpToWOT";
+
+		areawarp "prt_are_in", 0, 0, 300, 300, "prt_are_in", 73, 131;
+
+		delwaitingroom;
+		end;
+	//----->
+	
+	// Finishes the event
+	S_CallFinish:
+		killmonsterall "prt_are_in";
+		set $wot_isOpen, 0;
+		if (getmapusers("prt_are_in")) {
+			mapwarp "prt_are_in", getsavepoint(0), getsavepoint(1), getsavepoint(2);
+			announce "[Guerra do Tesouro] O evento terminou. Parabéns a todos os participantes!", bc_all|bc_blue;
+		}
+		end;
+	//----->
+	
+	OnWarpFromChat:
+		warpwaitingpc "prt_are_in", 74, 140;
+		end;
+		
+	OnFirstBarricade:
+		set $MyFirstBarricade, $MyFirstBarricade - 1;
+		if ($MyFirstBarricade < 1) {
+			//setcell "prt_are_in",113,17,125,10,cell_walkable,1;
+			enablenpc "wot_4";
+			disablenpc "CheckStep1";
+		}
+		end;
+		
+	OnSecondBarricade:
+		set $MySecondBarricade, $MySecondBarricade - 1;
+		if ($MySecondBarricade < 1) {
+			//setcell "prt_are_in",83,10,72,17,cell_walkable,1;
+			enablenpc "wot_1";
+			disablenpc "CheckStep2";
+		}
+		end;
+		
+	OnBreakTrea:
+		atcommand "@cleanmap"; //debug: clean the floor so nobody can pickup items lol
+		set $MyTrea, $MyTrea - 1;
+		if ($MyTrea < 1) {
+			callsub S_CallFinish;
+		}
+		else {
+			setarray .@RandItems[0], 7180;
+			setarray .@RandQuant[0], 20;
+			
+			set .@rand, rand(0, (getarraysize(.@RandItems)-1));
+			
+			set .@prizei, .@RandItems[.@rand];
+			set .@prizeq, .@RandQuant[.@rand];
+
+			getitem .@prizei, .@prizeq; 
+			announce "[Guerra do Tesouro] O jogador "+strcharinfo(0)+" do Clã "+strcharinfo(2)+" abriu um Baú do Tesouro. Prêmio: "+.@prizeq+"x "+getitemname(.@prizei), bc_blue|bc_all;
+			
+			query_sql "SELECT `points` FROM `war_of_treasure` WHERE `char_id`='"+getcharid(0)+"' LIMIT 1", .@wotRank;
+			if (.@wotRank == 0) {
+				query_sql "INSERT INTO `war_of_treasure` (`char_id`, `name`, `guild_id`, `guild_name`, `class`, `points`) VALUES ('"+getcharid(0)+"', '"+strcharinfo(0)+"', '"+strcharinfo(2)+"', '"+getcharid(2)+"', '"+Class+"', '1')";
+				dispbottom "[Guerra do Tesouro] Baús quebrados: 1";
+			}
+			else {
+				query_sql "UPDATE `war_of_treasure` SET `points` = `points` + '1' WHERE `char_id` = '"+getcharid(0)+"'";
+				dispbottom "[Guerra do Tesouro] Baús quebrados: "+.@wotRank;
+			}
+		}
+		end;
+}
+
+// Tutorial WOT
+prt_are_in,77,132,5	script	Tutorial WOT	837,{
+	mes "Funciona assim: eu anuncio que os portões se abrirão em 5 minutos e uma sala de chat é criada onde os jogadores que querem participar devem entrar.";
+	next;
+	mes "Todos estes serão teletransportados para uma sala que estará com GVG Ligado.";
+	mes "Existem apenas duas passagens para os baús do tesouro que dão prêmios àqueles que o quebram.";
+	next;
+	mes "Contudo, existem guardiões de cristal protegendo os tesouros e você terá que destruí-los para liberar a passagem para a sala do tesouro onde se encontra o baú.";
+	next;
+	mes "O evento termina quando todos os baús tiverem sido quebrados, caso não haja nenhum jogador no mapa ou após 20 minutos do início e nenhuma das coisas anteriores tenham acontecido.";
+	close;
+	
+	OnInit:
+		waitingroom "Tutorial WOT", 0;
+		end;
+}
+
+// Warp para WOT
+prt_are_in,73,127,0	script	WarpToWOT	45,2,2,{
+end;
+	OnTouch:
+		if (!getcharid(2)) {
+			announce "[WOT]: Você não possui um clã!", bc_self;
+			warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+			end;
+		}
+		else {
+			warp "prt_are_in", 73, 131;
+			end;
+		}
+	
+	OnInit:
+		disablenpc "WarpToWOT";
+		end;
+}
+			
+// Check Step
+prt_are_in,113,15,0	script	CheckStep1	-1,0,9,{
+end;
+	OnTouch:
+		warp "prt_are_in", 111, 13;
+		end;
+}
+
+prt_are_in,83,15,0	script	CheckStep2	-1,0,9,{
+end;
+	OnTouch:
+		warp "prt_are_in", 85, 13;
+		end;
+}
+
+// Check Party
+prt_are_in,0,0,0	script	CheckParty_WOT	-1,{
+end;
+	OnPCLoadMapEvent:
+		if (!getcharid(1) || strcharinfo(3) == "gef_fild13" || strcharinfo(3) == "prontera")
+			end;
+		else if (strcharinfo(3) == "sec_in01")
+		{
+			if (getgmlevel() < 1)
+				warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+			else
+				end;
+		}
+		else if (strcharinfo(3) == "prt_are_in")
+		{
+			mes "-Você não poderá permanecer aqui, já que possui um grupo!-";
+			close2;
+			warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+			end;
+		}
+		else if (strcharinfo(3) != "prt_are_in" && strcharinfo(3) != "sec_in01")
+			end;
+		else
+			end;
+		end;
+
+	OnInit:
+		setmapflag "prt_are_in", 38;
+		end;
+
+}
+
+// Warps
+prt_are_in,55,13,0	warp	wot_1	1,1,prt_are_in,177,129
+prt_are_in,177,127,0	warp	wot_2	1,1,prt_are_in,57,13
+prt_are_in,21,75,0	warp	wot_3	1,1,prt_are_in,140,13
+prt_are_in,142,13,0	warp	wot_4	1,1,prt_are_in,21,77
+
+// Flags
+prt_are_in	mapflag	loadevent
+prt_are_in	mapflag	nowarpto
+prt_are_in	mapflag	nowarp
+prt_are_in	mapflag	noicewall
+prt_are_in	mapflag	noteleport
+prt_are_in	mapflag	noreturn
+prt_are_in	mapflag	nomemo	SavePoint
+prt_are_in	mapflag	gvg_noparty	on
+prt_are_in	mapflag	nodrop
+prt_are_in	mapflag	noloot
+
+/*
+// Exit
+prt_are_in,181,132,5	script	Saída#wot1	46,{
+	mes "[Saída Guerra do Tesouro]";
+	mes "Deseja mesmo sair?";
+	next;
+	if (select ("Não:Sim") == 1) close;
+	close2;
+	warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+	end;
+}
+
+prt_are_in,26,80,5	script	Saída#wot2	46,{
+	mes "[Saída Guerra do Tesouro]";
+	mes "Deseja mesmo sair?";
+	next;
+	if (select ("Não:Sim") == 1) close;
+	close2;
+	warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+	end;
+}
+*/
+
+/* TABELA MYSQL
+
+CREATE TABLE IF NOT EXISTS `war_of_treasure` (
+	`char_id` INT(11) PRIMARY KEY NOT NULL DEFAULT '0',
+	`name` VARCHAR(24) NOT NULL DEFAULT '',
+	`guild_id` MEDIUMINT(8) NOT NULL DEFAULT '0',
+	`guild_name` VARCHAR(24) NOT NULL DEFAULT '',
+	`class` MEDIUMINT(8) NOT NULL DEFAULT '0',
+	`points` SMALLINT(5) NOT NULL DEFAULT '0',
+
+	KEY `name` (`name`),
+	KEY `points` (`points`)
+) ENGINE=MYISAM;
+
+*/
+
+
+/*
+por waitingroom telar todos nela espera começar evento awyea
+nao pode party
+liberar flag de skill
+por gvg quando começar
+
+prt_are_in, 98, 31;
+telar a galera /\
+
+prt_are_in,55,13,0	warp	War Of Treasure2	1,1,prt_are_in,177,129
+prt_are_in,177,127,0	warp	War Of Treasure3	1,1,prt_are_in,57,13
+prt_are_in,21,75,0	warp	War Of Treasure4	1,1,prt_are_in,140,13
+prt_are_in,142,13,0	warp	War Of Treasure5	1,1,prt_are_in,21,77
+
+300hp cada barricad
+4 delas em cada laado
+
+prt_are_in,112,15
+prt_are_in,112,14
+prt_are_in,112,13
+prt_are_in,112,12
+
+prt_are_in,112,15,0	script	lalala	-1,1,4,{
+ontouch:
+	if(evento maroto)
+		naopassa
+		warp "prt_are_in", 111, 14;
+}
+
+prt_are_in,84,15
+prt_are_in,84,14
+prt_are_in,84,13
+prt_are_in,84,12
+
+prt_are_in,84,15,0	script	lalala2		-1,1,4,{
+ontouch:
+	if(evento maroto)
+		naopassa
+		warp "prt_are_in", 111, 14;
+}
+
+baus:
+prt_are_in,180,140
+prt_are_in,178,140
+prt_are_in,176,140
+
+saida:
+prt_are_in,181,132
+saida:
+prt_are_in,26,80
+
+baus:
+prt_are_in,24,88
+prt_are_in,22,88
+prt_are_in,20,88
+
+saida:
+prt_are_in,26,80
+*/

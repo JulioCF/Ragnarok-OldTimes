@@ -1,0 +1,628 @@
+//===== Cronus Script ========================================
+//= Domadores de Monstros
+//===== Por: =================================================
+//= kobra_k88, Darkchild, x[tsk]
+//===== Versão Atual: ========================================
+//= 1.4/1.3
+//===== Descrição: ===========================================
+//= Quest de Acesssórios e Domesticadores
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido [FrozenCirius]
+//= 1.1 Organizado e adicionado Flor selvagem no npc YuU [Kamper]
+//= 1.2 Reestruturado o NPC. [SoulBlaker]
+//= 1.3 Corrigido erros nos switch de Izlude e Alberta [Asus]
+//= 1.4 Corrigido um select e um exploit no Livro do Diabo. [RoM]
+//============================================================
+
+//<================================================= Alberta ===============================================>\\
+alberta_in,173,77,3	script	Domador de Monstros#01	125,{
+	mes "[Domador de Monstros Iwado]";
+	mes "Domesticar monstros nunca foi tão popular quanto agora! Porque não se juntar a toda essa emoção?....";
+	set .@loop,1;
+	while(.@loop){
+		next;
+		switch(select("^5555FFItens de Domesticação?^000000","^5555FF'Suco de Monsto'^000000","^5555FF'Flor Cantante'^000000","Por favor, faça um para mim","Cancelar")){
+			case 1:
+				mes "[Domador de Monstros Iwado]";
+				mes "Domesticar monstros é o jeito que os aventureiros encontraram para ter seus próprios bichos de estimação.";
+				mes "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro que se tornará seu bicho de estimação.";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Esses itens de domesticação são muito raros de se conseguir, mas os membros do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitas dificuldades.";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Eis os itens de captura que ofereço:";
+				mes "^5555FF'Suco de Monstro'^000000";
+				mes "^5555FF'Flor Cantante'^000000";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Esses são itens fantásticos! Você realmente deveria tentar!";
+				break;
+			case 2:
+				mes "[Domador de Monstros Iwado]";
+				mes "Isso é uma bebida feita de sangue animal. Não é algo que uma pessoa normal queira beber, mas para a '^FF5555'Mosca Caçadora'^000000, é uma delícia.";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Eu posso te dar um ^5555FF'Suco de Monstro'^000000 em troca de:";
+				mes "-^FF5555'1 Couro de Animal'";
+				mes "-'2 Maçãs'^000000";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Quando você me trouxer esses itens eu lhe darei o suco com o maior orgulho!";
+				break;
+			case 3:
+				mes "[Domador de Monstros Iwado]";
+				mes "A flor de uma Planta da Melodia. É um item muito raro e atrai os ^FF5555'Rockers'^000000.";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Eu posso te dar uma ^5555FF'Flor Cantante'^000000 em troca de:";
+				mes "-^FF5555'1 Planta da Melodia'^000000";
+				next;
+				mes "[Domador de Monstros Iwado]";
+				mes "Quando você me trouxer esse item eu lhe darei a flor com o maior orgulho!";
+				break;
+			case 4:
+				mes "[Domador de Monstros Iwado]";
+				mes "Qual Item de Domesticação você deseja?";
+				next;
+				switch(select("^5555FF'Suco de Monstro'^000000","^5555FF'Flor Cantante'^000000","Nenhum")){
+					case 1:
+						mes "[Domador de Monstros Iwado]";
+						if(countitem(702)<1 || countitem(512)<2)
+							mes "Parece que você não tem os itens suficientes para trocar comigo pelo Item de Domesticação. Por Favor, volte quando você conseguir todos os itens que necessita.";
+						else {
+							delitem 702,1;
+							delitem 512,2;
+							mes "[Domador de Monstros Iwado]";
+							mes "Tudo bem, só um minuto enquanto eu preparo o item de caça...";
+							next;
+							mes "[Domador de Monstros Iwado]";
+							mes "Aqui está~! Um Suco de Monstro! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 626,1;
+						}
+						close;
+					case 2:
+						mes "[Domador de Monstros Iwado]";
+						if(countitem(707)<1)
+							mes "Parece que você não tem os itens suficientes para trocar comigo pelo Item de Domesticação. Por Favor, volte quando você conseguir todos os itens que necessita.";
+						else {
+							delitem 707,1;
+							mes "[Domador de Monstros Iwado]";
+							mes "Tudo bem, só um minuto enquanto eu preparo o item de caça...";
+							next;
+							mes "[Domador de Monstros Iwado]";
+							mes "Aqui está~! Uma Flor Cantante! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 629,1;
+						}
+						close;
+					case 3:
+						set .@loop,0;
+						break;
+				}
+				break;
+			case 5:
+				set .@loop,0;
+				break;
+		}
+	}
+	mes "[Domador de Monstros Iwado]";
+	mes "Oh... Eu vejo. Você provavelmente não escolheu de qual monstro quer cuidar como bicho de estimação. É uma decisão muito importante, então por favor, volte quando decidir.";
+	close;
+
+}
+
+//<================================================= Al De Baran ===============================================>\\
+aldeba_in,167,177,3	script	Domador de Monstros#02	125,{
+	mes "[Domador de Monstros YuU]";
+	mes "Você deve estar procurando alguns Acessório para Bichinhos de Estimação.... Quando o assunto é esse, não há ninguém melhor que eu em Rune-Midgard.";
+	set .@loop,1;
+	while(.@loop) {
+		next;
+		switch(select("^5555FF'Acessórios para Bichinhos de Estimação?'^000000","^5555FF'Elmo de Crânio'^000000","^5555FF'Máscara de Oxigênio para Bichinhos'^000000","^5555FF'Laço de Seda'^000000","^5555FF'Ornato Estelar'^000000","^5555FF'Casca de Ovo Minúscula'^000000","^5555FF'Óculos de Rocker'^000000","^5555FF'Flor Selvagem'^000000","Faça um pra mim, por favor.","Cancelar")){
+			case 1:
+				mes "[Domador de Monstros YuU]";
+				mes "Domesticar Monstros é o jeito que os aventureiros encontraram de ter seus bichos de estimação.";
+				mes "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro para ser seu bicho de estimação.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você tem um bichinho, deve demonstrar cuidado e afeto a ele...essa é a parte mais importante de cuidar de um monstro.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "O melhor jeito de fazer isso é dando a ele um 'Acessório' para fazê-lo se destacar dentre os outros monstros de Rune-Midgard.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Esses ^5555FF'Acessórios bonitinhos de bichinhos de estimação'^000000 são muito difíceis de conseguir, mas um membro do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitos problemas.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Aqui estão os itens que ofereço:";
+				mes "^5555FF'Elmo de Crânio'";
+				mes "'Máscara de Oxigênio para Bichinho'";
+				mes "'Laço de Seda'";
+				mes "'Ornato Estelar'";
+				mes "'Casca de Ovo Minúscula'";
+				mes "'Óculos de Rocker'";
+				mes "'Flor Selvagem'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Esses são itens fantásticos! Você deveria ter um!";
+				break;
+			case 2:
+				mes "[Domador de Monstros YuU]";
+				mes "Pode parecer nojento, mas isto tem o poder de fazer o seu usuário ficar louco!";
+				mes "Esse item ficará ótimo em seu '^FF5555'Bafomé Jr.'^000000.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar um ^5555FF'Elmo de Crânio'^000000 Em troca de:";
+				mes "-^FF5555'1 Elmo de Osso'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 3:
+				mes "[Domador de Monstros YuU]";
+				mes "Esse item torna difícil para os outros saber se o usuário é um monstro ou um humano.";
+				mes "Um ótimo presente para seu ^FF5555'ChonChon', 'Choncon de Aço', ou 'Mosca Caçadora'^000000.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar uma ^5555FF'Máscara de Oxigênio para Bichinhos'^000000 em troca de:";
+				mes "-^FF5555'1 Máscara de Oxigênio'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 4:
+				mes "[Domador de Monstros YuU]";
+				mes "É um laço de muita qualidade feito com a mais pura seda. Vai fazer seu ^FF5555'Lunático'^000000 ficar muito bonito!.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar ^5555FF'Laço de Seda'^000000 em troca de:";
+				mes "-^FF5555'1 Laço (Sem slots)'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 5:
+				mes "[Domador de Monstros YuU]";
+				mes "É estremamente afiado e tem o estranho poder de fazer todos os monstros quererem usá-lo.";
+				mes "Seu ^FF5555'Petite Terrestre'^000000 vai amar usar isto!";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar um ^5555FF'Ornato Estelar'^000000 em troca de:";
+				mes "-^FF5555'1 Presilha de Estrela'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 6:
+				mes "[Domador de Monstros YuU]";
+				mes "Isso parece ter um odor peculiar e um incrível brilho! Pode ser usado como armadura pelo seu ^FF5555'Picky'^000000.";
+				mes "Posso te dar uma ^5555FF'Casca de Ovo Minúscula'^000000 em troca de:";
+				mes "-^FF5555'1 Capelo'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 7:
+				mes "[Domador de Monstros YuU]";
+				mes "Um misterioso par de óculos que faz seu usuário paracer um nerd. É perfeito para seu ^FF5555Rocker^000000.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar um par de ^5555FF'Óculos de Rocker'^000000 em troca de:";
+				mes "-^FF5555'1 Laço (Sem slots)'";
+				mes "-'2 Zargônios'";
+				mes "-'400 Zeny'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esses itens eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 8:
+				mes "[Domador de Monstros YuU]";
+				mes "Essa flor cresce naturalmente aqui em Rune-Midgard. É perfeita para seu ^FF5555Guerreiro Orc^000000.";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Eu posso te dar uma ^5555FF'Flor Selvagem'^000000 em troca de:";
+				mes "-^FF5555'1 Florzinha'";
+				mes "-'1 Trevo'^000000";
+				next;
+				mes "[Domador de Monstros YuU]";
+				mes "Quando você me trouxer esses itens eu lhe darei o acessório com o maior orgulho!";
+				break;
+			case 9:
+				switch(select("^5555FF'Elmo de Crânio'^000000","^5555FF'Máscara de Oxigênio para Bichinhos'^000000","^5555FF'Laço de Seda'^000000","^5555FF'Ornato Estelar'^000000","^5555FF'Casca de Ovo Minúscula'^000000","^5555FF'Óculos de Rocker'^000000","^5555FF'Flor Selvagem'^000000","Cancelar")){
+					case 1:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(5017)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 5017,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Um Elmo de Crânio! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10001,1;
+						}
+						close;
+					case 2:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(5004)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 5004,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Uma Máscara de Oxigênio para Bichinhos! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10002,1;
+						}
+						close;
+					case 3:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(2208)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 2208,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Um Laço de Seda! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10007,1;
+						}
+						close;
+					case 4:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(2294)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 2294,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Um Ornato Estelar! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10011,1;
+						}
+						close;
+					case 5:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(5015)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 5015,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Uma Casca de Ovo Minúscula! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10012,1;
+						}
+						close;
+					case 6:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(2208)<1 || countitem(912)<2)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else if(Zeny < 400)
+							mes "Parece que você não possui zeny suficiente. Volte quando tiver tais itens.";
+						else {
+							delitem 2208,1;
+							delitem 912,2;
+							set Zeny, Zeny-400;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Um par de Óculos de Rocker! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10014,1;
+						}
+						close;
+					case 7:
+						mes "[Domador de Monstros YuU]";
+						if(countitem(2207)<1 || countitem(705)<1)
+							mes "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+						else {
+							delitem 2207,1;
+							delitem 705,1;
+							mes "[Domador de Monstros YuU]";
+							mes "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+							next;
+							mes "[Domador de Monstros YuU]";
+							mes "Aqui está! Uma Flor Selvagem! Aproveite e sinta-se livre para voltar a qualquer hora.";
+							getitem 10009,1;
+						}
+						close;
+					case 8:
+						set .@loop,0;
+						break;
+				}
+				break;
+			case 10:
+				set .@loop,0;
+				break;
+		}
+	}
+	mes "[Domador de Monstros YuU]";
+	mes "Oh... Eu vejo. Você provavelmente não escolheu qual monstro quer como bicho de estimação. É uma decisão muito importante, então por favor, volte quando decidir.";
+	close;
+}
+
+//<================================================= Izlude ===============================================>\\
+izlude_in,128,64,3	script	Domador de Monstros#03	125,{
+	mes "[Domador de Monstros Shogo]";
+	mes "Você está super ocupado atrás de itens para domesticar um monstro? Quer uma folga? Deixe que eu arrumo tais itens para você.";
+	set .@loop,1;
+	while(.@loop){
+		switch(select("^5555FFItens de Domesticar Monstros?^000000","^5555FF'Livro do Diabo'^000000","^5555FF'Sem Destinatário'^000000","^5555FF'Horror da Tribo'^000000","Faça um pra mim, por favor.","Cancelar")){
+			case 1:
+				mes "[Domador de Monstros Shogo]";
+				mes "Domesticar Monstros é o jeito que os aventureiros encontraram de ter seus bichos de estimação.";
+				mes "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro para ser seu bicho de estimação.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses Itens de Domesticação são muito raros de se conseguir, mas os membros do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitas dificuldades.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses são os itens que ofereço:";
+				mes "^5555FF'Livro do Diabo'^000000,";
+				mes "^5555FF'Sem Destinatário'^000000,";
+				mes "^5555FF'Horror da Tribo'^000000.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Esses itens são fantásticos! Você deveria tentar usar um!";
+				break;
+			case 2:
+				mes "[Domador de Monstros Shogo]";
+				mes "Esse livro é poderoso demais para que qualquer mero mortal tente ler, e comtém o método secreto de invocar feras!";
+				mes "Use-o para fisgar um ^FF5555'Bafomé Jr.'^000000.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Eu posso te dar um  ^5555FF'Livro do Diabo'^000000 em troca de:";
+				mes "-^FF5555'1 Grimório Antigo'";
+				mes "-'2 Mandíbulas Horrendas'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei o livro com o maior orgulho!";
+				break;
+			case 3:
+				mes "[Domador de Monstros Shogo]";
+				mes "Uma velha carta que não foi entregue porque havia um destinatário desconhecido.";
+				mes "Não tem significado algum para qualquer ser humano, mas as ^FF5555'Munaks'^000000 parecem apreciar muito este item.";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Eu posso te dar um ^5555FF'Sem Destinatário'^000000 em troca de:";
+				mes "-^FF5555'1 Retrato Velho'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei a carta com o maior orgulho!";
+				break;
+			case 4:
+				mes "[Domador de Monstros Shogo]";
+				mes "Esse troféu é um dos itens favoritos dos ^FF5555'Guerreiros Orc'^000000.";
+				mes "Eu posso te dar um ^5555FF'Horror da Tribo'^000000 em troca de:";
+				mes "-^FF5555'1 Insígnia da Cavalaria'";
+				mes "-'1 Cauda de Escorpião'^000000";
+				next;
+				mes "[Domador de Monstros Shogo]";
+				mes "Quando você me trouxer esses itens eu lhe darei o troféu com o maior orgulho!";
+				break;
+			case 5:
+				mes "[Domador de Monstros Shogo]";
+				mes "Qual Item de Domesticação você deseja?";
+				next;
+				switch(select("^5555FF'Livro do Diabo'^000000","^5555FF'Sem Destinatário'^000000","^5555FF'Horror da Tribo'^000000","Nenhum")){
+					case 1:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(1006)<1 || countitem(958)<2)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 1006,1;
+							delitem 958,2;
+							mes "Tudo bem, um minutinho enquanto eu preparo o item...";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Livro do Diabo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 642,1;
+						}
+						close;
+					case 2:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(7014)<1)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 7014,1;
+							mes "[Domador de Monstros Shogo]";
+							mes "Tudo bem, um minutinho enquanto eu preparo o item...";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Sem Destinatário! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 636,1;
+						}
+						close;
+					case 3:
+						mes "[Domador de Monstros Shogo]";
+						if(countitem(1004)<1 || countitem(904)<1)
+							mes "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+						else {
+							delitem 1004,1;
+							delitem 904,1;
+							mes "[Domador de Monstros Shogo]";
+							mes "Tudo bem, um minutinho enquanto eu preparo o item....";
+							next;
+							mes "[Domador de Monstros Shogo]";
+							mes "Aqui está! Um Horror da Tribo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+							getitem 635,1;
+						}
+						close;
+					case 4:
+						set .@loop,0;
+						break;
+				}
+				break;
+			case 6:
+				set .@loop,0;
+				break;
+		}
+	}
+	mes "[Domador de Monstros Shogo]";
+	mes "Oh... Eu vejo. Você provavelmente não decidiu qual monstro quer como bicho de estimação. É uma decisão muito importante, então volte quando conseguir.";
+	close;
+}
+
+//<================================================= Coração Apaixonado ===============================================>\\
+
+comodo,112,182,0	script	Vó da Munak	103,{
+	if (countitem(1558) > 0) {
+		mes "[Vó da Munak]";
+		mes "Oh...";
+		mes "Você viu minha neta,";
+		if (Sex == 1) {
+			mes "garoto? Minha pobre neta.";
+		}
+		else {
+			mes "jovem dama? Minha pobre neta.";
+		}
+		mes "ela está desaparecida...";
+		next;
+		mes "[Vó da Munak]";
+		mes "Não consigo me lembrar exatamente quando";
+		mes "foi, mas quando eu vivia em Payon, eu";
+		mes "tinha uma netinha muito fofa. Ela";
+		mes "era realmente feliz quando eu penteava seu";
+		mes "cabelo como uma ^000077Trança^000000...";
+		next;
+		mes "[Vó da Munak]";
+		mes "Ela estava sempre trabalahndo com o";
+		mes "Chefe da Vila... Ela era apenas uma";
+		mes "garota doce, e sempre estava com o";
+		mes "filho do Chefe...";
+		next;
+		mes "[Vó da Munak]";
+		mes "Mas um dia nossa divindade ficou zangada";
+		mes "e lançou uma maldição no filho do chefe, o garoto ficou com";
+		mes "uma terrível doença! A vila teve de oferecer";
+		mes "minha neta a ele como";
+		mes "companheira, para que a maldição tivesse fim...";
+		next;
+		mes "[Vó da Munak]";
+		mes "O filho do Chefe teve sua saúde";
+		mes "de volta, mas perdeu minha";
+		mes "neta! Eu não consigo olhar pra ele";
+		mes "e não pensar nela, então eu tentei";
+		mes "deixar minha miséria para trás de vim morar ";
+		mes "aqui em Comodo...";
+		next;
+
+		switch(select("Vamos lá, levante-se!:Erm, isso é um diário...?")) {
+
+		case 1:
+			mes "[Vó da Munak]";
+			mes "Parece que minha neta assombra meus";
+			mes "sonhos toda noite. Eu acredito que";
+			mes "tentei me animar durante anos";
+			mes "agora...";
+			close;
+
+		case 2:
+			if (countitem(901) > 0) {
+				mes "[Vó da Munak]";
+				mes "Oh Deus!";
+				mes "É o diário da minha neta!";
+				mes "Ess- Essa é a letra dela! Oh meu Deus...!";
+				next;
+				mes "[Vó da Munak]";
+				if (Sex == 1) {
+					mes "Jovem rapaz... Eu vou ler isto para você se";
+				}
+				else {
+					mes "Jovem dama... Eu vou ler isto para você se";
+				}
+				mes "você me trouxer isso junto com uma Trança,";
+				mes "por favor. Eu nunca mais tive nada";
+				mes "que fosse dela desde então...";
+				next;
+
+				switch(select("Esqueça.:Ok, eu trarei.")) {
+
+				case 1:
+					mes "[Vó da Munak]";
+					mes "Oh...?";
+					if (Sex == 1) {
+						mes "Tudo bem, jovem rapaz.";
+						mes "Obrigado de qualquer jeito.";
+					}
+					else {
+						mes "Obrigado de qualquer jeito,";
+						mes "jovem dama.";
+					}
+					next;
+					mes "[Vó da Munak]";
+					mes "Está tudo bem...";
+					mes "Eu só posso esperar que a divindade esteja";
+					mes "tomando conta dela muito bem!";
+					close;
+
+				case 2:
+					delitem 1558,1;
+					delitem 901,1;
+					mes "[Vó da Munak]";
+					if (Sex == 1) {
+						mes "Oh!";
+						mes "Obrigado,";
+						mes "meu jovem~!";
+					}
+					else {
+						mes "Que bom!";
+						mes "Obrigado,";
+						mes "moça...";
+					}
+					next;
+					mes "[Vó da Munak]";
+					mes "Tudo bem...";
+					mes "Eu vou ler isto.";
+					mes "Deixe-me ver...";
+					next;
+					mes "[Vó da Munak]";
+					mes "Parece que minha neta era";
+					mes "tratada pelo Chefe como se fosse sua própria";
+					mes "filha! Há tantas memórias";
+					mes "felizes neste livro!";
+					next;
+					getitem 659,1;
+					mes "[Vó da Munak]";
+					mes "Oh, obrigado, agora eu tenho muitas";
+					mes "lembranças de minha neta. Obrigado!";
+					mes "Que Deus te";
+					mes "abençõe!";
+					close;
+
+				}
+
+			}
+
+			else {
+				mes "[Vó da Munak]";
+				mes "O que? Um diário? Que diário...?";
+				mes "Eu não... Eu não me lembro...";
+				next;
+				mes "[Vó da Munak]";
+				mes "Eu realmente gostaria de fazer";
+
+				mes "uma ^000077Trança^000000 em seus cabelos de novo. Eu realmente";
+				mes "gostaria... Oh, oh minha netinha...";
+				close;
+			}
+
+
+		}
+
+	}
+
+	else {
+		mes "[Vó da Munak]";
+		mes "Minha netinha...";
+		mes "Porque ela teve de ir embora...?";
+		close;
+	}
+
+}

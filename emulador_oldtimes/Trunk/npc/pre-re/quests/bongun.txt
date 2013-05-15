@@ -1,0 +1,150 @@
+//===== Cronus Script ========================================
+//= Acessório de Munak e Bongun
+//===== Por: =================================================
+//= eAthea Team
+//===== Versão Atual: ========================================
+//= 1.4/1.2
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= Quest de Acessórios de Munak e Bongun
+//===== Comentários Adicionais: ==============================
+//= 1.2a Traduzido o NPC.          [ [NITRO]Fox ]
+//= 1.2b Traduzido Itens da quest. [Dynasty]
+//= 1.3 Corrigido nomes dos NPCs.  [Dynasty]
+//= 1.4 Reestruturado e corrigido umas palavras que estavão
+//=     em inglês. [SoulBlaker]
+//============================================================
+
+comodo,135,227,5	script	Sherri#acess_munak	93,{
+	mes "[Sherri]";
+	mes " ";
+	mes "*suspiros*";
+	next;
+	mes "[Sherri]";
+	mes "Hã? Qual o problema? ...Bem, finalmente eu consegui envolver a alma de um garoto muito bonito...";
+	next;
+	mes "[Sherri]";
+	mes "...então por que estou triste?";
+	mes " ";
+	mes "É porque eu nem sei como a personalidade dele é... diga, se você pode achar para mim um 'Diário de Menina'sobre ele, eu lhe darei o diário dele!";
+	next;
+	mes "[Sherri]";
+	mes "Você pode me ajudar por favor?";
+	next;
+	switch(select("O que eu preciso novamente?:Aqui! Eu peguei o que você precisa!:Desculpa, eu não posso lhe ajudar.")){
+		case 1:
+			mes "[Sherri]";
+			mes "O que eu desejo é...";
+			mes " ";
+			mes "Um 'Diário de Menina' somente ele...";
+			close;
+		case 2:
+			mes "[Sherri]";
+			mes "Sério!!Você irá me ajudar!";
+			next;
+			mes "[Sherri]";
+			if(countitem(1558)<1){ //Item: Diária de Menina
+				mes "Aahhhh, pare de brincar com meus sentimentos!";
+				mes " ";
+				mes "Vá embora!";
+			}
+			else {
+				delitem 1558,1;//Items: Diário de Menina,
+				getitem 659,1;//Items: Coração Apaixonado,
+				mes "Sim!Eu estarei sempre lhe devendo essa!";
+				mes " ";
+				mes "Aqui está o diário dele como prometido!Novamente - Obrigada!";
+				next;
+				mes "[Sherri]";
+				mes "Espere! Aqui está a espada dele, eu a encontrei perto dele. Mas está quebrada... Eu sei de um homem velho a leste de Geffen que pode consertar uma espada como essa!";
+				getitem 7110,1;//Items: Espada Chanfrada,
+			}
+			close;
+		case 3:
+			mes "[Sherri]";
+			mes "*suspiros*";
+			close;
+	}
+}
+
+izlude_in,115,76,5	script	Evan#acess_munak	47,{
+	mes "[Evan]";
+	mes " ";
+	mes "*suspiros*";
+	next;
+	mes "[Evan]";
+	mes "Hã? Qual o problema? ...Bem, eu finalmente consegui envolver a alma de uma linda garota...";
+	next;
+	mes "[Evan]";
+	mes "...então por que eu estou triste?";
+	mes " ";
+	mes "é porque eu nem sei nem como ela se parece...diga,se você pode achar para mim 'Retrato Velho'dela, eu lhe darei a carta perdida do amado dela!";
+	next;
+	mes "[Evan]";
+	mes "O que você me diz? ..parceiro?";
+	next;
+	switch(select("O que eu preciso novamente?:Aqui! Eu peguei o que você precisa!:Desculpa, eu não posso lhe ajudar")){
+		case 1:
+			mes "[Evan]";
+			mes "Uma gravura do amável rosto dela...";
+			mes " ";
+			mes "Um 'Retrato Velho' de preferencia...";
+			close;
+		case 2:
+			mes "[Evan]";
+			mes "Sério!!Você irá me ajudar!";
+			next;
+			mes "[Evan]";
+			if(countitem(7014)<1){ //Items: Retrato Velho
+				mes "Aahhhhh, pare de brincar com meus sentimentos!";
+				mes " ";
+				mes "Vá embora!";
+			}
+			else {
+				delitem 7014,1;//Items: Retrato Velho,
+				getitem 636,1;//Items: Sem Destinatário,
+				mes "Sim!Eu estarei sempre lhe devendo essa!";
+				mes " ";
+				mes "Aqui está a carta de amor perdida como prometido! Novamente - Obrigado!";
+			}
+			close;
+		case 3:
+			mes "[Evan]";
+			mes "*suspiros*";
+			close;
+	}
+}
+
+gef_fild07,183,239,5	script	Velho Ferreiro::acess_munak	120,{
+	mes "[Velho Ferreiro]";
+	mes "Ah, aqui em cima não é tão calmo - Eu costumava ser um dos lendários ferreiros de midgard...infelizmente minhas habilidades lentamente se acabaram.";
+	next;
+	mes "[Velho Ferreiro]";
+	if(countitem(7110)<1){ //Items: Espada Chanfrada,
+		mes "Hmm, você parece estar esquecendo alguma coisa... provavelmente aquele 'Oridecon'.";
+		close;
+	}
+	mes "Hmm, parece que você precisa algo. O que poderia ser?";
+	next;
+	if(select("Você pode consertar essa espada quebrada?:Nada de importante...")==1){
+		mes "[Velho Ferreiro]";
+		mes "Ahhh, esta é uma espada bem velha e sim eu posso concertá-la, eu precisarei um 'Oridecon' para reparar os estragos porém.";
+		next;
+		mes "[Velho Ferreiro]";
+		if(countitem(7110)<1 || countitem(984)<1) //Items: Espada Chanfrada, Oridecon,
+			mes "Hmm, você parece estar esquecendo alguma coisa... provavelmente aquele 'Oridecon'.";
+		else {
+			delitem 7110,1;//Items: Espada Chanfrada,
+			delitem 984,1;//Items: Oridecon,
+			getitem 10020,1;//Items: Espada chinesa,
+			mes "Ah sim aqui vamos nós!";
+			mes " ";
+			mes "Haha!Vovô ainda tem aquele velho toque mágico, aqui vai você!";
+		}
+		close;
+	}
+	mes "[Velho Ferreiro]";
+	mes "...ah bem, vá embora e viva a vida jovem. O tempo nunca para!";
+	close;
+}

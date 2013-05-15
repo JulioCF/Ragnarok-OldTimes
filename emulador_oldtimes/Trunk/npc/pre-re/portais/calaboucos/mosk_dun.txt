@@ -1,0 +1,290 @@
+//===== Cronus Script ========================================
+//= Portais do Calabouço de Moscóvia
+//===== Por: =================================================
+//= Kisuka, $ephiroth
+//===== Versão atual: ========================================
+//= 1.4b
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Changelog: ===========================================
+//= 1.0 Versão inicial. [$ephiroth]
+//= 1.1, 1.2 Atualizado conforme o jAthena. [$ephiroth]
+//= 1.3 Added warp npcs. Removed place holder warps. [Kisuka]
+//= 1.4 Fixed cords on milestone 1-3. [Kisuka]
+//= 1.4a Traduzido. [LEOzinn]
+//= 1.4b Revisado. [RoM]
+//============================================================
+
+mosk_fild02,190,257,0	warp	moscoviawarp0401	1,1,mosk_dun01,189,45
+mosk_dun01,189,42,0	warp	moscoviawarp0501	1,1,mosk_fild02,190,254
+mosk_in,215,36,0	warp	babayagaout		1,1,mosk_dun02,53,217
+
+mosk_dun02,53,220,4	script	#babayagain	45,1,1,{
+	end;
+OnTouch:
+	if (mos_nowinter == 11) {
+		donpcevent "Soldado1#mos::OnEnable";
+		donpcevent "Soldado2#mos::OnEnable";
+		donpcevent "Soldado3#mos::OnEnable";
+		mes "[Soldado]";
+		mes "Parado aí!";
+		next;
+		mes "[Soldado]";
+		mes "Nós temos a informação";
+		mes "que você esteja se comunicando";
+		mes "secretamente com";
+		mes "Baba Yaga, a horrível.";
+		next;
+		mes "[Soldado]";
+		mes "Se você tem alguma coisa a dizer,";
+		mes "fale com o Czar.";
+		mes "Venha conosco.";
+		close2;
+		donpcevent "Soldado1#mos::OnInit";
+		donpcevent "Soldado2#mos::OnInit";
+		donpcevent "Soldado3#mos::OnInit";
+		set mos_nowinter,12;
+		warp "mosk_in",125,92;
+		end;
+	}
+	else if (mos_nowinter == 12) {
+		donpcevent "Soldado1#mos::OnEnable";
+		donpcevent "Soldado2#mos::OnEnable";
+		donpcevent "Soldado3#mos::OnEnable";
+		mes "[Soldado]";
+		mes "Nós esperávamos";
+		mes "que você pudesse aparecer novamente.";
+		mes "Qual é o seu interesse com o Czar?";
+		next;
+		if(select("Correr.:Explicar a situação.") == 1) {
+			mes "["+strcharinfo(0)+"]";
+			mes "Eu devo cair fora daqui...";
+			close2;
+			warp "mosk_dun02",100,100;
+			donpcevent "Soldado1#mos::OnInit";
+			donpcevent "Soldado2#mos::OnInit";
+			donpcevent "Soldado3#mos::OnInit";
+			end;
+		}
+		mes "- Eu o explico o que aconteceu até agora. -";
+		next;
+		mes "[Soldado]";
+		mes "Se você tem alguma coisa a dizer,";
+		mes "fale com o Czar.";
+		mes "Se você deixar esse lugar,";
+		mes "será considerado como nosso inimigo.";
+		close2;
+		donpcevent "Soldado1#mos::OnInit";
+		donpcevent "Soldado2#mos::OnInit";
+		donpcevent "Soldado3#mos::OnInit";
+		end;
+	}
+	else if (mos_nowinter == 13) {
+		donpcevent "Soldado1#mos::OnEnable";
+		donpcevent "Soldado2#mos::OnEnable";
+		donpcevent "Soldado3#mos::OnEnable";
+		mes "[Soldado]";
+		mes "Nós esperávamos";
+		mes "que você pudesse aparecer novamente.";
+		mes "Qual é o seu interesse com o Czar?";
+		next;
+		if(select("Correr.:Explicar a situação.") == 1) {
+			mes "["+strcharinfo(0)+"]";
+			mes "Eu devo cair fora daqui...";
+			close2;
+			warp "mosk_dun02",100,100;
+			donpcevent "Soldado1#mos::OnInit";
+			donpcevent "Soldado2#mos::OnInit";
+			donpcevent "Soldado3#mos::OnInit";
+			end;
+		}
+		mes "- Eu o explico o que aconteceu até agora. -";
+		next;
+		mes "[Soldado]";
+		mes "Se você tem alguma coisa a dizer,";
+		mes "fale com o Czar.";
+		mes "Se você deixar esse lugar,";
+		mes "será considerado como nosso inimigo.";
+		donpcevent "Soldado1#mos::OnInit";
+		donpcevent "Soldado2#mos::OnInit";
+		donpcevent "Soldado3#mos::OnInit";
+		end;
+	}
+	else {
+		warp "mosk_in",215,41;
+		end;
+	}
+}
+
+mosk_dun02,53,215,3	script	Soldado1#mos	966,{
+	mes "[Soldado]";
+	mes "Nós somos soldados do Czar.";
+	mes "Nós somos convocados para emergências,";
+	mes "não nos pertube nunca mais.";
+	close;
+
+OnInit:
+	hideonnpc "Soldado1#mos";
+	end;
+
+OnEnable:
+	hideoffnpc "Soldado1#mos";
+	end;
+}
+
+mosk_dun02,50,217,3	script	Soldado2#mos	966,{
+	mes "[Soldado]";
+	mes "Nós somos soldados do Czar.";
+	mes "Nós somos convocados para emergências,";
+	mes "não nos pertube nunca mais.";
+	close;
+
+OnInit:
+	hideonnpc "Soldado2#mos";
+	end;
+
+OnEnable:
+	hideoffnpc "Soldado2#mos";
+	end;
+}
+
+
+mosk_dun02,56,217,5	script	Soldado3#mos	966,{
+	mes "[Soldado]";
+	mes "Nós somos soldados do Czar.";
+	mes "Nós somos convocados para emergências,";
+	mes "não nos pertube nunca mais.";
+	close;
+
+OnInit:
+	hideonnpc "Soldado3#mos";
+	end;
+
+OnEnable:
+	hideoffnpc "Soldado3#mos";
+	end;
+}
+
+mosk_dun01,170,164,3	script	Marco#1	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que servem o Sol irão morrer, vá para o Norte. -^000000";
+	close;
+}
+
+mosk_dun01,207,276,3	script	Marco#1-2	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem poderão ficar machucados mas serão corajosos de coração, aqueles que voltarem continuarão a salvo.";
+	mes "Se você tem coragem, vá em frente. Se não, retroceda. -^000000";
+	next;
+	if(select("Ir em frente.:Ficar.") == 1) {
+		mes "- Você segue o caminho na sua frente. -";
+		close2;
+		warp "mosk_dun02",165,30;
+		end;
+	}
+	mes "- Você não irá avançar. -";
+	close;
+}
+
+mosk_dun01,264,191,3	script	Marco#1-3	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem poderão ficar machucados mas serão bravos de coração, aqueles que voltarem continuarão a salvo.";
+	mes "Se você tem bravura, vá em frente. Se não, retroceda. -^000000";
+	next;
+	if(select("Ir em frente.:Ficar.") == 1) {
+		mes "- Você segue o caminho na sua frente. -";
+		close2;
+		warp "mosk_dun03",117,36;
+		end;
+	}
+	mes "- Você decidiu ficar. -";
+	close;
+}
+
+mosk_dun02,168,28,3	script	Marco#2-1	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem poderão ficar machucados mas serão valentes de coração, aqueles que voltarem continuarão a salvo.";
+	mes "Se você tem valentia, vá em frente. Se não, retroceda. -^000000";
+	next;
+	if(select("Voltar.:Ficar.") == 1) {
+		mes "- Você sente perigo e decide voltar. -";
+		close2;
+		warp "mosk_dun01",201,269;
+		end;
+	}
+	mes "- Você decide ficar. -";
+	close;
+}
+
+mosk_dun02,268,117,3	script	Marco#2-3	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem ganharão honra, mas poderão morrer, aqueles que voltarem terão coragem, mas poderão ainda se machucar.";
+	mes "Se você é verdadeiramente bravo, vá em frente. Se não, retroceda. -^000000";
+	next;
+	if(select("Ir em frente.:Ficar.") == 1) {
+		mes "- Você bravamente continuou indo em frente. -";
+		close2;
+		warp "mosk_dun03",32,135;
+		end;
+	}
+	mes "- Você decidiu ficar. -";
+	close;
+}
+
+mosk_dun03,27,131,3	script	Marco#3-2	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem ganharão honra, mas poderão morrer, aqueles que voltarem terão coragem, mas poderão ainda se machucar.";
+	mes "Aqueles que tiverem coragem irão voltar, caso contrário vá em frente e continue. -^000000";
+
+	next;
+	if(select("Voltar.:Ficar.") == 1) {
+		mes "- Você sente perigo e decide voltar. -";
+		close2;
+		warp "mosk_dun02",262,118;
+		end;
+	}
+	mes "- Você decide ficar. -";
+	close;
+}
+
+mosk_dun03,119,46,3	script	Marco#3-1	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "^3131FF- Aqueles que avançarem ganharão honra, mas poderão morrer, aqueles que voltarem terão coragem, mas poderão ainda se machucar.";
+	mes "Aqueles que tiverem medo da morte irão voltar, caso contrário vá em frente e continue. -^000000";
+	next;
+	if(select("Voltar.:Ficar.") == 1) {
+		mes "- Você sente o perigo e decide voltar. -";
+		close2;
+		warp "mosk_dun01",257,190;
+		end;
+	}
+	mes "- Você decidiu ficar. -";
+	close;
+}
+
+mosk_dun01,194,43,3	script	Marco#1-1	111,{
+	mes "- Aqui está uma escritura numa pedra grande. -";
+	next;
+	mes "- Se você quer proteger a sua vida, deve voltar. -";
+	close;
+}
+
+mosk_fild02,198,53,3	script	Barco#mos_dun	111,{
+	mes "- Você encontrou um barco ancorado. -";
+	next;
+	if(select("Pegar o barco e voltar para a cidadade.:Explorar mais.") == 1) {
+		mes "- Você embarcou no barco e navegou com os remos. -";
+		close2;
+		warp "moscovia",140,54;
+		end;
+	}
+	mes "- Essa área desconhecida desperta seu interesse. -";
+	close;
+}

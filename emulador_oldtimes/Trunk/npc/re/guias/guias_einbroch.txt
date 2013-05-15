@@ -1,0 +1,199 @@
+//===== Cronus Script ======================================== 
+//= Guias da Cidade de Einbroch
+//===== Por: ================================================= 
+//= João Pedro
+//===== Versão: ============================================== 
+//= 1.0
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Comentários adicionais: ============================== 
+//= 1.0 Versão inicial [João Pedro]
+//============================================================ 
+
+einbroch,72,202,4	script	Guia#ein::EinGuide	852,{
+	cutin "ein_soldier",2;
+	mes "[Guia de Einbroch]";
+	mes "Bem-vindo";
+	mes "a Einbroch,";
+	mes "a cidade do Aço.";
+	mes "Por favor, fale comigo caso";
+	mes "Você tenha alguma dúvida.";
+	set .@loop1,1;
+	while (.@loop1) {
+		next;
+		switch(select("Indicações.:Limpar indicações.:Tutorial.:Cancelar.")) {
+		case 1:
+			mes "[Guia de Einbroch]";
+			mes "Por favor, selecione";
+			mes "o lugar do";
+			mes "menu a baixo.";
+			if (.@compass_check == 0) {
+				mes "Você gostaria de me marcar";
+				mes "como um lugar";
+				mes "em seu Mini-Mapa?";
+				next;
+				if (select("Sim.:Não.") == 1) set .@compass_check,1;
+			}
+			set .@loop2,1;
+			while(.@loop2) {
+				if (.@wait_button_chk == 0) set .@wait_button_chk,1;
+				else next;
+				switch(select("^FF0000Aeroporto^000000:Estação de Trem:Fábrica:Plaza:Hotel:Loja de Armas:Laboratório: Guild dos Ferreiros:Torre de Einbroch:Cancelar")) {
+				case 1:
+					mes "[Guia de Einbroch]";
+					mes "O ^FF0000Aeroporto^000000 está localizado";
+					mes "na parte noroeste";
+					mes "da cidade. Lá você pode";
+					mes "ver o orgulho e alegria de nossa cidade, o Aeroporto. Lembre-se que você deve pagar uma admissão para entrar no Aeroporto.";
+					if (.@compass_check)
+						viewpoint 1,63,228,2,0xFF0000;
+					break;
+				case 2:
+					mes "[Guia de Einbroch]";
+					mes "A estação de Trêm está";
+					mes "localizada na parte nordeste";
+					mes "de Einbroch. Trêns";
+					mes "que correm entre aqui";
+					mes "e Einbech funcionam";
+					mes "todos os dias.";
+					if (.@compass_check)
+						viewpoint 1,236,279,3,0xFF00FF;
+					break;
+				case 3:
+					mes "[Guia de Einbroch]";
+					mes "A fábrica, talvez";
+					mes "a mais importânte habilidade de";
+					mes "Einbroch, está localizada na";
+					mes "parte sul da cidade.";
+					if (.@compass_check)
+						viewpoint 1,158,78,4,0xFF00FF;
+					break;
+				case 4:
+					mes "[Guia de Einbroch]";
+					mes "O Plaza, nosso maior";
+					mes "distrito comercial, pode ser";
+					mes "encontrado apenas no leste";
+					mes "do centro de Einbroch.";
+					if (.@compass_check)
+						viewpoint 1,232,190,5,0xFF00FF;
+					break;
+				case 5:
+					mes "[Guia de Einbroch]";
+					mes "O Hotel está ao leste do";
+					mes "Plaza e oferece";
+					mes "acomodações cinco estrelas.";
+					mes "Lá você pode desfrutar de sua";
+					mes "estadia em Einbroch com conforto~";
+					if (.@compass_check)
+						viewpoint 1,260,201,6,0x00FF00;
+					break;
+				case 6:
+					mes "[Guia de Einbroch]";
+					mes "A loja de armas está";
+					mes "localizada ao norte";
+					mes "do Plaza. Lá você pode";
+					mes "comprar armas para";
+					mes "seu uso pessoal.";
+					if (.@compass_check)
+						viewpoint 1,215,221,7,0x00FF00;
+					break;
+				case 7:
+					mes "[Guia de Einbroch]";
+					mes "O Laboratório está em um";
+					mes "anexo da Fábrica e";
+					mes "está localizada no setor suldoeste";
+					mes "de Einbroch.";
+					if (.@compass_check)
+						viewpoint 1,36,49,8,0x00FF;
+					break;
+				case 8:
+					mes "[Guia de Einbroch]";
+					mes "A Guild dos Ferreiros está";
+					mes "localizada na parte sudoeste";
+					mes "de Einbroch. Você pode";
+					mes "melhorar seus equipamentos";
+					mes "usando seus serviços.";
+					if (.@compass_check)
+						viewpoint 1,244,90,9,0x00FF00;
+					break;
+				case 9:
+					mes "[Guia de Einbroch]";
+					mes "A Torre de Einbroch está";
+					mes "localizada no centro";
+					mes "da cidade. No alto";
+					mes "da torre, você pode ver";
+					mes "toda Einbroch.";
+					if (.@compass_check)
+						viewpoint 1,174,195,10,0xFFFF00;
+					break;
+				case 10:
+					mes "[Guia de Einbroch]";
+					mes "Por favor, escolh ''Remover";
+					mes "Indicações'' Se você";
+					mes "não deseja mais ter";
+					mes "as marcas de localização aparecendo";
+					mes "no seu Mini-Mapa.";
+					set .@loop2,0;
+				}
+			}
+			break;
+		case 2:
+			viewpoint 2,63,228,2,0xFF0000;
+			viewpoint 2,236,279,3,0xFF00FF;
+			viewpoint 2,158,78,4,0xFF00FF;
+			viewpoint 2,232,190,5,0xFF00FF;
+			viewpoint 2,260,201,6,0x00FF00;
+			viewpoint 2,215,221,7,0x00FF00;
+			viewpoint 2,36,49,8,0x00FF00;
+			viewpoint 2,244,90,9,0x00FF00;
+			viewpoint 2,174,195,10,0xFFFF00;
+			set .@compass_check,0;
+			mes "[Guia de Einbroch]";
+			mes "Ok, as marcas do";
+			mes "seu Mini-Mapa foram";
+			mes "removidas. Se você precisar de";
+			mes "orientação em Einbroch,";
+			mes "por favor, me procure ou procure";
+			mes "um outro Guia de Einbrochs.";
+			break;
+		case 3:
+			mes "[Guia de Einbroch]";
+			mes "Através da tecnologia da";
+			mes "república de Schwaltzvalt,";
+			mes "nós melhoramos para um";
+			mes "sistema digital de informações que";
+			mes "nos permite marcar lugares em seu";
+			mes "Mini-Mapa para uma fácil movimentação.";
+			next;
+			mes "[Guia de Einbroch]";
+			mes "Seu Mini-Mapa está localizado";
+			mes "no canto superior direito";
+			mes "da sua tela. Se você não pode";
+			mes "ve-lo, pressione Ctrl + Tab";
+			mes "ou click no botão ''Map'' na sua Janela de Informações Básicas.";
+			next;
+			mes "[Guia de Einbroch]";
+			mes "No seu Mini-Mapa,";
+			mes "click nos símbolos ''+'' e ''-''";
+			mes "para aumentar ou diminuir";
+			mes "seu Mini-Mapa. Nós";
+			mes "esperamos que você aprecie sua estadia";
+			mes "aqui em Einbroch, aventureiro.";
+			break;
+		case 4:
+			mes "[Guia de Einbroch]";
+			mes "Nós esperamos que você";
+			mes "aprecie sua estadia";
+			mes "aqui em Einbroch.";
+			mes "Oh e, por favor, fique";
+			mes "ciente dos alertas de Nevoeiro.";
+			close2;
+			set .@loop1,0;
+		}
+	}
+	cutin "ein_soldier",255;
+	end;
+}
+
+einbroch,155,43,4	duplicate(EinGuide)	Guia#2ein	852
+einbroch,162,317,4	duplicate(EinGuide)	Guia#3ein	852

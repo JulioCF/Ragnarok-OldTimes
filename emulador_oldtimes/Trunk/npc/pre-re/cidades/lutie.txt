@@ -1,0 +1,869 @@
+//===== Cronus Script ======================================== 
+//= Cidade de Lutie
+//===== Por: =================================================
+//= eAthena dev team
+//===== Versão Atual: ======================================== 
+//= 1.6e
+//===== Changelog: ===========================================
+//= 1.1 Edited some text and updated/enabled some triggers
+//= for the quest.[kobra_k88]
+//= 1.2 Fixed exploit. Checked for Bard Job Quest compatibility [Lupus]
+//= 1.3 Fixed typos [Nexon] 
+//= 1.4 Fixed exploit [Lupus]
+//= 1.5 Fixed a bug that could reset Lutie quest state [Lupus]
+//= 1.6 Heavy optimization to all the NPCs [DZeroX]
+//= 1.6a Traduzido [Roberto]
+//= 1.6b Atualização e Revisão por [Olivete]
+//= 1.6c Tradução terminada [Tyk]
+//= 1.6d Otimização, Correção e Exploit fix. [RoM]
+//= 1.6e Removido show, additem [Yum]
+//============================================================
+
+aldebaran,168,168,4	script	Sr. Noel#lut	718,{
+	mes "[Sr. Noel]";
+	mes "Feliz Natal!!";
+	mes "Eu te desejo muitas felicidades!";
+	next;
+	switch(select("De onde você é?","Leve me para ^5533FF'Lutie'^000000","Cancelar")){
+	Case 1:
+		mes "[Sr. Noel]";
+		mes "eu venho de ^3355FF'Lutie'^000000, a fantástica cidade do Natal!";
+		mes "É natal o ano todo, tortas deliciosas,";
+		mes "e brinquedos até aonde a vista alcança.";
+		next;
+		mes "[Sr. Noel]";
+		mes "Felicidade e alegria enchem a cidade! É um lugar mágico de se estar!";
+		mes "Este lugar não te parece fantástico?";
+		next;
+		mes "[Sr. Noel]";
+		mes "Então o que você está esperando?! Simplesmente diga que eu te";
+		mes "levo imediatamente para Lutie! você poderá até se encontrar com o chefão de tudo,";
+		mes "o Papai Noel.";
+		close;
+	Case 2:
+		mes "[Sr. Noel]";
+		mes "então, você está preparado para ir ao melhor lugar do mundo?";
+		next;
+		mes "[Sr. Noel]";
+		mes "Ok então, lá vai você para aproveitar toda a diversão e excitação que Lutie";
+		mes "tem para oferecer!";
+		close2;
+		warp "xmas_fild01",78,68;
+		end;
+	Case 3:
+		mes "[Sr. Noel]";
+		mes "Bem... se você quer visitar Lutie, é só me avisar a qualquer hora.";
+		mes "Feliz Natal!! Feliz Natal!!";
+		close;
+	}
+}
+
+xmas_in,27,103,4	script	Mima#lut	701,{
+	switch(xmas_npc){
+	Default:
+		mes "[Mima]";
+		mes "Feliz Natal!";
+		mes "Eu posso sentir o espírito natalino ao meu redor sempre que eu olho";
+		mes "aos jovens estrangeiros aqui...Eu te desejo um Feliz Natal!";
+		next;
+		mes "[Mima]";
+		mes "Existe uma ^5533FFFábrica de Brinquedos^000000 abandonada aqui na cidade, ela";
+		mes "parece bem interessante, entretanto...";
+		next;
+		mes "[Mima]";
+		mes "Recentemente eu tenho notado que muitos monstros começaram a morar";
+		mes "dentro da fábrica. Alguns deles se parecem com os monstros que se encontra";
+		mes "fora da cidade... quero dizer, eles são completamente idênticos!";
+		next;
+		mes "[Mima]";
+		mes "Apesar de se parecerem, eles não são iguais. Por";
+		mes "alguma razão estes monstros possuem caracteristicas diferentes dos que";
+		mes "são encontrados aí fora. Alguns deles são muito únicos e parece que suas crias";
+		mes "estão se adaptando ao ambiente de lá.";
+		next;
+		mes "[Mima]";
+		mes "...Oh, eu quase me esqueci, eu tenho que fazer um";
+		mes "kimchi (repolho apimentado com picles)... mmm.. kimchi de chocolate é meu";
+		mes "favorito!";
+		next;
+		mes "[Mima]";
+		mes "Entre uma fatia e outra de kimchi, eu espalho um chocolate especial que";
+		mes "derrete facilmente. O resto é um segredo de familia...hehe.";
+		close;
+	Case 5:
+		mes "[Mima]";
+		mes "Hmmm? O tio Ken peludão falou de mim pra você não foi? Bem, bem, eu";
+		mes "sei o que ele está pensando... Hoo hoo! ele pretende me deixar";
+		mes "feliz e espera que eu lhe mande umas jarras de kimchi grátis!";
+		mes "Hoo hoo, ta certo.";
+		next;
+		mes "[Mima]";
+		mes "Ele me conhece muito bem... Eu não consigo evitar que ele ganhe um pouco do";
+		mes "meu kimchi. Sim sim. Até mesmo eu sei que meu kimchi é o melhor da cidade!";
+		mes "Queeem? a história do ^3355FF'Homem-de-Neve'^000000? Oh...Sim sim, estou vendo.";
+		next;
+		mes "[Mima]";
+		mes "Mas eu simplesmente não posso te contar esta história...Como você sabe os humanos";
+		mes "mais poderosos são as tias! E eu sou uma delas! Elas nunca permitem que";
+		mes "outros tirem vantagem delas. Como elas costuma dizer 'Não existe";
+		mes "tal coisa de lanche de graça'. Portanto eu tenho um favor a te pedir.";
+		mes "Homem-de-Neve esta guardando uma coisa pra mim.....";
+		next;
+		mes "[Mima]";
+		mes "Você poderia pegar por favor? ^3355FF'O sal mais duro do mundo'^000000.";
+		mes "É um ingediente essencial para conservar";
+		mes "repolhos. Diga a ele que fui eu quem te mandou que ele vai entender.";
+		next;
+		mes "[Mima]";
+		mes "Ele vai te dar o meu sal. Agora querido, se apresse. Volte logo.";
+		set xmas_npc,6;
+		close;
+	Case 6:
+		mes "[Mima]";
+		mes "Hohohoho -";
+		mes "Vejamos... Huh? Você ainda não trouxe?";
+		mes "Ai meu deus, meus repolhos vão azedar logo!";
+		mes "Corra, Chop Chop -!!";
+		next;
+		mes "[Mima]";
+		mes "*suspira* Você é muito disperso meu querido...";
+		mes "Eu disse TRAGA ME ^3355FF'O SAL MAIS DURO DO MUNDO'^000000!!";
+		mes "Vá agora e se apresse!";
+		close;
+	Case 7:
+		mes "[Mima]";
+		mes "Hohohohoh hohohohoho!";
+		mes "Vejamos, vejamos... Muito obrigado querido, muito obrigado!";
+		next;
+		mes "Você entregou ^3355FF'o sal mais duro do mundo'^000000 para ela";
+		set xmas_npc,8;
+		next;
+		mes "[Mima]";
+		mes "Agora eu posso preparar o meu repolho propriamente. Muito obrigado querido,";
+		mes "Muito Obrigado... Hooo? Ahhhh sim claro, eu quase me esqueci que";
+		mes "eu tinha te prometido... Sim eu me lebro que você me perguntou sobre o saco de presente";
+		mes "do Homem-de-Neve, não foi?";
+		next;
+		mes "[Mima]";
+		mes "Se você ja se encontrou com o tio Ken peludão você ja deve saber que,";
+		mes "Homem-de-Neve foi feito de uma neve misteriosa que cobria";
+		mes "uma grama densa cheia de força mágica,";
+		next;
+		mes "[Mima]";
+		mes "Eu não sei te dizer qual foi a razão, mas eu descobri que Homem-de-Neve";
+		mes "veio a possuir seu saco de presentes, devido a uma estranha reação";
+		mes "entre itens de alquimia usados pelo Grande Alquimista e seus";
+		mes "materiais originais, a neve misteriosa.";
+		next;
+		mes "[Mima]";
+		mes "Além disso, o saco de presentes cria muitos presentes de acordo com o que Homem-de-Neve";
+		mes "quer. Parece que alguma mágica permite que o Homem-de-Neve tenha";
+		mes "a mesma habilidade que o Papai Noel. Se este poder cair nas mãos erradas";
+		mes "nós provavelmente estaríamos em apuros, mas todos sabem que";
+		mes "Homem-de-Neve é uma criatura muito boa e inocente... Nós nunca nos";
+		mes "preocupamos com a sua habilidade única...";
+		next;
+	Case 8:
+		mes "[Mima]";
+		mes "Hohohoho... Ah e ultimamente eu tenho ouvido a umas novidades surpreendentes de";
+		mes "^3355FF'Howie'^000000 o palhaço. É uma história interessante... Se você estiver";
+		mes "interessado, porque você não o procura?";
+		close;
+	}
+}
+
+xmas_in,100,96,4	script	Papai Noel::Santa1	718,{
+	switch(@talkedsanta){
+	Default:
+		mes "[Papai Noel]";
+		mes "Ho Ho Ho~";
+		mes "Feeeeliz Natal!!";
+		next;
+		mes "[Papai Noel]";
+		mes "Ho Ho Ho~";
+		mes "Eu sou o Papai Noel, e eu levo presentes para todos os meninos e meninas no";
+		mes "Natal!";
+		next;
+		mes "[Papai Noel]";
+		mes "Ho Ho Ho~";
+		mes "Se por algum motivo você deseja ir embora da maravilhosa cidade de Lutie,";
+		mes "simplesmente siga para o sul da cidade. Você irá achar um portal que te levará até";
+		mes "a cidade de Al De Baran.";
+		next;
+		mes "[Papai Noel]";
+		mes "Ho Ho Ho~";
+		mes "Feliz Natal!!";
+		if(!xmas_npc) set @talkedsanta,1;
+		close;
+	Case 1:
+		mes "[Papai Noel]";
+		mes "Eu sou o Papai noel.";
+		mes "Eu tenho um presente para você, deixe me ver na minha sacola.";
+		next;
+		mes "[Papai Noel]";
+		mes "Sim, eu tenho um presente com o seu nome.";
+		mes "Aqui está!";
+		next;
+		switch(rand(1,5)){
+		Case 1:
+			getitem 529,5;
+			break;
+		Case 2:
+			getitem 530,3;
+			break;
+		Case 3:
+			getitem 528,1;
+			if(!xmas_npc) set xmas_npc,1;
+			set @talkedsanta,0;
+			mes "[Papai Noel]";
+			mes "Hmm, você não tem sido uma pessoa muito boa";
+			mes "este ano. Melhore!";
+			close;
+		Case 4:
+			getitem 539,2;
+			break;
+
+		Case 5:
+			getitem 539,1;
+			break;
+		}
+		if(!xmas_npc) set xmas_npc,1;
+		set @talkedsanta,0;
+		mes "[Papai Noel]";
+		mes "Espero que goste do seu presente!";
+		mes "Meus elfos o fizeram especialmente para você.";
+		close;
+	}
+}
+
+xmas_in,165,173,4	script	Debra#lut	711,{
+	switch(xmas_npc){
+	Default:
+		mes "[Debra]";
+		mes "Feliz Natal!";
+		mes "Bem vindo a Lutie!";
+		next;
+		mes "[Debra]";
+		mes "Você já conversou com o boneco de neve na frente da cidade?";
+		mes "Homem de neve na solidão, feito da neve branca...";
+		next;
+		mes "[Debra]";
+		mes "Entretanto ele tem um coração bem quente. Algumas vezes eu converso com o Homem-de-Neve.";
+		mes "Sem razão nenhuma... apesar de ele ser um homem de neve,";
+		mes "ele pode compreender e agüenta conversar conosco.";
+		next;
+		mes "[Debra]";
+		mes ". . . . .";
+		mes "Quando eu converso com o Homem-de-Neve, eu imagino muitas coisas sobre";
+		mes "ele e sinto uma coisa misteriosa, eu assumo que você se sentirá como eu";
+		mes "se você tentar conversar com ele.";
+		next;
+		mes "[Debra]";
+		mes "Tipo, como ele foi feito, quem possibilitou que ele tivesse um coração";
+		mes "de um humano e poder falar, de onde ele é...";
+		next;
+		mes "[Debra]";
+		mes "O lugar é cheio de neve todo o tempo ou";
+		mes "não... como ele chegou até esta cidade sem ter pernas...";
+		next;
+		mes "[Debra]";
+		mes "Últimamente nesta cidade,";
+		mes "parece que o número de pessoas curiosas tem aumentado.";
+		mes "se você ainda não conseguir descobrir os segredos dele mesmo depois de falar com ele";
+		next;
+		mes "[Debra]";
+		mes "Eu sugiro que você converse com as outras pessoas da cidade...";
+		if(xmas_npc != 0) close;
+		mes "Ah!...Eu quase me esqueci de te dizer...Papai Noel vive aqui";
+		mes "nesta cidade...";
+		next;
+		mes "[Debra]";
+		mes "Você ainda não o viu? Porque você não se encontra com ele então? Te";
+		mes "cuida agora! Feliz Natal!";
+		close;
+	Case 1:
+	Case 2:
+		mes "[Debra]";
+		mes "Feliz Natal!";
+		mes "Bem Vindo a Lutie!";
+		next;
+		mes "[Debra]";
+		mes "Você ganhou um presente do Papai Noel?! Você deve estar muito animado!";
+		mes "Ha ha! você já ouviu falar que nós temos uma pessoa aqui igualmente";
+		mes "famosa como o Papai Noel?";
+		next;
+		mes "[Debra]";
+		mes "Esta pessoa é o ^3355FF'Homem-de-Neve'^000000, o misterioso boneco de neve,";
+		mes "que pode se comunicar com humanos.";
+		next;
+		mes "[Debra]";
+		mes "Você ainda não conheceu o Homem-de-Neve? Eu acho que você deveria tentar";
+		mes "conversar com ele pelo menos uma vez... Bom então Feliz Natal!!";
+		set xmas_npc,2;
+		close;
+	}
+}
+
+xmas,117,304,4	script	Peterson#lut	713,{
+	switch(xmas_npc){
+	Default:
+		mes "[Peterson]";
+		mes "Feliz Natal!";
+		next;
+		mes "[Peterson]";
+		mes "Aqui em Lutie é natal 24 horas por dia e 365 dias";
+		mes "por ano, O natal é celebrado sempre por aqui! Esta bela";
+		mes "cidade enche o seu coração com o espirito de alegria natalina...";
+		next;
+		mes "[Peterson]";
+		mes "Ande pela cidade que você verá...esta cidade tem uma das";
+		mes "melhores instalações e atrações de qualquer outro lugar.";
+		next;
+		mes "[Peterson]";
+		mes "Lutie é um ótimo lugar para aqueles que não querem se preocupar";
+		mes "com nada. Portanto, que a felicidade esteja com você....Feliz Natal!!";
+		close;
+	Case 3:
+	Case 4:
+		mes "[Peterson]";
+		mes "O ^3355FF'Homem-de-Neve'^000000 falou de mim? Ahh sim... ele é um";
+		mes "boneco de neve que não tem pernas. É uma pena que ele não possa vir aqui para me";
+		mes "visitar... Eu agradeço você ter vindo aqui por ele. Eu o irei visitar";
+		mes "algum dia.";
+		next;
+		mes "[Peterson]";
+		mes "Tem um homem que sabe do segredo do Homem-de-Neve...";
+		mes "Este homem é o ^3355FF'Tio Ken Peludão'^000000... sim com certeza ele sabe...";
+		next;
+		mes "[Peterson]";
+		mes "Um dia quando um aprendiz do grande alquimista visitava Lutie.";
+		mes "Eu ouvi a conversa entre Homem-de-Neve e o";
+		mes "Tio Ken Peludão.";
+		next;
+		mes "[Peterson]";
+		mes "Era uma vez, um grande alquimista foi a terra natal de Homem-de-Neve";
+		mes "e o encontrou morrendo e derretendo. Ele o reviveu";
+		mes "com vários minérios mágicos e umas outras coisas...";
+		next;
+		mes "[Peterson]";
+		mes "Bem, para os detalhes da história, eu recomendo que você escute";
+		mes "o que ^3355FF'Tio Ken Peludão'^000000 tem a dizer.";
+		set xmas_npc,4;
+		close;
+	}
+}
+
+xmas,176,236,4	script	O Cabeludo Tio Ken#lut	712,{
+	switch(xmas_npc){
+	Default:
+		mes "[O Cabeludo Tio Ken]";
+		mes "Feeeeliz Natal!";
+		mes "Bem vindo a cidade do Natal!";
+		mes "Seu rosto está brilhando... O clima aqui é realmente... Frio!";
+		mes "E é tão frio que faz você ficar parecendo com...";
+		next;
+		mes "[O Cabeludo Tio Ken]";
+		mes "Uma ^3355FF'Pequena maçã vermelha'^000000,";
+		mes "HarHarHarHar!";
+		mes "Tente não se resfriar. A gripe aqui em Lutie é muito forte...";
+		next;
+		mes "[O Cabeludo Tio Ken]";
+		mes "Falando em resfriado, isso me lebra...";
+		next;
+		mes "[O Cabeludo Tio Ken]";
+		mes "Minha criança recentemente pegou um resfriado sério... Aconteceu a meia noite";
+		mes "e todas as farmácias estavam fechadas. Eu estava desesperada então eu fui até";
+		mes "a ^5533FFFábrica de brinquedos^000000 abandonada...";
+		next;
+		mes "[O Cabeludo Tio Ken]";
+		mes "Pequenos monstros estavam correndo por lá até mesmo ^5533FFPorings de gelo^000000!";
+		mes "As pessoas aqui frequentemente os chamam de Marin... bom voltando ao assunto, eu agarrei";
+		mes "um deles e corri de volta para cassa. Eu o coloquei em cima da cabeça";
+		mes "de minha criança...";
+		next;
+		mes "[O Cabeludo Tio Ken]";
+		mes "E você nem imagina... a febre dela passou na hora! Heh esta";
+		mes "é uma vila muito conveniente para se viver. Eu já falei demais...";
+		mes "Boa sorte para você!";
+		close;
+	Case 4:
+		if(countitem(1024)>0 && countitem(938)>0){
+			delitem 1024,1;
+			delitem 938,1;
+			set xmas_npc,5;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Oh ?! *risadinhas* Você parece ser uma pessoa confiável...";
+			mes "Bom! Ok, primeiro eu preciso beber alguma coisa...";
+			next;
+			mes "^3355FF- Entrega a ele a tinta de polvo e  -^000000";
+			mes "^3355FF- Muco pegajoso. -^000000";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Burrrrpppp - Okay! Bem, agora é hora de sua história...";
+			mes "Não se esqueça de que esta é a história que eu conheço...";
+			mes "Eu não sei o que você já ouviu sobre ela...";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Há muito, muito tempo atrás um grande alquimista morava";
+			mes "no norte distante. Seu nome era ^3355FF'Philip Varsez'^000000!!";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Ele estava ansioso para romper as barreiras da nova alquimia,";
+			mes "e a nova alquimia precisava de materiais raros para que ele pudesse";
+			mes "fazer o que pretendia. Então ele decidiu viajar o mundo para procurar";
+			mes "por itens que possuissem uma forte energia mágica.";
+			mes "eventualmente ele chegou a uma vila com um clima congelate,";
+			mes "em algum lugar ao norte...";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Assim que ele entrou na vila, ele se deparou com uma cena";
+			mes "aterradora... Tudo estava destruído... não tinha sobrado nada.";
+			mes "As pessoas gemiam de dor, e estavam morrendo...";
+			mes "Foi a pior cena que ele já tinha visto.";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "De repente uma força estranha chamou sua atenção... Aquela";
+			mes "coisa estranha era um boneco de neve que estava se derretendo, virando água";
+			mes "....^3355FF'Homem-de-Neve'^000000! O mais impressionante era o fato";
+			mes "de ele estar segurando duas crianças chorando em seus braços. Então";
+			mes "o grande alquimista deduziu que o boneco de neve teria se sacrificado";
+			mes "para proteger as crianças do grande perigo.";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Ver isto comoveu o grande alquimista, ele deciciu salvar";
+			mes "a vida do boneco de neve com o grande poder de sua alquimia, ele";
+			mes "transportou o boneco de neve para Lutie, esta cidade natalina, o lugar";
+			mes "mais seguro neste mundo.";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Algum tempo depois, boatos começaram a circular dizendo que o Homem-de-Neve";
+			mes "não fora salvo só pela piedade do grande alquimista, mas também";
+			mes "por conta da neve pelo qual ele tinha sido feito.";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "A verdade é que Homem-de-Neve foi feito da neve que cobria os campos";
+			mes "onde flores e plantas mágicas cresciam";
+			mes "por todo lado.";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Muhahaha -";
+			mes "Beleza... esta é toda história até onde eu sei.";
+			mes "Que tal agora? A minha história satisfez sua curiosidade? Haw haw haw!!!";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Bem, agora eu lamento dizer que eu não tenho a menor idéia";
+			mes "de onde venha a habilidade especial que o Homem-de-Neve possui para criar";
+			mes "presentes de natal ilimitados...";
+			next;
+		}
+		if (xmas_npc == 4){
+			mes "[O Cabeludo Tio Ken]";
+			mes "A é? O Peterson te mandou falar comigo é?";
+			mes "Haw Haw Haw!! Sim sim, eu o conheço um pouco..";
+			mes "Para ser honesto, você pode dizer que eu sou o ponto fraco dele!";
+			mes "Porque eu sei o segredo do ^3355FF'Nascimento do Homem-de-Neve'^000000!!";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Você está curioso sobre isto?! *risadas* Claro, eu posso dizer pela sua cara.";
+			mes "Entretanto! Não pense que eu vou te contar este segredo a troco de nada...";
+			mes "Pensando nisso... Eu estou com muita sede agora...";
+			mes "Me traga ^3355FF'1 Tinta de polvo'^000000 e ^3355FF'1 Muco Pegajoso'^000000!!!";
+			next;
+			mes "[O Cabeludo Tio Ken]";
+			mes "Wahhahaha! Não me olhe assim! Meus gostos não são";
+			mes "da sua conta!!! Começe a achar um jeito de arrumar o que eu quero, ou";
+			mes "você não ira conseguir o que VOCÊ quer... *risadinhas*";
+			close;
+		}
+	Case 5:
+		mes "[O Cabeludo Tio Ken]";
+		mes "^3355FF'Mima'^000000 a excelente cozinheira de kimchi";
+		mes "sabe sobre isso mais detalhadamente... Se você estiver interessado";
+		mes "é melhor ir visitá-la. Beleza! Feliz Natal!!";
+		close;
+	}
+}
+
+xmas,134,112,4	script	Homem-de-Neve#lut	710,{
+	mes "[Homem-de-Neve]";
+	switch(xmas_npc){
+	Default:
+		mes "*chora*chora*... Eu estou tão sozinho... Eu não posso ir para canto algum!";
+		mes "Eu estou aqui preso dia e noite... congelado a esta terra fria...";
+		emotion e_sob;
+		next;
+		switch(select("^0000FFHomem-de-Neve?^000000","Uma Fábrica de brinquedos secreta?",".........")){
+		Case 1:
+			mes "[Homem-de-Neve]";
+			mes "Eu fui criado por um humano... alguns me chamam de uma boneca de neve gigante...";
+			mes "Eu me lembro de ter nascido em um lugar muito frio...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Assim como Lutie, esta pequena cidade gelada... eu costumava ser feliz lá no norte mas...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Um dia uma terrivel velha veio até minha cidade... O seu nome era... ^790079'Mariposum'^000000...";
+			mes "Eu ouvi dizer que ela tinha vindo de um lugar terrivelmente quente... Uma vila bizarra dentro de algum tipo de caverna.";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Na quarta noite após ela ter chegado, ela foi para a praça central...";
+			mes "E sem aviso algum ela começou a conjurar terríveis magias... De repente uma grande tempestade começou...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Quase que imediatamente a poderosa tempestade derrubou meu amigo e eu, nos apagando...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Eu não sei por quanto tempo eu fiquei inconsciente, mas quando eu acordei eu estava aqui em Lutie...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Mas meus amigos não estavam... Eu perdi todos os meus amigos... Eu me sinto tão solitário...";
+			emotion e_sob;
+			close;
+		Case 2:
+			mes "[Homem-de-Neve]";
+			mes "Em algum lugar em Lutie tem um lugar que se parece com uma ^5533FFFábrica";
+			mes "de brinquedos^000000... é bem decorada e parece muito";
+			mes "divertida mas...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Eu ouvi dizer que está lotada de Soldadinhos de Chumbo possuídos e caixas";
+			mes "de presentes...";
+			next;
+			mes "[Homem-de-Neve]";
+			mes "Parte de mim está intrigada com este lugar e eu gostaria de vê-lo";
+			mes "só uma vez... Mas parte de mim também está com medo dos brinquedos";
+			mes "possuidos...";
+			close;
+		Case 3:
+			mes "[Homem-de-Neve]";
+			mes "Até mais! Venha me visitar de novo. Feliz Natal!";
+			close;
+		}
+	Case 2:
+		mes "Você ouviu alguma coisa da 'Debra'? Heh heh... as pessoas";
+		mes "de Lutie me chamam de um boneco misterioso... honestamente eu não sou nada mais";
+		mes "do que um simples boneco de neve...heh heh.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Na verdade eu nem sei quem eu sou. Talvez eu saiba tanto sobre mim mesmo";
+		mes "quanto as outras pessoas.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Sr. ^3355FF'Peterson'^000000 me deu seu cartão de visitas para que eu o visitasse";
+		mes "sempre que eu quisesse... mas como você pode ver...";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Eu não tenho pernas, e não posso ir a lugar algum...";
+		emotion 28;
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Como eu cheguei aqui...? Porque eu posso falar com humanos...?";
+		mes "Como eu posso...??";
+		next;
+	Case 3:
+		mes ". . . . . . . . . .";
+		next;
+		if(xmas_npc == 2) set xmas_npc,3;
+		mes "^3355FF- Homem-de-Neve cai no sono perdido em seus pensamentos -^000000";
+		mes "^3355FF- ele está olhando ao cartão do 'Peterson' -^000000";
+		close;
+	Case 4:
+		mes "Você se encontrou com o Peterson? Ele é um cara distinto e honesto...";
+		mes "E eu sei... que ele se apaixonou pela Debra...";
+		mes "hehehehehe...";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Eu acho que a 'Debra' precisa ser mais generosa. Ela é muito boa com todos";
+		mes "exceto o Peterson. Mas eu sei....a Debra gosta do Peterson.";
+		mes "tanto quanto ele dela...";
+		close;
+	Case 5:
+		mes "Você falou com o ^3355FF'Tio Ken peludão'^000000?";
+		mes "O Tio Ken peludão tem uma voz alta, e não toma banho...";
+		mes "ele fede um pouco... mas ele é um cara muito engraçado.";
+		mes "Todos gostam dele.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Ele gosta de beber umas bebidas meio estranhas...";
+		mes "Eles dizem que é um milagre que ele não sofra de dor de estômago.";
+		mes "Heh~ eu adoro esse cara também...";
+		close;
+	Case 6:
+		mes "Hmmm você falou com a ^3355FF'Mima'^000000, a expert em kimchi?";
+		mes "Sim sim. Eu estou guardando isto pra ela. Aqui está, este é";
+		mes "o sal que ela quer.";
+		next;
+		set xmas_npc,7;
+		mes "^3355FF'Recebe o sal mais duro do mundo'^000000.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Eu gosto da comida dela porque é uma delicia.";
+		mes "Umas vezes ela me traz aqui xícaras de raspas de gelo cobertas com suco de uva...";
+		next;
+		mes "[Homem-de-Neve]";
+	Case 7:
+		mes "^3355FF'O sal mais duro do mundo'^000000.";
+		mes "Com certeza você vai entregá-lo em segurança para ela...";
+		close;
+	Case 8:
+		mes "O palhaço sem graça 'Howie'... Numa primeira impressão ele parece bobo,";
+		mes "um palhaço sem talento... Mas ele tem um coração puro e está sempre";
+		mes "cuidando dos dois órfãos...";
+		close;
+	Case 9:
+		mes "'Charlie ' o menino otimista..";
+		mes "Ele será muito importante no futuro..";
+		mes "Assim como eu!";
+		mes "Hahahaha...";
+		close;
+	Case 10:
+		mes "Obrigado por me ouvir.";
+		mes "Eu agradeço muito você tentar me entender";
+		mes "mesmo não sendo daqui.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Eu acho que você sabe mais de mim do que qualquer outra pessoa da cidade.";
+		mes "Hahahaha... Eu quero te dar um pequeno presente em troca.";
+		next;
+		mes "[Homem-de-Neve]";
+		mes "Tah dah!! Pegue o que desejar daqui - !!";
+		next;
+		mes "^3355FF- Mexe no saco de presentes -^000000";
+		next;
+		set xmas_npc,11;
+		mes "[Homem-de-Neve]";
+		mes "Uau - Parabéns!!";
+		switch(rand(1,8)){
+		Case 1:
+			getitem 529,5;
+			mes "^3355FF- 5 balas  -^000000!";
+			break;
+		Case 2:
+			getitem 529,10;
+			mes "^3355FF- 10 balas  -^000000!";
+			break;
+		Case 3:
+			getitem 530,5;
+			mes "^3355FF- 5 bengalinhas doce-^000000!";
+			break;
+		Case 4:
+			getitem 530,10;
+			mes "^3355FF- 10 bengalinhas doce-^000000!";
+			break;
+		Case 5:
+			getitem 539,1;
+			mes "^3355FF- 1 Fatia de bolo-^000000!";
+			break;
+		Case 6:
+			getitem 539,2;
+			mes "^3355FF- 2 Fatias de bolo-^000000!";
+			break;
+		Case 7:
+			getitem 538,5;
+			mes "^3355FF- 5 biscoitos-^000000!";
+			break;
+		Case 8:
+			getitem 538,10;
+			mes "^3355FF- 10 biscoitos-^000000!";
+			break;
+		}
+		mes "Meu querido amigo";
+		mes "Por favor venha me visitar de tempo em tempo, e bater um papinho comigo.";
+		mes "Te vejo logo";
+		mes "Feliz Natal!!";
+		close;
+	Case 11:
+		mes "Bem-vindo querido amigo.";
+		mes "Você sempre é bem vindo nesta cidade natalina.";
+		mes "Especialmente por mim, Homem-de-Neve!";
+		mes "Feliz Natal!!";
+		close;
+	}
+}
+
+xmas,143,136,4	script	Howie, O Palhaço#lut	715,{
+	mes "[Howie]";
+	mes "Feeeelizzzz Natal!";
+	mes "La La La! La La La La!~";
+	mes "Dum di Dum di Dum";
+	next;
+	switch(select("Ei palhaço, o que você está fazendo?","Sobre o boneco de neve","Parar de conversar")){
+	Case 1:
+		mes "[Howie]";
+		mes "La La La~ Dum di Dum di Dum... Hein?...";
+		next;
+		mes "[Howie]";
+		mes "Oh, eu estou trabalhando num número para divertir minhas duas adoraveis crianças...";
+		mes "^5533FFCharlie e Marsha^000000... e não é coisa fácil!";
+		next;
+		mes "[Howie]";
+		mes "Acredite ou não, você tem que ser esperto, criativo, talentoso e claro,";
+		mes "engraçado para ser um palhaço. Está cada vez mais difícil fazer as crianças";
+		mes "rirem hoje em dia... eles ficam entediados tão fácil... *suspira*";
+		next;
+		mes "[Howie]";
+		mes "Então eu tenho que me esforçar para ser mais criativo... ser mais engraçado...";
+		mes "falar mais engraçado... para arrancar altas risadas deles!";
+		next;
+		mes "[Howie]";
+		mes "HaHaHaHa! HeHeHeHeHe! HoHoHoHoHo! Feliz Natal!!";
+		close;
+	Case 2:
+		if(xmas_npc==8 || xmas_npc==9){
+			mes "[Howie]";
+			mes "Dum di Dum di Dum... Ah ha! Eu acredito que você esteja aqui por causa do";
+			mes "Homem-de-Neve? Bem, depois de tudo, não é nada peculiar...";
+			next;
+			mes "[Howie]";
+			mes "É sobre duas pestinhas, ^3355FF'Charlie'^000000 e ^3355FF'Marsha'^000000,";
+			mes "eles são espectadores regulares do meu show. Você já ouviu sobre o";
+			mes "terrível incidente que aconteceu nas terras do norte com o Tio Ken peludão?";
+			mes "Já?";
+			next;
+			mes "[Howie]";
+			mes "Então com certeza você vai se lembrar dos dois bebês, que";
+			mes "Homem-de-Neve carregava em seus braços... enquanto seu corpo deretia...";
+			next;
+			mes "[Howie]";
+			mes "você adivinhou... os dois bebês eram Charlie e Marsha. Parece";
+			mes "que eles não sabem disso. Homem-de-Neve me contou a história deles...";
+			mes "ele usou o próprio corpo para bloquear a bola de fogo gigante que ia em direção";
+			mes "dos dois bebês...";
+			next;
+			mes "[Howie]";
+			mes "Homem-de-Neve fez o maior sacrifício que podia por Charlie e Marsha...";
+			mes "Eu vejo que você está muito interessado na história do Homem-de-Neve,";
+			mes "porque você não procura as duas crianças para mais informações?";
+			next;
+			mes "[Howie]";
+			mes "Eles podem te contar alguma história que nós nunca ouvimos.";
+			mes "Ok então, Boa sorte! Tchau Tchau!";
+			set xmas_npc,9;
+			close;
+		}
+		mes "[Howie]";
+		mes "Você quer dizer ^5533FF'Homem-de-Neve'^000000? Claro que eu sei quem é. Todos";
+		mes "conhecem o Homem-de-Neve. de vez em quando eu converso com ele.";
+		next;
+		mes "[Howie]";
+		mes "Eu até faço shows para ele. Mas eu não tenho certeza se ele gosta";
+		mes "pois sempre que eu termino meu show... Ele parece expressar";
+		mes "qualquer tipo de reação...";
+		next;
+		mes "[Howie]";
+		mes "Como ele pode não gostar de um show tão emocionante como o meu??";
+		emotion 20;
+		next;
+		mes "[Howie]";
+		mes "Tem alguma coisa estranha com o Homem-de-Neve... de qualquer forma...";
+		mes "La La La~ Dum di Dum di Dum";
+		mes "Feliz Natal!";
+		close;
+	Case 3:
+		mes "[Howie]";
+		mes "La La La... Dum di Dum di Dum";
+		mes "Feliz Natal! Tenha um Bom dia!";
+		close;
+	}
+}
+
+xmas,206,168,4	script	Charlie#lut	706,{
+	switch(xmas_npc){
+	Default:
+		mes "[Charlie]";
+		mes "Feliz Natal! Você já conversou com o palhaço ^5533FFHowie^000000? Cara, aquele";
+		mes "palhaço é mesmo TEDIOSO...";
+		next;
+		mes "[Charlie]";
+		mes "Depois de assistir o show dele, eu e a Marsha achamos uma perda de tempo...";
+		next;
+		mes "[Marsha]";
+		mes "Como você pode dizer isso? Você sabe que ele sempre tenta o melhor pra nos fazer felizes...";
+		next;
+		mes "[Charlie]";
+		mes "Uhm... de toda forma... Eu ainda acho ele tedioso... Eu prefiro falar com";
+		mes "o ^3355FF'Homem-de-Neve'^000000. Ele é bem mais LEGAL.";
+		next;
+		mes "[Charlie]";
+		mes "Você já conheceu o Homem-de-Neve, né? Senão, procure por ele.";
+		mes "Ele é um cara muito legal.";
+		next;
+		mes "[Charlie]";
+		mes "De toda forma, Feliz Natal, desfrute sua estadia em Lutie!";
+		close;
+	Case 9:
+		mes "[Charlie]";
+		mes "Errr ? Homem-de-Neve? Hmmm - Deixe-me ver... Um homem feito de neve?...";
+		mes "Você quer saber sobre o Homem-de-Neve... É o que você quer? Ummm";
+		mes "deixe-me ver novamente... Argh - Eu não lembro mais...";
+		mes "Melhor perguntar pra Marsha de novo!";
+		close;
+	}
+}
+
+xmas,208,168,4	script	Marsha#lut	703,{
+	switch(xmas_npc){
+	Default:
+		mes "[Marsha]";
+		mes "Feliz Natal pra você!";
+		next;
+		mes "[Marsha]";
+		mes "Eu não sei se é verdade... mas eu ouvi que o boneco de neve tem";
+		mes "alguma coisa inimaginável... um tipo de poder especial...";
+		next;
+		mes "[Marsha]";
+		mes "Ahh falando nisso...Você já viu o ^5533FFPapai Noel^000000? Ele";
+		mes "carrega TONELADAS e toneladas de presentes na sua GRANDE sacola! Eu ouvi dizer que o boneco de neve";
+		mes "também faz isso... Isso não é IMPRESSIONANTE!?? Tão excitante!!";
+		emotion 5;
+		next;
+		mes "[Marsha]";
+		mes "Eu quero dizer é que ele tem uma grande sacola de presentes também... aqueles que forem";
+		mes "amigáveis com o boneco de neve ganharam presentes legais dele!!";
+		next;
+		mes "[Marsha]";
+		mes "....Bom pelo menos isso é o que o povo diz... mas mesmo assim... isto não é";
+		mes "IMPRESSIONANTE?!";
+		emotion e_hmm;
+		close;
+	Case 9:
+		mes "[Marsha]";
+		mes "Você quer dizer o Homem-de-Neve? Claro que eu conheço... ele é um cara legal e engraçado.";
+		mes "Como Charlie sempre insiste, ele é melhor do que o Howie...";
+		mes "(Mas por favor não diga isso ao Howie!)";
+		next;
+		mes "[Marsha]";
+		mes "Charlie e eu somos órfãos. Nós não nos lembramos de nossos pais nem um pouco.";
+		mes "Nós estamos sendo criados pelo povo de Lutie, incluindo";
+		mes "O Tio Ken peludão e a Tia Mima.";
+		next;
+		mes "[Marsha]";
+		mes "Eles são todos bons e generosos, e nós agradecemos a todos eles";
+		mes "por cuidarem de nós. Falando nisso eu ouvi que o Homem-de-Neve não tem";
+		mes "mãe nem pai também... e eu também ouvi que tanto a gente como o";
+		mes "Homem-de-Neve nascemos aqui nesta cidade natalina.";
+		next;
+		mes "[Marsha]";
+		mes "Tem um boato que eu, o Charlie e Homem-de-Neve chegamos aqui";
+		mes "de um outro lugar. Eu não tenho certeza realmente disso mas pelo menos";
+		mes "eu sei que todos nós temos os mesmos tipos de queimaduras nos";
+		mes "nossos corpos. Charlie e eu as temos em nossas costas.";
+		next;
+		mes "[Marsha]";
+		mes "O Homem-de-Neve tem um chamuscado no seu umbigo... ela me faz sentir como se";
+		mes "nós estivéssemos conectados de alguma maneira...";
+		next;
+	Case 10:
+		mes "[Marsha]";
+		mes "Oh? Agora eu entendo... Você passou a saber muito sobre o Homem-de-Neve...";
+		mes "Talvez até mais do que as próprias pessoas da cidade. Por favor tente";
+		mes "conversar co o Sr. Homem-de-Neve. ele provavelmente vai ficar muito animado com";
+		mes "seu interesse por ele. Talvez você até ganhe";
+		mes "um presente dele.";
+		next;
+		mes "[Marsha]";
+		mes "Eu te desejo muita sorte. Feliz Natal!!";
+		set xmas_npc,10;
+		close;
+	}
+}

@@ -1,0 +1,850 @@
+// -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- \\
+//                             Poll System 1.1                                   \\
+//                           For eAthena TXT/SQL                                 \\
+//                 (c) 2007, by Myzter (Raff - Pow4Ever.com)                     \\
+// -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- \\
+// - CHANGELOG                                                                   \\
+// -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- \\
+//   Ver. 1.0 [09-15-2007]: First public version                                 \\
+//   Ver. 1.1 [09-20-2007]: Added tables to save results on eAthena MySQL        \\
+//                          Automatic TXT / SQL detection [with table creation]  \\
+//                          Show/hide results before voting [Lupus suggestion]   \\
+// -o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o-o- \\
+
+-	script	PollInternal	-1,{
+OnInit:
+	// Text for Add Option menu - don't remove color
+	set $@NewOption$, "^1010FF<Add Option>^000000";
+
+	// MySQL Parameters - Only for eAthena MySQL Servers
+	set $@PollPageSize, 3;		// Paging Size (max: 125)
+	set $@TimeFormat$, "[%d/%M/%Y - %k:%i]";	// [20/Setembro/2007 - 14:20]
+
+	// MySQL Auto-Detection
+	set $@UseMySQL,1;
+	
+	// First Time Initialization
+	if (!$LastPollID && !$PollID) {
+		cleararray $PollData$[0],"",128;
+		set $PollData$[1],$@NewOption$;
+	}
+	
+	// Table checking / creation
+	if ($@UseMySQL == 1) {
+		if ($@PollPageSize > 125) set $@PollPageSize, 125;
+		set $@UseMySQL,2;	// Don't ask why i'm doing this
+//		query_sql "show tables like 'poll_main'",.PollTable$;
+//		if (.PollTable$[0] == "") {
+//			debugmes "Poll System - Creating table `poll_main`";
+//			query_sql "CREATE TABLE `poll_main` (`poll_id` int(11) unsigned NOT NULL,`poll_creator` int(11) unsigned NOT NULL,`poll_title` varchar(70) NOT NULL,`poll_started` datetime NOT NULL,`poll_finished` datetime default NULL,`poll_status` tinyint(1) unsigned default '0', PRIMARY KEY (`poll_id`)) ENGINE=MyISAM;";
+//		}
+//		deletearray .PollTable$[0],1;
+//		query_sql "show tables like 'poll_options'",.PollTable$;
+//		if (.PollTable$[0] == "") {
+//			debugmes "Poll System - Creating table `poll_options`";
+//			query_sql "CREATE TABLE `poll_options` ( `poll_id` int(11) unsigned NOT NULL default '0',`poll_text` varchar(70) NOT NULL, `poll_votes` int(11) default '0' ) ENGINE=MyISAM;";
+//		}
+	}
+	// The script will continue on OnTimerXXXXX to start the timer
+OnTimer30000:	// Check every 30 seconds
+	initnpctimer;
+	if (!$PollID || !$PollDuration) end;
+	// Static Counter - VERY HELPFUL (Current Time - Started Time >= Wanted Time)
+	if ($PollDurationType)
+		if ((gettimetick(2) - $PollStartDate) / 60 >= $PollDuration) callfunc "AutoClosePoll",1;
+	else
+		if ((gettimetick(2) - $PollStartDate) / 3600 >= $PollDuration) callfunc "AutoClosePoll,1";
+	end;
+}
+
+-	script	Poll	-1,{
+	if ($@NewOption$ == "") goto OnInit;
+	mes "[^930781Pesquisadora^000000]";
+	if (!$PollID && !$LastPollID) {
+		mes "Olá " + strcharinfo(0) + ", que belo dia para jogar RagnaMemories, não acha?";
+		close;
+	}
+	if ($@UseMySQL) set @ViewHistoryPolls$,"^626200Visualizar Pesquisas Antigas^000000"; else set @ViewHistoryPolls$,"Visualizar Pesquisa Anterior";
+	if ($PollID) {
+		if (#LastPollID != $PollID) {
+			if (($PollMinLevel && BaseLevel < $PollMinLevel) || ($PollMaxLevel && BaseLevel > $PollMaxLevel)) {
+				mes "Desculpe " + strcharinfo(0) + ", mas seu personagem não atende o nível mínimo para votar nesta pesquisa.";
+				mes " ";
+				if ($PollMinLevel) mes "> ^FF0000Nível mínimo: ^FF0000" + $PollMinLevel + "^000000";
+				if ($PollMaxLevel) mes "> ^FF0000Nível máximo: ^FF0000" + $PollMaxLevel + "^000000";
+				close;
+			}
+			mes "Olá " + strcharinfo(0) + ", por favor vote.";
+			switch ($PollPrizeType) {
+				case 1: mes "> Prêmio: ^FF0000+" + $PollPrizeAmount + "%^000000 Nível de Base";
+					mes "> Chance: ^FF0000" + $PollPrizeProb + "%^000000";
+					break;
+				case 2: mes "> Prêmio: ^FF0000+" + $PollPrizeAmount + "%^000000 Nível de Classe";
+					mes "> Chance: ^FF0000" + $PollPrizeProb + "%^000000";
+					break;
+				case 3: mes "> Prêmio: ^FF0000" + $PollPrizeAmount + "z^000000";
+					mes "> Chance: ^FF0000" + $PollPrizeProb + "%^000000";
+			}
+			mes " ";
+			mes " (1 voto x conta)";
+			if ($LastPollID) set @MainMenu$, "^0000F0Vote^000000:" + @ViewHistoryPolls$ + ":^FF0000Sair^000000"; else set @MainMenu$, "^0000F0Vote^000000::^FF0000Sair^000000";
+		} else {
+			mes "Olá " + strcharinfo(0) + ", como posso ajudá-lo?";
+			if ($LastPollID) set @MainMenu$, "^F00000Ver Pesquisa Atual^000000:" + @ViewHistoryPolls$ + ":^FF0000Sair^000000"; else set @MainMenu$, "^F00000Ver Pesquisa Atual^000000::^FF0000Sair^000000";
+		}
+	} else {
+		mes "Olá " + strcharinfo(0) + ", como posso ajudá-lo?";
+		set @MainMenu$, ":" + @ViewHistoryPolls$ + ":^FF0000Sair^000000";
+	}
+	emotion e_no1;
+	next;
+	switch (select(@MainMenu$)) {
+		case 1: goto L_Poll;
+		case 2: if ($@UseMySQL) goto L_OldPolls; else { callfunc "DrawLastPoll"; close; }
+	}
+L_Exit:
+	mes "[^930781Pesquisadora^000000]";
+	mes "Espero vê-l"+((Sex)?"o":"a")+" novamente ^^";
+	close;
+L_PollClosed:
+	mes "[^930781Pesquisadora^000000]";
+	mes "Me desculpe, a pesquisa foi finalizada.";
+	close;
+L_Poll:
+	if (!$PollID) goto L_PollClosed;
+	set @TotPollOpts, callfunc("CountPollOpts");
+	set @TotPollVotes, callfunc("CountPollVotes");
+	mes "^0000FF" + $PollData$[0] + "^000000";
+	mes " ^25B54C(Votos: " + @TotPollVotes + ")^000000";
+	if ($PollShowBeforeVote || #LastPollID == $PollID) {
+		mes "^C0C0C0×××××××××××××××××××××××××××××××^000000";
+		callfunc "DrawPollOption";
+	}
+	if (#LastPollID != $PollID) {
+		next;
+		set @opc,select($PollData$[1],$PollData$[3],$PollData$[5],$PollData$[7],$PollData$[9],$PollData$[11],$PollData$[13],$PollData$[15],
+				$PollData$[17],$PollData$[19],$PollData$[21],$PollData$[23],$PollData$[25],$PollData$[27],$PollData$[29],$PollData$[31],
+				$PollData$[33],$PollData$[35],$PollData$[37],$PollData$[39],"^FF0000Exit^000000");
+		if (@opc == 21) goto L_Exit;
+		mes "[^930781Pesquisadora^000000]";
+		mes "Opção Selecionada:";
+		mes " >^0000FF" + $PollData$[@opc * 2 - 1] + "^000000 <";
+		next;
+		if (select("^0000FFConfirmar!^000000","^FF0000Mudar Opção^000000") == 2) goto L_Poll;
+		if (!$PollID) goto L_PollClosed;
+		set #LastPollID,$PollID;
+		set @PollVotes, atoi($PollData$[@opc * 2]) + 1;
+		set $PollData$[@opc * 2], @PollVotes;
+		mes "[^930781Pesquisadora^000000]";
+		if ($PollPrizeType) {
+			if ($PollPrizeProb < 100) {
+				mes "Por favor, aperte <Next> para o prêmio:";
+				mes " ";
+				mes "^FF0000Espero que você ganhe!^000000";
+				next;
+				mes "[^930781Pesquisadora^000000]";
+			}
+			if (rand(100) <= $PollPrizeProb) {
+				soundeffect "tming_success.wav",0;
+				specialeffect2 610;
+				emotion e_grat;
+				mes "Congratulations!!!";
+				switch ($PollPrizeType) {
+					case 1:
+						set BaseExp, BaseExp + ((NextBaseExp / 100) * $PollPrizeAmount / 100) * 100;
+						mes "You Win: ^FF0000+" + $PollPrizeAmount + "%^000000 Base Level";
+						break;
+					case 2:
+						set JobExp, JobExp + ((NextJobExp / 100) * $PollPrizeAmount / 100) * 100;
+						mes "You Win: ^FF0000+" + $PollPrizeAmount + "%^000000 Job Level";
+						break;
+					default:
+						set zeny, zeny + $PollPrizeAmount;
+						mes "You Win: ^FF0000+" + $PollPrizeAmount + "z^000000";
+				}
+			} else {
+				soundeffect "goat_die.wav",0;
+				specialeffect2 611;
+				emotion e_sry;
+				mes "Sorry " + strcharinfo(0) + ", i hope you win the next time!";
+				mes " ";
+				mes "Thank's for your Vote.";
+			}
+		} else {
+			mes "O RagnaMemories agradece de coração pelo seu voto, " + strcharinfo(0) + "!";
+		}
+		if (!$PollShowBeforeVote) {
+			next;
+			mes "^0000FF" + $PollData$[0] + "^000000";
+			mes " ^25B54C(Votos: " + (@TotPollVotes + 1) + ")^000000";
+			if ($PollShowBeforeVote || #LastPollID == $PollID) {
+				mes "^C0C0C0×××××××××××××××××××××××××××××××^000000";
+				callfunc "DrawPollOption";
+			}
+		}
+	}
+	if ($PollMaxVotes && @PollVotes >= $PollMaxVotes) callfunc "AutoClosePoll",1;
+	close;
+L_OldPolls:
+	deletearray @pollcount[0],128;
+	query_sql "select count(*) from poll_main where poll_status = 1",@pollcount;
+	if (!@pollcount[0]) {
+		mes "[^930781Poll History^000000]";
+		mes "Desculpe, mas não há Pesquisas Antigas para ver.";
+		close;
+	}
+	set @ototpages, (@pollcount[0] - 1) / $@PollPageSize;
+	set @opage, 1;
+	while (1) {
+		cleararray @opollid[0],0,128;
+		cleararray @opolltit$[0],"",128;
+		cleararray @opollstart$[0],0,128;
+		cleararray @opollfinish$[0],0,128;
+		cleararray @opolltot[0],0,128;
+		set @pindex, @opage * $@PollPageSize - $@PollPageSize;
+		set @cnt, query_sql("select a.poll_id, poll_title, date_format(poll_started,'" + $@TimeFormat$ + "'), date_format(poll_finished,'" + $@TimeFormat$ + "'), (select sum(poll_votes) from poll_options b where b.poll_id = a.poll_id) from poll_main a where poll_status = 1 order by poll_title limit " + @pindex + "," + $@PollPageSize,@opollid,@opolltit$,@opollstart$,@opollfinish$,@opolltot);
+		mes "[^930781Old Polls Page " + @opage + "^000000]";
+		mes "Selecione uma Pesquisa para ver os detalhes.";
+		next;
+		if (@ototpages > 0 && @opage < @ototpages + 1) set @EndMenu$, "^0000FF> Próxima Página^000000:"; else set @EndMenu$, ":";
+		if (@opage > 1) set @EndMenu$, @EndMenu$ + "^0000FF< Página Anterior^000000:^FF0000Sair^000000"; else set @EndMenu$, @EndMenu$ + ":^FF0000Sair^000000";
+		set @opc, select( @opolltit$[0],  @opolltit$[1],  @opolltit$[2],  @opolltit$[3],  @opolltit$[4],  @opolltit$[5],  @opolltit$[6],
+				  @opolltit$[7],  @opolltit$[8],  @opolltit$[9], @opolltit$[10], @opolltit$[11], @opolltit$[12], @opolltit$[13],
+				 @opolltit$[14], @opolltit$[15], @opolltit$[16], @opolltit$[17], @opolltit$[18], @opolltit$[19], @opolltit$[20],
+				 @opolltit$[21], @opolltit$[22], @opolltit$[23], @opolltit$[24], @opolltit$[25], @opolltit$[26], @opolltit$[27],
+				 @opolltit$[28], @opolltit$[29], @opolltit$[30], @opolltit$[31], @opolltit$[32], @opolltit$[33], @opolltit$[34],
+				 @opolltit$[35], @opolltit$[36], @opolltit$[37], @opolltit$[38], @opolltit$[39], @opolltit$[40], @opolltit$[41],
+				 @opolltit$[42], @opolltit$[43], @opolltit$[44], @opolltit$[45], @opolltit$[46], @opolltit$[47], @opolltit$[48],
+				 @opolltit$[49], @opolltit$[50], @opolltit$[51], @opolltit$[52], @opolltit$[53], @opolltit$[54], @opolltit$[55],
+				 @opolltit$[56], @opolltit$[57], @opolltit$[58], @opolltit$[59], @opolltit$[60], @opolltit$[61], @opolltit$[62],
+				 @opolltit$[63], @opolltit$[64], @opolltit$[65], @opolltit$[66], @opolltit$[67], @opolltit$[68], @opolltit$[69],
+				 @opolltit$[70], @opolltit$[71], @opolltit$[72], @opolltit$[73], @opolltit$[74], @opolltit$[75], @opolltit$[76],
+				 @opolltit$[77], @opolltit$[78], @opolltit$[79], @opolltit$[80], @opolltit$[81], @opolltit$[82], @opolltit$[83],
+				 @opolltit$[84], @opolltit$[85], @opolltit$[86], @opolltit$[87], @opolltit$[88], @opolltit$[89], @opolltit$[90],
+				 @opolltit$[91], @opolltit$[92], @opolltit$[93], @opolltit$[94], @opolltit$[95], @opolltit$[96], @opolltit$[97],
+				 @opolltit$[98], @opolltit$[99],@opolltit$[100],@opolltit$[101],@opolltit$[102],@opolltit$[103],@opolltit$[104],
+				@opolltit$[105],@opolltit$[106],@opolltit$[107],@opolltit$[108],@opolltit$[109],@opolltit$[110],@opolltit$[111],
+				@opolltit$[112],@opolltit$[113],@opolltit$[114],@opolltit$[115],@opolltit$[116],@opolltit$[117],@opolltit$[118],
+				@opolltit$[119],@opolltit$[120],@opolltit$[121],@opolltit$[122],@opolltit$[123],@opolltit$[124],@EndMenu$);
+		if (@opc < 126) {
+			callfunc "ShowOldPoll",@opollid[@opc - 1],@opolltit$[@opc - 1],@opollstart$[@opc - 1],@opollfinish$[@opc - 1],@opolltot[@opc - 1];
+			if (select("Voltar","^FF0000Sair^000000") == 2) goto L_Exit;
+		} else {
+			switch (@opc) {
+				case 126: set @opage, @opage + 1; break;
+				case 127: set @opage, @opage - 1; break;
+				case 128: goto L_Exit;
+			}
+		}
+	}
+OnTouch:
+	/*if (($PollID && #LastPollID != $PollID) && (($PollMinLevel && BaseLevel >= $PollMinLevel) || !$PollMinLevel) && (($PollMaxLevel && BaseLevel <= $PollMaxLevel) || !$PollMaxLevel) && !rand(5)) {
+		emotion e_com;
+		npctalk "Olá " + strcharinfo(0) + ", can you help me please?, it's free!";
+	}*/
+	end;
+OnWhisperGlobal:
+	if (getgmlevel() < 99) end;
+	if (@whispervar0$ == "reset") {
+		set #LastPollID,0;
+		dispbottom "Now you can vote again in this Poll.";
+		end;
+	}
+	mes "[^930781Pesquisadora^000000]";
+	mes "Hi Master, what can i do for you?";
+	next;
+	if ($PollID) set @MainMenu$,"::Close Poll:^FF0000Exit^000000"; else set @MainMenu$,"Configure Poll:Publish Poll::^FF0000Exit^000000";
+	switch(select(@MainMenu$)) {
+		case 1:
+			L_PollConfig:
+			mes "[^930781Pesquisadora^000000]";
+			if ($PollID) {
+				mes "I'm sorry, you must close the current Poll before try to edit them or create a new one.";
+				next;
+				goto OnWhisperGlobal;
+			}
+			mes "Configure your Poll:";
+			next;
+			L_PollConfig2:
+			set @TotPollOpts, callfunc("CountPollOpts");
+			if ($PollMinLevel) set @MinLvL$,"Level " + $PollMinLevel; else set @MinLvL$,"no limit";
+			if ($PollMaxLevel) set @MaxLvL$,"Level " + $PollMaxLevel; else set @MaxLvL$,"no limit";
+			switch ($PollPrizeType) {
+				case 1: set @PollPrize$,"Base Level (" + $PollPrizeAmount + "%/" + $PollPrizeProb + "%)";break;
+				case 2: set @PollPrize$,"Job Level (" + $PollPrizeAmount + "%/" + $PollPrizeProb + "%)";break;
+				case 3: set @PollPrize$,"Zeny (" + $PollPrizeAmount + "z/" + $PollPrizeProb + "%)";break;
+				default: set @PollPrize$,"none";
+			}
+			if ($PollDuration) {
+				if ($PollDurationType)
+					set @MenuDuration$, $PollDuration + " min(s)";
+				else
+					set @MenuDuration$, $PollDuration + " hr(s)";
+				
+			} else set @MenuDuration$, "no limit";
+			if ($PollMaxVotes) set @MenuMaxVotes$, $PollMaxVotes + ""; else set @MenuMaxVotes$, "unlimited";
+			if ($PollShowBeforeVote) set @ViewBeforeVote$, "Show Results Before Vote [^0000FFYes^000000]"; else set @ViewBeforeVote$, "Show Results Before Vote [^FF0000No^000000]";
+			switch (select("Title [^0000FF" + $PollData$[0] + "^000000]","Options [^FF0000" + @TotPollOpts + "^000000]","Duration [^FF0000" + @MenuDuration$ + "^000000]","Prize [^FF0000" + @PollPrize$ + "^000000]","Min. Lvl [^FF0000" + @MinLvL$ + "^000000]","Max. Lvl [^FF0000" + @MaxLvL$ + "^000000]","Max. Global Votes [^FF0000" + @MenuMaxVotes$ + "^000000]",@ViewBeforeVote$,"^FF0000Reset^000000","Back")) {
+				case 1:
+					L_PollQuestion:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Please input the Poll Title:";
+					if ($PollData$[0] != "") mes "> Current Title: ^0000FF" + $PollData$[0] + "^000000";
+					mes " (1 to 70 characters)";
+					next;
+					input @PollQuestion$;
+					if (getstrlen(@PollQuestion$) > 70) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "The max length is 70 characters.";
+						next;
+						goto L_PollQuestion;
+					}
+					if (compare(@PollQuestion$,":")) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Invalid character detected [ ^FF0000:^000000 ]";
+						next;
+						goto L_PollQuestion;
+					}
+					if (compare(@PollQuestion$,"^")) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Invalid character detected [ ^FF0000^^000000 ]";
+						next;
+						goto L_PollQuestion;
+					}
+					mes "[^930781Pesquisadora^000000]";
+					mes "> ^FF0000" + @PollQuestion$ + "^000000 <";
+					next;
+					if (select("Confirm","Back") == 2) goto L_PollConfig;
+					set $PollData$[0],@PollQuestion$;
+					goto L_PollConfig;
+				case 2:
+					L_PollOptions:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Select a option to edit / create:";
+					next;
+					L_PollOptions2:
+					set @TotPollOpts, callfunc("CountPollOpts");
+					if (@TotPollOpts > 1) set @RAO$,"^B13D05Remove All Options^000000"; else set @RAO$,"";
+					set @opc,select($PollData$[1],$PollData$[3],$PollData$[5],$PollData$[7],$PollData$[9],$PollData$[11],$PollData$[13],$PollData$[15],
+							$PollData$[17],$PollData$[19],$PollData$[21],$PollData$[23],$PollData$[25],$PollData$[27],$PollData$[29],$PollData$[31],
+							$PollData$[33],$PollData$[35],$PollData$[37],$PollData$[39],@RAO$,"^FF0000Back^000000");
+					switch (@opc) {
+						case 21:
+							mes "[^930781Pesquisadora^000000]";
+							mes "Are you sure that you want to clear all Options?";
+							next;
+							if (select("No","Yes") == 1) goto L_PollOptions;
+							cleararray $PollData$[1],"",48;
+							setarray $PollData$[1],$@NewOption$;
+							goto L_PollOptions;
+						case 22:
+							goto L_PollConfig;
+					}
+					L_PollOptions3:
+					set @pidx, @opc * 2 - 1;
+					if ($PollData$[@pidx] != $@NewOption$) {
+						switch (select("^F00000* Back^000000","^0000FF* Edit^000000 (" + $PollData$[@pidx] + ")","^800000* Move Up^000000","^8000E0* Move Down^000000","^FF0000* Delete^000000")) {
+							case 1: goto L_PollOptions2;
+							case 2:
+								mes "[^930781Pesquisadora^000000]";
+								mes "Current Option:";
+								mes "> ^0000FF" + $PollData$[@pidx] + "^000000 <";
+								break;
+							case 3:
+								if (@pidx > 1) {
+									set @NewOption$, $PollData$[@pidx];
+									set $PollData$[@pidx],$PollData$[@pidx - 2];
+									set $PollData$[@pidx - 2],@NewOption$;
+								}
+								goto L_PollOptions2;
+							case 4:
+								if (@pidx < @TotPollOpts * 2 - 1) {
+									set @NewOption$, $PollData$[@pidx];
+									set $PollData$[@pidx],$PollData$[@pidx + 2];
+									set $PollData$[@pidx + 2],@NewOption$;
+								}
+								goto L_PollOptions2;
+							case 5:
+								set @px,@pidx;
+								set @mopt,@TotPollOpts * 2;
+								while (@px < @mopt) {
+									set $PollData$[@px],$PollData$[@px + 2];
+									set @px, @px + 2;
+								}
+								if ($PollData$[@px - 2] != $@NewOption$)
+									set $PollData$[@px], $@NewOption$;
+								else if ($PollData$[@px] == $@NewOption$)
+									set $PollData$[@px], "";
+								goto L_PollOptions2;
+						}
+					} else {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Please input this Option:";
+					}
+					next;
+					input @NewOption$;
+					if (compare(@NewOption$,":")) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Invalid character detected [ ^FF0000:^000000 ]";
+						next;
+						goto L_PollOptions3;
+					}
+					if (compare(@NewOption$,"^")) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Invalid character detected [ ^FF0000^^000000 ]";
+						next;
+						goto L_PollOptions3;
+					}
+					set @pollidx, callfunc("SearchOption",@NewOption$);
+					if (@pollidx == @opc) goto L_PollOptions;
+					if (@pollidx) {
+						mes "[^930781Pesquisadora^000000]";
+						mes ">> ^FF0000Duplicate option!^000000 <<";
+						mes "That option already exist in the position #^FF0000" + @pollidx + "^000000.";
+						next;
+						goto L_PollOptions3;
+					}
+					mes "[^930781Pesquisadora^000000]";
+					if ($PollData$[@pidx] != $@NewOption$) mes "Previows Option: ^0000FF" + $PollData$[@pidx] + "^000000";
+					mes "New Option: ^FF0000" + @NewOption$ + "^000000";
+					next;
+					if (select("Confirm","Back") == 2) goto L_PollOptions;
+					set $PollData$[@pidx],@NewOption$;
+					if ($PollData$[@pidx + 2] == "") {
+						set $PollData$[@pidx + 2],$@NewOption$;
+						set $PollData$[@pidx + 3],"0";
+					}
+					goto L_PollOptions;
+				case 3:
+					L_PollDuration:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Select the time unit:";
+					next;
+					switch(select("Minutes","Hours","Back")) {
+						case 1: set @PollDurationType,1;break;
+						case 2: set @PollDurationType,0;break;
+						default: goto L_PollConfig;
+					}
+					mes "[^930781Pesquisadora^000000]";
+					if ($PollDurationType) mes "Input the duration of the Poll (minutes):"; else mes "Input the duration of the Poll (hours):";
+					mes "(0: unlimited)";
+					next;
+					input @PollDuration;
+					if (@PollDuration < 1) {
+						mes "[^930781Pesquisadora^000000]";
+						mes "Do you want to set unlimited time to this Poll?";
+						next;
+						menu "Unlimited Time",-,"Change",L_PollDuration,"Back",L_PollConfig;
+						set $PollDuration,0;
+						set $PollDurationType,0;
+					} else {
+						mes "[^930781Pesquisadora^000000]";
+						if (@PollDurationType) mes "Poll duration: " + @PollDuration + " minute(s)"; else mes "Poll duration: " + @PollDuration + " hour(s)";
+						next;
+						menu "Confirm",-,"Change",L_PollDuration,"Back",L_PollConfig;
+						set $PollDuration,@PollDuration;
+						set $PollDurationType,@PollDurationType;
+					}
+					goto L_PollConfig;
+				case 4:
+					L_PollPrizes:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Please, select the prize for this Poll:";
+					next;
+					set @pprize, select("Base Exp","Job Exp","Zeny","^FF0000No Prizes^000000","^FF0000Back^000000");
+					if (@pprize == 4) goto L_PollConfig;
+					switch(@pprize) {
+						case 1:
+							L_BLR:
+							mes "[^930781Pesquisadora^000000]";
+							mes "Please, input the Base Level Rate for this prize:";
+							mes " (1-100%, 0: Cancel)";
+							next;
+							input @pbl;
+							if (!@pbl) goto L_PollPrizes;
+							if (@pbl > 100) {
+								mes "[^930781Pesquisadora^000000]";
+								mes "The max amount of Base Level for a Poll Prize is 100%";
+								next;
+								goto L_BLR;
+							}
+							break;
+						case 2:
+							L_JLR:
+							mes "[^930781Pesquisadora^000000]";
+							mes "Please, input the Job Level Rate for this prize:";
+							mes " (1-100%, 0: Cancel)";
+							next;
+							input @pbl;
+							if (!@pbl) goto L_PollPrizes;
+							if (@pbl > 100) {
+								mes "[^930781Pesquisadora^000000]";
+								mes "The max amount of Job Level for a Poll Prize is 100%";
+								next;
+								goto L_JLR;
+							}
+							break;
+						case 3:
+							L_ZEN:
+							mes "[^930781Pesquisadora^000000]";
+							mes "Please, input the amount of zeny for this prize:";
+							mes " (100-100000, 0: Cancel)";
+							next;
+							input @pbl;
+							if (!@pbl) goto L_PollPrizes;
+							if (@pbl > 100000) {
+								mes "[^930781Pesquisadora^000000]";
+								mes "The max amount of zeny for a Poll Prize is 100,000z";
+								next;
+								goto L_ZEN;
+							}
+							break;
+						case 4:
+							set $PollPrizeType,@pprize;
+							set $PollPrizeAmount,@pbl;
+							set $PollPrizeProb,@pbp;
+							mes "[^930781Pesquisadora^000000]";
+							mes "Poll Prize removed!";
+							next;
+						default:
+							goto L_PollConfig;
+					}
+					mes "[^930781Pesquisadora^000000]";
+					switch(@pprize) {
+						case 1: mes "Prize: ^FF0000" + @pbl + "% of Base Level";break;
+						case 2: mes "Prize: ^FF0000" + @pbl + "% of Job Level";break;
+						case 3: mes "Prize: ^FF0000" + @pbl + " of Zeny";break;
+					}
+					mes "^000000Please, input the probabilities to win:";
+					mes "(1-100%, 0: Cancel)";
+					next;
+					input @pbp;
+					if (!@pbp) goto L_PollPrizes;
+					if (@pbp > 100) set @pbp, 100;
+					mes "[^930781Pesquisadora^000000]";
+					switch(@pprize) {
+						case 1: mes "Prize: ^FF0000" + @pbl + "%^000000 of Base Level";break;
+						case 2: mes "Prize: ^FF0000" + @pbl + "%^000000 of Job Level";break;
+						case 3: mes "Prize: ^FF0000" + @pbl + "^000000 of Zeny";break;
+					}
+					mes "Probabilities: ^FF0000" + @pbp + "%^000000";
+					next;
+					if (select("Confirm","Back") == 2) goto L_PollConfig;
+					set $PollPrizeType,@pprize;
+					set $PollPrizeAmount,@pbl;
+					set $PollPrizeProb,@pbp;
+					goto L_PollConfig;
+				case 5:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Please, input the minimum Base Level required for Vote:";
+					mes "(0: All)";
+					next;
+					input @minlvl;
+					mes "[^930781Pesquisadora^000000]";
+					mes "Minimum level required for Vote: ^FF0000" + @minlvl + "^000000";
+					next;
+					if (select("Confirm","Back") == 2) goto L_PollConfig;
+					set $PollMinLevel,@minlvl;
+					if ($PollMinLevel && $PollMaxLevel && $PollMinLevel > $PollMaxLevel) {
+						set @maxlvl,$PollMinLevel;
+						set $PollMinLevel, $PollMaxLevel;
+						set $PollMaxLevel, @maxlvl;
+					}
+					goto L_PollConfig;
+				case 6:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Please, input the maximum Base Level required for Vote:";
+					mes "(0: no limit)";
+					next;
+					input @maxlvl;
+					mes "[^930781Pesquisadora^000000]";
+					mes "Maximum level required for Vote: ^FF0000" + @maxlvl + "^000000";
+					next;
+					if (select("Confirm","Back") == 2) goto L_PollConfig;
+					set $PollMaxLevel,@maxlvl;
+					if ($PollMinLevel && $PollMaxLevel && $PollMinLevel > $PollMaxLevel) {
+						set @maxlvl,$PollMinLevel;
+						set $PollMinLevel, $PollMaxLevel;
+						set $PollMaxLevel, @maxlvl;
+					}
+					goto L_PollConfig;
+				case 7:
+					L_PollMaxVotes:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Please, input the total votes to count before close the Poll:";
+					mes "(0: no limit)";
+					next;
+					input @PollMaxV;
+					if (@PollMaxV < 1) {
+						set @PollMaxV,0;
+						goto L_PollConfig;
+					}
+					mes "[^930781Pesquisadora^000000]";
+					mes "The Poll will be closed after count " + @PollMaxV + " vote(s)";
+					next;
+					menu "Confirm",-,"Change",L_PollMaxVotes,"Back",L_PollConfig;
+					set $PollMaxVotes,@PollMaxV;
+					goto L_PollConfig;
+				case 8:
+					if ($PollShowBeforeVote) set $PollShowBeforeVote,0; else set $PollShowBeforeVote, 1;
+					goto L_PollConfig2;
+				case 9:
+					mes "[^930781Pesquisadora^000000]";
+					mes "Are you sure that you want to delete the current Poll configuration?";
+					next;
+					if (select("Yes","No") == 1) callfunc "ClearPollData",0;
+					goto L_PollConfig;
+				default: goto OnWhisperGlobal;
+			}
+		case 2:
+			mes "[^930781Pesquisadora^000000]";
+			if ($PollID) {
+				mes "The Poll is already published.";
+				next;
+				goto OnWhisperGlobal;
+			}
+			if ($PollData$[0] == "") {
+				mes "Sorry, you must define the Poll Title with 2 or more options.";
+				next;
+				goto OnWhisperGlobal;
+			}
+			set @TotPollOpts, callfunc("CountPollOpts");
+			if (@TotPollOpts < 2) {
+				mes "Sorry, before publish this Poll create at least 2 options to vote.";
+				next;
+				goto OnWhisperGlobal;
+			}
+			for (set @px,1; @px < 42; set @px,@px + 2) {
+				if ($PollData$[@px] == $@NewOption$) set $PollData$[@px],"";
+			}
+			if ($PollDuration) {
+				if ($PollDurationType)
+					set @MenuDuration$, $PollDuration + " min(s)";
+				else
+					set @MenuDuration$, $PollDuration + " hr(s)";
+			} else set @MenuDuration$, "sin límite";
+			mes "Title: ^0000FF" + $PollData$[0] + "^000000";
+			mes "> Duration: ^0000FF" + @MenuDuration$ + "^000000";
+			mes "^C0C0C0×××××××××××××××××××××××××××××××^000000";
+			callfunc "DrawPollOption";
+			next;
+			if (select("Publish Poll","Back") == 2) goto OnWhisperGlobal;
+			set $PollInternalID, $PollInternalID + 1;
+			set $PollID, $PollInternalID;
+			if ($@UseMySQL) query_sql "insert into poll_main (poll_id,poll_creator,poll_title,poll_started) values (" + $PollID + "," + getcharid(3) + ",'" + escape_sql($PollData$[0]) + "', now())";
+			set $PollStartDate, gettimetick(2);
+			announce "Nova Pesquisa: [" + $PollData$[0] + "]. Vote e nos de sua opinião, ela é vital, e você ainda pode ganhar bonificações!",bc_all;
+			mes "[^930781Pesquisadora^000000]";
+			mes "It's done, waiting players votes!";
+			close;
+		case 3:
+			mes "[^930781Pesquisadora^000000]";
+			if (!$PollID) {
+				mes "Sorry, there are not a active Poll right now.";
+				next;
+				goto OnWhisperGlobal;
+			}
+			mes "Title: " + $PollData$[0] + "^000000";
+			callfunc "DrawPollOption";
+			next;
+			if (select("Close Poll","Back") == 2) goto OnWhisperGlobal;
+			mes "[^930781Pesquisadora^000000]";
+			mes "Are you sure that you want to close this Poll?";
+			next;
+			if (select("No","Yes") == 1) goto OnWhisperGlobal;
+			if (!$@UseMySQL) {
+				mes "[^930781Pesquisadora^000000]";
+				mes "Save the results in the option '^0000FFView Previows Poll^000000'?";
+				mes " ";
+				mes "(^FF0000replace Last Poll information^000000)";
+				next;
+				switch (select("Save","Don't Save","Back")) {
+					case 1:callfunc "AutoClosePoll",1;break;
+					case 2:callfunc "AutoClosePoll",0;break;
+					default:goto OnWhisperGlobal;
+				}
+			} else {
+				callfunc "AutoClosePoll",0;
+			}
+			mes "[^930781Pesquisadora^000000]";
+			mes "The Poll was Closed!";
+			next;
+			goto OnWhisperGlobal;
+	}
+	goto L_Exit;
+}
+
+function	script	CountPollOpts	{
+	set @TotPollOpts,0;
+	for (set @cpox,1; @cpox < 41; set @cpox,@cpox + 2) {
+		if ($PollData$[@cpox] != "" && $PollData$[@cpox] != $@NewOption$) set @TotPollOpts,@TotPollOpts + 1;
+	}
+	return @TotPollOpts;
+}
+
+function	script	CountPollVotes	{
+	set @TotPollOpts,0;
+	for (set @cpvx,2; @cpvx < 42; set @cpvx,@cpvx + 2) {
+		if ($PollData$[@cpvx] != "") set @TotPollOpts,@TotPollOpts + atoi($PollData$[@cpvx]);
+	}
+	return @TotPollOpts;
+}
+
+function	script	CountOldPollOpts	{
+	set @TotPollOpts,0;
+	for (set @copox,51; @copox < 91; set @copox,@copox + 2) {
+		if ($PollData$[@copox] != "" && $PollData$[@cpox] != $@NewOption$) set @TotPollOpts,@TotPollOpts + 1;
+	}
+	return @TotPollOpts;
+}
+
+function	script	CountOldPollVotes	{
+	set @TotPollOpts,0;
+	for (set @copvx,52; @copvx < 92; set @copvx,@copvx + 2) {
+		if ($PollData$[@copvx] != "") set @TotPollOpts,@TotPollOpts + atoi($PollData$[@copvx]);
+	}
+	return @TotPollOpts;
+}
+
+function	script	SearchOption	{
+	for (set @so,1; @so < 42; set @so,@so + 2) {
+		if ($PollData$[@so] == getarg(0)) return @so / 2 + 1;
+	}
+	return 0;
+}
+
+function	script	ClearPollData	{
+	set $PollID, 0;
+	if (getarg(0)) announce "A Pesquisa [" + $PollData$[0] + "] foi fechada, agradecemos pela sua participação!",bc_all;
+	cleararray $PollData$[0],"",49;
+	setarray $PollData$[1],$@NewOption$;
+	set $PollDuration,0;
+	set $PollMinLevel,0;
+	set $PollMaxLevel,0;
+	set $PollPrizeType,0;
+	set $PollPrizeAmount,0;
+	set $PollPrizeProb,0;
+	set $PollMaxVotes,0;
+	return;
+}
+
+function	script	DrawPollOption	{
+	set @TotPollVotes, callfunc("CountPollVotes");
+	for (set @dpox,1; @dpox < 42; set @dpox,@dpox + 2) {
+		if ($PollData$[@dpox] != "") {
+			set @DPVotes,atoi($PollData$[@dpox + 1]);
+			mes (@dpox / 2 + 1) + ". ^FF9C01" + $PollData$[@dpox];
+			if (@DPVotes) set @pct,21 * (@DPVotes * 100 / @TotPollVotes) / 100; else set @pct,0;
+			set @DPOLine$,"^FF0000";
+			for (set @DPO,0; @DPO < 21; set @DPO, @DPO + 1) {
+				if (@DPO < @pct) {
+					set @DPOLine$,@DPOLine$ + "¤";
+				} else {
+					if (@DPO - 1 < @pct) set @DPOLine$,@DPOLine$ + "^DCDCDC";
+					set @DPOLine$,@DPOLine$ + "¤";
+				}
+			}
+			mes @DPOLine$ + "^000000 ^DC883E[" + @DPVotes + " vote(s)]^000000";
+		}
+	}
+	return;
+}
+
+function	script	DrawLastPoll	{
+	set @TotPollVotes, callfunc("CountOldPollVotes");
+	mes "^0000FF" + $PollData$[50] + "^000000";
+	mes " ^25B54C(Votos: " + @TotPollVotes + ")^000000";
+	mes " (^FF0000Fechada^000000)";
+	mes "^C0C0C0×××××××××××××××××××××××××××××××^000000";
+	for (set @dlpx,51; @dlpx < 90; set @dlpx,@dlpx + 2) {
+		if ($PollData$[@dlpx] != "") {
+			set @DPVotes,atoi($PollData$[@dlpx + 1]);
+			mes ((@dlpx - 50) / 2 + 1) + ". ^FF9C01" + $PollData$[@dlpx];
+			if (@DPVotes) set @pct,21 * (@DPVotes * 100 / @TotPollVotes) / 100; else set @pct,0;
+			set @DPOLine$,"^F0AF00";
+			for (set @DPO,0; @DPO < 21; set @DPO, @DPO + 1) {
+				if (@DPO < @pct) {
+					set @DPOLine$,@DPOLine$ + "¤";
+				} else {
+					if (@DPO - 1 < @pct) set @DPOLine$,@DPOLine$ + "^DCDCDC";
+					set @DPOLine$,@DPOLine$ + "¤";
+				}
+			}
+			mes @DPOLine$ + "^000000 ^DC883E[" + @DPVotes + " votos]^000000";
+		}
+	}
+	return;
+}
+
+function	script	AutoClosePoll	{
+	cleararray $PollData$[50],"",77;
+	if ($@UseMySQL) {
+		for (set .acpx,1; .acpx < 42; set .acpx,.acpx + 2) {
+			if ($PollData$[.acpx] != "") query_sql "insert into `poll_options` (`poll_id`,`poll_text`,`poll_votes`) values (" + $PollID + ",'" + escape_sql($PollData$[.acpx]) + "'," + atoi($PollData$[.acpx + 1]) + ")";
+		}
+		query_sql "update `poll_main` set `poll_finished` = now(), `poll_status` = 1";
+	}
+	if (getarg(0)) {
+		for (set .acpx,0; .acpx < 42; set .acpx,.acpx + 1) {
+			set $PollData$[.acpx + 50],$PollData$[.acpx];
+		}
+		set $LastPollID,$PollID;
+	}
+	callfunc "ClearPollData",1;
+	return;
+}
+
+function	script	ShowOldPoll	{
+	deletearray .@polltext$[0],128;
+	deletearray .@pollvotes[0],128;
+	mes "[^0000FFPoll Details^000000]";
+	mes "Título: ^0000FF" + getarg(1) + "^000000";
+	mes "> Votos: ^FF0000" + getarg(4) + "^000000";
+	mes "> ^930781" + getarg(2) + " até " + getarg(3) + "^000000";
+	mes "(^FF0000ordem de votos^000000)";
+	mes "^C0C0C0×××××××××××××××××××××××××××××××^000000";
+	set .@totopts, query_sql("select `poll_text`, `poll_votes` from `poll_options` where `poll_id` = " + getarg(0) + " order by `poll_votes` desc",.@polltext$,.@pollvotes);
+	for (set .@x,0; .@x < .@totopts; set .@x, .@x + 1) {
+		mes (.@x + 1) + ". ^0000FF" + .@polltext$[.@x] + "^000000";
+
+		if (.@pollvotes[.@x]) set @pct,21 * (.@pollvotes[.@x] * 100 / getarg(4)) / 100; else set @pct,0;
+		set @SOPLine$,"^F0AF00";
+		for (set @SOP,0; @SOP < 21; set @SOP, @SOP + 1) {
+			if (@SOP < @pct) {
+				set @SOPLine$,@SOPLine$ + "¤";
+			} else {
+				if (@SOP - 1 < @pct) set @SOPLine$,@SOPLine$ + "^DCDCDC";
+				set @SOPLine$,@SOPLine$ + "¤";
+			}
+		}
+		mes @SOPLine$ + "^000000 ^DC883E[" + .@pollvotes[.@x] + " votos]^000000";
+	}
+	next;
+	return;
+}
+
+// Duplicates
+prontera,161,178,4	duplicate(Poll)	Pesquisadora#1	831,7,7
+/*
+morocc,172,88,0	duplicate(Poll)	Poll#2	831,7,7
+geffen,103,55,5	duplicate(Poll)	Poll#3	831,7,7
+payon,150,208,6	duplicate(Poll)	Poll#4	831,7,7
+alberta,149,135,4	duplicate(Poll)	Poll#5	831,7,7
+izlude,142,151,3	duplicate(Poll)	Poll#6	831,7,7
+aldebaran,137,102,6	duplicate(Poll)	Poll#7	831,7,7
+xmas,150,207,2	duplicate(Poll)	Poll#8	831,7,7
+comodo,182,153,4	duplicate(Poll)	Poll#9	831,7,7
+yuno,150,124,6	duplicate(Poll)	Poll#10	831,7,7
+amatsu,191,102,6	duplicate(Poll)	Poll#11	831,7,7
+gonryun,163,142,4	duplicate(Poll)	Poll#12	831,7,7
+umbala,75,173,6	duplicate(Poll)	Poll#13	831,7,7
+niflheim,202,160,4	duplicate(Poll)	Poll#14	831,7,7
+louyang,224,70,4	duplicate(Poll)	Poll#15	831,7,7
+ayothaya,159,92,4	duplicate(Poll)	Poll#16	831,7,7
+einbroch,104,202,4	duplicate(Poll)	Poll#17	831,7,7
+lighthalzen,258,206,4	duplicate(Poll)	Poll#18	831,7,7
+einbech,113,179,4	duplicate(Poll)	Poll#19	831,7,7
+hugel,75,163,5	duplicate(Poll)	Poll#20	831,7,7
+rachel,142,147,6	duplicate(Poll)	Poll#21	831,7,7
+veins,201,132,4	duplicate(Poll)	Poll#22	831,7,7
+*/

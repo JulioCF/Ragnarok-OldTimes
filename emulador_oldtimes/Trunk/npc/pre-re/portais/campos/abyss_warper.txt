@@ -1,0 +1,161 @@
+//===== Cronus Script ========================================
+//= Abyss Cave Warper
+//===== Por: =================================================
+//= erKURITA
+//===== Versão Atual: ========================================
+//= 1.4b
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Changelog: ===========================================
+//= 1.0 Added by Nexon [Nexon]
+//= 1.1 Removed Duplicates [Silent]
+//= 1.2 Fixed tab - missing pillar's appeared [Lupus]
+//= 1.3 Updated Abyss Lake entrance based on official [SinSloth]
+//= 1.3a Removed .GATs [Lupus]
+//= 1.4 Corrected NPC names to fall within proper restrictions. [L0ne_W0lf]
+//= 1.4a Traduzido. [Ice~*]
+//= 1.4b Revisado. [RoM]
+//============================================================
+
+hu_fild05,168,304,0	script	Coluna#abyss1	111,{
+
+	mes "^3355FFHá 3 encaixes";
+	mes "estranhamente feitos";
+	mes "na superfície desta";
+	mes "coluna. Parece que";
+	mes "determinadas peças do corpo de um dragão";
+	mes "caberiam perfeitamente nos";
+	mes "encaixes dessa coluna.^000000";
+	if((countitem(1035)) && (countitem(1036)) && (countitem(1037))){
+		next;
+		switch(select("Encaixar partes do Dragão","Comer partes do Dragão")){
+			case 1:
+				mes "^3355FFVocê cuidadosamente coloca o";
+				mes "Canino de Dragão em um dos encaixes";
+				mes "e então você ouve";
+				mes "um estrondo poderoso";
+				mes "vindo da coluna.^000000";
+				specialeffect 52;
+				next;
+				mes "^3355FFVocê vagarosamente coloca";
+				mes "a Escama de Dragão em outro encaixe";
+				mes "da coluna e sente";
+				mes "outro pequeno tremor vindo";
+				mes "de dentro da coluna.^000000";
+				specialeffect 52;
+				next;
+				mes "^3355FFVocê introduz cautelosamente";
+				mes "a Cauda de Dragão em um";
+				mes "último encaixe. Luzes brilham";
+				mes "dentre as pequenas rachaduras";
+				mes "na superfície da coluna...^000000";
+				specialeffect 52;
+				next;
+				mes "^3355FFA terra debaixo de";
+				mes "seus pés, começa a";
+				mes "agitar violentamente.^000000";
+				specialeffect 73;
+				donpcevent "AbyssWarp::OnWarp";
+				specialeffect2 36;
+				delitem 1035,1;
+				delitem 1036,1;
+				delitem 1037,1;
+				close2;
+				warp "hu_fild05",184,204;
+				end;
+			case 2:
+				mes "^3355FFVocê coloca o";
+				mes "Canino de Dragão, a Escama";
+				mes "de Dragão, e a Cauda de Dragão dentro";
+				mes "da sua boca e começa a mastigar";
+				mes "devagar. Nada acontece";
+				mes "e o gosto desses artigos";
+				mes "começa a ficar podre.^000000";
+				next;
+				emotion e_rice,1;
+				delitem 1035,1;
+				delitem 1036,1;
+				delitem 1037,1;
+				percentheal -10,0;
+				close;
+		}
+	}
+	close;
+}
+
+hu_fild05,171,211,0	script	Coluna#abyss2	111,1,1,{
+
+	mes "^3355FFEsta coluna é";
+	mes "muito similar a que";
+	mes "você viu no lago.";
+	mes "Há um exímio";
+	mes "encaixe azul";
+	mes "na superfície.^000000";
+	next;
+	switch(select("Tocar o encaixe","Remover item do encaixe")){
+		case 1:
+			mes "^3355FFA luz emitida";
+			mes "pelo encaixe se distorce e";
+			mes "a coluna começa a se agitar.";
+			mes "Você ouve um pequeno estalo";
+			mes "vindo de dentro da coluna.^000000";
+			specialeffect 52;
+			next;
+			mes "*Ggghhhhhzzzz!*";
+			mes "*BAM!*";
+			next;
+			mes "^3355FFO raio de luz vindo";
+			mes "do encaixe da coluna começa";
+			mes "a brilhar e você sente";
+			mes "a terra debaixo dos seus pés";
+			mes "começar a afundar lentamente...^000000";
+			next;
+			specialeffect 73;
+			specialeffect2 36;
+			close2;
+			warp "hu_fild05",169,305;
+			end;
+		case 2:
+			mes "^3355FF*Ppppsssh!*";
+			mes "Você acidentalmente";
+			mes "quebra o item.^000000";
+			specialeffect 52;
+			next;
+			mes "^3355FF*Gggggggghhhhhhhhzzzzzzjjjjhh!*^000000";
+			next;
+			mes "^3355FFA luz emitida pelo";
+			mes "encaixe da coluna se distorce e";
+			mes "a coluna começa a tremer.";
+			mes "Os tremores no chão";
+			mes "dificultam ficar de pé";
+			mes "firmemente, mas de repente";
+			mes "você é teleportado para algum lugar...^000000";
+			next;
+			specialeffect 73;
+			specialeffect2 36;
+			close2;
+			warp "hu_fild05",157,284;
+			end;
+	}
+}
+
+hu_fild05,196,210,1	script	AbyssWarp	45,2,2,{
+
+OnInit:
+	disablenpc "AbyssWarp";
+	end;
+
+OnTouch:
+	warp "abyss_01",260,268;
+	end;
+
+OnWarp:
+	initnpctimer;
+	enablenpc "AbyssWarp";
+	end;
+
+OnTimer30000:
+	stopnpctimer;
+	disablenpc "AbyssWarp";
+	end;
+}

@@ -1,0 +1,76 @@
+//===== Cronus Script ========================================
+//= Vendedor de Sorvete
+//===== Por: =================================================
+//= KOOK SWU, Kisuka
+//===== Versão Atual: ========================================
+//= 1.6
+//===== Compatível com: ======================================
+//= Cronus GIT
+//===== Descrição: ===========================================
+//= Homem que vende Sorvete
+//===== Comentários Adicionais: ==============================
+//= 1.1 Optimized, changed overlapping coords in Alberta [Lupus]
+//= 1.2 According to the patch, IceCream seller has been removed from Morocc [Lupus]
+//= 1.3 No more label menu and updated to match AEGIS script. [Kisuka]
+//= 1.4 Duplicates now spawn from floating NPCs. [L0ne_W0lf]
+//= 1.5 Fixed small checkweight issue. [Kisuka]
+//= 1.6 Traduzido. [LyDe]
+//============================================================
+
+-	script	Sorveteiro#comerc	-1,{
+	mes "[Sorveteiro]";
+	mes "Um sorvete fresco feito com a neve de Lutie!";
+	mes "Aproveite, ele não esterá à venda por muito tempo!";
+	mes "^3355FF100 Zeny^000000 por Sorvete!";
+	next;
+	if(select("Me dê sorvete!:Cancelar") == 2) {
+		mes "[Sorveteiro]";
+		mes "Você tem certeza que não quer nada?";
+		mes "Não estarei vendendo por muito tempo, e quando acabar de vender, não voltarei mais!!!";
+		close;
+	}
+	mes "[Sorveteiro]";
+	mes "Um sorvete fresco feito com a neve de Lutie!";
+	mes "Todos querem meus deliciosos sorvetes, mas nós temos uma certa quantia, então você só poderá comprar 5 por vez!!";
+	next;
+	while(1) {
+		input .@input;
+		if(.@input < 1) {
+			mes "[Sorveteiro]";
+			mes "Já que você não quer comprar nada, por favor deixe eu atender o próximo cliente e deixá-lo fazer as compras?";
+			mes "Obrigado.";
+			close;
+		}
+		if(.@input > 5) {
+			mes "[Sorveteiro]";
+			mes "Eita!";
+			mes "Você quer sorvetes demais.";
+			mes "Querido cliente, se você comer mais do que 5 Sorvetes, terá de ir ao banheiro várias vezes à noite....";
+			next;
+		}
+	}
+	if(Zeny<.@input*100) {
+		mes "[Sorveteiro]";
+		mes "Querido cliente, sua carteira é a luz.";
+		mes "O preço é ^3355FF100 Zeny^000000 por Sorvete.";
+		close;
+	}
+	if(checkweight(536,.@input) == 0) {
+		mes "[Sorveteiro]";
+		mes "Querido cliente, você está carregando coisas demais.";
+		mes "Sorvete é ótimo, mas primeiro verifique o que está carregando para depois comprá-lo.";
+		close;
+	}
+	set Zeny,Zeny-100*.@input;
+	getitem 536,.@input;	// Sorvete
+	close;
+}
+
+// Alberta
+alberta,120,45,2	duplicate(IceCreamer)	Sorveteiro#1	85
+
+// Morroc Field
+moc_fild16,88,304,4	duplicate(IceCreamer)	Sorveteiro#2	85
+
+// Morroc
+//morocc,160,144,4	duplicate(IceCreamer)	Sorveteiro#3	85

@@ -1,0 +1,1112 @@
+//======= Cronus Script ==============================================
+//= Quests de Comodo
+//===== Por: =========================================================
+//= kobra_k88; Axl;
+//===== Versão Atual: ================================================
+//= 1.3
+//===== Compatível com: ==============================================
+//= Cronus GIT;
+//===== Descrição: ===================================================
+//= Quests da cidade de Comodo
+//===== Comentários Adicionais: ======================================
+//= 1.1 Traduzido [Jahfn]
+//= 1.2 Adicionado de quest da Sword de cidade/comodo.txt
+//= 1.3 Script Otimizado [Axl]
+//====================================================================
+
+// Hair Ornament Girl 
+comodo,227,158,4	script	Menina dos Enfeites	700,{
+	mes "[Menina das Faixas]";
+	if(sex) mes "Oh, olá.  Você precisa comprar um presente para uma amiga, mãe, ou alguma namorada? Então dê à ela um enfeite para o Cabelo! É o melhor presente que você pode dar.";
+	else mes "Oh, olá.  Você precisa comprar um presente para uma amiga, mãe, ou para você mesma? Então compre um enfeite para o Cabelo! É o melhor presente que pode dar, ou ganhar.";
+	next;
+	mes "[Menina dos Enfeites]";
+	mes "Somente me traga alguns itens simples, e eu poço fazê-la para você!  Aqui, olhe esses...";
+	next;
+	set @GETBAND, 0;
+	switch(select("-Cruz:-Lâmpada:-Faixa Listrada:-Faixa Azul:-Terminar Conversa")) {
+	case 1:
+		set @BAND$, "Cruz";
+		set @ITEMS$, " ^5555FF1 Rosário^000000 e ^5555FF500 Armaduras Destruídas^000000.";
+		if (countitem(2608)>=1 && countitem(7069)>=500) set @GETBAND, 1; break;
+	case 2:
+		set @BAND$, "Lâmpada";
+		set @ITEMS$, "^5555FF1 Tiara [1]^000000 e ^5555FF20 Bolinhas de Gude^000000.";
+		if (countitem(2233)>=1 && countitem(746)>=20) set @GETBAND, 2; break;
+	case 3:
+		set @BAND$, "Faixa Listrada";
+		set @ITEMS$, "^5555FF1500 Uniformes Velhos de Presidiário^000000.";
+		if (countitem(1099)>=1500) set @GETBAND, 3; break;
+	case 4:
+		set @BAND$, "Faixa Azul";
+		set @ITEMS$, "^5555FF1 Bandana^000000, ^5555FF1 Tintura Azul^000000, e ^5555FF300 Peles de Anolian^000000.";
+		if (countitem(2211)>=1 && countitem(978)>=1 && countitem(7003)>=300) set @GETBAND, 4; break;
+	case 5:
+		mes "[Menina dos Enfeites]";
+		mes "Espero vê-lo em breve.";
+		close;
+	}
+			mes "[Menina dos Enfeites]";
+			mes "Então está interessado na  "+@BAND$+" huh? Esses são os itens que precisa para fazer a "+@BAND$+":";
+			mes @ITEMS$;
+			next;
+			mes "[Menina dos Enfeites]";
+			mes "Pronto, você tem os itens necessários para a  "+@BAND$+".  Quer que eu faça uma?";
+			next;
+			if(select("Sim, claro.:Não obrigado.") == 2) {
+				mes "[Menina dos Enfeites]";
+				mes "Espero vê-lo em breve.";
+				close;
+			}
+				if (@GETBAND == 0) {
+				mes "[Menina dos Enfeites]";
+				mes "Traga-me esses itens e eu poderei fazer a "+@BAND$+".";
+				close;
+				}
+				if (@GETBAND == 1) { delitem 2608,1; delitem 7069,500; getitem 5036,1;}
+				else if (@GETBAND == 2) { delitem 2233,1; delitem 746,20; getitem 5034,1; }
+				else if (@GETBAND == 3) { delitem 1099,1500; getitem 5049,1; }
+				else if (@GETBAND == 4) { delitem 2211,1; delitem 978,1; delitem 7003,300; getitem 5052,1; }
+				mes "[Menina dos Enfeites]";
+				mes "Aqui esta a "+@BAND$+". Obrigado.";
+				set @GETBAND, 0;
+				close;
+}
+// Mari Isac
+comodo,274,137,5	script	Mari Isac	702,{
+	mes "[Mari Isac]";
+	mes "Eu viajo pelo mundo todo e ouço muitas histórias das pessoas que conheço.";
+	mes "Algumas vezes, aprendi como fazer itens especiais";
+	next;
+	mes "[Mari Isac]";
+	mes "Está interessado nos itens especiais que aprendi à fazer?";
+	next;
+	if(select("Fale-me sobre eles.:Faça-me um.") == 1) {
+	switch(select("-Capacete de Mineiro:-Trouxinha:-Avareza:-Mascara da Ópera")) {
+		case 1:
+			mes "[Mari Isac]";
+			mes "Eu aprendi como fazer o Capacete de Mineiro durante uma viagem as minas de Carvão de Geffen.";
+			next;
+			mes "[Mari Isac]";
+			mes "As coisas mais importantes para os mineiros são luz e proteção para a cabeça.";
+			mes "Um inventor-mineiro foi capaz de unir as duas em um só.";
+			next;
+			mes "[Mari Isac]";
+			mes "Ele uniu a luz ao seu capacete, e o chamou de Capacete de Mineiro.";
+			mes "Assim não precisam se preocupar em carregar lampadas, e podem trabalhar melhor assim.";
+			next;
+			mes "[Mari Isac]";
+			mes "Enfim, os itens de que precisa me trazer para que eu o faça um Capacete de Mineiro é:";
+			mes "^5555FF1 Capacete de Segurança^000000,";
+			mes "^5555FF1 Vela^000000,";
+			mes "^5555FF1 Espelho de Cristal^000000,";
+			mes "^5555FF25 Aços^000000.";
+			close;
+		case 2:
+			mes "[Mari Isac]";
+			mes "Eu aprendi como fazer o chapéu 'Trouxinha' em Alberta. Eles tem essa maneira unica de transportar correspondencias e outras coisas.";
+			next;
+			mes "[Mari Isac]";
+			mes "Invés de usar sacolas, ele usam esse tipo diferente de chapéu, chamado de Trouxinha.";
+			mes "Ele permite levar coisas pessoais e em grande numero sobre sua cabeça É claro que você precisa de equilibrio para usa-la.";
+			next;
+			mes "[Mari Isac]";
+			mes "Enfim, os itens de que precisa me trazer para que eu o faça uma Trouxinha é:";
+			mes "^5555FF150 Tecidos^000000,";
+			mes "^5555FF100 Resinas^000000,";
+			mes "^5555FF1 Tintura Azul^000000.";
+			close;
+		case 3:
+			mes "[Mari Isac]";
+			mes "Eu aprendi como fazer o chapéu Avareza nas minhas viajens por Morroc.";
+			next;
+			mes "[Mari Isac]";
+			mes "A muito tempo, um honesto mercado entrou em conflito com um clã.";
+			mes "Para ira do clã, o mercador não trapaceava nem superfaturava sobre as pessoas.";
+			next;
+			mes "[Mari Isac]";
+			mes "Por causa disso, o clã assaltou a loja dele, e levou tudo que ele tinha de bom.";
+			next;
+			mes "[Mari Isac]";
+			mes "O mercador ficou arrasado com a perda de sua loja.";
+			mes "Na sua insanidade, ele fez com o que sobrou no seu estoque um novo item.";
+			next;
+			mes "[Mari Isac]";
+			mes "Ele criou a Avareza, um simbolo de sua grande loucura. Quando o povo o vê, não ajuda, mas são simpáticos ao equipamento.";
+			next;
+			mes "[Mari Isac]";
+			mes "Muitos mercadores usam para atrairem mais compradores. É claro, é bom lembrar que só mercadores loucos dizem isso.";
+			next;
+			mes "[Mari Isac]";
+			mes "Enfim, os itens de que precisa me trazer para que eu o faça uma Avareza é:";
+			mes "^5555FF1 Tiara [1]^000000,";
+			mes "^5555FF1 Ouro^000000,";
+			mes "^5555FF20 Aços^000000,";
+			mes "^5555FF80 Plumas^000000,";
+			mes "^5555FF800 Mucos Pegajosos^000000.";
+			close;
+		case 4:
+			mes "[Mari Isac]";
+			mes "Eu aprendi a fazer a Mascara de Ópera por uma das minhas viagens por Al De Baran.";
+			mes "A história por traz desse item é sobre o amor puro de um homem........";
+			next;
+			mes "[Mari Isac]";
+			mes "Uma vez um homem se apaixonou por uma cantora de ópera.";	
+			mes "Infelizmente, o seu rosto era desfigurado, forçando-o a usar uma máscara.";
+			next;
+			mes "[Mari Isac]";
+			mes "Com esse problema ele nunca criou coragem para chegar até a cantora.";
+			mes "O homem contudo, a assistia a distância, admirando cada nuance de sua beleza e graça.";
+			next;
+			mes "[Mari Isac]";
+			mes "Com isso, ele sempre ia à casa de ópera ouvir aquela musica de amor insana.";
+			mes "Muitas pessoas dizem e acreditam que à um fantasma na casa de ópera.";
+			next;
+			mes "[Mari Isac]";
+			mes "Ele sempre ouve a musica, e com isso ele é capaz de sentir sua dor e amor por ela.";
+			mes "Os dois eventualmente se encontraram, e quando isso aconteceu ela, vendo ele como realmente era, o aceitou.";
+			next;
+			mes "[Mari Isac]";
+			mes "Desse dia em diante, a lenda do Fantasma Mascarado foi romanticada.";
+			next;
+			mes "[Mari Isac]";
+			mes "Enfim, os itens de que precisa me trazer para que eu o faça uma Mascara de Ópera é:";
+			mes "^5555FF1 Máscara do Fantasma^000000,";
+			mes "^5555FF50 Cabelos Horrendos^000000.";
+			close;
+		}
+	switch(select("-Capacete de Mineiro:-Trouxinha:-Avareza:-Mascara da Ópera")) {
+		case 1:
+			if (countitem(5009)<1 || countitem(5028)<1 || countitem(747)<1 || countitem(999)<25) goto ssL_NoItems;
+				mes "[Mari Isac]";
+				mes "Aqui está. Aproveite o seu Capacete de Mineiro!";
+				delitem 5009, 1;
+				delitem 5028, 1;
+				delitem 747, 1;
+				delitem 999, 25;
+				getitem 5031,1;
+				close;
+		case 2:
+			if (countitem(1059)<150 || countitem(907)<100 || countitem(978)<1) goto ssL_NoItems;
+				mes "[Mari Isac]";
+				mes "Aqui está. Aproveite a sua Trouxinha!";
+				delitem 1059, 150;
+				delitem 907, 100;
+				delitem 978, 1;
+				getitem 5023,1;
+				close;
+		case 3:
+			if (countitem(2233)<1 || countitem(969)<1 || countitem(999)<20 || countitem(949)<80 || countitem(938)<800) goto ssL_NoItems;
+				mes "[Mari Isac]";
+				mes "Aqui está. Aproveite a sua Avareza!";
+				delitem 2233, 1;
+				delitem 969, 1;
+				delitem 999, 20;
+				delitem 949, 80;
+				delitem 938, 800;
+				getitem 5021,1;
+				close;
+		case 4:
+			if (countitem(2281)<1 || countitem(1048)<50) goto ssL_NoItems; 
+				mes "[Mari Isac]";
+				mes "Aqui está. Aproveite a sua Mascara da Ópera!";
+				delitem 2281,1;
+				delitem 1048, 50;
+				getitem 5043, 1;
+				close;
+			}
+			ssL_NoItems:
+				mes "[Mari Isac]";
+				mes "Infelizmente, você não tem os itens de que necessito. Volte mais tarde.";
+				close;
+	}
+}
+
+//============================================================================//
+// Quest do Chefe (Espadas da Destruição Parte 1)
+//============================================================================//
+//=======================================================
+comodo,206,310,4	script	Rochito	48,{
+	if(dmdswrd_Q == 1) {
+		mes "[Rochito]";
+		mes "A carne da espinha do Komodoru é uma delícia quando temperada com ^5555FFKoserahseah^000000, um condimento local que é o orgulho de Comodo!!";
+		mes "Quer experimentar um pouco?";
+		next;
+		mes "[Rochito]";
+		mes "Oh, você está procurando a casa do ^5555FFChefe^000000? Apenas vá a oeste daqui para o vilarejo. Você achará uma casa lá.";
+		close;
+	}
+	if(dmdswrd_Q == 2) {
+		mes "[Rochito]";
+		mes "Nós temos bastante tempo em nossas férias e acho que deveríamos gastá-lo aqui, comendo a carne de Komodoru.";
+		next;
+		mes "[Rochito]";
+		mes "Na realidade, nós deveríamos ter mais festinhas na churrascaria!";
+		next;
+		mes "^5533FF~ dar a Rochito o Koserahserah ~^000000";
+		next;
+		mes "[Rochito]";
+		mes "Oh MEU!! Isso é um tempero especial de Comodo.... Koserahserah!! Como você conseguiu essa preciosidade?";
+		emotion 0;
+		next;
+		mes "[Rochito]";
+		mes "Oh... sei, sei. Então foi dado a você pelo meu amigo de longa data. Bem, muito obrigado... obrigado...";
+		emotion 15;
+		next;
+		mes "[Rochito]";
+		mes "Ei todos! Tausupa nos enviou um pouco de Koserahserah!!";
+		next;
+		mes "[Emralhandas]";
+		mes "Nosso velho amigo?";
+		next;
+		mes "[Rochito]";
+		mes "Não sei se deveríamos aceitar como um grande presente...";
+		next;
+		mes "[Rockha]";
+		mes "...";
+		next;
+		mes "[Rochito]";
+		mes "Nós devemos lhe dar alguma coisa em gratidão. Mas o que poderia ser...";
+		mes "deveríamos dar-lhe um pouco do maravilhoso ^5555FFWine^000000 que estamos guardando? Tem um aroma muito bom...";
+		next;
+		mes "[Rochito]";
+		mes "Posso lhe pedir um favor? Se não for causar muitos problemas, você pode entregar isso a meu velho amigo...";
+		mes "Eu entregaria pessoalmente, mas estou um pouquinho ocupado no BBQ e tudo mais...";
+		next;
+		mes "[Rochito]";
+		mes "Por favor. Nós ficaremos muito gratos se você puder entregar-lhe.";
+		next;
+		mes "^5555FF~ você recebeu o 'Mureuchieligu Wine' ~^000000";
+		set dmdswrd_Q, 3;
+		close;
+	}
+	if(dmdswrd_Q == 3) {
+		mes "[Rochito]";
+		mes "Por favor nos faça um favor e entregue este vinho para o chefe. Ficaremos gratos se você puder fazer este favor.";
+		close;
+	}
+	if(dmdswrd_Q == 4) {
+		mes "[Rochito]";
+		mes "Você retornou... Oh! Obrigado por entregar aquele vinho para nós.";
+		emotion 15;
+		set dmdswrd_Q, 5;
+		next;
+	}
+	if(dmdswrd_Q == 5 || dmdswrd_Q == 6) {
+		mes "[Rochito]";
+		mes "Nós estamos muito orgulhosos de nosso bravo amigo. Por causa dele que vivemos pacificamente e viajamos seguramente.";
+		next;
+		mes "[Rochito]";
+		mes "Oh, acabei de me lembrar de uma coisa...";
+		mes "Estávamos falando todo esse tempo sobre a famosa carne de Comodo que acabei esquecendo de mencionar do mundialmente conhecido ^5555FFQueijo^000000 de Comodo!";
+		next;
+		mes "[Rochito]";
+		mes "Acredito que exista um especialista em queijos chamado ^5533FFTORUNA^000000 em algum lugar dessa ilha.";
+		mes "Se estiver interessado no queijo, pode ir falar sobre isso com ele.";
+	if(dmdswrd_Q == 5) set dmdswrd_Q, 6;
+		close;
+	}
+	mes "[Rochito]";
+	mes "Carne, carne, carne... Eu amo carne!! Comer, comer, comer... TUDO que como é CARNE!! Sou muuuuuito obcecado por carne... Eu sou ... Eu.. Eu... Eu sou o HOMEM CARNE!!";
+	emotion 3;
+	next;
+	mes "[Rochito]";
+	mes "Comodo é o paraíso da carne!! Por isso o 'Campo BBQ' em Comodo é muuuuuuito LEGAL!!!";
+	next;
+	if(select("Contem-me mais sobre o 'Campo BBQ'.:Terminar a conversa.") == 2) close;
+		mes "[Rochito]";
+		mes "O Komodoru, um animal nativo de Comodo, é famoso por causa de sua deliciosa carne. Todo animal é saboroso.";
+		mes "No entanto a parte mais saborosa do Komodoru, é a parte perto da espinha dorsal. É uma delícia!";
+		emotion 21;
+		next;
+		mes "[Rochito]";
+		mes "OLHE para toda essa carne na minha frente! Não sei o que fazer com toda essa carne! O que devo fazer?? Oh não!";
+		emotion 19;
+		next;
+		mes "[Rochito]";
+		mes "Oh, estava esquecendo!! Você deve experimentar a carne em volta da espinha com um autêntico tempero de churrascaria.";
+		mes "^5555FFKoserahserah^000000 é o nome de um tempero, e você deveria experimentá-lo ao menos uma vez antes de ir embora.";
+		next;
+		mes "[Rochito]";
+		mes "Há um rumor rondando esse campo que o Koserahserah é tãoooooooooo bom que vicia.";
+		mes "Também é possível que cause um leve entusiasmo naqueles que experimentam.";
+		next;
+		mes "[Rochito]";
+		mes "Não sei se isso é verdade, mas sei que esse tempero não pode ser exportado.";
+		mes "Por sorte que sou um habitante daqui, então posso ter quanto quiser.";
+		next;
+		mes "[Rochito]";
+		mes "Apesar que as autoridades estão preocupadas em como controlar o Koserahserah.";
+		mes "O ^5555FFChefe de Comodo^000000 está atualmente trabalhando em algumas leis para isso.";
+	if(dmdswrd_Q == 0) set dmdswrd_Q, 1;
+		close;
+}
+//=======================================================
+comodo,204,310,4	script	Rockha	98,{
+	if(dmdswrd_Q == 3) {
+		mes "[Rockha]";
+		mes "Oh, e a propósito.... Você pode dar-lhe uma mensagem?";
+		mes "Fale assim, 'Enquanto você lembrar de nós, nós nunca o esqueceremos. Amigos para sempre.'.....";
+		close;
+	}
+	if(dmdswrd_Q == 4 || dmdswrd_Q==5) {
+		mes "[Rockha]";
+		mes "Ha ha ha..... aaaahhh.... ISSO QUE É AMIZADE!!";
+		emotion 18;
+		next;
+		mes "[Rockha]";
+		mes "Deixe-nos fazer um tostado para nosso bom e velho amigo. Deixe-nos comer e beber até não podermos mais!!";
+		next;
+		mes "[Rockha]";
+		mes "~!!Yippeeeeee!!~!!Wooohooooo!!~";
+		close;
+		mes "[Rockha]";
+		mes "Obrigado pelo auxílio. Você nos mostrou ser uma boa pessoa. Nós agora o consideramos nosso amigo.";
+		next;
+		mes "[Rockha]";
+		mes "Se precisar de alguma ajuda, apenas venha e me procure, ^3355FF'Rockha'^000000. Nós temos uma dívida eterna com você.";
+		close;
+	}
+	mes "[Rockha]";
+	mes ". . .";
+	mes "Eu e meus amigos sempre quisemos montar uma própria churrascaria...";
+	mes ". . .";
+	next;
+	if(select("Sobre o ^3355FFChefe^000000.:Terminar a conversa.") == 2) close;
+		mes "[Rockha]";
+		mes "É... recentemente descobri que um amigo que pensava que havia morrido durante a ^FF4444'Guerra contra a Bruxa'^000000, ainda está vivo.";
+		mes "Agora ele é o ^5555FFChefe of Comodo^000000....";
+		next;
+		mes "[Rockha]";
+		mes "Assim que a Bruxa foi vencida, ela foi selada debaixo do solo desse vilarejo.";
+		next;
+		mes "[Rockha]";
+		mes "Dizem que os temperos que fazemos com as plantas colhidas daqui, de alguma forma, receberam suas qualidades especiais devido a influência da magia dessa Bruxa.";
+		next;
+		mes "[Rockha]";
+		mes "Embora meu amigo e eu vivamos em diferentes mundos, sua nova vida não o mudou.";
+		mes "Espero podermos voltar a ser tão amigos como antes.";
+		close;
+}
+//=======================================================
+comodo,209,314,4	script	Rotute	82,{
+	if(dmdswrd_Q==2 || dmdswrd_Q==3) {
+		mes "[Rotute]";
+		mes "Wow!! Esse é o famoso tempero de Comodo!! O amigo do Capitão é sinceramente uma boa pessoa. Pra dizer a verdade ele é incrível!";
+		emotion 0;
+		next;
+		mes "[Rotute";
+		mes "Espero encontrar alguém tão fiel a essa missão quanto ele...";
+		close;
+	}
+	if(dmdswrd_Q == 4 || dmdswrd_Q==5) {
+		mes "[Rotute]";
+		mes "Estranho... é minha primeira visita a Comodo e mesmo assim.... por alguma razão, parece-me tão familiar... como se fosse minha cidade natal.";
+		next;
+		mes "[Rotute]";
+		mes "Quando essa jornada terminar, espero poder visitar esse lugar maravilhoso de novo... Parece que há alguma coisa me esperando aqui.";
+		next;
+		mes "[Rotute]";
+		mes "Oh, e obrigado pela ajuda ao nosso capitão.";
+		emotion 15;
+		close;
+	}
+	mes "[Rotute]";
+	mes "A busca pelas ^5555FFEspadas do Poder^000000 ainda não teve fim!";
+	next;
+	mes "[Rotute]";
+	mes "Ainda que quatro delas foram recuperadas pelo nosso time, há rumores que a mais poderosa das espadas está perto de ^5555FFGlastheim^000000.";
+	mes "Este boato nos trouxe mais um desafio...";
+	next;
+	mes "[Rotute]";
+	mes "Nós precisamos encontrar esta nova espada!! Uma nova expedição foi planejada para achá-la, mas estou bastante ansioso.";
+	mes "Se conseguirmos, isto irá abalar o mundo inteiro!! Pelo meu falecido pai.....";
+	next;
+	mes "[Rotute]";
+	mes "...... NÓS VAMOS CONSEGUIR!!!!";
+	emotion 27;
+	close;
+}
+//=======================================================
+comodo,209,305,4	script	Emralhandas	70,{
+	mes "[Emralhandas]";
+	mes "Rockha, esvazie logo esse seu copo para eu colocar mais bebida.";
+	next;
+	mes "[Emralhandas]";
+	mes "Muitos anos atrás, durante a Guerra conta a Bruxa, sonhávamos no dia em que viveríamos em paz.";
+	mes "Hoje em dia, esse sonho se tornou realidade e isso é graças a vocês meus amigos!!";
+	emotion 21;
+	next;
+	if(select("Perguntar sobre os amigos dele...:Terminar a conversa.") == 1) {
+		mes "[Emralhandas]";
+		mes "Muitos anos atrás, heróis de várias regiões de Rune Midgard foram selecionados para começarem uma única e importante tarefa.";
+		next;
+		mes "[Emralhandas]";
+		mes "O objetivo era achar as ^5555FF4 raras 'Espadas do Poder'^000000!";
+		mes "Essas 4 espadas são conhecidas por serem as mais poderosas armas que alguém já tinha feito.";
+		next;
+		mes "[Emralhandas]";
+		mes "Depois de 10 difíceis anos de procura, todas essas 4 espadas foram recuperadas.";
+		mes "Fora aqueles que ajudaram na procura das espadas, os quatro mais valentes foram escolhidos para guardá-las.";
+		next;
+		mes "[Emralhandas]";
+		mes "Eu, Emralhandas, fui um dos escolhidos.";
+		next;
+		mes "[Emralhandas]";
+		mes "Claro que antes tivemos que sobreviver a muitas dificuldades, e mesmo depois delas terem sido recuperadas...";
+		next;
+		mes "[Emralhandas]";
+		mes "Nosso time de aventureiros era composto por mim, nosso Capitão 'Rockha', nosso companheiro 'Rochito', e o Chefe dessa cidade, 'Tausupa'.";
+		next;
+		mes "[Emralhandas]";
+		mes "Ao acharmos a última espada, voltamos para a ilha. Até então não tínhamos idéia de quem seria a espada.";
+		mes "Assim que partimos, começamos a nos preocupar o que poderia vir a acontecer.";
+		next;
+		mes "[Emralhandas]";
+		mes "Quando nós voltamos para a ilha, nós nos confrontamos contra a ^790079'Mariposum'^000000, uma poderosa Bruxa que praticou a arte das trevas das mágicas!!";
+		next;
+		mes "[Emralhandas]";
+		mes "Seu objetivo era conquistar o mundo, liberando muita maldade e caos!! Nós tínhamos que defender não somente nós, mas o futuro da humanidade!!";
+		mes "Foi isso que nos fez ficar lá para lutar contra ela!";
+		emotion 0;
+		next;
+		mes "[Emralhandas]";
+		mes "Houve uma tremenda batalha naquele dia, muitos companheiros morreram, mas suas mortes não foram em vão.";
+		next;
+		mes "[Emralhandas]";
+		mes "Com a nossa força de determinação, nós derrotamos a Bruxa e a enterramos de uma vez por todas na terra.";
+		next;
+		mes "[Emralhandas]";
+		mes "De todos que arriscaram as suas vidas naquele dia, um é o mais importante de todos, pois ele foi decisivo na derrota da Bruxa...";
+		next;
+		mes "[Emralhandas]";
+		mes "Ele era ^5555FFTausupa^000000.";
+		next;
+		mes "[Emralhandas]";
+		mes "É claro que somos gratos por todos que perderam as suas vidas naquele dia.";
+		mes "Especialmente para o pai de 'Rotute' que já não está mais entre nós, que ele descanse em paz!";
+		next;
+		mes "[Emralhandas]";
+		mes "Rotute não sabe nada disso ainda, mas ele saberá mais cedo ou mais tarde quando a jornada se completar...";
+		close;
+		}	
+		mes "[Emralhandas]";
+		mes "Nossa jornada ainda não acabou. Rockha nós temos que comer toda essa carne de Rune Midgard até não sobrar mais nada!!";
+		mes "Nós devemos comer... e comer, para recebermos o prêmio do Clube da Carne!!! (~hiccup~)";
+		close;
+}
+// Casa do Chefe =========================================================//
+cmd_in02,32,140,4	script	Chefe Tausupa	49,{
+	if(dmdswrd_Q == 1) {
+		mes "[Tausupa]";
+		mes "... Então é isso? Meu velhos amigos retornaram a Comodo e estão nos campos relaxando com os BBQ?";
+		next;
+		mes "[Tausupa]";
+		mes "Isso me parece que eles planejam entrar em outra jornada...";
+		next;
+		mes "[Tausupa]";
+		mes "Eu não os vejo por muito tempo, mas essas idéia de fazer outra aventura é excitante! Mas...";
+		next;
+		mes "[Tausupa]";
+		mes "~sigh~ Infelizmente desta vez eu não poderei ir. Eu sinto que se eu sair daqui, a Bruxa Malvada voltará a vida e causará caos novamente neste mundo.";
+		next;
+		mes "[Tausupa]";
+		mes "... Eu tenho um favor a pedir para você...";
+		next;
+		mes "[Tausupa]";
+		mes "Você pode levar este tempero para os meus amigos?";
+		next;
+		mes "^5555FF~ Você recebeu o Koserahserah ~^000000";
+		set dmdswrd_Q, 2;
+		next;
+	}
+	if(dmdswrd_Q == 2) {
+		mes "[Chefe Tausupa]";
+		mes "Por favor vá para os campos do BBQ e entregue este tempero para ^5555FFRochito^000000. Obrigado.";
+		close; 
+	}
+	if(dmdswrd_Q == 3) {
+		mes "[Chefe Tausupa]";
+		mes "Meus amigos ficaram felizes? Depois que você foi, eu pensei um pouco e... eu deveria ter entregue o tempero pessoalmente...";
+		mes "Eu deveria ter ido para rever eles...";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Mas eu estou muito ocupado como Chefe de Comodo... Talvez eu deva me demitir...";
+		mes "Eu realmente quero me aventurar de novo com os meus amigos... Como eu fui acabar assim?";
+		next;
+		mes "^5555FF~ você entrega a ele Mureuchieligu Wine e o bilhete ~^000000";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "...";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Essa é a mensagem dos meus amigos? Agora eu entendo... Eles são realmente meus melhores amigos. Ficaram pensando em mim todo esse e tempo...";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Eu mudei de idéia!";
+		emotion 5;
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Mureuchieligu Wine é feito assim que as uvas são colhidas. E então é engarrafada e esquecida por muitos anos.";
+		mes "O vinho fica muitos anos fermentando.";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Assim como o vinho, eu fiquei sozinho aqui em Comodo por muitos anos, e eu devo ficar aqui, pois é meu destino!";
+		next;
+		mes "[Chefe Tausupa]";
+		mes "Sou grato pelo conselho dos meus amigos. Este vinho tem um grande significado para mim.";
+		mes "Por favor diga a eles que, 'Eu não fugirei mais do meu destino. Pelo contrário, eu o enfrentarei com a mesma coragem de sempre!'.";
+		set dmdswrd_Q, 4;
+		next;
+	}
+	if(dmdswrd_Q == 4) {
+		mes "[Chefe Tausupa]";
+		mes "Obrigado ajudar a mim e meus amigos. Estou muito grato.";
+		close;
+	}
+		mes "[Chefe Tausupa]";
+		mes "Olá, eu sou o chefe de Comodo. Você pode me chamar de Tausupa. Comodo é um lugar prazeroso, divertido, tranqüilo, e bonito.";
+		mes "Bem vindo, e por favor, sinta-se à vontade.";
+		next;
+		switch(select("Sobre o ^5555FFCassino^000000.:Perguntar sobre a ^790079Bruxa Malvada^000000.:Terminar a conversa.")) {
+			case 1:
+				mes "[Chefe Tausupa]";
+				mes "O Cassino é um dos lugares mais procurados de Comodo. E parece que você também está interessado nele.";
+				mes "O Cassino tem o seu próprio tipo de dinheiro, uma moeda chamada ^5555FF'Eulwo'^000000.";
+				next;
+				mes "[Chefe Tausupa]";
+				mes "Há uma grande variedade de jogos lá.";
+				mes "Ganhando o dinheiro do Cassino, você poderá depois trocar por itens bem valiosos.";
+				next;
+				mes "[Chefe Tausupa]";
+				mes "Entretanto, esse tipo de dinheiro Eulwo, não pode ser trocado por Zenys.";
+				close;
+			case 2:
+				mes "[Chefe Tausupa]";
+				mes ". . .";
+				mes "Você realmente deve ser de fora da cidade. Não sei aonde você escutou sobre isso, pois é uma história bem velha, e muitas pessoas já se esqueceram dela.";
+				mes "Mas não devo me preocupar com isso...";
+				close;
+			case 3:
+				mes "[Chefe Tausupa]";
+				mes "Se você não percebeu, Comodo fica dentro de uma grande caverna natural. Não importa que horas sejam, aqui o sol nunca brilha.";
+				next;
+				mes "[Chefe Tausupa]";
+				mes "É essa típica 24 horas de noite, que arai os turistas para a nossa cidade. Por favor, fique a vontade.";
+				close;
+		}
+}
+//============================================================================//
+// Quest do Queijo (Espadas da Destruição Parte 2)
+//============================================================================//
+//=======================================================
+comodo,88,97,4	script	Expert em Queijo TORUNA	109,{
+	mes "[TORUNA]";
+	if(dmdswrd_Q == 7) {
+		mes "Você deveria falar com as pessoas do ^009500lado de fora do Bar^000000 perto dos campos.";
+		mes "Eu escutei elas falando sobre esse ^5533FFQueijo^000000, ele é muito popular.";
+		close;
+	}
+	mes "Eu ouvi falar que os queijos daqui são deliciosos. Toda vez que passo por aqui, eu peço um pedaço para mim.";
+	mes "Mas eles nunca tem nenhum para vender! Nem mesmo um pedacinho para experimentar...";
+	next;
+	switch(select("Perguntar sobre a caverna.:Comodo é uma cidade dentro de uma caverna?:Terminar a conversa.")){
+		case 1:
+			mes "[TORUNA]";
+			mes "É uma formação rochosa feita através das águas da chuva e do mar sobre o solo.";
+			next;
+			mes "[TORUNA]";
+			mes "O ar da caverna é rico em dióxido de carbono por estar diversos anos fechada.";
+			next;
+			mes "[TORUNA]";
+			mes "A caverna está em constante modificação. Quando a água do mar bate nas pedras por muito tempo, as pedras vão sofrendo modificações.";
+			mes "Esse fenômeno é chamado de erosão. Mas é claro que isso leva centenas de anos para acontecer.";
+			return;
+		case 2:
+			mes "[TORUNA]";
+			mes "Sim. Tudo o que você está vendo agora, está dentro de uma grande e natural caverna.";
+			mes "Muitas pessoas de fora não percebe isso tão rapidamente, pensam que a caverna foi construída por humanos.";
+			next;
+			mes "[TORUNA]";
+			mes "Muitas pessoas trabalharam aqui para deixar a nossa caverna como se fosse um lar.";
+			next;
+			mes "[TORUNA]";
+			mes "Elas aperfeiçoaram tudo, para deixar as formações rochosas mais agradáveis de se ver.";
+			mes "E foi assim que Comodo foi fundada, ajeitando aqui e ali.";
+			next;
+			if(dmdswrd_Q == 6) {
+				mes "[TORUNA]";
+				mes "A caverna não somente se tornou um lar para muitos habitantes de Comodo como também um grande evento de idealizações...";
+				next;
+				mes "[TORUNA]";
+				mes "O mundialmente conhecido... ^5533FFQueijo^000000 de Comodo!!!";
+				emotion 5;
+				next;
+				mes "[TORUNA]";
+				mes "Esse Queijo especial é simplesmente delicioso! Você vai entender assim que provar o Queijo.";
+				emotion 14;
+				set dmdswrd_Q, 7;
+				close;
+			}
+			mes "[TORUNA]";
+			mes "Infelizmente essa é só metade da história.";
+			next;
+			mes "[TORUNA]";
+			mes "Os primeiros moradores enfrentaram grandes perigos quando a ^790079Bruxa Malvada, Meropusum^000000 chegou.";
+			mes "Ela estava determinada a arruinar a terra, e resolveu usar a recém fundada Comodo para começar a destruição.";
+			next;
+			mes "[TORUNA]";
+			mes "Liderados por um grupo de heróis, os moradores da cidade contra-atacou e selaram o mal de uma vez por todas. Muitas mortes ocorreram na ocasião.";
+			next;
+			mes "[TORUNA]";
+			mes "O mais forte daquele grupo foi escolhido como o novo líder da cidade, e sob seu controle a cidade prosperou.";
+			next;
+			mes "[TORUNA]";
+			mes "Mas todos temem que Meropusom ainda esteja viva. Pois apesar de ter sido presa, ainda era possível sentir seus poderes maléficos de longe.";
+			mes "Seus súditos ainda vagam pelas sobras esperando o seu retorno.";
+			next;
+			mes "[TORUNA]";
+			mes "Então tome cuidado enquanto explora esses lugares desconhecidos de Comodo. É melhor prevenir do que remediar.";
+			close;
+		case 3:
+			mes "[TORUNA]";
+			mes "O sabor do Queijo de Comodo é magnífico!! É irresistível comer um único pedaço!";
+			mes "É tão bom que te deixa louco se não comer!";
+			emotion 3;
+			next;
+			mes "[TORUNA]";
+			mes "Se eu tivesse ao menos um pedaço... um único pedacinho... seria capaz de dançar a noite toda aquela música ^5555FFDança da Hula^000000!!";
+			close;
+	}
+}
+//=======================================================
+comodo,164,291,2	script	Rakusa	73,{
+	mes "[Rakusa]";
+	if(dmdswrd_Q == 7) {
+		mes "Aquele homem sentado lá não para de falar sobre o ^3355FF'Queijo'^000000 de Comodo...";
+		next;
+		mes "[Rakusa]";
+		mes "Fico imaginando como será esse Queijo. Tenho certeza que um dia provarei desse Queijo.";
+		set dmdswrd_Q, 8;
+		next;
+	}
+	if(dmdswrd_Q == 8) {
+		mes "Parece que ^5533FFKichiri^000000 nã está interessado no Queijo como o outro homem está... ele parece bem emburrado...";
+		next;
+		mes "[Rakusa]";
+		mes "Alguém deveria ir até ele e perguntar se está tudo bem...";
+		close;
+	}
+	mes "Comodo geralmente é conhecida como a cidade do 'lazer e relaxamento'...";
+	next;
+	mes "[Rakusa]";
+	mes "Pode ser apenas um detalhe, mas Comodo não é somente o centro das atrações turísticas, ela possui também duas das mais ^FF4444perigosas cavernas^000000.";
+	next;
+	mes "[Rakusa]";
+	mes "Essas áreas tem monstros desconhecidos e muito fortes. Se você pretende visitar essas cavernas, esteja bem preparado e espere por problemas.";
+	mes "Essas cavernas não são nada fáceis!";
+	close;
+}
+//=======================================================
+comodo,169,284,4	script	Kichiri	99,{
+	mes "[Kichiri]";
+	if(dmdswrd_Q == 8) {
+		mes "Aquele cara ali, não para de falar sobre o ^5533FFQueijo^000000 de Comodo... Ele vai me deixar louco!";
+		emotion 32;
+		next;
+		mes "[Kichiri]";
+		mes "Sim, por ali, o garoto chamado ^3355FFMagatu^000000. Você pode fazer alguma coisa a respeito?";
+		set dmdswrd_Q, 9;
+		close;
+	}
+	if(dmdswrd_Q == 9) {
+		mes "Eu só quero um tempo para descansar e beber um pouco, será que é pedir muito?";
+		mes "^3355FF' Magatu '^000000, seu bêbado estúpido... sempre falando sobre o ^5533FFQueijo^000000...";
+		emotion 7;
+		close;
+	}
+	mes "O coração de Comodo encobre a sua situação. Muitos cidadãos fazem apresentações para os turistas.";
+	mes "As apresentações são tão boas que os turistas retornam a Comodo somente para vê-las de novo.";
+	next;
+	mes "[Kichiri]";
+	mes "Muitas delas são somente danças dessincronizadas.";
+	mes "Qualquer um que se interessa pro dança, pode ser recrutado para a ^5555FFGuilda das Odaliscas^000000.";
+	close;
+}
+//=======================================================
+comodo,163,280,4	script	Magatu	55,{
+	mes "[Magatu]";
+	if(dmdswrd_Q == 9) {
+		mes "O que? Você quer saber detalhes sobre o especial ^5533FFQueijo^000000 de Comodo?";
+		mes "Eu acho que posso lhe dizer algumas coisas...";
+		emotion 1;
+		next;
+		mes "[Magatu]";
+		mes "Okay, vá até o ^009500Cassino^000000 e procure por um cara chamado ^5533FFManzi^000000. Ele deve estar em algum lugar do primeiro andar.";
+		mes "Ele tem uma enorme cicatriz na cara, então não será difícil achá-lo.";
+		next;
+		mes "[Magatu]";
+		mes "Quando o encontrar, entregue este Tampão de Frasco a ele. Não faça mais nada, somente entregue este tampão de frasco e ele lhe dará algumas informações sobre o Queijo...";
+		next;
+		mes "^3355FF- você recebeu um Tampão de Frasco -^000000";
+		set dmdswrd_Q, 10;
+		close;
+	}
+	if(dmdswrd_Q == 10) {
+		mes "Ah, e mais uma coisa, eu vou lhe dizer o nome do meu amigo.....";
+		next;
+		mes "[Magatu]";
+		mes "Ohh? Eu já leh contei? Bah, eu estou realmente bêbado... ^5533FFManzi^000000... ele está no ^009500Cassino^000000, entendeu?";
+		emotion 20;
+		close;
+	}
+	mes "Sim! É isso!! O irresistível cheiro do maravilhoso ^5533FFQueijo^000000!! É delicioso!... Oh, Não posso esperar por muito tempo...";
+	emotion 3;
+	next;
+	mes "[Magatu]";
+	mes "Não me importo com o que dizem... Queijo de Comodo é o melhor!!! Kekekeke!!";
+	emotion 21;
+	next;
+	mes "[Magatu]";
+	mes "Queijo! QUEIJO!! QUEIJO de Comodo!!!... tãooo... saboro... so... (~drooools~)";
+	emotion 3;
+	close;
+}
+//======================================================
+cmd_in02,189,99,4	script	Manzi	85,{
+	mes "[Manzi]";
+	if(dmdswrd_Q == 10) {
+		mes "Sim?...";
+		next;
+		mes "^3355FF- Você entrega a ele o Tampão de Frasco-^000000";
+		next;
+		mes "[Manzi]";
+		mes "...";
+		next;
+		mes "[Mazi]";
+		mes "Whoa! Isso é do meu amigo Magatu, você deve ser alguém muito importante para ele.";
+		mes "Ele não daria o seu Tampão de Frasco a qualquer um.";
+		emotion 5;
+		next;
+		mes "[Manzi]";
+		mes "Eu fiz uma promessa ao Magatu, que ajudaria qualquer um que trouxesse-me um de seus tampões de frascos, a saber mais informações sobre o ^5533FFQueijo^000000...";
+		next;
+		mes "[Manzi]";
+		mes "Apenas alguns poucos puderam experimentar o lendário Queijo de Comodo.";
+		next;
+		mes "[Manzi]";
+		mes "Bem, acredito que você pode obter mais informações sobre o Queijo de Comodo, com uma moça que fica em ^3355FF 'Hulla estágio' ^000000, perto do centro da cidade.";
+		next;
+		mes "^3355FF- Você recebeu uma Moeda Brilhante -^000000";
+		next;
+		mes "[Manzi]";
+		mes "É so dizer a ela, que eu, Manzi do cassino te enviei. Ah não se esqueça de mostrar essa moeda que te dei. Ela poderá te dizer tudo a respeito do Queijo.";
+		next;
+		mes "[Manzi]";
+		mes "Por falar nisso... ninguém mais está escutando isso, certo?... *sussurra: aquela moça é uma distribuidora dos Queijos de Comodo*...";
+		set dmdswrd_Q, 11;
+		close;
+	}
+	if(dmdswrd_Q == 11) {
+		mes "A moça do queijo está perto de ^5533FFEstágio de Hula^000000. Lembre-se de mostrar a moeda a ela quando perguntar do Queijo.";
+		close;
+	}
+	if(BaseJob == Job_Novice) {
+		mes "Não me aborreça sua criancinha. Este é um local somente para adultos, vá embora!";
+		close;
+	}
+	mes "Há pessoas que apostam tanto, que chegam a perder seu pecopeco e muitos outros items preciosos.";
+	mes "Então, tome cuidado com as suas apostas... você pode até perder a camisa que está usando...";
+	close;
+}
+//=======================================================
+comodo,187,153,4	script	Hullaris	701,{
+	mes "[Hullaris]";
+	if(dmdswrd_Q == 11) {
+		mes "Ah, mais um dia daqueles...";
+		next;
+		if(select("Mostrar a Moeda Brilhante.:Não mostrar a Moeda Brilhante, continuar a conversa.") == 2) {
+			mes "[Hullaris]";
+			mes "Hey! Não me olhe assim, saia daqui!";
+			emotion 0;
+			close;
+		}
+			mes "^3355FF- Você mostra a ela a Moeda Brilhante -^000000";
+			next;
+			mes "[Hullaris]";
+			mes "Hmm, essa moeda... Como você ficou sabendo de mim? Ah, só pode ser isso. Aquele cara do cassino, Manzi.";
+			emotion 20;
+			next;
+			mes "[Hullaris]";
+			mes "Eu presumo que você tem interesse no ^5533FFQueijo^000000 de Comodo.";
+			mes "Você veio ao lugar certo, pois eu sou uma especialista em queijo.";
+			next;
+			mes "[Hullaris]";
+			mes "Primeiramente vou te falar porque o Queijo de Comodo é tão raro. É porque...";
+			mes "Algumas nunca chegarão a prová-lo em toda vida...";
+			next;
+			mes "[Hullaris]";
+			mes "Antes de qualquer coisa, vou te contar alguns detalhes sobre o Queijo de Comodo.";
+			next;
+			mes "[Hullaris]";
+			mes "Na realidade, Queijo de Comodo não é um queijo. É uma pedra mágica, como a...";
+			mes "A ^3355FFPedra do Despertar^000000.";
+			next;
+			mes "[Hullaris]";
+			mes "São praticamente idênticas, formato e cor, entre as duas, as pessoas se confundem, falando que a pedra é um queijo.";
+			next;
+			mes "[Hullaris]";
+			mes "Dizem que o possuidor da Pedra do Despertar, pode adquirir grande conhecimento e poder, mais rápido que as outras pessoas.";
+			next;
+			mes "[Hullaris]";
+			mes "Muitos Bruxos e Magos no passado, se fortaleceram ao possuir a Pedra do Despertar.";
+			next;
+			mes "[Hullaris]";
+			mes "Por isso, mesmo que meu melhor amigo te indicou, não posso lhe entregar este item raro.";
+			next;
+			mes "[Hullaris]";
+			mes "Sinto muito, não lhe entregarei a pedra a menos que você seja digno de recebê-la.";
+			set dmdswrd_Q, 12;
+			next;
+	}
+	if(dmdswrd_Q == 12) {
+		mes "A ^5533FFProva de Dignidade^000000 pode ser realizada pelo bruxo ^5533FF'Nigirboran'^000000.";
+		mes "Ele fica dentro da ^009500East Comodo Dungeon^000000.";
+		next;
+		mes "[Hullaris]";
+		mes "Diga Nigirboran tudo o que eu falei, e ele te julgará, se serás digno de receber a Pedra do Despertar.";
+		mes "Boa sorte, heheh, você vai precisar.";
+		close;
+	}
+	if(dmdswrd_Q == 13) {
+		mes "Você voltou... Conseguiu passar na ^5533FFProva de Dignidade^000000?";
+		mes "Não lhe entregarei a Pedra do Despertar enquanto não passar no teste.";
+		close;
+	}
+	if(dmdswrd_Q == 14) {
+		mes "Como você foi?";
+		next;
+		mes "^3355FF~ Apresentar Hullaris ~^000000";
+		mes "^3355FF~ Prova de Dignidade ~^000000";
+		next;
+		mes "[Hullaris]";
+		mes "Ah, você conseguiu! Eu sabia que você podia. Estava nos seus olhos.";
+		mes "Eu tinha certeza que você conseguiria.";
+		next;
+		mes "[Hullaris]";
+		mes "Bom, aqui está a Pedra do Despertar como prometi...";
+		next;
+		mes "^3355FF~ Você recebeu a Pedra do Despertar ~^000000";
+		mes "^3355FF~ Você rapidamente engole a pedra. . . ~^000000";
+		next;
+		mes "^3355FF~ Munch . .Munch . . ~^000000";
+		next;
+		mes "^3355FF~ Parece um tipo de cogumelo... ~^000000";
+		mes "^3355FF~ E... você se sente calmo... ~^000000";
+		next;
+		mes "^3355FF~ Você sente uma energia circulando ao seu corpo... ~^000000";
+		mes "^3355FF~ Você se sente como se pudesse fazer qualquer coisa agora! ~^000000";
+		next;
+		mes "[Hullaris]";
+		mes "O que você acha? O cheiro e o gosto são incríveis, não é mesmo? Pela sua aparência, parece que você se esforçou para descobrir.";
+		next;
+		mes "[Hullaris]";
+		mes "Você agora é um dos poucos que conseguiram provar o especial 'Queijo' de Comodo, parabéns...";
+		mes "Vá agora, e se divirta aqui em Comodo.";
+		set dmdswrd_Q,15;
+		close;
+	}
+	mes "Dança da Hula? O que? Quem disse que é apenas mais um tipo de dança?? É muito mais do que isso.";
+	mes "Falar que a maravilhosa dança da hula de Comodo é uma simples dança, que insulto!";
+	emotion 6;
+	next;
+	mes "[Hullaris]";
+	mes "A Dança da Hula de Comodo foi criada a muito tempo atrás. Reza a lenda que ela era usada para controlar as mentes e os corpos das pessoas!";
+	mes "Hula 'dança'?... Está mais para Hula 'comunicação'...";
+	next;
+	mes "[Hullaris]";
+	mes "Essa forma de 'comunicação' foi capaz não somente de mudar o modo das pessoas, mas também fazer com que elas não tivessem pensamentos próprios!";
+	next;
+	mes "[Hullaris]";
+	mes "Hehehehehe... Se alguém puder dançar melhor do que eu... Eu quero ver!! Isto é bem mais do que uma dança...";
+	mes "É uma forma de se 'Comunicar'!!!";
+	emotion 29;
+	close;
+}
+//=========================================================
+beach_dun3,30,220,4	script	Bruxo Nigirboran	704,{
+	mes "[Nigirboran]";
+	if(dmdswrd_Q == 12) {
+		mes ". . . Hmm . . .";
+		next;
+		mes "[Nigirboran]";
+		mes "Hullaris disse para você vir aqui, não é? Deixe-me apresentar. Eu sou Nigirboran, um bruxo em treinamento.";
+		next;
+		mes "[Nigirboran]";
+		mes "Sim, é verdade. O ^5533FFQueijo^000000 de Comodo é a ^5533FF'Pedra do Despertar' ou também conhecida 'Pedra da Sabedoria'^000000.";
+		mes "Mas muitos ignoram essa verdade, pensando que é apenas um queijo gostoso.";
+		next;
+		mes "[Nigirboran]";
+		mes "Muito tempo atrás, o verdadeiro Queijo de Comodo era feito através dos Cogumelos venenosos de Payon, Plantas cantantes de Aldebaran, e Suco de cactus de Morroc.";
+		next;
+		mes "[Nigirboran]";
+		mes "O queijo ficava descansando por no mínimo 3 anos, antes de ser comido. Se alguém comesse antes desse tempo, corria o risco de envelhecer...";
+		next;
+		mes "[Nigirboran]";
+		mes "O veneno e a magia contidos nesse queijo, podem derreter as pessoas instantaneamente...";
+		next;
+		mes "[Nigirboran]";
+		mes "É por isso que a Hullaris te mandou aqui. Se você pode aguentar esses efeitos colaterais.";
+		next;
+		mes "[Nigirboran]";
+		mes "Você quer correr esse risco para mostrar-se para Hullaris?";
+		next;
+		if(select("Claro, por que não.:... Uh... não mesmo...") == 2) {
+			mes "[Nigirboran]";
+			mes "Muito bem, então.";
+			close;
+		}
+		mes "[Nigirboran]";
+		set dmdswrd_Q, 13;
+		next;
+	}
+	if(dmdswrd_Q == 13) {
+		mes "Bom então começaremos o teste.";
+		percentheal 100, 100;
+		next;
+		mes "[Nigirboran]";
+		mes "Eu vou te dar o verdadeiro Queijo de Comodo para comer. Se você for forte o bastante, não deve se preocupar com o queijo.";
+		next;
+		mes "[Nigirboran]";
+		mes "Se você começar a se sentir mal, ter alucinações, significa que você é um fracassado que não tem a honra de obter o poder da Pedra do Despertar.";
+		next;
+		mes "[Nigirboran]";
+		mes "Você está pronto?";
+		next;
+		mes "^3355FF~ foi lhe dado um pedaço de Queijo ~";
+		mes ". . .^000000";
+		next;
+		mes "^3355FF~ foi lhe dado um pedaço de Queijo ~";
+		mes ". . .";
+		mes "~ você coloca na boca ~";
+		mes ". . .^000000";
+		next;
+		mes "^3355FF~ foi lhe dado um pedaço de Queijo ~";
+		mes ". . .";
+		mes "~ você coloca na boca ~";
+		mes ". . .";
+		mes "~ é azedo!!! ~^000000";
+		next;
+		mes "^3355FF~ seu corpo começa a receber uma onda de calor ~";
+		mes "~ você sente um veneno circulando no seu sangue ~^000000";
+		sc_start SC_Poison,900000,1;
+		next;
+		mes "^5533FF. . .^000000";
+		next;
+		sc_end SC_Poison;
+	if(BaseLevel < 25) {
+		mes "^3355FF~ é tão forte, que faz você desmaiar ~^000000";
+		next;
+		warp "beach_dun3",32,214;
+		doevent "Bruxo Nigirboran::OnFainted";
+		end;
+		OnFainted:
+		mes "[Nigirboran]";
+		mes "~ Sigh ~ Você não é forte o bastante para suportar o veneno.";
+		mes "Talvez quando você tiver no mínimo ^5533FFNível de Base 25^000000, você possa suportar esse veneno...";
+		close;
+	}
+	switch(rand(3)) {
+		case 1:
+			mes "^3355FF~ agora você se sente estranho, uma sensação gostosa... ~";
+			mes "~ seu corpo está leve e sua mente está relaxada... ~^000000";
+			next;
+			mes "[Nigirboran]";
+			mes "Hmm?... Puxa! Parece que conseguiu!! Você não aparenta nenhum dos efeitos colaterais do veneno.";
+			mes "Você deve estar muito bem preparado, corpo e mente.";
+			emotion 5;
+			next;
+			mes "[Nigirboran]";
+			mes "Você provou que é digno da ^5533FFPedra do Despertar^000000. Fique com isso...";
+			next;
+			mes "~ você recebe a ^5533FF'Prova de Valor'^000000 ~";
+			next;
+			mes "[Nigirboran]";
+			mes "Agora, mostre isso para Hullaris e ela vai te dar a Pedra do Despertar.";
+			set dmdswrd_Q, 14;
+			next;
+			mes "[Nigirboran]";
+			mes "Oh, mais uma coisa, por que você escolheu por procurar a Pedra primeiramente?";
+			next;
+			mes "[Nigirboran]";
+			mes "Espero que não seja por causa das tentações das três Espadas da Destruição...";
+			mes "...Huh? Você não sabe o que são as três Espadas da Destruição?";
+			next;
+			mes "[Nigirboran]";
+			mes "Diz a lenda que quem possuir as três Espadas da Destruição";
+			mes "^3355FF- Executora -^000000";
+			mes "^3355FF- Mysteltainn -^000000";
+			mes "^3355FF- Adaga Sinistra -^000000";
+			mes "pode conquistar o mundo facilmente.";
+			next;
+			mes "[Nigirboran]";
+			mes "Mas para ter essas três Espadas da Destruição, o seu dono deve ter também";
+			mes "a ^3355FF` Tabula do Poder '^000000 e";
+			mes "o ^3355FF` Livro dos carneiros cansados'^000000.";
+			close;
+		case 2:
+			mes "^3355FF~ agora você se sente frio e confuso.... ~";
+			mes "~ você sente suas pernas bambas.... ~^000000";
+			sc_start SC_Sleep,900000,1;
+			next;
+			mes "[Nigirboran]";
+			mes "Hmm.... boas notícias, você não teve alucinações. Seu corpo entretanto, não agüentou e você caiu no sono.";
+			sc_end SC_Sleep;
+			next;
+			mes "[Nigirboran]";
+			mes "Se você não pode nem ao menos comer esse pedacinho de queijo, com certeza nunca poderá obter a Pedra do Despertar.";
+			next;
+			mes "[Nigirboran]";
+			mes "Se mesmo assim ainda quer tentar, você pode voltar aqui depois. Você ainda está vivo, pense positivo!";
+			close;
+		case 3:
+			mes "^3355FF~ seu corpo parece normal mas...mas...mas... ~^000000";
+			next;
+			mes "^3355FF~ seu corpo parece normal mas...mas...mas... ~^000000";
+			mes "~ Você vê elefantes cor de rosa em todos os lados!! ~^000000";
+			next;
+			mes "[Nigirboran]";
+			mes "Tsk tsk. Apesar de o seu corpo não demonstrar os efeitos do veneno... a sua mente não teve a mesma sorte.";
+			next;
+			mes "[Nigirboran]";
+			mes "Hahaha... elefantes rosa... me lembra a minha primeira vez... er... esqueça o que eu disse.";
+			emotion 18;
+			next;
+			mes "[Nigirboran]";
+			mes "Se você não pode nem ao menos comer esse pedacinho de queijo, com certeza nunca poderá obter a Pedra do Despertar.";
+			next;
+			mes "[Nigirboran]";
+			mes "Se mesmo assim ainda quer tentar, você pode voltar aqui depois. Você ainda está vivo, pense positivo!";
+			close;
+		}
+	}
+	if(dmdswrd_Q == 14) {
+		mes "Vá procurar Hullaris para ela te dar a Pedra do Despertar. Boa sorte!";
+		close;
+	}
+	if(dmdswrd_Q == 15) {
+		mes "Procure pelo ^3355FFMoet Leng Good^000000 em algum lugar";
+		mes "dentro de ^3355FFAldebaran^000000";
+		mes "para obter informações sobre a 'Tablet of Power'";
+		close;
+	}
+	mes ". . . . . . . . . . . . . . .";
+	next;
+	mes "[Nigirboran]";
+	mes "Eu sou Nigirboran, um bruxo em treinamento...";
+	next;
+	mes "[Nigirboran]";
+	mes "Se vocô não tem nada a falar, por favor não me interrompa! Estou muito ocupado.";
+	close;
+}
+

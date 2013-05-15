@@ -1,0 +1,65 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Cigana
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0 (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Page]
+//============================================================
+
+
+//============================================================
+// DANCER - WINK OF CHARM
+//============================================================
+comodo,205,171,7	script	Chanel	724,{
+	mes "[Chanel]";
+	if(BaseJob!=Job_Dancer) goto L_nodancer;
+	if(getskilllv(1011)) goto L_alreadyhave;
+	mes "Eu irei lhe ensinar tudo o quê eu sei por:";
+	mes "1 Espelho de Cristal";
+	mes "1 Álcool";
+	mes "1 Prato de Porcelana";
+	mes "1 Maçã";
+	mes "3 Bananas";
+	mes "5 Biscoitos de Gengibre";
+	next;
+	
+	mes "[Chanel]";
+	mes "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(747)<1 || countitem(970)<1 || countitem(736)<1 || countitem(512)<1 || countitem(513)<3 || countitem(538)<5) goto L_noitems;//Items: Crystal_Mirror, Alcohol, China, Apple, Banana, Well-baked_Cookie,
+	delitem 747, 1;//Items: Crystal_Mirror,
+	delitem 970, 1;//Items: Alcohol,
+	delitem 736, 1;//Items: China,
+	delitem 512, 1;//Items: Apple,
+	delitem 513, 3;//Items: Banana,
+	delitem 538, 5;//Items: Well-baked_Cookie,
+
+	mes "[Chanel]";
+	mes "Eu vejo que você tem tudo o quê,";
+	mes "eu pedi, então irei lhe ensinar meus talentos.";
+	skill 1011,1,0;
+	close;
+	
+L_noitems:
+	mes "[Chanel]";
+	mes "Você não tem os itens suficientes.";
+	mes "Volte apenas quando tiver os itens";
+	mes "que eu lhe pedi.";
+	close;
+		
+L_nodancer:
+	mes "Hmm.. Você não me parece um músico.";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	mes "Eu já lhe ensinei tudo o que sei.";
+	close;
+}

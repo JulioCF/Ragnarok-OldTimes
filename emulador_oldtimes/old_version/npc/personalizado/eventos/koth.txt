@@ -1,0 +1,263 @@
+//Made		Goddameit
+//Web		http://goo.gl/q9sej
+//Vsersion		2012/01/08 - 01:50 AM
+
+prontera,143,201,5	script	KOTH#RRnpc	108,{
+
+	if( $KOTHLigar == 0 )
+	{
+		mes "[King Of The Hill]";
+		mes "O evento irá começar às 17h no Horário de Brasília.";
+		next;
+		if (select ("Informações:Cancelar") == 2) close;
+		mes "Você tem que estar em um grupo.";
+		if (getgmlevel() == 99 )
+		{
+			menu "Ligar", -;
+			callsub L_Lol;
+		}
+		close;
+	}
+
+	if( .pid[1] || !getcharid(1) ) {
+		mes "[King Of The Hill]";
+		mes "Você precisa estar em um grupo para entrar.";
+		close;
+	}
+
+	getpartymember( getcharid(1) );
+
+	if( $@partymembercount < 3 ) {
+		mes "[King Of The Hill]";
+		mes "O grupo tem que ter ao menos 3 participantes online.";
+		close;
+	}
+	if( getpartyleader(getcharid(1),2) != getcharid(0) ) {
+		mes "[King Of The Hill]";
+		mes "Você tem que ser o líder do grupo.";
+		close;
+	}
+
+	set .pid[.pid[0] ? 1 : 0], getcharid(1);
+	if( .pid[1] ) { // VERMELHO
+		warpparty "koth01", 23, 7, getcharid(1);
+		set $RedParty, getcharid(1);
+	}
+	else { // AZUL
+		warpparty "koth01", 23, 88, getcharid(1);
+		set $BlueParty, getcharid(1);
+		
+	}
+	if( .pid[1] ) {
+		stopnpctimer;
+		sleep2 2000;
+		mapannounce "koth01", "[KOTH]: Partida Iniciada!!", 0;
+		initnpctimer "KOTH_CheckArea";
+		initnpctimer "#Kothwaitroom";
+		initnpctimer "KOTH#AreaT";
+	}
+	else
+		initnpctimer;
+	end;
+
+	OnTimer1:
+		announce "[KOTH]: O grupo ["+getpartyname(.pid[0])+"] iniciou o evento!!",0;
+		end;
+
+	OnTimer60000:
+		donpcevent "KOTH#RRnpc::OnEndd";
+		end;
+
+	OnPCDieEvent:
+		if( strcharinfo(3) != "koth01" )
+			end;
+		if( getcharid(1)==.pid[1] ) {
+			warp "koth01", 23, 7;
+			sleep2 1000;
+			unitskilluseid set(@z,bg_monster(0,"koth01",23,7,"",1002,"")),54,1,getcharid(3);
+		}
+		else if( getcharid(1) == .pid[0] ) {
+			warp "koth01", 23, 88;
+			sleep2 1000;
+			unitskilluseid set(@z,bg_monster(0,"koth01",23,88,"",1002,"")),54,1,getcharid(3);
+		}
+		else
+			end;
+		sleep2 7000;
+
+	OnPCLogoutEvent:
+		if(@z)
+			unitkill @z;
+		end;
+
+	OnInit:
+		setwall "koth01", 47, 29, 2, 4, 0, "kothwall11";
+		setwall "koth01", 47, 71, 2, 4, 0, "kothwall22";
+	
+	OnEndd:
+		stopnpctimer;
+		stopnpctimer "KOTH_CheckArea";
+		stopnpctimer "#Kothwaitroom";
+		stopnpctimer "KOTH#AreaT";
+		setarray .pid[0], 0, 0;
+		set getvariableofnpc(.defhp,"KOTH#AreaT"), 25;
+		set getvariableofnpc(.defghp,"KOTH#AreaT"), 180;
+		set getvariableofnpc(.hp,"KOTH#AreaT"), getvariableofnpc(.defhp,"KOTH#AreaT");
+		set getvariableofnpc(.rhp,"KOTH#AreaT"), getvariableofnpc(.defghp,"KOTH#AreaT");
+		set getvariableofnpc(.bhp,"KOTH#AreaT"), getvariableofnpc(.defghp,"KOTH#AreaT");
+		set getvariableofnpc(.loca,"KOTH#AreaT"), 0;
+		set getvariableofnpc(.area,"KOTH#AreaT"), 0;
+		set getvariableofnpc(.spee,"KOTH#AreaT"), 0;
+		mapwarp "koth01", "prontera", 150, 180;
+		set $KOTHLigar, 0;
+		announce "[KOTH] O evento terminou!", bc_all, "0x00FF00";
+		end;
+	
+	OnClock1700:
+	L_Lol:
+		set $KOTHLigar, 1;
+		announce "[KOTH] O evento irá começar, precisarei de 2 times de pelo menos 3 pessoas!", bc_all, "0x00FF00";
+		end;
+}
+
+-	script	KOTH_CheckArea	-1,{
+
+	function	InArea	{
+		getmapxy( .@m$, .@x, .@y, 0, getarg(0) );
+		if( .@m$ == "koth01" && .@x >= 46 && .@x <= 53 && .@y >= 46 && .@y <= 53 )
+			return 1;
+		else
+			return 0;
+	}
+
+	OnTimer1:
+		setarray .@bo, 0, 0;
+		for( set .@i, 0; .@i <= 1; set .@i, .@i + 1 ) {
+			deletearray $@partymemberaid[0], 128;
+			getpartymember getvariableofnpc(.pid[.@i], "KOTH#RRnpc"), 2;
+			copyarray .@paid[0], $@partymemberaid[0], set(.@pnum, $@partymembercount);
+			for( set .@j, 0; .@j < .@pnum; set .@j, .@j + 1 )
+				if( isloggedin(.@paid[.@j]) )
+					if( InArea(rid2name(.@paid[.@j])) )
+						set .@bo[.@i], .@bo[.@i] + 1;
+		}
+		if( !.@bo[0] && !.@bo[1] ) {
+			set getvariableofnpc(.area,"KOTH#AreaT"), 0;
+			set getvariableofnpc(.spee,"KOTH#AreaT"), 0;
+		}
+		else if( !.@bo[0] && .@bo[1] ) || ( .@bo[0] && !.@bo[1] ) {
+			set getvariableofnpc(.area,"KOTH#AreaT"), .@bo[0] ? 1 : 2;
+			set getvariableofnpc(.spee,"KOTH#AreaT"), .@bo[0] ? .@bo[0]: .@bo[1];
+		} else
+			set getvariableofnpc(.area,"KOTH#AreaT"), 3;
+		initnpctimer;
+		end;
+}
+
+koth01,50,50,4	script	#Kothwaitroom	1083,{
+	end;
+
+	OnInit:
+		waitingroom " ", 0;
+	end;
+
+	OnTimer500:
+		delwaitingroom;
+		waitingroom "["+getvariableofnpc(.hp,"KOTH#AreaT")+"][B"+getvariableofnpc(.bhp,"KOTH#AreaT")+"][R"+getvariableofnpc(.rhp,"KOTH#AreaT")+"]", 0;
+		initnpctimer;
+	end;	
+}
+
+-	script	KOTH#AreaT	-1,{
+
+	OnFlagD:
+		if( getarg(0) == 2 )
+			set .bhp, ( (.bhp <= 0) ? 0 : (.bhp - 1) );
+		else if (getarg(0) == 3)
+			set .rhp, ( (.rhp <= 0) ? 0 : (.rhp - 1) );
+		else
+			return;
+		return;
+
+	OnTimer1000:
+		if( !.loca && !.area ) {
+			if( .hp < .defhp )
+				set .hp, .hp + 1;
+			set .area, 0;
+			set .spee, 0;
+			initnpctimer;
+			end;
+		}
+		else if( .loca && ( .loca == .area || !.area ) ) {
+			if( .hp < .defhp )
+				set .hp, .hp + ( .spee ? .spee : 1);
+		}
+		else if( .area && .spee && .area!=3 && .area!=.loca ) {
+			set .hp, .hp - .spee;
+			if( .hp <=0 ) {
+				set .loca, .area;
+				set .hp, .defhp;
+				set .rhp, (.rhp ? .rhp : 1);
+				set .bhp, (.bhp ? .bhp : 1);
+			}
+		}
+		else {
+			sleep 1;
+		}
+
+		callsub OnFlagD, .loca + 1;
+		
+		if( .rhp <= 0 || .bhp <= 0 ) && ( .area == .loca || .area == 0 ) && ( .hp==.defhp ) {
+			sleep 1000;
+			announce "[KOTH] O Time "+(.rhp?"Azul":"Vermelho")+" Venceu!!", 0;
+			
+			if (.rhp) {
+				getpartymember $BlueParty, 2;
+			} else {
+				getpartymember $RedParty, 2;
+			}
+
+			//copyarray .@partymemberid[0], $@partymemberaid[0], getarraysize($@partymemberaid[0]);
+			copyarray .@partymemberid[0], $@partymemberaid[0], $@partymembercount;
+
+			for (set .@i, 0; .@i < $@partymembercount; set .@i, .@i + 1) {
+				attachrid(.@partymemberid[.@i]);
+				if (!isloggedin(.@partymemberid[.@i])) {
+					continue;
+				}
+				else {
+					debugmes "AID "+.@partymemberid[.@i]+" attachado ao NPC!";
+					getitem 7180, 25, .@partymemberid[.@i];
+					detachrid;
+				}
+			}
+
+			donpcevent "KOTH#RRnpc::OnEndd";
+			end;
+		}
+		initnpctimer;
+		end;
+}
+
+// Warps
+koth01,44,26,4	script	#koth01_warp_1-1	45,2,2,{warp "koth01",53,28;	end;}
+koth01,34,72,4	script	#koth01_warp_1-2	45,2,2,{warp "koth01",27,65;	end;}
+koth01,44,80,4	script	#koth01_warp_1-3	45,2,2,{warp "koth01",72,65;	end;}
+koth01,44,73,4	script	#koth01_warp_2-1	45,2,2,{warp "koth01",53,71;	end;}
+koth01,34,26,4	script	#koth01_warp_2-2	45,2,2,{warp "koth01",27,34;	end;}
+koth01,44,17,4	script	#koth01_warp_2-3	45,2,2,{warp "koth01",72,34;	end;}
+
+// Heal-Storage
+koth01,23,7,4	script	NPC#koth01	100,{
+	if (select ("Cura:Armazém") == 1)
+		percentheal 100, 100;
+	else
+		openstorage;
+	close;
+}
+
+// Duplicate
+koth01,23,88,4	duplicate(NPC#koth01)	NPC#koth02	100
+
+// Mapflag
+koth01	mapflag	pvp

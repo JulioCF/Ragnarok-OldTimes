@@ -1,0 +1,84 @@
+-	script	EventController	-1,{
+end;
+	//-----------------------------------------------------	
+	// Horários do "evento_poring.txt"
+	OnClock0000:
+		// Habilita o NPC
+		enablenpc "Pegue o Poring";
+		// Chama a label de inicialização do evento
+		donpcevent "Pegue o Poring::OnEventStart";
+		// A finalização se encontra no próprio NPC
+	end;
+	//-----------------------------------------------------	
+	// Horários do "poring_race.txt"
+	OnClock0100:
+		// Habilita o NPC
+		enablenpc "Poring Race";
+		// TODO: Ativar (mexer nele)
+	end;
+	//-----------------------------------------------------	
+	// Horários do "roleta_russa.txt"
+	OnClock0200:
+		// Habilita o NPC
+		enablenpc "Roleta Russa";
+		// TODO: Ativar (mexer nele)
+	end;
+	//-----------------------------------------------------	
+	// Horários do "uno.txt";
+	OnClock0300:
+		// Habilita o NPC
+		enablenpc "UNO";
+		// TODO: Aumentar capacidade??
+	end;
+	//-----------------------------------------------------	
+	// Horários do "PoringBall_start.txt"
+	OnClock0400:
+		// Habilita o NPC
+		enablenpc "Poring Ball";
+		// TODO: Ver modo de ativação
+	end;
+	//-----------------------------------------------------	
+	// Horários do "safe_zone.txt"
+	OnClock0500:
+		// Habilita o NPC
+		enablenpc "SafeZoneEvent";
+		// TODO: Ver modo de ativação e capacidade
+	end;
+	//-----------------------------------------------------
+	// Horários do "koth.txt";
+	OnClock0600:
+		// Habilita o NPC
+		enablenpc "KOTH";
+		// Ver funcionamento
+	end;
+	//-----------------------------------------------------	
+	// Horários do "wot.txt";
+	OnClock0700://Início
+		// Habilita o NPC
+		enablenpc "Guerra do Tesouro";
+		// Chama a label de inicialização do evento
+		donpcevent "Guerra do Tesouro::S_CallBegin";
+	end;
+	OnClock0720://Fim
+		// Desabilita o NPC
+		disablenpc "Guerra do Tesouro";
+		// Chama a label de finalização do evento
+		donpcevent "Guerra do Tesouro::S_CallFinish";
+	end;
+	//-----------------------------------------------------	
+	// Inicializamos com todos desabilitados.
+	OnInit:
+		setarray .@events$[0],
+		"Pegue o Poring",
+		"PraceAnnouncer", "Poring Race",
+		"Roleta Russa",
+		"UNO",
+		"Poring Ball",
+		"SafeZoneEvent",
+		"KOTH#RRnpc",
+		"Guerra do Tesouro";
+
+		for (set .@i, 0; .@i < getarraysize(.@events$); set .@i, .@i + 1)
+			disablenpc .@events$[.@i];
+	end;
+}

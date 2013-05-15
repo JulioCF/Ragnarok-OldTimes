@@ -1,0 +1,60 @@
+//===== Cronus Script ========================================
+//= Quests da Tiara de Cogumelo
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quest da Tiara de Cogumelo
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+geffen,66,87,6	script	Aipo	819,{
+ mes "[Aipo]";
+ if(BaseJob == Job_Novice) GOTO L_NOVICE;
+ mes "Heeeeee.";
+ next;
+ mes "[Aipo]";
+ mes "Você sempre quis saber como iria fica um  ^000080Tiara de Cogumelo^000000 em você?";
+ mes "Bem, eu posso fazer uma para você basta me trazer 300 Esporos de Cogumelos!";
+ next;
+ mes "[Aipo]";
+ mes "Esse item maravilhoso cresceu nas profundezas.";
+ mes "Você quer que eu faça um para você";
+ next;
+ menu "Sim!",-,"Não, Obriagdo",M_EXIT;
+
+ if(countitem(921) < 300) GOTO L_NOITEM;//Items: Mushroom Spore,
+ delitem 921,300;//Items: Esporo de Cogumelo,
+ mes "[Aipo]";
+ mes "Uau! Obriagdo, vou recolher seu items então.";
+ next;
+ mes "[Aipo]";
+ mes "Okay, obrigado pelos item, e aqui está ele!";
+ next;
+ getitem 5082,1;//Items: Tiara de Cogumelo,
+ mes "[Aipo]";
+ mes "Obirgado novamente e adeus";
+ close;
+
+L_NOITEM:
+ mes "[Aipo]";
+ mes "Você não tem Esporos de Cogumelos suficiente... Desculpe-me!";
+ close;
+
+L_NOVICE:
+ mes "Eu amo os Esporos. Eu quero um dia me tornar uma escrava deles...";
+ close;
+
+M_EXIT:
+ mes "[Aipo]";
+ mes "Bem, eu vou estar aqui se mudar de idéia!";
+ close;
+}

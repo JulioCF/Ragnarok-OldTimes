@@ -1,0 +1,1032 @@
+//===== Cronus Script ========================================
+//= Cidade de Umbala
+//===== Por: =================================================
+//= jAthena (1.0) Fusion Dev Team (1.1) Muad Dib (1.2) Darkchild (1.3)
+//===== Versão Atual: ========================================
+//= 2.1b
+//===== Changelog: ===========================================
+//= 1.0 - Done By jAthena (dunno Who)
+//= 1.1 - Translated by Fusion Dev Team
+//= 1.2 - Fixed Something by Muad Dib
+//= 1.3 - Fixed up For eA by Darkchild
+//= 1.4 - Fixed some wrong item names [Lupus]
+//= 1.5 - Spell Checked [massdriller]
+//= 1.6 - Fixed item names, added a chance to get to Niflheim via Jumping Bungy Area [Lupus]
+//= 1.7 - Fixed bugs and exploits [Lupus]
+//= 1.8 - Warps you to Niff with 1HP [Lance]
+//= 1.9 - Moved Umbala Event, Create Essence/Dismantle Stone, and Skeletal Gate to npc/quests/quests_umbala.txt [Evera]
+//= 2.0 - Removed duplicates, max NPC name length is 23, so Utan Tribe Young Adult#1, the 1 is skipped [Toms]
+//= 2.1 - Updated to Aegis 10.3 standards. [L0ne_W0lf]
+//= 2.1a - Traduzido. [Tiu TuTs]
+//= 2.1b - Revisado. [Mara]
+//============================================================
+
+comodo,170,137,7	script	La Ed#um	84,{
+	end;
+
+OnEmoteHmm:
+	emotion e_hmm;
+	end;
+
+OnEmoteGG:
+	emotion e_gg;
+	end;
+}
+
+comodo,171,137,1	script	Haith#um	92,{
+	mes "[La Ed]";
+	mes "Deve haver um tesouro escondido naquele lugar!";
+	next;
+	mes "[Haith]";
+	mes "Se nós acharmos ele, as pessoas não pensaram mais que somos perdedores~!!";
+	next;
+	mes "[La Ed]";
+	mes "Finalmente!";
+	next;
+	mes "[Haith]";
+	mes "Vamos encontrar o tesouro!";
+	next;
+	mes "[La Ed]";
+	mes "Vamos fazer isso~!!";
+	emotion e_gg;
+	next;
+	mes "[Haith]";
+	mes "................";
+	next;
+	mes "[La Ed]";
+	mes "A propósito... você acha que ele";
+	mes "iria nos falar facilmente sobre";
+	mes "o grande tesouro?";
+	emotion e_hmm;
+	donpcevent "La Ed#um::OnEmoteHmm";
+	next;
+	select("Hm? Que tesouro?");
+	mes "[La Ed]";
+	mes "Quê--?! Quando você começou a nos escutar?!";
+	next;
+	mes "[Haith]";
+	mes "Hã... parece que você que saber";
+	mes "mais sobre o tesouro. Bem,";
+	mes "essa informação não sairá barata...";
+	emotion e_gg;
+	next;
+	mes "[La Ed]";
+	mes "Além disso, precisamos de um pouco,";
+	mes "uma coisa no caso de";
+	mes "*tosse!* ^555555nós não acharmos";
+	mes "absolutamente nada.^000000";
+	next;
+	mes "[La Ed, Haith]";
+	mes "Se você nos pagar 1,000 zenys, nós falamos para você!";
+	emotion e_gg;
+	donpcevent "La Ed#um::OnEmoteGG";
+	next;
+	if (select("Pagar 1,000 zenys:Recusar a pagar") == 1) {
+		if (Zeny > 999) {
+			set zeny,zeny-1000;
+			mes "[Haith]";
+			mes "Hahahaha! Você é o cara!";
+			next;
+			mes "[La Ed]";
+			mes "Ok, não muito tempo atrás, um famoso";
+			mes "aventureiro chamado Niels voltou de uma de suas viagens.";
+			next;
+			mes "[Haith]";
+			mes "*Sussurros*";
+			mes "^555555Ele trouxe consigo uma caixa enorme.^000000";
+			next;
+			mes "[La Ed]";
+			mes "Além disso, ele voltou no meio";
+			mes "da noite sem ter falado nada a";
+			mes "ninguém. Então, evidentemente que";
+			mes "ele tem algum segredo, não acha?";
+			next;
+			mes "[Haith]";
+			mes "O que poderia estar dentro da caixa~?";
+			mes "Só pode ser um tesouro!!";
+			next;
+			mes "[La Ed]";
+			mes "Então! Nós decidimos ir em uma jornada atrás do nosso próprio tesouro-!!";
+			next;
+			mes "[Haith]";
+			mes "O problema é que nós não temos";
+			mes "certeza de que o Niels vá nos";
+			mes "dizer onde ele encontrou o";
+			mes "tesouro...";
+			emotion e_hmm;
+			next;
+			mes "[La Ed]";
+			mes "Porque o Niels sempre nos trata";
+			mes "como se nós fomossemos estúpidos!! Bah~!!";
+			next;
+			select("Onde está o Niels?");
+			mes "[La Ed]";
+			mes "Ele está hospedado na parte";
+			mes "norte desta vila.";
+			next;
+			mes "[Haith]";
+			mes "Nós vamos lhe dar boas informações,";
+			mes "desde que nos pague!";
+			next;
+			mes "[La Ed, Haith]";
+			mes "Boa sorte!";
+			close;
+		}
+		mes "[La Ed]";
+		mes "Oh, bem~! Se você não tem dinheiro, então não podemos lhe dar a informação~";
+		close;
+	}
+	mes "[Haith]";
+	mes "Bah! qualquer~";
+	emotion e_hmm;
+	emotion e_hmm;
+	close;
+}
+
+cmd_in01,175,120,3	script	Iriya#um	69,{
+	mes "[Iriya]";
+	mes "O Sr. Niels está na mesa na";
+	mes "esquina. Ele tem muitas";
+	mes "notícias sobre o mundo.";
+	next;
+	mes "[Iriya]";
+	mes "Não tenho certeza onde ele esteve";
+	mes "desta vez. Ele só da risadas e";
+	mes "diz 'Eu não acho que estou apto";
+	mes "para este trabalho docente.'";
+	next;
+	mes "[Iriya]";
+	mes "Entretanto, manter as pessoas";
+	mes "visitando o Sr. Niels... e eu";
+	mes "não poder ajudar, mas pergunto...";
+	mes "Onde ele tem ido?";
+	close;
+}
+
+cmd_in01,164,115,1	script	Niels#um	731,{
+	mes "[Niels]";
+	mes "Hmm? O que você está procurando?";
+	mes "Ah~ Você deve ter ouvido os";
+	mes "rumores de que eu achei algum tipo";
+	mes "de tesouro. Sim, isto é compreensível...";
+	next;
+	mes "[Niels]";
+	mes "Bem, estes rumores de que eu tropeço";
+	mes "em algum tesouro maravilhoso é";
+	mes "apenas o resultado de imaginações";
+	mes "férteis. Tudo o que tenho encontrado";
+	mes "são coisas para acrescentar na minha";
+	mes "coleção.";
+	next;
+	mes "[Niels]";
+	mes "Mas... desde que eu tenha provado";
+	mes "que 'isto' realmente existe por ver";
+	mes "com meus prãpios olhos, para mim,";
+	mes "o que eu obtive foi um valioso";
+	mes "tesouro.";
+	next;
+	mes "[Niels]";
+	mes "Esta aldeia de Comodo!";
+	mes "Você não acha que as cavernas";
+	mes "são muito pequenas e estreista por alguma razão?";
+	next;
+	mes "[Niels]";
+	mes "Então, eu estava pensando nisso...";
+	mes "E eu cheguei a conclusão de que";
+	mes "deve haver alguma coisa escondida";
+	mes "dentro da caverna...";
+	next;
+	mes "[Niels]";
+	mes "E então!";
+	mes "Eu finalmente encontrei.";
+	mes "A passagem para 'o lugar' que";
+	mes "ninguém jamais encontrou!";
+	next;
+	mes "[Niels]";
+	mes "................";
+	next;
+	mes "[Niels]";
+	mes ".......Hm?";
+	next;
+	mes "[Niels]";
+	mes "Eu estava esperando um espetacular";
+	mes "e dramático efeito sonoro para";
+	mes "a minha declaração!";
+	mes "Eh, oh bem...";
+	emotion e_hmm;
+	next;
+	mes "[Niels]";
+	mes "Bem, no espírito da descobrta,";
+	mes "nunca pense em me perguntar";
+	mes "sobre direções para 'o lugar'";
+	mes "ou sobre o que tem 'no lugar'.";
+	mes "Eu não quero estragar a";
+	mes "surpresa.";
+	next;
+	mes "[Niels]";
+	mes "Se você é um verdadeiro aventureiro,";
+	mes "Eu espero que você grite com";
+	mes "toda a força de seus pulmões...";
+	next;
+	mes "[Niels]";
+	mes "'Ahhhh! Eu preciso saber o que é";
+	mes "isto!!' Chute a porta aberta e";
+	mes "corra como se estivesse fugindo do";
+	mes "inferno para encontrar o lugar por conta própria!!";
+	next;
+	mes "[Niels]";
+	mes "Agora! Rápido saia e busque por";
+	mes "esse lugar! Será este lugar um mundo";
+	mes "totalmente novo ou uma armadilha";
+	mes "para o inferno?! Vá adiante,";
+	mes "satisfaça seu destino, aventureiro!";
+	close;
+}
+
+umbala,70,106,3	script	Criança Utan#um	781,{
+	if (event_umbala >= 3) {
+		mes "[???]";
+		mes "Huh?";
+		mes "Você não é um de nós, é?";
+		next;
+		mes "[???]";
+		mes "Heh! Oi!";
+		mes "Meu nome é Haatan.";
+		emotion e_heh;
+		next;
+		mes "[Haatan]";
+		mes "...*Suspiro*";
+		mes "Me desculpe, mas eu não posso jogar";
+		mes "com você agora. A casa dos meus pais";
+		mes "foi atingida por um raio ontem e";
+		mes "ele queimou o nosso telhado...";
+		emotion e_sob;
+		next;
+		mes "[Haatan]";
+		mes " . . . !";
+		next;
+		mes "[Haatan]";
+		mes "Ah sim! Você pode me ajudar?";
+		mes "Você parece muito bem...";
+		mes "Você pode doar algum dinheiro para";
+		mes "a reconstrução da casa dos meus pais?";
+		mes "Vocês de Rune-Midgard são todos mais";
+		mes "ricos do que os Utans! Eu imploro!";
+		emotion e_heh;
+		next;
+		if (select("(Acenar com a cabeça):(Negar com a cabeça)") == 1) {
+			mes "[Haatan]";
+			mes "Whoaaaa!!";
+			mes "Você é o cara~!";
+			mes "Muito obrigado, yay~!";
+			if (zeny > 1000) {
+				set zeny,zeny-1000;
+				if (checkweight(517,1)) {
+					getitem 517,1; //Meat
+				}
+				emotion e_swt2;
+			}
+			else {
+				next;
+				mes "[Haatan]";
+				mes "Uh...";
+				mes "Parece...";
+				mes "Você não tem muito,";
+				mes "você...";
+				emotion e_pif;
+				close;
+			}
+			next;
+			mes "[Haatan]";
+			mes "Muito obrigado!";
+			emotion e_heh;
+			close;
+		}
+		mes "[Haatan]";
+		mes ".............*Sob*...";
+		emotion e_sob;
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbah?";
+		mes "Umbala umbabah umbah?";
+		next;
+		mes "[???]";
+		mes "Umbah! Umbaumbah!";
+		mes "Umbahumbah Haatan babah.";
+		emotion e_sob;
+		next;
+		mes "[Haatan]";
+		mes "........umbah,";
+		mes "Umbah umbah umbaumbumbah umbah umbah";
+		mes "Babaum babahum woombah umbah umbabah";
+		mes "Umbah umbah";
+		mes "..Umbah umbabah umbah...";
+		emotion e_heh;
+		next;
+		mes "[Haatan]";
+		mes " . . . !";
+		next;
+		mes "[Haatan]";
+		mes "Umbah!";
+		mes "Umbah umbah? Umbah umbahbah";
+		mes "abaum babahum woombah!";
+		mes "Umbahumbah umbabahumbaumhumbah! Umbah!";
+		emotion e_heh;
+		next;
+		if (select("(Acenar com a cabeça):(Negar com a cabeça)") == 1) {
+			mes "[Haatan]";
+			mes "Umbaumbah!!";
+			mes "Um~bahumbah~ Um~baumbah~";
+			mes "Um~baumbah~ um~baumbah~";
+			if (zeny > 1000) {
+				set zeny,zeny-1000;
+				if (checkweight(517,1)) {
+					getitem 517,1; //Meat
+				}
+				emotion e_swt2;
+			}
+			else {
+				next;
+				mes "[Haatan]";
+				mes "...umbah? Umbahumbah!! Umbaum!";
+				emotion e_pif;
+				close;
+			}
+			next;
+			mes "[Haatan]";
+			mes "Umba umba umbaum.";
+			emotion e_sob;
+			close;
+		}
+		mes "[Haatan]";
+		mes "........umbah..";
+		emotion e_heh;
+		close;
+	}
+	close;
+}
+
+umbala,59,243,5	script	Criança Utan#1	787,{
+	if (event_umbala >= 3) {
+		mes "[Kotan]";
+		mes "............";
+		mes ".........poop!";
+		mes ".....eu gosto de carne.";
+		mes "....me dê uma carne.";
+		emotion e_rock;
+		next;
+		if (select("Dar-lhe carne.:Recusar.") == 1) {
+			if (countitem(517) > 0) {
+				mes "[Kotan]";
+				mes "Whoa, você realmente está me dando";
+				mes "carne? Obrigado! Eu irei lhe pagar";
+				mes "com isso.";
+				delitem 517,1; //Meat
+				getitem 909,2; //Jellopy
+				getitem 914,2; //Fluff
+				getitem 705,2; //Clover
+				emotion e_scissors;
+				close;
+			}
+			mes "[Kotan]";
+			mes "Hah! Você não tem carne,";
+			mes "mas vai fingir que tem?!";
+			mes "Eu odeio pessoas que mentem";
+			mes "para mim!!";
+			percentheal -20,0;
+			emotion e_an;
+			close;
+		}
+		mes "[Kotan]";
+		mes ".........";
+		mes ".....hungwee.";
+		mes ".....Eu quero carne.";
+		percentheal -1,0;
+		emotion e_sob;
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "............";
+		mes "........umbah.";
+		mes ".......umbabah.";
+		mes "......humbah.";
+		emotion e_rock;
+		next;
+		if (select("Umbah:Umbaboo") == 1) {
+			if (countitem(517) > 0) {
+				mes "[???]";
+				mes "Umbaumbaumbabababah.";
+				mes "Umbababahum.";
+				delitem 517,1; //Meat
+				getitem 909,2; //Jellopy
+				getitem 914,2; //Fluff
+				getitem 705,2; //Clover
+				emotion e_scissors;
+				close;
+			}
+			mes "[???]";
+			mes "Umbahumumhumbubabababah!!";
+			mes "Umbahumbababah umbahumboo!";
+			percentheal -20,0;
+			emotion e_an;
+			close;
+		}
+		mes "[???]";
+		mes "...........";
+		mes "......woong bah.";
+		mes "....umbabababah.";
+		emotion e_sob;
+		percentheal -1,0;
+		close;
+	}
+}
+
+umbala,177,153,3	script	Pasto#um	97,{
+	mes "[Pasto]";
+	emotion e_gasp;
+	mes "Oh meu Deus~! Finalmente,";
+	mes "outra pessoa de Rune-Midgard!";
+	mes "Eu nunca vi ninguém de casa";
+	mes "neste lugar antes!";
+	mes "Prazer em conhecê-lo, meu nome é Pasto!";
+	next;
+	mes "[Pasto]";
+	mes "Este lugar é chamado de Umbala.";
+	mes "As pessoas locais nesta vila";
+	mes "construíram uma cultura que é";
+	mes "completamente diferente dos";
+	mes "outros lugares que eu fui.";
+	next;
+	mes "[Pasto]";
+	mes "Eu acho que é porque este";
+	mes "local foi isolado de";
+	mes "outras regiões devido as suas";
+	mes "características geográficas.";
+	next;
+	mes "[Pasto]";
+	mes "Eles parecem diferente de nós, e";
+	mes "utilizam uma linguagem que ainda";
+	mes "é muito confusa para mim. Fiquei";
+	mes "confuso também com suas";
+	mes "expressões faciais.";
+	next;
+	mes "[Pasto]";
+	mes "Claro, existem algumas";
+	mes "semelhanças. Porém, você tem";
+	mes "que ter cuidado com certas";
+	mes "questões.";
+	next;
+	mes "[Pasto]";
+	mes "Às vezes, algo que você diz";
+	mes "ou faz pode ser interpretado";
+	mes "com o sentido totalmente oposto.";
+	next;
+	mes "[Pasto]";
+	mes "Eu desejo poder falar seu";
+	mes "idioma... *Suspiro*";
+	mes "...Ou conhecer";
+	mes "aqui mais pessoas que falem";
+	mes "meu idioma... Eu... Eu estou...";
+	mes "Tão sozinho...*Sob*";
+	emotion e_sob;
+	close;
+}
+
+umbala,80,146,4	script	Yuwooki#um	753,{
+	mes "[Yuwooki]";
+	mes "Umbah umbah woogawoo...";
+	mes "Opa, desculpa! eu estou tão";
+	mes "acostumado falar em Utan agora.";
+	mes "É um prazer conhecê-lo.";
+	next;
+	mes "[Yuwooki]";
+	mes "Eu nunca imaginei que eu";
+	mes "fosse conhecer uma pessoa";
+	mes "da minha terra natal nesta aldeia.";
+	mes "Hahahahah~!";
+	next;
+	mes "[Yuwooki]";
+	mes "Eu vim em busca de um povo forte";
+	mes "para me ajudar a melhorar minhas";
+	mes "habilidades de luta. Mas logo";
+	mes "fiquei um pouco frustrada porque";
+	mes "levei um tempo para aprender a língua...";
+	next;
+	mes "[Yuwooki]";
+	mes "Bem, agora eu estou acostumada com";
+	mes "as circunstancias. Embora isso";
+	mes "tenha levada um tempo para me";
+	mes "acostumar com a Cultura Utan. Hahahaha~!";
+	next;
+	mes "[Yuwooki]";
+	mes "Mas você sabe a coisa mais estranha";
+	mes "que eu descobri sobre a cultura";
+	mes "Utan? No princípio os homens Utan";
+	mes "pareciam ter, digamos, um instinto";
+	mes "de preservação de espécies fortes.";
+	next;
+	mes "[Yuwooki]";
+	mes "Há muitos playboys Utan nesta";
+	mes "aldeia. Alguns podem pensar";
+	mes "que os Utans são primitivos";
+	mes "neste respeito, mas...";
+	next;
+	mes "[Yuwooki]";
+	mes "Como eu aprendi mais sobre eles,";
+	mes "eu finalmente percebi que o seu";
+	mes "ritual de namoro é realmente";
+	mes "o mais avançado do que qualquer";
+	mes "outra coisa que Rune-Midgard tem a oferecer.";
+	next;
+	mes "[Yuwooki]";
+	mes "É realmente muito fascinante.";
+	mes "Eu estou aprendendo de fato";
+	mes "bastante sobre os playboys Utans";
+	mes "e os seus métodos temerosos.";
+	close;
+}
+
+umbala,140,157,6	script	Homem Utan#1	785,{
+	if (event_umbala >= 3) {
+		mes "[Jertan]";
+		mes "Bungee jumping pode ser perigoso,";
+		mes "e você arriscar sua vida fazendo";
+		mes "isso. Nós Utans consideramos o";
+		mes "bungee jumping uma importante";
+		mes "parte da cerimonia de se";
+		mes "tornar adulto.";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbaumbah humba.";
+		mes "Woo umbaumbaumbabah woo humbah";
+		mes "Umbababah umba umba.";
+		close;
+	}
+}
+
+umbala,146,157,4	script	Homem Utan#2	786,{
+	if (event_umbala >= 3) {
+		mes "[Arotan]";
+		mes "Completar o bungee jump";
+		mes "é muito difícil.";
+		mes "Hoje, nós estamos em celebração";
+		mes "ao povo que realizou e tem";
+		mes "demonstrado a sua coragem.";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Woo umbaumbaumbabah woo humbah";
+		mes "Umbababah umba umba.";
+		close;
+	}
+}
+
+umbala,149,165,4	script	Criança Utan#3	781,{
+	if (event_umbala >= 3) {
+		mes "[Klumatan]";
+		mes "É realmente assustador, cair de";
+		mes "um lugar tão alto...";
+		mes "Mas eu acho que você tem que,";
+		mes "fazer isso, caso contrário não";
+		mes "vão considerar você um adulto.";
+		next;
+		mes "[Klumatan]";
+		mes "Eu acho que eu não quero";
+		mes "ser adulto imediatamente.";
+		mes "Mas algumas crianças da minha";
+		mes "idade tem uma pressa muito";
+		mes "grande para não serem mais crianças.";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbahumba umumbah.";
+		mes "Umbahumbah umbabah.";
+		mes "Umbahumhumbabahum.";
+		close;
+	}
+}
+
+umbala,92,159,4	script	Bertan#um	785,{
+	if (event_umbala >= 3) {
+		mes "[Bertan]";
+		mes "E aí, perdedor!";
+		next;
+		mes "[Bertan]";
+		mes "Qual é o assunto,";
+		mes "grande Rune-Midgardiano?!?!";
+		mes "Eu te chamei de 'perdedor'!";
+		mes "Eu acho que você é muito";
+		mes "estúpido para entender!!";
+		mes "Hahahahahahaahahhahaha~!";
+		next;
+		mes "[Bertan]";
+		mes "...";
+		mes "Uh...oh!";
+		next;
+		mes "[Bertan]";
+		mes "Parece que você pode me";
+		mes "entender--! Bom trabalho,";
+		mes "Bom trabalho! Muito bem, por";
+		mes "meio de desculpas, quer ouvir uma piada?";
+		next;
+		mes "[Bertan]";
+		mes "Ok, tudo bem.";
+		mes "Aqui vamos nós.";
+		mes "Ummmm...";
+		mes "Ok, eu tenho uma.";
+		next;
+		switch(rand(1,6)) {
+		case 1:
+			mes "[Bertan]";
+			mes "O que o Rune-Midgardiano";
+			mes "disse ao Selvagem?";
+			mes "...";
+			next;
+			mes "[Bertan]";
+			mes "Eu não sei...";
+			mes "Mas eles não tem qualquer";
+			mes "dificuldade para entender";
+			mes "uns aos outros!!! HAHAHA~!";
+			mes "Pegou essa? 'Primo, como,";
+			mes "eles são ambos porcos~!'";
+			next;
+			mes "[Bertan]";
+			mes "Não tem graça, né?";
+			mes "Oh bem. Acho que o meu";
+			mes "senso de humor é apenas";
+			mes "muito sofisticado.";
+			close;
+		case 2:
+			mes "[Bertan]";
+			mes "Ok... qual é a melhor";
+			mes "forma de domar uma Senhora Orc?";
+			mes "Se rende..?";
+			next;
+			mes "[Bertan]";
+			mes "Com um anel de casamento!";
+			mes "HAHAHAHAHAHAHHA!";
+			mes "Oh Deus!~ Eu sou hilário!!";
+			next;
+			mes "[Bertan]";
+			mes "...";
+			mes "...Espere.";
+			mes "Espere um minuto...";
+			next;
+			mes "[Bertan]";
+			mes "Não é mesmo engraçado...";
+			mes "Apenas incrível...";
+			mes "Assustadora...";
+			mes "Brrr--!";
+			mes "Ela é horrível!!";
+			close;
+		case 3:
+			mes "[Bertan]";
+			mes "De fato... esqueça.";
+			next;
+			mes "[Bertan]";
+			mes "Eu ia dizer uma";
+			mes "piada sobre a";
+			mes "Ásis, mas decidi que";
+			mes "que este tipo de humor";
+			mes "é muito sujo.";
+			mes "...Zing!";
+			close;
+		case 4:
+			mes "[Bertan]";
+			mes "Porque são Rune-Midgardianos";
+			mes "SOOoOOoo...";
+			mes "Um, hmmmmm.";
+			mes "Talvez esta piada";
+			mes "não seja tão boa para";
+			mes "esta situação, sim?";
+			close;
+		case 5:
+			mes "[Bertan]";
+			mes "Ok, porque é que";
+			mes "os GMs preferem não";
+			mes "serem vistos...? Desiste?";
+			next;
+			mes "[Bertan]";
+			mes "PORQUE ESSES CARAS USAM";
+			mes "VESTIDOS ~! HAHAHA!";
+			mes "OH CARA, EU FIZ UMA ENGRAÇADA!";
+			next;
+			mes "[Bertan]";
+			mes "*Whew* Yowza~";
+			mes "Oh, cara.";
+			mes "absolutamente clássica.";
+			close;
+		case 6:
+			mes "[Bertan]";
+			mes "Um Templário, um Alquimista e um Aprendiz entram em um bar.";
+			next;
+			mes "[Bertan]";
+			mes "Dentro, eles veem um cartaz";
+			mes "que diz '^CC0000Agência de Ajuda";
+			mes "aos Monstros:' SOMENTE SENHORAS.^000000'";
+			next;
+			mes "[Bertan]";
+			mes "'^000099Oh!^000000' diz o Templário.";
+			mes "'^000099É ótimo nós sermos";
+			mes "todas senhoras.^000000' Ela se levanta";
+			mes "e diz '^000099Dê-me uma montaria.^000000'";
+			mes "Pense numa montaria de Templário,";
+			mes "mas de qualquer jeito...";
+			next;
+			mes "[Bertan]";
+			mes "Do nada, este";
+			mes "Grand Peco Peco aparece";
+			mes "e diz '^CC0000Eu lhe darei";
+			mes "uma carona, baby. Cuidado, esta";
+			mes "estrada pode ser acidentaaaaaada.^000000'";
+			mes "E então eles vão.";
+			next;
+			mes "[Bertan]";
+			mes "Depois vem o Alquimista";
+			mes "e ela gosta '^330099Eu preciso";
+			mes "de ajuda para matar Zumbis^000000' e";
+			mes "então esta Esfera Marinha";
+			mes "aparece do nada e isto";
+			mes "é tudo...";
+			next;
+			mes "[Bertan]";
+			mes "'^CC0000Eu peguei seu fogo. Cuidado";
+			mes "baby, toque-me na parte";
+			mes "errada e eu só me";
+			mes "exploooodo.^000000' Então";
+			mes "eles estão desligados em sua";
+			mes "alegre forma demasiada.";
+			next;
+			mes "[Bertan]";
+			mes "Finalmente, o Aprendiz";
+			mes "aparece e diz:";
+			mes "'^006633Eu preciso de alguém";
+			mes "para um grupo.^000000'";
+			next;
+			mes "[Bertan]";
+			mes "Do nada, um";
+			mes "Hode aparece e diz...";
+			next;
+			mes "[Bertan]";
+			mes "'^CC0000Eu conheço algumas";
+			mes "pessoas mas deixei de conferir";
+			mes "meu Rolodex. HODE on!^000000'";
+			mes "....";
+			next;
+			mes "[Bertan]";
+			mes ".....";
+			mes "..........";
+			mes "Não vai?";
+			next;
+			mes "[Bertan]";
+			mes "Bem, vamos lá!";
+			mes "Não pode ser divertido";
+			mes "todo o tempo, você sabe?";
+			close;
+		}
+	}
+	else {
+		mes "[????]";
+		mes "Umbaumba Umbaumbah";
+		next;
+		mes "[????]";
+		mes "Bwahbwah hahbrah!";
+		mes "Umbaumba Umbaumbah";
+		mes "Umbaumba Umbaumbah";
+		next;
+		mes "[????]";
+		mes "Umbaumba Umbaumbah woo~";
+		emotion e_ho;
+		close;
+	}
+	close;
+}
+
+umbala,194,104,4	script	Criança Utan#2	787,{
+	if (event_umbala >= 3) {
+		mes "[Boorkatan]";
+		mes "Huh? Você é de Rune-Midgard,";
+		mes "não é? Você já foi em um bungee jump?";
+		next;
+		if (select("Sim:Não") == 1) {
+			mes "[Boorkatan]";
+			mes "Wow, que surpresa! Eu nunca";
+			mes "falei com alguém de fora que";
+			mes "que já tivesse feito isso.";
+			mes "Ok, vou tomar a palavra para";
+			mes "lhe dar as boas vindas à nossa aldeia.";
+			close;
+		}
+		mes "[Boorkatan]";
+		mes "Er, Eu vejo...";
+		mes "Faz parte da cerimonia de";
+		mes "idade adulta, todos os Utans";
+		mes "tem que fazer um salto de bungee";
+		mes "jump. Quando eu crescer eu vou";
+		mes "fazer também e provar para todos que sou um homem!";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbaumbababah umhumba.";
+		mes "Umbabaumumba umbaumbah?";
+		next;
+		if (select("Sim:Não") == 1) {
+			mes "[???]";
+			mes "Umba, Umumbah umbabah.";
+			mes "Umbaumbah umumbabah.";
+			close;
+		}
+		mes "[???]";
+		mes "Er, Umbahumba umumbah.";
+		mes "Umbahumbah umbabah.";
+		mes "Umbahumhumbabahum.";
+		close;
+	}
+}
+
+umbala,193,208,6	script	Homem Utan#3	789,{
+	if (event_umbala >= 3) {
+		mes "[Weitan]";
+		mes "Eu também pratiquei bungee jump";
+		mes "quando eu era jovem. Lembro-me";
+		mes "bem... Foi minha primeira vez,";
+		mes "e o chão queria me conhecer...";
+		mes "Por um momento, eu pensei que";
+		mes "eu fosse me suicidar...";
+		next;
+		mes "[Weitan]";
+		mes "Mas depois que fiz isso, eu tive";
+		mes "tanto orgulho de mim~";
+		mes "Alguns Utans podem não concordar,";
+		mes "mas eu acho que o bungee jumping";
+		mes "é um parte importante da cerimonia";
+		mes "da vida adulta.";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbahumba umumbah.";
+		mes "Umbahumbah umbabah.";
+		mes "Umbahumhumbabahum.";
+		close;
+	}
+}
+
+umbala,139,205,4	script	Homem Utan#5	785,{
+	if (event_umbala >= 3) {
+		mes "[Jooltan]";
+		mes "Faz muito tempo desde a última";
+		mes "vez que eu vi alguém de";
+		mes "Rune-Midgard~! Bem vindo, forasteiro.";
+		next;
+		mes "[Jooltan]";
+		mes "Nós Utans usamos estes lugar para";
+		mes "bungee jumping. Muitos jovens";
+		mes "Utans tem demonstrado sua";
+		mes "bravura, ganhando seu";
+		mes "auto-respeito, e se tornanado";
+		mes "adultos neste lugar.";
+		next;
+		mes "[Jooltan]";
+		mes "Oh... certo. Algumas pessoas";
+		mes "azaradas há pouco caíram e";
+		mes "morreram depois de realizar";
+		mes "o salto. E algumas tiveram";
+		mes "ataques cardíacos enquanto saltavam...";
+		next;
+		mes "[Jooltan]";
+		mes "Então...";
+		mes "Tome cuidado quando andar por ai,";
+		mes "você não vai querer cair.";
+		mes "E se você quiser experimentar o";
+		mes "bungee jump, você deve estar pronto.";
+		next;
+		mes "[Jooltan]";
+		mes "Oh...certo. Supostamente,";
+		mes "há uma criatura não";
+		mes "identificada vivendo na água...";
+		mes "Então se você se molhar,";
+		mes "saia de lá~!";
+		close;
+	}
+	else {
+		mes "[???]";
+		mes "Umbah umbah!";
+		mes "Umbaumbah bababah umbah.";
+		mes "Babaumm Utan umbah umbabah";
+		mes "Umbaba hum.";
+		mes "Umumhumbah umbaumbah umbabah.";
+		next;
+		mes "[???]";
+		mes "Umbaum mahbababh umba,";
+		mes "Umbabatan umbaumbah.";
+		mes "Ba, umbaumbaumumbabaumm.";
+		mes "Umbabah umbaumumum.";
+		mes "Umbaumbaubahum.";
+		close;
+	}
+}
+
+um_in,158,71,3	script	Morador Utan#um	787,{
+	if (event_umbala >= 3) {
+		mes "[Mutakutan]";
+		mes "Umbala tem muitas árvores!";
+		mes "Eu, Mutakutan, gosto muito de árvores.";
+		mes "Heh heh~";
+		next;
+		mes "[Mutakutan]";
+		mes "Há uma árvore especial que eu gosto";
+		mes "mais! É a mais antiga e a maior";
+		mes "árvore em Umbala!";
+		mes "Não espere, eu acho que é a mais";
+		mes "velha e grande do mundo...";
+		mes "Eu tenho certeza que é!";
+		next;
+		mes "[Mutakutan]";
+		mes "É realmente muito grande e velha!";
+		mes "É tão alto que eu nunca vi o topo";
+		mes "dessa árvore ainda. Eu tentei";
+		mes "escalar ela antes, mas eu poderia";
+		mes "nunca chegar ao topo... apesar de";
+		mes "eu ser um grande escalador de árvores.";
+		next;
+		mes "[Mutakutan]";
+		mes "Oh, o fruto da árvore também é";
+		mes "muito saboroso! Aposto que eles são";
+		mes "os mais deliciosos frutos do mundo~";
+		mes "Doce e amargo... comendo ele faz";
+		mes "você se sentir refrescado e";
+		mes "revigorado~!";
+		next;
+		mes "[Mutakutan]";
+		mes "Há um incrível história sobre";
+		mes "este fruto. Um velho homem na";
+		mes "aldeia estava sofrendo de uma";
+		mes "doença mortal... nada parecia";
+		mes "ajudar...";
+		next;
+		mes "[Mutakutan]";
+		mes "Mas depois que ele tomou o";
+		mes "medicamento feito a partir das";
+		mes "folhas da árvore, ele ficou bom";
+		mes "e saúdavel novamente! Eu acho que";
+		mes "Deus nos enviou a árvore para nos abençoar.";
+		next;
+		mes "[Mutakutan]";
+		mes "É ao norte da minha aldeia.";
+		mes "Por que você não vai ver a";
+		mes "grandeza dessa árvore você mesmo?";
+	}
+	else {
+		mes "[??????]";
+		mes "Umbaumbah umbahbah woomhah!";
+		mes "Umbah umbah umbabah umbah";
+		mes "Umbah umbah umbah";
+		mes "Umbabah umbah umbabbah";
+		next;
+		mes "[??????]";
+		mes "....";
+		mes "......";
+		mes "Umbah balooooga?";
+		mes "Umbah balooooooooga?";
+		next;
+		mes "[??????]";
+		mes "...";
+		mes "Moogahaloo schluloo.";
+	}
+	close;
+}
+
+umbala,140,197,1	script	Bungee Jump	-1,0,0,{
+OnTouch:
+	switch(rand(1,3)) {
+	case 1:
+		percentheal -100,0;
+		mapannounce "umbala","Bungee Jump: "+strcharinfo(0)+" : Kyaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa~~~~~~~",bc_map;
+		end;
+	case 2:
+		percentheal -50,0;
+		mapannounce "umbala","Bungee Jump: "+strcharinfo(0)+" : Wooooooaaaaaaaaaaaaaahhhhhhhhhhhh~~~~~~!",bc_map;
+		end;
+	case 3:
+		if (rand(1,2) == 2) {
+			percentheal -99,0;
+			warp "nif_in",69,15;
+		}
+		end;
+	}
+}
+
+umbala,136,195,0	script	 #jump	-1,1,1,{
+OnTouch:
+	warp "umbala",145,166;
+	end;
+}

@@ -1,0 +1,54 @@
+//= Cronus r3353
+
+payon_in01,143,8,5	script	Nan Hyang	814,{
+ if(getequipisequiped(5073)) GOTO L_GOOD;
+ if(BaseJob == 0) GOTO L_NOVICE;
+ mes "[Nan Hyang]";
+ mes "Tut tut! Você tem uma terrivel postura!";
+ mes "Você precisa conserta-la imediatamente!";
+ next;
+ mes "[Nan Hyang]";
+ mes "Eu posso conserta por você mas você precisará me dá uns itens para eu fazer um Chapéu para Modelos.";
+ next;
+ menu "Por favor, faça-me um",-,"O que eu preciso?",M_REQ,"Não, obrigado!",M_EXIT;
+
+ if(countitem(1550) < 1 || countitem(2285) < 1) GOTO L_NOITEM;//Items: Book, Apple o' Archer,
+ delitem 1550,1;//Items: Livro,
+ delitem 2285,1;//Items: Macã Guilherme Tell,
+ mes "[Nan Hyang]";
+ mes "Ahh enfim uma pessoa seria!";
+ next;
+ additem 5073,1;//Items: Chapéu para Modelos,
+ mes "[Nan Hyang]";
+ mes "Hehe, bem, talvez você se torne mas cuidadoso, ou então sua sensibilidade fique balançada.";
+ close;
+
+M_REQ:
+ mes "[Nan Hyang]";
+ mes "O que eu preciso é bem simples";
+ next;
+ mes "[Nan Hyang]";
+ mes "1 Livro";
+ mes "e 1 Maçã de Guilherme Tell para balanciar ele.";
+ close;
+
+L_NOITEM:
+ mes "[Nan Hyang]";
+ mes "Ao menos seja sério, você não tem itens suficiente!";
+ mes "Volte quando quiser conserta sua postura.";
+ close;
+
+L_GOOD:
+ mes "[Nan Hyang]";
+ mes "Oh, isso é ótimo! é bom ver que você está aprendendo rápido!";
+ close;
+
+L_NOVICE:
+ mes "Olá, você poderia me visitar na próxima semana?";
+ close;
+
+M_EXIT:
+ mes "[Nan Hyang]";
+ mes "Bom dia para você.";
+ close;
+}

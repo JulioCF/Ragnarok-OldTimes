@@ -1,0 +1,109 @@
+//= Cronus r1759
+yuno_in01,103,158,4	script	Bain	98,{
+	set @name$, "[Bain]";
+OnStart:
+	mes @name$;
+	if(bros_q == 1) goto L_Check;
+	mes "Nós estamos indo inventar uma boneca que possa falar e se comunicar! Bem, ao menos é o que estou tentando fazer....";
+	mes "A idéia veio de uma velha fofoca sobre uma boneca que agisse como uma pessoa real.";
+	next;
+	mes @name$;
+	mes "Eu acredito que se alguém teve a habilidade tempos atrás de fazer uma boneca dessas, hoje isso deve ser definitivamente possível hoje.";
+	next;
+	mes @name$;
+	mes "Infelizmente eu preciso das fontes e das peças apropriadas para realmente tentar construir uma boneca.";
+	mes "Embora eu possa comprar algumas das coisas que eu necessito, muitos destes items podem somente ser deixados por monstros......";
+	next;
+	mes @name$;
+	mes "Eu sou muito fraco para derrotar esses monstros....... Como poderei continuar este projeto??.....";
+	next;
+	menu "Eu vou pegar estes itens para você.",-, "Boa sorte.",M_End;
+
+		mes @name$;
+		mes "Sério? Tal bondade é rara nestes tempos de hoje em dia. Nós seríamos gratos pelo seu trabalho.";
+		mes "Aqui estão os itens que precisamos.......";
+		callsub sF_List;
+		set bros_q, 1;
+		close;
+
+	M_End:
+		mes @name$;
+		mes "Nós precisaremos de muita sorte, se for tentarmos criar. Se você conhecer qualquer um que possa nos ajudar, por favor apresente-nos.";
+		close;
+
+L_Check:
+	if((countitem(974) < 1) || (countitem(612) < 5) || (countitem(7068) < 5) || (countitem(1003) < 5) || (countitem(7043) < 5) || 
+	(countitem(757) < 3) || (countitem(756) < 3) || (Zeny < 2000)) goto L_NotEnuf;
+	mes "Muito obrigado cara! Você encontrou todos os itens que eu precisava.  Eu não poderia ter completado este projeto sem sua ajuda.";
+	next;
+	mes @name$;
+	mes "Ok, deixe-me tentar!";
+	mes "Espere um segundo!";
+	next;
+	mes "-Vrrrmrmrmrmrmrmrrmrmrmmrmrmrmrmmm";
+	next;
+	mes "-Pakakakakakakakakakakakakakak";
+	next;
+	mes "-Shakakakakakakakakakakaakakak";
+	next;
+	mes @name$;
+	mes "AHHH SUCESSO!!";
+	mes "Não sei se podemos fazer tudo mais, mas lhe garanto que criei";
+	delitem 974,1;
+	delitem 612,5;
+	delitem 7068,5;
+	delitem 1003,5;
+	delitem 7043,5;
+	delitem 757,3;
+	delitem 756,3;
+	set Zeny, Zeny-2000;
+	set .@wowitem,rand(2);
+	if(.@wowitem == 0)
+	{
+		mes "5x Rubi!";
+		getitem 723,5;
+	}
+	else if(.@wowitem == 1)
+	{
+		mes "3x Ouro!";
+		getitem 969,3;
+	}
+	if(ALCH_Q == 6) set ALCH_Q2, 2;	//para a Quest de Alquimista
+	set bros_q, 0;
+	next;
+	mes @name$;
+	mes "Se você encontrar mais partes, traga-os. Heheheheh.";
+	next;
+	mes @name$;
+	mes "Obrigado por me ajudar.";
+	mes "Você tem minha eterna gratidão.";
+	mes "Eu desejo-lhe sorte em suas viajens!";
+	close;
+
+	L_NotEnuf:
+		mes "Caso você esqueça, estes são os itens que nós precisaremos. Eu sugiro que você escreva-os.....";
+		callsub sF_List;
+		close;
+
+sF_List:
+	next;
+	mes @name$;
+	mes "^5533FF1 Mistura";
+	mes "5 Mini-Fornalhas";
+	mes "5 Madeiras Queimadas";
+	mes "5 Carvões";
+	mes "5 Areias Finas";
+	mes "3 Minérios de Elunium";
+	mes "3 Minérios de Oridecon^000000";
+	next;
+	mes @name$;
+	mes "Nós precisaremos também de ^5533FF2,000 Zenys^000000.";
+	mes "O dinheiro ajudará a pagar pelas despesas menores envolvidas no empreendimento deste projeto. Boa sorte e tome cuidado.";
+	return;
+}
+
+yuno_in01,99,153,4	script	Bajin	47,{
+	set @name$, "[Bajin]";
+	doevent "Bain::OnStart";
+	close;
+}

@@ -1,0 +1,117 @@
+//===== Cronus Script ========================================
+//= Guia da Cidade-Selva de Umbala
+//===== Por: =================================================
+//= Cainho
+//===== Versão Atual: ========================================
+//= 1.2
+//===== Compatível Com: ======================================
+//=  Cronus SVN
+//===== Comentários Adicionais: ==============================
+//= 1.0 Versão inicial [Cainho]
+//= 1.1 Revisado [mkbu95]
+//= 1.2 Otimizado [J4ND3RS0N]
+//============================================================
+
+umbala,128,94,4	script	Explorador	702,{
+	mes "[Explorador]";
+	mes "Este lugar é muito estranho...";
+	mes "Todas essas trilhas e estradinhas são confusas.";
+	mes "Acho que é o que podemos esperar de uma cultura primitiva como a de Umbala.";
+	next;
+	mes "[Explorador]";
+	mes "Eu estou aqui há alguns meses,";
+	mes "conhecendo a vila e seus habitantes.";
+	mes "Se você tiver alguma pergunta sobre Umbala, posso responder pra você. ";
+	while (1)
+	{
+		next;
+		switch (select ("Indicações ","Apagar indicações ","Cancelar"))
+		{
+			case 1:
+				mes "[Explorador]";
+				mes "Por favor, selecione uma das opções.";
+				if (!.@compass_check)
+				{
+					mes "[Explorador]";
+					mes "Você gostaria que as indicações permaneçam no mini-mapa?";
+					if (select ("Sim.:Não.") == 1) set .@compass_check, 1;
+				}			
+				while (1)
+				{
+					next;
+					switch (select ("Casa do Chefe","Casa do Xamã ","Loja de Armas","Loja de Utilidades","O Bungee Jumping","Cancelar"))
+					{
+						case 1:
+							mes "A casa do chefe da cidade fica em ^FF3355+^000000.";
+							mes "Só o chefe fala a nossa língua. ";
+							mes "Por isso, é melhor você falar com ele antes de mais nada.";
+							if (.@compass_check == 1)
+								viewpoint 2,66,250,1,0xFF3355;
+							break;
+
+						case 2:
+							mes "[Explorador]";
+							mes "O xamã tem misteriosos poderes.";
+							mes "Sua casa fica em ^CE6300+^000000.";
+							mes "Eu ouvi dizer que ele consegue combinar ou desfazer";
+							mes "propriedades da natureza...";
+							if (.@compass_check == 1)
+								viewpoint 3,217,186,1,0xCE6300;
+							break;
+
+						case 3:
+							mes "[Explorador]";
+							mes "A loja de armas fica em ^55FF33+^000000.";
+							mes "os nativos têm um grande número de armas";
+							mes "no estoque, por causa de invasores estrangeiros.";
+							if (.@compass_check == 1)
+								viewpoint 4,126,154,1,0x55FF33;
+							break;
+
+						case 4:
+							mes "[Explorador]";
+							mes "A loja de utilidades fica em ^3355FF+^000000.";
+							mes "Eles vendem várias coisas que podem te ajudar em sua jornada.";
+							if (.@compass_check == 1)
+								viewpoint 5,136,127,1,0x3355FF;
+							break;
+
+						case 5:
+							mes "[Explorador]";
+							mes "Em Umbala existe uma coisa que não se vê em nenhum outro lugar em Rune-Midgard, um Bungee Jumping.";
+							mes "Ele fica em ^00FF00+^000000.";
+							mes "Você pode tentar pular, se tiver coragem pra isso.";
+							if (.@compass_check == 1)
+								viewpoint 6,139,198,1,0x00FF00;
+							break;
+
+						case 6:
+							set .@compass_check, 1;
+							mes "[Explorador]";
+							mes "Se quiser apagar as indicações no minimapa,";
+							mes "Selecione 'Apagar indicações'.";
+							close;
+					}
+					close;
+				}
+				break;
+
+			case 2:
+				viewpoint 2,66,250,2,0xFF3355;
+				viewpoint 2,217,186,3,0xCE6300;
+				viewpoint 2,126,154,4,0x55FF33;
+				viewpoint 2,136,127,5,0x3355FF;
+				viewpoint 2,139,198,6,0x00FF00;
+				set .@compass_check, 0;
+				mes "[Explorador]";
+				mes "Ok, removi as indicações no mapa.";
+				mes "Se precisar achar algum outro lugar, é só pedir.";
+				close;
+
+			case 3:
+				mes "[Explorador]";
+				mes "Ok, aproveite para conhecer a cidade e a cultura de Umbala. Cuide-se.";
+				close;
+		}
+	}
+}

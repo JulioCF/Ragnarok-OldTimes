@@ -1,0 +1,217 @@
+//= Conversão Aegis EP12.1
+opayon_in02,64,71,4	script	Arqueiro	85,{
+/*
+	if (job_karma != 0)
+	{
+		if ((Class == Job_Novice_H) && ((job_karma == 5) || (job_karma == 12) || (job_karma == 13)))
+		{
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Você não me é estranh"+(Sex?"o":"a")+"...";
+			mes "Você voltou a ser "+(Sex?"um arqueiro":"uma arqueira")+"?";
+			next;
+			if (getskilllv("NV_BASIC") < 9)
+			{
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Como você já sabe, para ser "+(Sex?"um arqueiro":"uma arqueira")+" você precisa aprender";
+				mes "todas as habilidades básicas.";
+				next;
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Certo, cuide-se.";
+				close;
+			}
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Não preciso dizer muita coisa.";
+			mes "Basta mirar bem usando os seus sentidos.";
+			next;
+			skill 143, 0, 0;
+			jobchange Job_Archer_High;
+			skill 147, 1, 0;
+			skill 148, 1, 0;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Não temos nada aqui neste momento... ";
+			mes "Bem, isso não importa. Divirta-se.";
+			close;
+		}
+		mes "[Membro da Guilda dos Arqueiros]";
+		mes "O que você está olhando?";
+		mes "Apenas vá embora...";
+		mes "Eu sou bem orgulhoso...";
+		mes "Ôpa, não, não...!";
+		next;
+		mes "[Membro da Guilda dos Arqueiros]";
+		mes "Haha, você não ouviu nada do que eu disse.";
+		mes "Entendeu tudo errado. É por causa do que você está sentindo.";
+		close;
+	}
+*/
+	mes "[Membro da Guilda dos Arqueiros]";
+	mes "Bom dia. Como posso ajudá-l"+(Sex?"o":"a")+"?";
+	next;
+	switch (select ("Eu quero ser "+(Sex?"um Arqueiro":"uma Arqueira")+".","O que é preciso para ser "+(Sex?"um Arqueiro":"uma Arqueira")+"?","Não preciso de ajuda."))
+	{
+		case 1:
+			if (BaseJob == Job_Archer)
+			{
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Você já é "+(Sex?"um arqueiro":"uma arqueira")+".";
+				close;
+			}
+			else if (BaseJob != Job_Archer && BaseJob != Job_Novice)
+			{
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Hmm... Você não parece ser um"+(Sex?"":"a")+" Aprendiz...";
+				mes "Seja lá o que você for, você não pode ser "+(Sex?"um arqueiro":"uma arqueira")+", porque já é de outra classe.";
+				close;
+			}
+			if (job_archer_q == 0)
+			{
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Você quer ser "+(Sex?"um arqueiro":"uma arqueira")+"?";
+				mes "Se você quer, preencha este formulário.";
+				next;
+				switch (select ("Inscrever-se.","Cancelar."))
+				{
+					case 1:
+						set job_archer_q, 1;
+						setquest 1004;
+						mes "[Membro da Guilda dos Arqueiros]";
+						mes "Ok, assine aqui... Certo... hmmm. Você será promovid"+(Sex?"o":"a")+" assim que cumprir certos pré-requisitos necessários.";
+						mes "Se você acha que está pronto, podemos começar agora.";
+						mes "Você está pronto?";
+						next;
+						switch (select ("Sim!","Não, não estou pront"+(Sex?"o":"a")+" ainda."))
+						{
+							case 1:
+								mes "[Membro da Guilda dos Arqueiros]";
+								mes "Vamos ver então.";
+								next;
+								break;
+								
+							case 2:
+								mes "[Membro da Guilda dos Arqueiros]";
+								mes "Eu entendo...";
+								mes "Se você quiser saber os pré-requisitos para ser Arqueir"+(Sex?"o":"a")+", é só falar comigo.";
+								close;
+						}
+						break;
+							
+					case 2:
+						mes "[Membro da Guilda dos Arqueiros]";
+						mes "Até mais!";
+						close;
+				}
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Você se chama " + strcharinfo(0) + "?";
+				next;
+				if (getskilllv("NV_BASIC") < 9)
+				{
+					mes "[Membro da Guilda dos Arqueiros]";
+					mes "O seu nível como Aprendiz está abaixo do necessário... ";
+					mes "Você deve chegar ao nível de classe 10 para se tornar "+(Sex?"um arqueiro":"uma arqueira")+".";
+					close;
+				}
+			}
+			set .@archer_item1, (countitem(1066) * 5);
+			set .@archer_item2, (countitem(1067) * 3);
+			set .@archer_item3, (countitem(1068) * 2);
+			set .@archer_item4, countitem(1019);
+			set .@arc_send_item1, countitem(1066);
+			set .@arc_send_item2, countitem(1067);
+			set .@arc_send_item3, countitem(1068);
+			set .@arc_send_item4, countitem(1019);
+			set .@total_archer, .@archer_item1 + .@archer_item2 + .@archer_item3 + .@archer_item4;
+			set .@total_archer2, (((.@archer_item2 + .@archer_item3) * 2) + .@archer_item4);
+			if (job_archer_q == 1)
+			{
+				mes "[Membro da Guilda dos Arqueiros]";
+				mes "Ótimo! Bom trabalho!";
+				mes "Agora vamos ver se você trouxe Troncos suficientes para fazermos um Arco.";
+				mes "...hmm...";
+				next;
+				if (!countitem(1066) && !countitem(1067) && !countitem(1068) && !countitem(1019))
+				{
+					mes "[Membro da Guilda dos Arqueiros]";
+					mes "Mas você não trouxe nada!";
+					close;
+				}
+				mes "[Membro da Guilda dos Arqueiros]";
+				if (countitem(1066) != 0)
+					mes "Tronco Tipo 1 :  " + countitem(1066) + " unidades :  " + .@archer_item1 + " .";
+				if (countitem(1067) != 0)
+					mes "Tronco Tipo 2 :  " + countitem(1067) + " unidades :  " + .@archer_item2 + " .";
+				if (countitem(1068) != 0)
+					mes "Tronco Tipo 3 :  " + countitem(1068) + " unidades :  " + .@archer_item3 + " .";
+				if (countitem(1019) != 0)
+					mes "Tronco Tipo 4 :  " + countitem(1019) + " unidades :  " + .@archer_item4 + " .";
+				if (.@total_archer < 25)
+				{
+					mes "O seu total de pontos foi: ^FF0000" + .@total_archer + "^000000 / 40";
+					next;
+					mes "[Membro da Guilda dos Arqueiros]";
+					mes "Menos de 25?!?! Se esforce um pouco mais...";
+					close;
+				}
+				mes "O seu total de pontos foi: ^0000FF" + .@total_archer + "^000000 / 40";
+				next;
+				mes "[Membro da Guilda dos Arqueiros]";
+				if (.@total_archer > 40)
+					mes "Uau! Mais de 40! Fantástico! Meus parabéns!";
+				else if (.@total_archer > 30)
+					mes "Mais de 30! Ótimo! Parabéns.";
+				else if (.@total_archer > 25)
+					mes "Passou raspando.. mas tudo bem...";
+				mes "Vou mandar o material para o Departamento de Produção de Arcos.";
+				if (countitem(1066) != 0)
+					delitem 1066, .@arc_send_item1;
+				if (countitem(1067) != 0)
+					delitem 1067, .@arc_send_item2;
+				if (countitem(1068) != 0)
+					delitem 1068, .@arc_send_item3;
+				if (countitem(1019) != 0)
+					delitem 1019, .@arc_send_item4;
+			}
+			mes "Parabéns, você passou no teste! Vou nomeá-l"+(Sex?"o Arqueiro":"a Arqueira")+"!";
+			next;
+			skill 143,0,0;
+			jobchange Job_Archer;
+			completequest 1004;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Parabéns! Nós esperamos que você contribua para a grandiosidade de nossa Guilda!";
+			mes "Ah! Seu Arco chegou do Departamento de Produção, aqui está ele.";
+			getitem 1702, 1;
+			getitem 1750, .@total_archer2;
+			next;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Agora você é "+(Sex?"um Arqueiro":"uma Arqueira")+" legítimo, com arco, flecha e tudo mais!";
+			mes "Boa Sorte na sua jornada pelo mundo, espero que você se torne o melhor de todos os Arqueiros!";
+			close;
+
+		case 2:
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Eu vou explicar os pré-requisitos para se tornar Arqueir"+(Sex?"o":"a")+":";
+			if (BaseJob != Job_Novice)
+			{
+				if (BaseJob == Job_Archer)
+					mes "Hmmm.. mas você já é "+(Sex?"um Arqueiro":"uma Arqueira")+"!";
+				else
+					mes "Hmm.. você já pertence a uma classe...";
+				mes ".... E daí? Quem se importa?";
+			}
+			next;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Antes de tudo você deve alcançar nível de classe 10 como Aprendiz.";
+			mes "Arqueir"+(Sex?"os":"as")+" precisam ter muita concentração, devido a dificuldade de se mirar.. Não podemos aceitar pessoas que não se concentram bem.";
+			next;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Você vai precisar juntar quantos ^FF0000Troncos^000000 conseguir.";
+			mes "Há 4 tipos de Troncos, de diferentes qualidades de madeira, logo cada um tem uma pontuação diferente.";
+			mes "Você se tornará um Arqueiro se obtiver pelo menos ^0000FF25 ^000000 pontos num total de 40.";
+			next;
+			mes "[Membro da Guilda dos Arqueiros]";
+			mes "Você pode conseguir Troncos dos 'Salgueiros'. Embora não sejam monstros perigosos, tenha cuidado.";
+			close;
+
+		case 3:
+			close;
+	}
+}

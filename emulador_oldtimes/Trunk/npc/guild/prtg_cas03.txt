@@ -1,0 +1,140 @@
+//===== Cronus Script =========================================
+//= Guerra do Emperium (Prontera)
+//===== Por: ==================================================
+//= L0ne_W0lf
+//===== Versão Atual: =========================================
+//= 1.3/1.2b
+//===== Compatível com: =======================================
+//= Cronus SVN
+//===== Descrição: ============================================
+//= NPCs relativos ao 3º Castelo de Prontera
+//===== Comentários Adicionais: ===============================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Corrected flag-in spawn point. [L0ne_W0lf]
+//= 1.2 Corrected treasure room switch coordinates. [L0ne_W0lf]
+//= 1.3 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2 Corrigido erros [Soulblaker]
+//= 1.2a Revisado. [RoM]
+//= 1.2b Removido show	[Yum]
+//============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+prontera,159,196,4	script	Brynhildr#p3-1::Fadhgridh	722,{
+
+	callfunc "Guild_Flags", "prtg_cas03";
+
+OnRecvCastlePt03:
+	FlagEmblem GetCastleData("prtg_cas03",1);
+	end;
+}
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+prt_gld,147,140,4	script	Brynhildr#p3-2::Fadhgridh2	722,{
+	set .@GID, GetCastleData("prtg_cas03",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("prtg_cas03",1)) {
+					warp "prtg_cas03",181,215;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastlePt03:
+	FlagEmblem GetCastleData("prtg_cas03",1);
+	end;
+}
+
+prt_gld,147,136,4	duplicate(Fadhgridh2)	Brynhildr#p3-3	722
+prt_gld,158,140,4	duplicate(Fadhgridh2)	Brynhildr#p3-4	722
+prt_gld,158,136,4	duplicate(Fadhgridh2)	Brynhildr#p3-5	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+prtg_cas03,168,28,4	script	Brynhildr#p3-6::Fadhgridh3	722,{
+	end;
+
+OnRecvCastlePt03:
+	FlagEmblem GetCastleData("prtg_cas03",1);
+	end;
+}
+
+prtg_cas03,182,28,4	duplicate(Fadhgridh3)	Brynhildr#p3-7	722
+prtg_cas03,43,50,4	duplicate(Fadhgridh3)	Brynhildr#p3-8	722
+prtg_cas03,48,50,4	duplicate(Fadhgridh3)	Brynhildr#p3-9	722
+prtg_cas03,43,58,4	duplicate(Fadhgridh3)	Brynhildr#p3-10	722
+prtg_cas03,48,58,4	duplicate(Fadhgridh3)	Brynhildr#p3-11	722
+prtg_cas03,158,210,4	duplicate(Fadhgridh3)	Brynhildr#p3-12	722
+prtg_cas03,169,210,4	duplicate(Fadhgridh3)	Brynhildr#p3-13	722
+prtg_cas03,162,201,4	duplicate(Fadhgridh3)	Brynhildr#p3-14	722
+prtg_cas03,165,201,4	duplicate(Fadhgridh3)	Brynhildr#p3-15	722
+
+// AGIT Manager
+//============================================================
+prtg_cas03,17,221,0	duplicate(Gld_Agit_Manager)	Agit#prtg_cas03	-1
+
+// Steward
+//============================================================
+prtg_cas03,51,100,4	duplicate(Gld_Mngr_Template)	Sttick#prtg_cas03	55
+
+// Guardians
+//============================================================
+prtg_cas03,51,100,4	duplicate(Gld_Guard_Template)	Guardian#prtg_cas03	-1
+
+// Serviço Kafra
+//============================================================
+prtg_cas03,181,215,4	duplicate(Gld_Kafra_Template)	Kafra#prtg_cas03	117
+
+// Saída da Sala do Mestre
+//============================================================
+prtg_cas03,193,130,0	script	#switch_Pt03	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "prtg_cas03",51,101;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+prtg_cas03,189,132,0	duplicate(Gld_Trea_Protect)	ban_warp#prtg_cas03	-1,6,6
+
+// Guild Treasure Spawns
+//============================================================
+prtg_cas03,189,132,0	duplicate(Gld_Trea_Spawn)	Treasure#prtg_cas03	-1
+
+// Guild Dungeon Switch
+//============================================================
+prtg_cas03,5,70,0	duplicate(Gld_Dun_Template)	#prtg_cas03	111

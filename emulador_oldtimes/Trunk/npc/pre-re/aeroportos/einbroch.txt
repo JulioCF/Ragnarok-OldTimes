@@ -1,0 +1,111 @@
+//===== Cronus Script ========================================
+//= Equipe do Aeroporto de Einbroch
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Versão Atual: ========================================
+//= 1.4d
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Changelog: ===========================================
+//= Converted by Dr.Evil, 1.0b more typos and credits [Lupus]
+//= 1.1 Fixed wrong check, added extra condition [Justin84]
+//= 1.2 Removed Duplicates [Silent]
+//= 1.3 Fixed syntax errors for duplicate [KarLaeda]
+//= 1.4 Removed use of goto. [L0ne_W0lf]
+//= 1.4a Atualizado e revisto o script [Faicciruz/ Asus]
+//= 1.4b Revisado [Ewerton]
+//= 1.4c Revisado e corrigido typo [Reply.]
+//= 1.4d Removido show	[Yum]
+//============================================================
+
+airport,126,43,4	script	Equipe do Aeroporto#01::AirportE	90,{
+	mes "[Funcionário do Aeroporto]";
+	mes "Bem Vindo ao Aeroporto.";
+	mes "Como eu posso ajudá-lo?";
+	next;
+	if (select("Embarcar no Aeroplano:Cancelar") == 1) {
+		mes "[Funcionário do Aeroporto]";
+		mes "A taxa de embarque do Aeroplano";
+		mes "é de 1,200 zeny, mas se você tiver";
+		mes "um Bilhete para o Aeroplano,"; 
+		mes "a taxa não será cobrada.";
+		mes "Você quer embarcar no Aeroplano?";
+		next;
+		if (select("Sim:Não") == 1) {
+			if(countitem(7311) > 0) {
+				delitem 7311,1;
+				warp "airport",148,51;
+				close;
+			}
+			if(Zeny >= 1200) {
+				set Zeny, Zeny - 1200;
+				warp "airport",148,51;
+				close;
+			}
+			mes "[Funcionário do Aeroporto]";
+			mes "Você não tem Zeny suficiente.";
+			close;
+
+		}
+	}
+		mes "[Funcionário do Aeroporto]";
+		mes "Obrigado e tenha";
+		mes "um bom dia.";
+		close;
+
+}
+
+airport,143,43,4	duplicate(AirportE)	Equipe do Aeroporto#02	90
+airport,156,43,4	duplicate(AirportE)	Equipe do Aeroporto#03	90
+
+airport,126,51,4	script	Equipe do Aeroporto#04::AirportE2	90,{
+	mes "[Funcionário do Aeroporto]";
+	mes "Bem-vindo~";
+	mes "Por favor siga por este";
+	mes "caminho para embarcar no Aeroplano.";
+	next;
+	if (select("Sair do Terminal Principal:Cancelar") == 1) {
+		mes "[Funcionário do Aeroporto]";
+		mes "Se você deixar o";
+		mes "Terminal Principal, você";
+		mes "terá que pagar a taxa de entrada";
+		mes "novamente para embarcar no";
+		mes "Aeroplano. Você tem certeza";
+		mes "que deseja sair?";
+		next;
+		if (select("Sim:Não") == 1) {
+			warp "airport",142,40;
+			close;
+		}
+	}
+	mes "[Funcionário do Aeroporto]";
+	mes "Tudo bem, obrigado";
+	mes "por ser nosso cliente";
+	mes "e espero que você";
+	mes "tenha um vôo agradável~";
+	close;
+
+}
+
+airport,143,51,4	duplicate(AirportE2)	Equipe do Aeroporto#05	90
+airport,156,51,4	duplicate(AirportE2)	Equipe do Aeroporto#06	90
+
+einbroch,94,267,4	script	Equipe do Aeroporto#07	91,{
+	mes "[Funcionário do Aeroporto]";
+	mes "Bem vindo ao";
+	mes "Aeroporto de Einbroch.";
+	mes "Por favor use esta porta para";
+	mes "embarcar no Aeroplano com paradas";
+	mes "em Lighthalzen e Juno na";
+	mes "República de Schwaltzvalt";
+	next;
+	mes "[Funcionário do Aeroporto]";
+	mes "Por outro lado, se Einbroch é";
+	mes "o seu destino, por favor";
+	mes "desça a escada e fale";
+	mes "com os funcionários da chegada para conduzi-lo";
+	mes "até o Terminal Principal. Obrigado,";
+	mes "e aproveite sua viagem.";
+	close;
+
+}

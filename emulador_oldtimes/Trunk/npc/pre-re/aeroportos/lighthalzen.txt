@@ -1,0 +1,87 @@
+//===== Cronus Script ========================================
+//= Equipe do Aeroporto de Lighthalzen
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Versão Atual: ========================================
+//= 1.3d
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Changelog: ===========================================
+//= 1.0 Cloned from einbroch.txt [Justin84]
+//= 1.1 Removed Duplicates [Silent]
+//= 1.2 Fixed syntax errors for duplicate [KarLaeda]
+//= 1.3 Removed use of goto. [L0ne_W0lf]
+//= 1.3a Traduzido [Kamper]
+//= 1.3b Atualizado e revisto o script [Faicciruz]
+//= 1.3c Pequena correção [Ewerton]
+//= 1.3d Revisado e corrigido typo [Reply.]
+//============================================================
+
+lhz_airport,126,43,4	script	Equipe do Aeroporto#1::AirportL	90,{
+	mes "[Funcionário do Aeroporto]";
+	mes "Bem-vindo ao Aeroporto.";
+	mes "Como eu posso lhe ajudar?";
+	next;
+	if (select("Entrar no Aeroplano:Cancelar") == 1) {
+		mes "[Funcionário do Aeroporto]";
+		mes "A taxa de embarque do Aeroplano";
+		mes "é 1,200 zeny, mas se você";
+		mes "possuir um Bilhete para Aeroplano,"; 
+		mes "a taxa de embarque não será cobrada.";
+		mes "Gostaria de embarcar no Aeroplano?";
+		next;
+		if (select("Sim:Não") == 1) {
+			if(countitem(7311) > 0) {
+				delitem 7311,1;
+				warp "lhz_airport",148,51;
+				close;
+			}
+			if(zeny >= 1200) {
+				set Zeny,zeny-1200;
+				warp "lhz_airport",148,51;
+				close;
+			}
+			mes "[Funcionário do Aeroporto]";
+			mes "Você não tem zeny suficiente.";
+			close;
+		}
+	}
+	mes "[Funcionário do Aeroporto]";
+	mes "Obrigado e";
+	mes "tenha um bom dia.";
+	close;
+}
+
+lhz_airport,143,43,4	duplicate(AirportL)	Equipe do Aeroporto#2	90
+lhz_airport,156,43,4	duplicate(AirportL)	Equipe do Aeroporto#3	90
+
+lhz_airport,126,51,4	script	Equipe do Aeroporto#4::AirportL2	90,{
+	mes "[Funcionário do Aeroporto]";
+	mes "Bem-vindo~";
+	mes "Por favor, siga por este";
+	mes "caminho para embarcar no Aeroplano.";
+	next;
+	if (select("Sair do terminal principal:Cancelar") == 1) {
+		mes "[Funcionário do Aeroporto]";
+		mes "Se você deixar o Terminal";
+		mes "principal, você terá que";
+		mes "pagar a taxa de entrada";
+		mes "novamente para embarcar no";
+		mes "aeroplano. Tem certeza";
+		mes "que deseja sair?";
+		next;
+		if (select("Sim:Não") == 1) {
+			warp "lhz_airport",142,40;
+			close;
+		}
+	}
+	mes "[Funcionário do Aeroporto]";
+	mes "Tudo bem, obrigado";
+	mes "por ser nosso cliente.";
+	mes "Espero que você tenha";
+	mes "um vôo agradável~";
+	close;
+}
+
+lhz_airport,143,51,4	duplicate(AirportL2)	Equipe do Aeroporto#5	90
+lhz_airport,156,51,4	duplicate(AirportL2)	Equipe do Aeroporto#6	90

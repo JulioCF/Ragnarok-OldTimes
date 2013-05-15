@@ -1,0 +1,374 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Gatuno
+//===== Por: =================================================
+//= Plinio Marcos
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Descrição: ===========================================
+//= Quest das habilidades de Gatuno
+//= Retirado do Amazon
+//===== Changelog: ===========================================
+//= 1.0 Traduzido [Tassadar]
+//============================================================
+
+moc_prydb1,154,128,4	script	Alcouskou	118,{
+	mes "[Alcouskou]";
+	if(baseClass == Job_Thief) goto L_Start;
+	if(BaseJob==Job_Novice) goto L_Novice;
+
+L_Other:
+	mes "Seu tipo não é bem-vindo aqui.";
+	close;
+
+L_Novice:
+	mes "Embora Gatunos e Mercenários tenham as habilidades básicas que lhes ajudam em seus trabalhos, ainda existem outras habilidades 'especiais' que podem fazer uma grande diferença!";
+	next;
+	mes "[Alcouskou]";
+	mes "Eu sou o ÚNICO que conhece essas habilidades e pode ensiná-las";
+	mes "Se você seguir o caminho dos Ladrões ou Mercenários, volte aqui eu te ensino estas habilidades.";
+	next;
+	mes "[Alcouskou]";
+	mes "E se você conhecer alguém que queira aprender mande ele vim falar comigo... ok.";
+	close;
+
+L_Start:
+	mes "Durante sua vida você experimentará muitas coisas.";
+	mes "Você terá certa dificuldade para entender a importância dessas coisas, e com certeza irá considerá-las inúteis.";
+	next;
+	mes "[Alcouskou]";
+	mes "Mas não julgue assim tão rápido elas, essas coisas podem lhe ajudar e muito.";
+	next;
+	mes "[Alcouskou]";
+	mes "Deixe-me explicar:";
+
+M_Menu:
+	next;
+	menu "-Chutar Areia",M_Sand, "-Recuar",M_Back, "-Procurar Pedra",M_Find, "-Arremessar Pedra",M_Fling, "-Vejo você depois.",M_End;
+
+	M_Sand:
+		mes "[Alcouskou]";
+		if(SANDATTACK == 1) goto L_Sand;
+		if(getskilllv(149) > 0) goto L_GotSand;
+		mes "O mais importante para ser um bom Gatuno/mercenário é sua furtividade.  Ele dificilmente será detectado se ele/ela não quiser.";
+		next;
+		mes "[Alcouskou]";
+		mes "Alguns consideram isso um ato de covardia, mas eu não vejo assim.";
+		mes "Nós vivemos em um mundo onde sobreviver é o que importa.....";
+		next;
+		mes "[Alcouskou]";
+		mes "Mesmo que isso custe jogar areia na cara do inimigo. Essa habilidade eu a chamo de, ^5555FFChutar Areia^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "Com essa habilidade, permite chutar areia nos olhos de um oponente, o cegando por um curto periodo de tempo.";
+		mes "Isso irá reduzir o ataque e a defesa dando a você uma pequena vantagem, mas é só oque você precisa.";
+		next;
+		mes "[Alcouskou]";
+		mes "Mas para aprender essa habilidade você precisa de ^5555FF5 Torrão de Areia Fina^000000 e um ^FF3355'Alforge de Couro do Infinito'^000000.";
+		if(BaseJob == Job_Thief) mes "Mas também precisará estar em um nível de classe igual ou maior que ^5555FF25^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "Você pode encontrar a Alforge de Couro do Infinito com um merchant chamado ^5533FFRuRumuni^000000.";
+		mes "Ele se encontra a ^009500Leste de Payon^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "Volte quando conseguir.";
+		set SANDATTACK, 1;
+		goto M_Menu;
+	M_Back:
+		mes "[Alcouskou]";
+		if (BACKSLIDE == 1)goto L_Back;
+		if (getskilllv(150)>0) goto L_GotBack;
+		mes "Todos quando estão em um combate, tendem a focalizar em seus ataques e danos, mas é necessário compreender que FUJIR é TÃO IMPORTANTE JUSTO quanto atacar.";
+		next;
+		mes "[Alcouskou]";
+		mes "Nós Gatunos/Mercenários temos orgulhos de sermos rápidos e ageis, afim de evitar ataques rápidamente.";
+		mes "Mas claro, que você percebeu que há uma certa falha e uma diminuição na velocidade e agilidade.";
+		next;
+		mes "[Alcouskou]";
+		mes "Se você for atingido, dependendo do monstro, pode ser fatal!";
+		next;
+		mes "[Alcouskou]";
+		mes "Eu entendo que seja engraçado, ver um oponente errando seus ataques enquanto você ri da cara dele, mas...";
+		next;
+		mes "[Alcouskou]";
+		mes "Se for um grupo de monstros..... você não terá muito espaço para se esquivar, ai você chora..né..";
+		next;
+		mes "[Alcouskou]";
+		mes "Por este motivo, nós Gatunos/Mercenários temos pavor de monstros que atacam em grupo.";
+		mes "Mas claro que tem alguns grupos de monstros, que são insignificantes.";
+		next;
+		mes "[Alcouskou]";
+		mes "Por isso, existe essa habilidade que permite você a sair dessas situações.";
+		mes "Está habilidade usa sua velocidade para 'trás' saindo do caminho do grupo ofensivo, colocando você numa distância segura.";
+		next;
+		mes "[Alcouskou]";
+		mes "Eu a chamo de ^5555FFRecuar^000000 e requeri alguns anos para se tornar mestre.";
+		mes "Se você quiser aprender essa habilidade, você precisa primeiro conseguir^5555FF20 Pernas de Gafanhoto^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "Pense nisso como a primeira parte do treinamento.";
+		if(BaseJob == Job_Thief) mes "Se você for um Gatuno, precisa ter um nível de classe igual ou maior a ^5555FF35^000000.";
+		set BACKSLIDE, 1;
+		goto M_Menu;
+	M_Find:
+		mes "[Alcouskou]";
+		if (FINDSTONE == 1) goto L_Find;
+		if (getskilllv(151)>0) goto L_GotFind;
+		mes "Os mais experientes tem essa habilidade em seu arsenal.";
+		mes "Eles transformam pedras comuns em armas letais.";
+		next;
+		mes "[Alcouskou]";
+		mes "Eles podem arremssá-las com uma precisão e força surpreendentes.";
+		mes "Eles arremessam com tanta força, que em alguns casos até tonteiam o oponente.";
+		next;
+		mes "[Alcouskou]";
+		mes "Mas claro que não é qualquer pedra que pode ser usada como arma. Por isso a habilidade, ^5555FFProcurar Pedra^000000, que eu desenvolvi.";
+		mes "Praticando, você será capaz de encontrar a pedra ideal para poder ser 'Arremessada'.";
+		next;
+		mes "[Alcouskou]";
+		mes "Somente alguns pouquissimos mestres Gatunos/Mercenários são capazes de procurar pedra em qualquer tipo de terreno.";
+		mes "Reflita um pouco... essa habilidade é como uma arma de longo alcance e o melhor que você não gasta zeny para usá-la.... não é uma beleza?";
+		next;
+		mes "[Alcouskou]";
+		mes "Se você quiser aprender essa habilidade você deve primeiro treinar.  Comece procurando ^5555FF1 Pata de Urso^000000.";
+		mes "Depois encontre ^5555FF1 Zargônio^000000. E por último ^5555FF5 Ovas de Sapo^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "Conseguindo os itens irá desenvolver o que você necessita para aprender essa habilidade.";
+		set FINDSTONE, 1;
+		goto M_Menu;
+	M_Fling:
+		mes "[Alcouskou]";
+		if (STONEFLING == 1) goto L_Fling;
+		if (getskilllv(152)>0) goto L_GotFling;
+		mes "Os membros mais experiêntes tem acesso a está habilidade.";
+		mes "Eles conseguem pegar uma coisa comun como uma pedra no chão e transformá-la em uma arma eficiente.";
+		next;
+		mes "[Alcouskou]";
+		mes "Eles podem arremssá-las com uma precisão e força surpreendentes.";
+		mes "Eles arremessam com tanta força, que em alguns casos até tonteiam o oponente.";
+		next;
+		mes "[Alcouskou]";
+		mes "Eu a chamo de ^5555FFArremessar Pedra^000000. É muito útil, além de não gastar zeny.";
+		next;
+		mes "[Alcouskou]";
+		mes "Se você quiser aprender essa habilidade você precisará encontrar ^5555FF2 Garletas E 2 Scells^000000.";
+		mes "Você necessitará também ter dominado também a habilidade ^5555FFProcurar Pedra^000000.";
+		set STONEFLING, 1;
+		goto M_Menu;
+	M_End:
+		mes "[Alcouskou]";
+		mes "Você ainda não tem experiência suficiente.";
+		close;
+
+L_Sand:
+	if (countitem(7041)<5 || countitem(7042)<1) goto L_NotRdy1;
+	if (BaseJob==Job_Thief && JobLevel<25) goto L_LowLvl1;
+	mes "Muito bem, você conseguiu todos os itens. Agora vamos começar o treinamento.... o... ultimo.... ataque.... Chutar Areia!!!";
+	next;
+	mes "[Alcouskou]";
+	mes "Olhe para seus pés.  Tá vendo isso? Esse é o segredo de como Chutar Areia!!";
+	next;
+	mes "[Alcouskou]";
+	mes "Okay, agora faça isso....... yep, só isso que você pode fazer....... agora.........";
+	next;
+	mes "[Alcouskou]";
+	mes "ME ACERTA!!!";
+	emotion 27;
+	next;
+	mes "[Alcouskou]";
+	mes "(AHHH!! Meus OLHOS!!! Seu filho da)......... viu como é efetivo........ (COÇANDO e ESFREGANDO).......";
+	emotion 23;
+	next;
+	mes "[Alcouskou]";
+	mes "De qualquer forma, não o use demasiadamente....... (Ainda tem areia!!).... use essa habilidade como último recurso...... (AWW QUE DROGA!!)";
+	next;
+	mes "[Alcouskou]";
+	mes "Oh! esse ataque não é um ataque do elemento Terra....... (Boa maneira de ensinar isso).........";
+	emotion 4;
+	delitem 7041, 5;
+	delitem 7042, 1;
+	skill 149,1,0;
+	set SANDATTACK, 0;
+	set BAGNFNTY, 0;
+	close;
+
+	L_NotRdy1:
+		mes "Você precisa de ^5555FF5 Torrões de Areia Fina^000000 e uma ^FF3355'Alforje de Couro do Infinito'^000000.";
+		next;
+		mes "[Alcouskou]";
+		mes "você pode encontrar a Alforge de Couro do Infinito você consegue com um mercador chamado ^5533FFRuRumuni^000000.";
+		mes "Ele se encontra a ^009500Leste de Payon^000000.";
+		close;
+	L_LowLvl1:
+		mes "Você precisa ter um ^5555FFNível de Classe 25^000000 ou maior para aprender a Chutar Areia.";
+		close;
+	L_GotSand:
+		mes "Oh você voltou... Espero que não ataque areia em meus olhos novamente, heh heh.... heh........ heh..............";
+		emotion 4;
+		close;
+
+L_Back:
+	if (countitem(940)<20) goto L_NotRdy2;
+	if (BaseJob==Thief && JobLevel<35) goto L_LowLvl2;
+	mes "Muito bem, você conseguiu as pernas de gafanhoto. Quando você pega esses itens você adquiri um conhecimento do Gafanhoto.";
+	next;
+	mes "[Alcouskou]";
+	mes "Você precisa saber disso, pois essa habilidade é baseada nos movimentos de um grasshopper. Como ele, você fica ágil, rápido, e uma percepção melhorada.";
+	next;
+	mes "[Alcouskou]";
+	mes "Okay, Vamos começar........";
+	next;
+	mes "~fwoosh~";
+	next;
+	mes "~fwooooosh~";
+	next;
+	mes "~fwoooooooooooooooosh~";
+	next;
+	mes "[Alcouskou]";
+	mes "Ah! você conseguiu. Já tá pró. Com essa habilidade, poderá evitar os grupos de monstros.";
+	delitem 940,20;
+	skill 150,1,0;
+	set BACKSLIDE, 0;
+	close;
+
+	L_NotRdy2:
+		mes "Você precisa de ^5555FF20 Pernas de Gafanhoto^000000.";
+		close;
+	L_LowLvl2:
+		mes "Você tem que ter um ^5555FFNível de Classe 35^000000 para aprender a Recuar.";
+		close;
+	L_GotBack:
+		mes "Vejo que você já aprendeu a Recuar..... Por que você não usa isso para dar o fora daqui.....";
+		close;
+
+L_Find:
+	if (countitem(912)<1 || countitem(948)<1 || countitem(908)<5) goto L_NotRdy3;
+	mes "Ah! Vejo que você está totalmente preparado para aprender esta habilidade. Vamos nessa....";
+	next;
+	mes "[Alcouskou]";
+	mes "Há muitas pedras por aqui. Escolha uma, mas examine com cuidado uma a uma.";
+	mes "Note o peso e o tamanho, agora examine sua textura";
+	next;
+	mes "[Alcouskou]";
+	mes "Você deve sentir a pedra nas suas mãos... somente assim poderá usá-la com eficiência...";
+	next;
+	mes "~ Algumas horas depois... ~";
+	next;
+	mes "[Alcouskou]";
+	mes "Muito bom.  Você encontrou boas pedras. Isso mostra que você dominou esta habiliddade por completo.";
+	emotion 21;
+	delitem 912,1;
+	delitem 948,1;
+	delitem 908,5;
+	skill 151,1,0;
+	set FINDSTONE, 0;
+	next;
+	mes "[Alcouskou]";
+	mes "É engraçado usar esta habildade.";
+	close;
+
+	L_NotRdy3:
+		mes "Você precisa de ^5555FF1 Pata de Urso, 1 Zargônio, E 5 Ova de Sapo^000000 para aprender essa habilidade.";
+		close;
+	L_GotFind:
+		mes "Procurar Pedras pode ser engraçado, mas...... não gaste todo seu tempo com isso?.....";
+		close;
+
+L_Fling:
+	if (getskilllv(151) == 0) goto L_NotRdy4;
+	if ((countitem(910)<2) || (countitem(911)<2)) goto L_NotRdy4;
+	mes "Bom! Vejo que já está pronto para aprender a habilidade Arremessar Pedra. Vamos começar....";
+	next;
+	mes "[Alcouskou]";
+	mes "Primeiro, levante seu braço. Depois, Encontre uma pedra de alta qualidade usando a habilidade Procurar Pedra. Agora feche seus olhos e visualize seu alvo em sua mente.";
+	next;
+	mes "[Alcouskou]";
+	mes "Agora, imagine você mesmo arremessando essa pedra no seu alvo! Continue a visualizar isso!";
+	next;
+	mes "~ 30 minutos depois... ~";
+	next;
+	mes "[Alcouskou]";
+	mes "Pense que a pedra é uma extensão do seu corpo. Tente manter o alvo limpo em sua mente! Você e a pedra são agora um só....";
+	next;
+	mes "[Alcouskou]";
+	mes "Abra seus olhos! VEJA SEU ALVO!! Arremesse a pedra no alvo! AGORA!!";
+	emotion 27;
+	next;
+	mes "!!Whooooossshh!!................. !!Thwack!!";
+	next;
+	mes "[Alcouskou]";
+	mes "Haha! Excelente! Bem no alvo. Você agora se tornou mestre em Arremessar Pedra, parábens.";
+	emotion 21;
+	delitem 910,2;
+	delitem 911,2;
+	skill 152,1,0;
+	set STONEFLING, 0;
+	next;
+	mes "[Alcouskou]";
+	mes "Como você pode ter notado, essa habilidade requere muita concentração.";
+	mes "Por isso, ao focalizar seu alvo em sua mente você poderá ter problemas quando usa-lá.";
+	close;
+
+	L_NotRdy4:
+		mes "Você precisa de ^5555FF2 Scells e 2 Garletas^000000, e a habilidade ^5555FFProcurar Pedra^000000 para aprender a Arremessar Pedra.";
+		close;
+	L_GotFling:
+		mes "Bem, como está se saindo em Arremesar Pedra? Acho que você não erra, não é mesmo mestre.";
+		close;
+}
+
+
+payon,91,77,4	script	RuRumuni	99,{
+	mes "[RuRumuni]";
+	if(SANDATTACK == 1 && BAGNFNTY != 2) goto L_Start;
+
+	mes "Eu sou apenas um mercador aqui em Payon. Eu compro couro em segredo, trazidos pelos caçadores, e assim revendê-los.";
+	mes "Por trabalhar sempre com couro eu virei especialista nisso.";
+	next;
+	mes "[RuRumuni]";
+	mes "Tem uma guilda de Gatuno em Morroc.";
+	mes "Eu sei disso, por que eles me mandam sempre Gatunos precisando de itens, principalmente a ^5533FF'Alforje de Couro do Infinito'^000000.";
+	close;
+
+L_Start:
+	if(BAGNFNTY == 1) goto L_Check;
+	mes "Oi. Você foi mandado por Alcouskou para ter uma ^5533FF'Alforje de Couro do Infinito'^000000........";
+	mes "Eu ficarei feliz em fazer uma para você............";
+	next;
+	mes "[RuRumuni]";
+	mes "Mas este item é muito especial, e por isso precisarei de materiais especiais para fazê-la.";
+	next;
+	set BAGNFNTY, 1;
+
+	L_List:
+	mes "[RuRumuni]";
+	mes "Esses são os materiais que eu preciso:";
+	mes "- 5 ^5533FFCaudas de Escorpião^000000";
+	mes "- 1 ^5533FFTeia de Aranha^000000";
+	mes "- 1 ^5533FFEspinho de Cacto^000000";
+	mes "- 1 ^5533FFPele de Minhoca^000000.";
+	next;
+	mes "[RuRumuni]";
+	mes "Se você conseguir todos esses itens eu faço uma para você.";
+	close;
+
+L_Check:
+	mes "Que bom em revê-lo.  Mas preciso de todos os itens? Vamos ver........";
+	next;
+	if(countitem(904)<5 || countitem(1025)<1 || countitem(952)<1 || countitem(1055)<1) goto L_List;
+	mes "[RuRumuni]";
+	mes "Que maravilha. Deixe-me começar a fazê-la.......";
+	next;
+	mes "~( 30 minutos Depois)~";
+	next;
+	mes "[RuRumuni]";
+	mes "Aqui está, uma Alforje de Couro do Infinito. Legal, né!";
+	getitem 7042, 1;
+	delitem 904, 5;
+	delitem 1025, 1;
+	delitem 952, 1;
+	delitem 1055, 1;
+	set BAGNFNTY, 2;
+	close;
+}

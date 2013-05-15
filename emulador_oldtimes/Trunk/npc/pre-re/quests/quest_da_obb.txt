@@ -1,0 +1,208 @@
+//===== Cronus Script ========================================
+//= Quest da Velha Caixa Azul
+//===== Por: =================================================
+//= Celesta; Lupus;
+//===== Versão Atual: ========================================
+//= 1.3
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= Oficial Quest da Velha Caixa Azul
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido o NPC.		[Dynasty]
+//= 1.0a Corrigido nome da Quest.	[SoulBlaker]
+//= 1.1 Corrigido Ortografia.		[Dynasty]
+//= 1.2 Reestruturado a quest.		[SoulBlaker]
+//= 1.3 Movido NPC's de Morroc devido ao epsódio. [RoM]
+//============================================================
+
+alberta,115,204,5	script	Turista#obb	97,{
+	if(obb_quest == 1 ){
+		mes "[Turista]";
+		mes "OK, vá para morroc e encontre meu velho amigo Jacó,";
+		mes "ele vai lhe contar onde você pode achar o velho homem, que sabe sobre as caixas velhas azuis...";
+		next;
+		mes "[Turista]";
+		mes "Boa Sorte, amigo.";
+		close;
+	}
+	else if(obb_quest == 2 ){
+		mes "[Turista]";
+		mes "Você ainda faz caixas azuis?";
+		next;
+		mes "[Turista]";
+		mes "Oh.. sim, você pode encontrar o velho grego em comodo...";
+		close;
+	}
+	mes "[Turista]";
+	mes "Olá, estrangeiro!";
+	mes "Poderia me ajudar com um problema... Então eu lhe contarei algo interresante.";
+	next;
+	mes "[Turista]";
+	mes "Tenho fome. Não comi uma maçã se quer desde hoje de manhã...";
+	mes "Se me alimentar te conto um segredo.";
+	next;
+	set .@loop,1;
+	while(.@loop) {
+		switch(select("O que você gosta?:Eu tenho comida.:Te vejo mais tarde.")){
+			case 1:
+				mes "[Turista]";
+				mes "Acho que hoje.. eu.. gostaria de:";
+				mes "20 ^0000FFCarnes^000000";
+				mes "20 ^0000FFBiscoito de Gengibre^000000";
+				next;
+				break;
+			case 2:
+				mes "[Turista]";
+				mes "O que você os trouxe?!";
+				mes "Finalmente!";
+				next;
+				mes "[Turista]";
+				if(countitem(517) < 20){
+					mes "Sabia que está faltando carne...";
+					mes "Por favor, traga-me mais...";
+				}
+				else if(countitem(538)<20){
+					mes "Awww... Quero apenas mais doce!";
+					mes "Traga-me mais alguns Biscoitos de Gengibre por favor...";
+				}
+				else {
+					delitem 517,20;
+					delitem 538,20;
+					set .@rand,rand(10);
+					if(.@rand < 7){
+						mes "Ainda estou com fome!";
+						mes "É tudo que você tem?";
+					}
+					else {
+						mes "Bem... Estou satisfeita.";
+						mes "Agora ousa. É importante.";
+						next;
+						mes "[Turista]";
+						mes "Um amigo meu que vive em morroc conhece um velho homem em comodo...";
+						next;
+						mes "[Turista]";
+						mes "Que conhece o segredo da estranha caixa velha azul";
+						set obb_quest, 1;
+					}
+				}
+				close;
+			case 3:
+				set .@loop,0;
+				break;
+		}
+	}
+	mes "[Turista]";
+	mes "Bem... Então adeus.";
+	close;
+}
+
+//segunda parte Jacó
+moc_ruins,105,62,4	script	Jacó#obb	807,{
+	if(obb_quest == 1 ){
+		mes "[Jacó]";
+		mes "Aha! você disse que conheçe minha velha amiga de Alberta?";
+		next;
+		mes "[Jacó]";
+		mes "Bem, eu terei maior prazer de lhe contar sobre o velho homem se você me trazer";
+		mes "2 ^0000FFSem Destinatário^000000";
+		next;
+		if(select("Aqui estão!:Eu mudei de idéia.")==1){
+			mes "[Jacó]";
+			mes "Deixe-me ver...";
+			if(countitem(636)<2){
+				mes "Perdoe-me mas eu realmente preciso destes ^0000FFSem Destinatários^000000.";
+				emotion e_hmm;
+				close;
+			}
+			delitem 636,2;//Items: No_Recipient,
+			mes "Obrigado, é tudo o que eu precisava.";
+			emotion e_thx;
+			next;
+			mes "[Jacó]";
+			mes "Vá para Comodo. Em algum lugar da praia você encontrará um velho grego.";
+			mes "Diga a ele que me conhece e ele irá ajudá-lo.";
+			set obb_quest, 2;
+			close;
+		}
+		mes "[Jacó]";
+		mes "Bem, Boa sorte.";
+		close;
+	} else if(obb_quest == 2 ){
+		mes "[Jacó]";
+		mes "Vá para Comodo. Em algum lugar da praia você encontrará um velho grego";
+		mes "Diga a ele que me conhece e ele irá ajudá-lo";
+		close;
+	}
+	mes "Cai fora! Estou ocupado!";
+	set .@rand,rand(1);
+	switch(.@rand){
+		case 0:
+			mes "E não é com nenhum de seus negócios";
+			break;
+		case 1:
+			mes "Que Alberta? Huh?! Será que eu disse em voz alta? Esqueça isso.";
+			break;
+	}
+	close;
+}
+
+//Terceira parte
+comodo,41,209,5	script	Velho Grego#obb	120,{
+	if(obb_quest == 2 ){
+		mes "[Velho Grego]";
+		mes "Huh? Jacó enviou você?";
+		mes "OK, OK... É verdade, eu posso fazer as";
+		mes "an ^0000FF Velha Caixa Azul.^000000";
+		next;
+		set .@loop,1;
+		while(.@loop) {
+			switch(select("Faça-me uma.:O que você precisa?:Adeus.")){
+				case 1:
+					mes "[Velho Grego]";
+					mes "Deixe-me ver o que você trouxe...";
+					next;
+					set .@loop2,1;
+					while(.@loop2) {
+						mes "[Velho Grego]";
+						if(countitem(7053)<50 || countitem(7054)<10 || countitem(965)<10 || countitem(964)<15){
+							mes "Infelizmente, meu filho. Você não trouxe todos os materiais...";
+							close;
+						}
+						mes "Aqui está a caixa!";
+						emotion e_no1;
+						delitem 7053,50;//Items: Cyfar,
+						delitem 7054,10;//Items: Brigan,
+						delitem 965,10;//Items: Casco de Caranguejo,
+						delitem 964,15;//Items: Casco de Ostra,
+						getitem 603,1;//Items: Caixa velha azul,
+						next;
+						if(select("Faça outra!:É suficiente")==2)
+							set .@loop2,0;
+					}
+					set .@loop,0;
+					break;
+				case 2:
+					mes "[Velho Grego]";
+					mes "Para fazer a caixa velha azul:";
+					mes "50 ^0000FFCyfars^000000";
+					mes "10 ^0000FFBrigans^000000";
+					mes "10 ^0000FFCasco de Caranguejo^000000";
+					mes "15 ^0000FFCasco de Ostra^000000";
+					next;
+					break;
+				case 3:
+					set .@loop,0;
+					break;
+			}
+		}
+		mes "[Velho Grego]";
+		mes "Desejo-lhe uma ótima viagem meu filho.";
+		close;
+	}
+	set .@rand,rand(2);
+	mes "O conhecimento! Essa é a chave, meu filho...";
+	if(.@rand == 2)
+		mes "Riqueza não importa.";
+	close;
+}

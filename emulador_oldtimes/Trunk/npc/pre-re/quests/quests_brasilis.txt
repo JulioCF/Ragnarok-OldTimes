@@ -1,0 +1,2917 @@
+//===== Cronus Script ========================================
+//= Quests de Brasilis
+//===== Por: =================================================
+//= RoM
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Descrição: ===========================================
+//= * Quests:
+//= - Cachorros Desaparecidos
+//= - Guaraná
+//= - Loira do Banheiro
+//= - Vitória-Régia
+//===== TODO: ================================================
+//= - Adicionar o log das quests.
+//===== Changelog: ===========================================
+//= 1.0 Primeira versão, quest dos Cachorros Desaparecidos. [RoM]
+//= 1.1 Adicionada a quest do Guaraná. [RoM]
+//= 1.2 Adicionada a quest da Loira do Banheiro. [RoM]
+//= 1.3 Adicionada a quest da Vitória-Régia e correções na Loira do Banheiro. [RoM]
+//= 1.4 Corrigida a recompensa da quest da Vitória-Régia, a carta deveria vir equipada. [RoM]
+//============================================================
+
+// Cachorros Desaparecidos
+//============================================================
+
+brasilis,297,307,5	script	Angelo#br	50,{
+	if( bra_q_cao > 4 && bra_q_cao > gettimetick(2) ){
+		mes "[Angelo]";
+		mes "O dia ainda não terminou.";
+		mes "Você só pode ajudar uma vez por dia. Haha.";
+		close;
+	}
+	else if( !bra_q_cao || ( bra_q_cao > 4 && bra_q_cao <= gettimetick(2) ) ){
+		mes "[Angelo]";
+		mes "Você é um aventureiro? Chegou na hora certa.";
+		mes "Os cãezinhos do nosso pessoal andam sumidos.";
+		mes "Parece que eles estão nos campos nos arredores da vila...";
+		next;
+		mes "[Angelo]";
+		mes "É difícil e perigoso ir atrás deles.";
+		mes "Para nos ajudar, você só precisa encontrar ^0000FF3 cãezinhos^000000.";
+		set bra_q_cao,1;
+		close;
+	}
+	else if( bra_q_cao == 4 ){
+		mes "[Angelo]";
+		mes "Ah, obrigado. Você encontrou os 3 cãezinhos.";
+		mes "Muito obrigado.";
+		mes "Espero que isto lhe seja útil. Hoho!";
+		getexp 50000,0;
+		specialeffect2 EF_ASSUMPTIO;
+		set bra_q_cao,(gettimetick(2)+86400);
+		close;
+	}
+	else if( bra_q_cao && bra_q_cao < 4 ){
+		mes "[Angelo]";
+		mes "Os bichinhos estão no campo, nos arredores da vila.";
+		mes "Por que eles fugiram? Por favor, encontre-os...";
+		close;
+	}
+	end;
+
+OnInit:
+	donpcevent "Angelo#br::OnSorteio";
+	initnpctimer;
+	end;
+
+OnSorteio:
+	sleep 1000; // Tempo para não dar conflito com o hideon dos cachorros.
+	setarray .@cao$[0],"Bob#b1","Bidu#b2","Binho#b3","Binho#b4","Bob#b5","Bob#b6","Bob#b7";
+	hideoffnpc .@cao$[rand(0,getarraysize(.@cao$)-1)];
+	end;
+
+OnTimer10000:
+	emotion e_gasp;
+	initnpctimer;
+	end;
+}
+
+function	script	cao_bra	{
+	mes "["+getarg(0)+"]";
+	if( bra_q_cao >= 1 && bra_q_cao < 4 ){
+		mes "Au, au, au, au!!";
+		next;
+		set bra_q_cao,bra_q_cao+1;
+		mes "["+strcharinfo(0)+"]";
+		if( bra_q_cao == 4 ){
+			mes "Que bom. Encontrei os 3 cãezinhos.";
+			mes "Agora preciso levá-los ao Angelo.";
+		} else {
+			mes "Ah, aí está você...";
+			mes "Encontrei um... onde estão os outros?";
+		}
+		close2;
+		hideonnpc getarg(1);
+		donpcevent "Angelo#br::OnSorteio";
+		end;
+	}
+	mes "Au! Au au!";
+	close;
+
+
+}
+
+bra_fild01,80,163,3	script	Bob#b1	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,73,210,3	script	Bidu#b2	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,80,210,3	script	Binho#b3	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,62,142,3	script	Binho#b4	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,96,96,3	script	Bob#b5	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,233,101,3	script	Bob#b6	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+bra_fild01,81,163,3	script	Bob#b7	81,{
+	callfunc "cao_bra",strnpcinfo(1),strnpcinfo(0);
+
+OnInit:
+	hideonnpc strnpcinfo(0);
+	end;
+}
+
+
+// Guaraná
+//============================================================
+
+brasilis,187,162,5	script	Doceira	476,{
+	if( bra_q_guarana == 11 ){
+		mes "[Doceira]";
+		mes "Doce de guaraná... Minha obra-prima, com certeza!";
+		next;
+		mes "[Doceira]";
+		mes "Voltei a ter um suprimento de guaraná, então posso fazer meu doce premiado!";
+		next;
+		mes "[Doceira]";
+		mes "Que tal? Quer experimentar?";
+		mes "Custa 500 zenys.";
+		next;
+		if( select("Comprar um doce de guaraná.:Ignorar.") == 2 ){
+			mes "[Doceira]";
+			mes "Tem gente que não gosta de guaraná, por ele ser estimulante demais.";
+			close;
+		}
+		if( Zeny < 500 ){
+			mes "[Doceira]";
+			mes "Quê? Devia ter dito antes que não tem dinheiro!";
+			mes "Mesmo que você seja pobre, não posso dar nada de graça.";
+			close;
+		}
+		mes "[Doceira]";
+		mes "Aqui está, um delicioso doce de guaraná.";
+		set Zeny,Zeny-500;
+		getitem 12414,1;
+		close;
+	}
+	else if( bra_q_guarana == 10 ){
+		mes "[Doceira]";
+		mes "Conseguiu o guaraná?";
+		next;
+		if( !countitem(6237) ){
+			mes "[Doceira]";
+			mes "Mas onde é que você guardou o seu Guaraná?";
+			close;
+		}
+		delitem 6237,1;
+		mes "- Você dá o guaraná a ela. -";
+		next;
+		mes "[Doceira]";
+		mes "Uau, você tem um talento especial.";
+		mes "O melhor que vi na vida. Legal!!";
+		next;
+		mes "[Doceira]";
+		mes "Bom, vamos fazer o doce!";
+		mes "Há quanto tempo não via meu doce de guaraná...";
+		next;
+		mes "- descasca corta pica espreme tritura -";
+		mes "- descasca corta pica espreme tritura -";
+		next;
+		mes "[Doceira]";
+		mes "Aqui está meu popular doce de guaraná.";
+		mes "Prove, é delicioso... Mas não vá devorar tudo de uma vez. Haha!";
+		getitem 12414,1;
+		set bra_q_guarana,11;
+		close;
+	}
+	if( bra_q_guarana >= 2 && bra_q_guarana < 9 ){
+		mes "[Doceira]";
+		mes "Doce de guaraná... minha obra-prima, com certeza!";
+		close;
+	}
+	else if( bra_q_guarana == 1 ){
+		mes "[Doceira]";
+		mes "Se quiser encontrar o guaraná, fale com Paulão.";
+		mes "Ele deve estar no museu.";
+		close;
+	}
+	mes "[Doceira]";
+	mes "Ei, você conhece um fruto chamado ^FF0000Guaraná^000000?";
+	next;
+	mes "[Doceira]";
+	mes "O guaraná é um fruto muito especial, cultivado em terreno específico, que alivia a fadiga física. Ele também é usado como planta medicinal.";
+	next;
+	mes "[Doceira]";
+	mes "Ele se parece com o olho de uma pessoa, é um pouco assustador... Mas ele é muito útil e faz bem ao corpo.";
+	next;
+	mes "[Doceira]";
+	mes "Eu costumava fazer um doce de guaraná muito popular aqui em Brasilis.";
+	mes "Eu sempre ganhava o prêmio de 'Melhor Doce do Ano', era incrível!";
+	next;
+	mes "[Doceira]";
+	mes "Mas de repente a produção de guaraná caiu, o preço subiu, então tive que trocá-lo pelo coco e outras frutas tropicais. Elas não são melhores nem piores que o guaraná. Mas não é a mesma coisa.";
+	next;
+	if( select("Gostaria de provar esse doce.:Não gosto de doces.") == 2 ){
+		mes "[Doceira]";
+		mes "Que bons tempos eram aqueles...";
+		close;
+	}
+	mes "[Doceira]";
+	mes "Hum... Eu já vendi todo o meu estoque.";
+	next;
+	mes "[Doceira]";
+	mes "Mas se me trouxer o guaraná, posso fazer o doce para você.";
+	next;
+	if( select("Como encontrar o guaraná?:Ahh, muito difícil...") == 2 ){
+		mes "[Doceira]";
+		mes "Então nem adianta oferecer a cocada, né?";
+		close;
+	}
+	mes "[Doceira]";
+	mes "Você vai procurar um pouco de guaraná?? Oh...";
+	next;
+	mes "[Doceira]";
+	mes "Será que consegue?";
+	mes "Mesmo que encontre, ele é bem caro.";
+	mes "Bom, aí não tenho certeza...";
+	next;
+	mes "[Doceira]";
+	mes "Vou lhe indicar a pessoa com quem eu entrava em contato para comprar guaraná.";
+	mes "Fale com ele e veja o que consegue.";
+	next;
+	mes "[Doceira]";
+	mes "O nome dele é Paulão.";
+	mes "Se não o encontrar na cidade, procure no museu.";
+	mes "Ele é vaidoso, meio afetado.";
+	mes "Ele deve estar no museu hoje, para se exibir como se fosse uma obra de arte. Tenho certeza.";
+	set bra_q_guarana,1;
+	close;
+}
+
+bra_in01,95,179,3	script	Paulão	477,{
+	if( bra_q_guarana >= 5 ){
+		mes "[Paulão]";
+		mes "Hoho!!!!!";
+		close;
+	}
+	else if( bra_q_guarana == 4 ){
+		mes "[Paulão]";
+		mes "Você encontrou o menino do guaraná?";
+		next;
+		mes "- Você conta a Paulão que há um menino que fala como os animais. -";
+		next;
+		mes "[Paulão]";
+		mes "Oh... inacreditável.";
+		mes "Ele pode ser mesmo o menino do guaraná...";
+		mes "De acordo com a lenda, o menino pode conversar com os animais.";
+		next;
+		mes "[Paulão]";
+		mes "Se ele faz sons de animais, talvez possa conversar com eles!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "E agora, o que faço?";
+		mes "Se ele é o menino da lenda, será que não tem um jeito de cultivar o guaraná de novo?";
+		next;
+		mes "[Paulão]";
+		mes "Haha! Não lembra o que eu disse?";
+		mes "Paulão sabe de tudo!!";
+		mes "Já pensei no que fazer em seguida.";
+		next;
+		mes "[Paulão]";
+		mes "Em Brasilis, há um velho índio que às vezes vem vender os artesanatos de sua tribo.";
+		mes "Nós o chamamos de Pajé.";
+		mes "Leve esta mensagem para ele.";
+		mes "Certamente ele vai ter a solução para o menino.";
+		set bra_q_guarana,5;
+		close;
+	}
+	else if( bra_q_guarana == 3 ){
+		mes "[Paulão]";
+		mes "Você vai conseguir encontrar o menino do guaraná? Que tal procurar um garoto estranho na praia?";
+		close;
+	}
+	else if( bra_q_guarana == 2 ){
+		mes "[Paulão]";
+		mes "O fato é que um menino do guaraná nasceu.";
+		next;
+		select("Menino do guaraná?");
+		mes "[Paulão]";
+		mes "Diz a lenda que havia uma mulher perita em plantas.";
+		mes "Ela era muito popular com os humanos e os animais.";
+		next;
+		mes "[Paulão]";
+		mes "Seu filho gostava muito de guaraná, então ela o cultivava. Mas alguns invejosos destruíram a plantação. Depois disso, todos desapareceram...";
+		mes "É essa a história...";
+		next;
+		mes "[Paulão]";
+		mes "Não temos como ter certeza que esse menino nasceu neste mundo, mas o fato é que o guaraná desapareceu.";
+		next;
+		mes "[Paulão]";
+		mes "Quem é o menino do guaraná?";
+		mes "Pedro, o ganancioso?";
+		mes "Mateus, que não quer saber de frutas?";
+		mes "Felipe, o melancólico?";
+		mes "Puxa, quantos personagens a gente tem!!";
+		next;
+		mes "[Paulão]";
+		mes "O que você acha? Quem é o menino do guaraná?";
+		mes "Será que você pode descobrir? Hoho...";
+		set bra_q_guarana,3;
+		close;
+	}
+	else {
+		mes "[Paulão]";
+		mes "Hum... ei, você é de fora, não é?";
+		next;
+		mes "[Paulão]";
+		mes "Mesmo te vendo pela primeira vez, você não pode me enganar.";
+		mes "Tenho um olhar de águia! Haha!";
+		next;
+		mes "[Paulão]";
+		mes "Hum...";
+		next;
+		mes "[Paulão]";
+		mes "Enfim, você chegou a Brasilis e não sabe o que fazer?";
+		mes "Está com sorte, você encontrou a pessoa certa para lhe ajudar!";
+		next;
+		mes "[Paulão]";
+		mes "Dá para ver pelo seu rosto que você quer me dizer 'você é o cara', não é?";
+		mes "Eu, Paulão, percebo essas coisas! Está escrito na sua cara!";
+		next;
+		if( bra_q_guarana == 1 ){
+			mes "[Paulão]";
+			mes "Se tem alguma curiosidade, é só perguntar ao Paulão aqui. Sou tão gentil que posso responder a qualquer pergunta.";
+			next;
+			select("Perguntar sobre o guaraná.");
+			mes "[Paulão]";
+			mes "Hein? Você quer encontrar um guaraná?";
+			next;
+			mes "[Paulão]";
+			mes "O pé de guaraná é cultivado somente nesta região, ele é bem alto; seu fruto é macio e a casca parece ser coberta por penugem.";
+			mes "Parece um pouco estranho, mas a flor é bonita e cheira bem.";
+			next;
+			mes "[Paulão]";
+			mes "Há muito tempo o guaraná é usado para curar doenças e aliviar a sede, e recentemente ele ficou popular como energético.";
+			next;
+			mes "[Paulão]";
+			mes "Hum... embora seus efeitos sejam maravilhosos, a má notícia é que não temos mais nenhum.";
+			next;
+			select("O quêêêê??");
+			mes "[Paulão]";
+			mes "De alguma forma, os pés de guaraná pararam de crescer. Aconteceu já faz um tempo.";
+			next;
+			mes "[Paulão]";
+			mes "Só conseguimos encontrar frutos secos, que não se podem comer.";
+			next;
+			mes "[Paulão]";
+			mes "Juro que é verdade!";
+			next;
+			select("Do que você está falando?");
+			mes "[Paulão]";
+			mes "Silêncio!!!!";
+			mes "Essa história toda é um tabu! Cuidado, alguém pode nos ouvir!";
+			next;
+			mes "[Paulão]";
+			mes "Se eu lhe contar, vou arrumar confusão. Se quer mesmo saber, posso lhe dar uma pista.";
+			mes "Chegue mais perto. Posso lhe falar bem baixinho, para ninguém escutar.";
+			set bra_q_guarana,2;
+			close;
+		}
+		mes "[Paulão]";
+		mes "Enfim... queria poder te explicar um monte de coisas, mas estou tão ocupado...";
+		next;
+		mes "[Paulão]";
+		mes "Ah, não me olhe desse jeito, assim eu choro.";
+		mes "Por enquanto, não tem outro jeito. Volte mais tarde!";
+		close;
+	}
+	end;
+}
+
+brasilis,203,64,3	script	Garoto Estranho#bra	706,{
+	if ( bra_q_guarana == 9 ){
+		mes "[Garoto Estranho]";
+		mes "Ah... Aha.....";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Muitos amigos estão esperando você voltar. Dê só uma olhada.";
+		next;
+		mes "Você deu a ele carne fresca, o cacho de uvas e a pena que os animais lhe deram.  -";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Ah...";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Um, hum...";
+		mes "mã... mamãe...";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Ah...";
+		mes "pássaro...";
+		mes "Ma, ma, ma... caco...";
+		mes "Au, au...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Um cão?!";
+		mes "Hum, sim. Muitos amigos querem te encontrar.";
+		mes "Não fique mais sozinho, seja feliz com seus amigos.";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Ah... he... hehe...";
+		next;
+		mes "- O menino começou a rir, sorridente. -";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Si... sim...";
+		mes "O... obri... gado.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Certo, certo. Que sorriso bonito!";
+		mes "Seja um menino feliz e sorria assim sempre.";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Hum...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "O quê?";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Ei...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Quer dizer alguma coisa?";
+		next;
+		mes "- Você se aproxima para ouvir. -";
+		next;
+		emotion e_kis;
+		mes "(*beijo*)";
+		next;
+		mes "- O menino riu de novo e entregou algo em sua mão. -";
+		next;
+		mes "- É um fruto fresco, vermelho. -";
+		next;
+		mes "[Garoto Estranho]";
+		mes "Gua... ra... ná...";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Ei, um fruto de guaraná?";
+		mes "Ah! Obrigado, menino!";
+		emotion e_heh;
+		emotion e_kis2,2;
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Com ele eu posso fazer o doce de guaraná.";
+		mes "Vou levar isso logo à doceira!";
+		getitem 6237,1;
+		set bra_q_guarana,10;
+		close;
+	}
+	else if ( bra_q_guarana >= 4 && bra_q_guarana < 9 ){
+		mes "[Garoto Estranho]";
+		mes "Ah...? Ah...?";
+		close;
+	}
+	else if( bra_q_guarana == 3 ){
+		mes "[Garoto Estranho]";
+		mes "................";
+		next;
+		if( select("Tentar conversar.:Fingir ignorar.") == 2 ){
+			mes "[Garoto Estranho]";
+			mes "................";
+			close;
+		}
+		mes "O que posso dizer a ele?";
+		next;
+		while(1){
+			switch(select("Qual é o seu nome?:Quantos anos você tem?:O que você está fazendo?:Parar de falar.")){
+			case 1:
+				mes "[Garoto Estranho]";
+				mes "Caaaaau!";
+				mes "Grrrrr... caaaaa...";
+				break;
+			case 2:
+				mes "[Garoto Estranho]";
+				mes "Buuuuuuuu...";
+				mes "Buuuuuuuu...";
+				break;
+			case 3:
+				mes "[Garoto Estranho]";
+				mes "Bééééé...";
+				mes "Béééé...";
+				break;
+			case 4:
+				mes "[Garoto Estranho]";
+				mes "Caaaaau!";
+				mes "Grrrrr... caaaaa...";
+				next;
+				mes "["+strcharinfo(0)+"]";
+				mes "Ele faz sons estranhos, como animais.";
+				mes "Será que é melhor perguntar ao Paulão?";
+				set bra_q_guarana,4;
+				close;
+			}
+			next;
+		}
+	}
+	else if( bra_q_guarana < 3 ){
+		mes "[Garoto Estranho]";
+		mes "................";
+		close;
+	}
+	else
+		end;
+}
+
+brasilis,56,224,7	script	Pajé Ubirajá#bra	704,{
+	donpcevent "Poring#bra::OnChange";
+	if( bra_q_guarana >= 6 ){
+		mes "[Pajé Ubirajá]";
+		mes "OOOOooooOOOOOoooOOOOOO!";
+		close;
+	}
+	else if( bra_q_guarana == 5 ){
+		mes "[Pajé Ubirajá]";
+		mes "OooOOOOooooOOOOOooo...";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Ooooh!";
+		mes "Tenho uma visita.";
+		mes "Bom te ver. Sou o melhor Pajé de Brasilis.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Olá, Paulão me mandou vir aqui.";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Paulão? O que aconteceu?";
+		mes "Você deve ter vindo perguntar sobre alguns boatos, não foi?";
+		next;
+		mes "- Você entrega o bilhete de Paulão ao Pajé. -";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Ooooh!";
+		mes "Nossa... foi isso o que aconteceu.";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Na verdade, não posso te ajudar diretamente.";
+		mes "Mas vou usar uma magia simples, e você vai poder resolver tudo sozinho, certo?";
+		next;
+		select("Que tipo de magia?");
+		mes "[Pajé Ubirajá]";
+		mes "- Não é grande coisa, mas você vai ter a aparência de um animal para os outros animais. -";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "'Uau! Mas é uma magia incrível!'";
+		mes "'Se você diz que é tão simples, deve ser mesmo um mago genial! Nossa!'";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "...pelo seu rosto, você está pensando isso.";
+		mes "Eu entendo dessas coisas, hehe.";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Certo, vou usar a magia.";
+		mes "Alguns animais são mais sensíveis e podem perceber o disfarce, então comece falando com o Tucano, que não é tão sensível assim. Vá até a floresta de Brasilis através do bondinho que fica a nordeste da cidade.";
+		next;
+		mes "[Pajé Ubirajá]";
+		mes "Receba a bênção da natureza!";
+		specialeffect2 EF_ASSUMPTIO;
+		set bra_q_guarana,6;
+		close;
+	}
+	mes "[Pajé Ubirajá]";
+	mes "Abracadabra!";
+	close;
+}
+
+bra_fild01,76,83,4	script	Tucano#bra	2073,2,2,{
+	end;
+
+OnTouch:
+	if( bra_q_guarana == 6 ){
+		mes "[Tucano]";
+		mes "Cáááá! É a primeira vez que te vejo. Cááá!";
+		next;
+		mes "[Tucano]";
+		mes "Aqui, no meio do velho e novo continente... mesmo te vendo pela primeira vez você me parece familiar, como uma mulher dançando samba aqui em Brasilis...";
+		next;
+		select("Do que está falando?");
+		mes "[Tucano]";
+		mes "Sinto em você um poder parecido com o menino do guaraná. Cáááá!";
+		next;
+		mes "[Tucano]";
+		mes "Aquele menino vive muito sozinho, cáááá! Será que você é amigo dele? Cáááá!";
+		next;
+		select("Ainda não, mas quero ser.");
+		mes "[Tucano]";
+		mes "O menino criado pela mulher do guaraná é amigo dos animais. Cáááá!";
+		next;
+		mes "[Tucano]";
+		mes "Quero dar a ele o símbolo dos tucanos. Cáááá!";
+		next;
+		mes "[Tucano]";
+		mes "Se for para aliviar a solidão dele, pode me ajudar?";
+		next;
+		select("É claro!");
+		mes "[Tucano]";
+		mes "Aqui está minha pena.";
+		mes "Leve-a ao menino.";
+		mes "Ela representa a amizade eterna entre o menino do guaraná e a tribo dos tucanos. Cáááá!";
+		next;
+		mes "- Você recebe uma pena de tucano. -";
+		next;
+		mes "[Tucano]";
+		mes "Há outros aqui que sentem o mesmo que eu.";
+		mes "Procure a Onça, cáááá!";
+		next;
+		mes "[Tucano]";
+		mes "Vou lhe dar a bênção dos tucanos, como amigo do menino.";
+		specialeffect2 EF_HIT6;
+		next;
+		mes "[Tucano]";
+		mes "Agora voe, voe para longe.";
+		close2;
+		set bra_q_guarana,7;
+		warp "bra_fild01",68,146;
+		end;
+	}
+	mes "[Tucano]";
+	mes "Cáááá! Cááááá!";
+	close;
+}
+
+bra_fild01,34,184,4	script	Onça#bra	2072,2,2,{
+	if( bra_q_guarana == 7 ){
+		mes "[Onça]";
+		mes "Graur... Graur...";
+		next;
+		mes "[Onça]";
+		mes "Esse cheiro... é de humano!";
+		mes "Sinto cheiro de humano em algum lugar!";
+		mes "Achei, é você!";
+		next;
+		mes "[Onça]";
+		mes "Não tema, humano.";
+		mes "Já não tenho forças para lhe caçar, só estou esperando minha vida terminar aqui na selva.";
+		next;
+		mes "[Onça]";
+		mes "Mas você consegue falar comigo, tem algo a ver com o menino do guaraná?";
+		next;
+		select("Na verdade, sim...");
+		mes "[Onça]";
+		mes "O filho da mulher do guaraná também é nosso amigo.";
+		mes "Os dois sempre trataram qualquer forma de vida como algo precioso.";
+		mes "Você é igual a eles, não é?";
+		next;
+		mes "[Onça]";
+		mes "Os passarinhos me disseram.";
+		mes "O menino do guaraná está de coração partido.";
+		mes "Isso porque os irmãos da mulher o deixaram sozinho, certo?";
+		next;
+		mes "[Onça]";
+		mes "Aqui tenho carne fresca que cacei agora há pouco.";
+		mes "Leve-a ao pobre menino.";
+		next;
+		mes "[Onça]";
+		mes "É um pequeno gesto de gentileza, que também estendo a você, não se esqueça.";
+		mes "A selva sempre lhe receberá bem!";
+		next;
+		mes "- Você pegou a carne fresca da Onça. -";
+		next;
+		mes "[Onça]";
+		mes "Ah, o macaco, que é sempre curioso e enxerido, quer falar com você.";
+		next;
+		mes "[Onça]";
+		mes "Vou lhe dar a bênção da Onça.";
+		mes "Vá até o macaco, voando como uma abelha.";
+		mes "Até outra vez, amigo!";
+		set bra_q_guarana,8;
+		sc_start SC_SpeedUp1,5000,0;
+		close;
+	}
+	end;
+
+OnTouch:
+	mes "[Onça]";
+	mes "Graur...";
+	close;
+}
+
+bra_fild01,245,54,3	script	Macaco#bra	1057,{
+	if( bra_q_guarana == 8 ){
+		mes "[Macaco]";
+		mes "O que é isso??!";
+		mes "Não gostamos de outras espécies por aqui, não sabia? Dá o fora!";
+		next;
+		mes "[Macaco]";
+		mes "Ei, espere... esse cheiro!!";
+		mes "Sinto o cheiro da Onça, mas quem é você?";
+		mes "Como é que pode? Você parece uma Onça, mas não tem pelo!!";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "........................";
+		mes "Jura mesmo que estou parecendo um animal?!?";
+		next;
+		mes "[Macaco]";
+		mes "Hein? Você não é uma Onça?";
+		next;
+		mes "[Macaco]";
+		mes "Aaah. A Onça mandou você vir, certo? Quiquiqui!";
+		mes "Mas você não é o menino do guaraná.";
+		next;
+		select("Vim saber como ajudá-lo.");
+		mes "[Macaco]";
+		mes "Soube que o menino do guaraná ficou sozinho, é verdade?";
+		mes "Nós macacos somos bons acrobatas, será que ele vai gostar? Quiqui!";
+		next;
+		mes "[Macaco]";
+		mes "Leve este cacho de uvas ao menino do guaraná.";
+		mes "Vamos diverti-lo o quanto ele quiser, é só aparecer!! Quiquiqui!";
+		next;
+		mes "- Você recebeu o cacho de uvas do macaco. -";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Bom, agora é hora de voltar ao menino!";
+		set bra_q_guarana,9;
+		close;
+	}
+	mes "[Macaco]";
+	mes "Quiquiqui!";
+	close;
+}
+
+
+// Loira do Banheiro
+//============================================================
+
+bra_dun01,87,43,1	script	Cano#bra	844,{
+	if(bra_q_loira < 8)
+		end;
+	warp "bra_in01",206,185;
+	end;
+}
+
+bra_in01,206,188,1	script	Vácuo Aberto#todunbra	844,{
+	if(bra_q_loira < 7)
+		end;
+	if(bra_q_loira >= 8)
+	{
+		warp "bra_dun01",87,47;
+		end;
+	}
+	hideoffnpc "Loira do Banheiro#bra2";
+	mes "[Loira do Banheiro]";
+	mes "Sou o fantasma de alguém que morreu enquanto andava pela selva, há muito tempo.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Encontrei um cano na selva, e entrei nele seguindo vozes. Fiquei vagando por ele, no ambiente úmido e escuro.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Embora tivesse ferido um dos olhos, estava com pressa demais para tratar dele.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Vaguei por muitos dias até encontrar esta ponta do cano, no banheiro do museu. Gritei bem alto, mas ninguém me encontrou.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Já é tarde demais para mim, mas obrigada por me ouvir.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Há muita coisa perigosa do outro lado do cano, é melhor você voltar.";
+	mes "Hum... talvez alguém tão valente e curioso sobre o mundo, como você, goste deste lugar.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "Espero que você guarde boas lembranças de Brasilis, meu lar...";
+	close2;
+	getexp 90000,0;
+	set bra_q_loira,8;
+	hideonnpc "Loira do Banheiro#bra2";
+	end;
+}
+
+bra_in01,151,180,3	script	Espelho#bra	844,{
+	mes "- Você vê um espelho sem nenhuma marca de sujeira -";
+	next;
+	if(select("Mexer.:Ignorar.") == 2)
+	{
+		mes "Você não fez nada.";
+		close;
+	}
+	mes "Você lança o feitiço no espelho.";
+	input .@input$;
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes .@input$;
+	next;
+	if(.@input$ != "Mamãe, onde você está, mamãe?")
+	{
+		mes "Parece que é o feitiço errado.";
+		close;
+	}
+	else if(bra_q_loira != 6)
+	{
+		mes "Nada acontece.";
+		close;
+	}
+	mes "[Som do Além]";
+	mes "^FF0000Mmmhuahuahuahuahua......^000000";
+	next;
+	mes "[Som do Além]";
+	mes "^FF0000Mmmhuahuahuahuahua......^000000";
+	mes "^FF0000Mmmhuahuahuahuahua......^000000";
+	next;
+	mes "[Som do Além]";
+	mes "Criança... atrás de você...";
+	hideoffnpc "Loira do Banheiro#bra1";
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes "Nossa... o fantasma apareceu, é tudo verdade!";
+	emotion e_omg,1;
+	next;
+	mes "[Loira do Banheiro]";
+	mes "^FF0000Criança....^000000";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "^FF0000Não consigo ver... o outro lado... meu olho...^000000";
+	mes "^FF0000O que está acontecendo...?^000000";
+	next;
+	mes "Depois de se acalmar, você olha em seus olhos. Uma atadura cobre um deles.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "^FF0000Ah, bebê.^000000";
+	mes "^FF0000Meus olhos estão apertados... Pode tirar esta atadura?^000000";
+	next;
+	mes "Você se aproxima do fantasma, com cuidado.";
+	next;
+	mes "Seu rosto está coberto de poeira e feridas, e o cheiro é horrível. Seu rosto se contorce.";
+	next;
+	mes "[Loira do Banheiro]";
+	mes "^FF0000Vamos, criança... Ajude a mamãe...^000000";
+	next;
+	if(select("Tirar a atadura.:Fugir.") == 2)
+	{
+		mes "Você foge do fantasma.";
+		hideonnpc "Loira do Banheiro#bra1";
+		set bra_q_loira,1;
+		close;
+	}
+	mes "[Loira do Banheiro]";
+	mes "^FF0000Ah...^000000";
+	mes "^FF0000Criança, agora já posso ver meu rosto.^000000";
+	mes "^FF0000Meu bebê querido.^000000";
+	mes "^FF0000Vamos com a mamãe, voltar ao nosso lugar.^000000";
+	emotion e_gasp,1;
+	emotion e_dice,1;
+	close2;
+	hideonnpc "Loira do Banheiro#bra1";
+	set bra_q_loira,7;
+	warp "bra_in01",206,100;
+	end;
+}
+
+bra_in01,138,184,3	script	Tapete#bra	844,{
+	mes "- Um tapete com desenhos complexos. -";
+	next;
+	if(select("Mexer.:Ignorar.") == 2)
+	{
+		mes "Você não fez nada.";
+		close;
+	}
+	mes "Você começa a lançar o feitiço no tapete.";
+	input .@input$;
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes .@input$;
+	next;
+	if(.@input$ != "Mamãe, onde estão meus amigos?")
+	{
+		mes "Parece que é o feitiço errado.";
+		close;
+	}
+	else if(bra_q_loira != 5)
+	{
+		mes "Nada acontece.";
+		close;
+	}
+	mes "[Lamento do Além]";
+	mes "^FF0000Seus 7 amigos... estão dormindo... agora... é hora... de acordá-los...^000000";
+	next;
+	switch(select("Pular no tapete.:Deitar no tapete.:Virar o tapete."))
+	{
+		case 1:
+			mes "Quantas vezes devo pular?";
+			input .@input;
+			next;
+			mes "Você pula "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+		case 2:
+			mes "Quantas vezes devo deitar no tapete?";
+			input .@input;
+			next;
+			mes "Você se deita no tapete "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+		case 3:
+			mes "Quantas vezes devo virar o tapete?";
+			input .@input;
+			next;
+			mes "Você vira o tapete "+.@input+" vezes.";
+			next;
+			if(.@input == 7)
+			{
+				mes "- *flap flap flap flap flap flap flap* -";
+				next;
+				mes "[Som do Além]";
+				mes "^FF0000Eeeehhh... hihihihi!!!^000000";
+				specialeffect2 EF_PATTACK;
+				next;
+				mes "Alguma coisa sai rindo, com um humor maligno.";
+				set bra_q_loira,6;
+				close;
+			}
+			mes "Mas nada acontece.";
+			close;
+	}
+}
+
+bra_in01,134,189,3	script	Torneira#bra	844,{
+	mes "- Uma torneira bem fechada. -";
+	next;
+	if(select("Mexer.:Ignorar.") == 2)
+	{
+		mes "Você não fez nada.";
+		close;
+	}
+	mes "Você lança o feitiço na torneira.";
+	input .@input$;
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes .@input$;
+	next;
+	if(.@input$ != "Mamãe, a enchente começou!!")
+	{
+		mes "Parece que é o feitiço errado.";
+		close;
+	}
+	else if(bra_q_loira != 4)
+	{
+		mes "Nada acontece.";
+		close;
+	}
+	mes "[Lamento do Além]";
+	mes "^FF0000Não se preocupe... a cachoeira vai levar a água...^000000";
+	next;
+	switch(select("Bater na torneira.:Abrir a torneira."))
+	{
+		case 1:
+			mes "Quantas vezes devo bater na torneira?";
+			input .@input;
+			next;
+			mes "Você bate na torneira "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+		case 2:
+			mes "Quantas vezes devo abrir a torneira?";
+			input .@input;
+			next;
+			if(.@input == 1)
+			{
+				mes "Você abre a torneira "+.@input+" vez.";
+				next;
+				mes "*chuááááá*";
+				next;
+				mes "[Som do Além]";
+				mes "^FF0000Eeeehhh... hihihihi!!!^000000";
+				specialeffect2 EF_PATTACK;
+				next;
+				mes "Alguma coisa sai rindo, com um humor maligno.";
+				set bra_q_loira,5;
+				close;
+			}
+			mes "Você vira a chave "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+	}
+}
+
+bra_in01,144,187,3	script	Vaso Sanitário#bra	844,{
+	mes "- Um vaso sanitário -";
+	next;
+	if(bra_q_loira >= 7)
+	{
+		if(select("Tirar água.:Não fazer nada.") == 2)
+		{
+			mes "A água está fria.";
+			close;
+		}
+		specialeffect2 EF_WATERFALL_SMALL;
+		mes "Ao tirar água do vaso, você sente uma tontura e água escorrendo em você, vindo de algum lugar.";
+		close2;
+		warp "bra_in01",206,100;
+		end;
+	}
+	if(select("Mexer.:Ignorar.") == 2)
+	{
+		mes "Você não fez nada.";
+		close;
+	}
+	mes "Você lança o feitiço no vaso.";
+	input .@input$;
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes .@input$;
+	next;
+	if(.@input$ != "Mamãe, a água já está transbordando!!")
+	{
+		mes "Parece que é o feitiço errado.";
+		close;
+	}
+	else if(bra_q_loira != 3)
+	{
+		mes "Nada acontece.";
+		close;
+	}
+	mes "[Lamento do Além]";
+	mes "^FF0000Se a lua desaparecer 3 vezes... não há por que se preocupar...^000000";
+	next;
+	switch(select("Tirar água.:Colocar a tampa."))
+	{
+		case 1:
+			mes "Quantas vezes devo tirar água?";
+			input .@input;
+			next;
+			mes "Você tira água "+.@input+" vezes.";
+			next;
+			if(.@input == 3)
+			{
+				mes "Huaaaaaaaaa!";
+				mes "Gwaaaaaaaaaa!";
+				mes "Gwaaaaaaaaaaaaaaaaaaa!";
+				next;
+				mes "[Som do Além]";
+				mes "^FF0000Eeeehhh... hihihihi!!!^000000";
+				specialeffect2 EF_PATTACK;
+				next;
+				mes "Alguma coisa sai rindo, com um humor maligno.";
+				set bra_q_loira,4;
+				close;
+			}
+			mes "Mas nada acontece.";
+			close;
+		case 2:
+			mes "Quantas vezes devo tampar o penico?";
+			input .@input;
+			next;
+			mes "Você coloca a tampa "+.@input+" vezes no penico.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+	}
+	
+}
+
+bra_in01,149,184,3	script	Porta#bra	844,{
+	mes "- Há uma chave colocada na porta trancada. -";
+	next;
+	if(select("Mexer.:Ignorar.") == 2)
+	{
+		mes "Você não fez nada.";
+		close;
+	}
+	mes "Você lança o feitiço na porta.";
+	input .@input$;
+	next;
+	mes "["+StrCharInfo(0)+"]";
+	mes .@input$;
+	next;
+	if(.@input$ != "Mamãe, a porta não abre!")
+	{
+		mes "Parece que é o feitiço errado.";
+		close;
+	}
+	else if(bra_q_loira != 2)
+	{
+		mes "Nada acontece.";
+		close;
+	}
+	mes "[Lamento do Além]";
+	mes "^FF0000Gire... a chave... quando o arco-íris... sair...^000000";
+	next;
+	switch(select("Abrir a porta.:Bater na porta.:Girar a chave.:Tirar e colocar de novo a chave."))
+	{
+		case 1:
+			mes "Quantas vezes devo abrir?";
+			input .@input;
+			next;
+			mes "Você abre a porta "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+		case 2:
+			mes "Quantas vezes devo bater?";
+			input .@input;
+			next;
+			mes "Você bate na porta "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+		case 3:
+			mes "Quantas vezes devo girar a chave?";
+			input .@input;
+			next;
+			mes "Você gira a chave "+.@input+" vezes.";
+			next;
+			if(.@input == 7)
+			{
+				mes "Clack! Clack! Clack! Clack! Clack! Clack! Clack!";
+				next;
+				mes "[Som do Além]";
+				mes "^FF0000Eeeehhh... hihihihi!!!^000000";
+				specialeffect2 EF_PATTACK;
+				next;
+				mes "Alguma coisa sai rindo, com um humor maligno.";
+				set bra_q_loira,3;
+				close;
+			}
+			mes "Mas nada acontece.";
+			close;
+		case 4:
+			mes "Quantas vezes devo colocar a chave na porta?";
+			input .@input;
+			next;
+			mes "Você coloca a chave "+.@input+" vezes.";
+			next;
+			mes "Mas nada acontece.";
+			close;
+	}
+}
+
+brasilis,180,249,5	script	Daniel#bra	706,{
+	if(bra_q_loira && bra_q_loira < 7)
+	{
+		mes "[Daniel]";
+		mes "É inútil.";
+		close;
+	}
+	if(bra_q_loira >= 7)
+	{
+		mes "[Daniel]";
+		mes "Hehe, aqui tem mais insetos...";
+		close;
+	}
+	mes "[Pedro]";
+	mes "Uau... que construção grande!!";
+	next;
+	mes "[Mariana]";
+	mes "É mesmo, não é?";
+	mes "Essa catedral foi criada com uma arquitetura moderna.";
+	next;
+	mes "[Pedro]";
+	mes "Incrível!!";
+	mes "Quero me tornar um arquiteto também!";
+	next;
+	mes "[Mariana]";
+	mes "Pedro, você é muito inteligente, pode ser o que quiser.";
+	next;
+	mes "[Pedro]";
+	mes "Mariana, você é mesmo muito sábia, não é? Quero sempre ser seu amigo, viu?";
+	next;
+	mes "[Fabio]";
+	mes "Aqui temos duas crianças escrevendo um romance de amor e amizade!";
+	next;
+	mes "[Daniel]";
+	mes "Hahahaha, romance, romance!!";
+	next;
+	mes "[Fabio]";
+	mes "Hahahaha, romance, romance!! 'Pedro e Mariana, balançando no cipó...' Huahuahuahua!";
+	next;
+	mes "[Daniel]";
+	mes "Huhuhu huahahahahahahaha!";
+	next;
+	mes "[Fabio]";
+	mes "Não posso aceitar que você ria mais do que eu, Daniel.";
+	next;
+	mes "[Daniel]";
+	mes "Pff!";
+	next;
+	mes "[Pedro]";
+	mes "Esse Fábio vive com piadas maldosas...";
+	mes "Ele é mesmo um malandro, hahaha!";
+	next;
+	mes "[Mariana]";
+	mes "Pfff. Como os garotos são...";
+	next;
+	mes "[Daniel]";
+	mes "Tá bom, tá bom.";
+	mes "Vocês souberam o que aconteceu dias atrás?";
+	next;
+	mes "[Mariana]";
+	mes "Aquela história? Ouvi falar.";
+	mes "Brrrrr! Que história assustadora.";
+	next;
+	mes "[Fabio]";
+	mes "É por isso que Mariana ficou sem ir ao banheiro por 3 dias e ficou fedendo.";
+	next;
+	mes "[Daniel]";
+	mes "Pff! Mariana fedendo!";
+	next;
+	mes "[Mariana]";
+	mes "Olha como vocês são!";
+	mes "O que estão falando de mim? Claro que usei o banheiro!";
+	mes "Pedro, você acha que cheiro mal?";
+	next;
+	mes "[Pedro]";
+	mes "Hein?";
+	mes "N-não, claro que não.";
+	mes "Ei, caras, sejam gentis com a Mariana...";
+	next;
+	mes "[Fabio]";
+	mes "Hihihihihihihihi!";
+	mes "[Daniel]";
+	mes "Huahuahuahua!";
+	next;
+	if(select("Ir embora:Perguntar sobre rumor") == 1)
+	{
+		mes "[Fabio]";
+		mes "Mariana fedida! Huahuahuahua!";
+		next;
+		mes "[Daniel]";
+		mes "Puxa, como você fede! Hihihihihihi!";
+		close;
+	}
+	mes "[Fabio]";
+	mes "Não sabe dos boatos?";
+	mes "É sobre um fantasma no museu de arte.";
+	next;
+	mes "[Daniel]";
+	mes "Buuuuu!";
+	next;
+	select("Pode me dar mais detalhes?");
+	mes "[Fabio]";
+	mes "Dias atrás, fomos ao museu de arte em uma excursão da escola.";
+	mes "Não era nada demais.";
+	next;
+	mes "[Fabio]";
+	mes "Acho aquele lugar uma chatice, não sei por que os professores insistem em nos levar para lá.";
+	mes "Explorar a selva, isso sim seria interessante...";
+	next;
+	mes "[Fabio]";
+	mes "Eu e outros amigos não agüentamos o tédio, e fomos para outra parte do museu, para evitar a vigilância dos professores.";
+	next;
+	mes "[Fabio]";
+	mes "Então, minutos depois, ouvimos gritos altos ecoando pelo museu.";
+	next;
+	mes "[Daniel]";
+	mes "Huaaaaaaaa!";
+	mes "Buuuuu!";
+	mes "Hehe...";
+	next;
+	mes "[Mariana]";
+	mes "Também ouvi.";
+	mes "As outras crianças vivem fazendo bagunça no banheiro, então achei que fosse só isso.";
+	next;
+	mes "[Pedro]";
+	mes "Agir de forma animada é sinal de saúde...";
+	mes "Que bom que meus amigos são tão animados...";
+	next;
+	emotion e_an;
+	mes "[Mariana]";
+	mes "Às vezes esse seu jeito otimista me dá nos nervos.";
+	next;
+	select("Podem continuar a história?");
+	mes "[Fabio]";
+	mes "Daniel e eu achamos que alguma coisa estranha tinha acontecido, então corremos para o lugar de onde ouvimos o grito.";
+	next;
+	mes "[Fabio]";
+	mes "O som vinha do banheiro do museu.";
+	mes "Algumas crianças estavam muito assustadas, escondidas ou caídas no chão... puxa, foi péssimo.";
+	next;
+	mes "[Fabio]";
+	mes "Alguns dias depois, quando tudo se acalmou, eles espalharam a história na escola. Estão dizendo que tem um fantasma no museu. O fantasma da Loira do Banheiro!";
+	next;
+	mes "[Daniel]";
+	mes "Loira do Banheiro? Isso não existe!";
+	next;
+	select("É mesmo um fantasma?");
+	mes "[Fabio]";
+	mes "Humpf.";
+	mes "Eles só queriam evitar a punição dos professores. Que turma covarde!";
+	next;
+	mes "[Pedro]";
+	mes "Se você recitar frases especiais, o fantasma vai aparecer.";
+	next;
+	mes "[Daniel]";
+	mes "Não se intrometa na nossa história.";
+	next;
+	mes "[Fabio]";
+	mes "Do que está falando, Pedro?";
+	mes "Então você viu o fantasma??";
+	next;
+	mes "[Pedro]";
+	mes "Hehe... não, é só que... tenho medo do fantasma.";
+	mes "Mas não acredito que meus amigos mentiriam, certo?";
+	next;
+	if("Palavras mágicas especiais?");
+	mes "[Pedro]";
+	mes "O pessoal deve ter ouvido isso por acaso.";
+	mes "As palavras mágicas são...";
+	next;
+	mes "[Pedro]";
+	mes "'^3131FFMamãe, a porta não abre!^000000'";
+	mes "'^FF0000Gire a chave sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a água já está transbordando!!^000000'";
+	mes "'^FF0000Tire a água do vaso três vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a enchente começou!!^000000'";
+	mes "'^FF0000Abra a torneira uma vez.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde estão meus amigos?^000000'";
+	mes "'^FF0000Vire o tapete sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde você está, mamãe?^000000'";
+	mes "'^FF0000Mexa no espelho... E tire sua bandagem.^000000'";
+	next;
+	mes "[Mariana]";
+	mes "Hum... isso parece mais uma cantiga do que um feitiço.";
+	next;
+	if("Vão me ajudar a encontrar o fantasma?");
+	mes "[Pedro]";
+	mes "Hehe, desculpe.";
+	next;
+	mes "[Mariana]";
+	mes "Não gosto de cenas de horror!";
+	next;
+	mes "[Fabio]";
+	mes "Hum, não vou mudar de idéia por causa de um boato.";
+	next;
+	mes "[Daniel]";
+	mes "Estou com o Fábio e não abro!";
+	next;
+	set bra_q_loira,1;
+	mes "[Fabio]";
+	mes "Hehe, talvez você esteja com medo.";
+	mes "Mas não temos tempo para fazer isso.";
+	mes "Mas é claro que não temos medo do fantasma, entendeu bem?";
+	close;
+}
+
+brasilis,181,250,5	script	Fabio#bra	706,{
+	if(bra_q_loira && bra_q_loira < 7)
+	{
+		mes "[Fabio]";
+		mes "Isso é uma perda de tempo.";
+		close;
+	}
+	if(bra_q_loira >= 7)
+	{
+		mes "[Fabio]";
+		mes "Mariana, sabe o que é isto aqui?";
+		next;
+		mes "[Mariana]";
+		mes "Aaaaargh! Insetos! Tira isso daqui!";
+		close;
+	}
+	mes "[Pedro]";
+	mes "Uau... que construção grande!!";
+	next;
+	mes "[Mariana]";
+	mes "É mesmo, não é?";
+	mes "Essa catedral foi criada com uma arquitetura moderna.";
+	next;
+	mes "[Pedro]";
+	mes "Incrível!!";
+	mes "Quero me tornar um arquiteto também!";
+	next;
+	mes "[Mariana]";
+	mes "Pedro, você é muito inteligente, pode ser o que quiser.";
+	next;
+	mes "[Pedro]";
+	mes "Mariana, você é mesmo muito sábia, não é? Quero sempre ser seu amigo, viu?";
+	next;
+	mes "[Fabio]";
+	mes "Aqui temos duas crianças escrevendo um romance de amor e amizade!";
+	next;
+	mes "[Daniel]";
+	mes "Hahahaha, romance, romance!!";
+	next;
+	mes "[Fabio]";
+	mes "Hahahaha, romance, romance!! 'Pedro e Mariana, balançando no cipó...' Huahuahuahua!";
+	next;
+	mes "[Daniel]";
+	mes "Huhuhu huahahahahahahaha!";
+	next;
+	mes "[Fabio]";
+	mes "Não posso aceitar que você ria mais do que eu, Daniel.";
+	next;
+	mes "[Daniel]";
+	mes "Pff!";
+	next;
+	mes "[Pedro]";
+	mes "Esse Fábio vive com piadas maldosas...";
+	mes "Ele é mesmo um malandro, hahaha!";
+	next;
+	mes "[Mariana]";
+	mes "Pfff. Como os garotos são...";
+	next;
+	mes "[Daniel]";
+	mes "Tá bom, tá bom.";
+	mes "Vocês souberam o que aconteceu dias atrás?";
+	next;
+	mes "[Mariana]";
+	mes "Aquela história? Ouvi falar.";
+	mes "Brrrrr! Que história assustadora.";
+	next;
+	mes "[Fabio]";
+	mes "É por isso que Mariana ficou sem ir ao banheiro por 3 dias e ficou fedendo.";
+	next;
+	mes "[Daniel]";
+	mes "Pff! Mariana fedendo!";
+	next;
+	mes "[Mariana]";
+	mes "Olha como vocês são!";
+	mes "O que estão falando de mim? Claro que usei o banheiro!";
+	mes "Pedro, você acha que cheiro mal?";
+	next;
+	mes "[Pedro]";
+	mes "Hein?";
+	mes "N-não, claro que não.";
+	mes "Ei, caras, sejam gentis com a Mariana...";
+	next;
+	mes "[Fabio]";
+	mes "Hihihihihihihihi!";
+	mes "[Daniel]";
+	mes "Huahuahuahua!";
+	next;
+	if(select("Ir embora:Perguntar sobre rumor") == 1)
+	{
+		mes "[Fabio]";
+		mes "Mariana fedida! Huahuahuahua!";
+		next;
+		mes "[Daniel]";
+		mes "Puxa, como você fede! Hihihihihihi!";
+		close;
+	}
+	mes "[Fabio]";
+	mes "Não sabe dos boatos?";
+	mes "É sobre um fantasma no museu de arte.";
+	next;
+	mes "[Daniel]";
+	mes "Buuuuu!";
+	next;
+	select("Pode me dar mais detalhes?");
+	mes "[Fabio]";
+	mes "Dias atrás, fomos ao museu de arte em uma excursão da escola.";
+	mes "Não era nada demais.";
+	next;
+	mes "[Fabio]";
+	mes "Acho aquele lugar uma chatice, não sei por que os professores insistem em nos levar para lá.";
+	mes "Explorar a selva, isso sim seria interessante...";
+	next;
+	mes "[Fabio]";
+	mes "Eu e outros amigos não agüentamos o tédio, e fomos para outra parte do museu, para evitar a vigilância dos professores.";
+	next;
+	mes "[Fabio]";
+	mes "Então, minutos depois, ouvimos gritos altos ecoando pelo museu.";
+	next;
+	mes "[Daniel]";
+	mes "Huaaaaaaaa!";
+	mes "Buuuuu!";
+	mes "Hehe...";
+	next;
+	mes "[Mariana]";
+	mes "Também ouvi.";
+	mes "As outras crianças vivem fazendo bagunça no banheiro, então achei que fosse só isso.";
+	next;
+	mes "[Pedro]";
+	mes "Agir de forma animada é sinal de saúde...";
+	mes "Que bom que meus amigos são tão animados...";
+	next;
+	emotion e_an;
+	mes "[Mariana]";
+	mes "Às vezes esse seu jeito otimista me dá nos nervos.";
+	next;
+	select("Podem continuar a história?");
+	mes "[Fabio]";
+	mes "Daniel e eu achamos que alguma coisa estranha tinha acontecido, então corremos para o lugar de onde ouvimos o grito.";
+	next;
+	mes "[Fabio]";
+	mes "O som vinha do banheiro do museu.";
+	mes "Algumas crianças estavam muito assustadas, escondidas ou caídas no chão... puxa, foi péssimo.";
+	next;
+	mes "[Fabio]";
+	mes "Alguns dias depois, quando tudo se acalmou, eles espalharam a história na escola. Estão dizendo que tem um fantasma no museu. O fantasma da Loira do Banheiro!";
+	next;
+	mes "[Daniel]";
+	mes "Loira do Banheiro? Isso não existe!";
+	next;
+	select("É mesmo um fantasma?");
+	mes "[Fabio]";
+	mes "Humpf.";
+	mes "Eles só queriam evitar a punição dos professores. Que turma covarde!";
+	next;
+	mes "[Pedro]";
+	mes "Se você recitar frases especiais, o fantasma vai aparecer.";
+	next;
+	mes "[Daniel]";
+	mes "Não se intrometa na nossa história.";
+	next;
+	mes "[Fabio]";
+	mes "Do que está falando, Pedro?";
+	mes "Então você viu o fantasma??";
+	next;
+	mes "[Pedro]";
+	mes "Hehe... não, é só que... tenho medo do fantasma.";
+	mes "Mas não acredito que meus amigos mentiriam, certo?";
+	next;
+	if("Palavras mágicas especiais?");
+	mes "[Pedro]";
+	mes "O pessoal deve ter ouvido isso por acaso.";
+	mes "As palavras mágicas são...";
+	next;
+	mes "[Pedro]";
+	mes "'^3131FFMamãe, a porta não abre!^000000'";
+	mes "'^FF0000Gire a chave sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a água já está transbordando!!^000000'";
+	mes "'^FF0000Tire a água do vaso três vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a enchente começou!!^000000'";
+	mes "'^FF0000Abra a torneira uma vez.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde estão meus amigos?^000000'";
+	mes "'^FF0000Vire o tapete sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde você está, mamãe?^000000'";
+	mes "'^FF0000Mexa no espelho... E tire sua bandagem.^000000'";
+	next;
+	mes "[Mariana]";
+	mes "Hum... isso parece mais uma cantiga do que um feitiço.";
+	next;
+	if("Vão me ajudar a encontrar o fantasma?");
+	mes "[Pedro]";
+	mes "Hehe, desculpe.";
+	next;
+	mes "[Mariana]";
+	mes "Não gosto de cenas de horror!";
+	next;
+	mes "[Fabio]";
+	mes "Hum, não vou mudar de idéia por causa de um boato.";
+	next;
+	mes "[Daniel]";
+	mes "Estou com o Fábio e não abro!";
+	next;
+	set bra_q_loira,1;
+	mes "[Fabio]";
+	mes "Hehe, talvez você esteja com medo.";
+	mes "Mas não temos tempo para fazer isso.";
+	mes "Mas é claro que não temos medo do fantasma, entendeu bem?";
+	close;
+}
+
+brasilis,185,246,5	script	Pedro#bra	62,{
+	if(bra_q_loira && bra_q_loira < 7)
+	{
+		mes "[Pedro]";
+		mes "Precisa ouvir o feitiço de novo?";
+		next;
+		mes "[Pedro]";
+		mes "'^3131FFMamãe, a porta não abre!^000000'";
+		mes "'^FF0000Gire a chave sete vezes.^000000'";
+		mes "'^3131FFMamãe, a água já está transbordando!!^000000'";
+		mes "'^FF0000Tire a água do vaso três vezes.^000000'";
+		mes "'^3131FFMamãe, a enchente começou!!^000000'";
+		mes "'^FF0000Abra a torneira uma vez.^000000'";
+		mes "'^3131FFMamãe, onde estão meus amigos?^000000'";
+		mes "'^FF0000Vire o tapete sete vezes.^000000'";
+		mes "'^3131FFMamãe, onde você está, mamãe?^000000'";
+		mes "'^FF0000Mexa no espelho... E tire sua bandagem.^000000'";
+		close;
+	}
+	if(bra_q_loira >= 7)
+	{
+		mes "[Pedro]";
+		mes "O que seria melhor, me tornar um aventureiro como Árvores Cabriolal ou um arquiteto para criar obras belas como a Catedral?";
+		close;
+	}
+	mes "[Pedro]";
+	mes "Uau... que construção grande!!";
+	next;
+	mes "[Mariana]";
+	mes "É mesmo, não é?";
+	mes "Essa catedral foi criada com uma arquitetura moderna.";
+	next;
+	mes "[Pedro]";
+	mes "Incrível!!";
+	mes "Quero me tornar um arquiteto também!";
+	next;
+	mes "[Mariana]";
+	mes "Pedro, você é muito inteligente, pode ser o que quiser.";
+	next;
+	mes "[Pedro]";
+	mes "Mariana, você é mesmo muito sábia, não é? Quero sempre ser seu amigo, viu?";
+	next;
+	mes "[Fabio]";
+	mes "Aqui temos duas crianças escrevendo um romance de amor e amizade!";
+	next;
+	mes "[Daniel]";
+	mes "Hahahaha, romance, romance!!";
+	next;
+	mes "[Fabio]";
+	mes "Hahahaha, romance, romance!! 'Pedro e Mariana, balançando no cipó...' Huahuahuahua!";
+	next;
+	mes "[Daniel]";
+	mes "Huhuhu huahahahahahahaha!";
+	next;
+	mes "[Fabio]";
+	mes "Não posso aceitar que você ria mais do que eu, Daniel.";
+	next;
+	mes "[Daniel]";
+	mes "Pff!";
+	next;
+	mes "[Pedro]";
+	mes "Esse Fábio vive com piadas maldosas...";
+	mes "Ele é mesmo um malandro, hahaha!";
+	next;
+	mes "[Mariana]";
+	mes "Pfff. Como os garotos são...";
+	next;
+	mes "[Daniel]";
+	mes "Tá bom, tá bom.";
+	mes "Vocês souberam o que aconteceu dias atrás?";
+	next;
+	mes "[Mariana]";
+	mes "Aquela história? Ouvi falar.";
+	mes "Brrrrr! Que história assustadora.";
+	next;
+	mes "[Fabio]";
+	mes "É por isso que Mariana ficou sem ir ao banheiro por 3 dias e ficou fedendo.";
+	next;
+	mes "[Daniel]";
+	mes "Pff! Mariana fedendo!";
+	next;
+	mes "[Mariana]";
+	mes "Olha como vocês são!";
+	mes "O que estão falando de mim? Claro que usei o banheiro!";
+	mes "Pedro, você acha que cheiro mal?";
+	next;
+	mes "[Pedro]";
+	mes "Hein?";
+	mes "N-não, claro que não.";
+	mes "Ei, caras, sejam gentis com a Mariana...";
+	next;
+	mes "[Fabio]";
+	mes "Hihihihihihihihi!";
+	mes "[Daniel]";
+	mes "Huahuahuahua!";
+	next;
+	if(select("Ir embora:Perguntar sobre rumor") == 1)
+	{
+		mes "[Fabio]";
+		mes "Mariana fedida! Huahuahuahua!";
+		next;
+		mes "[Daniel]";
+		mes "Puxa, como você fede! Hihihihihihi!";
+		close;
+	}
+	mes "[Fabio]";
+	mes "Não sabe dos boatos?";
+	mes "É sobre um fantasma no museu de arte.";
+	next;
+	mes "[Daniel]";
+	mes "Buuuuu!";
+	next;
+	select("Pode me dar mais detalhes?");
+	mes "[Fabio]";
+	mes "Dias atrás, fomos ao museu de arte em uma excursão da escola.";
+	mes "Não era nada demais.";
+	next;
+	mes "[Fabio]";
+	mes "Acho aquele lugar uma chatice, não sei por que os professores insistem em nos levar para lá.";
+	mes "Explorar a selva, isso sim seria interessante...";
+	next;
+	mes "[Fabio]";
+	mes "Eu e outros amigos não agüentamos o tédio, e fomos para outra parte do museu, para evitar a vigilância dos professores.";
+	next;
+	mes "[Fabio]";
+	mes "Então, minutos depois, ouvimos gritos altos ecoando pelo museu.";
+	next;
+	mes "[Daniel]";
+	mes "Huaaaaaaaa!";
+	mes "Buuuuu!";
+	mes "Hehe...";
+	next;
+	mes "[Mariana]";
+	mes "Também ouvi.";
+	mes "As outras crianças vivem fazendo bagunça no banheiro, então achei que fosse só isso.";
+	next;
+	mes "[Pedro]";
+	mes "Agir de forma animada é sinal de saúde...";
+	mes "Que bom que meus amigos são tão animados...";
+	next;
+	emotion e_an;
+	mes "[Mariana]";
+	mes "Às vezes esse seu jeito otimista me dá nos nervos.";
+	next;
+	select("Podem continuar a história?");
+	mes "[Fabio]";
+	mes "Daniel e eu achamos que alguma coisa estranha tinha acontecido, então corremos para o lugar de onde ouvimos o grito.";
+	next;
+	mes "[Fabio]";
+	mes "O som vinha do banheiro do museu.";
+	mes "Algumas crianças estavam muito assustadas, escondidas ou caídas no chão... puxa, foi péssimo.";
+	next;
+	mes "[Fabio]";
+	mes "Alguns dias depois, quando tudo se acalmou, eles espalharam a história na escola. Estão dizendo que tem um fantasma no museu. O fantasma da Loira do Banheiro!";
+	next;
+	mes "[Daniel]";
+	mes "Loira do Banheiro? Isso não existe!";
+	next;
+	select("É mesmo um fantasma?");
+	mes "[Fabio]";
+	mes "Humpf.";
+	mes "Eles só queriam evitar a punição dos professores. Que turma covarde!";
+	next;
+	mes "[Pedro]";
+	mes "Se você recitar frases especiais, o fantasma vai aparecer.";
+	next;
+	mes "[Daniel]";
+	mes "Não se intrometa na nossa história.";
+	next;
+	mes "[Fabio]";
+	mes "Do que está falando, Pedro?";
+	mes "Então você viu o fantasma??";
+	next;
+	mes "[Pedro]";
+	mes "Hehe... não, é só que... tenho medo do fantasma.";
+	mes "Mas não acredito que meus amigos mentiriam, certo?";
+	next;
+	if("Palavras mágicas especiais?");
+	mes "[Pedro]";
+	mes "O pessoal deve ter ouvido isso por acaso.";
+	mes "As palavras mágicas são...";
+	next;
+	mes "[Pedro]";
+	mes "'^3131FFMamãe, a porta não abre!^000000'";
+	mes "'^FF0000Gire a chave sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a água já está transbordando!!^000000'";
+	mes "'^FF0000Tire a água do vaso três vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a enchente começou!!^000000'";
+	mes "'^FF0000Abra a torneira uma vez.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde estão meus amigos?^000000'";
+	mes "'^FF0000Vire o tapete sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde você está, mamãe?^000000'";
+	mes "'^FF0000Mexa no espelho... E tire sua bandagem.^000000'";
+	next;
+	mes "[Mariana]";
+	mes "Hum... isso parece mais uma cantiga do que um feitiço.";
+	next;
+	if("Vão me ajudar a encontrar o fantasma?");
+	mes "[Pedro]";
+	mes "Hehe, desculpe.";
+	next;
+	mes "[Mariana]";
+	mes "Não gosto de cenas de horror!";
+	next;
+	mes "[Fabio]";
+	mes "Hum, não vou mudar de idéia por causa de um boato.";
+	next;
+	mes "[Daniel]";
+	mes "Estou com o Fábio e não abro!";
+	next;
+	set bra_q_loira,1;
+	mes "[Fabio]";
+	mes "Hehe, talvez você esteja com medo.";
+	mes "Mas não temos tempo para fazer isso.";
+	mes "Mas é claro que não temos medo do fantasma, entendeu bem?";
+	close;
+}
+
+brasilis,187,244,1	script	Mariana#bra	72,{
+	if(bra_q_loira && bra_q_loira < 7)
+	{
+		mes "[Mariana]";
+		mes "Ah, não, nem quero ouvir falar dessa história de fantasma, tá?";
+		mes "Só de pensar, me dá arrepios.";
+		close;
+	}
+	if(bra_q_loira >= 7)
+	{
+		mes "[Mariana]";
+		mes "Por que Fábio e Daniel vivem incomodando?";
+		close;
+	}
+	mes "[Pedro]";
+	mes "Uau... que construção grande!!";
+	next;
+	mes "[Mariana]";
+	mes "É mesmo, não é?";
+	mes "Essa catedral foi criada com uma arquitetura moderna.";
+	next;
+	mes "[Pedro]";
+	mes "Incrível!!";
+	mes "Quero me tornar um arquiteto também!";
+	next;
+	mes "[Mariana]";
+	mes "Pedro, você é muito inteligente, pode ser o que quiser.";
+	next;
+	mes "[Pedro]";
+	mes "Mariana, você é mesmo muito sábia, não é? Quero sempre ser seu amigo, viu?";
+	next;
+	mes "[Fabio]";
+	mes "Aqui temos duas crianças escrevendo um romance de amor e amizade!";
+	next;
+	mes "[Daniel]";
+	mes "Hahahaha, romance, romance!!";
+	next;
+	mes "[Fabio]";
+	mes "Hahahaha, romance, romance!! 'Pedro e Mariana, balançando no cipó...' Huahuahuahua!";
+	next;
+	mes "[Daniel]";
+	mes "Huhuhu huahahahahahahaha!";
+	next;
+	mes "[Fabio]";
+	mes "Não posso aceitar que você ria mais do que eu, Daniel.";
+	next;
+	mes "[Daniel]";
+	mes "Pff!";
+	next;
+	mes "[Pedro]";
+	mes "Esse Fábio vive com piadas maldosas...";
+	mes "Ele é mesmo um malandro, hahaha!";
+	next;
+	mes "[Mariana]";
+	mes "Pfff. Como os garotos são...";
+	next;
+	mes "[Daniel]";
+	mes "Tá bom, tá bom.";
+	mes "Vocês souberam o que aconteceu dias atrás?";
+	next;
+	mes "[Mariana]";
+	mes "Aquela história? Ouvi falar.";
+	mes "Brrrrr! Que história assustadora.";
+	next;
+	mes "[Fabio]";
+	mes "É por isso que Mariana ficou sem ir ao banheiro por 3 dias e ficou fedendo.";
+	next;
+	mes "[Daniel]";
+	mes "Pff! Mariana fedendo!";
+	next;
+	mes "[Mariana]";
+	mes "Olha como vocês são!";
+	mes "O que estão falando de mim? Claro que usei o banheiro!";
+	mes "Pedro, você acha que cheiro mal?";
+	next;
+	mes "[Pedro]";
+	mes "Hein?";
+	mes "N-não, claro que não.";
+	mes "Ei, caras, sejam gentis com a Mariana...";
+	next;
+	mes "[Fabio]";
+	mes "Hihihihihihihihi!";
+	mes "[Daniel]";
+	mes "Huahuahuahua!";
+	next;
+	if(select("Ir embora:Perguntar sobre rumor") == 1)
+	{
+		mes "[Fabio]";
+		mes "Mariana fedida! Huahuahuahua!";
+		next;
+		mes "[Daniel]";
+		mes "Puxa, como você fede! Hihihihihihi!";
+		close;
+	}
+	mes "[Fabio]";
+	mes "Não sabe dos boatos?";
+	mes "É sobre um fantasma no museu de arte.";
+	next;
+	mes "[Daniel]";
+	mes "Buuuuu!";
+	next;
+	select("Pode me dar mais detalhes?");
+	mes "[Fabio]";
+	mes "Dias atrás, fomos ao museu de arte em uma excursão da escola.";
+	mes "Não era nada demais.";
+	next;
+	mes "[Fabio]";
+	mes "Acho aquele lugar uma chatice, não sei por que os professores insistem em nos levar para lá.";
+	mes "Explorar a selva, isso sim seria interessante...";
+	next;
+	mes "[Fabio]";
+	mes "Eu e outros amigos não agüentamos o tédio, e fomos para outra parte do museu, para evitar a vigilância dos professores.";
+	next;
+	mes "[Fabio]";
+	mes "Então, minutos depois, ouvimos gritos altos ecoando pelo museu.";
+	next;
+	mes "[Daniel]";
+	mes "Huaaaaaaaa!";
+	mes "Buuuuu!";
+	mes "Hehe...";
+	next;
+	mes "[Mariana]";
+	mes "Também ouvi.";
+	mes "As outras crianças vivem fazendo bagunça no banheiro, então achei que fosse só isso.";
+	next;
+	mes "[Pedro]";
+	mes "Agir de forma animada é sinal de saúde...";
+	mes "Que bom que meus amigos são tão animados...";
+	next;
+	emotion e_an;
+	mes "[Mariana]";
+	mes "Às vezes esse seu jeito otimista me dá nos nervos.";
+	next;
+	select("Podem continuar a história?");
+	mes "[Fabio]";
+	mes "Daniel e eu achamos que alguma coisa estranha tinha acontecido, então corremos para o lugar de onde ouvimos o grito.";
+	next;
+	mes "[Fabio]";
+	mes "O som vinha do banheiro do museu.";
+	mes "Algumas crianças estavam muito assustadas, escondidas ou caídas no chão... puxa, foi péssimo.";
+	next;
+	mes "[Fabio]";
+	mes "Alguns dias depois, quando tudo se acalmou, eles espalharam a história na escola. Estão dizendo que tem um fantasma no museu. O fantasma da Loira do Banheiro!";
+	next;
+	mes "[Daniel]";
+	mes "Loira do Banheiro? Isso não existe!";
+	next;
+	select("É mesmo um fantasma?");
+	mes "[Fabio]";
+	mes "Humpf.";
+	mes "Eles só queriam evitar a punição dos professores. Que turma covarde!";
+	next;
+	mes "[Pedro]";
+	mes "Se você recitar frases especiais, o fantasma vai aparecer.";
+	next;
+	mes "[Daniel]";
+	mes "Não se intrometa na nossa história.";
+	next;
+	mes "[Fabio]";
+	mes "Do que está falando, Pedro?";
+	mes "Então você viu o fantasma??";
+	next;
+	mes "[Pedro]";
+	mes "Hehe... não, é só que... tenho medo do fantasma.";
+	mes "Mas não acredito que meus amigos mentiriam, certo?";
+	next;
+	if("Palavras mágicas especiais?");
+	mes "[Pedro]";
+	mes "O pessoal deve ter ouvido isso por acaso.";
+	mes "As palavras mágicas são...";
+	next;
+	mes "[Pedro]";
+	mes "'^3131FFMamãe, a porta não abre!^000000'";
+	mes "'^FF0000Gire a chave sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a água já está transbordando!!^000000'";
+	mes "'^FF0000Tire a água do vaso três vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, a enchente começou!!^000000'";
+	mes "'^FF0000Abra a torneira uma vez.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde estão meus amigos?^000000'";
+	mes "'^FF0000Vire o tapete sete vezes.^000000'";
+	mes " ";
+	mes "'^3131FFMamãe, onde você está, mamãe?^000000'";
+	mes "'^FF0000Mexa no espelho... E tire sua bandagem.^000000'";
+	next;
+	mes "[Mariana]";
+	mes "Hum... isso parece mais uma cantiga do que um feitiço.";
+	next;
+	if("Vão me ajudar a encontrar o fantasma?");
+	mes "[Pedro]";
+	mes "Hehe, desculpe.";
+	next;
+	mes "[Mariana]";
+	mes "Não gosto de cenas de horror!";
+	next;
+	mes "[Fabio]";
+	mes "Hum, não vou mudar de idéia por causa de um boato.";
+	next;
+	mes "[Daniel]";
+	mes "Estou com o Fábio e não abro!";
+	next;
+	set bra_q_loira,1;
+	mes "[Fabio]";
+	mes "Hehe, talvez você esteja com medo.";
+	mes "Mas não temos tempo para fazer isso.";
+	mes "Mas é claro que não temos medo do fantasma, entendeu bem?";
+	close;
+}
+
+bra_in01,7,181,5	script	Curador#bra	477,{
+	if(bra_q_loira >= 1 && bra_q_loira <= 6)
+	{
+		if(BaseLevel < 50)
+		{
+			mes "[Curador]";
+			mes "Ops! Estamos em reforma. É melhor não chegar perto.";
+			close;
+		}
+		mes "[Curador]";
+		mes "O que posso fazer por você?";
+		next;
+		select("Quero ir ao banheiro.");
+		mes "[Curador]";
+		mes "Desculpe, estamos reformando, ele está interditado.";
+		mes "Por favor, use o outro.";
+		next;
+		if(select("Perdi uma coisa lá dentro.:Desistir.") == 2)
+		{
+			mes "Você desistiu de entrar.";
+			close;
+		}
+		mes "[Curador]";
+		mes "É uma pena.";
+		mes "Mas o administrador deu ordem de não deixar ninguém entrar no banheiro.";
+		next;
+		select("Como está quente hoje!");
+		mes "[Curador]";
+		mes "O tempo aqui está sempre quente, mas hoje está demais.";
+		mes "Sinto falta de um coco bem fresquinho.";
+		if(countitem(11515))
+		{
+			next;
+			mes "- Você dá um coco ao curador. -";
+			next;
+			mes "[Curador]";
+			mes "Vai dar isso para mim?";
+			mes "Puxa, muito obrigado!";
+			next;
+			mes "[Curador]";
+			mes "No decorrer da vida, sempre temos algum problema ou sentimos falta de alguma coisa.";
+			mes "É nessa hora que devemos nos ajudar, é assim que se vive em sociedade.";
+			next;
+			mes "- O curador olha para os lados, e então abre a porta... -";
+			delitem 11515,1;
+			set bra_q_loira,2;
+			warp "bra_in01",138,176;
+		}
+		close;
+	}
+	if(bra_q_loira >= 7)
+	{
+		mes "[Curador]";
+		mes "Sempre recebo bem uma pessoa como você, tão gentil e inteligente!";
+		close;
+	}
+	mes "[Curador]";
+	mes "Como está quente hoje!";
+	close;
+}
+
+bra_in01,136,180,5	script	Loira do Banheiro#bra1	1867,{
+	end;
+
+OnInit:
+	hideonnpc "Loira do Banheiro#bra1";
+	end;
+}
+
+bra_in01,206,190,5	script	Loira do Banheiro#bra2	1867,{
+	end;
+
+OnInit:
+	hideonnpc "Loira do Banheiro#bra2";
+	end;
+}
+
+bra_in01,12,185,4	script	#portalmuseu1	45,1,1,{
+	if(bra_q_loira >= 7)
+	{
+		warp "bra_in01",138,176;
+		end;
+	}
+	mes "- Entrada bloqueada. -";
+	close;
+}
+
+
+// Vitória-Régia
+//============================================================
+
+bra_dun02,67,205,5	script	Ermitão#bra	475,{
+	if(bra_q_vitoria == 6)
+	{
+		if(countitem(11515) < 5)
+		{
+			mes "[Jaci]";
+			mes "Estou tentando me lembrar daquela fruta com casca bem dura, com bastante suco dentro.";
+			close;
+		}
+		mes "[Jaci]";
+		mes "Você encontrou a fruta?";
+		next;
+		mes "[Jaci]";
+		mes "Oh... o nome dela é...?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ela se chama 'coco'.";
+		mes "Podemos tomar seu suco, e também comer a polpa como sobremesa, e até fazer alguns objetos com a casca. É uma fruta bem útil.";
+		next;
+		mes "[Jaci]";
+		mes "Ahá! COCO!!";
+		mes "Lembrei, muito obrigado.";
+		next;
+		mes "[Jaci]";
+		mes "Então vou cumprir minha promessa.";
+		mes "Pode levar uma vitória-régia.";
+		next;
+		mes "[Jaci]";
+		mes "Espero que as outras vitórias-régias entendam.";
+		mes "Aproveite a chance, e boa sorte.";
+		next;
+		mes "[Jaci]";
+		mes "Ah, pode levar um recado a Jacira?";
+		mes "Diga que na verdade não sou a lua da história, mas quero me tornar a lua para brilhar somente para ela.";
+		delitem 11515,5;
+		set bra_q_vitoria,7;
+		close;
+	}
+	else if(bra_q_vitoria == 5)
+	{
+		mes "[Jaci]";
+		mes "Estou tentando me lembrar daquela fruta com casca bem dura, com bastante suco dentro.";
+		close;
+	}
+	else if(bra_q_vitoria == 4)
+	{
+		mes "[Jaci]";
+		mes "Gostou das vitórias-régias?";
+		close;
+	}
+	else if	(bra_q_vitoria == 3)
+	{
+		mes "[Ermitão]";
+		mes "Puxa, faz tempo que não vejo ninguém.";
+		next;
+		if(select("Continuar andando.:Você é a lua?") == 1)
+		{
+			mes "[Ermitão]";
+			mes "Parece que você não tem nada a tratar comigo.";
+			close;
+		}
+		mes "[Ermitão]";
+		mes "Lua?";
+		mes "Meu nome é Jaci.";
+		mes "Há gerações minha família cuida das vitórias-régias.";
+		next;
+		mes "[Jaci]";
+		mes "Elas são tímidas demais para aparecer na frente dos outros, e por isso florescem em um lugar raro e de difícil acesso como este. Acho que acabaram gostando daqui, depois de tanto tempo.";
+		next;
+		mes "[Jaci]";
+		mes "Minha família cuida das vitórias-régias para evitar que as pessoas ou os monstros as machuquem.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Lembra-se de uma garota chamada Jacira?";
+		next;
+		mes "[Jaci]";
+		mes "Jacira...";
+		mes "Ah! Aquela garota afobada.";
+		mes "Eu tive problemas por causa dela.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Problemas? Como assim?";
+		next;
+		mes "[Jaci]";
+		mes "Um dia ela apareceu cheia de feridas, então a socorri. Mas, de repente, ela tentou pegar a flor da vitória-régia e me pediu para aceitá-la como esposa, ou transformá-la em vitória-régia. Nossa... que confusão!";
+		next;
+		mes "[Jaci]";
+		mes "Mal consegui acalmá-la para levá-la de volta à vila.";
+		mes "Não quero mais estardalhaço por causa de algo tão embaraçoso.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Este é um presente de Jacira para se desculpar por aquilo.";
+		mes "Ela sente muito sua falta, e lamenta não poder vir sozinha, por causa de problemas particulares.";
+		next;
+		if(countitem(513) >= 10)
+		{
+			mes "[Jaci]";
+			mes "Ah, bananas! Puxa, faz tempo que não vejo uma. Se ela cuida assim de mim depois de tanto tempo, talvez ela não seja tão desvairada, afinal.";
+			next;
+			mes "[Jaci]";
+			mes "Sim, ela até é... bonita.";
+			next;
+			mes "[Jaci]";
+			mes "Mas você veio até aqui só para me entregar isso?";
+			next;
+			mes "["+StrCharInfo(0)+"]";
+			mes "Na verdade, eu estava à procura das vitórias-régias e encontrei Jacira por coincidência. Ela me contou sua história, e por isso vim aqui.";
+			next;
+			mes "[Jaci]";
+			mes "Entendi.";
+			mes "Como vê, há muitas vitórias-régias por aqui.";
+			mes "Se prometer não destruí-las, pode olhar o quanto quiser.";
+			set bra_q_vitoria,4;
+			close;
+		}
+		mes "[Jaci]";
+		mes "Do que está falando?";
+		next;
+		mes "- Devo ter perdido as bananas em algum lugar. -";
+		close;
+	}
+	mes "[Jaci]";
+	mes "Hoje as vitórias-régias estão incríveis.";
+	mes "Só de ficar olhando, quase entro em transe.";
+	close;
+}
+
+bra_dun02,71,200,3	script	Vitória-Régia#bra	111,{
+	if(bra_q_vitoria == 7)
+	{
+		mes "- Você pega, cuidadosamente, uma bela flor de vitória-régia. -";
+		getitem 7553,1;
+		set bra_q_vitoria,8;
+		close;
+	}
+	else if(bra_q_vitoria == 5)
+	{
+		mes "[Jaci]";
+		mes "Por favor, encontre as frutas das quais me lembro da infância.";
+		next;
+		mes "[Jaci]";
+		mes "Aquele fruto grande e duro... que tem bastante suco dentro da casca, bom para se beber.";
+		mes "Você sabe como ele é?";
+		close;
+	}
+	if(bra_q_vitoria == 4)
+	{
+		mes "Ao olhar para a vitória-régia, fico absorvido pelo seu verde intenso e pela sua flor misteriosa.";
+		next;
+		if(select("Colher a flor.:Continuar olhando.") == 2)
+		{
+			mes "- Ela é tão bonita e misteriosa que não há como desviar o olhar. -";
+			close;
+		}
+		mes "[Jaci]";
+		mes "Ei, o que está fazendo???";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Tem uma pessoa que precisa muito dessa flor, não posso pegar só uma?";
+		next;
+		mes "[Jaci]";
+		mes "Como eu disse, sou guardião dessas vitórias-régias.";
+		mes "Não posso aceitar que você colha essa flor rara, mesmo que eu morra.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ei, eu trouxe estas frutas deliciosas para você... experimente! Estas bananas estão bem maduras e frescas.";
+		next;
+		mes "[Jaci]";
+		mes "Hum... você as trouxe para mim, então devo experimentar.";
+		next;
+		mes "[Jaci]";
+		mes "Vou provar só uma. Só isso.";
+		next;
+		mes "- *Pegando* -";
+		mes "- *Descascando* -";
+		next;
+		mes "- *Mastigando* -";
+		specialeffect 210;
+		next;
+		mes "[Jaci]";
+		mes "nossa, esse sabor é...!";
+		next;
+		mes "- *Pegando* -";
+		mes "- *Descascando* -";
+		next;
+		mes "- *Mastigando* -";
+		specialeffect 210;
+		next;
+		mes "[Jaci]";
+		mes "Puxa, posso até imaginar minha mãe fazendo tortas com estas bananas!";
+		next;
+		mes "- *Pegando* -";
+		mes "- *Descascando* -";
+		next;
+		mes "- *Mastigando* -";
+		specialeffect 210;
+		next;
+		mes "[Jaci]";
+		mes "Até sinto vontade de fazer poesia.";
+		next;
+		mes "[Jaci]";
+		mes "Na bela lua...";
+		mes "Na bela selva...";
+		mes "A bananeira desabrocha...";
+		next;
+		mes "[Jaci]";
+		mes "Hoho!!!!";
+		mes "Acabei me distraindo...";
+		mes "Não tenho tempo para isso.";
+		emotion e_omg;
+		next;
+		mes "[Jaci]";
+		mes "A banana estava deliciosa.";
+		mes "Mas regras são regras!!";
+		mes "Preciso cumprir meu dever.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ei, você comeu as bananas. Não posso pegar só uma flor? Pode ser a mais murcha...";
+		next;
+		mes "[Jaci]";
+		mes "Desculpe, mas não posso deixar.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Não seja assim. As bananas foram um presente!";
+		next;
+		mes "[Jaci]";
+		mes "Er, bem...";
+		next;
+		mes "[Jaci]";
+		mes "Se é assim, sugiro uma coisa.";
+		next;
+		mes "[Jaci]";
+		mes "Desde que era mais novo, nunca mais fui a Brasilis.";
+		mes "Quando cresci, sempre fiquei muito tempo neste lugar.";
+		next;
+		mes "[Jaci]";
+		mes "Sempre que ficava doente, sentia falta das frutas.";
+		mes "Eu gostava muito de frutas quando era mais novo.";
+		next;
+		mes "[Jaci]";
+		mes "Aquele fruto grande e duro... Que tem bastante suco dentro da casca, bom para se beber.";
+		mes "Você sabe como ele é?";
+		next;
+		mes "[Jaci]";
+		mes "Se você me trouxer 5 deles, posso pensar no seu caso.";
+		delitem 513,10;
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Uma fruta com muito suco... será que a Jacira conhece?";
+		set bra_q_vitoria,5;
+		close;
+	}
+	end;
+}
+
+bra_in01,145,27,3	script	Menino#bra::bra_vr	472,{
+	if(bra_q_vitoria >= 2)
+	{
+		mes "[Kaka]";
+		mes "Vovó está meio cansada com os afazeres da tribo!";
+		mes "Por que não vai visitar a menina que lembra a moça da lenda? Ela mora em Brasilis.";
+		close;
+	}
+	else if(bra_q_vitoria == 1)
+	{
+		mes "[Menino]";
+		mes "Vovó! Vem vindo alguém com um cheiro de terra estranha...";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Esse jovem não cresceu aqui.";
+		mes "É um visitante, veio de muito longe.";
+		mes "Diga olá para ele.";
+		next;
+		mes "[Menino]";
+		mes "Ah... oi!";
+		mes "Sou Kaká!";
+		mes "Qual é o seu nome??";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Sou "+StrCharInfo(0);
+		next;
+		mes "[Menino]";
+		mes "Hihi, os estrangeiros têm nomes tão estranhos...";
+		mes "Mas tudo bem, a gente se acostuma!";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Hoho!";
+		mes "Então, o que traz você aqui?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ouvi dizer que você conhece muitas lendas, não é mesmo?";
+		next;
+		mes "[Kaka]";
+		mes "Oooh! Como sabe que a vovó conhece as lendas?";
+		mes "Vovó é muito sabida, já ouvi muitas coisas dela.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Hoho, Kaká sempre ouve minhas histórias à noite, e gosta muito delas.";
+		mes "O Kaká sempre me deixa feliz, porque me faz perguntas muito curiosas.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Kaká, vamos receber bem nosso visitante, certo?";
+		next;
+		mes "[Kaka]";
+		mes "Legal, vovó!!";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Hum, tem alguma história em particular que você queira ouvir?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Que tal a história da misteriosa vitória-régia?";
+		next;
+		mes "[Anciã Jurema]";
+		mes "A vitória-régia...";
+		mes "Isso aconteceu há muito tempo.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Antes de Brasilis ser fundada...";
+		mes "Uma tribo vivia perto de uma cachoeira, bem unida à natureza.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "O cacique tinha uma bela filha chamada 'Naiá'.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Naiá gostava de ouvir histórias, assim como o Kaká. Sua mãe contava muitas histórias sobre a natureza e os deuses.";
+		next;
+		mes "[Kaka]";
+		mes "Puxa, ela era parecida comigo?";
+		mes "Será que também era esperta como eu? Hehe.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "A mãe dela contou uma vez que...";
+		mes "se o deus da lua se apaixonasse por uma mulher da terra, ele a transformaria em estrela para que ficassem juntos.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Depois de ouvir a história, Naiá perguntou ao seu pai se isso era verdade.";
+		next;
+		mes "[Kaka]";
+		mes "Então, o que ele disse??";
+		next;
+		mes "[Anciã Jurema]";
+		mes "^3131FF'Naiá, o deus da lua é valente e misterioso. Mas por algum motivo, ele não quer mais noivas, então você não pode se tornar uma estrela.'^000000";
+		next;
+		mes "[Kaka]";
+		mes "Naiá queria ser noiva do deus da lua?";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Sim, Kaká, imagine como a lua é bela e misteriosa, isso é ideal para as garotas.";
+		next;
+		mes "[Kaka]";
+		mes "Mas se a lua não queria mais casar com humanas, o que aconteceu com Naiá?";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Naiá era persistente.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Embora seus pais tentassem impedi-la, ela corria pelos planaltos da floresta para encontrar a lua, todas as noites.";
+		mes "Mas mesmo com seu esforço, a lua não esboçava reação.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Um dia, ela correu até a montanha mais alta, e também se desapontou. Ela decidiu descansar um pouco à beira de um lago.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "E finalmente... Naiá viu.";
+		mes "Lá estava a lua, linda, brilhando sobre o lago ondulado.";
+		next;
+		mes "[Kaka]";
+		mes "Mas era apenas o reflexo da lua na água, não era?";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Sim, mas mesmo esse reflexo fez Naiá mergulhar no lago sem hesitar, se afogando.";
+		next;
+		mes "[Kaka]";
+		mes "Que história triste.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "O deus da lua viu tudo isso.";
+		mes "Sentindo tristeza e pena, ele decidiu transformá-la em uma bela planta para agradecer por seu amor.";
+		next;
+		mes "[Anciã Jurema]";
+		mes "É uma planta muito bonita e misteriosa que o povo de Brasilis deu o nome de vitória-régia.";
+		mes "Sua flor é vermelha durante o dia, mas à noite fica branca por seu amor à lua.";
+		next;
+		mes "[Kaka]";
+		mes "Puxa, que bonito, vovó!";
+		next;
+		mes "[Anciã Jurema]";
+		mes "Que tal, jovem?";
+		mes "Gostou da história?";
+		mes "Se quiser ouvir outra história, é só pedir.";
+		mes "E se não se importar, também pode brincar com minha neta Jacira.";
+		set bra_q_vitoria,2;
+		close;
+	}
+	mes "[Anciã Jurema]";
+	mes "Você não é daqui.";
+	mes "Sinto o cheiro de uma terra estranha.";
+	next;
+	mes "[Anciã Jurema]";
+	mes "Mas seus olhos têm um brilho forte,";
+	mes "e sua pele é dura...";
+	mes "Seu corpo emana espírito e força de vontade.";
+	next;
+	mes "[Anciã Jurema]";
+	mes "Se aprender bastante, pode se tornar uma pessoa valente.";
+	close;
+}
+
+bra_in01,142,27,5	duplicate(bra_vr)	Anciã Jurema#bra	474
+
+brasilis,270,145,5	script	Menina#bra	473,5,5,{
+	if(bra_q_vitoria == 8)
+	{
+		if(!countitem(7553))
+		{
+			mes "[Jacira]";
+			mes "Hã? Por que voltou?";
+			mes "Você está sempre correndo,";
+			mes "sempre ocupado com alguma coisa.";
+			close;
+		}
+		mes "[Jacira]";
+		mes "Hã? Por que voltou?";
+		mes "Você está sempre correndo,";
+		mes "sempre ocupado com alguma coisa.";
+		mes "O que veio me dizer?";
+		next;
+		mes "- Você contou sobre o que conversou com Jaci. -";
+		next;
+		mes "[Jacira]";
+		mes "O-oh, nossa!";
+		mes "Ele disse isso?";
+		mes "Minha nossa!";
+		mes "Aaaah!";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Graças a você, consegui a flor que queria.";
+		mes "Muito obrigado!!";
+		next;
+		mes "[Jacira]";
+		mes "Uaaau, como é linda...";
+		next;
+		mes "[Jacira]";
+		mes "Hum... pode me dar a flor um instante?";
+		next;
+		mes "[Jacira]";
+		mes "Aqui... assim, vamos ver...";
+		next;
+		mes "[Jacira]";
+		mes "Surpresa!!";
+		mes "Aqui está um chapéu fofo, que vai lhe dar sorte sempre!";
+		next;
+		mes "[Jacira]";
+		mes "É meu agradecimento pelo seu esforço, não precisa agradecer, hihi!";
+		next;
+		mes "[Jacira]";
+		mes "Espero ter boas notícias quando nos virmos de novo. Tchau!";
+		delitem 7553,1;
+		switch(rand(1,3))
+		{
+			case 1: getitem2 5302,1,1,0,0,4195,0,0,0; break;
+			case 2: getitem2 5302,1,1,0,0,4177,0,0,0; break;
+			case 3: getitem2 5302,1,1,0,0,4188,0,0,0; break;
+		}
+		set bra_q_vitoria,9;
+		close;
+	}
+	if((bra_q_vitoria >= 6 && bra_q_vitoria <= 7) || bra_q_vitoria >= 9)
+	{
+		mes "[Jacira]";
+		mes "Eu devia cuidar de mim mesma!";
+		mes "Não posso ficar na cama para sempre, não é?";
+		close;
+	}
+	else if(bra_q_vitoria == 5)
+	{
+		mes "[Jacira]";
+		mes "Encontrou Jaci?";
+		mes "Falou de mim para ele?";
+		mes "Não falou? Hein?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ei, garota, como você é ansiosa.";
+		mes "Claro que falei para ele. Sério!";
+		next;
+		mes "[Jacira]";
+		mes "Falou? O que ele disse? Ele se lembra de mim?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Eu disse que você é muito legal e tem bom coração.";
+		mes "Ele pediu para você ser uma boa menina em casa e disse que vai vê-la assim que você se recuperar.";
+		next;
+		mes "[Jacira]";
+		mes "Eeeeba!";
+		mes "Obrigada! Você é mais confiável do que eu pensava.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Aliás, ele me falou de uma fruta, você sabe como se chama?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "É grande e dura... e tem muito suco para beber dentro dela.";
+		next;
+		mes "[Jacira]";
+		mes "Ora, é o coco!";
+		mes "É fácil encontrá-lo aqui em Brasilis.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Eba! Valeu Jacira!";
+		set bra_q_vitoria,6;
+		close;
+	}
+	else if(bra_q_vitoria >= 3 && bra_q_vitoria <= 4)
+	{
+		mes "[Jacira]";
+		mes "Se encontrar Jaci, dê as 10 bananas a ele...";
+		mes "Não lembro como cheguei ali, mas lembro de cair na água e ser sugada para algum lugar.";
+		next;
+		mes "[Jacira]";
+		mes "Se não conseguir encontrar o caminho, vá até a cachoeira e pergunte às crianças.";
+		mes "Ouvi dizer que uma das crianças já foi a um lugar estranho. Deve ter sido o mesmo lugar para onde fui!";
+		close;
+	}
+	else if(bra_q_vitoria == 2)
+	{
+		mes "[Som Distante]";
+		mes "Jacira!!";
+		mes "Aonde você está indo?!!";
+		mes "Volte agora mesmo!!";
+		next;
+		mes "[Menina]";
+		mes "Mãe, preciso sair!!";
+		next;
+		mes "[Som Distante]";
+		mes "Não mesmo! Não pode!";
+		next;
+		mes "[Menina]";
+		mes "Droga... hoje não consegui de novo.";
+		next;
+		mes "[Menina]";
+		mes "......";
+		mes "Que foi? O que está olhando?";
+		mes "Tenho cara de vitrine? Cai fora!";
+		next;
+		if(select("Nada, desculpe.:Qual é o problema?") == 1)
+		{
+			mes "[Menina]";
+			mes "Que triste!!!";
+			close;
+		}
+		mes "[Menina]";
+		mes "Não é da sua conta.";
+		mes "Você é só um estrangeiro!!";
+		next;
+		if(select("Que rude você é!!:Eu só queria ajudar.") == 1)
+		{
+			mes "[Menina]";
+			mes "E daí?!";
+			close;
+		}
+		mes "["+StrCharInfo(0)+"]";
+		mes "Eu só estava passando, mas posso muito bem ajudar, não acha?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Esse nosso encontro pode parecer coincidência, mas também pode ser uma chance do destino.";
+		next;
+		mes "[Menina]";
+		mes "......................";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Hum... qual o nome dessa menina bonita?";
+		next;
+		mes "[Menina]";
+		mes "Já...";
+		mes "Jacira.";
+		mes "Meu nome é Jacira.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Belo nome!";
+		mes "Jacira, que tal você me contar sua história? O que está acontecendo?";
+		next;
+		mes "[Jacira]";
+		mes ".............";
+		next;
+		mes "[Jacira]";
+		mes "Preciso encontrar Jaci, mas não posso sair...";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Quem é Jaci?";
+		mes "Seria seu... namorado?";
+		next;
+		emotion e_omg;
+		mes "[Jacira]";
+		mes "Na-na-namorado??!!";
+		mes "Nada disso!";
+		next;
+		mes "[Jacira]";
+		mes "Se fosse meu namorado, seria ótimo... mas...";
+		next;
+		mes "[Jacira]";
+		mes "Jaci é...";
+		mes "a grande lua.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "A lua?";
+		mes "Será que... você está falando do deus da lua??";
+		next;
+		mes "[Jacira]";
+		mes "Isso mesmo!";
+		mes "Jaci veio da lua, tenho certeza!!";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Por que acha isso?";
+		next;
+		mes "[Jacira]";
+		mes "Porque Jaci é lindo, e a coisa mais importante para ele é cuidar das vitórias-régias.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Vitória-régia?!";
+		mes "Não é aquela planta rara?";
+		emotion e_omg,2;
+		next;
+		mes "[Jacira]";
+		mes "Isso mesmo, sua flor misteriosa é difícil de encontrar.";
+		mes "Mas Jaci vive perto de muitas vitórias-régias.";
+		mes "Por isso acredito que Jaci é o deus da lua.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Onde está Jaci?";
+		next;
+		mes "[Jacira]";
+		mes "Ele está na parte mais profunda da selva de Brasilis.";
+		next;
+		mes "[Jacira]";
+		mes "Como vê, estou bem fraca, e não deveria sair de casa. Mas não agüentava mais ficar isolada, e um dia saí desta vila.";
+		next;
+		mes "[Jacira]";
+		mes "Fiquei andando pela selva, tropecei e me machuquei, e foi aí que o encontrei.";
+		next;
+		mes "[Jacira]";
+		mes "Ele foi tão gentil, curou minhas feridas e me guiou de volta à vila.";
+		mes "Foi lindo.";
+		next;
+		mes "[Jacira]";
+		mes "Mas desde que voltei, meus pais me deixaram de castigo, e vivem me vigiando.";
+		mes "Eu entendo a preocupação deles, mas sinto muita falta do Jaci!";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Por que não vai encontrá-lo quando recobrar as forças?";
+		next;
+		mes "[Jacira]";
+		mes ".................";
+		mes "Aaah... quero vê-lo agora...";
+		next;
+		if(select("Ajudar Jacira.:Ignorá-la.") == 2)
+		{
+			mes "["+StrCharInfo(0)+"]";
+			mes "Desculpe, não posso ajudar. Anime-se!";
+			next;
+			mes "[Jacira]";
+			mes "*choro*";
+			close;
+		}
+		mes "["+StrCharInfo(0)+"]";
+		mes "Jacira, eu vim para cá procurando a vitória-régia.";
+		mes "Não acha que isso tudo é nosso destino?";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Se você me disser como encontrar Jaci, posso levar sua mensagem a ele.";
+		next;
+		mes "[Jacira]";
+		mes "Jura? Mas não sei onde encontrá-lo. Nem sei como o encontrei naquele dia.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Não pode se lembrar mais ou menos do lugar?";
+		mes "Daí eu consigo procurar por conta própria.";
+		next;
+		mes "[Jacira]";
+		mes "Naquele dia, eu estava andando perto da cachoeira, quando caí na água e senti alguma coisa me sugando.";
+		next;
+		mes "["+StrCharInfo(0)+"]";
+		mes "Ótimo! Vou procurar a partir daí.";
+		next;
+		mes "[Jacira]";
+		mes "Com essas informações, você também vai encontrar a vitória-régia, então pode me fazer um favor?";
+		mes "Espero que você não seja egoísta a ponto de ignorar esse meu pedido...";
+		mes "É muito simples...";
+		next;
+		mes "[Jacira]";
+		mes "Quero dar a ele frutas deliciosas.";
+		mes "O lugar onde Jaci vive parece confortável, mas não é muito fresco e é difícil conseguir comida... então ele deve ficar feliz ao ver uma fruta bem gostosa. !";
+		next;
+		mes "[Jacira]";
+		mes "Leve 10 bananas e diga que sinto muito a falta dele.";
+		mes "Desculpe por ignorar você antes. Por favor, só você pode me ajudar!";
+		set bra_q_vitoria,3;
+		close;
+	}
+	mes "[Som Distante]";
+	mes "Jacira!!";
+	mes "Aonde você está indo?!!";
+	mes "Volte agora mesmo!!";
+	next;
+	mes "[Menina]";
+	mes "Por favor, mãe, preciso sair!! Por favor, me deixe ir!!";
+	close;
+
+OnTouch:
+	if(bra_q_vitoria == 2)
+		emotion e_an;
+	end;
+}
+
+brasilis,203,286,3	script	Botânica Carmen#bra	893,{
+	if(bra_q_vitoria == 9)
+	{
+		mes "- Você mostra a flor de vitória-régia a Karmen, e lhe conta sua história até agora. -";
+		next;
+		mes "[Carmen]";
+		mes "Uau, que experiência você teve...";
+		mes "Então, a vitória-régia cresce na parte mais profunda de Brasilis, não é?";
+		mes "Vou tentar encontrá-la por conta própria, não vou desistir!!";
+		next;
+		mes "[Carmen]";
+		mes "Acho que firmamos uma boa amizade, então tivemos sorte.";
+		mes "A flor da vitória-régia dá mesmo sorte. Haha...";
+		set bra_q_vitoria,10;
+		getexp 50000,0;
+		close;
+	}
+	else if((bra_q_vitoria >= 2 && bra_q_vitoria <= 8) || bra_q_vitoria >= 10)
+	{
+		mes "[Carmen]";
+		mes "Brasilis tem um clima especial: sempre quente, com um pouco de vento e bastante chuvoso.";
+		mes "Esse clima oferece condições botânicas diferentes das outras regiões.";
+		next;
+		mes "[Carmen]";
+		mes "A flora de Brasilis é robusta e colorida.";
+		mes "As plantas daqui são mesmo enormes, o que nos oferece uma imagem bem forte.";
+		next;
+		mes "[Carmen]";
+		mes "É um paraíso para os botânicos, não é?";
+		close;
+	}
+	else if(bra_q_vitoria == 1)
+	{
+		mes "[Carmen]";
+		mes "Se a história da vitória-régia lhe interessar, fale com a anciã Jurema, na pousada Tucano Feliz.";
+		mes "Ela é muito sábia e conhece várias histórias.";
+		close;
+	}
+	mes "[Carmen]";
+	mes "Brasilis tem um clima especial: sempre quente, com um pouco de vento e bastante chuvoso.";
+	mes "Esse clima oferece condições botânicas diferentes das outras regiões.";
+	next;
+	mes "[Carmen]";
+	mes "As plantas crescem mais fortes do que a média, e mais coloridas.";
+	mes "As plantas daqui são mesmo enormes, o que nos oferece uma imagem bem forte.";
+	next;
+	mes "[Carmen]";
+	mes "Uma delas é um tipo de ninféia, lindo e único, chamado vitória-régia.";
+	mes "Mas sua flor é muito sensível, e não floresce em qualquer lugar.";
+	next;
+	if(select("Que história interessante.:Terminei de falar.") == 2)
+	{
+		mes "[Carmen]";
+		mes "Eu sempre me esforço tanto, mas não sei se estou agindo certo...";
+		close;
+	}
+	mes "[Carmen]";
+	mes "É tão difícil encontrar essa flor misteriosa, que o povo de Brasilis acredita que quem a encontrar terá muita sorte.";
+	next;
+	mes "[Carmen]";
+	mes "Como pesquisadora e botânica, tenho procurado essa flor da sorte, mas não tem sido fácil.";
+	next;
+	mes "[Carmen]";
+	mes "Acho que, se eu não desistir e continuar me esforçando, a vitória-régia vai me mostrar sua beleza.";
+	next;
+	mes "[Carmen]";
+	mes "Ah, se a história da vitória-régia lhe interessar, fale com a anciã Jurema, na pousada Tucano Feliz.";
+	mes "Ela é muito sábia e conhece várias histórias.";
+	set bra_q_vitoria,1;
+	close;
+}

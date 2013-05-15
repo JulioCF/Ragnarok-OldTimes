@@ -1,0 +1,118 @@
+//= otRag ??
+
+// Morrison ------------------------------------------------
+prt_in,47,173,2	script	Morrison	97,{
+	mes "[Pequeno Morrison]";
+	if(MEAT > 10) goto L_Candy;
+	if(MARIANNE == 1) goto L_GoAway;
+
+	mes "[Pequeno Morrison]";
+	mes "Wahhhhh!!! Wahh... CHEGA! CHEGA!";
+	mes "Não vou... continuar comendo ^0000ffFrutas^000000 estúpidas!!";
+	emotion e_sob;
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_End;
+
+	M_Talk:
+		if(countitem(517) > 0) goto L_Meat; //Carne
+
+		mes "[Pequeno Morrison]";
+		mes "Que mãe idiota que eu tenho, fica me forçando a comer frutas.";
+		mes "Eu odeio frutas, elas são duras demais pros meus dentes!";
+		mes "Carnes são muito mais macias e saborosas.";
+		close;
+
+		L_Meat:
+		menu "Dar a Carne",sM_Give,"Ignorar",sM_Ignore;
+		
+		sM_Give:
+			if(countitem(517) == 0) goto L_GoAway; //Meat
+			delitem 517,1;	//Meat
+			set MORRISON,1;
+			set MEAT,MEAT + 1;
+			mes "[Pequeno Morrison]";
+			mes "Woooww~!!! Carne, é Carne de verdade!";
+			mes "Mmmm! Parece águra na boca.";
+			mes "Oh Muito Obrigado. Agora estou feliz. Yupp Yupp...";
+			close;
+		sM_Ignore:
+			set MORRISON,2;
+
+			mes "[Pequeno Morrison]";
+			mes "-.-...";
+			mes "Tá... Tudo Bem, Tudo Bem~!!! Selfish meanie!";
+			close;
+	M_End:
+		mes "[Pequeno Morrison]";
+		close;
+
+L_GoAway:
+	mes "Pffff... Me deixe sozinho! Você NÃO SE importa comigo! Eu vou acabar morrendo por causa desses estupidos vegetais e frutas!";
+	close;
+L_Candy:
+	mes "Ohh..Estou cheio agora.";
+	mes "Você não precisa mais me alimentar. Eu acho que vou explodir se comer mais.";
+	next;
+	mes "[Pequeno Morrison]";
+	mes "E... Hmm... Pegue Isso.";
+	next;
+	getitem 529,3;
+	getitem 530,1;
+	set MEAT,0;
+	mes "[Pequeno Morrison]";
+	mes "Esse é meu pacote de Doces que eu escondi da minha Mãe.  Se você me der mais Carne, eu te darei mais alguns Doces." ;
+	close;
+}
+
+// Marianne ---------------------------------------------------
+prt_in,49,172,2	script	Marianne	53,{
+	mes "[Marianne]";
+	if(MORRISON == 1) goto L_GaveMeat;
+	if(MORRISON == 2) goto L_Juice;
+
+	mes "Morrisson, meu filhinho, come uma frutinha, faz esse favor";
+	mes "*Snif*~!! Tal pai tal filho...";
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_Cancel;	
+
+	M_Talk:
+		mes "[Marianne]";
+		mes "(^.~)...Esse é o Morrisson... Meu primeiro e unico filho.";
+		mes "Ele está passando por uma fase e não quer comer nenhuma ^0000ffFruta^000000 or vegetables.  Look at his face, it turns sour just hearing about ^0000fffFruit^000000...";
+		next;
+		mes "[Marianne]";
+		mes "Tudo que ele quer comer é ^ff0000Carne^000000... ele precisa de ^0000ffFrutas^000000 e vegetais para uma dieta saudável.";
+		next;
+		close;
+
+	M_Cancel:
+		mes "[Marianne]";
+		mes "Morrisson!! Eu vou ficar louca se você continuar fazendo isso!";
+		close;
+	
+L_GaveMeat:
+	set MORRISON,0;
+	mes "Ai MEU DEUS!!... Oh Senhor...";
+	next;
+	mes "[Marianne]";
+	mes "O QUE VOCÊ ESTÁ FAZENDO!! COMO VOCÊ DESAFIOU alimentar meu filho!! Com ^ff0000CARNE^000000 ainda mais!!!";
+	next;
+	mes "[Marianne]";
+	mes "Arrrgh~~!! Saia agora!!!!!!";
+	close;
+
+L_Juice:
+	set MORRISON,0;
+	set MARIANNE,1;
+	mes "Obrigado por não dar nenhuma carne ao meu filho.  Estou tentando alimetá-lo com ^0000ffFrutas^000000 e vegetais, mas essas crianças não comen nada exceto Carne...";
+	next;
+	mes "[Marianne]";
+	mes "Se eu pudesse transformar ^0000ffFrutas^000000 em ^0000ffSucos^000000... por exemplo...Suco de laranja... Será que minha criança iria gostar?";
+	next;
+	mes "[Marianne]";
+	mes "Ah! Agora eu lembro..Tem uma cidade onde você consegue bastante ^0000ffFrutas^000000 transformadas em ^0000ffSucos de Frutas^000000.";
+	next;
+	mes "[Marianne]";
+	mes "... Era em ...^ff0000Payon^000000...ou ^ff0000Morroc^000000...?";
+	close;
+}

@@ -1,0 +1,123 @@
+//===== Cronus Script ========================================
+//= Quest Capacete de Orc Herói
+//===== Por: =================================================
+//= DracoRPG 1.0
+//===== Versão Atual: ========================================
+//= 1.2
+//===== Compatível Com: ======================================
+//= Emulador [Cronus]; BRO Episódio [10]
+//===== Descrição: ===========================================
+//= NPC que faz a quest do Capacete do Orc Herói
+//===== Comentários Adicionais: ==============================
+//= 1.2: Traduzido para o Cronus e para o KBRO [Amandinha]
+//= 1.2: Adaptado para o Cronus e para o KBRO [socramjunio]
+//============================================================
+
+gef_fild10,131,274,4	script	Guerreiro Orc	1023,{
+	if(ORC_HERO_HELM_Q==1) goto Q1;
+	if(ORC_HERO_HELM_Q==2) goto Q2;
+	if(ORC_HERO_HELM_Q==3) goto Q3;
+	if(ORC_HERO_HELM_Q==4) goto Q4;
+	emotion e_an;
+	mes "[Guerreiro Orc]";
+	mes "O que faz um humano aqui? Droga!";
+	mes "Aqui é para apenas verdadeiro Orcs Guerreiro! Sai já de nossa vila!";
+	next;
+	menu " Hey, eu sou tão forte quanto você é!",Q0,"Sair antes que ele fique nervoso...",-;
+	close;
+Q0:
+	mes "[Guerreiro Orc]";
+	mes "Humph! Tão forte quanto um orc? Eu não acho isso!";
+	mes "Se você for capaz de me mostrar.... eu te darei uma chapeu de um verdadeiro guerreiro...";
+	mes "O ^ff0000Capacete de Orc Herói^000000!";
+	next;
+	mes "[Guerreiro Orc]";
+	mes "Mas você precisa provar que é forte e corajoso antes.";
+	mes "Primeiro traga-me 10,000 Jellopies  para provar sua determinação";
+	set ORC_HERO_HELM_Q,1;
+	set ORC_HERO_HELM_Q2,0;
+	close;
+Q1:
+	mes "[Guerreiro Orc]";
+	mes "Hum, você está de volta! deixer-me ver se trouxe o que eu lhe pedi!";
+	next;
+	mes "[Guerreiro Orc]";
+	set @temp,countitem(909);
+	if(ORC_HERO_HELM_Q2+@temp>10000) set @temp,10000-ORC_HERO_HELM_Q2;
+	set ORC_HERO_HELM_Q2,ORC_HERO_HELM_Q2+@temp;
+	delitem 909,@temp;
+	if(ORC_HERO_HELM_Q2==0) goto Q1_noitem;
+	if(ORC_HERO_HELM_Q2==10000) goto Q1_allitem;
+	mes "Você deve trazer para mim" + @temp + " Jellopies agora. Isso fará um total de" + ORC_HERO_HELM_Q2 + " Jellopies. Lembre-se eu quero 10,000 deles!";
+	close;
+Q1_allitem:
+	mes "Eu vejo que você tem mas coragem que eu pensava!";
+	mes "Mas não acabou ainda, agora quero ver se você é realmete forte. Vá lutar contras nossos gurreiros e traga-me 100 Amuleto dos Orcs deles!";
+	set ORC_HERO_HELM_Q,2;
+	set ORC_HERO_HELM_Q2,0;
+	close;
+Q1_noitem:
+	emotion e_an;
+	mes "Eu te disse para trazer 10,000 Jelopi, e você não me traz nem um!";
+	close;
+Q2:
+	mes "[Guerreiro Orc]";
+	if(countitem(931)<100) goto Q2_noitem;
+	delitem 931,100;
+	mes "Você tem condiçoes de consguir os Amuletos dos Orcs? Talvez eu não tenha dito a quantia certa!";
+	mes "Vá e traga-me mais 10,000 Amuleto dos Orcs!";
+	set ORC_HERO_HELM_Q,3;
+	set ORC_HERO_HELM_Q2,0;
+	close;
+Q2_noitem:
+	emotion e_an;
+	mes "Então você não pode vencer de nossos irmãos guerreiros? fique afastado até conseguir os100 Orcish Vouchers! Cheeit!";
+	close;
+Q3:
+	mes "[Guerreiro Orc]";
+	set @temp,countitem(931);
+	if(ORC_HERO_HELM_Q2+@temp>10000) set @temp,10000-ORC_HERO_HELM_Q2;
+	set ORC_HERO_HELM_Q2,ORC_HERO_HELM_Q2+@temp;
+	delitem 931,@temp;
+	if(ORC_HERO_HELM_Q2==0) goto Q3_noitem;
+	if(ORC_HERO_HELM_Q2==10000) goto Q3_allitem;
+	mes "Bom, você veio com" + @temp + " Amuleto dos Orcs. com todos aqueles que você trouxe antes, podera ir" + ORC_HERO_HELM_Q2 + " Amuleto dos Orcs... 10,000 eu quero!";
+	close;
+Q3_allitem:
+	mes "Humph! Você realmete é uma poderoso guerreiro. Talvez você mereça um Capacete de Orc Herói.";
+	mes "Por enquanto, pegue todos seus items. guarde-os bem, você precisará para fazer seu item!";
+	set ORC_HERO_HELM_Q,4;
+	set ORC_HERO_HELM_Q2,0;
+	getitem 2299,1;
+	getitem 968,1;
+	next;
+	mes "[Guerreiro Orc]";
+	mes "Agora, você tem que lutar com nosso melhor herói...traga-me 100 Insígnia do Herói e eu lhe darei seu item.";
+	close;
+Q3_noitem:
+	emotion e_an;
+	mes "Volte quando tiver os 10,000 Orcish Vouchers é muito dificil para você, pobre humano? vá e traga-me os items! ";
+	close;
+Q4:
+	mes "[Guerreiro Orc]";
+	mes "Você lutou com o nosse melhor guerreiro, e trouxe os 100 Insígnia do Herói como eu pedi?";
+	mes "Não se esqueça que eu preciso do Orc Helm que eu te dei!";
+	next;
+	mes "[Guerreiro Orc]";
+	if(countitem(968)<100 || countitem(2299)<1) goto Q4_noitem;
+	delitem 968,100;
+	delitem 2299,1;
+	mes "Bem você ganhou tudo! você realmente é um de nossos gurreiros!";
+	mes "Eu vou fazer um  Capacete de Orc Herói para provar sua força e seu valor!";
+	next;
+	mes "[Guerreiro Orc]";
+	getnameditem 5094,strcharinfo(0);
+	set ORC_HERO_HELM_Q,0;
+	logmes "Quest: Got Capacete de Orc Herói";
+	mes "Aqui está! use-o bastante e prove que você é um de nosso maiores guerreiros!";
+	close;
+Q4_noitem:
+	emotion e_an;
+	mes "Não? você perdeu os items... você tem ceretza que quer ser um verdadeiro herói?";
+	close;
+}

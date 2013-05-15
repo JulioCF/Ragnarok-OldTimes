@@ -1,0 +1,74 @@
+//===== Cronus Script ========================================
+//= Mercador de Splendide
+//===== Por: =================================================
+//= rAthena Dev Team
+//===== Versão Atual: ========================================
+//= 1.2
+//===== Compatível com: ======================================
+//= Cronus GIT
+//===== Descrição: ===========================================
+//= Mercador de Splendide
+//===== Comentários Adicionais: ==============================
+//= 1.0 First version 
+//= 1.1 Fixed checkweight. [Gepard]
+//= 1.2 Traduzido [LyDe]
+//============================================================
+
+spl_in01,110,326,5	script	Mercador de Splendide	439,{
+	if ((isequipped(2782) == 1) && (ep13_2_rhea == 100)) {
+		if (checkweight(1201,1) == 0) {
+			mes "[Mercador de Splendide]";
+			mes "Está parecendo que você está carregando muitos itens.";
+			mes "Por que você não coloca algumas coisas no Armazém e volta?";
+			close;
+		}
+		mes "[Mercador de Splendide]";
+		mes "Olá.";
+		mes "O que você está procurando?";
+		next;
+		switch(select("Ver descrição dos itens:Comprar Geléia de Frutas de Pinguicula:Comprar Geléia de Mel de Vagalume:Comprar Lágrimas de Cornus:Nada")) {
+		case 1:
+			mes "[Mercador de Splendide]";
+			mes "Você gostaria de ver as descrições dos itens?";
+			close2;
+			ReadBook 11018,1;
+			end;
+		case 2: callsub S_BuySpl,12344; break;
+		case 3: callsub S_BuySpl,12345; break;
+		case 4: callsub S_BuySpl,12349; break;
+		case 5:
+			mes "[Mercador de Splendide]";
+			mes "Volte novamente se mudar de idéia.";
+			close;
+		}
+	}
+	else {
+		mes "[Mercador de Splendide]";
+		mes "BurWehAla";
+		mes "tasnarAndu Ie Ru";
+		close;
+	}
+
+S_BuySpl:
+	mes "[Mercador de Splendide]";
+	mes "Eu posso lhe vender 3 "+getitemname(getarg(0))+" por^3131FF 1 moeda^000000";
+	next;
+	if(select("Comprar.:Não Comprar.") == 1) {
+		if (countitem(6081) > 0) {
+			mes "[Mercador de Splendide]";
+			mes "Obrigado pela negociação.";
+			delitem 6081,1; //Splendide_Coin
+			getitem getarg(0),3;
+			close;
+		}
+		else {
+			mes "[Mercador de Splendide]";
+			mes "Você não possui moedas o suficiente.";
+			close;
+		}
+	} else {
+		mes "[Mercador de Splendide]";
+		mes "Volte novamente se mudar de idéia.";
+		close;
+	}
+}

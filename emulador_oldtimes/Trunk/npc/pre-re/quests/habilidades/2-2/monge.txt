@@ -1,0 +1,70 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Monge
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.1 (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//= 1.0c Corrigidos requerimentos [Keoy]
+//= 1.1 Script otimizado [Keoy]
+//============================================================
+
+//============================================================
+// MONK - KI TRANSLATION + KI EXPLOSION
+//============================================================
+monk_test,316,69,3	script	Krate	823,{
+	mes "[Krate]";
+	if(BaseJob!=Job_Monk)
+	{
+		mes "Parece que sua alma é o contrario do seu corpo.";
+		mes "Volte quando seu corpo e sua alma estiverem com Yin e Yang.";
+		emotion e_gasp;
+		close;
+	}
+	if(getskilllv(1015) && getskilllv(1016))
+	{
+		mes "Eu já lhe ensinei";
+		mes "tudo o que eu sei...";
+		close;
+	}
+	if(monk_skill)
+		callsub OnItemCheck;
+	if(Weight > 0)
+	{
+		mes "Volte quando você se livrar";
+		mes "de seus bens humanos.";
+		close;
+	}
+	mes "Eu lhe ensinarei tudo que sei, mas você precisa trazer:";
+	mes "3 Brotos";
+	mes "20 Caules";
+	set monk_skill, 1;
+	next;
+OnItemCheck:
+	mes "Deixe-me checar seus itens.";
+	next;
+	if(countitem(711)<3 || countitem(905)<20) //Items: Broto, Caule,
+	{
+		mes "[Krate]";
+		mes "Você não tem todos os itens.";
+		mes "Volte quando tiver tudo";
+		mes "o que eu lhe pedi.";
+		close;
+	}
+	delitem 711, 3;//Items: Broto,
+	delitem 905, 20;//Items: Caule,
+	next;
+	mes "[Krate]";
+	mes "Eu vejo que você tem o que precisa,";
+	mes "assim eu lhe ensinarei o meu talento.";
+	skill 1015,1,0;
+	skill 1016,1,0;
+	set monk_skill, 0;
+	close;
+}

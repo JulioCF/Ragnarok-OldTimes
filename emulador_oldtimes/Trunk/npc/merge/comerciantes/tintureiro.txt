@@ -1,0 +1,360 @@
+//===== Cronus Script ======================================== 
+//= Tintureiro
+//===== Por: ================================================= 
+//= Usnul
+//===== Versão Atual: ======================================== 
+//= 2.4b
+//===== Changelog: =========================================== 
+//= 0.1b Iniciado o Npc
+//= 2.4 Atualizado o Npc [Kamper]
+//= 2.4a Erros de português corrigido por @Coja ImortalRO Staff
+//= 2.4b Removido show [Yum]
+//============================================================
+
+prt_in,284,168,2	script	Tintureiro Ginedin	55,{
+	mes "[Tintureiro Ginedin]";
+	mes "11... 12... Mmm... bom. Eu acho que esta tudo terminado antes da festa dessa noite. Oh! eu não havia visto que você estava aqui. De qualquer modo como posso ajudar voce?";
+M_Menu:
+	next;
+	menu "- Conversar",L_Talk, "- Tingir roupas",L_Dye, "- Listar de preços",L_PriceList, "- Cancelar",L_End;
+
+L_Talk:
+	mes "[Tintureiro Ginedin]";
+	mes "A vida pode ter começado um pouco melhor.... mas quando eu olho todos os pedidos que eu tenho recebido!";
+	mes "parece que as jovens mulheres de Rune Midgard devem ser muito ricas hoje em dia.";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Não que eu pense de que elas estejam entregando-se a qualquer coisa que pensem luxuosa.";
+	mes "Eu não vejo nada errado com a perseguição da beleza e estar na moda.";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Para nós os seres humanos, que não têm nenhuma pele colorida ou escama decorativa, roupa são uma das poucas maneiras que nós temos de mostrar nossa personalidade, estilo, e beleza.";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Haha... Quando eu penso sobre isso, eu sinto que realmente meu trabalho possui valor. Eu acredito que eu forneça um serviço que as pessoas desejem.";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Pode você sentir isso também? A energia que é liberada quando a tela e o couro ásperos forem trazidos à vida com cor?.....";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Embora o processo seja muito tedioso e consuma muito tempo, a alegria e a felicidade que eu sinto quando um vestido é terminado.....";
+	mes "Compensa mais do que todo o trabalho duro!!";
+	goto M_Menu;
+
+L_Dye:
+	mes "[Tintureiro Ginedin]";
+	mes "Oh... você necessita do meu trabalho? Bem, mãos à obra.";
+	next;
+	mes "[Tintureiro Ginedin]";
+	mes "Escolha por favor uma cor que agrade você.";
+	next;
+	if(Sex==0) goto Female_dye;
+
+Male_dye:
+	if(BaseJob==Job_Novice || BaseJob==Job_Novice_High || BaseJob==Job_Baby) goto L_Novice_M;
+	if(BaseJob==Job_Swordman || BaseJob==Job_Swordman_High || BaseJob==Job_Baby_Swordman) goto L_Swordman_M;
+	if(BaseJob==Job_Mage || BaseJob==Job_Mage_High || BaseJob==Job_Baby_Mage) goto L_Mage_M;
+	if(BaseJob==Job_Archer || BaseJob==Job_Archer_High || BaseJob==Job_Baby_Archer) goto L_Archer_M;
+	if(BaseJob==Job_Acolyte || BaseJob==Job_Acolyte_High || BaseJob==Job_Baby_Acolyte) goto L_Acolyte_M;
+	if(BaseJob==Job_Merchant || BaseJob==Job_Merchant_High || BaseJob==Job_Baby_Merchant) goto L_Merchant_M;
+	if(BaseJob==Job_Thief || BaseJob==Job_Thief_High || BaseJob==Job_Baby_Thief) goto L_Thief_M;
+	if(BaseJob==Job_Knight || BaseJob==Job_Knight2 || BaseJob==Job_Crusader || BaseJob==Job_Crusader2 || BaseJob==Job_Lord_Knight || BaseJob==Job_Lord_Knight2 || BaseJob==Job_Paladin || BaseJob==Job_Paladin2 || BaseJob==Job_Stalker || BaseJob==Job_Baby_Knight || BaseJob==Job_Baby_Knight2 || BaseJob==Job_Baby_Crusader || BaseJob==Job_Baby_Crusader2) goto L_Swordman2_M;
+	if(BaseJob==Job_Priest || BaseJob==Job_Monk || BaseJob==Job_High_Priest || BaseJob==Job_Champion || BaseJob==Job_Baby_Priest || BaseJob==Job_Baby_Monk) goto L_Acolyte2_M;
+	if(BaseJob==Job_Wizard || BaseJob==Job_High_Wizard || BaseJob==Job_Baby_Wizard) goto L_Mage2_M;
+	if(BaseJob==Job_Blacksmith || BaseJob==Job_Alchemist || BaseJob==Job_Whitesmith || BaseJob==Job_Creator || BaseJob==Job_Baby_Blacksmith || BaseJob==Job_Baby_Alchemist) goto L_Merchant2_M;
+	if(BaseJob==Job_Hunter || BaseJob==Job_Bard || BaseJob==Job_Sniper || BaseJob==Job_Clown || BaseJob==Job_Baby_Hunter || BaseJob==Job_Baby_Bard) goto L_Archer2_M;
+	if(BaseJob==Job_Assassin || BaseJob==Job_Rogue || BaseJob==Job_Assassin_Cross || BaseJob==Job_Baby_Assassin || BaseJob==Job_Baby_Rogue) goto L_Thief2_M;
+	if(BaseJob==Job_SuperNovice || BaseJob==Job_Super_Baby) goto L_Super_Novice_M;
+	goto sL_Sorry;
+//NOTE: Although Sages have pellets, they color non existent piece's of clothing. They are not listed, so players won't waste their items and zeny.
+//Professors also have a problem <.< The only thing that changes is a part of there Fox scarf. The Stalker Placement is not a bug!
+
+L_Novice_M:
+	set @black, 1;
+	set @blue, 2;
+	set @green, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Cancelarar",L_End;
+L_Swordman_M:
+	set @black, 1;
+	set @blue, 2;
+	set @green, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Cancelarar",L_End;
+L_Mage_M:
+	set @red, 1;
+	set @violet, 2;
+	set @orange, 3;
+	set @white, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Violeta",L_Dye_Violet,"- Orange",L_Dye_Orange,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Archer_M:
+	set @black, 1;
+	set @violet, 2;
+	set @green, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Violeta",L_Dye_Violet,"- Verde",L_Dye_Green,"- Cancelar",L_End;
+L_Acolyte_M:
+	set @blue, 1;
+	set @red, 2;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Vermelho",L_Dye_Red,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Merchant_M:
+	set @black, 1;
+	set @blue, 2;
+	set @green, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Cancelar",L_End;
+L_Thief_M:
+	set @green, 1;
+	set @red, 2;
+	set @white, 4;
+	menu "- Normal",L_Dye_Default,"- Verde",L_Dye_Green,"- Vermelho",L_Dye_Red,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Swordman2_M:
+	set @violet, 1;
+	set @red, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Violeta",L_Dye_Violet,"- Vermelho",L_Dye_Red,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Acolyte2_M:
+	set @blue, 1;
+	set @green, 2;
+	set @red, 3;
+	set @white, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Vermelho",L_Dye_Red,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Mage2_M:
+	set @blue, 1;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Merchant2_M:
+	set @black, 1;
+	set @green, 2;
+	set @white, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Verde",L_Dye_Green,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Archer2_M:
+	set @black, 1;
+	set @blue, 2;
+	set @green, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Cancelar",L_End;
+L_Thief2_M:
+	set @blue, 1;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Cancelar",L_End;
+L_Super_Novice_M:
+	set @violet, 1;
+	set @blue, 2;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Violeta",L_Dye_Violet,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+
+Female_dye:
+	if(BaseJob==Job_Novice || BaseJob==Job_Novice_High || BaseJob==Job_Baby) goto L_Novice_F;
+	if(BaseJob==Job_Swordman || BaseJob==Job_Swordman_High || BaseJob==Job_Baby_Swordman) goto L_Swordman_F;
+	if(BaseJob==Job_Mage || BaseJob==Job_Mage_High || BaseJob==Job_Baby_Mage) goto L_Mage_F;
+	if(BaseJob==Job_Archer || BaseJob==Job_Archer_High || BaseJob==Job_Baby_Archer) goto L_Archer_F;
+	if(BaseJob==Job_Acolyte || BaseJob==Job_Acolyte_High || BaseJob==Job_Baby_Acolyte) goto L_Acolyte_F;
+	if(BaseJob==Job_Merchant || BaseJob==Job_Merchant_High || BaseJob==Job_Baby_Merchant) goto L_Merchant_F;
+	if(BaseJob==Job_Thief || BaseJob==Job_Thief_High || BaseJob==Job_Baby_Thief) goto L_Thief_F;
+	if(BaseJob==Job_Knight || BaseJob==Job_Knight2 || BaseJob==Job_Crusader || BaseJob==Job_Crusader2 || BaseJob==Job_Lord_Knight || BaseJob==Job_Lord_Knight2 || BaseJob==Job_Paladin || BaseJob==Job_Paladin2 || BaseJob==Job_Stalker || BaseJob==Job_Baby_Knight || BaseJob==Job_Baby_Knight2 || BaseJob==Job_Baby_Crusader || BaseJob==Job_Baby_Crusader2) goto L_Swordman2_F;
+	if(BaseJob==Job_Priest || BaseJob==Job_Baby_Priest) goto L_Acolyte2_F;
+	if(BaseJob==Job_Wizard || BaseJob==Job_Sage || BaseJob==Job_High_Wizard || BaseJob==Job_Professor || BaseJob==Job_Baby_Wizard || BaseJob==Job_Baby_Sage) goto L_Mage2_F;
+	if(BaseJob==Job_Blacksmith || BaseJob==Job_Alchemist || BaseJob==Job_Whitesmith || BaseJob==Job_Creator || BaseJob==Job_Baby_Blacksmith || BaseJob==Job_Baby_Alchemist) goto L_Merchant2_F;
+	if(BaseJob==Job_Hunter || BaseJob==Job_Dancer || BaseJob==Job_Sniper || BaseJob==Job_Gypsy || BaseJob==Job_Baby_Hunter || BaseJob==Job_Baby_Dancer) goto L_Archer2_F;
+	if(BaseJob==Job_Assassin || BaseJob==Job_Baby_Assassin) goto L_Thief2_F;
+	if(BaseJob==Job_Rogue || BaseJob==Job_Assassin_Cross || BaseJob==Job_Baby_Rogue) goto L_Thief3_F;
+	if(BaseJob==Job_SuperNovice || BaseJob==Job_Super_Baby) goto L_Super_Novice_F;
+	goto sL_Sorry;
+//NOTE: Same problems as with Males. This time: Monk, High Priest, Champion.
+//Rogue and Assassin Cross have her own check, because the default dye is black <.< The Stalker Placement is not a bug!
+
+L_Novice_F:
+	set @blue, 1;
+	set @red, 2;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Swordman_F:
+	set @red, 1;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Mage_F:
+	set @red, 1;
+	set @violet, 2;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Violeta",L_Dye_Violet,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Archer_F:
+	set @red, 1;
+	set @green, 2;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Acolyte_F:
+	set @red, 1;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Merchant_F:
+	set @violet, 1;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Violeta",L_Dye_Violet,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Thief_F:
+	set @red, 1;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Swordman2_F:
+	set @blue, 1;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Acolyte2_F:
+	set @red, 1;
+	set @green, 2;
+	set @white, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Branco",L_Dye_White,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Mage2_F:
+	set @red, 1;
+	set @blue, 2;
+	set @white, 3;
+	set @green, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Azul",L_Dye_Blue,"- Branco",L_Dye_White,"- Verde",L_Dye_Green,"- Cancelar",L_End;
+L_Merchant2_F:
+	set @red, 1;
+	set @green, 2;
+	set @violet, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Violeta",L_Dye_Violet,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+L_Archer2_F:
+	set @blue, 1;
+	set @green, 3;
+	set @violet, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Verde",L_Dye_Green,"- Violeta",L_Dye_Violet,"- Cancelar",L_End;
+L_Thief2_F:
+	set @black, 1;
+	set @yellow, 2;
+	set @white, 3;
+	menu "- Normal",L_Dye_Default,"- Preto",L_Dye_Black,"- Yellow",L_Dye_Yellow,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Thief3_F:
+	set @yellow, 2;
+	set @white, 3;
+	menu "- Normal",L_Dye_Default,"- Amarelo",L_Dye_Yellow,"- Branco",L_Dye_White,"- Cancelar",L_End;
+L_Super_Novice_F:
+	set @blue, 1;
+	set @red, 2;
+	set @green, 3;
+	set @black, 4;
+	menu "- Normal",L_Dye_Default,"- Azul",L_Dye_Blue,"- Vermelho",L_Dye_Red,"- Verde",L_Dye_Green,"- Preto",L_Dye_Black,"- Cancelar",L_End;
+
+L_Dye_Default:
+	mes "[Tintureiro Ginedin]";
+	mes "Eu posso voltar a cor de sua roupa ao normal.";
+	mes "Você gostaria?";
+	next;
+	menu "Sim",-,"Não",L_End;
+	mes "[Tintureiro Ginedin]";
+	mes "OK. Aqui está.";
+	setlook 7,0;
+	close;
+L_Dye_Orange:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(980) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 980,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de laranja.";
+	setlook 7,@orange;
+	close;
+L_Dye_Violet:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(981) < 1) goto  sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 981,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de violeta.";
+	setlook 7,@violet;
+	close;
+L_Dye_Red:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(975) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 975,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de vermelho.";
+	setlook 7,@red;
+	close;
+L_Dye_Black:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(983) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 983,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de preto.";
+	setlook 7,@black;
+	close;
+L_Dye_Green:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(979) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 979,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de verde.";
+	setlook 7,@green;
+	close;
+L_Dye_Blue:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(978) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 978,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de azul.";
+	setlook 7,@blue;
+	close;
+L_Dye_White:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(982) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 982,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de branco.";
+	setlook 7,@white;
+	close;
+L_Dye_Yellow:
+	mes "[Tintureiro Ginedin]";
+	if(countitem(976) < 1) goto sL_NoDye;
+	if(Zeny < 10000) goto sL_Zeny;
+	delitem 976,1;
+	set Zeny, Zeny - 10000;
+	mes "Ok. Eu irei tingir sua roupa de amarelo.";
+	setlook 7,@yellow;
+	close;
+
+sL_Sorry:
+	mes "Uau, sua roupa é muito estranha, eu nunca tinha visto nada como isso. Hmmm... Me desculpe, mas não há uma maneira que eu possa tingir isto.";
+	close;
+
+sL_Zeny:
+	mes "Eu sinto muito mas você não tem dinheiro o suficiente.";
+	close;
+
+sL_NoDye:
+	mes "Para eu tingir sua roupa, eu preciso das tinturas apropriadas. Por favor, cheque minha lista de preços para mais informações.";
+	next;
+
+L_PriceList:
+	mes "[Tintureiro Ginedin]";
+	mes "Aqui está a lista de cores que você pode escolher e seus devidos preços:";
+	mes " ";
+	mes " - ^FF4422Vermelho^000000: 10000 zeny, 1 Tintura Vermelha";
+	mes " - ^D5A500Amarelo^000000: 10000 zeny, 1 Tintura Amarela";
+	mes " - ^AA00AAVioleta^000000: 10000 zeny, 1 Tintura Violeta";
+	mes " - ^FF8800Laranja^000000: 10000 zeny, 1 Tintura Laranja";
+	mes " - ^4422FFAzul^000000: 10000 zeny, 1 Tintura Azul";
+	mes " - ^009500Verde^000000: 10000 zeny, 1 Tintura Verde";
+	mes " - Preto: 10000 zeny, 1 Tintura Preta";
+	mes " - Branco: 10000 zeny, 1 Tintura Branca";
+	goto M_Menu;
+
+L_End:
+	mes "[Tintureiro Ginedin]";
+	mes "Finja que está em sua casa. Mesmo que eu não tenha o tempo para você.";
+	close;
+}

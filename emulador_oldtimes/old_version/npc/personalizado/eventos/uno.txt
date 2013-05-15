@@ -1,0 +1,419 @@
+/*
+Author	Goddameit
+Version	2011/7/26-03:47
+Web	http://goo.gl/q9sej
+*/
+prontera,137,201,4	script	UNO	100,{
+	function	checkcanuse	;
+	function	cardname	;
+	function	getcard	;
+	function	color	;
+	function	gecrrcard	;
+	function	canuseamount	;
+	function	cardtable	;
+	function	nu	;
+	function	zu	;
+	function	getarraysizee	{
+		for(set .@i,1;;set .@i,.@i+1)
+			if(getd(getarg(0)+"["+.@i+"]")=="")
+				break;
+		return .@i;
+	}
+	function	e	{
+		announce getarg(0),0;
+		return getarg(0);
+	}
+	if ($UNOLigar==0)
+	{
+		mes "O evento inicia às 22h do Horário de Brasília.";
+		close;
+	}
+	for(set .@i,1;.@i<=.zzm;set .@i,.@i+1)
+		if(.player_aid[.@i]==getcharid(3))
+			end;
+	select("Participar");
+	if(.zzm>=4)
+	{
+		mes "[UNO]";
+		mes "Está cheio.";
+		close;
+	}
+	mes "[UNO]";
+	mes "Completo.";
+	set .player_aid[set(.zzm,.zzm+1)],getcharid(3);
+	if(.zzm==1)	initnpctimer;
+	close;
+	
+OnClock2200:
+	set $UNOLigar, 1;
+	announce "[UNO] O evento está aberto para 4 participantes!", bc_all;
+	end;
+
+OnTimer1:	//?????
+	stopnpctimer;
+	callsub OnClean,0;	//????	- 0:???????
+	callsub OnStart,4,5;	//???? - ????(.player_amount) - ?????
+	startnpctimer;
+	end;
+
+OnTimer20000:	//????
+	set .zzm,0;
+OnGodd:
+	callsub Turnn,.turn_t;
+	if(attachrid(.player_aid[.turn_g]))
+		doevent "UNO::OnSelect";
+	else	//?????, ????, ?????
+		callsub EndEvent;
+	end;
+
+OnSelect:	//?????
+	set .ghfm,0;
+	while(1)
+	{
+		mes color("["+.npc_t$[0]+"]["+.npc_n$[0]+"]");	//???????
+		mes "===============";
+		mes "===============";
+		while(set(.@nn,getarraysizee(".select_t"+set(.@w,.@w+1)+"$")-2)>0)
+			mes "[Nome]"+rid2name(.player_aid[.@w])+"[Qtd-Carta]"+.@nn;
+		set .@w,0;
+		set .c,select(.select_p$[.turn_g]);	//??
+		close2;	//??mes, ????
+		set .success,0;
+		set .@name$,strcharinfo(0);
+		set .@t$,getd(".select_t"+.turn_g+"$["+.c+"]");
+		set .@y$,"";
+		for(set .@i,1;.@i<=.player_amount;set .@i,.@i+1)
+			if(attachrid(.player_aid[.@i]))
+				announce "[UNO]  '"+.@name$+"' : ["+.@t$+"]["+getd(".select_n"+.turn_g+"$["+.c+"]")+"]",bc_self;
+			else
+				callsub EndEvent;
+		attachrid(.player_aid[.turn_g]);
+		set .@turn_g,.turn_g;
+		if(gecrrcard(.@t$=="Other",3)||gecrrcard(.@t$==.npc_t$[0],1)||gecrrcard(getd(".select_n"+.turn_g+"$["+.c+"]")==.npc_n$[0],2)||gecrrcard(.@t$=="----",4))
+		{
+			break;
+		}else{
+			if(set(.ghfm,.ghfm+1)>=10)
+				callsub EndEvent;
+			continue;
+		}
+	}
+	if(getd(".select_t"+.@turn_g+"$[1]")=="----")
+	{
+		announce "[UNO]  "+.@name$+" é o vencedor!!!",0;
+		set $VencedorUNO$, .@name$;
+		set $UNOLigar, 0;
+		callsub EndEvent;
+	}
+	callsub OnGodd;
+	end;
+
+	function	gecrrcard	{
+		if(!getarg(0))
+			return 0;
+		if(.success)
+			return 1;
+		else
+			set .success,1;
+		switch(getarg(1))
+		{
+			case 4:	//??;
+				callsub recardagain,1;
+				callsub addcardd;
+				break;
+			case 1:	//????
+			case 2:	//????
+				set .@rr$,getd(".select_n"+.turn_g+"$["+.c+"]");
+				callsub putcardt;
+				if(.@rr$=="Skip")
+					callsub Turnn,.turn_t;
+				else if(.@rr$=="Reverse")
+					set .turn_t,.turn_t?0:1;
+				else if(.@rr$=="Draw two")
+				{
+					callsub Turnn,.turn_t;
+					callsub recardagain,1;
+					callsub addcardd;
+					callsub addcardd;
+				}else
+					break;
+				break;
+
+			case 3:	//??Other??
+				set .@t$,getd(".select_n"+.turn_g+"$["+.c+"]");
+				setd ".select_t"+.turn_g+"$["+.c+"]",zu(select("Red","Blue","Yellow","Green"));
+				callsub putcardt;
+				if(.@t$=="Wild draw four")
+				{
+					callsub Turnn,.turn_t;
+					callsub recardagain,1;
+					callsub addcardd;
+					callsub addcardd;
+					callsub addcardd;
+					callsub addcardd;
+				}				
+				break;
+		}
+		return 1;
+	}
+
+makeselect:
+	set .select_p$[getarg(1)],"";
+	for(set .@i,1;.@i<=getarg(0);set .@i,.@i+1)
+	{
+		if(set(.@t$,getd(".select_t"+getarg(1)+"$["+.@i+"]"))=="")continue;
+		set .select_p$[getarg(1)],.select_p$[getarg(1)]+(.@i==1?"":":")+color("["+.@t$+"]["+set(.@t2$,getd(".select_n"+getarg(1)+"$["+.@i+"]"))+"]");
+		set .@temp_t$[set(.@j,.@j+1)],.@t$;
+		set .@temp_n$[.@j],.@t2$;
+		
+	}
+	for(set .@i,1;;set .@i,.@i+1)
+	{
+		setd ".select_t"+getarg(1)+"$["+.@i+"]",.@temp_t$[.@i];
+		setd ".select_n"+getarg(1)+"$["+.@i+"]",.@temp_n$[.@i];
+		if(.@temp_t$[.@i+1]=="")break;
+	}
+	if(getarg(2))
+	{
+		set .select_p$[getarg(1)],.select_p$[getarg(1)]+":[----][Draw]";
+		setd ".select_t"+getarg(1)+"$["+(.@i+1)+"]","----";
+		setd ".select_n"+getarg(1)+"$["+(.@i+1)+"]","Draw";
+	}
+	return;
+addcardd:
+	set .@type$,"";
+	set .@n,0;
+	set .id,0;
+	setd ".select_t"+.turn_g+"$["+set(.@n,getarraysizee(".select_t"+.turn_g+"$")-1)+"]",set(.@type$,getcard(1,0,""));
+	setd ".select_n"+.turn_g+"$["+.@n+"]",getcard(2,.id,.@type$);
+	callsub makeselect,getarraysizee(".select_t"+.turn_g+"$"),.turn_g,1;
+	return;
+putcardt:	//???????
+	for(set .@i,3;.@i>=0;set .@i,.@i-1)
+	{
+		set .npc_t$[.@i],.npc_t$[.@i+1];
+		set .npc_n$[.@i],.npc_n$[.@i+1];
+	}
+	set .npc_t$[4],"";
+	set .npc_n$[4],"";
+	set .npc_t$[0],getd(".select_t"+.turn_g+"$["+.c+"]");
+	set .npc_n$[0],getd(".select_n"+.turn_g+"$["+.c+"]");
+	set .@n,getarraysizee(".select_t"+.turn_g+"$");
+	for(set .@i,.c;.@i<=.@n;set .@i,.@i+1)
+	{
+		setd ".select_t"+.turn_g+"$["+.@i+"]",getd(".select_t"+.turn_g+"$["+(.@i+1)+"]");
+		setd ".select_n"+.turn_g+"$["+.@i+"]",getd(".select_n"+.turn_g+"$["+(.@i+1)+"]");
+	}
+	set .select_p$[.turn_g],"";
+	callsub makeselect,getarraysizee(".select_t"+.turn_g+"$"),.turn_g,0;
+	return;
+Turnn:
+	if(!getarg(0))	//??? 1 -> 2 -> 3 ...
+		set .turn_g,.turn_g==.player_amount?1:.turn_g+1;
+	else
+		set .turn_g,.turn_g==1?.player_amount:.turn_g-1;
+	return;
+EndEvent:
+	for(set .@i,1;.@i<=.player_amount;set .@i,.@i+1) {
+		if(isloggedin(.player_aid[.@i])) {
+			if (rid2name(.player_aid[.@i]) == $VencedorUNO$) {
+				getitem 7180, 25;
+			} else {
+				message rid2name(.player_aid[.@i]),"Fim de Jogo!";
+			}
+		}
+	}
+	deletearray .player_aid[0],128;
+	callsub OnClean,1;
+	end;
+recardagain:	//??????
+	if(set(.@card_table,cardtable())>20||set(.@last_amount,canuseamount())<getarg(0))	//?????20?	//?????
+	{
+		set .@t,nu(.npc_t$[.@card_table]);
+		set .@v,rand(1,.@card_table);	//????????????(??????????)
+		set .@k,getarraysize(.card_type1);
+		setarray .@card_type1,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;
+		setarray .@card_type2,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;
+		setarray .@card_type3,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;
+		setarray .@card_type4,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;
+		setarray .@card_type5,13,13,13,13,14,14,14,14;
+		for(set .@i,0;.@i<.@k;set .@i,.@i+1)
+			if(getd(".card_type"+.@t+"["+.@i+"]")==-2&&cardname(getd(".@card_type"+.@t+"["+.@i+"]"))==.npc_n$[.@v])	//.card_type??-2(???????)
+			{
+				setd ".card_type"+.@t+"["+.@i+"]",getd(".@card_type"+.@t+"["+.@i+"]");	//?????????
+				for(set .@j,.@v;.@j<.@card_table;set .@j,.@j+1)//????, ?????
+				{
+					set .npc_t$[.@j],.npc_t$[.@j+1];
+					set .npc_n$[.@j],.npc_n$[.@j+1];
+				}
+			}
+	}
+	return;
+
+
+	function	canuseamount	{	//???????(??:0)
+		for(set .@i,1;.@i<=5;set .@i,.@i+1)
+			for(set .@j,0;.@j<getarraysize(.card_type1);set .@j,.@j+1)
+				set .@can,.@can+(getd(".card_type"+.@i+"["+.@j+"]")<=-1?0:1);
+		return .@can;
+	}
+
+	function	cardtable	{	//????????(??:-2)
+		for(set .@i,0;.@i<getarraysize(.npc_t$);set .@i,.@i+1)
+			set .@j,.@j+nu(.npc_t$[.@i]);
+		return .@j;
+	}
+	function	color	{
+		if(compare(getarg(0),"Red"))
+			return "^FF0000"+getarg(0)+"^000000";			
+		else if(compare(getarg(0),"Blue"))
+			return "^000080"+getarg(0)+"^000000";			
+		else if(compare(getarg(0),"Yellow"))
+			return "^8B7500"+getarg(0)+"^000000";			
+		else if(compare(getarg(0),"Green"))
+			return "^228B22"+getarg(0)+"^000000";			
+		else 
+			return "^000000"+getarg(0)+"^000000";
+	}
+	function	nu	{	//??->??
+		if(getarg(0)=="Red")
+			return 1;
+		else if(getarg(0)=="Blue")
+			return 2;
+		else if(getarg(0)=="Yellow")
+			return 3;
+		else if(getarg(0)=="Green")
+			return 4;
+		else if(getarg(0)=="Other")
+			return 5;
+		else
+			return 0;
+	}
+	function	zu	{	//??->??
+		if(getarg(0)==1)
+			return "Red";
+		else if(getarg(0)==2)
+			return "Blue";
+		else if(getarg(0)==3)
+			return "Yellow";
+		else if(getarg(0)==4)
+			return "Green";
+		else if(getarg(0)==5)
+			return "Other";
+		else
+			callsub EndEvent;
+	}
+
+	function	checkcanuse	{	//???????
+		function	un	{
+			if(1<=getarg(0)&&getarg(0)<=25)
+				return getarg(0);
+			else if(26<=getarg(0)&&getarg(0)<=50)
+				return getarg(0)-25;
+			else if(51<=getarg(0)&&getarg(0)<=75)
+				return getarg(0)-50;
+			else if(76<=getarg(0)&&getarg(0)<=100)
+				return getarg(0)-75;
+			else
+				return getarg(0)-100;
+		}
+		if(!getarg(2))
+			if(getd(".card_type"+nu(getarg(0))+"["+(un(getarg(1))-1)+"]")>-1)
+				return 1;
+			else
+				return 0;
+		else
+			return getd(".card_type"+nu(getarg(0))+"["+(un(getarg(1))-1)+"]");
+	}
+	function	cardname	{	//id???
+		if(getarg(0)<=9)
+			return getarg(0);
+		switch(getarg(0))
+		{
+			case 10:
+				return "Skip";
+			case 11:
+				return "Reverse";
+			case 12:
+				return "Draw two";
+			case 13:
+				return "Wild";
+			case 14:
+				return "Wild draw four";
+		}
+	}
+	function	getcard	{	//??????????id
+		if(getarg(0)==1)
+		{
+			while(1)
+			{
+				set .id,rand(1,.card_tamount);
+				set .@u,getarraysize(.card_type1);
+				set .@type$,"";
+				if(1<=.id&&.id<=25&&.@type$=="")
+					set .@type$,"Red";
+				else if(26<=.id&&.id<=50&&.@type$=="")
+					set .@type$,"Blue";
+				else if(51<=.id&&.id<=75&&.@type$=="")
+					set .@type$,"Yellow";
+				else if(76<=.id&&.id<=100&&.@type$=="")
+					set .@type$,"Green";
+				else
+					set .@type$,"Other";
+				if(checkcanuse(.@type$,.id,0))
+					break;
+				else
+					continue;
+			}
+			return .@type$;
+		}else
+			return cardname(checkcanuse(getarg(2),getarg(1),1));
+		
+	}
+OnStart:
+	set .player_amount,getarg(0);
+	for(set .@i,1;.@i<=getarg(0);set .@i,.@i+1)
+	{
+		for(set .@k,1;.@k<=getarg(1);set .@k,.@k+1)
+		{
+			set .select_p$[.@i],.select_p$[.@i]+(.@k==1?"":":")+color("["+set(.@type$,getcard(1,0,""))+"]["+set(.@tyep$,getcard(2,.id,.@type$))+"]");
+			setd ".select_t"+.@i+"$["+.@k+"]",.@type$;
+			setd ".select_n"+.@i+"$["+.@k+"]",.@tyep$;
+		}
+		callsub makeselect,getarraysizee(".select_t"+.@i+"$"),.@i,1;
+	}
+	while(set(.@vt$,getcard(1,0,""))=="Other")
+		continue;
+	set .npc_t$[0],.@vt$;	//??????????id
+	set .npc_n$[0],getcard(2,.id,.npc_t$[0]);	
+	return;
+OnClean:
+	deletearray .select_t1$[0],128;	//???????????
+	deletearray .select_t2$[0],128;
+	deletearray .select_t3$[0],128;
+	deletearray .select_t4$[0],128;
+	deletearray .select_n1$[0],128;	//?????????id
+	deletearray .select_n2$[0],128;
+	deletearray .select_n3$[0],128;
+	deletearray .select_n4$[0],128;
+	deletearray .card_type1[0],128;
+	deletearray .card_type2[0],128;
+	deletearray .card_type3[0],128;
+	deletearray .card_type4[0],128;
+	deletearray .card_type5[0],128;
+	deletearray .select_p$[0],128;
+	deletearray .npc_t$[0],128;
+	deletearray .npc_n$[0],128;
+	set .turn_t,0;
+	set .turn_g,0;
+	set .ghfm,0;
+	if(getarg(0))
+		return;
+	setarray .card_type1,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;	//Red
+	setarray .card_type2,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;	//Blue
+	setarray .card_type3,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;	//Yellow
+	setarray .card_type4,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12;	//Green
+	setarray .card_type5,13,13,13,13,14,14,14,14;	//Other
+	set .card_tamount,getarraysize(.card_type1)*4+getarraysize(.card_type5);
+	return;
+}

@@ -1,0 +1,3167 @@
+//===== Cronus Script =======================================
+//= Quests de Lighthalzen
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.7
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quests relativa ao episódio Lighthalzen
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido e adaptado	[Page]
+//= 1.1 Corrigido pequeno erro de adaptação [Page]
+//= 1.2 Corrigido erro no 'Modelo Cúbico' [Page]
+//= 1.3 Fixado exploit no Batedor de Carteiras [Page]
+//= 1.4 Batedor de Carteiras adaptado parcialmente igual ao bRO [Page]
+//= 1.5 Corrigido algumas palavras [Tiu Skan]
+//= 1.6 Atualizada quest do BioLab [Reploid]
+//= 1.7 Corrigido as variáveis no acesso a biolab [Skankilson]
+//===========================================================
+
+lighthalzen,1,1,7	script	sneakAddSuber	-1,{
+OnInit:
+	set $@sneakchance, 3;	// chance of successful sneak(0 = never, 10 = always)
+	set $@sneakguard, 0;	// numbers of people who sneaked past guard
+	set $@threshold, 10;	// numbers of sneakers before mob appears
+	set $@mob, 50;		// Max respawn numbers of "mobsters"
+	set $@mobcount, 0;	// current numbers of "mobsters"
+	set $@lhz_alert, 0;	// Alert on Lighthalzen(0 = off, 1 = on)
+	set $@i, 0;
+	
+	end;
+
+OnMinute00:
+OnMinute05:
+OnMinute10:
+OnMinute15:
+OnMinute20:
+OnMinute25:
+OnMinute30:
+OnMinute35:
+OnMinute40:
+OnMinute45:
+OnMinute50:
+OnMinute55:
+	if($@lhz_alert == 0) set $@sneakguard, $@sneakguard + rand(1,3);
+	if($@lhz_alert == 1) set $@sneakguard, $@sneakguard - 1;  // Monsters will die after 5~10 min. (sneakAddSuber)
+	end;
+}
+
+lighthalzen,1,1,7	script	AlertChk	-1,{
+OnInit:
+	initnpctimer;
+	end;
+
+OnTimer10000:
+	if($@sneakguard >= $@threshold) goto MakeMob;
+	if($@sneakguard == 0) goto ClearMob;  // Monsters will die after 5~10 min. (sneakAddSuber)
+	setnpctimer 0;
+	end;
+	
+MakeMob:
+	if($@lhz_alert == 1) goto ChkEnd;
+	set $@mobcount, $@mob;
+	mapannounce "lighthalzen","Organização da manutenção da Ordem Pública: Atualmente, a segurança da cidade está comprometida, nós pedimos que os cidadãos sejam mais cuidadosos. Eu repito, nós pedimos aos cidadãos para que sejam mais cuidadosos!", 1;
+	
+	for( set $@i, 0; $@i < $@mob; set $@i, $@i + 1 ) {
+		monster "lighthalzen",0,0,"Gangster",1592,1,"AlertChk::OnMobKilled";
+	}
+
+	set $@lhz_alert, 1;	
+	set $@sneakguard, 2;   // Monsters will die after 5~10 min. (sneakAddSuber)
+	setnpctimer 0;
+	end;
+	
+ClearMob:
+	if($@lhz_alert == 0) goto ChkEnd;
+	set $@mobcount, 0;
+	mapannounce "lighthalzen","Organização da manutenção da Ordem Pública: Nós estamos habilitados de verificar todos os criadores de problemas na cidade. Você talvez possa relaxar agora.", 1;	
+	killmonster "lighthalzen","AlertChk::OnMobKilled";
+	set $@lhz_alert, 0;
+	set $@sneakguard, 0;
+	setnpctimer 0;
+	end;
+		
+OnMobKilled:
+	set $@mobcount, $@mobcount - 1;
+	if($@mobcount == 0) goto ClearMob;
+	setnpctimer 0;
+	end;	
+	
+ChkEnd:	
+	setnpctimer 0;
+	end;	
+}
+
+lighthalzen,267,200,3	script	Guarda de Segurança#01	868,{
+
+	if(countitem(7350)>0) goto Lhzpass1;
+	if($@lhz_alert == 1) goto Lhzstop;
+	if((gettime(2)>00 && gettime(2)<10)) goto LhzTalk2;
+	if((gettime(2)>30 && gettime(2)<40)) goto LhzTalk2;
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk1;
+
+LhzTalk:
+	mes "[Guarda]";
+	mes "Opa, onde você pensa que está indo?!?";
+	mes "Eu não posso enviar ninguém ao distrito";
+	mes "slum! Se nós deixarmos pessoas suspeitas";
+	mes "como você pasar, não haverá nenhum";
+	mes "ponto na cidade que ficará calmo!";
+	close;
+
+LhzTalk1:
+	mes "[Guarda]";
+	mes "-Veja como esse guarda está";
+	mes "fazendo algo interessante.";
+	mes "Agora é uma boa";
+	mes "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen",297,227;
+	set $@sneakguard, $@sneakguard + 1;
+	close;
+
+LhzTalk2:
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk;
+	mes "[Guarda]";
+	mes "zzZ... zzZ... zzZ...";
+	mes "hmm. hmm... zzZ...";
+	next;
+	mes "[Guarda]";
+	mes "-Veja como esse guarda está";
+	mes "dormindo. Agora é uma boa";
+	mes "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen",297,227;
+	close;
+
+Lhzpass1:
+	mes "[Guarda]";
+	mes "Quem é você?! ...Hmm? Você tem";
+	mes "uma passagem? Me desculpe. Você";
+	mes "me parece um aventureiro, mas eu";
+	mes "suponho que você tenha autoridade";
+	mes "por aqui. Hm, acho que pode passar.";
+	next; 
+	warp "lighthalzen",297,227;
+	close;
+
+Lhzstop:
+	mes "[Guarda]";
+	mes "Recentemente, houve muita gente";
+	mes "nos sabotando quanto a passagem,";
+	mes "então tivemos que aumentar o nível";
+	mes "de segurança. E quem ousa a nos";
+	mes "sabotar de qualquer maneira?";
+	mes "É outro problema...";
+	close;
+}
+
+lighthalzen,294,223,7	script	Guarda de Segurança#02	868,{
+
+	if(countitem(7350)>0) goto Lhzpass1;
+	if($@lhz_alert == 1) goto Lhzstop;
+	if((gettime(2)>00 && gettime(2)<10)) goto LhzTalk2;
+	if((gettime(2)>30 && gettime(2)<40)) goto LhzTalk2;
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk1;
+
+LhzTalk:
+	mes "[Guarda]";
+	mes "Opa, onde você pensa que está indo?!?";
+	mes "Eu não posso enviar ninguém ao distrito";
+	mes "slum! Se nós deixarmos pessoas suspeitas";
+	mes "como você pasar, não haverá nenhum";
+	mes "ponto na cidade que ficará calmo!";
+	close;
+
+LhzTalk1:
+	mes "[Guarda]";
+	mes "-Olhe, o guarda está fazendo algo";
+	mes "diferente... É uma boa hora";
+	mes "para sabotá-lo-";
+	next;
+	warp "lighthalzen",264,200;
+	set $@sneakguard, $@sneakguard + 1;
+	close;
+
+LhzTalk2:
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk;
+	mes "[Guarda]";
+	mes "zzZ... zzZ... zzZ...";
+	mes "hmm. hmm... zzZ...";
+	next;
+	mes "[Guarda]";
+	mes "-Veja como esse guarda está";
+	mes "dormindo. Agora é uma boa";
+	mes "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen",264,200;
+	close;
+
+Lhzpass1:
+	mes "[Guarda]";
+	mes "Quem é você?! ...Hmm? Você tem";
+	mes "uma passagem? Me desculpe. Você";
+	mes "me parece um aventureiro, mas eu";
+	mes "suponho que você tenha autoridade";
+	mes "por aqui. Hm, acho que pode passar.";
+	next; 
+	warp "lighthalzen",264,200;
+	close;
+
+Lhzstop:
+	mes "[Guarda]";
+	mes "Recentemente, houve muita gente";
+	mes "nos sabotando quanto a passagem,";
+	mes "então tivemos que aumentar o nível";
+	mes "de segurança. E quem ousa a nos";
+	mes "sabotar de qualquer maneira?";
+	mes "É outro problema...";
+	close;
+}
+
+//============================================================
+// Cube Room
+//============================================================
+
+lighthalzen,341,224,3	script	Espinha	868,{
+	// Retain prior position in quest.
+	if (piciburn) {
+		set lhz_sincube,piciburn;
+		set piciburn,0;
+	}
+	// Quest is finished.
+	if (MISC_QUEST&512) {
+			mes "[Espinha]";
+			mes "Ah Olá, é você!";
+			mes "Agora, ouça. Se você quiser";
+			mes "entrar no laboratório novamente,";
+			mes "você deverá entrar pelo Canal de Esgoto";
+			mes "que fica, a nordeste daqui.";
+			mes "É sujo, mas fazer o que...";
+			next;
+			mes "[Espinha]";
+			mes "De qualquer forma, boa sorte";
+			mes "em tudo o que você estiver";
+			mes "fazendo aqui em Lighthalzen.";
+			mes "Ah e seja muito cuidadoso!";
+			mes "Algo mais obscuro que eu está";
+			mes "ocorrendo na cidade~";
+			close;
+	}
+	// Apparantly if the boss quest progress is at 6, you skip the level requirement.
+	if (lhz_boss == 6 || BaseLevel >= 60) {
+		if (lhz_sincube == 0) {
+			mes "[Espinha]";
+			mes "O Que foi...?";
+			mes "Tem alguma coisa";
+			mes "na minha cara? Pare de olhar";
+			mes "para mim e deixe-me fazer meu trabalho.";
+			set lhz_sincube,1;
+			close;
+		}
+		else if (lhz_sincube == 1) {
+			mes "[Espinha]";
+			mes "Ei. Ei você.";
+			mes "Você continua olhando para";
+			mes "mim. Pare com isso. Estou ocupado";
+			mes "e você está me incomodando.";
+			set lhz_sincube,2;
+			close;
+		}
+		else if (lhz_sincube == 2) {
+			mes "[Espinha]";
+			mes "Você está começando a";
+			mes "me deixar com os nervos";
+			mes "a flor da pele! O Que você";
+			mes "poderia querer de mim?!";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Nada.";
+			mes "Eu só estou querendo";
+			mes "ver você trabalhando.";
+			mes "O que exatamente você";
+			mes "está fazendo, ein?";
+			next;
+			mes "[Espinha]";
+			mes "Ei! Se eu pudesse mostrar a você";
+			mes "o que eu estou fazendo, não seria";
+			mes "a mesma coisa de você ficar olhando";
+			mes "para o que eu estou fazendo, não seria?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Nah...";
+			mes "Eu pensei";
+			mes "que você me mostraria";
+			mes "as coisas em geral.";
+			next;
+			mes "[Espinha]";
+			mes "Caramba!";
+			mes "Então você irá assentar";
+			mes "e me assistir pelo resto";
+			mes "do dia?! Certo! Então";
+			mes "eu irei ignorar você, imbecil!";
+			next;
+			mes "[Espinha]";
+			mes "...";
+			mes "......";
+			mes "Mas que droga!";
+			mes "Isto está me tirando";
+			mes "do sério! Por que";
+			mes "você não vai embora?!";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Bem, eu estava me perguntando";
+			mes "por que você está";
+			mes "trabalhando em um lugar";
+			mes "tão, hmm... deprimente.";
+			next;
+			mes "[Espinha]";
+			mes "Está bem, certo!";
+			mes "Mas só contarei a você o que";
+			mes "eu estou fazendo aqui, se você";
+			mes "der o fora daqui! OK? Agora,";
+			mes "sua boca deve ser selada.";
+			mes "Veja, o que eu estou fazendo é ilegal.";
+			next;
+			mes "[Espinha]";
+			mes "Eu crio atalhos para que";
+			mes "as pessoas entrem em Lighthalzen,";
+			mes "e para que possam ir a qualquer";
+			mes "lugar da cidade, sem autorização.";
+			mes "Droga, eu poderia enviá-lo ao";
+			mes "Laboratório...";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Es-espere!";
+			mes "Laboratório?!";
+			mes "Você está falando sério?";
+			mes "Você pode me colocar";
+			mes "dentro deste lugar?";
+			next;
+			mes "[Espinha]";
+			mes "Sonuva--Você não vai";
+			mes "me deixar aqui sozinho,";
+			mes "vai? Olha, você parece";
+			mes "bem, mesmo que seja um pouco";
+			mes "teimoso, criança. Mas eu não";
+			mes "confio em ou sirvo a estranhos.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Mas não há nada que";
+			mes "eu possa fazer para que";
+			mes "você possa me ajudar a";
+			mes "entrar no Laboratório?";
+			next;
+			mes "[Espinha]";
+			mes "De maneira alguma, sem chance.";
+			mes "Não importa o quanto você";
+			mes "peça, eu não posso dar uma chance a";
+			mes "a alguém e acreditar na mesma";
+			mes "só porque ela quer saber o atalho";
+			mes "screto. Agora dê o fora daqui!";
+			set lhz_sincube,3;
+			close;
+		}
+		else if (lhz_sincube == 3) {
+			mes "["+strcharinfo(0)+"]";
+			mes "Por Favor...";
+			mes "Por favor me conte";
+			mes "como eu posso entrar neste";
+			mes "Laboratório. Eu...";
+			mes "Eu lhe imploro!";
+			next;
+			mes "[Espinha]";
+			mes "Não! Agora cale-se";
+			mes "e pare de implorar, ok?";
+			mes "Você está sendo";
+			mes "ridículo! Sem pirraça...";
+			set lhz_sincube,4;
+			close;
+		}
+		else if (lhz_sincube == 4) {
+			mes "["+strcharinfo(0)+"]";
+			mes "Por que você não";
+			mes "meee ajudaaaaa?";
+			mes "Pooor Faavoooor~";
+			mes "Você é o único que";
+			mes "saaaabeeeeeee~";
+			next;
+			mes "[Espinha]";
+			mes "Argh, você é uma criança";
+			mes "insistente. Olhe, ''não'' quer dizer";
+			mes "''não.'' e ponto final.";
+			mes "Quanto tempo você vai me fazer";
+			mes "gastar com você?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Mas deve haver algo que";
+			mes "eu possa fazer para";
+			mes "então você me ajudar?";
+			mes "E-este é o único m-modo";
+			mes "que sempre fu-funciona. Você";
+			mes "não p-pode-- Você n-não...";
+			next;
+			mes "[Espinha]";
+			mes "Tudo bem, você me pegou.";
+			mes "Mas se eu for arriscar minha";
+			mes "vida para colocar você dentro";
+			mes "daquele laboratório, eu quero";
+			mes "algo em retorno. OK?";
+			next;
+			mes "[Espinha]";
+			mes "TUdo o que você tem que";
+			mes "fazer é voltar aqui com";
+			mes "^FF000071,381,305,294,921,000 zenys^000000.";
+			mes "Então eu lhe darei toda a ajuda";
+			mes "que precisar. Tudo certo,";
+			mes "desejo boa sorte a você, bravo aventureiro.";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Você está brincando não é?!";
+			mes "Não há nenhuma maneira de conseguir";
+			mes "essa quantidade de zenys! Eu...";
+			mes "Eu poderia dar uma volta";
+			mes "ao redor do mundo ou, ou...";
+			next;
+			mes "[Espinha]";
+			mes "Tudo bem.";
+			mes "Bem, talvez este";
+			mes "preço esteja um pouco alto.";
+			mes "Irei tirar isto dos planos,";
+			mes "então. Ainda quer a minha";
+			mes "ajuda? Então traga-me...";
+			next;
+			mes "[Espinha]";
+			mes " ";
+			mes " ";
+			mes "...^FF000020 Jellopys^000000.";
+			next;
+			mes "[Espinha]";
+			mes "Droga.";
+			mes "É como se eu estivesse";
+			mes "fazendo isso de graça...";
+			next;
+			if (select("OK.:Não! É Impossível!") == 1) {
+				mes "[Espinha]";
+				mes "Tudo certo, então";
+				mes "traga até aqui um";
+				mes "total de 20 Jellopys.";
+				mes "Mas você deve ter";
+				mes "exatamente 20 Jellopys com";
+				mes "você, ok? Até Logo~";
+				set lhz_sincube,5;
+				close;
+			}
+			mes "[Espinha]";
+			mes "O que você está--";
+			mes "Ok, agora é você quem";
+			mes "está brincando.";
+			mes "Olhe, é só me trazer";
+			mes "20 Jellopys ou 71,381,3--";
+			mes "aquele número que eu disse-- zenys!";
+			close;
+		}
+		else if (lhz_sincube == 5) {
+			mes "[Espinha]";
+			mes "Então...";
+			mes "Você trouxe as coisas";
+			mes "que eu lhe pedi?";
+			next;
+			switch(select("Eu estou trabalhando nisso.:Aqui estão!:Um... Coisas?")) {
+			case 1:
+				mes "[Espinha]";
+				mes "Ainda trabalhando nisso?";
+				mes "Ok, Eu sei que eu não lhe";
+				mes "pedi muito,";
+				mes "mas tenha algum respeito por mim";
+				mes "e seja sério sobre isso!";
+				mes "São 20 Jellopys!";
+				close;
+			case 2:
+				if (countitem(909) > 19) {
+					mes "[Espinha]";
+					mes "Aah. Ei, Bom trabalho.";
+					mes "Ok, eu posso ver que você";
+					mes "é do tipo confiável. Trato";
+					mes "é Trato, então eu lhe direi";
+					mes "como você pode entrar dentro";
+					mes "do Laboratório.";
+					next;
+					mes "[Espinha]";
+					mes "Agora, você deve estar se";
+					mes "perguntando porque eu não";
+					mes "concordei em ajudar você, é";
+					mes "porque eu trabalhava neste";
+					mes "Laboratório... Mas então eles";
+					mes "me mandaram embora injustamente.";
+					next;
+					mes "[Espinha]";
+					mes "Sendo assim, tudo que eu possa";
+					mes "fazer para causar problemas a";
+					mes "eles é bom para mim. Deixe me";
+					mes "pegar algumas coisas prontas";
+					mes "e então eu vou lhe dizer o que";
+					mes "você realmente precisa saber.";
+					delitem 909,20; //Jellopy
+					set lhz_sincube,6;
+					close;
+				}
+				mes "[Espinha]";
+				mes "Uh...";
+				mes "Eu disse 20 Jellopys,";
+				mes "não disse? Está quantidade";
+				mes "não é suficiente, então vá";
+				mes "e consiga mais deles!";
+				close;
+			case 3:
+				mes "[Espinha]";
+				mes "O que...?";
+				mes "Como você pode esquecer";
+				mes "algo como isto?";
+				mes "De qualquer modo, eu pedi para";
+				mes "que você me trouxesse 20 Jellopys.";
+				close;
+			}
+		}
+		else if (lhz_sincube == 6) {
+			mes "[Espinha]";
+			if (lhz_boss == 6) {
+				mes "Só há uma maneira você pode entrar";
+				mes "no Laboratório. No entanto, você";
+				mes "deve passar pro um labirinto secreto";
+				mes "que deve levar você até lá. Ainda assim,";
+				mes "você deve estar disposto e pronto para ir...";			
+			}
+			else {	
+				mes "Ok...";
+				mes "Você está pronto agora?";
+				mes "Eu o enviarei para algum";
+				mes "lugar que o levará a";
+				mes "entrada do laboratório.";
+			}
+			next;
+			switch(select("Não ainda.:Sim.")) {
+			case 1:
+				mes "[Espinha]";
+				mes "Eh...?";
+				mes "Certo, sem";
+				mes "problemas.";
+				mes "Leve o tempo que precisar.";
+				close;
+			}
+			mes "[Espinha]";
+			mes "Ótimo!";
+			mes "Ok então,";
+			mes "aqui vamos nós!";
+			close2;
+			set lhz_sincube,7;
+			switch(rand(1,3)) {
+			case 1: warp "lhz_cube",67,193; break;
+			case 2: warp "lhz_cube",66,136; break;
+			case 3: warp "lhz_cube",66,74; break;
+			}
+			end;
+		}
+		else if (lhz_sincube < 10) {
+			mes "[Espinha]";
+			mes "Hm, você não deve ter";
+			mes "conseguido";
+			if (lhz_boss == 6) {
+				mes "completar tudo o que você";
+				mes "tem de fazer no  Laboratório Regenschirm ainda.";
+			}
+			else {
+				mes "completar o que você estava";
+				mes "fazendo no laboratório. Faça tudo.";
+			}
+			mes "você quer que eu lhe";
+			mes "envie para lá novamente?";
+			next;
+			if (select("Não.:Sim.") == 1) {
+				mes "[Espinha]";
+				mes "Uau, você deve ter passado";
+				mes "por algo bem ruim por";
+				mes "lá. Ok, Bem, quando";
+				mes "você estiver pronto para ir,";
+				mes "me diga, entendeu?";
+				close;
+			}
+			mes "[Espinha]";
+			mes "Você está bem";
+			mes "confiante,";
+			mes "não está? Hehe!";
+			mes "Gosto do seu estilo~";
+			mes "Pronto?";
+			mes "Aqui vamos nós...!";
+			close2;
+			set lhz_sincube,7;
+			switch(rand(1,3)) {
+			case 1: warp "lhz_cube",67,193; break;
+			case 2: warp "lhz_cube",66,136; break;
+			case 3: warp "lhz_cube",66,74; break;
+			}
+			end;
+		}
+		else if (lhz_sincube == 10) {
+			mes "[Espinha]";
+			mes "Ei, você voltou!";
+			mes "Bom, eu estava começando";
+			mes "a ficar muito preocupado";
+			mes "sobre o que teria acontecido com";
+			mes "você. Então você conseguiu aquilo,";
+			mes "que você queria?";
+			next;
+			mes "["+strcharinfo(0)+"]";
+			mes "Ehh...";
+			mes "Eu acho que sim,";
+			mes "seja o que for.";
+			next;
+			mes "[Espinha]";
+			mes "Ótimo! Tudo o que você fez,";
+			mes "eu espero que tenha feito uma";
+			mes "bagunça enorme! Eu era um cientista";
+			mes "respeitado da Regenschirm até";
+			mes "que eles me mandaram embora! Que isso";
+			mes "sirva de lição para aqueles ignorantes!";
+			next;
+			mes "[Espinha]";
+			mes "Desde então, minha atual";
+			mes "linha de trabalho me serve";
+			mes "bem melhor. E eu não tenho";
+			mes "que me preocupar com formulas";
+			mes "e algoritmos nunca mais.";
+			next;
+			mes "[Espinha]";
+			mes "Ah sim, o lugar que você";
+			mes "acabou de ir? Há um caminho";
+			mes "secreto para o Laboratório";
+			mes "por aqui. Se você quiser, eu posso";
+			mes "lhe enviar de volta lá. Então";
+			mes "o que você me diz?";
+			next;
+			if (select("Claro:Não Obrigado~") == 1) {
+				mes "[Espinha]";
+				mes "OK então, aqui";
+				mes "vamos nós! Boa sorte";
+				mes "a você, parceiro.";
+				close2;
+				switch(rand(1,3)) {
+				case 1: warp "lhz_cube",67,193; break;
+				case 2: warp "lhz_cube",66,136; break;
+				case 3: warp "lhz_cube",66,74; break;
+				}
+				end;
+			}
+			mes "[Espinha]";
+			mes "Tudo bem, é a sua escolha";
+			mes "choice. Ah, e você conseguiu";
+			mes "o passe que lhe permite";
+			mes "dentro do Laboratório por";
+			mes "outros métodos. Boa sorte.";
+			close;
+		}
+		mes "[Espinha]";
+		mes "Ei cara!";
+		mes "Já se passou um bom tempo.";
+		mes "Você vai bem? Eu";
+		mes "continuo na mesma~";
+		close;
+	}
+	else if (BaseLevel < 60) {
+		mes "Ei criança, dê o";
+		mes "fora daqui! Você";
+		mes "não percebe que eu estou'";
+		mes "fazendo algo obscuro";
+		mes "por aqui? Este local não é";
+		mes "bebês que se acham fortes!";
+		close;
+	}
+	else if (lhz_boss > 6) {
+		mes "[Espinha]";
+		mes "Ei cara!";
+		mes "Já se passou um bom tempo.";
+		mes "Você vai bem? Eu";
+		mes "continuo na mesma~";
+		close;
+	}
+}
+
+lhz_cube,237,198,0	script	Monte de Arquivos#cube	111,{
+	if (lhz_sincube < 7) {
+		mes "^3355FFHá um monte de";
+		mes "arquivos espalhados";
+		mes "no chão.^000000";
+		close;
+	}
+	else if (lhz_sincube < 10) {
+		if (lhz_secret01 < 1) {
+			mes "^3355FFHá um monte de";
+			mes "arquivos espalhados";
+			mes "no chão. Parece que";
+			mes "ele contém todo tipo";
+			mes "de informação,";
+			mes "mas eles estão todos misturados.^000000";
+			next;
+			if (select("Examinar Arquivos.:Cancelar.") == 1) {
+				mes "^3355FFEnquanto você";
+				mes "examina os arquivos,";
+				mes "uma Chave Vermelha";
+				mes "cai no chão fazendo";
+				mes "um barulho. Você decide";
+				mes "ficar com esta ^000000Chave Vermelha^3355FF.^000000";
+				set lhz_secret01,1;
+			}
+			close;
+		}
+		mes "^3355FFEste é o lugar";
+		mes "onde você achou a";
+		mes "^000000Chave Vermelha^3355FF enquanto";
+		mes "você examinava os arquivos";
+		mes "espalhados no chão.^000000";
+		close;
+	}
+	mes "^3355FFEste é o lugar";
+	mes "onde você achou a";
+	mes "^000000Chave Vermelha^3355FF enquanto";
+	mes "você examinava os arquivos";
+	mes "espalhados no chão.^000000";
+	close;
+}
+
+lhz_cube,234,202,0	script	Quadro#cube	111,{
+	if (lhz_secret01 < 2) {
+		mes "^3355FFEste quadro pendurado";
+		mes "na parede chama a sua";
+		mes "atenção por um motivo";
+		mes "inexplicável.^000000";
+		next;
+		if (select("Olhar atrás do quadro.:Cancelar") == 1) {
+			mes "^3355FFVocê empurra e puxa";
+			mes "com toda a sua força,";
+			mes "mas o quadro não se";
+			mes "mexe. Se ele é tão difícil";
+			mes "de mover, deve ser porque";
+			mes "deve ter algo escondido por trás dele.^000000";
+		}
+		close;
+	}
+	else if (lhz_secret01 == 2) {
+		mes "^3355FFEste quadro pendurado";
+		mes "na parede chama a sua";
+		mes "atenção por um motivo";
+		mes "inexplicável.^000000";
+		next;
+		if (select("Olhar atrás do quadro.:Cancelar") == 1) {
+			mes "^3355FFVocê empurra e puxa";
+			mes "com toda a sua força,";
+			mes "mas esta figura é muito";
+			mes "dura para se mover apenas";
+			mes "com força bruta.^000000";
+			next;
+			input .@input$;
+			if (.@input$ == "Canivete") {
+				mes "^3355FFVocê pega o";
+				mes "Canivete, pressiona";
+				mes "ele por trás do Quadro";
+				mes "e o curva para poder";
+				mes "bisbilhotar por trás do quadro.^000000";
+				next;
+				mes "^3355FFAtrás do quadro, você";
+				mes "descobre que foram escritos";
+				mes "os seguintes números:^000000";
+				mes " ";
+				set .@number_rand,rand(1,3);
+				if (.@number_rand == 1) {
+					mes "4 3 2 9 1 6 8 2 7";
+					set lhz_secret01,3;
+				}
+				else if (.@number_rand == 2) {
+					mes "3 6 4 1 2 8 7 1 5";
+					set lhz_secret01,4;
+				}
+				else {
+					mes "4 9 3 7 6 2 8 6 6";
+					set lhz_secret01,5;
+				}
+				close;
+			}
+			mes "^3355FFInfelizmente,";
+			mes "parece que o que você fez";
+			mes "não foi o suficiente para";
+			mes "mover o quadro. Talvez você";
+			mes "deveria tentar algo diferente.^000000";
+			close;
+		}
+		close;
+	}
+	else if (lhz_secret01 < 6) {
+		mes "^3355FFOs seguintes números";
+		mes "foram escritos atrás do";
+		mes "quadro. Se eles estavam escondidos,";
+		mes "é porque estes números são";
+		mes "de extrema importância.^000000";
+		mes " ";
+		if (lhz_secret01 == 3) {
+			mes "4 3 2 9 1 6 8 2 7";
+		}
+		else if (lhz_secret01 == 4) {
+			mes "3 6 4 1 2 8 7 1 5";
+		}
+		else if (lhz_secret01 == 5) {
+			mes "4 9 3 7 6 2 8 6 6";
+		}
+		close;
+	}
+	mes "^3355FFHá um quadro";
+	mes "pendurado na parede.^000000";
+	next;
+	if (select("Olhar o Quadro.:Cancelar") == 1) {
+		mes "^3355FFHá alguns números";
+		mes "atrás deste quadro,";
+		mes "mas agora não há necessidade";
+		mes "de memorizá-los.^000000";
+	}
+	close;
+}
+
+lhz_cube,242,201,0	script	Gaveteiro#cube	111,{
+	if (lhz_secret01 < 1) {
+		mes "^3355FFEsta gaveta aqui";
+		mes "parece interessante,";
+		mes "mas está trancada";
+		mes "e você não pode abri-la.^000000";
+		close;
+	}
+	else if (lhz_secret01 == 1) {
+		mes "^3355FFEsta gaveta aqui";
+		mes "parece interessante, mas";
+		mes "está trancada. Felizmente, você";
+		mes "pensa em um modo de abrí-la.^000000";
+		next;
+		input .@input$;
+		if (.@input$ == "Chave Vermelha") {
+			mes "^3355FFVocê insere a Chave Vermelha";
+			mes "na fechadura e abre a";
+			mes "gaveta. Dentro, você encontra um";
+			mes "^000000Canivete^3355FF que você decide";
+			mes "pegar. Afinal, isso poderá";
+			mes "ser útil no futuro.^000000";
+			set lhz_secret01,2;
+		}
+		else {
+			mes "^3355FFInfelizmente, você";
+			mes "não pode abrir ou quebrar";
+			mes "a fechadura da gaveta";
+			mes "deste modo. Tente algo";
+			mes "diferente disto.^000000";
+		}
+		close;
+	}
+	mes "^3355FFEsta é a gaveta";
+	mes "na qual você encontrou o";
+	mes "^000000Canivete^3355FF. Agora está";
+	mes "vazia e sem utilidade.^000000";
+	close;
+}
+
+lhz_cube,248,179,0	script	Baú#cube	111,{
+	if (lhz_sincube < 7) {
+		mes "^3355FFVocê encontrou um baú";
+		mes "com um machado no";
+		mes "topo. Este machado parece";
+		mes "ter sido criado para utilidades";
+		mes "e não para ser utilizado em batalhas.^000000";
+		close;
+	}
+	else if (lhz_sincube == 7) {
+		mes "^3355FFVocê encontrou um baú,";
+		mes "e mais o importante,";
+		mes "há um Machado de utilidades";
+		mes "em seu topo.^000000";
+		next;
+		if (select("Pegar Machado.:Cancelar") == 1) {
+			mes "^3355FFSem vergonha ou";
+			mes "um pouco de culpa, você";
+			mes "pega o ^000000Machado^3355FF de utilidades";
+			mes "e fica com ele para si próprio.^000000";
+			set lhz_sincube,8;
+		}
+		close;
+	}
+	mes "^3355FFÉ apenas um Baú normal.";
+	mes "Que foi usado para pegar";
+	mes "um ^000000Machado^3355FF de utilidades,";
+	mes "que estava no seu topo.^000000";
+	close;
+}
+
+lhz_cube,237,183,0	script	Barril#cube	111,{
+	set .@number_line,0;
+	if (lhz_sincube < 8) {
+		mes "^3355FFVocê encontrou";
+		mes "um Barril";
+		mes "mal construído.^000000";
+		close;
+	}
+	else if (lhz_sincube == 8) {
+		mes "^3355FFVocê encontrou";
+		mes "um Barril";
+		mes "mal construído.";
+		mes "Você sente que há algo";
+		mes "dentro, mas";
+		mes "você precisa de algo para";
+		mes "destruir o Barril.^000000";
+		next;
+		input .@input$;
+		if (.@input$ == "Machado") {
+			mes "^3355FFCom o Machado na mão, você";
+			mes "leva ele acima de sua cabeça";
+			mes "de o desce rapidamente,";
+			mes "destruindo o topo do";
+			mes "barril. Dentro, você encontra";
+			mes "caixa coberta com uma chapa metálica.^000000";
+			next;
+			mes "^3355FFHá números na";
+			mes "superfície da chapa de";
+			mes "metal no topo da caixa que";
+			mes "você encontrou, parece que";
+			mes "os números são de 1 a 9,";
+			mes "como um tipo de teclado...^000000";
+			set lhz_sincube,9;
+		}
+		else {
+			mes "^3355FFFazer isto não quebrará";
+			mes "ou abrirá essa caixa. Você";
+			mes "terá de tentar algo diferente.^000000";
+		}
+		close;
+	}
+	else if (lhz_sincube == 9) {
+		if (lhz_secret01 < 3) {
+			mes "^3355FFVocê decide digitar";
+			mes "alguns números no teclado";
+			mes "metálico. Lembre-se,";
+			mes "você só pode digitar 1";
+			mes "número por vez...^000000";
+			next;
+			for( set $@i, 0; .@i < 9; set .@i, .@i + 1 )
+				input .@input;
+			mes "^3355FFNada acontece...^000000";
+			close;
+		}
+		else if (lhz_secret01 >= 3 && lhz_secret01 <= 5) {
+			switch(lhz_secret01) {
+			case 3: setarray .@numbers[0],4,3,2,9,1,6,8,2,7; break;
+			case 4: setarray .@numbers[0],3,6,4,1,2,8,7,1,5; break;
+			case 5: setarray .@numbers[0],4,9,3,7,6,2,8,6,6; break;
+			}
+			mes "^3355FFVocê decide digitar";
+			mes "alguns números no teclado";
+			mes "de números na chapa de metal";
+			mes "no topo da caixa";
+			mes "que você encontrou dentro do barril.^000000";
+			next;
+			for( set $@i, 0; .@i < 9; set .@i, .@i + 1 ) {
+				input .@input;
+				if (.@input == .@numbers[.@i]) set .@number_line,.@number_line+1;
+			}
+			if (.@number_line == 9) {
+				mes "^3355FFA chapa de metal desliza";
+				mes "abrindo a caixa, e lá você";
+				mes "encontra uma chave. Você";
+				mes "pega a ^000000Chave Amarela^3355FF.^000000";
+				set lhz_secret01,6;
+			}
+			else {
+				mes "^3355FFNada aconteceu.";
+				mes "Parece que você não digitou";
+				mes "os números corretamente.^000000";
+			}
+			close;
+		}
+		mes "^3355FFEsta é a caixa com";
+		mes "teclado em que você";
+		mes "encontrou a ^000000Chave Amarela^3355FF.";
+		mes "A Caixa esta Vazia agora.^000000";
+		close;
+	}
+	mes "^3355FFEsta é uma caixa";
+	mes "com uma chapa de metal";
+	mes "no topo que parece";
+	mes "ter um teclado.^000000";
+	close;
+}
+
+lhz_cube,224,192,0	script	Gerador de Força#cube	111,{
+	if (lhz_secret01 < 6) {
+		mes "^3355FFEsta é uma enorme máquina";
+		mes "barulhenta operante,";
+		mes "há um painel frontal com";
+		mes "uma marca estranha. Há uma";
+		mes "fechadura perto deste";
+		mes "painel.^000000";
+		next;
+		input .@input$;
+		mes "^3355FFNada aconteceu.";
+		mes "Você provavelmente precisa";
+		mes "encontrar a chave correta para";
+		mes "inserir na fechadura.^000000";
+		close;
+	}
+	else if (lhz_secret01 == 6) {
+		mes "^3355FFEsta é uma enorme máquina";
+		mes "barulhenta operante,";
+		mes "há um painel frontal com";
+		mes "uma marca estranha. Há uma";
+		mes "fechadura perto deste";
+		mes "painel.^000000";
+		next;
+		input .@input$;
+		if (.@input$ == "Chave Amarela") {
+			mes "^3355FFVocê insere a";
+			mes "Chave Amarela na";
+			mes "na fechadura e gira,";
+			mes "fazendo com que a";
+			mes "máquina desative.^000000";
+			next;
+			mes "^3355FFVocê nota que a";
+			mes "^000000Luz de Status ^3355FFperto da";
+			mes "cama agora está apagada.^000000";
+			set lhz_secret01,7;
+		}
+		else {
+		mes "^3355FFNada aconteceu.";
+		mes "Você provavelmente precisa";
+		mes "encontrar a chave correta para";
+		mes "inserir na fechadura.^000000";
+		}
+		close;
+	}
+	mes "^3355FFÉ uma máquina gigante.^000000";
+	close;
+}
+
+lhz_cube,244,201,0	script	Luz de Status#cube	111,{
+	if (lhz_secret01 < 7) {
+		mes "^3355FFA Luz de Status está";
+		mes "ligada. Parece que há algo";
+		mes "dentro do bulbo,";
+		mes "mas você não pode pegar,";
+		mes "porque a Luz está gerando";
+		mes "um incrível calor chamuscante.^000000";
+		next;
+		mes "^3355FFAgora, se você soubesse";
+		mes "um modo de desligar o";
+		mes "Gerador de Força nesta sala";
+		mes "o bulbo tem de estar frio o";
+		mes "suficiente para poder tocar...^000000";
+		close;
+	}
+	else if (lhz_secret01 == 7) {
+		mes "A Luz de Status";
+		mes "agora está apagada";
+		mes "e o bulbo esfriou.";
+		next;
+		if (select("Quebre a Lâmpada.:Cancelar") == 1) {
+			mes "^3355FFVocê quebra o bulbo";
+			mes "da Luz de Status";
+			mes "e descobre outra Chave.";
+			mes "Você obteve uma ^000000Chave Preta^3355FF.^000000";
+			set lhz_secret01,8;
+		}
+		close;
+	}
+	mes "^3355FFVocê encontrou os restos";
+	mes "de um bulbo de lâmpada.^000000";
+	close;
+}
+
+lhz_cube,234,200,0	script	Mesa#cube	111,{
+	if (lhz_secret02 <= 1) {
+		mes "^3355FFVocê encontra";
+		mes "uma mesa completamente";
+		mes "desarrumada.^000000";
+		next;
+		switch(select("Examinar sobre a Mesa:Examinar sob a Mesa:Gaveta da Mesa")) {
+		case 1:
+			mes "^3355FFVários documentos,";
+			mes "livros e equipamentos de laboratório";
+			mes "estão espalhadas sobre a mesa.";
+			mes "Mas nenhum deles parece";
+			mes "ser útil para algo no momento.^000000";
+			close;
+		case 2:
+			if (lhz_secret02 < 1) {
+				mes "^3355FFSob esta mesa, de";
+				mes "espaços concebíveis,";
+				mes "você encontra uma ^000000Vareta Curta^3355FF";
+				mes "que você decide pegar.";
+				mes "Nunca se sabe quando você";
+				mes "precisará de algo.^000000";
+				set lhz_secret02,1;
+			}
+			else {
+				mes "^3355FFAqui foi onde você";
+				mes "encontrou a ^000000Vareta Curta^3355FF.";
+				mes "Infelizmente, não há mais";
+				mes "tesouros escondidos para você";
+				mes "encontrar abaixo desta secretária.^000000";
+			}
+			close;
+		case 3:
+			mes "^3355FFA Gaveta desta mesa está";
+			mes "trancada e provavelmente";
+			mes "por uma boa razão. Afinal,";
+			mes "você conseguiu invadir este";
+			mes "espaço privado e íntimo.^000000";
+			close;
+		}
+	}
+	else if (lhz_secret02 == 2) {
+		mes "^3355FFVocê voltou a";
+		mes "mesa desorganizada que";
+		mes "provavelmente foi usada";
+		mes "por um grande executivo";
+		mes "que mantinha esta mesa";
+		mes "arrumada para ele.^000000";
+		next;
+		switch(select("Examinar sobre a Mesa:Examinar sob a Mesa:Gaveta da Mesa")) {
+		case 1:
+			mes "^3355FFNão importa o quanto";
+			mes "você procure por ela,";
+			mes "a bagunça na mesa";
+			mes "prova que é inútil para você.^000000";
+			next;
+			if (Sex) {
+				mes "^3355FFUm número da";
+				mes "Revista de Odaliscas,";
+				mes "''Anel dos Nibelungos'' toma";
+				mes "a sua atenção, mas você";
+				mes "não deve estar interessado";
+				mes "nesta publicação apenas";
+				mes "por causa das gravuras.^000000";
+			}
+			else {
+				mes "^3355FFUm número da revista de";
+				mes "entretenimento feminino ''Impacto Explosivo'' toma";
+				mes "a sua atenção, mas aventureiras";
+				mes "não tem tempo para olhar";
+				mes "gravuras de homens bonitos.^000000";
+			}
+			close;
+		case 2:
+			mes "^3355FFAbaixo da mesa, você";
+			mes "descobre outra Vareta Curta";
+			mes "que parece fixar perfeitamente";
+			mes "com a outra Vareta Curta que você";
+			mes "encontrou anteriormente.";
+			next;
+			mes "^3355FFVocê combina as duas";
+			mes "Varetas Curtas para criar";
+			mes "uma Vareta maior,";
+			mes "com a soma das duas partes.";
+			mes "Você agora é um orgulhoso";
+			mes "portador de uma ^000000Vareta Longa^3355FF.^000000";
+			set lhz_secret02,3;
+			close;
+		case 3:
+			mes "^3355FFEsta gaveta está";
+			mes "trancada e sempre estará";
+			mes "É bem provável que nada";
+			mes "valioso esteja dentro,";
+			mes "nada além de talvez um";
+			mes "balão de festa ou uma barra de doces.";
+			close;
+		}
+	}
+	mes "^3355FFEsta mesa está cheia";
+	mes "com todos os timos de objetos,";
+	mes "mas esse é o destino";
+	mes "dos equipamentos de escritório.^000000";
+	next;
+	switch(select("Examinar sobre a Mesa:Examinar sob a Mesa:Gaveta da Mesa")) {
+	case 1:
+		mes "^3355FFNão importa o quanto";
+		mes "você procure por ela,";
+		mes "a bagunça na mesa";
+		mes "prova que é inútil para você.^000000";
+		next;
+		mes "^3355FFAqui há uma parte de um";
+		mes "jornal, mas apenas a seção de";
+		mes "Quadrinhos, claro que, não é";
+		mes "informativa o suficiente para";
+		mes "aventureiros como você.^000000";
+		close;
+	case 2:
+		mes "^3355FFAqui foi onde você encontrou";
+		mes "uma das duas Varetas Curtas para";
+		mes "fazer sua ^000000Vareta Longa^3355FF.";
+		mes "Não há mas nada abaixo da mesa";
+		mes "então é impossível";
+		mes "fazer sua Vareta aumentar de tamanho.^000000";
+		close;
+	case 3:
+		mes "^3355FFEsta gaveta da mesa";
+		mes "está trancada seguramente.";
+		mes "O Dono desta mesa foi sábio";
+		mes "em fornecer uma medida";
+		mes "de segurança para a gaveta.";
+		mes "Mas por que colocar varetas sob";
+		mes "a mesa? Isso é muito curioso...^000000";
+		close;
+	}
+}
+
+lhz_cube,247,198,0	script	Cama#cube	111,{
+	if (lhz_secret02 == 0) {
+		mes "^3355FFVocê encontra uma cama";
+		mes "em que os lençóis estão";
+		mes "mal arrumados.^000000";
+		next;
+		if (select("Examinar sobre a cama:Examinar sob a cama") == 1) {
+			mes "^3355FFNão há ninguém em cima";
+			mes "da cama e se você subir,";
+			mes "você estará sozinho. Para";
+			mes "algumas pessoas, isto";
+			mes "será uma verdade imutável.^000000";
+		}
+		else {
+			mes "^3355FFSob a cama, você";
+			mes "descobre uma ^000000Vareta Curta^3355FF";
+			mes "que você decide ficar.";
+			mes "Nunca se sabe quando";
+			mes "um objeto aparentemente";
+			mes "inútil irá te salvar.^000000";
+			set lhz_secret02,2;
+		}
+		close;
+	}
+	else if (lhz_secret02 == 1) {
+		mes "^3355FFVocê encontra uma cama";
+		mes "em que os lençóis estão";
+		mes "mal arrumados.^000000";
+		next;
+		if (select("Examinar sobre a cama:Examinar sob a cama") == 1) {
+			mes "^3355FFNão há ninguém em cima";
+			mes "da cama e se você subir,";
+			mes "você estará sozinho. Para";
+			mes "algumas pessoas, isto";
+			mes "será uma verdade imutável.^000000";
+		}
+		else {
+			mes "^3355FFSob a cama, você";
+			mes "descobre outra Vareta";
+			mes "Curta que parece fixar perfeitamente";
+			mes "com a outra Vareta Curta que você";
+			mes "encontrou anteriormente.";
+			next;
+			mes "^3355FFVocê combina as duas";
+			mes "Varetas Curtas para criar";
+			mes "uma Vareta maior,";
+			mes "com a soma das duas partes.";
+			mes "Você agora é um orgulhoso";
+			mes "portador de uma ^000000Vareta Longa^3355FF.^000000";
+			set lhz_secret02,3;
+		}
+		close;
+	}
+	else if (lhz_secret02 == 2) {
+		mes "^3355FFVocê encontra uma cama";
+		mes "em que os lençóis estão";
+		mes "mal arrumados.^000000";
+		next;
+		if (select("Examinar sobre a cama:Examinar sob a cama") == 1) {
+			mes "^3355FFNão há ninguém em cima";
+			mes "da cama e se você subir,";
+			mes "você estará sozinho. Para";
+			mes "algumas pessoas, isto";
+			mes "será uma verdade imutável.^000000";
+		}
+		else {
+			mes "^3355FFEm um distante e";
+			mes "empoeirado canto abaixo";
+			mes "da cama, você tenta alcançar";
+			mes "o objeto mas não tem sucesso.";
+			mes "Se você pudesse alcançá-lo de algum modo...^000000";
+			next;
+			input .@input$;
+			if (.@input$ == "Vareta Curta") {
+				mes "^3355FFVocê tenta alcançar";
+				mes "o objeto usando a sua";
+				mes "Vareta Curta. Após";
+				mes "algumas tentativas, você não";
+				mes "tem escolha e decide admitir";
+				mes "que esta Vareta não é longa o bastante.^000000";
+			}
+			else {
+				mes "^3355FFInfelizmente,";
+				mes "o que você usou para tentar";
+				mes "alcançar o objeto não";
+				mes "funcionou. Você terá que";
+				mes "tentar algo diferente.^000000";
+			}
+		}
+		close;
+	}
+	else if (lhz_secret02 == 3) {
+		mes "^3355FFVocê encontra uma";
+		mes "cama desarrumada que pode";
+		mes "ser mais do que seus olhos estão vendo.^000000";
+		next;
+		if (select("Examinar sobre a cama:Examinar sob a cama") == 1) {
+			mes "^3355FFNão há ninguém em cima";
+			mes "da cama e se você subir,";
+			mes "você estará sozinho. Para";
+			mes "algumas pessoas, isto";
+			mes "será uma verdade imutável.^000000";
+		}
+		else {
+			mes "^3355FFEm um distante e";
+			mes "empoeirado canto abaixo";
+			mes "da cama, você tenta alcançar";
+			mes "o objeto mas não tem sucesso.";
+			mes "Se você pudesse alcançá-lo de algum modo...^000000";
+			next;
+			input .@input$;
+			if (.@input$ == "Vareta Longa") {
+				mes "^3355FFCom a Vareta Longa";
+				mes "na mão, você tenta alcançar";
+				mes "o objeto e o arrasta por";
+				mes "debaixo da cama para você.";
+				mes "Você agora possuí o ^000000Cubo^3355FF";
+				mes "que estava sob a cama.^000000";
+				set lhz_secret02,4;
+			}
+			else {
+				mes "^3355FFInfelizmente,";
+				mes "o que você usou para tentar";
+				mes "alcançar o objeto não";
+				mes "funcionou. Você terá que";
+				mes "tentar algo diferente.^000000";
+			}
+		}
+		close;
+	}
+	mes "^3355FFVocê encontra uma cama";
+	mes "em que os lençóis estão";
+	mes "mal arrumados.^000000";
+	next;
+	if (select("Examinar sobre a cama:Examinar sob a cama") == 1) {
+		mes "^3355FFNão há ninguém em cima";
+		mes "da cama e se você subir,";
+		mes "você estará sozinho. Para";
+		mes "algumas pessoas, isto";
+		mes "será uma verdade imutável.^000000";
+		close;
+	}
+	mes "^3355FFAqui foi onde você";
+	mes "encontrou um tipo";
+	mes "estranho de ^000000Cubo^3355FF.^000000";
+	close;
+}
+
+lhz_cube,229,184,0	script	Taça#cube	111,{
+	if (lhz_sincube < 10) {
+		if (lhz_secret03 == 0) {
+			mes "^3355FFVocê vê uma garrafa";
+			mes "vazia e uma taça.";
+			mes "Parece que você perdeu";
+			mes "a festa.^000000";
+			next;
+			if (select("Examinar Taça:Cancelar") == 1) {
+				mes "^3355FFDentro da taça,";
+				mes "você encontra uma ^000000Chave Enferrujada^3355FF";
+				mes "que você decide pegar.";
+				mes "No entanto, você precisará se";
+				mes "livrar desta ferrugem de algum modo.";
+				mes "Quem sabe você possa mergulhar a chave";
+				mes "em alguns produtos químicos corrosivos?^000000";
+				set lhz_secret03,1;
+			}
+			close;
+		}
+		mes "^3355FFEsta foi a taça em que você";
+		mes "encontrou uma ^000000Chave Enferrujada^3355FF.^000000";
+		close;
+	}
+	mes "^3355FFEsta foi a taça em que você";
+	mes "encontrou uma ^000000Chave Enferrujada^3355FF.^000000";
+	close;
+}
+
+lhz_cube,231,202,0	script	Produtos Químicos#cube	111,{
+	if (lhz_secret03 < 1) {
+		mes "^3355FFAqui há garrafas";
+		mes "contendo produtos";
+		mes "químicos pouco corrosivos";
+		mes "que estão em cima da estante.^000000";
+		next;
+		input .@input$;
+		mes "^3355FFO que você tentou";
+		mes "colocar nos produtos químicos";
+		mes "não foi afetado totalmente.";
+		mes "Você deve tentar derramar os";
+		mes "produtos químicos em outra coisa.^000000";
+		close;
+	}
+	else if (lhz_secret03 == 1) {
+		mes "^3355FFAqui há garrafas";
+		mes "contendo produtos";
+		mes "químicos pouco corrosivos";
+		mes "que estão em cima da estante.^000000";
+		next;
+		input .@input$;
+		if (.@input$ == "Chave Enferrujada") {
+			mes "^3355FFAo derramar os produtos";
+			mes "químicos na Chave Enferrujada";
+			mes "você remove a ferrugem, fazendo com";
+			mes "que ela seja utilizável novamente.";
+			mes "Agora que está limpa,";
+			mes "a Chave Enferrujada se tornou";
+			mes "uma brilhosa ^000000Chave Verde^3355FF.^000000";
+			set lhz_secret03,2;
+		}
+		else {
+			mes "^3355FFO que você tentou";
+			mes "colocar nos produtos químicos";
+			mes "não foi afetado totalmente.";
+			mes "Você deve tentar derramar os";
+			mes "produtos químicos em outra coisa.^000000";
+		}
+		close;
+	}
+	mes "^3355FFAqui estão os produtos";
+	mes "químicos que você usou para limpar";
+	mes "a Chave Enferrujada que foi";
+	mes "restaurada para sua verdadeira forma,";
+	mes "se tornando uma ^000000Chave Verde^3355FF.^000000";
+	close;
+}
+
+lhz_cube,249,191,0	script	Gabinete#cube	111,{
+	if (lhz_secret03 < 2) {
+		mes "^3355FFVocê encontrou um";
+		mes "gabinete que contém muitas";
+		mes "gavetas. Quem sabe não tenha";
+		mes "algo útil dentro?";
+		next;
+		if (select("Abrir:Cancelar") == 1) {
+			input .@input$;
+			mes "^3355FFInfelizmente, o gabinete";
+			mes "está muito bem trancado.";
+			mes "Você precisará da chave correta";
+			mes "para abrir as gavetas.^000000";
+		}
+		close;
+	}
+	else if (lhz_secret03 == 2) {
+		mes "^3355FFVocê encontrou um";
+		mes "gabinete que contém muitas";
+		mes "gavetas. Quem sabe não tenha";
+		mes "algo útil dentro?";
+		next;
+		input .@input$;
+		if (.@input$ == "Chave Verde") {
+			mes "^3355FFVocê pega a Chave Verde";
+			mes "e percebe que ela entra em";
+			mes "uma das fechaduras da gaveta.";
+			mes "Você abre a gaveta e";
+			mes "obtem um estranho ^000000Polígono^3355FF.^000000";
+			set lhz_secret03,3;
+		}
+		else {
+			mes "^3355FFO que você tentou";
+			mes "não teve sucesso em";
+			mes "abrir este gabinete.";
+			mes "Pense. Pense em como";
+			mes "destrancar as gavetas...";
+			mes "Então você encontrará";
+			mes "a resposta que procura.^000000";
+		}
+		close;
+	}
+	mes "^3355FFEste é o Gabinete";
+	mes "onde você usou a";
+	mes "Chave Verde para abrir";
+	mes "uma das Gavetas e obteve";
+	mes "um ^000000Polígono^3355FF. Você está bem";
+	mes "feliz com seu polígono e não";
+	mes "precisa de abrir as outras gavetas.^000000";
+	close;
+}
+
+lhz_cube,224,197,0	script	Tubo de Ensaio#cube	111,{
+	if (lhz_secret01 < 8) {
+		mes "^3355FFVocê encontrou um tubo";
+		mes "estranho parece que";
+		mes "há alguma coisa dentro.";
+		mes "Abaixo do tudo há uma";
+		mes "placa fina com uma fechadura";
+		mes "e um leitor de cartões.^000000";
+		next;
+		input .@input$;
+		mes "^3355FFNada aconteceu.";
+		mes "Você provavelmente precisará";
+		mes "encontrar a chave certa para";
+		mes "a fechadura e o cartão";
+		mes "correto para inserir no leitor.^000000";
+		close;
+	}
+	else if (lhz_secret01 == 8) {
+		mes "^3355FFVocê encontrou um tubo";
+		mes "estranho parece que";
+		mes "há alguma coisa dentro.";
+		mes "Abaixo do tudo há uma";
+		mes "placa fina com uma fechadura";
+		mes "e um leitor de cartões.^000000";
+		next;
+		input .@input$;
+		if (.@input$ == "Chave Preta") {
+			mes "^3355FFVocê inseriu a Chave Preta";
+			mes "no tubo de ensaio abrisse";
+			mes "e revelasse um objeto ^000000Oval^3355FF que";
+			mes "você decide pegar para si próprio.^000000";
+			set lhz_secret01,9;
+		}
+		else {
+			mes "^3355FFNada Aconteceu...^000000";
+		}
+		close;
+	}
+	else if (lhz_secret01 == 9) {
+		mes "^3355FFAqui foi onde você";
+		mes "obteve o objeto ^000000Oval^3355FF.";
+		mes "Olhando em volta";
+		mes "do Tubo de Ensaio,";
+		mes "você nota uma abertura";
+		mes "artificial no chão";
+		mes "que você provavelmente pode abrir...^000000";
+		close;
+	}
+	else {
+		if (lhz_sincube == 10) {
+			mes "^3355FFAqui há um leitor de cartões";
+			mes "retangular e estreito";
+			mes "na frente do tubo.^000000";
+			next;
+			input .@input$;
+			if (.@input$ == "Passe do Laboratório") {
+				if (countitem(2657) == 1) {
+					mes "^3355FFVocê insere o";
+					mes "Passe do Laboratório";
+					mes "no leitor fazendo com";
+					mes "que a abertura no chão";
+					mes "aumente, revelando";
+					mes "uma escada subterrânea.^000000";
+					next;
+					if (select("Descer as escadas:Cancelar") == 1) {
+						mes "^3355FFVocê desce";
+						mes "as escadas longas";
+						mes "e apertadas...^000000";
+						close2;
+						//remove variables that are no longer used.
+						set lhz_sincube,0;
+						set lhz_secret01,0;
+						set lhz_secret02,0;
+						set lhz_secret03,0;
+						set MISC_QUEST,MISC_QUEST|512;
+						warp "lhz_cube",177,13;
+						end;
+					}
+					close;
+				}
+				mes "^3355FF..............";
+				mes "Nada aconteceu.^000000";
+				close;
+			}
+			mes "^3355FFNada Aconteceu.^000000";
+			close;
+		}
+		mes "^3355FFAqui foi onde você";
+		mes "obteve o objeto ^000000Oval^3355FF.";
+		mes "Olhando em volta";
+		mes "do Tubo de Ensaio,";
+		mes "você nota uma abertura";
+		mes "artificial no chão";
+		mes "que você provavelmente pode abrir...^000000";
+		close;
+	}
+}
+
+lhz_cube,248,193,0	script	Caixa#cube1	111,{
+	if ((lhz_secret01 < 9) && (lhz_secret02 < 4) && (lhz_secret03 < 3)) {
+		mes "^3355FFVocê encontra uma caixa";
+		mes "com três buracos";
+		mes "distintos.^000000";
+		next;
+		select("Buraco Oval:Buraco Cúbico:Buraco em Polígono");
+		input .@input$;
+		mes "^3355FFNada Acontece.^000000";
+		close;
+	}
+	else if ((lhz_secret01 != 10) || (lhz_secret02 != 5) || (lhz_secret03 != 4)) {
+		mes "^3355FFVocê encontra uma caixa";
+		mes "com três buracos";
+		mes "distintos.^000000";
+		next;
+		switch(select("Buraco Oval:Buraco Cúbico:Buraco em Polígono")) {
+		case 1:
+			if (lhz_secret01 == 9) {
+				next;
+				input .@input$;
+				if (.@input$ == "Oval") {
+					mes "^3355FFVocê insere o objeto";
+					mes "Oval, no buraco Oval";
+					mes "e ele entra perfeitamente.^000000";
+					set lhz_secret01,10;
+					close;
+				}
+				mes "^3355FFNada Aconteceu.^000000";
+				close;
+			}
+			else if (lhz_secret01 == 10) {
+				mes "^3355FFO buraco Oval";
+				mes "já tem um objeto Oval dentro.";
+				mes "Além disso, você não possui";
+				mes "nenhum objeto oval sobrando.^000000";
+				close;
+			}
+			input .@input$;
+			mes "^3355FFNada Aconteceu.^000000";
+			close;
+		case 2:
+			if (lhz_secret02 == 4) {
+				next;
+				input .@input$;
+				if (.@input$ == "Cubo") {
+					mes "^3355FFVocê insere o cubo";
+					mes "dentro do buraco Cúbico.";
+					mes "Sua educação infantil";
+					mes "finalmente está justificado.^000000";
+					set lhz_secret02,5;
+					close;
+				}
+				mes "^3355FFNada Aconteceu.^000000";
+				close;
+			}
+			else if (lhz_secret02 == 5) {
+				mes "^3355FFVocê já colocou";
+				mes "o Cubo no buraco.";
+				mes "Você pode pegá-lo de volta";
+				mes "e colocá-lo novamente,";
+				mes "mas isto seria uma total";
+				mes "perda de tempo.^000000";
+				close;
+			}
+			input .@input$;
+			mes "^3355FFNada Aconteceu.^000000";
+			close;
+		case 3:
+			if (lhz_secret03 == 3) {
+				next;
+				input .@input$;
+				if (.@input$ == "Polígono") {
+					mes "^3355FFFelizmente, o";
+					mes "Polígono que você tem";
+					mes "encaixa perfeitamente";
+					mes "no buraco poligonal.^000000";
+					set lhz_secret03,4;
+					close;
+				}
+				mes "^3355FFNada Aconteceu.^000000";
+				close;
+			}
+			else if (lhz_secret03 == 4) {
+				mes "^3355FFO Polígono já está";
+				mes "inserido no buraco.";
+				mes "Acredite, isso é o máximo que";
+				mes "este polígono pode fazer por você.^000000";
+				close;
+			}
+			input .@input$;
+			mes "^3355FFNada Aconteceu.^000000";
+			close;
+		}
+	}
+	else if (lhz_secret01 == 10 && lhz_secret02 == 5 && lhz_secret03 == 4 && lhz_sincube != 10) {
+		mes "^3355FFVocê encontra uma caixa";
+		mes "com três buracos";
+		mes "distintos, estão preenchidos";
+		mes "com os objetos em sua forma.^000000";
+		next;
+		if (select("Abrir a Caixa.:Cancelar") == 1) {
+			mes "^3355FFVocê abre a caixa";
+			mes "e descobre que há um";
+			mes "um pequeno cartão com as palavras";
+			mes "''Passe do Laboratório'' marcadas.";
+			mes "Você guarda este ^000000Passe do";
+			mes "Laboratório^3355FF, sabendo que ele";
+			mes "será necessário mais tarde.";
+			set lhz_sincube,10;
+			getitem 2657,1; //Passe do Laboratório
+		}
+		close;
+	}
+	mes "^3355FFVocê encontrou uma caixa";
+	mes "que tinha dentro o";
+	mes "^000000Passe do Laboratório^3355FF.";
+	mes "Esta caixa não é mais";
+	mes "útil para você agora, mas";
+	mes "agora acabou, este";
+	mes "mistério foi um grande desafio.^000000";
+	close;
+}
+
+lhz_cube,250,184,0	script	Porta#cube	111,{
+	mes "^3355FFVocê chegou a uma";
+	mes "porta que o leva para fora.^000000";
+	next;
+	if (select("Sair:Cancelar") == 1) {
+		warp "lighthalzen",310,302;
+		end;
+	}
+	close;
+}
+
+lhz_dun02,224,6,0	script	Saída01#lt	45,1,1,{
+OnTouch:
+	if (MISC_QUEST&512) {
+		warp "lhz_cube",231,90;
+		end;
+	}
+	mes "^3355FFVocê acha uma passagem que";
+	mes "parece conduzir você a algum local,";
+	mes "mas você começa a ter a sensação de que";
+	mes "você não deve sair agora.^000000";
+	close;
+}
+
+//============================================================
+// Lighthalzen Pickpocket Mini-Quest
+//============================================================
+
+lighthalzen,240,216,4	script	Cara Suspeito#Pickpocke1	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",33,1;
+	close;
+}
+
+lighthalzen,220,169,4	script	Cara Suspeito#Pickpocke2	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",33,2;
+	close;
+}
+
+lighthalzen,164,127,4	script	Cara Suspeito#Pickpocke3	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",20,3;
+	if(@caught != 1) close;
+	mes "[Cara Suspeito]";
+	mes "Ayee! Fui pego.";
+	mes "Se você me desculpar,";
+	mes "eu posso lhe dar algo muito bom.";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Está perdoado, agora o que é";
+	mes "essa coisa da qual você falou?";
+	next;
+	mes "[Cara Suspeito]";
+	mes "A parte de baixo do seu corpo,";
+	mes "irá produzir um forte poder";
+	mes "uma vez que tomar esta poção.";
+	mes "É muito útil quando se quer";
+	mes "correr rápido.";
+	next;
+	mes "[Cara Suspeito]";
+	mes "Eu só posso vender";
+	mes "três dos meus tônicos secretos";
+	mes "porque só me sobrou esses";
+	mes "três. Cada um custa";
+	mes "15.000 zenys. Então,";
+	mes "o que me diz?";
+	next;
+	switch(select("Me dê 1.","Me dê 2.","Me dê 3.","Não, não quero.")){
+
+	case 1:
+	set @number,1;
+	goto L_CONTINUEPPB;
+
+	case 2:
+	set @number,2;
+	goto L_CONTINUEPPB;
+
+	case 3:
+	set @number,3;
+	goto L_CONTINUEPPB;
+
+	case 4:
+	goto L_CONTINUEPPB2;
+
+}
+
+L_CONTINUEPPB:
+	set @cost,15000*@number;
+	if(Zeny<@cost) goto L_Zeny;
+	set Zeny,zeny-@cost;
+	getitem 12016,@number;	//Poção da Velocidade
+	mes "[Cara Suspeito]";
+	mes "Obrigado por seu dinheiro.";
+	if(rand(1,2)==1) goto L_Reset;
+	disablenpc "Cara Suspeito#Pickpocke3";
+	enablenpc "Cara Suspeito#Pickpocke2";
+	close;
+
+L_CONTINUEPPB2:
+	mes "[Cara Suspeito]";
+	mes "Aw, que pena.";
+	close;
+
+L_Reset:
+	disablenpc "Cara Suspeito#Pickpocke3";
+	enablenpc "Cara Suspeito#Pickpocke1";
+	close;
+
+L_Zeny:
+	mes "[Cara Suspeito]";
+	mes "Que pena.";
+	mes "Você não possui zenys, o que faz de você um homem pobre.";
+	close;
+
+OnInit:
+	disablenpc "Cara Suspeito#Pickpocke2";
+	disablenpc "Cara Suspeito#Pickpocke3";
+}
+
+function	script	F_LHZPick	{
+	if(Zeny<100) set Zeny,0;
+	if(Zeny>=100) set Zeny,zeny-100;
+	mes "Batedor de Carteiras";
+	next;
+	if(rand(0,100)<getarg(0)) goto L_Caught;
+	mes "Hehehehe...";
+	return;
+L_Caught:
+	mes "["+strcharinfo(0)+"]";
+	mes "Hã...?";
+	mes "Eu sinto algo...";
+	mes "Não. Deve ser só a minha imaginação.";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Hã...?";
+	mes "Eu poderia jurar que esse";
+	mes "bolso cheio de zenys estava";
+	mes "mais pesado um segundo atrás...";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Hã...?";
+	mes "O quê...?";
+	mes "Aquele cara, ele acabou...?";
+	mes "De me roubar! Ei! Aquele cara";
+	mes "roubou meu dinheiro!";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "Ah não, não vai fugir!";
+	mes "Eu vou te pegar";
+	mes "seu ladrãozinho!";
+	next;
+	set @rand,rand(1,4);
+	if(getarg(1)==1 && @rand<4) goto L_MoveB;
+	if(getarg(1)==2 && @rand<4) goto L_MoveA;
+	if(getarg(1)==1 && @rand==4) goto L_MoveC1;
+	if(getarg(1)==2 && @rand==4) goto L_MoveC2;
+	set @caught,1;
+	return;
+L_MoveA:
+	disablenpc "Cara Suspeito#Pickpocke2";
+	enablenpc "Cara Suspeito#Pickpocke1";
+	return;
+L_MoveB:
+	disablenpc "Cara Suspeito#Pickpocke1";
+	enablenpc "Cara Suspeito#Pickpocke2";
+	return;
+L_MoveC1:
+	disablenpc "Cara Suspeito#Pickpocke1";
+	enablenpc "Cara Suspeito#Pickpocke3";
+	return;
+L_MoveC2:
+	disablenpc "Cara Suspeito#Pickpocke2";
+	enablenpc "Cara Suspeito#Pickpocke3";
+	return;
+}
+
+//==============================================================
+// Friendship
+//==============================================================
+
+lhz_in02,201,210,3	script	Digotz	869,{
+
+	if(friendship > 9)goto s_Dead;
+	if(friendship == 9)goto s_Wounded;
+	if(friendship == 8)goto s_Cont7;
+	if(friendship == 6 && friendship2 || friendship == 7)goto s_Cont6;
+	if(friendship == 6)goto s_Cont5;
+	if(friendship == 4 || friendship == 5)goto s_Cont4;
+	if(friendship == 3)goto s_Cont3;
+	if(friendship == 2)goto s_Cont2;
+	mes "[Digotz]";
+	mes "Oh, um aventureiro?";
+	mes "Bem-vindo à Alta";
+	mes "Lighthalzen. Entretanto,";
+	mes "receio que esta área não tenha muito";
+	mes "a oferecer-lhe";
+	mes "em questão de adrenalina.";
+	next;
+	if(friendship == 1)goto s_Cont;
+	mes "[Digotz]";
+	mes "Sinta-se à vontade para";
+	mes "dar uma olhada à sua volta se";
+	mes "quiser. Estou na verdade";
+	mes "feliz em ver alguém diferente";
+	mes "além das frescas pessoas";
+	mes "ricas que vivem por aqui.";
+	close;
+
+s_Cont:
+	mes "[Digotz]";
+	mes "Meu nome é Digotz,";
+	mes "apenas mais um cidadão";
+	mes "da Alta Lighthalzen.";
+	mes "Espero que aproveite";
+	mes "sua estadia na minha cidade natal.";
+	next;
+	menu "Você conhece alguém chamado Maku?",-;
+
+	mes "[Digotz]";
+	mes "Maku? Maku. Sim, ele é meu";
+	mes "amigo de infância. Ou era,";
+	mes "de qualquer jeito. Agora ele é apenas um idiota.";
+	mes "Em todo caso, nós não podemos";
+	mes "sair, esmo que quiséssemos,";
+	mes "por inúmeras razões.";
+	next;
+	mes "[Digotz]";
+	mes "Ei, por quê estou";
+	mes "falando sobre isso? Não";
+	mes "que eu me importe com ";
+	mes "o fato de que eu e Maku não";
+	mes "somos mais amigos. Sabe de uma coisa?";
+	mes "Apenas esqueça tudo o que lhe disse.";
+	set friendship,2;
+	close;
+
+s_Cont2:
+	mes "[Digotz]";
+	mes "O quê você ainda está";
+	mes "fazendo passeando por";
+	mes "aqui? Não há nada de";
+	mes "interessante na Alta Cidade";
+	mes "para você ver, aventureiro.";
+	next;
+	mes "[Digotz]";
+	mes "Por Deus...!";
+	mes "Me escute";
+	mes "Maku faz com que eu me sinta";
+	mes "muito chateado por alguma razão!";
+	close;
+
+s_Cont3:
+	mes "[Digotz]";
+	mes "Eu sei que a";
+	mes "aparência da Alta Cidade";
+	mes "parece mais atrativa,";
+	mes "mas confie em mim. Este lugar";
+	mes "é sem cor, sem gosto. Agora, você";
+	mes "já visitou o pobre distrito?";
+	next;
+	menu "Sim,eu já o visitei...",-;
+
+	mes "[" + strcharinfo(0) + "]";
+	mes "Sim, eu já o visitei...";
+	mes "E eu conheci alguém";
+	mes "chamado Maku lá.";
+	next;
+	mes "[Digotz]";
+	mes "Maku?! Oh, ele deve ter";
+	mes "mencionado algo sobre";
+	mes "mim. Mas não ligo para nada do que ele";
+	mes "fala, a não ser que seja uma desculpa";
+	mes "por ser um completo e total idiota.";
+	mes "Desde que éramos crianças...";
+	next;
+	mes "[Digotz]";
+	mes "De qualquer jeito, nós costumávamos ser próximos,";
+	mes "mas aquele cara nunca foi um verdadeiro";
+	mes "amigo meu! Como daquela";
+	mes "vez que ele trapeçeou para vencer-me";
+	mes "no braço de ferro!Ou quando ele nunca";
+	mes "me agradeceu por ter comprado nosso lanche!";
+	next;
+	mes "[Digotz]";
+	mes "Claro, ele até que me ajudou";
+	mes "um pouquinho no meu encontro com a minha ";
+	mes "primeira namorada, mas eu nunca o";
+	mes "perdoarei por me arrumar o";
+	mes "piior encontro às cegas que";
+	mes "um homem pode vivenciar!";
+	next;
+	mes "[Digotz]";
+	mes "Maku não sabe porcaria nenhuma";
+	mes "sobre amizade! Mesmo se eu";
+	mes "quisesse vê-lo, existem essas";
+	mes "pessoas que não querem que os ricos";
+	mes "vejam os pobres.";
+	next;
+	mes "Se Maku está bem, isso";
+	mes "já é bom de se saber!";
+	mes "Não há necessidade para que eu";
+	mes "vá até lá e veja como está!";
+	mes "Eu tenho um único";
+	mes "arrependimento, entretanto...";
+	next;
+	mes "[Digotz]";
+	mes "Eu queria ter uma chance,";
+	mes "uma última chance de ver Maku...";
+	mes "Então eu poderia chutá-lo";
+	mes "com minhas próprias pernas! É, isso mesmo!";
+	mes "Idiota arrogante! E mesmo assim,";
+	mes "não posso fazer isso...";
+	next;
+	mes "[Digotz]";
+	mes "Os seguranças aqui";
+	mes "nunca permitirão que os ricos e ";
+	mes "os pobres se encontrem, temendo que";
+	mes "os pobres comecem a perturbar a paz";
+	mes "e ordem dessa cidade. É uma regra";
+	mes "estúpida feita por pessoas estúpidas.";
+	next;
+	mes "[Digotz]";
+	mes "Mesmo assim, é bem assustador saber que";
+	mes "alguém pode ser punido";
+	mes "por violar tão estúpido";
+	mes "tabu, na verdade. De todo jeito, se";
+	mes "você ver Maku de novo, diga";
+	mes "diga isso pra ele por mim, entendeu?";
+	next;
+	mes "[Digotz]";
+	mes "^FF0000Tolo sem futuro!";
+	mes "Você continua um idiota teimoso!";
+	mes "Você me deve no mínimo três lanches!";
+	mes "Isso sem mencionar desculpas!";
+	mes "Mas quem liga para o que você pensa?!";
+	mes "Estou feliz pra caramba sem você!";
+	set friendship,4;
+	close;
+
+s_Cont4:
+	mes "[Digotz]";
+	mes "Ainda está passeando pela";
+	mes "Alta Lighthalzen?";
+	mes "Não que eu ligue, mas se ";
+	mes "você por um acaso encontrar Maku,";
+	mes "entregue essa mensagem por";
+	mes "por mim, frase por frase.";
+	next;
+	mes "[Digotz]";
+	mes "^FF0000Tolo sem futuro!";
+	mes "Você continua um idiota teimoso!";
+	mes "Você me deve no mínimo três lanches!";
+	mes "Isso sem mencionar desculpas!";
+	mes "Mas quem liga para o que você pensa?!";
+	mes "Estou feliz pra caramba sem você!";
+	close;
+
+s_Cont5:
+	mes "[Digotz]";
+	mes "Oh, fazia um tempo.";
+	mes "O qu está fazendo";
+	mes "aqui? E, um, você";
+	mes "mandou aquela mensagem";
+	mes "ao Maku? Agora que penso";
+	mes "sobre isso, eu estava mei--";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Eu entreguei a mensagem";
+	mes "palavra por palavra, e Maku";
+	mes "ficou bravo, te chamou de várias coisas";
+	mes "e está disposto a te";
+	mes "bater muito.";
+	next;
+	mes "[Digotz]";
+	mes "Esse sujo sem valor,";
+	mes "de carne podre!";
+	mes "Se não fosse por esses";
+	mes "guardas, eu iria até o";
+	mes "gueto e espancaria Maku";
+	mes "sozinho! Esse cara estúpido!";
+	next;
+	mes "[Digotz]";
+	mes "Em tempos assim,";
+	mes "eu realmente sinto falta de ^FF0000Benkaistein^000000";
+	mes "aquele cara sempre tinha resposta para";
+	mes "esse tipo de ";
+	mes "situação. É, eu acho que ele";
+	mes "está em alguma cidade longe daqui, estudando.";
+	next;
+	mes "[Digotz]";
+	mes "Suponho que ele esteja naquele";
+	mes "lugar, qualquer que seja o nome,";
+	mes "desde que há milhares de livros ";
+	mes "lá que ele pode usar.Mas";
+	mes "é, Benkaistein seria";
+	mes "sempre o mediador...";
+	next;
+	mes "[Digotz]";
+	mes "Mesmo naquela época, quando";
+	mes "eu, ele e Maku costumávamos";
+	mes "sair juntos, Benkastein ia";
+	mes "achar algo que nos agradasse caso entrássemos em";
+	mes "algum tipo de desentendimento. Mesmo assim, ele não poderia";
+	mes "fazer nada por Maku agora...";
+	next;
+	mes "[Digotz]";
+	mes "Eu não sei por quê,";
+	mes "mas estou tão nervoso!";
+	mes "Por quê estou me estressando";
+	mes "tanto por isso?!";
+	set friendship2,1;
+	close;
+
+s_Cont6:
+	mes "[Digotz]";
+	mes "Mesmo que Benkaistein voltasse";
+	mes "de qualquer lugar que estivesse";
+	mes "estudando, eu não creio que ele";
+	mes "seria capaz de convencer Maku à se desculpar";
+	mes "comigo. Esse cara é simplesmente";
+	mes "muito retardado para seu próprio bem!";
+	if(friendship != 7)close;
+	next;
+	menu "Mostrar o Noticiário de Benkastein.",s_Journal,"Não mostrar o Noticiário de Benkastein.",-;
+
+	mes "[Digotz]";
+	mes "Eu não entendo";
+	mes "por quê estou tão nervoso!";
+	mes "Estou começando a agir";
+	mes "mais como Maku, mas,";
+	mes "não me entenda errado, não";
+	mes "que eu me importe com esse cara.";
+	close;
+
+s_Journal:
+	mes "[Digotz]";
+	mes "Por quê estou tão descompassado?";
+	mes "^3131FF*Cabisbaixo*^000000 Você tem algo ";
+	mes "para me mostrar? Huh? Benkastein";
+	mes "queria que eu desse uma lida esse seu";
+	mes "diário? Claro, por que não? Eu realmente";
+	mes "devo muito a ele por todos esses anos...";
+	next;
+	mes "[Noticiário de Benkastein]";
+	mes "^AD9595Hoje, eu, Digotz e";
+	mes "Maku brincamos desse jogo de voar";
+	mes "maluco. Basicamente, nós fizemos";
+	mes "umas asas de madeira e";
+	mes "papel, pulamos das montanhas";
+	mes "e tentamos voar. Bobo, eu sei.";
+	next;
+	mes "^000000[Noticiário de Benkastein]";
+	mes "^AD9595Hoje foi minha vez de";
+	mes "pular e bater meus braços com essas";
+	mes "falsas e mal-feitas asas.";
+	mes "Não é uma boa brincadeira quando";
+	mes "paro para pensar sobre ela. cara, eu espero";
+	mes "que não façamos isso novamente.";
+	next;
+	mes "^000000[Digotz]";
+	mes "Nossa, eu lembro disso!";
+	mes "Maku vestia as asas a maioria";
+	mes "do tempo, mas eu ainda mantenho o recorde ";
+	mes "por ter ficado mais tempo";
+	mes "que todos no ar! É, eu era";
+	mes "um regular Garoto Pegasus~";
+	next;
+	mes "[Noticiário de Benkastein]";
+	mes "^AD9595Maku, Digotz e eu fomos ";
+	mes "para fora da cidade. É claro,";
+	mes "não contamos a ninguém, ou";
+	mes "estaríamos em problemas. Foi";
+	mes "um dia muito emocionante.Mas";
+	mes "então, achamos um monstro!";
+	next;
+	mes "^000000[Noticiário de Benkastein]";
+	mes "^AD9595Eu queria fugir mas Maku";
+	mes "e Digotz queriam bater no monstro";
+	mes "para que pudéssemos virar heróis.";
+	mes "Claro, ficamos muito machucados,";
+	mes "e o monstro foi embora.";
+	mes "Cara, minha mãe não ficou nada feliz...";
+	next;
+	mes "^000000[Digotz]";
+	mes "Huh. Eu não lembro disso";
+	mes "muito bem. Mas eu sei que";
+	mes "Benkastein, eu e Maku";
+	mes "não tínhamos medo de nada naquela";
+	mes "época. Devíamos ser loucos";
+	mes "para lutar com um monstro, também.";
+	next;
+	mes "[Noticiário de Benkastein]";
+	mes "^AD9595Digotz está doente há três";
+	mes "dias agora. É apenas uma gripe";
+	mes "normal e  Maku fica dizendo";
+	mes "que é culpa do Digotz por ter ficado doente.";
+	mes "Mas ele está sempre me pedindo para ";
+	mes "ir visitá-lo e ver se ele está bem.";
+	next;
+	mes "^000000[Digotz]";
+	mes "Eu acho que lembro de ter ficado";
+	mes "bem doente. Maku estava preocupado?";
+	mes "Eu... Eu devo ter pegado alguma doença";
+	mes "com risco de morte, como...";
+	mes "um, Gonorréia. É, é.";
+	mes "Deve ter sido isso.";
+	next;
+	mes "[Noticiário de Benkastein]";
+	mes "^AD9595Mamãe e papai continuam ";
+	mes "dizendo que eu não devo mais sair com o ";
+	mes "Maku. A razão deles é bem";
+	mes "idiota, e não ligo se ele é";
+	mes "pobre. Ele é um dos melhores garotos";
+	mes "que eu conheço.";
+	next;
+	mes "^000000[Noticiário de Benkastein]";
+	mes "^AD9595A família de Digotz";
+	mes "é bem rica e eles também não";
+	mes "querem que ele veja mais o Maku.";
+	mes "Mas Digotz não se importa.";
+	mes "Eu sei que ele gosta muito de Maku.";
+	next;
+	mes "^000000[Digotz]";
+	mes "Bom, éramos muito menores e";
+	mes "mais próximos naquela";
+	mes "época, então... ^111111*Ahem!*^000000por quê";
+	mes "Benkastein sequer escreveu isso?!";
+	next;
+	mes "[Noticiário de Benkastein]";
+	mes "^AD9595Hoje, nós três fizemos";
+	mes "um juramento de amizade,";
+	mes "igualzinho ao que lemos naquela história";
+	mes "em quadrinhos. Nós juramos que";
+	mes "seríamos amigos não importa o quê.";
+	mes "Para sempre e sempre.";
+	next;
+	mes "^000000[Digotz]";
+	mes "Eu... Eu fui forçado a fazer";
+	mes "esse juramento!E as pessoas de fato";
+	mes "mudam, 'cê sabe! Quero dizer,";
+	mes "éramos apenas crianças,";
+	mes "não é como se esse juramento";
+	mes "realmente signifique algo agora, não é?";
+	next;
+	mes "[Digotz]";
+	mes "Ah, que seja. Eu vou";
+	mes "ver Maku. Eu não ";
+	mes "sinto falta dele ou algo do tipo, mas";
+	mes "eu realmente preciso cancelar";
+	mes "aquele juramento. E talvez";
+	mes "eu até bata um pouco em Maku.";
+	set friendship,8;
+	close;
+
+s_Cont7:
+	mes "[Digotz]";
+	mes "Wh-whoa, Eu preciso";
+	mes "ir me arrumar! Aquele Maku";
+	mes "vai tirar sarro de mim se eu";
+	mes "estiver parecendo rico e muito pomposo.";
+	mes "Porcaria! Onde foi que eu coloquei";
+	mes "minhas roupas de rua?";
+	close;
+
+s_Wounded:
+	mes "^3131FFDigotz está seriamente";
+	mes "ferido por um corte";
+	mes "por uma faca, que ainda está";
+	mes "enfincada em sua barriga.^000000";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Digotz...?";
+	mes "Oh não, deixe-me";
+	mes "achar-lhe ajuda!";
+	next;
+	mes "[Digotz]";
+	mes "H-heh... É o";
+	mes "aventureiro... Cara,";
+	mes "aquele Maku. Ele sempre";
+	mes "me trouxe má sorte...";
+	mes "É muito tarde agora e ";
+	mes "eu não tenho muito tempo...";
+	next;
+	mes "[Digotz]";
+	mes "Aqueles guardas de quem lhe";
+	mes "falei sobre... Os que não querem que";
+	mes "os pobres e os ricos se";
+	mes "falem? Eu... Acho que eles descobriram";
+	mes "que eu ia encontrar meu velho";
+	mes "amigo. Eu só queria vê-lo...";
+	next;
+	mes "[Digotz]";
+	mes "Aquele homem... Num terno";
+	mes "preto... Ele simplesmente... Ele simplesmente";
+	mes "me esfaqueou! Eu...Deus. Faz";
+	mes "tanto tempo desde que falei com";
+	mes "ele. Nós vamos sair e nos divertir,";
+	mes "bem como fazíamos nos velhos tempos.";
+	next;
+	mes "[Digotz]";
+	mes "Eu senti falta dos meus companheiros,mas...";
+	mes "Agora eu posso os escutar me chamando.";
+	mes "Agora podemos ficar juntos como";
+	mes "todos prometemos. É...";
+	mes "Eu estava errado. A vida é muito curta";
+	mes "para ficarmos bravos com nossos ami--";
+	next;
+	mes "[Digotz]";
+	mes "..............";
+	next;
+	mes "[Digotz]";
+	mes "..............";
+	mes ".......................";
+	next;
+	mes "[Digotz]";
+	mes "..............";
+	mes ".......................";
+	mes "................................";
+	next;
+	mes "^3131FFDigotz parou de respirar.";
+	mes "Você remove a faca";
+	mes "de seu corpo inerte como uma última";
+	mes "cortesia ao homem que";
+	mes "amou tanto seus amigos.";
+	next;
+	set friendship,10;
+	getitem 1201,1;
+	close;
+
+s_Dead:
+	mes "^3131FFDigotz morreu,";
+	mes " mas a expressão em ";
+	mes "sua face parece ser bem";
+	mes "contente e tranqüila.";
+	close;
+
+}
+
+lighthalzen,337,232,3	script	Maku	870,{
+
+	if(friendship > 1)goto Switches;
+	mes "[Maku]";
+	mes "Ei, você é um";
+	mes "desses aventureiros, é?";
+	mes "Bem-vindo ao gueto.";
+	mes "Nada muito emocionante";
+	mes "aqui, mas ó, você pode";
+	mes "explorar o quanto quiser.";
+	next;
+	mes "[Maku]";
+	mes "Não sei se você sabe";
+	mes "mas atualmente, as pessoas que";
+	mes "moram aqui não tem permissão para";
+	mes "explorar a cidade toda. É";
+	mes "um tipo de tabu e não deveríamos falar sobre isso,";
+	mes "mas para quê ligar, certo?";
+	next;
+	mes "[Maku]";
+	mes "É, basicamente as pessoas";
+	mes "ricas têm muito medo";
+	mes "dos pobres indo os ";
+	mes "visitar, então a segurança nessa";
+	mes "cidade é bem durona! Esses";
+	mes "caras riquinhos são lixo...";
+	next;
+	mes "[Maku]";
+	mes "Eu não costumava pensar";
+	mes "assim. Na verdade, eu costumava";
+	mes "ter um amigo rico";
+	mes "até que eu descobri que ele não era tudo";
+	mes "que eu pensava que era. Aquele";
+	mes "trouxa! Por que ele é assim?!";
+	next;
+	mes "[Maku]";
+	mes "É, esqueça isso.";
+	mes "Nem sei por quê estou";
+	mes "falando da minha vida pessoal";
+	mes "para alguém que acabei de conhecer,";
+	mes "mesmo. Claro, todos nós ";
+	mes "fazemos isso, mas ainda...";
+	next;
+	mes "[Maku]";
+	mes "Bom, quando você se";
+	mes "cansar do gueto,";
+	mes "'cê realmente precisa ir ver";
+	mes "a parte rica da cidade.";
+	mes "Sei que soa estranho, mas eu vou admitir";
+	mes "que lá é muito melhor do que este lugar.";
+	if(BaseLevel > 29) set friendship,1;
+	close;
+
+
+Switches:
+	switch(friendship)
+	{
+	
+	case 2:
+		mes "[Maku]";
+		mes "Ei, o que você";
+		mes "ainda está fazendo por aqui?";
+		mes "Eu achava que tinha recomendado";
+		mes "que você fosse ver a ";
+		mes "Alta Lighthalzen. Esse";
+		mes "lugar é bem sem-graça...";
+		next;
+		menu "É que eu conheci Digotz e...",-;
+
+		mes "[Maku]";
+		mes "Você o que...?!";
+		mes "Você viu meu velho amigo,";
+		mes "Digotz?! Er, quero dizer,";
+		mes "Senhor Alexander Digotz,";
+		mes "que costumava ser meu colega,";
+		mes "mas que óbviamente não é mais.";
+		next;
+		mes "[Maku]";
+		mes "Claro, éramos muito próximos";
+		mes "um tempo, mas isso foi há";
+		mes "muito tempo atrás. Faz tempo";
+		mes "desde que saímos juntos";
+		mes "e agora ele provavelmente odeia";
+		mes "meu bolso sem dinheiro e...";
+		next;
+		mes "[Maku]";
+		mes "Argh, apenas me escute bem,";
+		mes " Eu pareço um fraco assim.";
+		mes "Eu não sinto falta de Digotz! Na verdade,";
+		mes "eu odeio aquele cara, cem";
+		mes "porcento! Da próxima vez que eu";
+		mes "vê-lo, eu irei quebrar a cara dele!";
+		set friendship,3;
+		close;
+	break;
+
+	case 3:
+		mes "[Maku]";
+		mes "Cara, preciso me estressar ";
+		mes "mesmo! Claro, eu e  Digotz";
+		mes "éramos camaradas antes e pode ";
+		mes "parecer que somos amigos agora,";
+		mes "mas não mesmo, mesmo que costumássemos ser";
+		mes "muito mais próximos que isso. Argh!";
+		next;
+		mes "[Maku]";
+		mes "Não me entenda errado, eu não";
+		mes "sinto falta do cara ou algo do";
+		mes "tipo e não sinto muito pelo";
+		mes "que aconteceu. Mas se um dia";
+		mes "ele viesse se desculpar comigo, eu";
+		mes "provavelmente aceitaria, sabe.";
+		next;
+		mes "[Maku]";
+		mes "Bem, depois de pensar";
+		mes "sobre isso, claro.";
+		mes "Quero dizer, não sou eu";
+		mes "quem está guardando mágoas. É tudo";
+		mes "culpa desse cara! Sheeeesh!";
+		close;
+	break;
+
+	case 4:
+		mes "[Maku]";
+		mes "Que diabos você";
+		mes "ainda está fazendo aqui?";
+		mes "Você deve ter melhores coisas pra fazer";
+		mes "além de conversar com um pobretão";
+		mes "como eu e um esnobe,";
+		mes "totalmente convencido como Digotz.";
+		next;
+		menu "Falando dele...",-;
+		mes "[" + strcharinfo(0) + "]";
+		mes "Falando dele...";
+		mes "Eu conversei com ele novamente.";
+		mes "Ele me pediu para lhe passar uma";
+		mes "mensagem, mas não tenho certe--";
+		next;
+		mes "[Maku]";
+		mes "Aquele bastardo ";
+		mes "tem uma mensagem pra mim?!";
+		mes "Oh, estou tãããão honrado~";
+		mes "Diga-me o que aquele idiota";
+		mes "tem a dizer, frase por frase!";
+		next;
+		input @digotzstr$;
+		if(@digotzstr$ != "Tolo sem futuro!")goto failstr;
+		mes "[Maku]";
+		mes "\"Tolo sem futuro?!\"";
+		mes "Bom, ao menos ele teve";
+		mes "estômago para falar isso.";
+		mes "Mesmo que por outra pessoa!";
+		mes " O que mais ele disse?!";
+		next;
+		input @digotzstr$;
+		if(@digotzstr$ != "Você continua um idiota teimoso!")goto failstr;
+		mes "[Maku]";
+		mes "\"Idiota teimoso?!\"";
+		mes "Não leve ninguém para conhecer alguém,";
+		mes "tolo! Por que eu deveria--";
+		mes "Grrr! O que ele disse a seguir?!";
+		next;
+		input @digotzstr$;
+		if(@digotzstr$ != "Você me deve no mínimo três lanches!")goto failstr;
+		mes "[Maku]";
+		mes "Três lanches?!";
+		mes "Eu levei-o para";
+		mes "lacnhar umas, quinze vezes!";
+		mes "Eu lhe direi, esse cara não ";
+		mes "conhece o significado de amizade!";
+		mes "O que mais esse trouxa disse?!";
+		next;
+		input @digotzstr$;	
+		if(@digotzstr$ != "Isso sem mencionar desculpas!")goto failstr;
+		mes "[Maku]";
+		mes "Eu, me desculpar?!";
+		mes "Ele que deveria se ajoelhar e ";
+		mes "juntar as mãos, implorando pelo";
+		mes "meu bendito perdão! Aquele...";
+		mes "Aquele egoís estúpido sem valor...";
+		mes "O-Oque mais ele lhe disse?!";
+		next;
+		input @digotzstr$;
+		if(@digotzstr$ != "Mas quem liga para o que você pensa?!")goto failstr;
+		mes "[Maku]";
+		mes "Quem liga para o que eu penso?!";
+		mes "GRRRAAH~!! Quem liga";
+		mes "para o que ele pensa!! ^111111*Respira respira*^000000";
+		mes "Eu vou assassinar aquele";
+		mes "idiota! Ele não pode me fazer";
+		mes "mais nervoso do que estou agora!";
+		next;
+		input @digotzstr$;
+		if(@digotzstr$ != "Estou feliz pra caramba sem você!")goto failstr;
+		mes "[Maku]";
+		mes "É isso.";
+		mes "Está decidido. A";
+		mes "próxima vez que eu ver Digotz,";
+		mes "eu vou esfregar sua";
+		mes "cara por todo o chão.";
+		set friendship,5;
+		close;
+	break;
+
+	case 5:
+		mes "[Maku]";
+		mes "RrrrRrrrr.....";
+		mes "RrrrrRRRrrRR.....";
+		mes "GGGGGRRRRR...";
+		next;
+		mes "^3131FFUh oh...";
+		mes "Parece que Maku";
+		mes "está começando a ficar";
+		mes "um pouco nervoso demais.^000000";
+		next;
+		mes "[Maku]";
+		mes "...";
+		mes "......";
+		mes ".........";
+		next;
+		mes "[Maku]";
+		mes "Gggrrrr...";
+		next;
+		mes "[Maku]";
+		mes "GRAAAAAAAAH~!";
+		mes "Quem diabos ele pensa";
+		mes "que é, me falando todo";
+		mes "esse tipo de porcaria!? Digotz,";
+		mes "você não vai fugir depois";
+		mes "dessa! Destruirei você!!";
+		next;
+		set Hp,MaxHp/2;
+		mes "^3131FFMaku agiat-se rapidamente e";
+		mes "explode em pura e violenta";
+		mes "fúria. Você consegue acalmá-lo";
+		mes "depois de algum tempo, mas";
+		mes "por pouco não consegue se salvar de";
+		mes "ser morto pela sua raiva^000000";
+		next;
+		mes "[Maku]";
+		mes "^111111*Respira Respira* *Acalmando-se~*^000000";
+		mes "N-Não se preocupe, eu tenho";
+		mes "controle sobre mim, agora.";
+		mes "Obrigado por não ter me deixado";
+		mes "ficar muito nervoso. Em tempos como";
+		mes "esse, eu realmente sinto falta de ^FF0000Benkaistein^000000.";
+		next;
+		mes "[Maku]";
+		mes "Benkastein sempre garantia";
+		mes "que eu ficaria longe de";
+		mes "brigas. Eu sinto muita falta desse";
+		mes "garoto. Ainda assim, ele não está mais por aqui...";
+		next;
+		mes "[Maku]";
+		mes "Malditos sejam esses guardas!";
+		mes "Se eles não estivessem ali,";
+		mes "eu poderia simplesmente ir lá e";
+		mes "bater no Digotz! Eu juro,";
+		mes "se não fosse por eles...!";		
+		set friendship,6;
+		close;
+	break;
+
+	case 6:
+		mes "[Maku]";
+		mes "Arrrrgh! Sempre que escuto";
+		mes "sobre Digotz, eu fico tão";
+		mes "irritado! Esse cara está me";
+		mes "deixando de lado só por que";
+		mes "eu não sou um cara rico como ele?!";
+		next;
+		mes "[Maku]";
+		mes "Eu não posso...";
+		mes "Eu não posso lhe dar uma surra";
+		mes "bem dada por causa";
+		mes "dessas porcarias de guardas!";
+		mes "Arrrrrrrgh! Cara, onde está";
+		mes "Benkastein quando preciso dele?";
+		close;
+	break;
+
+	case 7:
+
+	mes "[Maku]";
+		mes "Arrrrgh! Sempre que escuto";
+		mes "sobre Digotz, eu fico tão";
+		mes "irritado! Esse cara está me";
+		mes "deixando de lado só por que";
+		mes "eu não sou um cara rico como ele?!";
+		next;
+		mes "[Maku]";
+		mes "Eu não posso...";
+		mes "Eu não posso lhe dar uma surra";
+		mes "bem dada por causa";
+		mes "dessas porcarias de guardas!";
+		mes "Arrrrrrrgh! Cara, onde está";
+		mes "Benkastein quando preciso dele?";
+		close;
+	break;
+
+	case 8:
+		mes "[Maku]";
+		mes "Ei, o que é isso? Você quer";
+		mes "que eu leia esse noticiário?";
+		mes "Er, certo, mas eu não fico";
+		mes "confortável lendo o";
+		mes "diário de alguém. Isso é";
+		mes "meio... feio, entende?";
+		next;
+		mes "[Maku]";
+		mes "Ei, isso é de";
+		mes "Benkastein. Eu não vejo";
+		mes "ele há um bom tempo.";
+		mes "Ah, ele te entregou isso para eu";
+		mes "lê-lo? Tudo bem, eu devo-lhe um";
+		mes "favor ou dois, então eu devo...";
+		next;
+		mes "[Noticiário de Benkastein]";
+	        mes "^AD9595Hoje, eu, Digotz e";
+	        mes "Maku brincamos desse jogo de voar";
+	        mes "maluco. Basicamente, nós fizemos";
+	        mes "umas asas de madeira e";
+	        mes "papel, pulamos das montanhas";
+	        mes "e tentamos voar. Bobo, eu sei.";
+	        next;
+	        mes "^000000[Noticiário de Benkastein]";
+	        mes "^AD9595Hoje foi minha vez de";
+	        mes "pular e bater meus braços com essas";
+	        mes "falsas e mal-feitas asas.";
+	        mes "Não é uma boa brincadeira quando";
+	        mes "paro para pensar sobre ela. cara, eu espero";
+	        mes "que não façamos isso novamente.";
+		next;
+		mes "^000000[Maku]";
+		mes "Do que ele está falando?!";
+		mes "Esse jogo foi realmente legal!";
+		mes "É, eu sempre usava as";
+		mes "asas e Digotz sempre quis";
+		mes "usá-las também.";
+		next;
+		mes "[Noticiário de Benkastein]";
+	        mes "^AD9595Maku, Digotz e eu fomos ";
+	        mes "para fora da cidade. É claro,";
+	        mes "não contamos a ninguém, ou";
+	        mes "estaríamos em problemas. Foi";
+	        mes "um dia muito emocionante.Mas";
+	        mes "então, achamos um monstro!";
+	        next;
+	        mes "^000000[Noticiário de Benkastein]";
+	        mes "^AD9595Eu queria fugir mas Maku";
+	        mes "e Digotz queriam bater no monstro";
+	        mes "para que pudéssemos virar heróis.";
+	        mes "Claro, ficamos muito machucados,";
+	        mes "e o monstro foi embora.";
+	        mes "Cara, minha mãe não ficou nada feliz...";
+		next;
+		mes "^000000[Maku]";
+		mes "Isso é verdade! Naquela época,";
+		mes "nós três não tínhamos";
+		mes "medo de nada! Claro,";
+		mes "Digotz apanhou mais que todos.";
+		mes "Mas eu devo falar, ele também era";
+		mes "o mais desmetido de nós.";
+		next;
+		mes "[Noticiário de Benkastein]";
+	        mes "^AD9595Digotz está doente há três";
+	        mes "dias agora. É apenas uma gripe";
+	        mes "normal e  Maku fica dizendo";
+	        mes "que é culpa do Digotz por ter ficado doente.";
+	        mes "Mas ele está sempre me pedindo para ";
+	        mes "ir visitá-lo e ver se ele está bem.";
+		next;
+		mes "^000000[Maku]";
+		mes "O-Oque?! Não, eu não estava";
+		mes "preocupado! Deve ter ";
+		mes "sido aquela vez em que Digotz";
+		mes "pegou Clymonia. Sabe,";
+		mes "aquela, uh, horrível doença. Ninguém";
+		mes "deveria pegar essa doença!";
+		next;
+		mes "^AD9595Mamãe e papai continuam ";
+	        mes "dizendo que eu não devo mais sair com o ";
+	        mes "Maku. A razão deles é bem";
+	        mes "idiota, e não ligo se ele é";
+	        mes "pobre. Ele é um dos melhores garotos";
+	        mes "que eu conheço.";
+	        next;
+	        mes "^000000[Noticiário de Benkastein]";
+	        mes "^AD9595A família de Digotz";
+	        mes "é bem rica e eles também não";
+	        mes "querem que ele veja mais o Maku.";
+	        mes "Mas Digotz não se importa.";
+	        mes "Eu sei que ele gosta muito de Maku.";
+		next;
+		mes "^000000[Maku]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Noticiário de Benkastein]";
+	        mes "^AD9595Hoje, nós três fizemos";
+	        mes "um juramento de amizade,";
+	        mes "igualzinho ao que lemos naquela história";
+	        mes "em quadrinhos. Nós juramos que";
+	        mes "seríamos amigos não importa o quê.";
+	        mes "Para sempre e sempre.";
+		next;
+		mes "^000000[Maku]";
+		mes "Bom, isso é verdade,";
+		mes "eu acho, mas as pessoas";
+		mes "mudam! Além de quê, pegamos";
+		mes "essa idéia de uma revista em quadrinhos!";
+		mes "Bom, se ele pedisse desculpas primeiro,";
+		mes "eu creio que eu o perdoaria.";
+		next;
+		mes "[" + strcharinfo(0) + "]";
+		mes "Que bom...";
+		mes "Por que Digotz disse";
+		mes "que ele chegará aqui";
+		mes "em alguns dias.";
+		next;
+		mes "[Maku]";
+		mes "O que?! Ele realmente vai vir";
+		mes "aqui? Pra quê? É tarde demais";
+		mes "para arrumar as coisas! Ainda assim, eu ficaria";
+		mes "ainda mais nervoso se não o visse.";
+		mes "Tá , tá bom! Eu irei ensiná-lo";
+		mes "uma lição quando ele chegar aqui!";
+		next;
+		mes "[Maku]";
+		mes "E, um, me dá esse";
+		mes "noticiário! Quero lê-lo";
+		mes "mais para poder tirar";
+		mes "sarro de Digotz. Bwahahaha!";
+		mes "Mas sim, um, obrigado. Não que ";
+		mes "esteja agradecido ou algo do tipo.";
+		next;
+		mes "[Maku]";
+		mes "Então, uh, eu creio que";
+		mes "vejo-lhe mais tarde.";
+		mes "Um, agora preciso me";
+		mes "aprontar para algo.";
+		mes "^111111(Mas não para ver Digotz!)";
+		if(countitem(7351))delitem 7351,1;
+		set friendship,9;
+		close;
+	break;
+
+	case 9:
+		mes "[Maku]";
+		mes "Por quê Digotz está";
+		mes "tão atrasado? Isso não";
+		mes "parece nenhum pouco com ele. Talvez";
+		mes "algo errado esteja acontecendo?";
+		close;
+	break;
+
+	case 10:
+		mes "[Maku]";
+		mes "Por quê Digotz está";
+		mes "tão atrasado? Isso não";
+		mes "parece nenhum pouco com ele. Talvez";
+		mes "algo errado esteja acontecendo?";
+		next;
+		mes "[Maku]";
+		mes "Heh, ele deve ter";
+		mes "algum tipo de razão para";
+		mes "estar atrasado, mas se não tiver,";
+		mes "eu estive guardando";
+		mes "meu pacote de chutes para abrir,";
+		mes "só pra ele. Heh heh heh~";
+		close;
+	break;
+
+	case 11:
+		mes "[Maku]";
+		mes "Por quê Digotz está";
+		mes "tão atrasado? Isso não";
+		mes "parece nenhum pouco com ele. Talvez";
+		mes "algo errado esteja acontecendo?";
+		next;
+		mes "[Maku]";
+		mes "Heh, ele deve ter";
+		mes "algum tipo de razão para";
+		mes "estar atrasado, mas se não tiver,";
+		mes "eu estive guardando";
+		mes "meu pacote de chutes para abrir,";
+		mes "só pra ele. Heh heh heh~";
+		close;
+	break;
+	}
+
+failstr:
+	mes "[Maku]";
+	mes "Hã...? Não sei se Digotz";
+	mes "diria algo deste";
+	mes "tipo. Tem certeza que você ";
+	mes "o ouviu atentamente?Faz";
+	mes " algum tempo, mas eu sei";
+	mes "como Digotz fala, cara.";
+	close;
+}
+
+yuno_in04,107,14,4	script	Estudante	754,{
+
+	mes "[Joey Choryee]";
+	mes "Essa é uma área de estudo onde";
+	mes "você não deveria falar,";
+	mes "andar ou mesmo respirar muito alto.";
+	mes "E mesmo assim, estudantes como Benkastein";
+	mes "podem calar o mundo todo";
+	mes "quando estudam duro o suficiente...";
+	if(friendship != 6)close;
+	next;
+	mes "[Joey Choryee]";
+	mes "Benkastein...?";
+	mes "Ele está na parte norte";
+	mes "deste quarto. Ele é um ótimo";
+	mes "cara,mas um pouco antiquado.";
+	mes "Bem, ele é organizado demais";
+	mes "e etiqueta tudo!";
+	close;
+
+}
+
+yuno_in04,96,106,4	script	Estudante Compenetrado	754,{
+
+	if(friendship == 10)goto s_Ask;
+	if(friendship3 == 2 || friendship3 == 3)goto s_Cont2;
+	if(friendship3 == 1)goto s_Cont;
+	mes "[Estudante Compenetrado]";
+	mes "Deixe-me ver, agora.";
+	mes "Magia do Vento,Magia Negra,";
+	mes "Porings, ah, aqui está";
+	mes "Propriedades das raças de Monstros.";
+	mes "Espero que isso contenha";
+	mes "a informação da qual preciso...";
+	next;
+	if(friendship != 6)goto s_Dialog;
+	mes "Após olhar de relance, momentâneamente";
+	mes "para os pertences deste estudante,";
+	mes "você percebe que o nome";
+	mes "\"Benkastein\" está impresso";
+	mes "neles. Este é o amigo de quem";
+	mes " Maku e Digotz falavam!";
+	next;
+	menu "Com lincença...",-;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Com licença...";
+	mes "Benkastein?";
+	next;
+	mes "[Estudante Compenetrado]";
+	mes "...O mundo dos humanos";
+	mes "e o mundo dos demônios,";
+	mes "sim, sim... Não, o que estou";
+	mes "procurando é uma referência ";
+	mes "aos céus de Asgard.";
+	mes "Hmm, isso aqui deve me ajudar...";
+	next;
+	menu "Ei...",-;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Ei...";
+	mes "Aqui.";
+	mes "Benkastein!";
+	next;
+	mes "[Estudante Compenetrado]";
+	mes "...Oh, esta de fato é";
+	mes "uma observação interessante.";
+	mes "Se eu pudesse incorporá-la";
+	mes "a minha tese sem muitos";
+	mes "problemas, minha teoria";
+	mes "pareceria muito mais sólida...";
+	next;
+	menu "EI VOCÊ...!",-;
+	mes "[" + strcharinfo(0) + "]";
+	mes "EI VOCÊ...!";
+	mes "BENKASTEIN~!";
+	next;
+	mes "[Passionate Student]";
+	mes "Oh, céus!";
+	mes "V-Você não pode";
+	mes "manter sua voz baixa?";
+	mes "E-Estou tentando estudar!";
+	mes "Não, espere. Você esteve";
+	mes "me chamando todo esse tempo?";
+	set friendship3,1;
+	close;
+
+s_Cont:
+	mes "[Estudante Compenetrado]";
+	mes "Oh, você me assustou!";
+	mes "Ainda assim, tenho noção de como";
+	mes "é difícil ganhar minha atenção";
+	mes "uma vez que me concentro na leitura de ";
+	mes "um livro. Então, como";
+	mes "posso lhe ajudar, aventureiro?";
+	next;
+	menu "Falar sobre Maku e Digotz.",-;
+	mes "[Benkastein]";
+	mes "Oh, como estão meus";
+	mes "amigos? Oh,como é? Eles estão";
+	mes "tendo uma grande briga só";
+	mes "por que um é pobre e ";
+	mes "o outro é rico?";
+	mes "Isso é muito infantil!";
+	next;
+	mes "[Benkastein]";
+	mes "Mas novamente, isso é simplesmente";
+	mes "o jeito deles. ^111111*Cabisbaixo*^000000 Eu realmente quero";
+	mes "voltar para casa e fazê-los fazerem";
+	mes "as pazes, mas também preciso";
+	mes "termianr a minha tese. Vejamos...";
+	mes "O que eu possivelmente posso fazer daqui por eles?";
+	next;
+	mes "[Benkastein]";
+	mes "Oh, já sei o que posso fazer!";
+	mes "Espere, mas onde eu coloquei?";
+	mes "Oh, como eu posso ter perdido algo";
+	mes "tão importante? Espere! Você poderia";
+	mes "me esperar um segundo enquanto";
+	mes "eu procuro por algo?";
+	set friendship3,2;
+	close;
+
+s_Cont2:
+	mes "[Benkastein]";
+	mes "Que coisa, isto está";
+	mes "demorando muito mais";
+	mes "do que eu estava pensando que demoraria.";
+	mes "Onde será que coloquei";
+	mes "aquela coisa? Hmmmm...";
+	if(friendship3 == 3)goto s_Cont3;
+	next;
+	mes "^3131FFTalvez fosse melhor";
+	mes "se você ajudasse";
+	mes "Benkastein a achar o que";
+	mes "ele está procurando.";
+	close;
+
+s_Cont3:
+	next;
+	mes "[Benkastein]";
+	mes "Oh, como é?";
+	mes "Você achou meu";
+	mes "noticiário? Rápido, deixe-me";
+	mes "vê-lo. Sim, sim...";
+	mes "É esse mesmo! Muito obrigado";
+	mes "por achar isso para mim!";
+	next;
+	mes "[Benkastein]";
+	mes "Você se importaria";
+	mes "em fazer um favor para mim? Seria";
+	mes "melhor que eu falasse com eles";
+	mes "pessoalmente, mas estou muito";
+	mes "ocupado nessa tese...";
+	next;
+	mes "[Benkastein]";
+	mes "Você poderia por favor";
+	mes "mostrar esse no9ticiário a Digotz e Maku?";
+	mes "Eu o escrevi quando éramos";
+	mes "bem pequenos, então isto deverá lembrá-los";
+	mes "daqueles bons tempos";
+	mes "em que costumávamos estar juntos.";
+	next;
+	mes "[Benkastein]";
+	mes "Ao menos, isso deve ajudá-los";
+	mes "pelo menos a perceber";
+	mes "quão estúpidamente estão";
+	mes "agindo. Obrigado novamente,";
+	mes "e por favor cuide bem de";
+	mes "Maku e Digotz por mim.";
+	if(friendship == 6)set friendship,7;
+	close;
+
+s_Dialog:
+	mes "^3131FFEsse estudante parece estar";
+	mes "conduzindo seriamente";
+	mes "uma intensiva pesquisa sobre";
+	mes "um assunto acadêmico. Por agora,";
+	mes "deve ser melhor deixá-lo sozinho";
+	mes "para que ele possa estudar em paz.";
+	close;
+
+s_Ask:
+	mes "[Benkastein]";
+	mes "Você conseguiu levar m";
+	mes "meu noticiário para Digotz e";
+	mes "Maku?Eu estou certo de que";
+	mes "ele os fará lembrar dos nossos";
+	mes "velhos tempos. Eu também sei que eles";
+	mes "podem ser bem teimosos...";
+	next;
+	mes "[Benkastein]";
+	mes "De todo jeito, eu agradeço";
+	mes "toda a sua";
+	mes "ajuda. Quando eu voltar para";
+	mes "casa, eu espero conseguir";
+	mes "ver aqueles dois novamente.";
+	next;
+	mes "[Benkastein]";
+	mes "Até lá, eu preciso pesquisar,";
+	mes "terminar minha tese e alcançar ";
+	mes "todas minhas metas acadêmicas. Oh, por favor";
+	mes "pegue este passe para que possa";
+	mes "ir e voltar da área pobre para a rica";
+	mes "como um agradecimento meu.";
+	next;
+	mes "[Benkastein]";
+	mes "Claro, também desejo-lhe";
+	mes "segurança nas suas viagens,";
+	mes "aventureiro. Quando nós";
+	mes "três estivermos juntos, eu farei";
+	mes "certamento com que você fique sabendo~";
+	if(BaseLevel < 41)getexp 49500,0;
+	else if(BaseLevel > 40 && BaseLevel < 61)getexp 99000,0;
+	else if(BaseLevel > 60 && BaseLevel < 71)getexp 198000,0;
+	else if(BaseLevel > 70 && BaseLevel < 81)getexp 396000,0;
+	else if(BaseLevel > 80 && BaseLevel < 91)getexp 594000,0;
+	else if(BaseLevel > 90)getexp 792000,0;
+	getitem 7350,1;
+	set friendship,11;
+	set friendship3,0;
+	close;
+
+}
+
+yuno_in04,168,117,1	script	Livro#lighthalzen	111,{
+
+	if(friendship3 >= 3)goto Book2;
+	if(friendship3 == 2)goto Book;
+	mes "^3131FFEsse livro está etiquetado como,";
+	mes "\"Noticiário de Benkastein";
+	mes "Vol. 6.\".";
+	close;
+Book:
+	mes "^3131FFEsse livro está etiquetado como,";
+	mes "\"Noticiário de Benkastein";
+	mes "Vol. 6.\". Isso é provavelmente";
+	mes "a coisa que Benkastein estava tentando";
+	mes "encontrar, então é melhor levar isto";
+	mes "e mostrar logo para ele";
+	set friendship3,3;
+	getitem 7351,1;
+	close;
+Book2:
+	mes "^3131FFAqui foi onde você encontrou";
+	mes "o livro que Benkastein";
+	mes "estava procurando.";
+	close;
+
+}
+
+yuno_in04,169,109,1	script	A Ambição Hollgrehenn	111,{
+
+	mes "*Hollgrehenn: A Ambição*";
+	mes "Por Aragham Caul*";
+	mes "";
+	mes "";
+	mes "";
+	mes "";
+	mes "Publicante:";
+	mes " Livros Muha, Co.";
+	next;
+	mes "...";
+	mes "Nada o pararia até que";
+	mes "estivesse com a mais poderosa arma";
+	mes "no mundo em suas mãos.";
+	mes "Ele se tornou um ferreiro para que ";
+	mes "pudesse distinguir quais eram";
+	mes "as mais fortes armas...";
+	next;
+	mes "[" + strcharinfo(0) + "]";
+	mes "Que coisa estranha...";
+	mes "A próxima página";
+	mes "foi arrancada.";
+	close;
+
+}
+
+yuno_in04,171,117,1	script	Lista de Livros	111,{
+
+	mes "^3131FFVocê acha uma série";
+	mes "de livros encapados";
+	mes "com títulos, impressos";
+	mes "com uma letra decorativa, muito";
+	mes "elegante e chamativa";
+	mes "na capa destes.";
+	mes "Alguns dos títulos incluem...";
+	next;
+	mes "*Paixão Vulcânica*";
+	mes "*Meia-Noite Crescente*";
+	mes "*Um Caso Em Paris*";
+	mes "*Amor em Jogo*";
+	mes "*O Vizinho Cowboy*";
+	mes "*Romance Platônico*";
+	mes "*Como Lara Conseguiu Seu Dom De Volta*";
+	next;
+	mes "^000000[" + strcharinfo(0) + "]";
+	mes "O que...?!";
+	mes "Esse lugar tem até";
+	mes "uma seção com livros de romance?";
+	close;
+
+}

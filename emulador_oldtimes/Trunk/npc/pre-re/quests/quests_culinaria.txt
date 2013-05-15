@@ -1,0 +1,566 @@
+//===== Cronus Script ======================================== 
+//= Quest de Cúlinária
+//===== Por: ================================================= 
+//= Reddozen
+//===== Versão Atual: ======================================== 
+//= 1.5a
+//===== Compatível Com: ====================================== 
+//= Cronus 1400+
+//===== Descrição: =========================================== 
+//= Quest relativa à Culinária 
+//===== Additional Comments: ================================= 
+//= 1.0 Traduzido e adaptado [JuliosS]
+//= 1.1 Revisado, corrigido erros de tradução/grafia [Page]
+//= 1.1b Corrigido pequeno erro no nome do npc 'Chefe' [Page]
+//= 1.2b Adicionado shops Cozinheiro [Kamper]
+//= 1.2c Corrigido sprs, coordenadas e direções [Kamper]
+//= 1.3 Retirado shops de Cozinheiro [Kamper]
+//= 1.4 Nomes corrigidos [Hildds]
+//= 1.5 Consertado verificação de itens no NPC 'Sharle'
+//= 1.5a Otimização do NPC 'Sharle' [Socramjunio]
+//============================================================ 
+
+prt_castle,43,30,6	script	Chefe#1	878,{
+
+	mes "[Chefe]";
+
+	if(cooking_q == 1) goto L_Remind;
+
+	if(cooking_q == 2){
+		mes "Vejo que você passou no teste.";
+		mes "Parabéns!";
+		next;
+		mes "[Chefe]";
+		mes "Este livro dará muita ajuda a um cozinheiro novato como você.";
+		getitem 7472,1; //Items: Lv1 Cookbook,
+		set cook_book,7472;
+		set cooking_q,3;
+		close;
+	}
+
+	if(cooking_q == 3){
+		mes "Olá!";
+		mes "Em que poderia lhe ajudar?";
+		next;
+		menu "Comprar Suprimentos.",M_BuySupply, "Fale um pouco sobre culinária!",L_Cook_Talk,"Nada, obrigado.",L_No_Talk;		
+
+		M_BuySupply:
+			mes "[Chefe]";
+			mes getitemname(12125)+": 500z";
+			mes "Quantos você deseja?";
+			input @amount;
+			if(@amount < 1) goto ER_Invalid;
+			if(@amount > 100) goto ER_TooMuch;
+			if(@amount*500 > Zeny) goto ER_Zeny;
+			set Zeny,Zeny-(@amount*500);
+			getitem 12125, @amount;//Items: Outdoor Cooker,
+			next;
+			mes "[Chefe]";
+			mes "Pronto!";
+			close;
+
+		L_Cook_Talk:
+			mes "[Chefe]";
+			mes "Você passou no teste,";
+			mes "mas como andou o preparo da comida?";
+			next;
+			menu "Prove-na.",-,"Ela está horrível",L_Taste_End;
+
+			mes "[Chefe]";
+			mes "Não sei se vou fazer isso,";
+			mes "não me parece seguro.";
+			next;
+			menu "Por favor, prove minha comida!",-, "Talvez você esteja certo...",L_Taste_End;
+
+			mes "[Chefe]";
+			mes "Porque eu experimentaria";
+			mes "a comida de um chefe novato?";
+			next;
+			menu "Por favor! Experimente!",-, "Ah, você tem razão...",L_Taste_End;
+
+			mes "[Chefe]";
+			mes "Vamos fazer um trato.";
+			mes "Se você fizer pelo menos ";
+			mes "alguma comida de level 1,";
+			mes "vou prová-la...";
+			next;
+			menu "Aceito!",-, "Não aceito.",L_Taste_End;
+
+			mes "[Chefe]";
+			mes "Você precisará fazer";
+			mes "seis comidas. Me informe";
+			mes "quando você tiver terminado.";
+			set cooking_q,4;
+			close;
+
+		L_Taste_End:
+			mes "[Chefe]";
+			mes "Volte quando você se sentir";
+			mes "mais confiante.";
+			close;
+
+		L_No_Talk:
+			mes "[Chefe]";
+			mes "Volte para me visitar quando você quiser!";
+			mes "Tenha um bom dia.";
+			close;
+	}
+
+	if(cooking_q == 4){
+			if(countitem(12056)
+			&& countitem(12061)
+			&& countitem(12046)
+			&& countitem(12066)
+			&& countitem(12041)
+			&& countitem(12051)){//Items: Frog Spawn Soup, Grape Juice with Honey, Grape Juice and Tea, Fried Monkey Tail, Boiled Locust, Steamed Crab Pincer,
+
+			delitem 12056, 1;//Items: Frog Spawn Soup,
+			delitem 12061, 1;//Items: Grape Juice with Honey,
+			delitem 12046, 1;//Items: Grape Juice and Tea,
+			delitem 12066, 1;//Items: Fried Monkey Tail,
+			delitem 12041, 1;//Items: Boiled Locust,
+			delitem 12051, 1;//Items: Steamed Crab Pincer,
+
+			mes "O quê?! Já está pronto?";
+			mes "Deixe-me ver o que você preparou.";
+			next;
+
+			mes "[Chefe]";
+			mes "Hmm, está bom, mas ";
+			mes "ainda há uma coisa que eu preciso";
+			mes "que você faça. Fale com um amigo";
+			mes "meu em Payon.";
+			mes "Nós estudávamos juntos.";
+			next;
+			mes "[Chefe]";
+			mes "Dê a ele este ^000080"+getitemname(7432)+"^000000.";
+			mes "Vou lhe colocar em boas mãos.";
+			mes "Afinal, é meu antigo professor...";
+
+			getitem 7432,1;//Items: Leather Pouch,
+			set cooking_q,5;
+		} else {
+			mes "Volte quando você já tiver feito";
+			mes "todas as comidas de level 1.";
+			next;
+			menu "Comprar suprimentos.",M_BuySupply, "Sair.",L_No_Talk;		
+		}
+		close;
+	}
+
+	if(cooking_q == 5){
+		mes "Por favor, não esqueça de";
+		mes "dar a ^000080Bolsa de Couro^000000";
+		mes "para meu amigo de Payon.";
+		next;
+		mes "[Chefe]";
+		mes "Bem... Ainda há algo";
+		mes "com que eu possa lhe ajudar?";
+		next;
+		menu "Comprar suprimentos.",-, "Sair.",L_No_Talk2;		
+
+			mes "[Chefe]";
+			mes "Kit de Culinária Portátil: 500z";
+			mes "Quantos você deseja?";
+			input @amount;
+			if(@amount < 1) goto ER_Invalid;
+			if(@amount > 100) goto ER_TooMuch;
+			if(@amount*500 > Zeny) goto ER_Zeny;
+			set Zeny,Zeny-(@amount*500);
+			getitem 12125,@amount;//Items: Outdoor Cooker,
+
+			next;
+			mes "[Chefe]";
+			mes "Pronto!";
+			close;
+
+		L_No_Talk2:
+			mes "[Chefe]";
+			mes "Volte para me visitar quando você quiser!";
+			mes "Tenha um bom dia.";
+			close;
+	}
+
+	if(cooking_q == 6){
+		mes "Obrigado por ter falado com";
+		mes "meu amigo! Tenho";
+		mes "um presente para você.";
+		set cooking_q,7;
+		getitem 12126,10;//Items: Home Cooking Set,
+		next;
+		mes "[Chefe]";
+		mes "Volte depois quando";
+		mes "precisar de mais coisas.";
+		close;
+	}
+
+	if(cooking_q == 7){
+		mes "Bem-vindo novamente, o quê";
+		mes "você deseja fazer?";
+		next;
+		menu "Comprar suprimentos",-, "Só estou de passagem...",L_Leave3;
+
+				mes "[Chefe]";
+				mes "O quê você irá querer?";
+				next;
+				menu "Kit de Culinária Portátil: 500z",-, "Kit de Culinária Caseiro: 1000z",L_HomeCooking, "Esquece...",L_Leave3;
+
+				set @price,500;
+				set @tool,12125;
+				goto L_Cooking_Tools4;
+
+			L_HomeCooking:
+				set @price,1000;
+				set @tool,12126;
+
+		L_Cooking_Tools4:
+			mes "[Chefe]";
+			mes "Quantos deseja?";
+			input @amount;
+			if(@amount < 1) goto ER_Invalid;
+			if(@amount > 100) goto ER_TooMuch;
+			if(@amount*@price > Zeny) goto ER_Zeny;
+			set Zeny,Zeny-(@amount*@price);
+			getitem @tool, @amount;
+
+			next;
+			mes "[Chefe]";
+			mes "Aí está!";
+			close;		
+
+		L_Leave3:
+			mes "[Chefe]";
+			mes "Volte para me visitar quando quiser!!";
+			mes "Tenha um bom dia.";
+			close;
+	}			
+			
+	mes "Olá! O que eu";
+	mes "posso fazer por você?";
+	next;
+	menu "Só estou olhando...",-, "Eu quero aprender a cozinhar!",ap_2;
+
+		mes "[Chefe]";
+		mes "Sinta-se livre para olhar tudo aqui.";
+		mes "Só não perturbe meu professor.";
+		close;
+
+	ap_2:
+		if(BaseLevel < 50){
+			mes "[Chefe]";
+			mes "Você precisa evoluir um pouco";
+			mes "antes de tentar melhorar";
+			mes "seu nível de cozinheiro.";
+			close;
+		}
+
+		set cooking_q,1;
+		mes "[Chefe]";
+	L_Remind:
+		mes "Ah! Então quer dizer que você deseja aprender a";
+		mes "cozinhar né?! Eu acho que você pode,";
+		mes "só é necessário que fale com meu professor.";
+		next;
+		mes "[Chefe]";
+		mes "Não esqueça de levar seu";
+		mes "^000080Mestre-Cuca^000000,";
+		mes "ele é nescessário.";
+		close;
+
+	ER_Zeny:
+		next;
+		mes "[Chefe]";
+		mes "Você não tem zeny suficiente.";
+		close;
+
+	ER_TooMuch:
+		next;
+		mes "[Chefe]";
+		mes "Você não pode comprar tantos ao mesmo tempo!.";
+		close;
+	ER_Invalid:
+		next;
+		mes "[Chefe]";
+		mes "Você não pode pedir um número negativo!";
+		close;
+}
+
+
+payon,209,127,4	script	Amigo Cozinheiro	88,{
+	mes "[Amigo Cozinheiro]";
+	if(cooking_q == 5){
+		if(countitem(7432)) {
+			delitem 7432, 1;//Items: Leather Pouch,
+			mes "Vejo que meu amigo mandou";
+			mes "você falar comigo!";
+			set cooking_q,6;
+			emotion e_thx;
+		} else {
+			mes "O que??? Meu amigo mandou você";
+			mes "aqui só para dizer Olá?";
+			emotion e_hmm;
+		}
+		mes "Obrigado.";
+		mes "Diga para ele que eu também.";
+		mes "mandei um Olá.";
+		close;
+	}
+	mes "Olá, como está você?"; 
+	close;
+}
+
+
+prt_castle,45,35,4	script	Sharle	886,{
+	mes "[Sharle]";
+	if(cooking_q && getequipid(1) != 5026) goto L_No_Uniform; //Item: Chefe's Hat
+	if(cooking_q == 7)goto L_Cooking_7;
+	if(first_cooking)goto L_First_Cooking;
+
+	if(cooking_q == 1){
+		mes "Então você quer aprender a cozinhar?";
+		next;
+		menu "Sim",M_GetQuest, "Não",M_End;
+	}
+
+	mes "Que bom dia para preparar algumas";
+	mes "incríveis receitas!";
+	close;
+
+	M_GetQuest:
+		mes "[Sharle]";
+		mes "Certo, vamos cozinhar juntos.";
+		set first_cooking,rand(1,6);
+
+	L_First_Cooking:
+		mes "Eu preciso de alguns ingredientes especiais.";
+		mes "Traga-me:";
+				deletearray @item[0],127;
+		if(first_cooking == 1){
+			set @food1,12056;
+			setarray @item[0],
+			517,1,
+			908,10,
+			1024,1;
+			mes "1 Sacola de Grãos, 10 Ovas de Sapo, e";
+			mes "1 Tinta de Polvo.";
+		}
+
+		if(first_cooking == 2){
+			set @food1,12061;			
+			setarray @item[0],
+			518,1,
+			514,2,
+			501,1;
+			mes "1 Mel, 2 Uvas, e";
+			mes "1 Poção Vermelha.";
+		}
+
+		if(first_cooking == 3){
+			set @food1,12046;			
+			setarray @item[0],
+			514,3,
+			501,2;
+			mes "3 Uvas e 2 Poções Vermelhas.";
+		}
+
+		if(first_cooking == 4){
+			set @food1,12066;			
+			setarray @item[0],
+			942,5,
+			7031,1,
+			7457,1;
+			mes "5 Caudas de Yoyo, 1 Frigideira Velha, e";
+			mes "1 Óleo de Cozinha.";
+		}
+
+		if(first_cooking == 5){
+			set @food1,12041;			
+			setarray @item[0],940,5,7031,1,7457,1;
+			mes "5 Pernas de Gafanhoto, 1 Frigideira Velha, e";
+			mes "1 Óleo de Cozinha.";
+		}
+
+		if(first_cooking == 6){		
+			set @food1,12051;			
+			setarray @item[0],
+			960,10,
+			511,10,
+			503,1;
+			mes "10 Garras de Crustáceo, 10 Ervas Verdes, e";
+			mes "1 Poção Amarela.";
+		}
+		
+		while(1){
+			for(set @i,0; @i<getarraysize(@item); set @i,@i+2){
+				if( countitem(@item[@i])  < @item[@i+1] ) close;
+			}
+			next;
+				set cooking_q, 2;
+				mes "[Sharle]";
+				mes "Parabéns!";
+				mes "Agora você pode comprar um";
+				mes "Kit de Culinária Portátil.";
+				getitem @food1,1;
+				set first_cooking, 0;
+				close;
+		}
+
+	L_Cooking_7:
+		mes "Você gostaria de ver alguns";
+		mes "dos meus ^800000Livros de Culinária^000000?";
+		next;
+		menu "Sim",-, "Não", M_End2, "Devolver livro.", M_ReturnBook;
+
+		mes "[Sharle]";
+		if(cook_book){
+			mes "Você precisa me devolver";
+			mes "o livro que eu lhe emprestei";
+			mes "antes de pegar outro.";
+			mes "Você gostaria de trocar os livros?";
+			next;
+			menu "Sim",-, "Não",M_End2;
+
+			if(countitem(cook_book)==0){
+				mes "O que?! Você não tem o livro que eu te emprestei?!";
+				mes "Era um "+getitemname(cook_book)+".";
+				emotion e_sry;
+				close;
+			} 
+		}
+		mes "[Sharle]";
+		mes "Qual livro você gostaria?";
+		next;
+		menu "^800000Livro de Culinária Nível 1",b_1, "Livro de Culinária Nível 2",b_2, "Livro de Culinária Nível 3",b_3, "Livro de Culinária Nível 4",b_4, "Livro de Culinária Nível 5",b_5, "^000000Sair",M_End2;
+
+	b_1:
+		mes "[Sharle]";
+		mes "Você precisa de:";
+		mes "10 Abóboras.";
+		next;
+		if(countitem(535) < 10) goto L_No_Items;//Items: Pumpkin,
+		delitem 535,10;//Items: Pumpkin,
+		set @checkout, 7472;
+		mes "Vejo que você tem";
+		mes "o que eu preciso.";
+		next;
+		goto b_trade;
+
+	b_2:
+		mes "[Sharle]";
+		mes "Você precisa de:";
+		mes "5 Biscoitos de Gengibre.";
+		next;
+		if(countitem(538) < 5) goto L_No_Items;//Items: Well-baked Cookie,
+		delitem 538, 5;//Items: Well-baked Cookie,
+		set @checkout,7473;
+		mes "Vejo que você tem";
+		mes "o que eu preciso.";
+		next;
+		goto b_trade;
+
+	b_3:
+		mes "[Sharle]";
+		mes "Você precisa de:";
+		mes "5 Sushis";
+		next;
+		if(countitem(551) < 5) goto L_No_Items;//Items: Sushi,
+		delitem 551,5;//Items: Sushi,
+		set @checkout,7474;
+		mes "Vejo que você tem";
+		mes "o que eu preciso.";
+		next;
+		goto b_trade;
+
+	b_4:
+		mes "[Sharle]";
+		mes "Você precisa de:";
+		mes "5 Pães de Carne.";
+		next;
+		if(countitem(553) < 5) goto L_No_Items;//Items: Bao,
+		delitem 553,5;//Items: Bao,
+		set @checkout,7475;
+		mes "Vejo que você tem";
+		mes "o que eu preciso.";
+		next;
+		goto b_trade;
+
+	b_5:
+		mes "[Sharle]";
+		mes "Você precisa de:";
+		mes "10 Brotos.";
+		next;
+		if(countitem(711) < 10) goto L_No_Items;//Items: Shoot,
+		delitem 711,10;//Items: Shoot,
+		set @checkout,7476;
+		mes "Vejo que você tem";
+		mes "o que eu preciso.";
+		next;
+		goto b_trade;
+
+	b_trade:
+		mes "[Sharle]";
+		mes "Se você achar que precisa de um livro novo,";
+		mes "é só passar aqui e pegá-lo;,";
+
+		if(cook_book){
+			if(countitem(cook_book)==0){
+				mes "O que?! Você não tem o livro que eu te emprestei?!";
+				mes "Era um ^800000"+getitemname(cook_book)+"^000000.";
+				emotion e_sry;
+				close;
+			}
+			delitem cook_book,1;
+			mes "Divirta-se, e boa sorte!";
+		} else
+			mes "Boa sorte, espero que você aprenda bastante!";
+	getitem @checkout,1;
+	set cook_book,@checkout;
+	close;
+
+	M_End:
+		mes "[Sharle]";
+		mes "Tudo bem por mim, volte";
+		mes "quiser cozinhar.";
+		close;
+		
+	M_End2:
+		mes "[Sharle]";
+		mes "Ok, até mais.";
+		close;
+
+	M_ReturnBook:
+		if(cook_book == 0){
+			mes "[Sharle]";
+			mes "Você não pegou nenhum livro.";
+			emotion e_hmm;
+			close;
+		}
+
+			if(countitem(cook_book)==0){
+				mes "O que?! Você não tem o livro que eu te emprestei?!";
+				mes "Era um ^800000"+getitemname(cook_book)+"^000000.";
+				emotion e_sry;
+				close;
+			} 
+		delitem cook_book,1;
+		set cook_book,0;
+		mes "[Sharle]";
+		mes "Devolvendo de novo um livro...";
+		mes "Você aprendeu tudo que podia?";
+		emotion e_what;
+		close;
+
+	L_No_Items:
+		mes "[Sharle]";
+		mes "Volte quando você";
+		mes "já tiver os itens";
+		mes "que precisamos.";
+		close;
+
+	L_No_Uniform:
+		mes "Que desrespeito comigo!";
+		mes "Você está sem seu uniforme!";
+		mes "Como deseja que eu lhe ajude?!";
+		emotion e_bzz;
+		close;	
+}

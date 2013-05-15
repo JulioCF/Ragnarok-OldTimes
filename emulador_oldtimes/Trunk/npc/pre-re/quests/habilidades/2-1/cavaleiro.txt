@@ -1,0 +1,53 @@
+//===== Cronus Script ======================================== 
+//= Cavaleiro Skill Quest
+//===== Por: =================================================
+//= Lupus, Reddozen
+//= Mehah [Traduziu para PT(br)]
+//===== Versão Atual: ======================================== 
+//= 1.3a
+//============================================================
+
+
+//============================================================
+// Cavaleiro - CHARGE ATTACK
+//============================================================
+prt_in,84,98,3	script	Esope	734,{
+	mes "[Esope]";
+	if(BaseJob!=Job_Knight) goto L_noknight;
+	if(getskilllv(1001)) goto L_alreadyhave;
+
+	mes "Eu poderei ensina-lo tudo que eu sei se você me trouxer:";
+	mes "5 Bengalas Doce";
+	mes "3 Rosas Eterna";
+	next;
+	
+	mes "[Esope]";
+	mes "Me deixe conferir seus items.";
+	next;
+	
+	if(countitem(530)<5 || countitem(748)<3)goto L_noitems;//Items: Bengala_Doce, Rosa_Eterna,
+	delitem 530, 5;//Items: Bengala Doce,
+	delitem 748, 3;//Items: Rosa Eterna,
+	
+	mes "[Esope]";
+	mes "Eu tenho o que você precisa,";
+	mes "então vou ensinar o meu talento.";
+	skill 1001,1,0;
+	close;
+
+L_noitems:
+	mes "[Esope]";
+	mes "Você não possui os items que eu preciso.";
+	mes "Volte quando tiver todos os items exigidos.";
+	close;
+		
+L_noknight:
+	mes "Procurando seu mestre?";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	mes "Eu já o ensinei";
+	mes "tudo que eu sei...";
+	close;
+}

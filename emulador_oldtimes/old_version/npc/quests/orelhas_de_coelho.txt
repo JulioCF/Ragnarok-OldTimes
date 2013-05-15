@@ -1,0 +1,169 @@
+//===== Cronus Script ======================================== 
+//= Quest das Orelhas de Coelho
+//===== Por: ================================================= 
+//= Mara
+//===== Versão: ============================================== 
+//= 1.0
+//===== Compatível com: ====================================== 
+//= Emulador [3010]; Cliente [EP 12.1]
+//===== Descrição: =========================================== 
+//= [Conversão do Aegis]
+//===== Comentários adicionais: ============================== 
+//= 1.0 Conversão do Aegis [Mara]
+//============================================================ 
+
+alberta,26,229,0	script	Funcionário Kafra#coelho::KCRep	83,{
+
+	if (BUNYBND == 1)
+	{
+		mes "[Responsável pelo Festival]";
+		mes "Eu sou responsável pelo ^529DFFFestival das ^FF0000Orelhas de Coelho^529DFF!!^000000";
+		next;
+		switch (select("Participar do festival","Informações sobre o festival","Cancelar"))
+		{
+			case 1:
+					mes "[Responsável pelo Festival]";
+					mes "Vamos ver se você trouxe todo os materiais necéssarios.";
+					next;
+					if (countitem(949) < 100) //Pluma
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 100 plumas.";
+						close;
+					}
+					if (countitem(706) == 0) //Trevo de Quatro Folhas
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 1 Trevo de Quatro Folhas.";
+						close;
+					}
+					if (countitem(722) == 0) //Pérola
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, mas você precisa de pelo menos 1 Pérola.";
+						close;
+					}
+					if (countitem(2213) == 0) //Orelha de Gato
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 1 Orelhas de Gato.";
+						close;
+					}
+					mes "[Responsável pelo Festival]";
+					mes "Puxa vida! Você trouxe todos os itens!";
+					mes "Ok, eu vou fazer as suas Orelhas de Coelho.";
+					mes "Aguarde só um minutinho.";
+					next;
+					if (countitem(949) < 100) //Pluma
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 100 plumas.";
+						close;
+					}
+					if (countitem(706) < 1) //Trevo de Quatro Folhas
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 1 Trevo de Quatro Folhas.";
+						close;
+					}
+					if (countitem(722) < 1) //Pérola
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, mas você precisa de pelo menos 1 Pérola.";
+						close;
+					}
+					if (countitem(2213) < 1) //Orelha de Gato
+					{
+						mes "[Responsável pelo Festival]";
+						mes "Eu sinto muito, você precisa de pelo menos 1 Orelhas de Gato.";
+						close;
+					}
+					delitem 949,100; //Pluma
+					delitem 706,1; //Trevo de Quatro Folhas
+					delitem 722,1; //Pérola
+					delitem 2213,1; //Orelha de Gato
+					mes "[Responsável pelo Festival]";
+					mes "Aqui está a sua Orelhas de Coelho!";
+					getitem 2214,1; //Orelha de Coelho
+					set BUNYBND, 0;
+					next;
+					mes "[Responsável pelo Festival]";
+					mes "Obrigado por participar do festival! Espero que você goste das suas Orelhas de Coelho!";
+					mes "Espero vê-lo novamente!";
+					close;
+
+			case 2:
+					mes "[Responsável pelo Festival]";
+					mes "Para servi-lo cada vez melhor, nós da Corporação Kafra organizamos este Festival das Orelhas de Coelho.";
+					next;
+					mes "[Responsável pelo Festival]";
+					mes "Eu sou responsável pelo ^529DFFFestival das ^FF0000Orelhas de Coelho^529DFF!!^000000";
+					mes "Nós faremos para você o fantástico item chamado ^FF0000Orelhas de Coelho^000000!";
+					mes "(Patrocínio: Guilda dos Arqueiros de Payon)";
+					next;
+					mes "[Responsável pelo Festival]";
+					mes "Basta que você nos traga os materiais necessários para a manufatura.";
+					mes "As Orelhas de Coelho serão feitas na hora pelo Responsável pelo Festival.";
+					mes "Os itens necessários são os seguintes:";
+					next;
+					mes "[Responsável pelo Festival]";
+					mes "100 plumas";
+					mes "1 Trevo de Quatro Folhas";
+					mes "1 Pérola";
+					mes "1 Orelhas de Gato";
+					next;
+					mes "[Responsável pelo Festival]";
+					mes "Quando você tiver todos os itens, nós faremos uma Orelhas de Coelho para você.";
+					mes "Boa Sorte!";
+					close;
+
+			case 3:
+				close;
+		}
+	}
+	mes "[Responsável pelo Festival]";
+	mes "Festival das Orelhas de Coelho!";
+	next;
+	switch (select ("Participar do festival","Informações sobre o festival","Cancelar"))
+	{
+		case 1:
+				set BUNYBND,1;
+				mes "[Responsável pelo Festival]";
+				mes "Obrigado pelo seu interesse no festival!";
+				mes "Volte quando tiver todos os itens necessários para se fazer Orelhas de Coelho.";
+				close;
+
+		case 2:
+				mes "[Responsável pelo Festival]";
+				mes "Para servi-lo cada vez melhor, nós da Corporação Kafra organizamos este Festival das Orelhas de Coelho.";
+				next;
+				mes "[Responsável pelo Festival]";
+				mes "Eu sou responsável pelo ^529DFFFestival das ^FF0000Orelhas de Coelho^529DFF!!^000000";
+				mes "Nós faremos para você o fantástico item chamado ^FF0000Orelhas de Coelho^000000!";
+				mes "(Patrocínio: Guilda dos Arqueiros de Payon)";
+				next;
+				mes "[Responsável pelo Festival]";
+				mes "Basta que você nós traga os materias necessários para a manufatura.";
+				mes "As Orelhas de Coelho serão feitas na hora pelo Responsável pelo Festival.";
+				mes "Os itens necessários são os seguintes:";
+				next;
+				mes "[Responsável pelo Festival]";
+				mes "100 plumas";
+				mes "1 Trevo de Quatro Folhas";
+				mes "1 Pérola";
+				mes "1 Orelhas de Gato";
+				next;
+				mes "[Responsável pelo Festival]";
+				mes "Quando você tiver todos os itens, nós faremos uma Orelhas de Coelho para você.";
+				mes "Boa Sorte!";
+				close;
+
+		case 3:
+				close;
+	}
+}
+
+geffen,116,62,2	duplicate(KCRep)	Kafra Corp. Rep.#2	83
+omorocc,154,97,4	duplicate(KCRep)	Kafra Corp. Rep.#3	83
+opayon,97,118,4	duplicate(KCRep)	Kafra Corp. Rep.#4	83
+prontera,146,87,6	duplicate(KCRep)	Kafra Corp. Rep.#5	83

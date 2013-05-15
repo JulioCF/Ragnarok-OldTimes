@@ -1,0 +1,19 @@
+sec_in01,163,178,3	script	Status da Equipe	871,{
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	
+	callsub L_CheckStatus, "[ADM] Journeyman", 2000000, 150000;
+	callsub L_CheckStatus, "[ADM] Cloud", 2000001, 150001;
+	callsub L_CheckStatus, "[GM] Nagarath", 2000002, 150002;
+
+	L_CheckStatus:
+		if (isloggedin(getarg(1), getarg(2)))
+			mes "^0000CD"+getarg(0)+"^000000: ^008B00Online^000000";
+		else
+			mes "^0000CD"+getarg(0)+"^000000: ^FF0000Offline^000000";
+		close;
+	return;
+}

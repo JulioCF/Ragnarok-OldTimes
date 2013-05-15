@@ -1,0 +1,60 @@
+//===== Cronus Script =====================================
+//= Estalagem
+//===== Por: ==============================================
+//= SoulBlaker
+//===== Versão Atual: =====================================
+//= Darkchild (1.1)
+//= Playtester (1.2)
+//===== Versão Atual: ===================================== 
+//= 1.0/2.8a
+//===== Descrição: ========================================
+//= Estalagem, Salvar e Curar.
+//============================================================
+//= variáveis:
+//= arg0 - name of npc
+//= arg1 - name of the inn
+//= arg2 - map to save at
+//= arg3, arg4 - x and y cord. to save at
+//= @cost - cost of renting a room
+//===== Cometários adicionais: ============================
+//= 1.0 Separado Script RE.	[SoulBlaker]
+//=========================================================
+//======================== Brasilis ====================================
+bra_in01,27,24,3	script	Recepcionista#bra	478,{
+	mes "[Recepcionista]";
+	mes "Bem-vindo à Pousada Tucano Feliz,";
+	mes "temos tudo para fazer você se";
+	mes "sentir em casa.";
+	next;
+	switch(select("Salvar:Descansar -> 1000 zeny:Cancelar")) 
+	{
+		case 1:
+			mes "[Recepcionista]";
+			mes "Quer salvar seu ponto de retorno aqui na Pousada?";
+			next;
+			if (select("Agora não.","Com certeza!") == 1)
+			{
+				mes "Então, tudo bem. Volte se mudar de idéia.";
+				close;
+			}
+			mes "Está salvo. Aproveite bem sua";
+			mes "estadia em Brasilis e não deixe de";
+			mes "conferir nossas belezas naturais.";
+			savepoint "bra_in01",143,68;
+			close;
+		case 2:
+			mes "[Recepcionista]";
+			if(Zeny < 1000){
+				mes "A taxa de serviço é de 1000 zenys.";
+				close;
+			}
+			mes "Desfrute da sua estadia!";
+			close2;
+			set Zeny,Zeny - 1000;
+			percentheal 100,100;
+			warp "bra_in01",144,69;
+			end;
+		case 3:
+			close;
+	}
+}

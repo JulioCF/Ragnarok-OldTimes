@@ -1,0 +1,212 @@
+//===== Cronus Script ========================================
+//= Quest das Orelhas de Coelho
+//===== Por: =================================================
+//= eAthena Dev Team
+//===== Versão Atual: ========================================
+//= 1.5a
+//===== Compatível Com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= Quests das Orelhas de Coelho
+//===== Comentários Adicionais: ==============================
+//= 1.5 Rescripted to Aegis 10.3 standards. [L0ne_W0lf]
+//	Changed @BUNYBAN back to a BUNYBAND, it hsoudl be this way.
+//	Removed duplicates. NPC is ALberta-only.
+//= 1.5a Traduzido. [RoM]
+//============================================================
+
+alberta,26,229,0	script	Kafra Corp. Rep.#bunny	83,{
+	if (BUNYBND == 1) {
+		mes "[Kafra Corp. Rep.]";
+		mes "Olá~!";
+		mes "Você gostaria de";
+		mes "participar do evento especial";
+		mes "^529DFFOrelha de Coelho^000000";
+		mes "da Corporação Kafra?";
+		next;
+		switch(select("Claro, eu trouxe os itens.:Informações do Evento:Cancelar")) {
+		case 1:
+			mes "[Kafra Corp. Rep.]";
+			mes "Certo~";
+			mes "Deixe-me ver";
+			mes "se você trouxe";
+			mes "todos os itens...";
+			next;
+			if (countitem(949) < 100) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Ooh, desculpe";
+				mes "mas eu preciso que";
+				mes "traga ao menos";
+				mes "100 Plumas.";
+				close;
+			}
+			if (countitem(706) == 0) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Ooh, desculpe";
+				mes "mas eu preciso que";
+				mes "traga ao menos";
+				mes "1 Trevo de Quatro Folhas.";
+				close;
+			}
+			if (countitem(722) == 0) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Ooh, desculpe";
+				mes "mas eu preciso que";
+				mes "traga ao menos";
+				mes "1 Pérola.";
+				close;
+			}		
+			if (countitem(2213) == 0) {
+				mes "Ooh, desculpe";
+				mes "mas eu preciso que";
+				mes "traga ao menos";
+				mes "1 Orelha de Gato.";
+				close;
+			}
+			mes "[Kafra Corp. Rep.]";
+			mes "Ótimo, eu vejo que";
+			mes "você pegou tudo";
+			mes "que eu preciso para";
+			mes "fazer a Orelha de Coelho.";
+			mes "Aguarde um instante enquanto";
+			mes "eu junto os itens...";
+			next;
+			if (countitem(949) < 100) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Hm? Me desculpe,";
+				mes "mas eu não posso";
+				mes "fazê-la agora.";
+				mes "Você precisa de 100 Plumas";
+				mes "para que eu possa fazer";
+				mes "a Orelha de Coelho...";
+				close;
+			}
+			if (countitem(706) < 1) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Hm? Me desculpe,";
+				mes "mas eu não posso";
+				mes "fazê-la agora.";
+				mes "Você precisa de 1 Trevo de Quatro Folhas";
+				mes "para que eu possa fazer";
+				mes "a Orelha de Coelho...";
+				close;
+			}
+			if (countitem(722) < 1) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Hm? Me desculpe,";
+				mes "mas eu não posso";
+				mes "fazê-la agora.";
+				mes "Você precisa de  1 Pérola";
+				mes "para que eu possa fazer";
+				mes "a Orelha de Coelho...";
+				close;
+			}
+			if (countitem(2213) < 1) {
+				mes "[Kafra Corp. Rep.]";
+				mes "Hm? Me desculpe,";
+				mes "mas eu não posso";
+				mes "fazê-la agora.";
+				mes "Você precisa de 1 Orelha de Gato";
+				mes "para que eu possa fazer";
+				mes "a Orelha de Coelho...";
+				close;
+			}
+			delitem 949,100; //Feather
+			delitem 706,1; //Four_Leaf_Clover
+			delitem 722,1; //Scarlet_Jewel
+			delitem 2213,1; //Cat_Hairband
+			mes "[Kafra Corp. Rep.]";
+			mes "Ah, aqui vamos nós~";
+			mes "Uma Orelha de Coelho perfeita!";
+			mes "Bem, espero que você goste.";
+			getitem 2214,1; //Bunny_Band
+			set BUNYBND,0;
+			next;
+			mes "[Kafra Corp. Rep.]";
+			mes "Obrigado por participar";
+			mes "deste evento especial";
+			mes "e por continuar sendo";
+			mes "cliente dos Serviços";
+			mes "Kafra~";
+			close;
+		case 2:
+			mes "[Kafra Corp. Rep.]";
+			mes "Para agradecer nossos clientes,";
+			mes "a Corporação Kafra preparou";
+			mes "um evento especial onde";
+			mes "um representante da Kafra irá";
+			mes "distribuir Orelhas de Coelhos para";
+			mes "aventureiros que trouxerem alguns itens.";
+			next;
+			mes "[Kafra Corp. Rep.]";
+			mes "Para este item especial,";
+			mes "traga 100 Plumas,";
+			mes "1 Trevo de Quatro Folhas,";
+			mes "1 Orelha de Gato e";
+			mes "1 Pérola.";
+			next;
+			mes "[Kafra Corp. Rep.]";
+			mes "Quando você estiver pronto,";
+			mes "volte e traga os itens";
+			mes "para mim.";
+			mes "(Patrocinado pela Guilda";
+			mes "de Mercadores de Alberta).";
+			close;
+		case 3:
+			close;
+		}
+	}
+	mes "[Kafra Corp. Rep.]";
+	mes "Olá~! Você gostaria de";
+	mes "participar do evento especial";
+	mes "^529DFFOrelha de Coelho^000000";
+	mes "da Corporação Kafra patrocinado";
+	mes "pela Guilda de Mercadores de Alberta?";
+	next;
+	switch(select("Participar do Evento:Informações do Evento:Cancelar")) {
+	case 1:
+		set BUNYBND,1;
+		mes "[Kafra Corp. Rep.]";
+		mes "Ótimo! Obrigado por";
+		mes "participar! Se você";
+		mes "ainda não ouviu, você";
+		mes "precisa coletar estes";
+		mes "itens se quiser que eu";
+		mes "faça as Orelhas de Coelho para você...";
+		next;
+		mes "[Kafra Corp. Rep.]";
+		mes "Para este item especial,";
+		mes "traga 100 Plumas,";
+		mes "1 Trevo de Quatro Folhas,";
+		mes "1 Orelha de Gato e";
+		mes "1 Pérola. É isto!";
+		mes "Boa sorte e eu estarei";
+		mes "esperando por você aqui~";
+		close;
+	case 2:
+		mes "[Kafra Corp. Rep.]";
+		mes "Para agradecer nossos clientes,";
+		mes "a Corporação Kafra preparou";
+		mes "um evento especial onde";
+		mes "um representante da Kafra irá";
+		mes "distribuir Orelhas de Coelhos para";
+		mes "aventureiros que trouxerem alguns itens.";
+		next;
+		mes "[Kafra Corp. Rep.]";
+		mes "Para este item especial,";
+		mes "traga 100 Plumas,";
+		mes "1 Trevo de Quatro Folhas,";
+		mes "1 Orelha de Gato e";
+		mes "1 Pérola.";
+		next;
+		mes "[Kafra Corp. Rep.]";
+		mes "Quando você estiver pronto,";
+		mes "volte e traga os itens";
+		mes "para mim.";
+		mes "(Patrocinado pela Guilda";
+		mes "de Mercadores de Alberta).";
+		close;
+	case 3:
+		close;
+	}
+}

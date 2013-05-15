@@ -1,0 +1,1134 @@
+//===== Cronus Script ======================================
+//= Ayothaya Quests (Quests de Ayothauya)
+//===== Por ================================================
+//= Flint
+//===== Versão =============================================
+//= 1.2
+//===== Commentários =======================================
+//= Lista de variaveis usadas
+//= @fishing - 	Ela checa se um peixe foi ou não pescado, 1/10 
+//=	       	de chance para pegar o anel se você tiver
+//=		começado a quest para recupera-lo.
+//=
+//= weddingring - Significa o começo da quest do anel de noivado 
+//=               e usado para ver o progresso da mesma.
+//=
+//= recoveredring - Significa que você pegou o anel, e não pode 
+//=		    simplesmente dropar o anel e pegar a quest
+//=		    mais uma vez para duplicar o premio.
+//=
+//= 1.0 - Lançamento deste arquivo traduzido e adaptado.
+//= 1.1 - Revisão a adaptação de linguagem [FrozenCirius]
+//= 1.2 - Adicinado a quest de acesso a dungeon [Família RagnaDream]
+//=========================================================
+
+ayo_dun02,277,178,1	script	OBB	139,4,4,{
+	if(AyoOBB==1 || weddingring!=3) end;
+	mes "["+strcharinfo(0)+"]";
+	mes "Huh o que é isso? Não são pegadas, isso é uma Caixa Azul Velha";
+	next;
+	set AyoOBB,1;
+	getitem 603,1;
+	logmes "Q_AYOTH1: got OBB";
+	mes "["+strcharinfo(0)+"]";
+	mes "Acho que vou ficar com isso!";
+	close;
+}
+//Dungeon 1 foot prints x 5
+ayo_dun01,30,149,1	script	Clue#1	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Tem algumas pegadas aqui, elas se direcionam para o Oeste.";
+	set @footprints1,1;
+	close;
+}
+ayo_dun01,70,149,1	script	Clue#2	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Aqui tem mais pegadas, também se direcionam para o Oeste!";
+	set @footprints2,1;
+	close;
+}
+ayo_dun01,100,149,1	script	Clue#3	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais pegadas seguindo para o Oeste, de quem será que elas são?";
+	set @footprints3,1;
+	close;
+}
+ayo_dun01,190,149,1	script	Clue#4	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais pegadas, mas estas vão para o Norte.";
+	set @footprints4,1;
+	close;
+}
+ayo_dun01,261,263,1	script	Clue#5	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais algumas pegadas, essas parecem estar indo para aquele buraco.";
+	set @footprints5,1;
+	close;
+}
+
+//Dungeon 2 foot prints x 4 + 1 fake
+ayo_dun02,222,204,1	script	Clue#6	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Ainda sim mais pegadas, essas vão ou para o Sul, ou para o Oeste.";
+	set @footprints6,1;
+	close;
+}
+ayo_dun02,169,212,1	script	Clue#7	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Parece que tem pegadas indo para o Leste.";
+	set @footprints7,1;
+	close;
+}
+ayo_dun02,129,212,1	script	Clue#8	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Muito bem, essas vão para o Norte ou para o Leste...";
+	set @footprints8,1;
+	close;
+}
+ayo_dun02,79,212,1	script	Clue#9	139,7,7,{
+	if(weddingring!=3) end;
+	npctalk "Estas são bem novas, estão indo para o Norte.";
+	set @footprints9,1;
+	close;
+}
+ayo_dun02,245,166,1	script	Clue#10	139,7,7,{
+	if(weddingring!=3) end;
+	npctalk "Parece que algo veio daqui para o Oeste.";
+	close;
+}
+
+ayothaya,233,105,7	script	Shuda	838,{
+	mes "[Shuda]";
+	if(BaseLevel<50) {
+		mes "Aonde está meu anel!?!";
+		close;
+	}
+	if(weddingring==2) goto L_Quest2;
+	if(weddingring==3) goto L_OnQ2;
+	if(weddingring==4) goto L_QuestComplete;
+	if(weddingring==5) goto L_QuestOver;
+	if(countitem(7288)>=1) goto L_RingFound;
+	mes "Oh por favor me ajude, meu marido sumiu, mas só depois que perdi nosso ^FF0000Anel de Compromisso^000000! Talvez você possa ^0000FFpesca-lo^000000 para fora do mar.";
+	set weddingring,1;
+	close;
+L_RingFound:
+	mes "Oh esse é meu anel!?!";
+	next;
+	mes "[Shuda]";
+	mes "Me devolva, por favor!";
+	next;
+	menu "Claro, aqui está",N_Yes,"Não! EU achei! É MEEEEEEU! T-T",-;
+	mes "[Shuda]";
+	mes "Pense o que quiser, mas este anel é meu. E sem ele não posso casar com meu amor.";
+	mes "";
+	mes "Aonde quer que ele esteja.";
+	close;
+N_Yes:
+	mes "[Shuda]";
+	if(countitem(7288)<1) {
+		mes "Go away, cheater!";
+		close;
+	}
+	delitem 7288,1;
+	mes "Muito obrigado, agora que tenho isto posso ter meu marido de volta *penhorar o anel*.";
+	set weddingring,2;
+	next;
+	mes "[Shuda]";
+	mes "Volte quando puder, preciso de um favor.";
+	close;
+L_Quest2:
+	mes "Meu marido, ^FF0000Annon^000000 não quer voltar para mim";
+	mes "Talvez ele se perdeu....";
+	mes "";
+	mes "O encontre, lhe darei uma boa recompensa *beijinho*";
+	next;
+	menu "Claro...",L_YesQ2,"Não... Ele voltará quando sentir fome.",-;
+	mes "[Shuda]";
+	mes "Sim, talvez esteja certo, mas ainda quero que alguem o encontre, estou com medo de algo ter acontecido com ele.";
+	close;
+L_YesQ2:
+	set weddingring,3;
+	mes "[Shuda]";
+	mes "Muito obrigado, Acho que alguem nesta cidade viu aonde ele foi,talvez consiga uma pista";
+	close;
+L_OnQ2:
+	mes "Encontrou ele?";
+	mes " ";
+	mes "Por favor, se apresse.";
+	mes "*chorando*";
+	close;
+L_QuestComplete:
+	mes "O encontrou ?!?";
+	mes "Aonde ele está???";
+	next;
+	mes "Explique-se.";
+	next;
+	mes "[Shuda]";
+	mes "Eu pensei que ele era o meu amor.";
+	mes "Nunca encontrarei alguem tão bom quanto ele.";
+	mes "*chorando*";
+	next;
+	set weddingring,5;
+	mes "[Shuda]";
+	mes "Entendo....";
+	close;
+L_QuestOver:
+	mes "Olá, "+strcharinfo(0)+". Como vai seu pênis?";
+	close;
+}
+
+ayothaya,253,99,3	script	Pescador#1	843,{
+	mes "[Dannai]";
+	mes "Este local é conhecido por ter muitos peixes. Os peixes daqui tendem à comer qualquer coisa que eles encontram, facilitando muito meu trabalho de pega-los!";
+	next;
+	mes "[Dannai]";
+	mes "Estamos alugando varas de pesca. Toda vez que você pescar, vai precisar de ^4466771 Ração para Monstros^000000 para usar como isca, e pagar o alugel de ^44667750 Zenys^000000.";
+	next;
+	mes "[Dannai]";
+	mes "Você gostaria de";
+	mes "tentar pegar um peixe?";
+	next;
+	menu "Sim",-,"Não!",L_No;
+	if(countitem(528) < 1 || zeny < 50) goto L_Fail;
+	delitem 528,1;
+	set zeny,zeny-50;
+	mes "[Pescador]";
+	mes "Tudo bem, dê o melhor de si.";
+	mes "Vamos ver se pegou alguma coisa...";
+	next;
+	set @fishing, rand(1,10);
+	mes "[Fisher Man]";
+	if(@fishing<4) goto L_Nothing;
+	if(@fishing<10) goto L_Fish;
+	if(@fishing==10) goto L_RingCheck;
+L_No:
+	mes "[Dannai]";
+	mes "Volte quando puder.";
+	close;
+L_Fail:
+	mes "[Dannai]";
+	mes "Umh... Você não tem os itens requeridos.";
+	mes "Volte quando tiver a Ração para Monstros e 50 zenys.";
+	close;
+L_Nothing:
+	mes "Você não pegou nada";
+	close;
+L_Fish:
+	getitem 544,1;
+	mes "Olhe só! Você pegou um peixe, muito bom!";
+	close;
+L_RingCheck:
+	if(weddingring!=1 || recoveredring==1) goto L_Fish;
+	mes "Você pescou um ANEL de Compromisso!!!";
+	mes "Bom, já que o pescou, acho que pode ficar com ele...";
+	next;
+	getitem 7288,1;
+	mes "[Pescador]";
+	mes "Volte sempre!";
+	set weddingring,0;
+	set recoveredring,1;
+	close;
+}
+
+ayothaya,192,171,4	script	Old Man#1	824,{
+	mes "[Tham]";
+	if(weddingring==3) goto L_OnQ2;
+	mes "É um belo dia, não concorda?";
+	close;
+L_OnQ2:
+	mes "O que?! Annon desapareceu? Acabei de ver ele há algums minutos atrás.";
+	next;
+	mes "[Tham]";
+	mes "Ele estava indo para o Calabouço de Ayothaya, eu achei que isso era meio estranho, e agora você diz que ele ainda não voltou?!?";
+	mes "Acho que deveria segui-lo lá dentro, só em caso de algo ter acontecido com ele.";
+	next;
+	mes "[Tham]";
+	mes "Talvez ele deixou algo dentro do calabouço, algo que te leve até ele...";
+	mes "Mas isso é só a minha opinião.";
+	next;
+	mes "[Tham]";
+	mes "Você pode chegar no calabouço através do templo, é um mapa à direita daqui, e abaixo da colina.";
+	close;
+}
+
+ayo_dun02,91,264,4	script	Cara#1	822,{
+	if(weddingring==4) goto L_QuestComplete;
+	if(weddingring==5) goto L_TalkedShuda;
+	if(weddingring==3 && @footprints1==1 && @footprints2==1 && @footprints3==1 && @footprints4==1 && @footprints5==1 && @footprints6==1 && @footprints7==1 && @footprints8==1 && @footprints9==1) goto L_Groom;
+	mes "[Cara]";
+	mes "Ela nunca me encontrará aqui... Nunca...";
+	close;
+L_Groom:
+	
+	mes "[Annon]";
+	mes "Me ajude, por favor...";
+	next;
+	mes "["+strcharinfo(0)+"]";
+	mes "^Parece estar gravemente ferido...";
+	next;
+	menu "Tratar os ferimentos",-,"Deixar ele agonizando sozinho",L_Go;
+	if(countitem(504) < 1) goto L_Need;
+	delitem 504,1;
+	mes "[Annon]";
+	mes "Quem é você?";
+	mes "Te mandaram para me seguir?";
+	next;
+	mes "[Annon]";
+	mes "Eu vejo, minha ex-mulher te enviou aqui para ver se estou bem...";
+	mes " ";
+	mes "Fale para ela que estou bem, mas não posso seguir com o casamento.";
+	next;
+	mes "[Annon]";
+	mes "Não posso dar-lhe a razão, só fale para ela que a amo, mas não o suficiente para passar o resto de minha vida com ela.";
+	next;
+	mes "[Annon]";
+	mes "Espero que ela entenda.";
+	mes " ";
+	mes "umh..Acho que quer uma  recompensa não é?";
+	next;
+	mes "[Annon]";
+	mes "Posso te treinar, para você ficar mais experiente.";
+	mes " ";
+	mes "Então vamos lá.";
+	next;
+	getexp 100000,0;
+	set weddingring,4;
+	mes "[Annon]";
+	mes "*Tempos depois* Pronto..Uff... Agora volte lá e conte para ela, mas por favor não a faça chorar.";
+	close;
+L_Need:
+	mes "["+strcharinfo(0)+"]";
+	mes "Preciso de uma poção branca para curá-lo";
+	close;
+L_Go:
+	mes "["+strcharinfo(0)+"]";
+	mes "Ah, alguém vai encontra-lo eventualmente, tenho coisas melhores à fazer.";
+	close;
+L_QuestComplete:
+	mes "[Annon]";
+	mes "Contou para Shuda?";
+	close;
+L_TalkedShuda:
+	mes "[Annon]";
+	mes "Ela reagiu bem?";
+	close;
+}
+
+// Ayothaya Dungeon Quest
+//============================================================
+ayothaya,83,132,0	script	Dusit#thai	843,{
+	if (ayodunquest == 0) {
+		mes "[Dusit]";
+		mes "Oh...!";
+		mes "Você deve ser um viajante.";
+		mes "Tenho uma história que talvez você se interesse em ouvir.";
+		next;
+		if (select("Me conte a história, por favor:Conheço esta história.") == 1) {
+			mes "[Dusit]";
+			mes "Ayothaya tem uma longa história. Talvez pareça calma e pacifica agora, mas no passado nossa vila era aterrorizada por uma terrível criatura.";
+			next;
+			mes "[Dusit]";
+			mes "Essa besta é conhecida como ^6B1312O Tigre Sa-mhing ^000000, que costumava morar nas antigas ruínas.";
+			next;
+			mes "[Dusit]";
+			mes "O Tigre Sa-mhing é viciado no gosto de carne humana. É de nosso conhecimento que ele se transforma na forma de uma pessoa que ele comeu para seduzir a família desta pessoa e amigos.";
+			next;
+			mes "[Dusit]";
+			mes "O povo local ainda tem medo de que a criatura se transforme em alguem conhecido, e entre em suas casas e os comam.";
+			next;
+			mes "[Dusit]";
+			mes "Comtanto tem um meio de identificar o Tigre Sa-mhing. Já que é um tigre, não pode fazer algumas coisas que os humanos são ensinados à fazer, como acender um fósforo.";
+			next;
+			mes "[Dusit]";
+			mes "Então, se por acaso você ver um amigo agindo estranhamente derrepente, fale para ele acender um fósforo. Certifique-se de que ele não é o Tigre Sa-mhing.";
+			next;
+			mes "[Dusit]";
+			mes "Contanto...";
+			mes "Não tenho certeza de que isto realmente funciona. Acho que a melhor coisa á fazer é correr por sua vida se você suspeita que alguem é este Tigre.";
+			next;
+			mes "[Dusit]";
+			mes "Você acredita";
+			mes "na existência";
+			mes "de tigres comedores de homens?";
+			next;
+			if (select("Bem... Não.:Sim, e acho que são assustadores!") == 1) {
+				mes "[Dusit]";
+				mes "Umm...";
+				mes "Bem, meu avô me contou deste tigre quando eu era pequeno. Claro, eu não o vi ainda.";
+				next;
+				mes "[Dusit]";
+				mes "A coisa mais proxima do Tigre Sa-mthing que eu vi, foi um gatinho com um sininho amarrado no pescoço. Mas não ach que ele comia homens.";
+				close;
+			}
+			mes "[Dusit]";
+			mes "Então se o encontrar corra por sua vida!";
+			next;
+			mes "[Dusit]";
+			mes "Se está interessado na história dele, posso te apresentar à alguem que conhece a história.";
+			next;
+			mes "[Dusit]";
+			mes "Porque não fala com Boonthom? Ele é bem estranho, mas tem algo sobre ele...";
+			next;
+			mes "[Dusit]";
+			mes "...";
+			mes "......";
+			next;
+			mes "[Dusit]";
+			mes "Ah well, you'll see what I'm talking about. I hope he'll help you learn more about that evil creature.";
+			set ayodunquest,1;
+			close;
+		}
+		mes "[Dusit]";
+		mes "Você conhece?";
+		mes "Então tome cuidado!";
+		mes "Irá te devorar vivo!";
+		close;
+	}
+	else if (ayodunquest > 0) {
+		mes "[Dusit]";
+		mes "Como vai?";
+		mes "Se está interessado no tigre, fale com Boonthom.";
+		next;
+		mes "[Dusit]";
+		mes "Mas fique alerta!";
+		mes "O Tigre Sa-mhing pode estar mais próximo de você do que você pesna!";
+		close;
+	}
+}
+
+ayo_in01,181,193,4	script	Shaman#thai	840,{
+	if (ayodunquest == 1) {
+		mes "[Boonthom]";
+		mes "Você...!";
+		mes "Não é...!";
+		mes "Ooooooohhhhhhh!";
+		next;
+		mes "[Boonthom]";
+		mes "Oh...?";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		mes "......";
+		mes ".........";
+		next;
+		mes "[Boonthom]";
+		mes "Esqueça.";
+		mes "Hah! Perdi minha trilha de pensamentos.";
+		next;
+		mes "[Boonthom]";
+		mes "Então veio procurar ajuda? ...";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		mes "......";
+		next;
+		mes "[Boonthom]";
+		mes "...";
+		mes "......";
+		mes ".........";
+		next;
+		mes "[Boonthom]";
+		mes "Oque...!";
+		mes "Eu vejo que você dread o tigre Sa-mhing! Eu não ouço nada sobre ele à um bom tempo...";
+		next;
+		mes "[Boonthom]";
+		mes "Há muito tempo atrás, o tigre Sa-mhing realmente invadiu a vila e comeu pessoas inocentes.";
+		next;
+		mes "[Boonthom]";
+		mes "Contando, seu terror foi levando ao fim quando ele foi capturado. Eu fui um dos responsaveis pela captura do Tigre Sa-mhing.";
+		next;
+		mes "[Boonthom]";
+		mes "Eu insisti em mata-lo, mas as outras pessoas tinham medo disso. Ao invés disso, o Tigre Sa-mhing foi trancado em uma caverna dentro das antigas ruinas.";
+		next;
+		mes "[Boonthom]";
+		mes "Acredito que foi há pelo menos 10 anos atrás. Talvez já esteja morto agora. Mas, ninguem sabe o quão poderoso o tigre realmente é. Ele pode estar vivo ainda.";
+		next;
+		mes "[Boonthom]";
+		mes "Não acho que devemos nos preocupar. Está trancado e deve permanecer assim.";
+		next;
+		switch(select("Quero explorar essas tais ruínas.:Preso? Ainda bem! Estava com muito medo!")) {
+		case 1:
+			mes "[Boonthom]";
+			mes "Você...";
+			mes "Você é estranho.";
+			mes "Quer explorar as ruínas. Todos os aventureiros desprezam  a segurança assim?";
+			next;
+			mes "[Boonthom]";
+			mes "A escolha é sua. Mas se lembre, é muito perigoso seguir o caminho para o centro do edifício.";
+			mes "Normalmente, é proíbido.";
+			next;
+			mes "[Boonthom]";
+			mes "Mas se quiser entrar, Posso lhe dar algumas dicas.";
+			mes "Gostaria de ouvir?";
+			next;
+			if (select("Se é perigoso, não quero nem tentar:Claro!") == 1) {
+				mes "[Boonthom]";
+				mes "Você fez uma boa decisão.";
+				mes "É melhor ter cuidado se quiser ficar vivo.";
+				close;
+			}
+			mes "[Boonthom]";
+			mes "Umm, tudo bem.";
+			mes "Já que está tão interessado";
+			mes "...";
+			next;
+			mes "[Boonthom]";
+			mes "Se deseja entrar no antigo edifício, você deve ter proteção contra espíritos malígnos.";
+			next;
+			if (Class == Job_Priest || Class == Job_Acolyte || Class == Job_Crusader) {
+				mes "[Boonthom]";
+				mes "Mesmo se você dispõe";
+				mes "de um poder de santidade, você ainda";
+				mes "precisará da segurança espiritual de nossa terra.";
+			}
+			else {
+				mes "[Boonthom]";
+				mes "Existem muitos fantasmas e demônios na caverna, e eles irão atacar quem não possui poder sagrado... Como você.";
+			}
+			next;
+			mes "[Boonthom]";
+			mes "Eu posso te fazer um objeto que contem poder sagrado...";
+			mes "Mas precisarei de alguns materiais.";
+			next;
+			mes "[Boonthom]";
+			mes "^3366991 Almofada de Alfinetes^000000,";
+			mes "^3366991 Carretel^000000,";
+			mes "^3366991 Casco de Inseto^000000 e";
+			mes "^3366991 Água Benta^000000...";
+			mes "Isso é tudo oque preciso.";
+			next;
+			mes "[Boonthom]";
+			mes "Por favor volte";
+			mes "quando possuir todos os materiais.";
+			set ayodunquest,2;
+			close;
+		}
+		mes "[Boonthom]";
+		mes "Hmmm...";
+		mes "Não está com medo disto,";
+		mes "não é?";
+		next;
+		mes "[Boonthom]";
+		mes "..........";
+		mes "..........";
+		close;
+	}
+	else if (ayodunquest == 2) {
+		if (countitem(7213) > 0 && countitem(7217) > 0 && countitem(7190) > 0 && countitem(523) > 0) {
+			mes "[Boonthom]";
+			mes "Excelente!";
+			mes "Agora que tenho tudo oque preciso vou fazer oque prometi...";
+			next;
+			mes "[Boonthom]";
+			mes "Ooooohmmmmm...";
+			next;
+			mes "[Boonthom]";
+			mes "Hmmmmmm...";
+			mes "Hmmmmmmmmm.";
+			next;
+			mes "[Boonthom]";
+			mes "Pffff pffff...";
+			next;
+			mes "[Boonthom]";
+			mes "Aqui está.";
+			mes "Por favor pegue esta Linha Sagrada.";
+			mes "Com isso você poderá entrar nas ruinas com menos preocupação.";
+			delitem 7213,1; //Pin Cusion
+			delitem 7217,1; //Spool
+			delitem 7190,1; //Hard Back Shell
+			delitem 523,1; //Holy Water
+			set ayodunquest,3;
+			getitem 7285,1; //Holy Threads
+			next;
+			mes "[Boonthom]";
+			mes "Se você perder isto...";
+			mes "Me traga os materiais de novo, eu lhe farei outro.";
+			next;
+			mes "[Boonthom]";
+			mes "O edifício antigo consiste em dois andares. Antes de entrar no segundo andar do subterrâneo, por favor retorne aqui para que eu possa como entrar naquele lugar.";
+		}
+		mes "[Boonthom]";
+		mes "Você se esqueceu que materiais de que";
+		mes "necessita para criar meu objeto sagrado do poder?";
+		mes "Por favor, ouça com atenção desta vez.";
+		next;
+		mes "[Boonthom]";
+		mes "^3366991 Almofada de Alfinetes^000000,";
+		mes "^3366991 Carretel^000000,";
+		mes "^3366991 Casco de Inseto^000000 e";
+		mes "^3366991 Água Benta^000000...";
+		next;
+		mes "[Boonthom]";
+		mes "Até mais tarde.";
+		close;
+	}
+	else if (ayodunquest == 3) {
+		if (countitem(7213) > 0 && countitem(7217) > 0 && countitem(7190) > 0 && countitem(523) > 0) {
+			mes "[Boonthom]";
+			mes "Excelente!";
+			mes "Agora que tenho tudo oque preciso vou fazer oque prometi...";
+			next;
+			mes "[Boonthom]";
+			mes "Ooooohmmmmm...";
+			next;
+			mes "[Boonthom]";
+			mes "Hmmmmmm...";
+			mes "Hmmmmmmmmm.";
+			next;
+			mes "[Boonthom]";
+			mes "Pffff pffff...";
+			next;
+			mes "[Boonthom]";
+			mes "Aqui está.";
+			mes "Por favor pegue esta Linha Sagrada.";
+			mes "Com isso você poderá entrar nas ruinas com menos preocupação.";
+			delitem 7213,1; //Pin Cusion
+			delitem 7217,1; //Spool
+			delitem 7190,1; //Hard Back Shell
+			delitem 523,1; //Holy Water
+			getitem 7285,1; //Holy Threads
+			next;
+			mes "[Boonthom]";
+			mes "Se você perder isto...";
+			mes "Me traga os materiais de novo, eu lhe farei outro.";
+			close;
+		}
+		mes "[Boonthom]";
+		mes "Se você perdeu sua linha sagrada, posso lhe fazr outra. Olhe os itens necessários:";
+		next;
+		mes "[Boonthom]";
+		mes "^3366991 Almofada de Alfinetes^000000,";
+		mes "^3366991 Carretel^000000,";
+		mes "^3366991 Casco de Inseto^000000 e";
+		mes "^3366991 Água Benta^000000...";
+		next;
+		mes "[Boonthom]";
+		mes "Até mais tarde.";
+		close;
+	}
+	else if (ayodunquest > 3 && ayodunquest < 9) {
+		mes "[Boonthom]";
+		mes "Você finalmente começou a busca oa tigre. Espero que você estará seguro de danos.";
+		next;
+		mes "[Boonthom]";
+		mes "Sinta-se a vontade para pedir";
+		mes "em ajudar-me a qualquer hora.";
+		close;
+	}
+	else if (ayodunquest == 9) {
+		mes "[" + strcharinfo(0) + "]";
+		mes "Eu copiei esta";
+		mes "mensagem enquanto explorava";
+		mes "o calabouço. Será que";
+		mes "você poderia dar uma olhada nisto?";
+		next;
+		mes "[Stone Slate]";
+		mes "Não entre no";
+		mes "segundo piso subterrâneo";
+		mes "...é perigo... Você irá";
+		mes "...encontr... tigre...";
+		next;
+		mes "[Stone Slate]";
+		mes "^333333Você deve matar... para poder fazer...";
+		mes "Deve... para poder ir... para o segundo";
+		mes "piso subterrâneo...";
+		mes "Você precisa de mais... poder sagrado... para";
+		mes "conseguir... Caso contrário, será";
+		mes "impossivel...^000000";
+		next;
+		mes "[Boonthom]";
+		mes "Isto foi escrito por um dos meus";
+		mes "camaradas que entrou nas ruínas,";
+		mes "por ter se arrependido em daixar o tigre";
+		mes "viver, deixá-lo voltar.";
+		next;
+		mes "[Boonthom]";
+		mes "Se você foi capaz de encontrar este bilhete,";
+		mes "você deve ter uma grande força de vontade";
+		mes "para se aventurar pelas ruinas.";
+		next;
+		mes "[Boonthom]";
+		mes "Como você pode deduzir pelo bilhete";
+		mes "o segundo nivel subterrâneo é";
+		mes "muito muito perigoso. Você precisará";
+		mes "de uma Linha Abençoada que contém muito";
+		mes "mais Linha Sagrada.";
+		next;
+		mes "[Boonthom]";
+		mes "Agora, vá e me traga alguns materiais";
+		mes "para que eu possa fazer uma Linha Sagrada";
+		mes "ainda mais poderoso para você.";
+		next;
+		mes "[Boonthom]";
+		mes "^3366992 Águas Benta^000000,";
+		mes "^3366991 Folha de Yggdrasil^000000,";
+		mes "^3366992 Almofadas de Alfinetes^000000 e";
+		mes "^3366992 Carretéis^000000.";
+		set ayodunquest,10;
+		next;
+		mes "[Boonthom]";
+		mes "Fale comigo";
+		mes "uma vez que você";
+		mes "tenha todos os itens.";
+		close;
+	}
+	else if (ayodunquest == 10) {
+		if (countitem(523) > 1 && countitem(610) > 0 && countitem(7213) > 1 && countitem(7217) > 1) {
+			mes "[Boonthom]";
+			mes "Hmm~";
+			mes "Você trouxe";
+			mes "tudo. Você";
+			mes "é do tipo bem entusiasmado,";
+			mes "não é?";
+			next;
+			mes "[Boonthom]";
+			mes "Ooooohmmmmm...";
+			next;
+			mes "[Boonthom]";
+			mes "Hmmmmmm...";
+			mes "Hmmmmmmmmm.";
+			next;
+			mes "[Boonthom]";
+			mes "Pffff pffff...";
+			next;
+			mes "[Boonthom]";
+			mes "Aqui está.";
+			mes "Por favor pegue esta Linha Abençoada.";
+			mes "Com isto, você será capaz";
+			mes "de entrar nas ruínas com menos preocupação.";
+			delitem 7213,2; //Needle_Pouch
+			delitem 7217,2; //Spool
+			delitem 610,1; //Leaf_Of_Yggdrasil
+			delitem 523,2; //Holy_Water
+			set ayodunquest,11;
+			getitem 7287,1; //Thread_Skein_
+			next;
+			mes "[Boonthom]";
+			mes "Mesmo se você perder isto, não se preocupe.";
+			mes "Me traga os materiais, e";
+			mes "eu te faço outro.";
+			close;
+		}
+		mes "Hmmm...?";
+		mes "Eu não te disse";
+		mes "do que eu preciso para fazer";
+		mes "uma Linha Abençoada";
+		mes "mais poderoso?";
+		next;
+		mes "^3366992 Águas Benta^000000,";
+		mes "^3366991 Folha de Yggdrasil^000000,";
+		mes "^3366992 Almofadas de Alfinetes^000000 e";
+		mes "^3366992 Carretéis^000000.";
+		next;
+		mes "[Boonthom]";
+		mes "Volte aqui";
+		mes "com estes itens";
+		mes "e eu irei fazer";
+		mes "uma Linha Abençoada";
+		mes "mais poderoso para você.";
+		close;
+	}
+	else if (ayodunquest == 11) {
+		if (countitem(7287) > 0) {
+			mes "[Boonthom]";
+			mes "Estes filamentos";
+			mes "irão te proteger";
+			mes "dos perigos";
+			mes "espirituais, mas é com você";
+			mes "para se defender dos ataques dos";
+			mes "monstros, tudo bem?";
+			close;
+		}
+		else if (countitem(523) > 1 && countitem(610) > 0 && countitem(7213) > 1 && countitem(7217) > 1 && countitem(7287) == 0) {
+			mes "[Boonthom]";
+			mes "Ooooohmmmmm...";
+			next;
+			mes "[Boonthom]";
+			mes "Hmmmmmm...";
+			mes "Hmmmmmmmmm.";
+			next;
+			mes "[Boonthom]";
+			mes "Pffff pffff...";
+			next;
+			mes "[Boonthom]";
+			mes "Aqui está.";
+			mes "Por favor pegue esta Linha Abençoada.";
+			mes "Com isto, você será capaz";
+			mes "de entrar nas ruínas com menos preocupação.";
+			delitem 7213,2; //Needle_Pouch
+			delitem 7217,2; //Spool
+			delitem 610,1; //Leaf_Of_Yggdrasil
+			delitem 523,2; //Holy_Water
+			getitem 7287,1; //Thread_Skein_
+			close;
+		}
+		mes "[Boonthom]";
+		mes "Hmmm...?";
+		mes "Eu não te disse";
+		mes "do que eu preciso para fazer";
+		mes "uma Linha Abençoada";
+		mes "mais poderoso?";
+		next;
+		mes "[Boonthom]";
+		mes "^3366992 Águas Benta^000000,";
+		mes "^3366991 Folha de Yggdrasil^000000,";
+		mes "^3366992 Almofadas de Alfinetes^000000 e";
+		mes "^3366992 Carretéis^000000.";
+		close;
+	}
+	else if (ayodunquest == 12) {
+		mes "[Boonthom]";
+		mes "Huh...!";
+		mes "Você deve ter visto alguma coisa.";
+		mes "Eu posso perceber pelo olhar melancólico em seu rosto, e na sombra que paira sobre sua alma.";
+		next;
+		mes "["+strcharinfo(0)+"]";
+		mes "Eu encontrei";
+		mes "esta velha carta";
+		mes "nas ruínas.";
+		next;
+		mes "[Velha Carta]";
+		mes "^333333Caro, Boonthom... eu fui um idiota... Há Sa-mhing Tig '... Aquele que... me resta ... Por favor, entregue a Boonthom...^000000";
+		next;
+		mes "[Boonthom]";
+		mes "Eu vejo...";
+		mes "Oh, meu querido";
+		mes "velho amigo...";
+		next;
+		mes "[Boonthom]";
+		mes "Obrigado por sua ajuda.";
+		mes "O meu amigo deixou-me para esta casa.";
+		mes "Mas eu acho que ele iria querer dar essa caixa para a pessoa que encontrou o seu restos.";
+		next;
+		mes "[Boonthom]";
+		mes "Se você deseja explorar o prédio novamente, mas você não tem nenhuma linha sagrada, não hesite em perguntar-me a qualquer hora.";
+		set ayodunquest,13;
+		close;
+	}
+	else if (ayodunquest > 12) {
+		if (countitem(7287) > 0) {
+			mes "[Boonthom]";
+			mes "Boa sorte em suas expedições, corajoso aventureiro~";
+			close;
+		}
+		else if (countitem(523) > 1 && countitem(610) > 0 && countitem(7213) > 1 && countitem(7217) > 1 && countitem(7287) == 0) {
+			mes "[Boonthom]";
+			mes "Perdeu a";
+			mes "linha sagrada";
+			mes "de alguma maneira, não é?";
+			mes "Com os itens que você";
+			mes "tem, eu vou fazer";
+			mes "apenas mais um deles.";
+			next;
+			mes "[Boonthom]";
+			mes "Ooooohmmmmm...";
+			next;
+			mes "[Boonthom]";
+			mes "Hmmmmmm...";
+			mes "Hmmmmmmmmm.";
+			next;
+			mes "[Boonthom]";
+			mes "Pffff pffff...";
+			next;
+			mes "[Boonthom]";
+			mes "Aqui está.";
+			mes "Por favor pegue esta Linha Abençoada.";
+			mes "Com isto, você será capaz";
+			mes "de entrar nas ruínas com menos preocupação.";
+			delitem 7213,2; //Needle_Pouch
+			delitem 7217,2; //Spool
+			delitem 610,1; //Leaf_Of_Yggdrasil
+			delitem 523,2; //Holy_Water
+			getitem 7287,1; //Thread_Skein_
+			close;
+		}
+		mes "[Boonthom]";
+		mes "Hmmm...?";
+		mes "Eu não te disse";
+		mes "do que eu preciso para fazer";
+		mes "uma Linha Abençoada";
+		mes "mais poderoso?";
+		next;
+		mes "[Boonthom]";
+		mes "^3366992 Águas Benta^000000,";
+		mes "^3366991 Folha de Yggdrasil^000000,";
+		mes "^3366992 Almofadas de Alfinetes^000000 e";
+		mes "^3366992 Carretéis^000000.";
+		close;
+	}
+	mes "[Boonthom]";
+	mes "Ooooohmmmmm...";
+	close;
+}
+
+ayo_fild01,129,197,0	script	Puraim#thai1	842,{
+	if ((ayodunquest > 2 && countitem(7285) > 0) || (ayodunquest > 2 && countitem(7287) > 0)) {
+		mes "[Puraim]";
+		mes "Huh...?";
+		mes "Eu sinto!";
+		mes "Eu posso sentir o poder sagrado!";
+		mes "Está vindo de você!";
+		next;
+		mes "[Puraim]";
+		mes "Eu acho que você pode ir adiante para as ruínas. Então, é isto que você deseja? Explorar esta área?";
+		next;
+		mes "[Puraim]";
+		mes "Eu gostaria de sujerir para você não entrar. até mesmo as pessoas locais temem este lugar.";
+		next;
+		mes "[Puraim]";
+		mes "Se o tigre Sa-mhing não estivesse por perto, ainda assim teriam os espíritos malígnos do local. Mesmo com a Linha Abençoada, este lugar ainda é perigoso.";
+		next;
+		mes "[Puraim]";
+		mes "Então, o que você fará? Aventureiro, você ainda quer explorar esta área? ";
+		next;
+		if (select("Sim.:Não! Estou com muito medo dessas ruínas agora.") == 1) {
+			mes "[Puraim]";
+			mes "Hmmm...";
+			mes "Parece que vocês aventureiros são tentados pela emoção do perigo, ou tem algum desejo de morte.";
+			next;
+			mes "[Puraim]";
+			mes "Bem, isso não é problema meu. Pois você já tem um espírito sagrado. Mesmo assim tenha cuidado. Você não deve ir ao segundo piso subterrâneo das ruínas.";
+			next;
+			mes "[Puraim]";
+			mes "Como vocês Rune-Midgardianos costuma dizer 'Curiosidade matou o gato' De qualquer forma... Vai nessa!";
+			next;
+			mes "[Puraim]";
+			mes "^3355FFEle te empurra do penhasco e você cai como uma rocha.^000000";
+			close2;
+			percentheal -10,0;
+			warp "ayo_fild02",30,135;
+			end;
+		}
+		mes "[Puraim]";
+		mes "Boa decisão!";
+		mes "Como eu esperava, você é esperto o bastante para não botar sua vida em risco estupidamente.";
+		close;
+	}
+	mes "[Puraim]";
+	mes "Se eu fosse você, eu não ousaria pisar perto";
+	mes "das ruínas.";
+	next;
+	mes "[Puraim]";
+	mes "Qualquer um que não tenha a proteção de um espírito sagrado será um prato cheiro para as criaturas malígnas que vivem lá. Você será morto muito rápido.";
+	next;
+	mes "[Puraim]";
+	mes "Volte aventureiro.";
+	mes "Se você deseja explorar esta área é melhor me mostrar algum espírito sagrado.";
+	close;
+}
+
+ayo_fild02,25,154,0	script	Aik#thai	843,{
+	mes "[Aik]";
+	mes "Então, como foi sua expedição? Eu espero que os espíritos malígnos não te sigam para fora das ruínas, e assombrar seus sonhos.";
+	next;
+	mes "[Aik]";
+	mes "Quando você voltar,";
+	mes "lembre-se de remover";
+	mes "todo o mal de sua mente.";
+	mes "Caso contrário você terá";
+	mes "problemas mais tarde...";
+	next;
+	mes "[Aik]";
+	mes "Então, você gostaria";
+	mes "de voltar?";
+	next;
+	if (select("Sim.:Não, eu preciso dar mais uma olhada por aqui...") == 1) {
+		mes "[Aik]";
+		mes "Ta certo...";
+		mes "Lá vamos nós...";
+		next;
+		mes "^3355FFEle te agarra de repente e te arremessa no ar!^000000";
+		close2;
+		warp "ayo_fild01",115,200;
+		end;
+	}
+	mes "[Aik]";
+	mes "Ta bom.";
+	mes "Tome cuidado.";
+	close;
+}
+
+// Water Traps
+ayo_dun01,273,26,0	script	 #th_dun1_1_1::AyoTrap1	111,0,4,{
+	mes "^3355FFVocê olha para baixo e vê uma piscina de água em distância. Ao que parece, há uma longa descida até o fundo.^000000";
+	next;
+	mes "^3355FFVocê está cheio";
+	mes "com apreensão,";
+	mes "afinal, se você cair,^000000";
+	mes "^2F2F4Fvocê poderá ser morto.^000000";
+	close;
+
+OnTouch:
+	mes "^3355FFVocê olha para baixo e vê uma piscina de água em distância. Ao que parece, há uma longa descida até o fundo.^000000";
+	next;
+	mes "^3355FFVocê está cheio";
+	mes "com apreensão,";
+	mes "afinal, se você cair,^000000";
+	mes "^2F2F4Fvocê poderá ser morto.^000000";
+	close;
+}
+
+ayo_dun01,273,27,0	duplicate(AyoTrap1)	 #th_dun1_1_2	111
+ayo_dun01,272,27,0	duplicate(AyoTrap1)	 #th_dun1_1_3	111,0,4
+ayo_dun01,272,26,0	duplicate(AyoTrap1)	 #th_dun1_1_4	111
+
+ayo_dun01,26,27,0	script	 #th_dun1_1::AyoTrap2	-1,1,1,{
+OnTouch:
+	percentheal -100,0;
+	end;
+}
+
+ayo_dun01,28,27,0	duplicate(AyoTrap2)	 #th_dun1_2	-1,0,1
+ayo_dun01,27,25,0	duplicate(AyoTrap2)	 #th_dun1_3	-1,1,0
+ayo_dun01,25,25,0	duplicate(AyoTrap2)	 #th_dun1_4	-1
+ayo_dun01,272,273,0	duplicate(AyoTrap2)	 #th_dun1_5	-1,1,1
+ayo_dun01,274,273,0	duplicate(AyoTrap2)	 #th_dun1_6	-1,0,1
+ayo_dun01,273,271,0	duplicate(AyoTrap2)	 #th_dun1_7	-1,1,0
+ayo_dun01,271,271,0	duplicate(AyoTrap2)	 #th_dun1_8	-1
+ayo_dun01,26,273,0	duplicate(AyoTrap2)	 #th_dun1_9	-1,1,1
+ayo_dun01,28,273,0	duplicate(AyoTrap2)	 #th_dun1_10	-1,0,1
+ayo_dun01,27,271,0	duplicate(AyoTrap2)	 #th_dun1_11	-1,1,0
+ayo_dun01,25,271,0	duplicate(AyoTrap2)	 #th_dun1_12	-1
+
+// Hints
+ayo_dun01,156,148,0	script	 #hint01::AyoHint	-1,0,4,{
+OnTouch:
+	if (rand(1,100) > 60 && ayodunquest < 11) {
+		mes "^3355FFA linha Abençoada no seu bolso de repente começa a brilhar. Você sente a presença de algo proximo a você...^000000";
+		close2;
+		viewpoint 1,198,164,0,0xFF0000;
+		viewpoint 1,87,16,1,0xFF0000;
+		viewpoint 1,268,214,2,0xFF0000;
+		viewpoint 1,147,274,3,0xFF0000;
+		viewpoint 1,99,118,4,0xFF0000;
+		viewpoint 1,16,188,5,0xFF0000;
+	}
+	end;
+}
+
+ayo_dun01,259,42,0	duplicate(AyoHint)	 #hint02	-1,2,0
+ayo_dun01,259,44,0	duplicate(AyoHint)	 #hint02_2	-1,2,0
+ayo_dun01,259,46,0	duplicate(AyoHint)	 #hint02_3	-1,2,0
+
+// Puzzle pieces
+ayo_dun01,198,164,0	script	 #hun_thai_1	111,{
+	if (ayodunquest == 3) {
+		set ayodunquest,4;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a primeira parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FFNão entre no segundo nivel subterrâneo.^3355FF.' Você não é capaz de ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a primeira parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,87,16,0	script	 #hun_thai_2	111,{
+	if (ayodunquest == 4) {
+		set ayodunquest,5;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a segunda parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FF...é perigos... Você irá...^3355FF.' Você não consegue ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a segunda parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,268,214,0	script	 #hun_thai_3	111,{
+	if (ayodunquest == 5) {
+		set ayodunquest,6;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a terceira parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FF...encontrar... tigre...^3355FF.' Você não consegue ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a terceira parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,147,274,0	script	 #hun_thai_4	111,{
+	if (ayodunquest == 6) {
+		set ayodunquest,7;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a quarta parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FFVocê deve matar... para poder fazer... DEVE... Para ir... o segundo nivel subterrâneo...^3355FF' Você não consegue ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a quarta parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,99,118,0	script	 #hun_thai_5	111,{
+	if (ayodunquest == 7) {
+		set ayodunquest,8;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a quinta parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FFSe você precisa de mais... Poder sagrado... para poder en...^3355FF' Você não consegue ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser a quinta parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,16,188,0	script	 #hun_thai_6	111,{
+	if (ayodunquest == 8) {
+		set ayodunquest,9;
+		mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser última parte da placa.^000000";
+		next;
+		mes "^3355FFEstá escrito '^0000FFOCaso contrário é impossível...^3355FF' Você não consegue ler o resto da mensagem.^000000";
+		close;
+	}
+	mes "^3355FFVocê acha uma placa de pedra com letras gravadas nela. Parece ser última parte da placa.^000000";
+	close;
+}
+
+ayo_dun01,24,283,0	script	 #2_dun_in	111,{
+	if (ayodunquest > 10) {
+		if (countitem(7287) > 0) {
+			mes "^A linha sagrada emana um poderoso senso de segurança e proteção. Com a proteção do sagrado, você inicia a sua caminhada para o segundo nivel.^000000.";
+			close2;
+			if (rand(1,10) > 5) {
+				warp "ayo_dun02",23,26;
+			}
+			else {
+				warp "ayo_dun02",275,26;
+			}
+			end;
+		}
+		mes "^3355FFVocê encontra o que parece ser a entrada para o segundo nível. Entretando você se sente tomado por um sentimento de horror. De alguma maneira você não consegue ir para baixo...^000000";
+		close;
+	}
+	mes "^3355FFVocê encontra o que parece ser a entrada para o segundo nível. Entretando você se sente tomado por um sentimento de horror. De alguma maneira você não consegue ir para baixo...^000000";
+	close;
+}
+
+ayo_dun02,268,108,0	script	 #reward_tiger	111,{
+	if (ayodunquest == 11 && countitem(7287) > 0) {
+		mes "^3355FFVocê encontrou metade dos restos ósseos de uma pessoa estirada no chão. Ela parece ser os restos do amigo de Boonthom.^000000";
+		next;
+		mes "^3355FFVocê encontrou um pedaço de papel ao lado do esqueleto, assim como uma caixa.^000000";
+		next;
+		mes "^3355FFVocê lê o que está escrito na folha de papel velho. As letras dissiparam com a idade, e é difícil de ler.^000000";
+		next;
+		mes "[Velha Carta]";
+		mes "^333333Caro, Boonthom,";
+		mes "eu fui um idiota. Há Sa-mhing Tig ...Aquele que ....me resta... Por favor, entregue a Boonthom...";
+		next;
+		mes "^3355FFVocê pega";
+		mes "a caixa.^000000";
+		set ayodunquest,12;
+		getitem 603,1; //Old_Blue_Box
+		close;
+	}
+}

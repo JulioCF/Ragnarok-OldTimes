@@ -1,0 +1,156 @@
+//===== Cronus Script ========================================
+//= Quest de Carnaval (bRO)
+//===== Por: =================================================
+//= Page
+//===== Versão Atual: ========================================
+//= 1.3b
+//===== Descrição: ===========================================
+//= Quest de Carnaval do bRO 2007
+//===== Changelog: ===========================================
+//= 1.0 Iniciado o NPC [Page]
+//= 1.1 Corrigido algumas funções [Page]
+//= 1.2 Adicionado modo de checagem [Page]
+//= 1.3 Script Reestruturado [Mehah]
+//= 1.3a Revisado. [RoM]
+//= 1.3b Removido show, additem [Yum]
+//============================================================
+
+prontera,120,112,0	script	Janette	729,{
+
+	mes "[Janette]";
+	if(holiday0207_p1) {
+		mes "Já experimentou";
+		mes "a peruca que eu fiz?";
+		mes "Hoho!";
+		close;
+	}
+	mes "O Festival do Carnaval está";
+	mes "chegando. Quero que vocês todos";
+	mes "se divirtam muito usando uma";
+	mes "peruca especial durante a festa.";
+	mes "E, especialmente nesta época,";
+	mes "eu fiz uma linda peruca para você.";
+	next;
+	mes "[Janette]";
+	mes "Gostaria de participar do evento";
+	mes "de carnaval?";
+	next;
+	if(select("Sim","Não") == 1){
+		mes "[Janette]";
+		mes "Isso é bom!";
+		mes "Eu posso fazer 4 tipos de peruca.";
+		mes "Você pode escolher uma delas!";
+		mes "Mas você precisa me trazer os";
+		mes "materiais para eu fazer a sua";
+		mes "peruca!";
+		next;
+		mes "[Janette]";
+		mes "É claro, eu posso fazer uma";
+		mes "peruca agora mesmo, se você";
+		mes "tiver os materiais.";
+		mes "Por favor, escolha a peruca";
+		mes "que você quer usar.";
+		next;
+		switch(select("Peruca Feliz","Peruca Brilhante","Peruca Maravilhosa","Peruca Fantástica")){
+			mes "[Janette]";
+			switch(@menu){
+			case 1:	if(countitem(511) >= 50 || countitem(507) >= 40 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(717) >= 1) set .@item,5273; break;
+			case 2: if(countitem(508) >= 50 || countitem(509) >= 20 || countitem(1019) >= 5 || countitem(715) >= 1) set .@item,5274; break;
+			case 3:	if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(716) >= 1) set .@item,5275; break;
+			case 4:	if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(1024) >= 5) set .@item,5276; break;
+			}
+			if(.@item){
+				mes "Ah, você trouxe todos os";
+				mes "materiais necessários e";
+				mes "eu vou usá-los para fazer";
+				mes "essa peruca.";
+				mes "Você quer que eu faça";
+				mes "a peruca agora?";
+				next;
+				switch(select("Sim, eu quero.","Não, eu não quero.")){
+				case 1:
+					mes "[Janette]";
+					mes "Boa escolha!";
+					mes "Vou fazer uma '"+getitemname(.@item)+"' para você.";
+					next;
+					mes "Rip";
+					next;
+					mes "Rip Tac";
+					next;
+					mes "Rip Tac";
+					mes "Tic tac";
+					next;
+					mes "Rip Rip";
+					mes "Tic tac Tic tac";
+					next;
+					mes "[Janette]";
+					if(.@item == 5273){
+						delitem 511,50;
+						delitem 507,40;
+						delitem 509,30;
+						delitem 717,1;
+					}
+					else if(.@item == 5274){
+						delitem 508,50;
+						delitem 509,20;
+						delitem 715,1;				
+					}
+					else if(.@item == 5275){
+						delitem 507,50;
+						delitem 509,30;
+						delitem 716,1;
+					}
+					else if(.@item == 5276){
+						delitem 507,50;
+						delitem 509,30;
+						delitem 1024,5;
+					}
+					delitem 1019,5;
+					getitem .@item,1;
+					set holiday0207_p1,1;
+					mes "Certo, está pronta.";
+					mes "O quê você acha? Não acha que sou";
+					mes "uma boa fabricante de perucas?";
+					mes "Eu faço essa peruca de graça, para";
+					mes "aproveitarmos o carnaval juntos.";
+					mes "Por favor, use-a durante uma festa.";
+					close;
+				case 2:
+					mes "[Janette]";
+					mes "Não seja bobo. Muito bem, se mudar";
+					mes "de idéia, volte aqui!";
+					close;
+				}
+			}
+			mes "Hehe, você escolheu uma boa.";
+			mes "Mas você ainda não trouxe os";
+			mes "materiais que preciso para";
+			mes "fazer a peruca.";
+			mes "Não se esqueça, você deve trazer";
+		case 1:
+			mes "50 Ervas Verdes, 40 Ervas";
+			mes "Vermelhas, 30 Ervas Brancas,";
+			mes "5 Troncos e 1 Gema Azul.";
+			break;
+		case 2:
+			mes "50 Ervas Amarelas, 20 Ervas";
+			mes "Brancas, 5 Troncos e 1 Gema";
+			mes "Amarela.";
+			break;
+		case 3:
+			mes "50 Ervas Vermelhas, 30 Ervas";
+			mes "Brancas, 5 Troncos e 1 Gema";
+			mes "Vermelha.";
+			break;
+		case 4:
+			mes "50 Ervas Vermelhas, 30 Ervas";
+			mes "Brancas, 5 Troncos e 5 Tintas";
+			mes "de Polvo.";
+		}
+		mes "Então, eu farei a peruca para você.";
+		close;
+	}
+	mes "[Janette]";
+	mes "Então, esqueça!";
+	close;
+}

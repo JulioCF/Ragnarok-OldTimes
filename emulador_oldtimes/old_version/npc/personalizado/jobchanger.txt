@@ -1,0 +1,96 @@
+prontera,149,193,6	script	Mestra das Classes	864,{
+
+	mes "[Job Changer]";
+	if (Class > 6 && Class < 26 || Class > 4029 && Class < 4046 || Class > 4046 && Class < 4080)
+	{
+		mes "Que bom te ver de novo "+strcharinfo(0)+"!";
+		mes "Você está bem forte, parabéns.";
+		close;
+	}
+	if (SkillPoint)
+		callsub S_MesClose, "Você precisa utilizar todos os seus pontos de habilidade antes de mudar de classe.";
+	if (checkcart() || checkfalcon() || checkriding())
+		callsub S_MesClose, "Você não pode mudar de classe enquanto estiver utilizando Falcão, Carrinho ou PecoPeco.";
+	if (!Class || Class == 4023)
+	{
+		callsub F_ReqBaseJobLevel, 10;
+		mes "Olá "+strcharinfo(0)+", vejo que você é apenas um "+jobname(Class)+"!";
+		mes "Você está apto a mudar de classe. Qual deseja se tornar?";
+		next;
+		if (!Class)
+		{
+			select ("Espadachim:Mago:Arqueiro:Noviço:Mercador:Gatuno:Super Aprendiz");
+			set .@chg, (@menu == 7) ? 23 : @menu;
+		}
+/*
+		else
+		{
+			select ("Mini Espadachim:Mini Mago:Mini Arqueiro:Mini Noviço:Mini Mercador:Mini Gatuno:Mini Super Aprendiz");
+			set .@chg, ((@menu == 7) ? 4045 : (4023+@menu));
+		}
+*/
+		callsub F_ChangeJob, set (lastjob1, .@chg);
+	}
+	else if (Class > 0 && Class < 7)
+	{
+		callsub F_ReqBaseJobLevel, 40;
+		mes "Vejo que você voltou; e mais forte!";
+		mes "Pois bem, que classe deseja seguir agora?";
+		switch (Class)
+		{
+			case 1:
+					setarray .@c[0], 7, 14;
+					break;
+					
+			case 2:
+					setarray .@c[0], 9, 16;
+					break;
+					
+			case 3:
+					setarray .@c[0], 11, ((Sex)?19:20);
+					break;
+					
+			case 4:
+					setarray .@c[0], 8, 15;
+					break;
+			
+			case 5:
+					setarray .@c[0], 10, 18;
+					break;
+					
+			case 6:
+					setarray .@c[0], 12, 17;
+					break;
+					
+			case 4046:
+					setarray .@c[0], 4047, 4049;
+					break;
+		}
+		next;
+		select (jobname(.@c[0])+"",""+jobname(.@c[1]));
+		callsub F_ChangeJob, set(lastjob, .@c[(@menu-1)]);
+	}
+
+	S_MesClose:
+		mes getarg(0);
+		close;
+	return;
+			
+	F_ChangeJob:
+		mes "[Job Changer]";
+		if (BaseLevel < 45 && (getarg(0) == 23 || getarg(0) == 4045))
+			callsub S_MesClose, "Você precisa ter pelo menos Nível de Base 45 para poder mudar de classe.";
+		mes "Você tem certeza que deseja se tornar "+jobname(getarg(0))+"?";
+		if (select ("Não:Sim") == 1)
+			close;
+		next;
+		jobchange getarg(0);
+		mes "[Job Changer]";
+		callsub S_MesClose, "Parabéns, agora você é um ^0000cd"+jobname(getarg(0))+"^000000!";
+	return;
+	
+	F_ReqBaseJobLevel:
+		if (getarg(1,99) < 99 || JobLevel < getarg(0))
+			callsub S_MesClose, "Você precisa ter pelo menos "+((getarg(1,0))?"Nível de Base 99 e ":"")+"Nível de Classe "+getarg(0)+" para poder mudar de classe.";
+	return;
+}

@@ -1,0 +1,260 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Aprendiz
+//===== Por: =================================================
+//= Plinio Marcos
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Descrição: ===========================================
+//= Quest das habilidades de Aprendiz
+//= Retirado do Amazon
+//===== Changelog: ===========================================
+//= 1.0 Traduzido [Tassadar]
+//============================================================
+
+// Nurse Aid: First Aid NPC
+prt_in,235,133,4	script	Enfermeira	90,{
+	mes "[Enfermeira]";
+	if(FIRSTAID == 1) goto L_GetAid;
+	if(FIRSTAID == 2) goto L_AlreadyGet;
+	if(getskilllv(142)>0) goto L_GotAid;
+
+	mes "Olá, aventureiro!  Você parece mal. Os monstros estão dando trabalho?";
+	next;
+	menu "Ha! Sou forte como um touro!!",M_Nope, "Mais ou Menos",M_Yep;
+
+	M_Nope:
+		mes "[Enfermeira]";
+		mes "Estou vendo. Você deve ser um forte aventureiro. Venha aqui quando você tiver problemas.";
+		close;
+
+	M_Yep:
+		mes "[Enfermeira]";
+		mes "Eu imagino como é dificil no inicio enfrentar esses monstros.";
+		next;
+		mes "[Enfermeira]";
+		mes "Eu sei por que eu já tratei vários aprendizes feridos por causa de suas aventuras.";
+		mes "Alguns, estão sendo tratados até hoje.";
+		next;
+		mes "[Enfermeira]";
+		mes "~Silêncio~";
+		next;
+		mes "[Enfermeira]";
+		mes "Por isso decidi ensinar a todos os aprendizes um curso básico de primeiros socorros. Você gostaria que eu ensinasse a você?";
+		emotion 5;
+		next;
+		menu "Você gostaria??",sM_Yes, "(...Mulher maluca!...Correr!!!)",sM_No;
+	L_AlreadyGet:
+		mes "[Enfermeira]";
+		mes "Vejo que você já conseguiu a Bandagem Estrada";
+		mes "Meus parabéns!";
+		close;
+
+		sM_Yes:
+			mes "[Enfermeira]";
+			mes "Para aprender essa habilidade você precisa estar no mínimo no a^0000ff nivel de classe 3^000000.";
+			mes "Você ainda ainda tem que me dar:^ff0000 5 Ervas Vermelhas^000000,^00bb00 5 Trevos^000000, e ^aaaa00 1 Bandagem Estragada^000000.";
+			next;
+			mes "[Enfermeira]";
+			mes "Você pode conseguir a Bandagem Estragada com o^0000ff 'Novo Assistente'^000000 localizado no nível 2 do castelo.";
+			next;
+			mes "[Enfermeira]";
+			mes "Quando estiver no nivel correto e os itens, volte aqui.";
+			set FIRSTAID,1;
+			close;				
+
+		sM_No:
+			mes "[Enfermeira]";
+			mes "Hei!...Você também vai correr??...";
+			emotion 4;
+			close;
+
+L_GetAid:
+	if((JobLevel <  3) || (CountItem(507) < 5 ) || (CountItem(705) < 5) || (CountItem(930) < 1)) goto sM_Yes;
+	mes "Muito bom. Você tem todos os requisitos. Vamos começar...";
+	next;
+	mes "....... 1 hora Depois.......";
+	next;
+	delitem 507,5;
+	delitem 705,5;
+	delitem 930,1;
+	skill 142,1,0;
+	set FIRSTAID,0;
+	mes "[Enfermeira]";
+	mes "Muito bem, você conseguiu. Agora você pode se recuperar de seus ferimentos. Cuide-se.";
+	emotion 21;
+	close;
+
+L_GotAid:
+	mes "Olá novamente. Eu espero que está habilidade o ajude. Continue sua jornada, e lembre-se de se cuidar.!";
+	close;
+
+}
+
+
+// Bulma: Play Dead
+prt_in,73,87,2	script	Bulma	98,{
+	mes "[Bulma]";
+	if(BaseJob == Job_Novice) goto L_Novice;
+
+L_Other:
+	mes "Yeah... I look great.... Afterall, I'm a Knight of the Prontera Chivalry.  Kuhahahaha!";
+	emotion 18;
+	next;
+	mes "[Bulma]";
+	mes "It hasn't been that long since I became a Knight, but I still look good as one right? What do you think???";
+	emotion 20;
+	close;
+
+L_Novice:
+	if(JobLevel >= 7) goto L_Start;
+	mes "Hello my young friend.  You remind me of myself when I was young.....";
+	mes "Heh heh, I sure miss those days..... Wow... It's funny to think about those years now......";
+	next;
+	mes "[Bulma]";
+	mes "They were difficult.... thankfully you can use the ^5555FFPlay Dead^000000 skill when you reach a ^5555FFjob level of 7^000000.";
+	mes "If you're interested in it come back and talk to me when you've leveled up a bit more.";
+	close;
+
+L_Start:
+	if(PLAYDEAD == 1) goto L_GetSkill;
+	if(getskilllv(143)>0) goto L_GotSkill;
+	mes "Hello my young friend.  You remind me of myself when I was young..... Heh heh, I sure miss those days.....";
+	mes "Look at me acting all sentimental like some old man........";
+	next;
+	mes "[Bulma]";
+	mes "Sorry about that.  Anyhow, I just want you to know that if you work hard and are patient, you too will recieve the job you desire.";
+	mes "It may take some time but stay focused and never loose your determination.";
+	next;
+	mes "[Bulma]";
+	mes "Hmm..... actually I might be able to help you out........";
+	emotion 20;
+	next;
+	mes "[Bulma]";
+	mes "What's this? Ha ha, don't look so surprised.  What I have to offer will be very useful to you.";
+	next;
+	mes "[Bulma]";
+	mes "You see I can teach you the skill ^5555FF'Play Dead'^000000.";
+	mes "This skill allows you to act like you just died making any monster that is currently attacking you leave you alone.";
+	next;
+	mes "[Bulma]";
+	mes "I myself have used it as a novice and found it to be very usefull.";
+	mes "It may sound easy enough, but it takes a lot of hard work and practice to make your performance look believable.";
+	next;
+	mes "[Bulma]";
+	mes "You MUST look perfectly DEAD in order for this skill to work.  Even the slightest movement will give you away.";
+	next;
+	mes "[Bulma]";
+	mes "I think I've done enough explaining..... The look in your eyes tells me that you are ready to learn this skill.";
+	next;
+	mes "[Bulma]";
+	mes "First take this pill....";
+	next;
+	mes "(you take the pill) ~gulp~";
+	next;
+	mes "[Bulma]";
+	mes "Good.  Now go to the 2nd floor on the East side of the Prontera Castle.";
+	mes "Speak with the ^5555FFNewbie Assistant^000000 and he will give you a ^5555FFNewbie Tag^000000.";
+	next;
+	mes "[Bulma]";
+	mes "Once you have the tag come back here.  You MUST make it back here WITHIN ^FF555510 minutes^000000!";
+	mes "If you don't, then the pill you just swallowed will start making it hard for you to breath!.....";
+	next;
+	mes "[Bulma]";
+	mes "Kekekeke..... Just kidding!  The pill actually helps you stay calm, nothing more.";
+	emotion 18;
+	next;
+	mes "[Bulma]";
+	mes "Well get going... GO! GO! GO! RUN!!!";
+	emotion 27;
+	set PLAYDEAD, 1;
+	close;
+
+L_GetSkill:
+	if(countitem(7039)<1) goto sL_NotRdy;
+	mes "Good to see you again.  Alright, lets start your training....";
+	next;
+	mes "[Bulma]";
+	mes "Let me first introduce to you the concept of 'Method Acting'.  Method Acting stresses the need to undrestand every aspect of the role you are playing.";
+	next;
+	mes "[Bulma]";
+	mes "You must learn to think, feel, and even live like your character so that you can understand his/her motivation in any given momement.";
+	next;
+	mes "[Bulma]";
+	mes "Now let us use this technique to develop your ability to Play Dead!";
+	mes "I want you to think like a dead person, feel like a dead person, eat, breath, sleep, kiss, etc. like a person who is dead!!!";
+	next;
+	mes "[Bulma]";
+	mes "Don't just stand there! Lay down on the ground and live life through the eyes of a dead person.... errr or don't live.... anyways just do it!!";
+	next;
+	mes "~ several hours later ~";
+	next;
+	mes "[Bulma]";
+	mes "Ok, lights, camera, ACTION! Yes... yes... YES!! That's it!! As I watch you laying there I TRULLY believe that you are dead.";
+	mes "What a wonderful performance! BRAVO! BRAVO!";
+	emotion 0;
+	next;
+	mes "[Bulma]";
+	mes "With the right motivation and focus you will be able to play dead anywhere at any given moment.  Congratulations on mastering this skill.";
+	emotion 21;
+	skill 143,1,0;
+	delitem 7039, 1;
+	set PLAYDEAD, 0;
+	set got_novnametag,0;
+	close;
+
+	sL_NotRdy:
+		mes "HEY! What are you doing here?  It's irresponsible of you to still be here while your time is running out.........";
+		emotion 0;
+		next;
+		mes "[Bulma]";
+		mes "Now GO! Run! Run! RUN!!";
+		emotion 27;
+		close;
+
+L_GotSkill:
+	mes "Yeah.... I remember back then..... especially those embarrasing novice years... heh.  Luckily there was Play Dead.";
+	mes "That saved me many tishow in the past.  I'm sure it has been saving you too.";
+	next;
+	mes "[Bulma]";
+	mes "Hopefully it is something you have been using well.  If you have any friends who are novices, tell them about me.  I will help them out as best I can.";
+	close;
+}
+
+
+// Newbie Assistant
+prt_castle,174,147,2	script	Assistente Novato	84,{
+	mes "[Assistente Novato]";
+	if(Class == Job_Novice) goto L_Start;
+
+L_NonNov:
+	mes "Eu estou aqui para ajudar os novos aventureiros. Você se lembra quando você era novato... confuso.... perdido.... heh heh.";
+	emotion 1;
+	close;
+L_Start:
+	if(FIRSTAID==1 && countitem(930)==0) goto L_Aid;
+	if(PLAYDEAD==1 && countitem(7039)==0) goto L_Play;
+	mes "Oi.  Eu estou aqui para ajudar novatos como você.  Se você precisa de algo em particular fale comigo, ok.";
+	close;
+L_Aid:
+	if (FIRSTAID >= 2) { mes "Fale com a enfermeira agora."; close; }
+	mes "Foi a enfermeira que mandou você aqui.  Ela é uma boa enfermeira, tome isto.";
+	next;
+	getitem 930,1;
+	mes "[Assistente Novato]";
+	mes "Você irá precisar disso para aprender a habilidade Primeiros Socorros.";
+	next;
+	mes "[Assistente Novato]";
+	mes "Por causa dela decidi me tornar um assistente.....";
+	next;
+	mes "[Assistente Novato]";
+	mes "Ela é tão linda............. um.... bem...err... diga a ela que eu mandei um oi.";
+	emotion 3;
+	set FIRSTAID, 2;
+	close;
+L_Play:
+	mes "Então Bulme lhe trouxe até mim.... okay aqui está.";
+	getitem 7039,1;
+	next;
+	mes "Boa sorte em sua aventura.";
+	close;
+}

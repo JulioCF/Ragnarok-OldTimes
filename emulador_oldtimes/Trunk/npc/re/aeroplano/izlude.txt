@@ -1,0 +1,46 @@
+//===== Cronus Script ========================================
+//= Equipe do Aeroplano de Izlude
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Versão Atual: ========================================
+//= 1.1
+//===== Compatível Com: ======================================
+//= eAthena; rAthena; Cronus; brAthena; Maya SVN.
+//===== Comentários Adicionais: ==============================
+//= 1.0 Versão inicial.
+//= 1.1 Traduzido. [mkbu95]
+//============================================================
+
+izlude,204,75,3	script	Assist. do Aeroporto#iz	90,{
+	mes "[Assistente do Aeroporto]";
+	mes "Bem-vindo ao aeroporto!";
+	mes "Aqui você pode ir para Juno ou Rachel!";
+	next;
+	next;
+	if (select("Entrar no Aeroporto.:Cancelar.") == 1) {
+		mes "[Assistente do Aeroporto]";
+		mes "A passagem custa 1.200 zeny.";
+		mes "Deseja comprar uma?";
+		next;
+		if (select("Yes:No") == 1) {
+			if (countitem(7311) > 0) {
+				delitem 7311,1; //Free_Flying_Ship_Ticket
+				warp "lhz_airport",148,51;
+				end;
+			}
+			if (Zeny >= 1200) {
+				set Zeny, Zeny - 1200;
+				warp "lhz_airport",148,51;
+				end;
+			}
+			mes "[Assistente do Aeroporto]";
+			mes "Me desculpe, mas você não possui 1.200 zeny!";
+			mes "Você não pode embarcar.";
+			close;
+		}
+	}
+	mes "[Assistente do Aeroporto]";
+	mes "Muito obrigada!";
+	mes "Volte sempre.";
+	close;
+}

@@ -1,0 +1,131 @@
+//===== Cronus Script ========================================
+//= Quests Hats Neris 
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quests: Sinos Dourados, Coroa da Senhora,
+//= e Coroa das Rainhas Antiga)
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text [Lupus]
+//= 1.3 Fixed possible exploit, 1.3a fixed coords [Lupus]
+//= 1.3b Corrected the fixed coords [Zephiris]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+yuno_in03,20,18,7	script	Neris	806,{
+ mes "[Neris]";
+ mes "Então qual deste você vai querer?";
+ next;
+ menu "Sinos Dourados.",-,"Coroa da Abelha Rainha.",M_COM,"Coroa de Rainhas Antigas.",M_COAQ,"Nada, obrigado",M_EXIT;
+
+ mes "[Neris]";
+ mes "Hehe, então você é fã de sohees?";
+ mes "Sim, eu também gosto delas!";
+ next;
+ mes "[Neris]";
+ mes "Eles são tão bonitos.";
+ mes "Então... o que eu posso fazer por você?";
+ next;
+ menu "Faça-me um Sinos Dourados!",-,"O que eu preciso para fazer?",M_REQL,"Nada, obrigado.",M_EXIT;
+
+ if(countitem(10016) < 1 || countitem(714) < 1 || countitem(969) < 3 || Zeny < 1000) GOTO L_NOITEM;//Items: Golden Bell, Emperium, Gold,
+ delitem 10016,1;//Items: Sino de Ouro,
+ delitem 714,1;//Items: Emperium,
+ delitem 969,3;//Items: Ouro,
+ set Zeny,Zeny-1000;
+ mes "[Neris]";
+ mes "Agora, deixe-me pegar seus items.";
+ next;
+ getitem 5091,1;//Items: Sinos Dourado,
+ mes "[Neris]";
+ mes "Obrigado, e adeus!";
+ close;
+
+M_REQL:
+ mes "[Neris]";
+ mes "Aqui o que eu preciso:";
+ mes "1 Sino de Ouro,";
+ mes "1 Emperium,";
+ mes "3 Ouros e";
+ mes "1000 de Zeny para o trabalho.";
+ close;
+
+M_COM:
+ mes "[Neris]";
+ mes "Você gosta de Abelhas Rainhas?";
+ next;
+ mes "[Neris]";
+ mes "Então, o que posso fazer por você?";
+ next;
+ menu "Faça-me o item.",-,"O que eu preciso para fazer?",M_REQC,"Nada, Obrigado",M_EXIT;
+
+ if(countitem(2249) < 1 || countitem(714) < 1 || countitem(969) < 3 || Zeny < 1000) GOTO L_NOITEM;//Items: Coronet, Emperium, Gold,
+ delitem 2249,1;//Items: Coroa Menor,
+ delitem 714,1;//Items: Emperium,
+ delitem 969,3;//Items: Ouro,
+ set Zeny,Zeny-1000;
+ mes "[Neris]";
+ mes "Agora, deixe-me recolher seus items.";
+ next;
+ getitem 5081,1; //Items: Coroa da Abelha Rainha,
+ mes "[Neris]";
+ mes "Obrigado, e adeus";
+ close;
+
+M_REQC:
+ mes "[Neris]";
+ mes "Aqui tudo o que preciso:";
+ mes "1 Coroa Menor,";
+ mes "1 Emperium,";
+ mes "3 Ouros e";
+ mes "1000 de Zeny para o trabalho .";
+ close;
+
+M_COAQ:
+ mes "[Neris]";
+ mes "Você gosta de Rainhas Antigas?";
+ next;
+ mes "[Neris]";
+ mes "Então... o que eu posso fazer por você.";
+ next;
+ menu "Faça-me o item.",-,"O que eu preciso apra fazer?",M_REQC2,"Nada, Obrigado",M_EXIT;
+
+ if(countitem(10006) < 1 || countitem(714) < 1 || countitem(969) < 3 || Zeny < 1000) GOTO L_NOITEM;//Items: Queen's Hair Ornament, Emperium, Gold,
+ delitem 10006,1;//Items: Ornamento da Rainha,
+ delitem 714,1;//Items: Emperium,
+ delitem 969,3;//Items: Ouro,
+ set Zeny,Zeny-1000;
+ mes "[Neris]";
+ mes "Agora, eu vou reoclher seus items";
+ next;
+ getitem 5080,1;//Items: Coroa das Rainhas Antiga,
+ mes "[Neris]";
+ mes "Obrigado, e adeus";
+ close;
+
+M_REQC2:
+ mes "[Neris]";
+ mes "Aqui o que eu irei precisar:";
+ mes "1 Ornamento da Rainha,";
+ mes "1 Emperium,";
+ mes "3 Ouros e";
+ mes "1000 de Zeny para o trabalho.";
+ close;
+
+L_NOITEM:
+ mes "[Neris]";
+ mes "Não tente me enganar!!";
+ mes "Sem item, sem trato!!";
+ close; 
+
+M_EXIT:
+ mes "[Neris]";
+ mes "Adeus! volte sempre que precisar.";
+ close; 
+}

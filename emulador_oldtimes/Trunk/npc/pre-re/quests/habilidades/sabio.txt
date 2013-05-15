@@ -1,0 +1,149 @@
+//===== Cronus Script ======================================== 
+//= Quest de Habilidades do Sábio
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível com: ====================================== 
+//= Cronus SVN
+//===== Descrição: =========================================== 
+//= Quest para novas habilidades de 2a class
+//===== Comentários Adicionais: ==============================
+//= 1.0 for fully working skills only [Lupus]
+//= 1.1 Added more new skill quests for more classes [Lupus]
+//= Somehow eA engine doesn't let you keep learn't skill V_V'
+//= 1.2 Added to correct locations, correct NPC's, fixed
+//= some of the items required and made them into real
+//= quests. [Reddozen] 
+//= 1.3 Fixed bugs and minor typos. Optimized [Lupus]
+//= 1.3a fixed an item ID typo, thx 2Spiritual Kid
+//= 1.3b Splitted into different files [DracoRPG]
+//= 1.3c Fixed some typos [IVBela]
+//= 1.3d Traduzido script [The Joker]
+//= 1.3e Revisão Geral do Script [Mara]
+//= 1.3f Corrigidos erros nos requerimentos [Keoy]
+//= 1.4 Script otimizado
+//============================================================
+
+// arg(0) -> Item de requerimento
+// arg(1) -> Habilidade
+function	script	F_element_quest	{
+	mes "[Mischna]";
+	if( countitem(getarg(0)) < 20)
+	{
+		mes "Você não trouxe todos os itens.";
+		mes "Volte aqui quando tiver todos";
+		mes "itens que eu pedi";
+		mes "para eu poder te dar o poder";
+		mes "dos elementos.";
+		close;
+	}
+	delitem getarg(0),20;
+	skill getarg(1),1,0;
+	mes "Parece-me que você é um exímio";
+	mes "estudante. É uma pena eu não ter";
+	mes "nada mais para te ensinar.";
+	close;
+
+}
+
+//============================================================
+// SAGE SKILL - CREATE CONVERTER + ELEMENTAL CHANGE
+//============================================================
+yuno_in03,176,24,3	script	Mischna	755,{
+	mes "[Mischna]";
+	if(BaseJob!=Job_Sage)
+	{
+		mes "Olá, eu sou Mischna. Como vai?";
+		mes "Por favor desfrute da sua estadia aqui";
+		mes "dentro dos muros da grande";
+		mes "guilda dos Sábios.";
+		close;
+	}
+	if(getskilllv("SA_CREATECON"))
+	{
+		if(getskilllv("SA_ELEMENTWATER") || getskilllv("SA_ELEMENTGROUND") 
+			|| getskilllv("SA_ELEMENTFIRE") || getskilllv("SA_ELEMENTWIND"))
+		{
+			mes "Parece que você é um exímio";
+			mes "estudante. É uma pena eu não ter";
+			mes "nada mais para te ensinar.";
+			close;
+		}
+		mes "Eu tenho mais uma Habilidade que posso";
+		mes "te ensinar, mas você";
+		mes "precisa me trazer os itens";
+		mes "a seguir em troca...";
+		next;
+		mes "[Mischna]";
+		mes "Eu aceitarei um por vez.";
+		mes "20 Sangue Escarlate (Fogo)";
+		mes "20 Cristal Azul (Água)";
+		mes "20 Frescor do Vento (Vento)";
+		mes "20 Vida Verdejante (Terra)";
+		next;
+		mes "[Mischna]";
+		mes "Lembre-se que eu só posso ensinar";
+		mes "uma delas, então escolha com cuidado!";
+		next;
+		switch(select("Troca de elemento Água","Troca de elemento Terra", "Troca de elemento Fogo", "Troca de elemento Vento"))
+		{
+			case 1:
+				callfunc("F_element_quest",991,"SA_ELEMENTWATER"); //Items: Crystal_Blue,
+
+			case 2:
+				callfunc("F_element_quest",993,"SA_ELEMENTGROUND"); //Items: Green_Live,
+
+			case 3:
+				callfunc("F_element_quest",990,"SA_ELEMENTFIRE"); //Items: Red_Blood,
+
+			case 4:
+				callfunc("F_element_quest",991,"SA_ELEMENTWIND"); //Items: Wind_of_Verdure,
+		}
+	}
+
+	mes "Eu posso ensinar uma nova Habilidade";
+	mes "que eu descobri, mas você";
+	mes "terá de me trazer uma pequena lista de";
+	mes "coisas para completar o";
+	mes "processo.";
+	next;
+	mes "[Mischna]";
+	mes "Precisarei de:";	
+	mes "7 Caudas de escorpião";
+	mes "7 Chifres";
+	mes "12 Cascos Arco-Íris";
+	mes "10 Cascos de Caramujo";
+	mes "4 Pergaminhos em Branco";
+	next;
+	mes "[Mischna]";
+	mes "Deixe-me checar os seus itens.";
+	next;
+	mes "[Mischna]";
+	if(countitem(904) < 07 //Item: Cauda de escorpião,
+	|| countitem(947) < 07 //Item: Chifre,
+	|| countitem(1013)< 12 //Item: Casco arco-íris,
+	|| countitem(946) < 10 //Item: Casco de caramujo,
+	|| countitem(7433)< 04 ) //Item: Pergaminho em branco,
+	{
+		mes "Você não trouxe todos os itens.";
+		mes "Volte aqui quando você tiver todos";
+		mes "os itens que eu pedi.";
+		close;
+	}
+	delitem 904, 7;//Items: Cauda de escorpião,
+	delitem 947, 7;//Items: Chifre,
+	delitem 1013, 12;//Items: Casco arco-íris,
+	delitem 946, 10;//Items: Casco de caramujo,
+	delitem 7433, 4;//Items: Pergaminho em branco,
+	mes "Eu estou vendo que você tem tudo que precisa,";
+	mes "então eu irei ensinar esta";
+	mes "nova habilidade!";
+	skill "SA_CREATECON",1,0;
+	next;
+	mes "[Mischna]";
+	mes "Agora você sente mais harmonia";
+	mes "com a natureza?";
+	close;
+
+}

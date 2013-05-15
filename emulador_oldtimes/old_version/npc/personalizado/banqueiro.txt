@@ -1,0 +1,60 @@
+function	script	F_Bank	{
+
+	set .@depmax,	10000000;	//Valor máximo para depósito.
+	set .@saqmax,	10000000;	//Valor máximo para saque.
+	
+	set @kb_int, (gettime(6)*31)+gettime(5);		// NúmeroDoMês*31 + DiaDoMês
+	set @income, (#bancoZ/1000)*(@kb_int-#kb_int);	// 0.1%/dia
+	set #kb_int, @kb_int;
+
+	mes "[Banqueiro]";
+	mes "Bem-vindo ao Banco de Prontera, como posso ajudá-lo?";
+	if (@income > 0) {
+		mes "Renda de Hoje: ^135445" + @income + "^000000 Zeny.";
+		set #bancoZ, #bancoZ + @income;
+	}
+	next;
+	switch (select ("Realizar depósito:Efetuar saque:Verificar saldo:Cancelar"))
+	{
+		mes "[Banqueiro]";
+		
+		case 1: callsub F_SacDep, "depositar", Zeny, .@depmax, #bancoZ;
+		case 2: callsub F_SacDep, "sacar", #bancoZ, .@saqmax, Zeny;
+		case 3: callsub F_MesThenClose, "Você possui atualmente a quantia de "+#bancoZ+"z.";
+		case 4: callsub F_MesThenClose, "Até mais!";
+	}
+	
+	F_SacDep:
+		callsub F_MesThenNext, "Bem, quanto você gostaria de "+getarg(0)+"? O valor máximo é de "+((getarg(1) > getarg(2))?getarg(2):getarg(1))+"z.";
+		input .@zeny;
+		mes "[Banqueiro]";
+		if (!.@zeny || .@zeny > getarg(2) || .@zeny > getarg(1))
+			callsub F_MesThenClose, "Desculpe, mas o valor que você digitou não é valido.";
+		set getarg(1), getarg(1) - .@zeny;
+		set getarg(3), getarg(3) + .@zeny;
+		callsub F_MesThenClose, "Seus Zenys estão em boas mãos, obrigado por utilizar nossos serviços!";
+	return;
+	
+	F_MesThenNext:
+		mes getarg(0);
+		next;
+	return;
+	
+	F_MesThenClose:
+		mes getarg(0);
+		close;
+	return;
+}
+
+prontera,165,188,4	script	Banqueiro#prt	110,{
+	callfunc "F_Bank";
+}
+
+sec_in01,163,172,3	script	Banqueiro#vip	110,{
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	callfunc "F_Bank";
+}
