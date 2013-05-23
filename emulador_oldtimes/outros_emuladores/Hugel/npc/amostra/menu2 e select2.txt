@@ -1,0 +1,49 @@
+-	script	select2	-1,{
+	show "OI";
+	show "O que você deseja?";
+	next;
+	back:
+	switch(select2("Teste","Teste2")){
+		case 0: goto back; // ao clica em cancelar ele vai executar goto back;
+		
+		case 1:
+			show "Teste";
+			close;
+		case 2:
+			show "Teste2";
+			close;
+	}
+}
+
+-	script	menu2	-1,{
+show "OI";
+show "O que você deseja?";
+while(TRUE){
+	next;
+	menu2 "Teste",teste,"Teste2",teste2;
+	show "Por favor, escolha uma dessas opções";
+}
+// OBS: Você poderá utiliza com goto ou while
+//Quando alguém cancelar ele voltará para tela de menu, não deixara usa a opção cancel do menu.
+//Isso fará o jogador escolhe umas das opções obrigatoriamente
+//Você pode usar dessa forma tb:
+
+menu2 "Teste",teste,"Teste2",teste2;
+show "Tchau..."; // Ao usar a opção cancel ele vai falar essa frase.
+close; //Ponha close se desejar, se não por ele vai pular para próxima linha, então ele vai pro label: teste.
+
+teste:
+show "Teste";
+close;
+
+teste2:
+show "Teste2";
+close;
+
+//Se você deseja que ao clica em cancel e fechar, então ponha close; em baixo do menu2, ficando assim:
+menu2 "Teste",teste,"Teste2",teste2;
+close;
+
+//Ou utilize o menu padrão (menu)
+
+}

@@ -1,0 +1,1549 @@
+//===== Cronus Script =======================================
+//= Quest da Torre de Thanatos
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.1
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quest relativa à Torre de Thanatos
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido e adaptado	[Page]
+//= 1.1 Revisado		[Page]
+//===========================================================
+
+
+tha_t01,149,78,3	script	Guia de Turismo#1	90,{
+
+  if (ThanaQuest & 1) {
+
+    show "[Guia de Turismo]";
+    show "Olá, meu amigo.";
+    show "Como vai? Você gostaria de trabalhar para a Corporação Rekenber?";
+    close;
+
+  }
+
+  show "[Guia de Turismo]";
+  show "Olá.";
+  show "Então você percorreu todo esse caminho para investigar a ^777777Torre de Thanatos^000000, eh?";
+  next;
+
+  show "[Guia de Turismo]";
+  show "Eu sou da Corporação Rekenber.";
+  show "Ainda estamos na procura de pessoas corajosas, que gostariam de trabalhar para nós e descobrir os mais altos andares da ^777777Torre de Thanatos^000000.";
+  next;
+
+  show "[Guia de Turismo]";
+  show "Há chances de que esteja interessado a se voluntariar para a ^777777Tarefa de Força da Torre^000000?";
+  next;
+  menu "Não, obrigado.",L_End,"Sim, me inscreva!",-;
+
+  show "[Guia de Turismo]";
+  show "Por favor, coloque seu nome aqui...";
+  next;
+
+  set ThanaQuest, ThanaQuest | 1;
+
+  show "[Guia de Turismo]";
+  show "Ok, ^000077"+strcharinfo(0)+"^000000, não é?";
+  show "Bem-vindo a ^777777Tarefa de Força da Torre^000000!";
+  next;
+
+  show "[Guia de Turismo]";
+  show "Por favor, tenha cuidado ao investigar os mais altos andares da ^777777Torre de Thanatos^000000.";
+  show "Quanto mais alto você vai, menos sabe-se sobre seus perigos...";
+  close;
+
+  L_End:
+  show "[Guia de Turismo]";
+  show "Certo, mas valeu a tentativa.";
+  show "Volte quando estiver interessado.";
+  close;
+
+}
+
+
+tha_t02,231,161,5	script	Guia de Turismo#2	874,{
+
+  if (ThanaQuest < 1) {
+
+    show "[Guia de Turismo]";
+    show "Olá.";
+    show "Dia bonito, não é?";
+    next;
+
+    show "[Guia de Turismo]";
+    show "Se você quer visitar os andares mais altos, você terá que se voluntariar à ^777777Tarefa de Força da Torre^000000.";
+    next;
+
+    show "[Guia de Turismo]";
+    show "Você pode o fazer conversando com a moça bonita no contador, perto da entrada.";
+    show "Vejo-lhe mais tarde.";
+    close;
+
+  }
+
+  show "[Guia de Turismo]";
+  show "Olá, meu amigo.";
+  show "Oh, você é um dos voluntários da ^777777Tarefa de Força da Torre^000000.";
+  next;
+
+  show "[Guia de Turismo]";
+  show "Se quiser entrar no próximo andar, terá de fazer um grupo.";
+  show "Por favor, traga ao menos 5 de seus amigos aqui a minha volta, então poderei lhes teleportar para o próximo andar.";
+  next;
+
+  show "[Guia de Turismo]";
+  show "Eu teleportarei todo o seu grupo, então peça a seus colegas para esperarem.";
+  show "Devo teleportar-lhe agora?";
+  next;
+  menu "Não, eu preciso de mais tempo...",L_End,"Sim, por favor nos teleporte!",-;
+  
+  set @partyid, getcharid(1);
+
+  if (@partyid == 0) goto L_NoParty;
+
+  getpartymember(@partyid);
+  set @partymembercount,$@partymembercount;
+  copyarray @partymembername$[0],$@partymembername$[0],@partymembercount;
+
+  if (@partymembercount < 6) goto L_NotEnough;
+
+  for(set @i, 0; @i < @partymembercount; set @i, @i + 1) {
+    if (getmapxy(@mapname$,@mapx,@mapy,0,@partymembername$[@i]) != 0) goto L_Offline;
+    if (@mapname$ != "tha_t02" || @mapx < 223 || @mapx > 239 || @mapy < 153 || @mapy > 169) goto L_Away;
+  }
+
+  warpparty "tha_t03",220,165,@partyid;
+  end;
+
+  L_NoParty:
+  show "[Guia de Turismo]";
+  show "Erm, você precisa formar um grupo antes.";
+  close;
+
+  L_NotEnough:
+  show "[Guia de Turismo]";
+  show "Você precisará trazer ao menos 5 de seus amigos, se quiser entrar no próximo andar.";
+  close;
+
+  L_Offline:
+  show "[Guia de Turismo]";
+  show "Hmm, parece que algum de seus amigos não está online.";
+  close;
+
+  L_Away:
+  show "[Guia de Turismo]";
+  show "Não posso achar alguns de seus amigos.";
+  show "Por favor, peça que eles cheguem perto, para que eu possa vê-los.";
+  close;
+
+  L_End:
+  show "[Guia de Turismo]";
+  show "Tudo bem, volte quando estiver pronto para ir.";
+  close;
+
+}
+
+
+tha_t03,67,70,0	script	Dispositivo Mecânico#1	111,{
+
+  if (ThanaQuest & 2) {
+
+    show "[Dispositivo Mecânico]";
+    show "Aqui é onde você encontra a";
+    show "^EF797BChave Vermelha^000000.";
+    close;
+
+  }
+
+  show "[Dispositivo Mecânico]";
+  show "Há um estranho dispositivo mecânico aqui.";
+  next;
+  menu "Investigar o dispositvo.",-,"Deixá-lo.",L_End;
+
+  show "[Dispositivo Mecânico]";
+  show "...";
+  next;
+  show "[Dispositivo Mecânico]";
+  show "Parece que há algo dentro, mas o dispositivo está protegido por um forte poder misterioso.";
+  next;
+  menu "Tentar pegar o que há dentro.",L_Denied,"Livrar-se do forte poder.",-,"Deixá-lo.",L_End;
+
+  if (getequipweaponlv(4) < 4) goto L_NoWeapon;
+
+  show "[Dispositivo Mecânico]";
+  show "Conforme você aponta sua arma para o dispositivo, o poder mágico parece diminuir.";
+  show "Agora você pode pegar o que há dentro do dispositivo.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 2;
+  additem 7421,1;
+
+  show "[Dispositivo Mecânico]";
+  show "Você achou a ^EF797BChave Vermelha^000000.";
+  close;
+
+  L_Denied:
+  show "[Dispositivo Mecânico]";
+  show "Você foi empurrado para fora quando tentou pegar o que há dentro.";
+  show "Parece que o dispostivo está protegido por uma grande força mágica.";
+  close;
+
+  L_NoWeapon:
+  show "[Dispositivo Mecânico]";
+  show "Você tentou livrar-se do poder misterioso, mas sua arma não parece ser forte o suficiente...";
+  close;
+
+  L_End:
+  show "[Dispositivo Mecânico]";
+  show "Você deixou o dispositivo mecânico.";
+  close;
+
+}
+
+
+tha_t04,195,195,0	script	Dispositivo Mecânico#2	111,{
+
+  if (ThanaQuest & 4) {
+
+    show "[Dispositivo Mecânico]";
+    show "Aqui é onde você encontra a ";
+    show "^DE9673Chave Amarela^000000.";
+    close;
+
+  }
+
+  show "[Dispositivo Mecânico]";
+  show "Há um estranho dispositivo mecânico aqui.";
+  next;
+  menu "Investigar o dispositivo.",-,"Deixá-lo.",L_End;
+
+  show "[Dispositivo Mecânico]";
+  show "O dispositivo começou a fazer um certo barulho quando você se aproximou.";
+  show "Há um terminal na frente dele, onde você poderia digitar um número com 3 dígitos.";
+  next;
+  show "[Dispositivo Mecânico]";
+  show "O barulho soa muito estranho, e parece que o dispositvo não funciona como deveria.";
+  next;
+  menu "Usar o terminal",-,"Deixá-lo.",L_End;
+
+  set @number, rand(100,999);
+  set @count, 0;
+
+  L_Input:
+  set @count, @count + 1;
+  if (@count > 10) goto L_Broken;
+
+  digit @input;
+
+  if (@input < 100 || @input > 999) goto L_Wrong;
+
+  if (@input > @number) goto L_TooBig;
+  if (@input < @number) goto L_TooSmall;
+
+  show "[Dispositivo Mecânico]";
+  show "Conforme você usou o  terminal para ajustar o número nele, o estranho barulho transformou-se num agradável som, funcionando, e uma pequena caixa perto do terminal se abriu.";
+  show "Há algo naquela caixa.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 4;
+  additem 7422,1;
+
+  show "[Dispositivo Mecânico]";
+  show "Você achou a ^DE9673Chave Amarela^000000.";
+  close;
+
+  L_TooBig:
+  show "[Dispositivo Mecânico]";
+  show "Conforme você usa o terminal para ajustar o número nele, o estranho barulho mudou.";
+  show "Entretanto, ainda parece soar errado. É som muito alto agora.";
+  next;
+
+  show "[Dispositivo Mecânico]";
+  show "O número que foi digitado é grande demais.";
+  next;
+
+  goto L_Input;
+
+  L_TooSmall:
+  show "[Dispositivo Mecânico]";
+  show "Conforme você usa o terminal para ajustar o número nele, o estranho barulho mudou.";
+  show "Entretanto, ainda parece soar errado. É um som muito longo agora.";
+  next;
+
+  show "[Dispositivo Mecânico]";
+  show "O número que foi digitado é pequeno demais.";
+  next;
+
+  goto L_Input;
+
+  L_Broken:
+  show "[Dispositivo Mecânico]";
+  show "O dispositivo parou com um som muito estranho.";
+  show "Parece que o dispositivo não funciona mais...";
+  close;
+
+  L_Wrong:
+  show "[Dispositivo Mecânico]";
+  show "Você tentou digitar um número, mas o terminal não foi capaz de reconhecê-lo.";
+  show "Parece que o dispositivo não está mais funcionando.";
+  close;
+
+  L_End:
+  show "[Dispositivo Mecânico]";
+  show "Você deixou o dispositivo.";
+  close;
+
+}
+
+
+tha_t05,101,37,0	script	Dispositivo Mecânico#3	111,{
+
+  if (ThanaQuest & 8) {
+
+    show "[Dispositivo Mecânico]";
+    show "Aqui é odne você encontra a";
+    show "^8CA6EFChave Azul^000000.";
+    close;
+
+  }
+
+  show "[Dispositivo Mecânico]";
+  show "Há um estranho dispositivo aqui.";
+  next;
+  menu "Investigar o dispositivo.",-,"Deixá-lo.",L_End;
+
+  show "[Dispositivo Mecânico]";
+  show "Parece que há algo escondido embaixo do dispositivo. Entretanto, ele é muito pesado para que você o levante sozinho.";
+  next;
+  menu "Tentar mesmo assim.",L_Alone,"Tentar levantá-lo com ajuda do grupo.",-,"Deixá-lo.",L_End;
+
+  getmapxy @mapname$,@mapx,@mapy,0,strcharinfo(0);
+  if (@mapx < 101 || @mapx > 104 || @mapy < 37 || @mapy > 40) goto L_Away;
+
+  set @help, getareausers("tha_t05",101,40,104,37);
+  if (@help == 1) goto L_Alone;
+  if (@help < 3) goto L_NotEnough;
+
+  show "[Dispositivo Mecânico]";
+  show "Conforme  consegue levantar o dispositivo com a ajuda de seus amigos, você acha algo lá embaixo, coberto de sujeira.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 8;
+  additem 7423,1;
+
+  show "[Dispositivo Mecânico]";
+  show "Você achou a ^8CA6EFChave Azul^000000.";
+  close;
+
+  L_Alone:
+  getmapxy @mapname$,@mapx,@mapy,0;
+  if (@mapx < 101 || @mapx > 104 || @mapy < 37 || @mapy > 40) goto L_Away;
+
+  show "[Dispositivo Mecânico']";
+  show "Você não pôde mover o dispositivo...";
+  close;
+
+  L_Away:
+  show "[Dispositivo Mecânico]";
+  show "Você está muito longe para mover o dispositivo...";
+  close;
+
+  L_NotEnough:
+  show "[Dispositivo Mecânico]";
+  show "Mesmo com alguma ajuda você não foi capaz de levantá-lo.";
+  show "Você precisará de mais ajuda...";
+  close;
+
+  L_End:
+  show "[Dispositivo Mecânico]";
+  show "Você deixou o dispositivo.";
+  close;
+
+}
+
+
+tha_t06,43,152,0	script	Dispositivo Mecânico#4	111,{
+
+  setarray @directions$[0],"up","right","down","left";
+
+  if (ThanaQuest & 16) {
+
+    show "[Dispositivo Mecânico]";
+    show "Aqui é onde você encontra a ";
+    show "^84A684Chave Verde^000000.";
+    close;
+
+  }
+
+  show "[Dispositivo Mecânico]";
+  show "Há um estranho dispositivo aqui.";
+  next;
+  menu "Investigar o dispositivo.",-,"Deixá-lo.",L_End;
+
+  show "[Dispositivo Mecânico]";
+  show "Há diversos interruptores, engranagens, tubos e fios.";
+  next;
+  menu "Investigar os interruptores.",L_Switches,"Investigar as engrenagens.",-,"Investigar os tubos e fios.",L_Tubes,"Deixá-lo.",L_End;
+
+  set @wheel1, rand(1,3);
+  if (@wheel1 == 1) set @wheel2,1;
+  if (@wheel1 == 2) set @wheel2,0;
+  if (@wheel1 == 3) set @wheel2,3;
+
+  set @wheel3, rand(0,3);
+  set @wheel4, rand(1,3);
+  if (@wheel4 == 1) set @wheel5,3;
+  if (@wheel4 == 2) set @wheel5,2;
+  if (@wheel4 == 3) set @wheel5,1;
+
+  L_Cogwheels:
+  if (@wheel1 == 0 && @wheel2 == 2 && @wheel4 == 0 && @wheel5 == 0) goto L_Work;
+  show "[Dispositivo Mecânico]";
+  show "Há cinco engrenagens aqui, duas pequenas e três grandes.";
+  show "Elas parecem ativar o dispositivo se forem ajustadas do jeito correto.";
+  next;
+  menu "Ajustar as pequenas.",L_Small,"Ajustar as grandes.",L_Big,"Deixá-las.",L_End;
+
+  L_Small:
+  show "[Dispositivo Mecânico]";
+  show "A primeira roda aponta para ^0000AA"+@directions$[@wheel1]+"^000000,";
+  show "A segunda para ^0000AA"+@directions$[@wheel2]+"^000000.";
+  next;
+  menu "Girá-las no sentido horário.",L_Small_Clock,"Virá-las no sentido anti-horário.",L_Small_Counter,"Ajustar as outras.",L_Big,"Voltar.",L_Cogwheels;
+
+  L_Small_Clock:
+  set @wheel1, @wheel1 + 1;
+  if (@wheel1 > 3) set @wheel1, @wheel1 - 4;
+  set @wheel2, @wheel2 - 1;
+  if (@wheel2 < 0) set @wheel2, @wheel2 + 4;
+  goto L_Small;
+
+  L_Small_Counter:
+  set @wheel1, @wheel1 - 1;
+  if (@wheel1 < 0) set @wheel1, @wheel1 + 4;
+  set @wheel2, @wheel2 + 1;
+  if (@wheel2 > 3) set @wheel2, @wheel2 - 4;
+  goto L_Small;
+
+  L_Big:
+  show "[Dispositivo Mecânico]";
+  show "A primeira roda aponta para ^0000AA"+@directions$[@wheel3]+"^000000,";
+  show "A segunda aponta para ^0000AA"+@directions$[@wheel4]+"^000000 e";
+  show "A terceira aponta para ^0000AA"+@directions$[@wheel5]+"^000000.";
+  next;
+  menu "Girá-las no sentido horário.",L_Big_Clock,"Girá-las no sentido anti-horário.",L_Big_Counter,"Ajustar as outras.",L_Small,"Voltar.",L_Cogwheels;
+
+  L_Big_Clock:
+  set @wheel3, @wheel3 + 1;
+  if (@wheel3 > 3) set @wheel3, @wheel3 - 4;
+  set @wheel4, @wheel4 - 1;
+  if (@wheel4 < 0) set @wheel4, @wheel4 + 4;
+  set @wheel5, @wheel5 + 1;
+  if (@wheel5 > 3) set @wheel5, @wheel5 - 4;
+  goto L_Big;
+
+  L_Big_Counter:
+  set @wheel3, @wheel3 - 1;
+  if (@wheel3 < 0) set @wheel3, @wheel3 + 4;
+  set @wheel4, @wheel4 + 1;
+  if (@wheel4 > 3) set @wheel4, @wheel4 - 4;
+  set @wheel5, @wheel5 - 1;
+  if (@wheel5 < 0) set @wheel5, @wheel5 + 4;
+  goto L_Big;
+
+  L_Work:
+  show "[Dispositivo Mecânico]";
+  show "Depois que você arrumou as engrenagens desse modo, o dispositivo começou a funcionar.";
+  show "Ele produziu um pequeno objeto de metal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 16;
+  additem 7424,1;
+
+  show "[Dispositivo Mecânico]";
+  show "Você achou a ^84A684Chave Verde^000000.";
+  close;
+
+  L_Switches:
+  show "[Dispositivo Mecânico]";
+  show "Há muitos interruptores, mas a maioria está emperrado ou não fazem efeito sobre o dispositivo.";
+  close;
+
+  L_Tubes:
+  show "[Dispositivo Mecânico]";
+  show "Há alguns tubos e fios que estão conectados com as outras partes do dispositivo.";
+  show "Os tubos e fios parecem estar nos devidos lugares.";
+  close;
+
+  L_End:
+  show "[Dispositivo Mecânico]";
+  show "Você deixou o dispositivo.";
+  close;
+
+}
+
+
+tha_t09,19,158,0	script	Dispositivo Mecânico#5	111,{
+
+  if (ThanaQuest & 32) {
+
+    show "[Dispositivo Mecânico]";
+    show "Aqui é onde você encontra a";
+    show "^9C716BChave Negra^000000.";
+    close;
+
+  }
+
+  show "[Dispositivo Mecânico]";
+  show "Há um pequeno dispositivo aqui.";
+  next;
+  menu "Investigar o dispositivo.",-,"Deixá-lo.",L_End;
+
+  show "[Dispositivo Mecânico]";
+  show "Depois de investigar atenciosamente, você acha uma pequena gaveta com algo dentro.";
+  show "Você tira isso da gaveta.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 32;
+  additem 7425,1;
+
+  show "[Dispositivo Mecânico]";
+  show "Você achou a ^84A684Chave Negra^000000.";
+  close;
+
+  L_End:
+  show "[Dispositivo Mecânico]";
+  show "Você deixou o dispositivo.";
+  close;
+
+}
+
+
+tha_t04,150,44,0	script	Selo#1	111,{
+
+  if (ThanaQuest < 63) {
+
+    show "[Selo]";
+    show "Há um selo aqui, mas parece que ele não pode ser aberto.";
+    close;
+
+  }
+
+  if (ThanaQuest & 64) {
+
+    show "[Selo]";
+    show "Você encontra aqui a";
+    show "^738EE7Pedra Mágica Azul^000000.";
+    close;
+
+  }
+
+  show "[Selo]";
+  show "Há um selo aqui.";
+  next;
+
+  show "[Selo]";
+  show "Parece que pode ser aberto com uma certa ^8CA6EFChave^000000...";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Chave Azul" || countitem(7423) < 1) goto L_Wrong;
+
+  show "[Selo]";
+  show "Depois que você colocou a ^8CA6EFChave Azul^000000, o selo se abriu e revelou um lindo Cristal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 64;
+  delitem 7423,1;
+  additem 7428,1;
+
+  show "[Selo]";
+  show "Você encontrou a ^738EE7Pedra Mágica Azul^000000.";
+  close;
+
+  L_Wrong:
+  show "[Selo]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t05,218,116,0	script	Selo#2	111,{
+
+  if (ThanaQuest < 63) {
+
+    show "[Selo]";
+    show "Há um selo aqui, mas parece que ele não pode ser aberto.";
+    close;
+
+  }
+
+  if (ThanaQuest & 128) {
+
+    show "[Selo]";
+    show "Você encontra aqui a";
+    show "^CE6163Pedra Mágica Vermelha^000000.";
+    close;
+
+  }
+
+  show "[Selo]";
+  show "Há um selo aqui.";
+  next;
+
+  show "[Selo]";
+  show "Parece que pode ser aberto com uma certa ^EF797BChave^000000...";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Chave Vermelha" || countitem(7421) < 1) goto L_Wrong;
+
+  show "[Selo]";
+  show "Depois que você colocou a ^EF797BChave Vermelha^000000, o selo se abriu e revelou um lindo Cristal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 128;
+  delitem 7421,1;
+  additem 7426,1;
+
+  show "[Selo]";
+  show "Você encontrou a ^CE6163Pedra Mágica Vermelha^000000.";
+  close;
+
+  L_Wrong:
+  show "[Selo]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t06,226,230,0	script	Selo#3	111,{
+
+  if (ThanaQuest < 63) {
+
+    show "[Selo]";
+    show "Há um selo aqui, mas parece que ele não pode ser aberto.";
+    close;
+
+  }
+
+  if (ThanaQuest & 256) {
+
+    show "[Selo]";
+    show "Você encontra aqui a";
+    show "^7B698CPedra Mágica Negra^000000.";
+    close;
+
+  }
+
+  show "[Selo]";
+  show "Há um selo aqui.";
+  next;
+
+  show "[Selo]";
+  show "Parece que pode ser aberto com uma certa ^84A684Chave^000000...";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Chave Negra" || countitem(7425) < 1) goto L_Wrong;
+
+  show "[Selo]";
+  show "Depois que você colocou a ^84A684Chave Negra^000000, o selo se abriu e revelou um lindo Cristal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 256;
+  delitem 7425,1;
+  additem 7430,1;
+
+  show "[Selo]";
+  show "Você encontrou a ^7B698CPedra Mágica Negra^000000.";
+  close;
+
+  L_Wrong:
+  show "[Selo]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t07,113,129,0	script	Selo#4	111,{
+
+  if (ThanaQuest < 63) {
+
+    show "[Selo]";
+    show "Há um selo aqui, mas parece que ele não pode ser aberto.";
+    close;
+
+  }
+
+  if (ThanaQuest & 512) {
+
+    show "[Selo]";
+    show "Você encontra aqui a ";
+    show "^EFA673Pedra Mágica Amarela^000000.";
+    close;
+
+  }
+
+  show "[Selo]";
+  show "Há um selo aqui.";
+  next;
+
+  show "[Selo]";
+  show "Parece que pode ser aberto com uma certa ^DE9673Chave^000000...";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Chave Amarela" || countitem(7422) < 1) goto L_Wrong;
+
+  show "[Selo]";
+  show " Depois que você colocou a ^DE9673Chave Amarela^000000, o selo se abriu e revelou um lindo Cristal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 512;
+  delitem 7422,1;
+  additem 7427,1;
+
+  show "[Selo]";
+  show "Você encontrou a ^EFA673Pedra Mágica Amarela^000000.";
+  close;
+
+  L_Wrong:
+  show "[Selo]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+tha_t10,129,159,0	script	Selo#5	111,{
+
+  if (ThanaQuest < 63) {
+
+    show "[Selo]";
+    show "Há um selo aqui, mas parece que ele não pode ser aberto.";
+    close;
+
+  }
+
+  if (ThanaQuest & 1024) {
+
+    show "[Selo]";
+    show "Você encontra aqui a";
+    show "^738652Pedra Mágica Verde^000000.";
+    close;
+
+  }
+
+  show "[Selo]";
+  show "Há um selo aqui.";
+  next;
+
+  show "[Selo]";
+  show "Parece que pode ser aberto com uma certa ^84A684Chave^000000...";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Chave Verde" || countitem(7424) < 1) goto L_Wrong;
+
+  show "[Selo]";
+  show "Depois que você colocou a ^84A684Chave Verde^000000, o selo se abriu e revelou um lindo Cristal.";
+  next;
+
+  set ThanaQuest, ThanaQuest | 1024;
+  delitem 7424,1;
+  additem 7429,1;
+
+  show "[Selo]";
+  show "Você encontrou a ^738652Pedra Mágica Verde^000000.";
+  close;
+
+  L_Wrong:
+  show "[Selo]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t09,82,99,0	script	Estátua de Pedra#09a	111,{
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui.";
+  if (ThanaSteps & 1) show "Está apontada para cima.";
+  else show "Está apontada para baixo.";
+  next;
+  menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+  set ThanaSteps, ThanaSteps ^ 1;
+
+  show "[Estátua de Pedra]";
+  show "Você decidiu puxar a alavanca.";
+  show "Soou como se algum processo mecânico começasse.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t10,159,97,0	script	Estátua de Pedra#10a	111,{
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui.";
+  if (ThanaSteps & 2) show "Está apontada para cima.";
+  else show "Está apontada para baixo.";
+  next;
+  menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+  set ThanaSteps, ThanaSteps ^ 2;
+  if (ThanaSteps & 4) set ThanaSteps, ThanaSteps ^ 4;
+
+  show "[Estátua de Pedra]";
+  show "Você decidiu puxar a alavanca.";
+  show "Soou como se algum processo mecânico começasse.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t10,97,97,0	script	Estátua de Pedra#10b	111,{
+
+  if (ThanaSteps & 2) {
+
+    show "[Estátua de Pedra]";
+    show "Há uma alavanca aqui.";
+    if (ThanaSteps & 4) show "Está apontada para cima.";
+    else show "Está apontada para baixo.";
+    next;
+    menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+    if (ThanaSteps & 4) set ThanaSteps, ThanaSteps ^ 2;
+    set ThanaSteps, ThanaSteps ^ 4;
+
+    show "[Estátua de Pedra]";
+    show "Você decidiu puxar a alavanca.";
+    show "Soou como se algum processo mecânico começasse.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui, mas ela não pode ser movida.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t11,85,85,0	script	Estátua de Pedra#11a	111,{
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui.";
+  if (ThanaSteps & 8) show "Está apontada para cima.";
+  else show "Está apontada para baixo.";
+  next;
+  menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+  if (ThanaSteps & 8) {
+    if (ThanaSteps & 64) set ThanaSteps, ThanaSteps ^ 64;
+    if (ThanaSteps & 32) set ThanaSteps, ThanaSteps ^ 32;
+    if (ThanaSteps & 16) set ThanaSteps, ThanaSteps ^ 16;
+  }
+  set ThanaSteps, ThanaSteps ^ 8;
+
+  show "[Estátua de Pedra]";
+  show "Você decidiu puxar a alavanca.";
+  show "Soou como se algum processo mecânico começasse.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t11,16,16,0	script	Estátua de Pedra#11b	111,{
+
+  if (ThanaSteps & 8) {
+
+    show "[Estátua de Pedra]";
+    show "Há uma alavanca aqui.";
+    if (ThanaSteps & 16) show "Está apontada para cima.";
+    else show "Está apontada para baixo.";
+    next;
+    menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+    if (ThanaSteps & 16) {
+      if (ThanaSteps & 64) set ThanaSteps, ThanaSteps ^ 64;
+      if (ThanaSteps & 32) set ThanaSteps, ThanaSteps ^ 32;
+      set ThanaSteps, ThanaSteps ^ 8;
+    }
+    set ThanaSteps, ThanaSteps ^ 16;
+
+    show "[Estátua de Pedra]";
+    show "Você decidiu puxar a alavanca.";
+    show "Soou como se algum processo mecânico começasse.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui, mas não pode ser movida.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t11,85,16,0	script	Estátua de Pedra#11c	111,{
+
+  if (ThanaSteps & 16) {
+
+    show "[Estátua de Pedra]";
+    show "Há uma alavanca aqui.";
+    if (ThanaSteps & 32) show "Está apontada para cima.";
+    else show "Está apontada para baixo.";
+    next;
+    menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+    if (ThanaSteps & 32) {
+      if (ThanaSteps & 64) set ThanaSteps, ThanaSteps ^ 64;
+      set ThanaSteps, ThanaSteps ^ 16;
+      set ThanaSteps, ThanaSteps ^ 8;
+    }
+    set ThanaSteps, ThanaSteps ^ 32;
+
+    show "[Estátua de Pedra]";
+    show "Você decidiu puxar a alavanca.";
+    show "Soou como se algum processo mecânico começasse.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui, mas não pode ser movida.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t11,16,85,0	script	Estátua de Pedra#11d	111,{
+
+  if (ThanaSteps & 32) {
+
+    show "[Estátua de Pedra]";
+    show "Há uma alavanca aqui.";
+    if (ThanaSteps & 64) show "Está apontada para cima.";
+    else show "Está apontada para baixo.";
+    next;
+    menu "Puxar a alavanca.",-,"Deixá-la como está.",L_End;
+
+    if (ThanaSteps & 64) {
+      set ThanaSteps, ThanaSteps ^ 32;
+      set ThanaSteps, ThanaSteps ^ 16;
+      set ThanaSteps, ThanaSteps ^ 8;
+    }
+    set ThanaSteps, ThanaSteps ^ 64;
+
+    show "[Estátua de Pedra]";
+    show "Você decidiu puxar a alavanca.";
+    show "Soou como se algum processo mecânico começasse.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há uma alavanca aqui, mas não pode ser movida.";
+  close;
+
+  L_End:
+  show "[Estátua de Pedra]";
+  show "Você decidiu deixar a alavanca como estava.";
+  close;
+
+}
+
+
+tha_t12,96,58,0	script	Estátua de Pedra#12a	111,{
+
+  if (ThanaQuest < 2047) {
+
+    show "[Estátua de Pedra]";
+    show "Há um buraco aqui, mas eu não sei o que fazer.";
+    close;
+
+  }
+
+  if (ThanaQuest & 2048) {
+
+    show "[Estátua de Pedra]";
+    show "Aqui você colocará a ^CE6163Pedra Mágica Vermelha^000000.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há um buraco aqui.";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Pedra Mágica Vermelha" || countitem(7426) < 1) goto L_Wrong;
+
+  set ThanaQuest, ThanaQuest | 2048;
+  delitem 7426,1;
+
+  show "[Estátua de Pedra]";
+  show "Você colocou a ^CE6163Pedra Mágica Vermelha^000000 no buraco e coube perfeitamente.";
+  close;
+
+  L_Wrong:
+  show "[Estátua de Pedra]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t12,161,58,0	script	Estátua de Pedra#12b	111,{
+
+  if (ThanaQuest < 2047) {
+
+    show "[Estátua de Pedra]";
+    show "Há um buraco aqui, mas eu não sei o que fazer.";
+    close;
+
+  }
+
+  if (ThanaQuest & 4096) {
+
+    show "[Estátua de Pedra]";
+    show "Aqui você colocará a ^EFA673Pedra Mágica Amarela^000000.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há um buraco aqui.";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Pedra Mágica Amarela" || countitem(7427) < 1) goto L_Wrong;
+
+  set ThanaQuest, ThanaQuest | 4096;
+  delitem 7427,1;
+
+  show "Estátua de Pedra]";
+  show "Você colocou a ^EFA673Pedra Mágica Amarela^000000 no buraco e coube perfeitamente.";
+  close;
+
+  L_Wrong:
+  show "[Estátua de Pedra]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t12,104,18,0	script	Estátua de Pedra#12c	111,{
+
+  if (ThanaQuest < 2047) {
+
+    show "[Estátua de Pedra]";
+    show "Há um buraco aqui, mas eu não sei o que fazer.";
+    close;
+
+  }
+
+  if (ThanaQuest & 8192) {
+
+    show "[Estátua de Pedra]";
+    show "Aqui você colocará a ^738EE7Pedra Mágica Azul^000000.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há um buraco aqui.";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Pedra Mágica Azul" || countitem(7428) < 1) goto L_Wrong;
+
+  set ThanaQuest, ThanaQuest | 8192;
+  delitem 7428,1;
+
+  show "[Estátua de Pedra]";
+  show "Você colocou a ^738EE7Pedra Mágica Azul^000000 no buraco e coube perfeitamente.";
+  close;
+
+  L_Wrong:
+  show "[Estátua de Pedra]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t12,154,18,0	script	Estátua de Pedra#12d	111,{
+
+  if (ThanaQuest < 2047) {
+
+    show "[Estátua de Pedra]";
+    show "Há um buraco aqui, mas eu não sei o que fazer.";
+    close;
+
+  }
+
+  if (ThanaQuest & 16384) {
+
+    show "[Estátua de Pedra]";
+    show "Aqui você colocará a ^738652Pedra Mágica Verde^000000.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há um buraco aqui.";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Pedra Mágica Verde" || countitem(7429) < 1) goto L_Wrong;
+
+  set ThanaQuest, ThanaQuest | 16384;
+  delitem 7429,1;
+
+  show "[Estátua de Pedra]";
+  show "Você colocou a ^738652Pedra Mágica Verde^000000 no buraco e coube perfeitamente.";
+  close;
+
+  L_Wrong:
+  show "[Estátua de Pedra]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t12,128,86,0	script	Estátua de Pedra#12e	111,{
+
+  if (ThanaQuest < 2047) {
+
+    show "[Estátua de Pedra]";
+    show "Há um buraco aqui, mas eu não sei o que fazer.";
+    close;
+
+  }
+
+  if (ThanaQuest & 32768) {
+
+    show "[Estátua de Pedra]";
+    show "Aqui você colocará a ^7B698CPedra Mágica Negra^000000.";
+    close;
+
+  }
+
+  show "[Estátua de Pedra]";
+  show "Há um buraco aqui.";
+  next;
+
+  digit @input$;
+
+  if (@input$ != "Pedra Mágica Negra" || countitem(7430) < 1) goto L_Wrong;
+
+  set ThanaQuest, ThanaQuest | 32768;
+  delitem 7430,1;
+
+  show "[Estátua de Pedra]";
+  show "Você colocou a ^7B698CPedra Mágica Negra^000000 no buraco e coube perfeitamente.";
+  close;
+
+  L_Wrong:
+  show "[Estátua de Pedra]";
+  show "Nada aconteceu.";
+  close;
+
+}
+
+
+tha_t12,130,52,0	script	Obras#1	111,{
+
+  show "[Obras]";
+  show "Há lindas obras por aqui.";
+  next;
+
+  show "[Obras]";
+  show "Conforme você olha melhor para as obras, um portal se abre e leva-lhe embora...";
+  next;
+
+  if (ThanaQuest < 65535) {
+
+    warp "thana_step",185,15;
+    end;
+
+  }
+
+  warp "thana_step",73,288;
+  end;
+
+}
+
+
+thana_boss,217,167,0	script	Obras#2	111,{
+
+  if ($Thana & 1) {
+
+    show "[Obras]";
+    show "Aqui você colocarará o ^CE86C6Fragmento de Tristeza^000000.";
+    close;
+
+  }
+
+  show "[Obras]";
+  show "Há um buraco no chão, que parece ter sido feito para que algo lhe fosse encaixado.";
+  show "Ele brilha na ^CE86C6cor violeta^000000.";
+  next;
+
+  menu "Colocar ^CE86C6Fragmento de Tristeza^000000",L_Sorrow,"Colocar ^7B9663Fragmento of Agonia^000000",L_Agony,"Colocar ^8C79ADFragmento of Ódio^000000",L_Hatred,"Colocar ^F7865AFragmento of Desesperor^000000",L_Despair,"Não colocar nada.",L_End;
+
+  L_Sorrow:
+  if (countitem(7437) == 0) goto L_NoFragment;
+
+  delitem 7437,1;
+  stopnpctimer "TimerThana";
+  set $Thana, $Thana | 1;
+  initnpctimer "TimerThana";
+  mapannounce "thana_boss", "O Selo da Tristeza foi quebrado.",bc_npc;
+
+  show "[Obras]";
+  show "Você colocou o ^CE86C6Fragmento de Tristeza^000000 no buraco e ele coube perfeitamente.";
+  show "Ele agora brilha numa forte ^CE86C6cor violeta^000000.";
+  if ($Thana >= 15) close;
+  next;
+
+  show "[Obras]";
+  show "Se apresse, e conte aos seus amigos para colocarem os outros fragmentos.";
+  close;
+
+  L_Agony:
+  if (countitem(7436) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^7B9663Fragmento de Agonia^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Hatred:
+  if (countitem(7438) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^8C79ADFragmento de Ódio^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Despair:
+  if (countitem(7439) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^F7865AFragmento de Desespero^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_NoFragment:
+  show "[Obras]";
+  show "Você não tem esse fragmento.";
+  close;
+
+  L_End:
+  show "[Obras]";
+  show "Você deixou as obras.";
+  close;
+
+  OnInit:
+  set $Thana, 0;
+  end;
+
+}
+
+
+thana_boss,202,75,0	script	Obras#3	111,{
+
+  if ($Thana & 2) {
+
+    show "[Obras]";
+    show "Aqui você colocará o ^7B9663Fragmento de Agonia^000000.";
+    close;
+
+  }
+
+  show "[Obras]";
+  show "Há um buraco no chão, que parece ter sido feito para que algo lhe fosse encaixado.";
+  show "Ele brilha na ^7B9663cor verde^000000.";
+  next;
+
+  menu "Colocar ^CE86C6Fragmento de Tristeza^000000",L_Sorrow,"Colocar ^7B9663Fragmento of Agonia^000000",L_Agony,"Colocar ^8C79ADFragmento of Ódio^000000",L_Hatred,"Colocar ^F7865AFragmento of Desespero^000000",L_Despair,"Não colocar nada.",L_End;
+
+  L_Sorrow:
+  if (countitem(7437) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^CE86C6Fragmento de Tristeza^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Agony:
+  if (countitem(7436) == 0) goto L_NoFragment;
+
+  delitem 7436,1;
+  stopnpctimer "TimerThana";
+  set $Thana, $Thana | 2;
+  initnpctimer "TimerThana";
+  mapannounce "thana_boss", "O Selo da Agonia foi quebrado.",bc_npc;
+
+  show "[Obras]";
+  show "Você colocou o ^7B9663Fragmento de Agonia^000000 no buraco e ele coube perfeitamente.";
+  show "Ele agora brilha numa forte ^7B9663cor verde^000000.";
+  if ($Thana >= 15) close;
+  next;
+
+  show "[Obras]";
+  show "Se apresse, e conte aos seus amigos para colocarem os outros fragmentos.";
+  close;
+
+  L_Hatred:
+  if (countitem(7438) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^8C79ADFragmento de Ódio^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Despair:
+  if (countitem(7439) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^F7865AFragmento de Desespero^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_NoFragment:
+  show "[Obras]";
+  show "Você não tem esse fragmento.";
+  close;
+
+  L_End:
+  show "[Obras]";
+  show "Você deixou as obras.";
+  close;
+
+}
+
+
+thana_boss,80,76,0	script	Obras#4	111,{
+
+  if ($Thana & 4) {
+
+    show "[Obras]";
+    show "Aqui você colocará o ^8C79ADFragmento de Ódio^000000.";
+    close;
+
+  }
+
+  show "[Obras]";
+  show "Há um buraco no chão, que parece ter sido feito para que algo lhe fosse encaixado.";
+  show "Ele brilha na ^8C79ADcor azul^000000.";
+  next;
+
+  menu "Colocar ^CE86C6Fragmento de Tristeza^000000",L_Sorrow,"Colocar ^7B9663Fragmento de Agonia^000000",L_Agony,"Colocar ^8C79ADFragmento de Ódio^000000",L_Hatred,"Colocar ^F7865AFragmento de Desespero^000000",L_Despair,"Não colocar nada.",L_End;
+
+  L_Sorrow:
+  if (countitem(7437) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^CE86C6Fragmento de Tristeza^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Agony:
+  if (countitem(7436) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^7B9663Fragmento de Agonia^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Hatred:
+  if (countitem(7438) == 0) goto L_NoFragment;
+
+  delitem 7438,1;
+  stopnpctimer "TimerThana";
+  set $Thana, $Thana | 4;
+  initnpctimer "TimerThana";
+  mapannounce "thana_boss", "O Selo do Ódio foi quebrado.",bc_npc;
+
+  show "[Obras]";
+  show "Você colocou o ^8C79ADFragmento de Ódio^000000 no buraco e ele coube perfeitamente.";
+  show "Ele brilha agora numa forte ^8C79ADcor azul^000000.";
+  if ($Thana >= 15) close;
+  next;
+
+  show "[Obras]";
+  show "Se apresse, e conte aos seus amigos para colocarem os outros fragmentos.";
+  close;
+
+  L_Despair:
+  if (countitem(7439) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^F7865AFragmento de Desespero^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_NoFragment:
+  show "[Obras]";
+  show "Você não tem esse fragmento.";
+  close;
+
+  L_End:
+  show "[Obras]";
+  show "Você deixou as obras.";
+  close;
+
+}
+
+
+thana_boss,62,171,0	script	Obras#5	111,{
+
+  if ($Thana & 8) {
+
+    show "[Obras]";
+    show "Aqui você colocará o ^F7865AFragmento de Desespero^000000.";
+    close;
+
+  }
+
+  show "[Obras]";
+  show "Há um buraco no chão, que parece ter sido feito para que algo lhe fosse encaixado.";
+  show "Ele brilha na ^F7865Acor vermelha^000000.";
+  next;
+
+  menu "Colocar ^CE86C6Fragmento de Tristeza^000000",L_Sorrow,"Colocar ^7B9663Fragmento de Agonia^000000",L_Agony,"Colocar ^8C79ADFragmento de Ódio^000000",L_Hatred,"Colocar ^F7865AFragmento de Desespero^000000",L_Despair,"Não colocar nada.",L_End;
+
+  L_Sorrow:
+  if (countitem(7437) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^CE86C6Fragmento de Tristeza^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Agony:
+  if (countitem(7436) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o ^7B9663Fragmento de Agonia^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Hatred:
+  if (countitem(7438) == 0) goto L_NoFragment;
+  show "[Obras]";
+  show "Você tentou colocar o  ^8C79ADFragmento de Ódio^000000 no buraco, mas ele não coube.";
+  close;
+
+  L_Despair:
+  if (countitem(7439) == 0) goto L_NoFragment;
+
+  delitem 7439,1;
+  stopnpctimer "TimerThana";
+  set $Thana, $Thana | 8;
+  initnpctimer "TimerThana";
+  mapannounce "thana_boss", "O Selo do Desespero foi quebrado.",bc_npc;
+
+  show "[Obras]";
+  show "Você colocou o ^F7865AFragmento de Desespero^000000 no buraco, e ele coube perfeitamente.";
+  show "Ele brilha agora numa forte ^F7865Acor vermelha^000000.";
+  if ($Thana >= 15) close;
+  next;
+
+  show "[Obras]";
+  show "Se apresse, e conte aos seus amigos para colocarem os outros fragmentos.";
+  close;
+
+  L_NoFragment:
+  show "[Obras]";
+  show "Você não tem esse fragmento.";
+  close;
+
+  L_End:
+  show "[Obras]";
+  show "Você deixou as obras.";
+  close;
+
+}
+
+
+thana_boss,141,217,0	script	Obras#6	111,{
+
+  if ($Thana == 15) {
+
+    show "[Obras]";
+    show "Você pisou na placa, e ela parece ter ativado algum tipo de mecanismo.";
+    next;
+
+    stopnpctimer "TimerThana";
+    set $Thana, $Thana | 16;
+    monster "thana_boss",135,119,"Thanatos",1708,1,"TimerThana::OnThanaDead";
+    mapannounce "thana_boss", "O Selo de Thanatos foi quebrado.",bc_npc;
+
+    show "[Obras]";
+    show "Você escuta o som dos mortos vindo lá debaixo...";
+    close;
+
+  }
+
+  show "[Obras]";
+  show "Há uma placa aqui, que parece ser algum tipo de interruptor, mas ela não se move.";
+  close;
+
+}
+
+
+thana_boss,1,1,1	script	TimerThana	-1,{
+
+  OnTimer10000:
+
+    if ($Thana >= 15) end;
+    stopnpctimer;
+    mapannounce "thana_boss", "Você não foi capaz de quebrar todos os Quatro Selos em tempo...",bc_npc;
+    set $Thana, 0;
+    end;
+
+  OnThanaDead:
+
+    initnpctimer;
+    end;
+
+  OnTimer600000:
+
+    stopnpctimer;
+    set $Thana, 0;
+    end;
+
+}

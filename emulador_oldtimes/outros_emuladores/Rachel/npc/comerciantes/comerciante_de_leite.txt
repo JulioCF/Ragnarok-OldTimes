@@ -1,0 +1,53 @@
+//===== Cronus Script =======================================
+//= Comerciante de Leite
+//===== Por: ==================================================
+//= kobra_k88
+//= Mehah [Traduziu para PT(br)]
+//===== Versão Atual: =====================================
+//= 1.2a
+//============================================================
+
+
+// Comerciante de Leite -------------------------------------------------------------
+prontera,71,131,7	script	Comerciante de Leite	86,{
+	show "[Comerciante de Leite]";
+	show "Se você trouxer uma garrafa vazia e 20 Zeny para mim, eu trocarei por 1 garrafa de leite.";
+	next;
+	menu "-Trocar por Maximo possível.",M_0, "-Deixe-me verificar a quantia.",M_1, "-Cancelar",M_End;
+
+	M_0:
+		set @amount, 1000;
+		if(zeny/20 < @amount) set @amount, zeny/20;
+		if(countitem(713) < @amount) set @amount, countitem(713);
+		if(@amount > 0) goto L_Milk;
+		show "[Comerciante de Leite]";
+		show "..... Você esta tentando me fazer de bobo.... ?";
+		close;
+
+	M_1:
+		digit @amount;
+		if(@amount < 1 || @amount > 1000) goto M_End;
+		if(countitem(713) < @amount) goto L_NoBottle;
+		if(zeny < (@amount*20)) goto L_NoZeny;
+
+	L_Milk:
+		additem 519, @amount;
+		delitem 713, @amount;
+		set zeny, zeny - (@amount*20);
+
+	M_End:
+		show "[Comerciante de Leite]";
+		show "Volte quando quiser.";
+		close;
+
+	L_NoBottle:
+		show "[Comerciante de Leite]";
+		show "Ok, garrafa vazia por favor! Garrafa vazia!!";
+		show "... Aww. você não tem bastante...?";
+		close;
+
+	L_NoZeny:
+		show "[Comerciante de Leite]";
+		show "Você precisa de mais zeny.";
+		close;
+}

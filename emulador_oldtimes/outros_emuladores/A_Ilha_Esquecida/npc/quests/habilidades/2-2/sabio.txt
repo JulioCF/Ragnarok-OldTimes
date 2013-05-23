@@ -1,0 +1,137 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Sábio
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0b (eA 1.3c)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//============================================================
+
+//============================================================
+// SAGE SKILL - CREATE CONVERTER + ELEMENTAL CHANGE
+//============================================================
+yuno_in03,176,24,3	script	Mischna	755,{
+	show "[Mischna]";
+	if(BaseJob!=Job_Sage) goto L_sageno;
+	if(getskilllv(1007)) goto L_elemental;
+
+	show "Eu posso lhe ensinar uma habilidade nova";
+	show "que eu descobri, mas você";
+	show "precisará trazer alguns itens para mim";
+	show "completar o processo.";
+	next;
+	
+	show "[Mischna]";
+	show "Nós precisaremos de:";	
+	show "10 Caudas de Escorpião";
+	show "7 Chifres";
+	show "12 Cascos Arco-Íris";
+	show "10 Cascos de Caramujo";
+	show "4 Pergaminhos em Branco";
+	next;
+	
+	show "[Mischna]";
+	show "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(904)<10 || countitem(947)<7 || countitem(1013)<12 || countitem(946)<10 || countitem(7433)<4) goto L_noitems;//Items: Cauda_de_Escorpião, Chifre, Casco_Arco-Íris, Casco_de_Caramujo, Pergaminho_em_Branco,
+	delitem 904, 10;//Items: Cauda_de_Escorpião,
+	delitem 947, 7;//Items: Chifre,
+	delitem 1013, 12;//Items: Casco_Arco-Íris,
+	delitem 946, 10;//Items: Casco_de_Caramujo,
+	delitem 7433, 4;//Items: Pergaminho_em_Branco,
+	
+	show "[Mischna]";
+	show "Eu vejo que você tem o que nós precisamos,";
+	show "assim eu lhe ensinarei este meu novo talento!";
+	skill 1007,1,0;
+	next;
+	
+	show "[Mischna]";
+	show "Você se sente mais afinado";
+	show "com a natureza?";
+	close;
+
+L_noitems:
+	show "[Mischna]";
+	show "Você não tem todos os itens.";
+	show "Volte quando tiver tudo";
+	show "que eu lhe pedi.";
+	close;
+	
+L_sageno:
+	show "Olá, sou Mischna. Quem é você?";
+	show "Por favor, desfrute sua permanência aqui";
+	show "dentro das paredes da grande";
+	show "Guilda dos Sábios.";
+	close;
+
+L_sagefail:
+	show "[Mischna]";
+	show "Você não tem todos os itens.";
+	show "volte quando tiver tudo";
+	show "que lhe pedi para poder";
+	show "lhe dar este poder sobre";
+	show "os elementos.";
+	close;
+	
+L_alreadyhave:
+	show "Você é um estudante";
+	show "maravilhoso. É uma pena eu não tenho";
+	show "mais nada para lhe ensinar.";
+	close;
+			
+L_elemental:
+	if(getskilllv(1008) || getskilllv(1017) || getskilllv(1018) || getskilllv(1019)) goto L_alreadyhave;
+	
+	show "Eu tenho mais uma habilidade que";
+	show "posso lhe ensinar, mas você";
+	show "precisará me trazer um";
+	show "destes jogos em retorno...";
+	next;
+	
+	show "[Mischna]";
+	show "Eu só posso aceitar um jogo.";
+	show "20 Sangues Escarlates (fogo)";
+	show "20 Cristais Azuis (água)";
+	show "20 Frescores do Vento (vento)";
+	show "20 Vidas Verdejantes (Terra)";
+	next;
+	
+	show "[Mischna]";
+	show "Lembre-se que só posso lhe";
+	show "ensinar um destes elementos, então escolha com cuidado!";
+	next;
+	
+	menu "Mudança Elemental - Água",sage_1, "Mudança Elemental - Terra",sage_2, "Mudança Elemental - Fogo",sage_3, "Mudança Elemental - Vento",sage_4;
+
+		sage_1:
+		if(countitem(991)<20)goto L_sagefail;//Items: Cristal_Azul,
+		delitem 991, 20;		//Items: Cristal_Azul,
+		skill 1008,1,0;
+		goto L_alreadyhave;
+
+		sage_2:
+		if(countitem(993)<20)goto L_sagefail;//Items: Vida_Verdejante,
+		delitem 993, 20;//Items: Vida_Verdejante,
+		skill 1017,1,0;
+		goto L_alreadyhave;
+
+		sage_3:
+		if(countitem(990)<20)goto L_sagefail;//Items: Sangue_Escarlate,
+		delitem 990, 20;//Items: Sangue_Escarlate,
+		skill 1018,1,0;
+		goto L_alreadyhave;
+
+		sage_4:
+		if(countitem(992)<20)goto L_sagefail;//Items: Frescor_do_Vento,
+		delitem 992, 20;//Items: Frescor_do_Vento,
+		skill 1019,1,0;
+		goto L_alreadyhave;
+}

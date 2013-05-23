@@ -1,0 +1,101 @@
+//===== Cronus Script ========================================
+//= Auto Resete
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ========================================
+//= 1.6.2*Alpha
+//===== Compatível Com: ======================================
+//= Cronus e eAthena SVN 3422+
+//===== Descrição: ===========================================
+//= Resete baseado ao MU, que reseta ao fazer o Logout do Char
+//===== Changelog: ===========================================
+//= 1.0.1 Simplificado Checagem do Level [Mehah]
+//= 1.1 Adicionado [Mehah]
+//=	- Resete Acumulativo
+//=	- Anunciar o Resete para todos os jogadores (Mostrar ou Não quantos resets o jogador possui)
+//=	- Limite de Resetes
+//= 1.1.1 Corrigido a Checagem do Limite de Resete [Mehah]
+//=	- Prever se o jogador possui resets alem do limite
+//= 1.2 Adicionado Observações e Descrições mais detalhadas [Mehah]
+//= 1.3 Usando nova Função de if ->if(){}else
+//= 1.3.1 Corrigido Limite de Resete {= 0} [Mehah]
+//= 1.3.2 Corrigido Pontos Adicional [Mehah]
+//= 1.4 Adicionado LVL a ser requerido de classe [Mehah]
+//= 1.4.1 Retirado a configuração do resete acumulativo, agora fica no tipo de resete [Mehah]
+//= 1.5a Corrigido todos os bugs visto [Mehah]
+//=	- Novo sistema de Resete
+//=	- Corrigido bug de trocar de classe
+//=	- Adicionado Teleporte
+//=	- Adicionado configuração do lvl de classe para S.Aprendiz
+//= 1.5.1a Corrigido todos os bugs visto [Mehah]
+//=	- Corrigido habilidades na hora de reseta só checando lvl de resete
+//=	- Novo Sistema de Resete (simplificado checagens)
+//=	- Requerimento de zeny modificado(não precisa ativar requerzeny)
+//= 1.5.2a Erros Corrigido [Mehah]
+//=	- Pontos de Habilidade para classes(2-1,2-2,2-1-1,2-2-1)
+//=	- pntreset agora é @pntreset
+//= 1.5.3a Corrigido Erro ao adiciona + 1 lvl ao resete [Mehah]
+//= 1.6 Adicionado Checagem de GM(LVL) [Mehah]
+//= 1.6.1 Organizado Script, modificado GMnoreset para lvl 2 [Mehah]
+//= 1.6.2 Otimizado duas linhas de comando [Mehah]
+//============================================================
+
+function	script	autoresete	{
+//==========================
+//= Configuração do Resete =
+//==========================
+//------------------------------------------------------------------------------------------
+//Requerimento de Teleporte ----------------------------------------------------------------
+	set @map$,"prontera.gat"; //Nome do mapa para aonde vai ser teleportado
+	set @mapX,156; //Posição x do Mapa
+	set @mapY,191; //Posição y do Mapa
+//------------------------------------------------------------------------------------------
+
+//=========================
+//=        Script         =
+//=========================
+if(resetado){
+		set resetado,FALSE;
+		announce "Seu Char foi resetado com sucesso.",bc_self,0xFA0E13;
+		announce "Você possui "+resetchar+" reset(s).",bc_self,0xFA0E13;
+		if(AR_anunciartodos == 1 && AR_mostrarresets == 0)
+			announce "O jogador "+strcharinfo(0)+", acabou de resetar.",bc_all,0x283BF0;
+		else if(AR_anunciartodos == 1 && AR_mostrarresets == 1)
+			announce "O jogador "+strcharinfo(0)+", acabou de resetar pela "+resetchar+"ª vez.",bc_all,0x283BF0;
+		end;
+}else{
+	if( getgmlevel() >= AR_GMnoreset || BaseLevel < AR_lvlreset || zeny < AR_zenyreset || Class != 23 && JobLevel < AR_lvlclasse || Class == 23 && JobLevel < AR_lvlclasse2 )
+			end;
+	if(!AR_limitereset || resetchar < AR_limitereset){
+		set resetado,TRUE;
+		set resetchar, resetchar + 1;
+		set Zeny,Zeny - AR_zenyreset;
+		if( (Class != 23 && AR_lvlclasse) || (Class == 23 && AR_lvlclasse2) ){
+			resetskill;
+			set skillpoint,0; //anti-exploit
+			resetlvl(2);
+			if(Class == 23 || BaseJob)
+				skill 1,9,0;
+		}else{
+			set BaseLevel,1; //Fix
+			set BaseExp,0;
+		}
+		if(AR_tiporeset == 1){
+			resetstatus;
+			set statuspoint, AR_pntreset*resetchar;
+		}
+		if(AR_trocarclasse == 1) setjob AR_idclassereset;
+		if(AR_teleportar == 1) warp @map$,@mapX,@mapY;
+	}else
+		announce "Você possui "+resetchar+" reset's, e esse é o limite.",bc_self,0xFA0E13;
+	end;
+}
+
+}
+-	script	OnPCLoginEvent	-1,{
+	callfunc "autoresete";
+}
+
+-	script	OnPCLogoutEvent	-1,{
+	callfunc "autoresete";
+}

@@ -1,0 +1,457 @@
+//Mage quest for Athena by RoVeRT
+
+geffen_in.gat,164,124,4	script	Mage Guildsman	123,{
+	set @TEMP,0;
+	mes "[Mage Guildsman]";
+	mes "Yo. What's up?";
+	next;
+	menu "I want to be a Mage.",M0,"Tell me the Requirements.",M1,"Not Pretty Much.",M2;
+
+	M0:
+		mes "[Mage Guildsman]";
+		if(Class==2) goto JobMage;
+		if(Class !=0) goto NotNov;
+		if(JobLevel < 10) goto NoJobLvl;
+		if(job_magician_q==0) goto BeMage;
+		mes "Yeah..? Ready...?";
+		mes strcharinfo(0) + "'s test was..";
+		if(job_magician_q==1) goto MS1;
+		if(job_magician_q==2) goto MS2;
+		if(job_magician_q==3) goto MS3;
+		if(job_magician_q==4) goto MS4;
+
+		MS1:
+			mes "Making the Mixed Solution No.1.";
+			goto ContMS;
+		MS2:
+			mes "Making the Mixed Solution No.2.";
+			goto ContMS;
+		MS3:
+			mes "Making the Mixed Solution No.3.";
+			goto ContMS;
+		MS4:
+			mes "Making the Mixed Solution No.4.";
+			goto ContMS;
+
+		JobMage:
+			mes "Hey.. Hey.. Haven't you recognised yet??? You are aleady a Mage.";
+			mes "Yeah Whatever.. One of thesedays you will realise the Power inside of you when you can make a Fire with Psychic Force.";
+			close;
+		NotNov:
+			mes "Hey.. Hey.. Oh, C'mon. Let's Quit playing a Game. You know you can't be a Mage because you have another Job.";
+			close;
+		BeMage:
+			mes "Wanna be a Mage? Hmmm.....";
+			next;
+			mes "[Mage Guildsman]";
+			if(Sex == 0) goto Ml0;
+			mes "... Hey Look at you.. I think you are kinda Cute? Not my taste though..";
+			goto Ml1;
+
+			Ml0:
+				mes "... Oh, what a Hot Babe you are~~ I like the Girl like you~";
+				goto Ml1;
+			Ml1:
+			mes "Hmm.. By the way You said that you wanna be a Mage?";
+			mes "Then... Sign up the Mage Application First.";
+			next;	
+			menu "Sign Up.",ML00,"Quit.",ML01;
+
+			ML00:
+				mes "[Mage Guildsman]";
+				mes "Yeah.. Ok Sign on here.... Oh~ You are very good at Spelling~ Cool. Alright.";
+				mes "Your name is... " + strcharinfo(0) + ".";
+				next;
+				mes "[Mage Guildsman]";
+				mes "I will give you the test...";
+				set @TEMP,rand(4);
+				goto R0;
+				
+				R0:
+					if(@TEMP !=0) goto R1;
+					mes "Make the Mixed Solution No.1 and bring back to me.";
+					set job_magician_q,1;
+					goto ContML00;
+				R1:
+					if(@TEMP !=1) goto R2;
+					mes "Make the Mixed Solution No.2 and bring back to me.";
+					set job_magician_q,2;
+					goto ContML00;
+				R2:
+					if(@TEMP !=2) goto R3;
+					mes "Make the Mixed Solution No.3 and bring back to me.";
+					set job_magician_q,3;
+					goto ContML00;
+				R3:
+					mes "Make the Mixed Solution No.4 and bring back to me.";
+					set job_magician_q,4;
+					goto ContML00;
+
+				ContML00:
+				next;
+				getitem 1092,1;
+				mes "[Mage Guildsman]";
+				mes "You can refer Neccessary Datas to the Guide Book in this Guild. Figure out by yourself.";
+				mes "Also you can use the machine in the Centre to Mix the Solution.";
+				mes "Good Luck~";
+				close;
+			ML01:
+				mes "[Mage Guildsman]";
+				mes "Whatttt?! You told me that you wanna be a Mage, How can you change your mind so Quickly!?";
+				close;
+
+		NoJobLvl:
+			mes "... What a Bummer.. You didn't meet the requirements at all.";
+			mes "Go back and reach at Novice Job level 9 first. Don't forget you have to learn Basic Skills before everything.";
+			close;
+
+		ContMS:
+		mes "Okay, Let's get started to check?";
+		next;
+		mes "[Mage Guildsman]";
+		if((countitem(1071)==0) && (countitem(1085)==0) && (countitem(1086)==0) && (countitem(1087)==0) && (countitem(1090)==0)) goto MS00;
+		if(((job_magician_q==1) && (countitem(1071)==1)) || ((job_magician_q==2) && (countitem(1085)==1)) || ((job_magician_q==3) && (countitem(1086)==1)) || ((job_magician_q==4) && (countitem(1087)==1))) goto MS01;
+
+		MS00:
+			mes "Where's the Solution I asked...? I can't check it out if you don't show me, can I?";
+			close;
+		MS01:
+			mes "....... Darn it. This is not exactly what I asked. What you have to do is.....";
+			if(job_magician_q==1) goto MS01a;
+			if(job_magician_q==2) goto MS01b;
+			if(job_magician_q==3) goto MS01c;
+			if(job_magician_q==4) goto MS01d;
+
+			MS01a:
+				mes "Making the Mixed Solution No.1 and Bring back to me.";
+				goto ContMS01;
+			MS01b:
+				mes "Making the Mixed Solution No.2 and Bring back to me.";
+				goto ContMS01;
+			MS01c:
+				mes "Making the Mixed Solution No.3 and Bring back to me.";
+				goto ContMS01;
+			MS01d:
+				mes "Making the Mixed Solution No.4 and Bring back to me.";
+				goto ContMS01;
+
+		ContMS01:
+			if(countitem(1071) !=0) goto MS02a;
+			if(countitem(1085) !=0) goto MS02b;
+			if(countitem(1086) !=0) goto MS02c;
+			if(countitem(1087) !=0) goto MS02d;
+			if(countitem(1090) !=0) goto MS02e;
+			mes "Try again.";
+			close;
+
+			MS02a:
+				delitem 1071,1;
+				goto MS03;
+			MS02b:
+				delitem 1085,1;
+				goto MS03;
+			MS02c:
+				delitem 1086,1;
+				goto MS03;
+			MS02d:
+				delitem 1087,1;
+				goto MS03;
+			MS02e:
+				delitem 1090,1;
+				goto MS03;
+
+			MS03:
+				mes "..... Hmm. I can see how hard you tried. Although it is not perfect, but It will be fine.";
+				mes "Alright! You pass the Mage Test. I will transform you right away.";
+				next;
+				mes "Ehem... Now you are one of us, the Mages.";
+				mes "I sincerely congratulate you.";
+				next;
+				JobChange 2;
+				set Zeny,Zeny+50;
+				mes "[Mage Guildsman]";
+	      			mes "'Welcome to My World~'";
+      				mes "Quate from the Well-Known Movie. Heh heh,I just wanna try this~";
+				mes "Anyway, I congratulate you to join us. ~Let's be friends, Alright?~";
+				close;
+	M1:
+		mes "[Mage Guildsman]";
+		mes "Wanna be a Mage?";
+		if(Sex==0) goto SexL;
+		mes "Be my guest any time. I like a Hunk like you~";
+		goto ContM1;
+
+		SexL:
+			mes "Be my guest, Lady. I like a Babe like you~";
+			goto ContM1;
+		ContM1:
+		next;
+		mes "[Mage Guildsman]";
+		mes "First of all, you have to reach at Novice Level 9 with fulfilled Basic Skills.";
+		mes "Second, you have to pass the Mage Test.";
+		next;
+		if(job_magician_q !=0) goto jobmagicianqN0;
+		mes "[Mage Guildsman]";
+		mes "You will get to know the Particular Solution for you after Signing up the Application Form first.";
+		goto M1Cont;
+
+		jobmagicianqN0:
+			mes "[Mage Guildsman]";
+			mes "I will give you the test....";
+			if(job_magician_q==1) goto jobmagicianq1;
+			if(job_magician_q==2) goto jobmagicianq2;
+			if(job_magician_q==3) goto jobmagicianq3;
+			mes "Make the Mixed Solution No.4 and Bring back to me.";
+			goto jobmagicianq;
+
+			jobmagicianq1:
+				mes "Make the Mixed Solution No.1 and Bring back to me.";
+				goto jobmagicianq;
+			jobmagicianq2:
+				mes "Make the Mixed Solution No. 2 and Bring back to me.";
+				goto jobmagicianq;
+			jobmagicianq3:
+				mes "Make the Mixed Solution No.3 and Bring back to me.";
+				goto jobmagicianq;
+			jobmagicianq:
+				mes "You can refer Neccessay Datas to the Guide Book in this Guild. Figure out by yourself.";
+				goto M1Cont;
+		M1Cont:
+		next;
+		mes "[Mage Guildsman]";
+		mes "Let me know when you are ready to become a Mage.";
+		close;
+	M2:
+		mes "[Mage Guildsman]";
+		mes "Errr..? What's that...?";
+		close;
+}
+//<=========== Mage Guildsman - End ==========>\\
+
+//<=========== Mixing Machine - Begin ==========>\\
+geffen_in.gat,164,112,1	script	Mixing Machine	111,{
+	mes "[Mixing Machine]";
+	mes "What solution would you like to make?";
+	set @input;
+	next;
+	menu "Solution 1",sol1,"Solution 2",sol2,"Solution 3",sol3,"Solution 4",sol4;
+
+
+	sol1:
+//		Payon Solvent
+		if(countitem(909)<2) goto Lnojel;
+		if(countitem(914)<3) goto Lnofluff;
+		if(countitem(519)<1) goto Lnomilk;
+		if(countitem(1089)<1) goto Lnosolv;
+//		if(countitem(1092)<1) goto Lnotest;
+		input @input;
+			if(@input==8472) goto Input1;
+			if(@input<8472) goto FAIL1;
+			if(@input>8472) goto FAIL1;
+
+	sol2:
+//		No Solution needed
+		if(countitem(909)<3) goto Lnojel;
+		if(countitem(914)<1) goto Lnofluff;
+		if(countitem(519)<1) goto Lnomilk;
+//		if(countitem(1092)<1) goto Lnotest;
+		input @input;
+			if(@input==3735) goto Input2;
+			if(@input<3735) goto FAIL2;
+			if(@input>3735) goto FAIL2;
+	sol3:
+//		Payon Solvent
+		if(countitem(909)<6) goto Lnojel;
+		if(countitem(914)<1) goto Lnofluff;
+		if(countitem(1089)<1) goto Lnosolv;
+//		if(countitem(1092)<1) goto Lnotest;
+		input @input;
+			if(@input==2750) goto Input3;
+			if(@input<2750) goto FAIL3;
+			if(@input>2750) goto FAIL3;
+	sol4:
+//		Morroc Solvent
+		if(countitem(909)<2) goto Lnojel;
+		if(countitem(914)<3) goto Lnofluff;
+		if(countitem(1088)<1) goto Lnosolv;
+//		if(countitem(1092)<1) goto Lnotest;
+		input @input;
+			if(@input==5429) goto Input4;
+			if(@input<5429) goto FAIL4;
+			if(@input>5429) goto FAIL4;
+
+
+	Input1:
+		mes "Select the Catalyst for your Solution";
+		menu "Red Gemstone",FAIL1,"Blue Gemstone",FAIL1,"Yellow Gemstone",Yell,"Diamond",FAIL1;
+		
+		Yell:
+			delitem 909,2;
+			delitem 914,3;
+			delitem 519,1;
+			delitem 1089,1;
+			mes "Mixing complete.";
+			next;
+			getitem 1071,1;
+			close;
+	Input2:
+		menu "Red Gemstone",Red,"Blue Gemstone",FAIL2,"Yellow Gemstone",FAIL2,"Diamond",FAIL2;
+
+		Red:
+			delitem 909,2;
+			delitem 914,3;
+			delitem 519,1;
+			mes "Mixing complete.";
+			next;
+			getitem 1085,1;
+			close;
+	Input3:
+		menu "Red Gemstone",FAIL3,"Blue Gemstone",Blue,"Yellow Gemstone",FAIL3,"Diamond",FAIL3;
+		
+		Blue:
+			delitem 909,2;
+			delitem 914,3;
+			delitem 1089,1;
+			mes "Mixing complete.";
+			next;
+			getitem 1086,1;
+			close;
+	Input4:
+		menu "Red Gemstone",FAIL4,"Blue Gemstone",FAIL4,"Yellow Gemstone",FAIL4,"Diamond",Diam;
+
+		Diam:
+			delitem 909,2;
+			delitem 914,3;
+			delitem 1088,1;
+			mes "Mixing complete.";
+			next;
+			getitem 1087,1;
+			close;
+
+	FAIL1:
+		delitem 909,2;
+		delitem 914,3;
+		delitem 519,1;
+		delitem 1089,1;
+		mes "Mixing complete.";
+		next;
+		getitem 1090,1;
+		close;
+	FAIL2:
+		delitem 909,2;
+		delitem 914,3;
+		delitem 519,1;
+		mes "Mixing complete.";
+		next;
+		getitem 1090,1;
+		close;
+	FAIL3:
+		delitem 909,2;
+		delitem 914,3;
+		delitem 1089,1;
+		mes "Mixing complete.";
+		next;
+		getitem 1090,1;
+		close;
+	FAIL4:
+		delitem 909,2;
+		delitem 914,3;
+		delitem 1088,1;
+		mes "Mixing complete.";
+		next;
+		getitem 1090,1;
+		close;
+
+//	Lnotest:
+		mes "You don't have an empty testtube.";
+		close;	
+	Lnojel:	
+		mes "Not enought jellopy.";
+		close;
+	Lnofluff:
+		mes "Not enought Fluff.";
+		close;
+	Lnomilk:
+		mes "Not enought Milk.";
+		close;
+	Lnosolv:
+		mes "Not enought solvent.";
+		close;
+}
+//<=========== Mixing Machine - End ==========>\\
+
+//<=========== Morroc Solution - Begin ==========>\\
+moc_ruins.gat,91,150,5	script	Ponka-Hontas	93,{
+	mes "[Mage Guildsman]";
+	mes "You want the Solution? Then give me 50 Zeny and at least 1 Empty Testube.";
+	next;
+	menu "Allright, Deal",L0,"Nah, forget it.",L1;
+    
+	L0:        
+		if(countitem(1092)<1) goto L0NoT;
+		if(Zeny<50) goto L0NoZ;
+		mes "[Mage Guildsman]";
+		mes "Ok, you have the money and a empty Testube, that's good!";
+		delitem 1092,1;
+		set Zeny,Zeny-50;
+		next;
+		mes "[Mage Guildsman]";
+		getitem 1088,1;
+		mes "Thank you, I think you will be a great mage, you are so generous.";
+		mes "I hope i'll see you soon again here";
+		close;
+
+		L0NoT:
+			mes "[Mage Guildsman]";
+			mes "You can't Carry on Fluid without a bottle, are you sure you want to become a mage?";
+			mes "Bring an Empty Testube";
+			close;
+
+		L0NoZ:
+			mes "[Mage Guildsman]";
+			mes "Pfff, You are too poor to buy our noble Solution!";
+			mes "Bring 50 Zeny, go to the mercant sell something, it will not be too hard I hope";
+			close;
+	L1:
+		mes "[Mage Guildsman]";
+		close;
+}
+//<=========== Morroc Solution - End ==========>\\
+
+//<=========== Payon Solution - Begin ==========>\\
+pay_arche.gat,122,100,5	script	Dollshoi	88,{
+	mes "[Mage Guildsman]";
+	mes "You want the Solution? Then give me 50 Zeny and at least 1 Empty Testube.";
+	next;
+	menu "Allright, Deal",L0,"Nah, forget it.",L1;
+    
+	L0:        
+		if(countitem(1092)<1) goto L0NoT;
+		if(Zeny<50) goto L0NoZ;
+		mes "[Mage Guildsman]";
+		mes "Ok, you have the money and a empty Testube, that's good!";
+		delitem 1092,1;
+		set Zeny,Zeny-50;
+		next;
+		mes "[Mage Guildsman]";
+		getitem 1089,1;
+		mes "Thank you, I think you will be a great mage, you are so generous.";
+		mes "I hope i'll see you soon again here";
+		close;
+
+		L0NoT:
+			mes "[Mage Guildsman]";
+			mes "You can't Carry on Fluid without a bottle, are you sure you want to become a mage?";
+			mes "Bring an Empty Testube";
+			close;
+
+		L0NoZ:
+			mes "[Mage Guildsman]";
+			mes "Pfff, You are too poor to buy our noble Solution!";
+			mes "Bring 50 Zeny, go to the mercant sell something, it will not be too hard I hope";
+			close;
+	L1:
+		mes "[Mage Guildsman]";
+		close;
+}
+//<=========== Payon Solution - End ==========>\\

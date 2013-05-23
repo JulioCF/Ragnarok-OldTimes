@@ -1,0 +1,58 @@
+// _________                                    
+// \_   ___ \_______  ____   ____  __ __  ______
+// /    \  \/\_  __ \/  _ \ /    \|  |  \/  ___/
+// \     \____|  | \(  <_> )   |  \  |  /\___ \ 
+//  \______  /|__|   \____/|___|  /____//____  >
+//         \/                   \/           \/  
+//-----------------------------------------------
+// Cronus - Configuração dos Sockets
+//-----------------------------------------------
+
+
+// Mostrar relátorios de eliminação de erros (Quando algo dá errado durante o relatório, o relatório está salvado.)
+debug: no
+
+// How long can a socket stall before closing the connection (in seconds)
+stall_time: 60
+
+
+//----- Regras da configuração de IP -----
+
+// Verificar IP antes de permitir conexões?
+enable_ip_rules: yes
+
+// Decida a ordem de restirção de acesso(Igual ao apache?)
+// deny,allow é o padrão
+
+order: deny,allow
+// order: allow,deny
+// order: mutual-failture
+
+// Lista de IP usada no controle de acesso
+//   allow    : Permite o acesso cuidadoso respeitando permissões
+//   deny     : Completmente nega o acesso
+//   Žw’è–³‚µ : Se a verificação encontrar uma falha mútua isso bloquieia o acesso
+
+// allow: 127.0.0.1
+// allow: 192.168.0.0/16
+// allow: 10.0.0.0/255.0.0.0
+allow: all
+
+// deny: 127.0.0.1
+
+
+//---- Proteção de configurações Ddos----
+//     Se houver um pedido de conexão dentro do milissegundos de ddos_interval para o número de vezes do ddos_count , suporá que é um ataque dos ddos
+
+// Intervalos consecutivos(mseg)
+ddos_interval: 3000
+
+// Frequencia da conexão
+ddos_count: 5
+
+// O intervalo do tempo depois da ameaça dos ddos é suposta a ser
+// Após esta quantidade de tempo, as limitações dos ddos são levantadas.
+ddos_autoreset: 600000
+
+
+//import: conf/import/packet_conf.txt

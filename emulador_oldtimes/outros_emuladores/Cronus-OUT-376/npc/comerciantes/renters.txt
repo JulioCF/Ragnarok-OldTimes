@@ -1,0 +1,153 @@
+//===== Cronus Script =======================================
+//= Renters
+//===== Por: ==================================================
+//= kobra_k88, mod por Lupus
+//===== Versão Atual: =====================================
+//= 1.3.2
+//===== Compatível Com: ======================================
+//= Cronus, bRO Episódio 4+ (Atualiza quando Lança as Novas Classes)
+//===== Descrição: =========================================
+//= Criador de PecoPeco, Grand Criador de PecoPeco, Falcon tamer scripts
+//===== Comentarios Adicionais: ================================= 
+//= 1.3.1 Traduzido por S@mus-Senpai
+//= 1.3.2 Adaptado Tradução para bRO [Mehah]
+//============================================================
+
+// Criador de PecoPeco (para Cavaleiros)-------------------------------------------
+prontera.gat,61,338,3	script	Criador de PecoPeco	86,{
+	show "[Criador de PecoPeco]";
+	if(BaseJob == Job_Knight || BaseJob == Job_Knight2 ) goto L_Start;
+	show "Eu sou um criador de PecoPeco e eu alugo PecoPecos para^4444FF Cavaleiros ^000000cavalgarem.";
+	close;
+
+L_Start:
+	show "Bom Dia. Você gostaria de alugar um PecoPeco?";
+	next;
+	show "[Criador de PecoPeco]";
+	show "Você pode alugar um  PecoPeco por 2500 Zeny,Contanto que você possua a skill Montaria .";
+	next;
+	menu "Deixe me pensar um instante... Ok",M_0,"Me parece muito caro.",M_1;
+
+	M_0:
+		if(getskilllv(63) == 0) goto sL_NeedSkill;
+		if(Zeny < 2500) goto sL_Zeny;
+		if(checkriding(0) != 0) goto sL_GotPeco;
+		set Zeny, Zeny - 2500;
+		setriding;
+		show "Obrigado e tenha um ótimo dia.";
+		emotion 15;
+		close;
+
+		sL_NeedSkill:
+			show "[Criador de PecoPeco]";
+			show "Eu já tinha mencionado anteriormenteque você precisa da skill^3333FF Montaria ^000000para alugar um PecoPeco.";
+			close;
+		sL_Zeny:
+			show "[Criador de PecoPeco]";
+			show "Eu disse que custaria 2500z. Volte quando tiver o dinheiro.";
+			close;
+		sL_GotPeco:
+			show "[Criador de PecoPeco]";
+			show "Umm... Acho que você já está montando um PecoPeco....";
+			emotion 20;
+			close;
+	M_1:
+		show "[Criador de PecoPeco]";
+		show "Certo, tenha um bom dia.";
+		close;
+
+}
+
+//  Criador de Grand Peco (para Templário)-------------------------------------------
+prontera.gat,238,312,5	script	Criador de Grand Peco	86,{
+	show "[Criador de Grand Peco]";
+	if(BaseJob == Job_Crusader || BaseJob == Job_Crusader2 ) goto L_Start;
+
+	show "Eu Sou um Criador de Grand Pecos e eu alugo Grand PecoPeco's para^4444FF Templário ^000000to cavalgarem";
+	close;
+
+L_Start:
+	show "Bom Dia.  Você gostaria de montar um Grand PecoPeco?";
+	next;
+	show "[Criador de Grand Peco]";
+	show "Você pode alugar um  Grand PecoPeco por 2500 Zeny, Desde que você tenha a skill Montaria, é claro.";
+	next;
+	menu "Deixe-me pensar um pouco...Ok",M_0,"Parece-me meio caro.",M_1;
+
+	M_0:
+		if(getskilllv(63) == 0) goto sL_NeedSkill;
+		if(Zeny < 2500) goto sL_Zeny;
+		if(checkriding(0) != 0) goto sL_GotPeco;
+		set Zeny, Zeny - 2500;
+		setriding;
+		show "Obrigado e tenha um bom dia.";
+		emotion 15;
+		close;
+
+		sL_NeedSkill:
+			show "[Criador de Grand Peco]";
+			show "Eu já tinha mencionado que você precisaria da skill^3333FF Montaria ^000000para alugar um Grand PecoPeco.";
+			close;
+		sL_Zeny:
+			show "[Criador de Grand Peco]";
+			show "Eu já tinha dito que custaria 2500z. Volte quando tiver dinheiro suficiente.";
+			close;
+		sL_GotPeco:
+			show "[Criador de Grand Peco]";
+			show "Umm... Eu acho que isso que você está montando é um Grand Peco, ou estou enganado?";
+			emotion 20;
+			close;
+	M_1:
+		show "[Criador de Grand Peco]";
+		show "Certo, tenha um ótimo dia.";
+		close;
+
+}
+
+// Treinador de falcões--------------------------------------------------------------
+in_hunter.gat,146,100,2	script	Treinador de falcões	59,{
+	show "[Treinador de falcões]";
+	show "Olá, Eu sou um Treinador de falcões.";
+	next;
+	menu "Falar com ele.",M_0, "Sair de fininho",M_End;
+
+	M_0:
+		show "[Treinador de falcões]";
+		show "Eu posso treinar um falcão para você, mas você deve ser um Caçador e possuira skill ^5555FF'Adestrar_Falcão'^000000.";
+		next;
+		menu "Ok",sM_0, "Não , obrigado",M_End;
+
+		sM_0:
+			if(BaseJob != Job_Hunter) goto sL_NotHunter;
+
+			if(checkfalcon(0) != 0) goto sL_GotFalc;
+			if(getskilllv(127)==0) goto sL_NoSkill;
+			show "[Treinador de falcões]";
+			show "Se Você conhece todos os requerimentos para ter um falcão.  Vamos em frente.";
+			setfalcon;
+			next;
+			show "[Treinador de falcões]";
+			show "Por Favor, tenha muito cuidado com ele. Assim , ele será um companheiro de valor.";
+			close;
+			
+			sL_NotHunter:
+				show "[Treinador de falcões]";
+				show "Eu havia dito, Falcões só podem ser criados por Caçadores.  Falcôes são muito rigorosos na escolha de quem viajará com eles.";
+				close;
+			sL_GotFalc:
+				show "[Treinador de falcões]";
+				show "Você só pode ter um falcão por vez";
+				close;
+			sL_NoSkill:
+				show "[Treinador de falcões]";
+				show "Me desculpe mas você não possui a skill Adestrar_Falcão. Volte quando tiver aprendido.";
+				close;
+	M_End:
+		show "[Treinador de falcões]";
+		show "Tenha um bom dia.";
+		close;
+}
+
+//Not Supposed To Be One In Payon!
+//Coordinate IS Correct For New Payon Map Though IF You Enable It
+payon_in01.gat,206,175,4	duplicate(Treinador de falcões)	Treinador de falcões	59

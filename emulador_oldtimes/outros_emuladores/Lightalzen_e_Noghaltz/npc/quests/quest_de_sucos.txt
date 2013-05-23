@@ -1,0 +1,278 @@
+//===== Cronus Script ========================================
+//= Quest de Suco
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão Atual: ========================================
+//= 1.5b
+//===== Compatível Com: ======================================
+//= eAthena 7.15 +
+//===== Descrição: ===========================================
+//= Primeira parte da Quest de Suco
+//===== Cometários Adicionais: ===============================
+//= 1.5b Traduzido e Adaptado p/ o Cronus [Pudim]
+//============================================================
+
+// Morrison ------------------------------------------------
+prt_in.gat,47,173,2	script	Morrisson	97,{
+	show "[Pequeno Morrisson]";
+	if(MEAT > 10) goto L_Candy;
+	if(MARIANNE == 1) goto L_GoAway;
+
+	show "Eu já disse, não quero comer essas frutas idiotas!";
+	show "Eu quero carne!!!";
+	emotion 28;
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_End;
+
+	M_Talk:
+		if(countitem(517) > 0) goto L_Meat; //Carne
+
+		show "[Pequeno Morrisson]";
+		show "Que mãe idiota que eu tenho, fica me forçando a comer frutas.";
+		show "Eu odeio frutas, elas são duras demais pros meus dentes!";
+		show "Carnes são muito mais macias e saborosas.";
+		close;
+
+		L_Meat:
+		menu "Dar a Carne",sM_Give,"Ignorar",sM_Ignore;
+		
+		sM_Give:
+			if(countitem(517) == 0) goto L_GoAway; //Meat
+			delitem 517,1;	//Meat
+			set MORRISON,1;
+			set MEAT,MEAT + 1;
+			show "[Pequeno Morrisson]";
+			show "Woooww~!!! Carne, é Carne de verdade!";
+			show "Mmmm! Parece águra na boca.";
+			show "Oh Muito Obrigado. Agora estou feliz. Yupp Yupp...";
+			close;
+		sM_Ignore:
+			set MORRISON,2;
+
+			show "[Pequeno Morrisson]";
+			show "-.-...";
+			show "Tá... Tudo Bem, Tudo Bem~!!! Selfish meanie!";
+			close;
+	M_End:
+		show "[Pequeno Morrisson]";
+		close;
+
+L_GoAway:
+	show "Pffff... Me deixe sozinho! Você NÃO SE importa comigo! Eu vou acabar morrendo por causa desses estupidos vegetais e frutas!";
+	close;
+L_Candy:
+	show "Ohh..Estou cheio agora.";
+	show "Você não precisa mais me alimentar. Eu acho que vou explodir se comer mais.";
+	next;
+	show "[Pequeno Morrisson]";
+	show "E... Hmm... Pegue Isso.";
+	next;
+	additem 529,3;
+	additem 530,1;
+	set MEAT,0;
+	show "[Pequeno Morrisson]";
+	show "Esse é meu pacote de Doces que eu escondi da minha Mãe.  Se você me der mais Carne, eu te darei mais alguns Doces." ;
+	close;
+
+}
+
+// Marianne ---------------------------------------------------
+prt_in.gat,49,172,2	script	Marianne	53,{
+	show "[Marianne]";
+	if(MORRISON == 1) goto L_GaveMeat;
+	if(MORRISON == 2) goto L_Juice;
+
+	show "Morrisson, meu filhinho, come uma frutinha, faz esse favor";
+	show "*Snif*~!! Tal pai tal filho...";
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_Cancel;
+	close;	
+
+	M_Talk:
+		show "[Marianne]";
+		show "(^.~)...Esse é o Morrisson... Meu primeiro e unico filho.";
+		show "Ele está passando por uma fase e não quer comer nenhuma ^0000ffFruta^000000 or vegetables.  Look at his face, it turns sour just hearing about ^0000fffFruit^000000...";
+		next;
+		show "[Marianne]";
+		show "Tudo que ele quer comer é ^ff0000Carne^000000... ele precisa de ^0000ffFrutas^000000 e vegetais para uma dieta saudável.";
+		next;
+		close;
+
+	M_Cancel:
+		show "[Marianne]";
+		show "Morrisson!! Eu vou ficar louca se você continuar fazendo isso!";
+		close;
+	
+L_GaveMeat:
+	set MORRISON,0;
+	show "Ai MEU DEUS!!... Oh Senhor...";
+	next;
+	show "[Marianne]";
+	show "O QUE VOCÊ ESTÁ FAZENDO!! COMO VOCÊ DESAFIOU alimentar meu filho!! Com ^ff0000CARNE^000000 ainda mais!!!";
+	next;
+	show "[Marianne]";
+	show "Arrrgh~~!! Saia agora!!!!!!";
+	close;
+
+L_Juice:
+	set MORRISON,0;
+	set MARIANNE,1;
+	show "Obrigado por não dar nenhuma carne ao meu filho.  Estou tentando alimetá-lo com ^0000ffFrutas^000000 e vegetais, mas essas crianças não comen nada exceto Carne...";
+	next;
+	show "[Marianne]";
+	show "Se eu pudesse transformar ^0000ffFrutas^000000 em ^0000ffSucos^000000... por exemplo...Suco de laranja... Será que minha criança iria gostar?";
+	next;
+	show "[Marianne]";
+	show "Ah! Agora eu lembro..Tem uma cidade onde você consegue bastante ^0000ffFrutas^000000 transformadas em ^0000ffSucos de Frutas^000000.";
+	next;
+	show "[Marianne]";
+	show "... Era em ...^ff0000Payon^000000...ou ^ff0000Morroc^000000...?";
+	next;
+	close;
+
+}
+//Marx Hansen
+payon_in03.gat,188,146,5	script	Marx Hansen	86,{
+	if(MARIANNE==1) goto FJL0;
+	show "[Marxhansen, o Mercador]";
+	show "bem-vindo.";
+	next;
+	menu "Conversar.",L0,"Cancelar.",L1;
+		
+	L0:
+		show "[Marxhansen, o Mercador]";
+		show "Quando os humanos ainda eram nômades, eles dependiam das frutas que achavam.";
+		show "E com o tempo eles aprenderam a fazer sucos com elas, para mante-las por mais tempo.";
+		next;
+		show "[Marxhansen, o Mercador]";
+		show "Agora, temos garndes hortas, e podemos ter todas as frutas que gostaríamos.";
+		show "Mas os sucos continuam a ser muito importantes, por conterem apenas o que é bom da fruta.";
+		show "Nos sucos, você pode aproveitar um sabor muito mais concentrado.";
+		close;
+	L1:
+		show "[Marxhansen, o Mercador]";
+		show "Você veio até aqui por nada?";
+		close;
+
+	FJL0:
+		show "[Marxhansen, o Mercador]";
+		show "Bem vindo à minha loja. Você veio aqui preparar suco de frutas?";
+		next;
+		menu "Sim.",FJL00,"Por favor, diga-me os requerimentos.",FJL01,"Não, eu não.",FJL02;
+		
+		FJL00:
+			show "[Marxhansen, o Mercador]";
+			show "Qual tipo de suco de fruta deseja preparar?";
+			next;
+			menu "Suco de Maçã",L00,"Suco de Banana",L01,"Suco de Cenoura",L02,"Suco de Uva",L03,"Nenhum, obrigado.",LEnd;
+
+			L00:
+				set @fruit,512;
+				set @juice,531;
+				goto L00z;
+			L01:
+				set @fruit,513;
+				set @juice,532;
+				goto L00z;
+			L02:
+				set @fruit,515;
+				set @juice,534;
+				goto L00z;
+			L03:
+				set @fruit,514;
+				set @juice,533;
+				goto L00z;
+
+			L00z:
+				if((countitem(@fruit)>0) || (countitem(713)>0) || (Zeny>2)) goto L000z;
+					if (@fruit == 512) goto noL00;
+					if (@fruit == 513) goto noL01;
+					if (@fruit == 514) goto noL03;
+					if (@fruit == 515) goto noL02;
+					close;
+
+							noL00:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Maçã você precisa de 1 Maçã e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Maçã.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL01:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Banana você precisa de 1 Banana e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Banana.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL02:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Cenoura você precisa de 1 Cenoura e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Cenoura.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL03:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Uva você precisa de 1 Uva e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Uva.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+				L000z:
+				show "[Marxhansen, o Mercador]";
+				show "Quantos? Você precisa...";
+				next;
+				menu "Hmm, deixe-me colocar a quantidade",Lget,"Argh, esqueça!",L00c;
+				Lget:
+					digit @input;
+					if(@input > 0) goto Linp;
+					show "[Marxhansen, o Mercador]";
+					show "Deal canceled.";
+					close;
+
+					Linp:
+						if((countitem(@fruit)<@input) || (countitem(713)<@input) || (Zeny<3*@input)) goto Ltomuch;
+						delitem @fruit,@input;
+						delitem 713,@input;
+						set Zeny,zeny-3*@input;
+						additem @juice,@input;
+						goto GotMsg;
+						
+
+						Ltomuch:
+							show "[Marxhansen, o Mercador]";
+							show "Você não tem as garrafas necessárias ou as frutas para fazer o suco.";
+							close;
+						GotMsg:
+							show "[Marxhansen, o Mercador]";
+							show "Prontinho, hehehe.";
+							show "Tome isto!";
+							close;
+				L00c:
+					close;
+			LEnd:
+				show "[Marxhansen, o Mercador]";
+				show "Ohh! Mas porque isso rapaz?";
+				show "Sucos são ótimos! Fazem um bem danado.";
+				show "Mas não vou obrigá-lo a tomar, vejo você quando tiver juízo...";
+				close;
+		FJL01:
+			show "[Marxhansen, o Mercador]";
+			show "Quando os humanos ainda eram nômades, eles dependiam das frutas que achavam.";
+			show "E com o tempo eles aprenderam a fazer sucos com elas, para mante-las por mais tempo.";
+			next;
+			show "[Marxhansen, o Mercador]";
+			show "Agora, temos garndes hortas, e podemos ter todas as frutas que gostaríamos.";
+			show "Mas os sucos continuam a ser muito importantes, por conterem apenas o que é bom da fruta.";
+			show "Nos sucos, você pode aproveitar um sabor muito mais concentrado.";
+			next;
+			show "# Informações para fazer um Suco de Fruta #";
+			show "Suco de Maçã - Maçã x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Banana - Banana x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Cenoura - Cenoura x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Uva - Uva x 1, Garrafa Vazia x 1, 3 zeny.";
+			close;
+		FJL02:
+			close;
+}

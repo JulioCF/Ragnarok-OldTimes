@@ -1,0 +1,48 @@
+//===== Cronus Script ========================================
+//= Guerra de Emperium Funções da Bandeira de Guild
+//===== Por: =================================================
+//= jAthena - kalen (1.0)
+//= 1.1 por Akaru, ho|yAnge|X, e Valaris
+//===== Versão Atual: ========================================
+//= 1.3a/1.3a
+//===== Comentários Adicionais: ==============================
+//= Traduzido por emeeca
+//= Modificado algumas frases por Mozoco
+//============================================================
+
+function	script	F_Flags	{
+
+	set @GID, GetCastleData(getarg(1)+".gat",1);
+	if (@GID != 0) goto L_Startg;
+
+	show "[ Este é o marco de um dos Castelos de Rune Midgard, da cidade de " + getarg(0) + " ]";
+	show " ";
+	show "1. Todos seus representantes devem honrar o Castelo  " + getarg(0) + ", nenhuma Guilda tomou posse desse castelo ainda";
+	show " ";
+	show "2. Se sua Guilda quiser tomar posse desse castelo, você deve derrotar todos os guardiões que estão protegendo a base do Castelo e eliminar o Emperium.";
+	return;
+L_Startg:
+	if ((getcharid(2) == @GID) && (getarg(4) == 1)) goto L_Startg2;
+	show "[ Este é o marco de um dos Castelos do Reino de Rune Midgard, que se chama "+ getarg(0) +" ]";
+	show " ";
+	show "1. Seus representantes devem ";
+	show "respeitar e Honrar este Castelo do Reino de Rune Midgard, chamado ";
+	show getarg(0) +",que ja esta dominado";
+	show "A guilda que domina este Castelo";
+	show "chama-se ^ff0000" + GetGuildName(@GID) + ".";
+	show " ";
+	show "2. O Mestre da Guilda de ";
+	show "^ff0000"+ GetGuildName(@GID) + "^000000, chama-se ^0000FF" + GetGuildMaster(@GID) + "^000000.";
+	show "Se ninguém possue objeções a fazer, pegue sua espada e honre a si mesmo.";
+	return;
+L_Startg2:
+	show "[ Voz Misteriosa ]";
+	show "Bravo guerreiro(a), deseja retornar ao seu Castelo?";
+	next;
+	menu "Voltar.",M_Enter,"Cancelar.",-;
+	return;
+
+	M_Enter:
+		if (getcharid(2) == GetCastleData(getarg(1)+".gat",1)) warp getarg(1)+".gat",getarg(2),getarg(3);
+		return;
+}

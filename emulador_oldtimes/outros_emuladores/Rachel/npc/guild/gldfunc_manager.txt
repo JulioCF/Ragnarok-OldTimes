@@ -1,0 +1,396 @@
+//===== Cronus Script ========================================
+//= Guerra de Emperium Funções para o Dono da Guild
+//===== Por: =================================================
+//= jAthena - kalen (1.0)
+//= 1.1 por Akaru, ho|yAnge|X, e Valaris
+//===== Versão Atual: ========================================
+//= 1.5b/1.6a
+//==============================================
+//= Break down of arguments used in the function:
+//=   arg(0): name of Castle Manager
+//=   arg(1): name of guild castle.
+//=   arg(2): x1 coordinate for warp to treasure room
+//=   arg(3): y1 coordinate for warp to treasure room
+//=   arg(4): guild script suffix for kafra, Guardian scripts etc.
+//===== Comentários Adicionais: ==============================
+//= 1.4b - Traduzido por emeeca
+//= 1.5b - Corrigido um erro [ADM Endless]
+//============================================================
+
+//==============================================
+function	script	F_GldManager	{
+
+	set @GID, GetCastleData(getarg(1)+".gat",1);
+	show "[ "+getarg(0)+" ]";
+	if (@GID == 0){
+		show "Estou esperando meu Mestre.";
+		return 0;
+	}
+	if (getcharid(2) != @GID){
+		show "Somente obedeço a ^5533FF" + getguildmaster(@GID) + "^000000's e seus comandos! !!";
+		show "Onde estão os Guardiões?!";
+		return 0;
+	}
+	if (strcharinfo(0) != getguildmaster(@GID)){
+		show "Você não é ^5533FF" + getguildmaster(@GID) + "^000000! somente obedeço a ^5533FF" + getguildmaster(@GID) + "^000000's e seus comandos";
+		return 0;
+	}	
+
+	show "Bem Vindo Mestre ^5533FF" + getguildmaster(@GID) + "^000000 ! Em que posso ajuda-lo?";
+	next;
+	menu 	"Ver Informações sobre investimentos",M_Base, "Investir em comércio",M_Comrc, "Investir em defesa",M_Def, "Instalar guardiões",M_Guard, 
+		"Instalar Serviços Kafra",M_Kaf, "Entrar na Sala do tesouro",M_Treas, "Cancelar",M_End;
+
+	//========================
+	M_Base:
+	//=========
+		show "[ "+getarg(0)+" ]";
+		show "Informações de investimentos na Base.";
+		show " ";
+		show "Foi investido em comércio nesta base  : ^FF3322" + GetCastleData(getarg(1)+".gat",2) + "^000000 pontos.";
+		show "^0000ff - Você investiu " + GetCastleData(getarg(1)+".gat",4) + " hoje.^000000";
+		next;
+		show "[ "+getarg(0)+" ]";
+		show "Foi investido em defesa nesta base : ^FF3322" + GetCastleData(getarg(1)+".gat",3)  + "^000000 points.";
+		show "^0000ff- Você investiu " +  GetCastleData(getarg(1)+".gat",5)  + " hoje.^000000";
+		show " ";
+		show "É isso, obrigado.";
+		return 0;
+
+	//========================
+	M_Comrc:
+	//=========
+		set @TriggerE,GetCastleData(getarg(1)+".gat",4);
+		set @Economy,GetCastleData(getarg(1)+".gat",2);
+		if(@Economy < 8) set @eco_invest,10000;
+		if(@Economy >= 8) set @eco_invest,20000;
+		if(@Economy >= 16) set @eco_invest,40000;
+		if(@Economy >= 25) set @eco_invest,80000;
+		if(@Economy >= 34) set @eco_invest,160000;
+		if(@Economy >= 44) set @eco_invest,320000;
+		if(@Economy >= 54) set @eco_invest,640000;
+		if(@Economy >= 65) set @eco_invest,1280000;
+		if(@Economy >= 76) set @eco_invest,2560000;
+		if(@Economy >= 88) set @eco_invest,5120000;
+
+		show "[ "+getarg(0)+" ]";
+		if(@TriggerE == 2){
+				show "^ff0000Você ja realizou todos os seus investimentos hoje.^000000 .";
+ 			return 0;
+ 		}
+		if(@Economy >= 100){
+			show "^ff0000Seus investimentos ja estão no máximo (100 pontos).^000000";
+	 		return 0;
+	 	}
+		show "Se você melhorar seu investimento de comércio, o poder produtivo da guild aumentara para produzir mais bens. ";
+		show "Isso sera bom no futuro.";
+		next;
+		show "[ "+getarg(0)+" ]";
+		if(@TriggerE == 0) {
+			show "Você podera investir duas vezes por dia";
+			show "A quantidade necessária para o investimento é ^5533FF" + @eco_invest + "^000000 zeny.";
+		} else {
+			set @eco_invest,@eco_invest*4;
+			show "Você ja investiu hoje, um novo investimento custara ^5533FF" + @eco_invest + "^000000 Zeny.";
+		}
+		next;
+		show "[ "+getarg(0)+" ]";
+		show "Quer investir?";
+		next;
+		menu "Investir em Comércio.",-,"Cancelar.",M_End;
+
+			show "[ "+getarg(0)+" ]";
+			if(Zeny < @eco_invest){
+				show "Você não tem dinheiro para investir. .";
+				return 0;
+			}
+			set Zeny,Zeny-@eco_invest;
+			SetCastleData getarg(1)+".gat",4,@TriggerE+1;
+			// if we learnt Emsolute Develop there's 50% chance to get +1 investment again
+			SetCastleData getarg(1)+".gat",2,@Economy + 1 + (getgdskilllv(@GID,10014)>0 && rand(100)>50 && @Economy<99);
+
+			show "Pronto, investimento feito.";
+			return 0;
+
+	//=========================
+	M_Def:
+	//========
+		set @TriggerD,GetCastleData(getarg(1)+".gat",5);
+		set @Defence,GetCastleData(getarg(1)+".gat",3);
+		if(@Defence < 8) set @def_invest,20000;
+		if(@Defence >= 8) set @def_invest,40000;
+		if(@Defence >= 16) set @def_invest,80000;
+		if(@Defence >= 25) set @def_invest,160000;
+		if(@Defence >= 34) set @def_invest,320000;
+		if(@Defence >= 44) set @def_invest,640000;
+		if(@Defence >= 54) set @def_invest,1280000;
+		if(@Defence >= 65) set @def_invest,2560000;
+		if(@Defence >= 76) set @def_invest,5120000;
+		if(@Defence >= 88) set @def_invest,10240000;
+
+		show "[ "+getarg(0)+" ]";
+		if(@TriggerD == 2){
+			show "^ff0000Você ja realizou todos os seus  investimentos hoje.";
+ 			return 0;
+ 		}
+		if(@Defence >= 100){
+			show "^ff0000Seus investimentos ja estão no máximo (100 pontos).^000000";
+	 		return 0;
+		}
+		show "O investimento em defesa ajuda a manter seus Guardiões na ativa.";
+		show "Eles te ajudarão muito em futuras batalhas.";
+		next;
+		show "[ "+getarg(0)+" ]";
+		if(@TriggerD == 0) {
+			show "Você podera investir duas vezes por dia";
+			show "A quantidade necessária para o investimento é ^5533FF" + @def_invest + "^000000 zeny.";	
+		} else {
+			set @def_invest,@def_invest*4;
+			show "Você ja investiu hoje, um novo investimento custara ^5533FF" + @def_invest + "^000000 Zeny.";
+		}
+		next;
+		show "[ "+getarg(0)+" ]";
+		show "Deseja investir?";
+		next;
+		menu "Investir em defesa.",-, "Cancelar",M_End;
+
+			show "[ "+getarg(0)+" ]";
+			if(Zeny < @def_invest){
+				show "Mestre, você esta sem Zeny para investir.";
+				return 0;
+			}
+			set Zeny,Zeny-@def_invest;
+			SetCastleData getarg(1)+".gat",5,@TriggerD+1;
+			SetCastleData getarg(1)+".gat",3,@Defence+1;
+			// set new hp values for guardians
+			set @Defence, @Defence + 1;
+			set @AGuardian, 28634 + (@Defence*2000);
+			set @KGuardian, 30214 + (@Defence*2000);
+			set @SGuardian, 15670 + (@Defence*2000);
+			//set @AGuardian,strmobinfo(4,1285) + (@Defence*2000);
+			//set @KGuardian,strmobinfo(4,1286) + (@Defence*2000);
+			//set @SGuardian,strmobinfo(4,1287) + (@Defence*2000);
+			if (GetCastleData(getarg(1)+".gat",10) == 1) SetCastleData getarg(1)+".gat",18,@SGuardian;
+			if (GetCastleData(getarg(1)+".gat",11) == 1) SetCastleData getarg(1)+".gat",19,@SGuardian;
+			if (GetCastleData(getarg(1)+".gat",12) == 1) SetCastleData getarg(1)+".gat",20,@SGuardian;
+			if (GetCastleData(getarg(1)+".gat",13) == 1) SetCastleData getarg(1)+".gat",21,@AGuardian;
+			if (GetCastleData(getarg(1)+".gat",14) == 1) SetCastleData getarg(1)+".gat",22,@AGuardian;
+			if (GetCastleData(getarg(1)+".gat",15) == 1) SetCastleData getarg(1)+".gat",23,@KGuardian;
+			if (GetCastleData(getarg(1)+".gat",16) == 1) SetCastleData getarg(1)+".gat",24,@KGuardian;
+			if (GetCastleData(getarg(1)+".gat",17) == 1) SetCastleData getarg(1)+".gat",25,@KGuardian;
+
+			show "Investimento realizado com sucesso.";
+			return 0;
+
+	//=========================
+	M_Guard:
+	//=========
+		show "[ "+getarg(0)+" ]";
+		if (getgdskilllv(@GID,10002) == 0){
+			show "Seu Clã deve primeiro aprender a habilidade para controlar os Guardiões.";
+			show "Instalação cancelada.";
+			return 0;
+		}
+
+		set @Defence,GetCastleData(getarg(1)+".gat",3);
+		set @Guardian0,guardianinfo(0);
+		set @Guardian1,guardianinfo(1);
+		set @Guardian2,guardianinfo(2);
+		set @Guardian3,guardianinfo(3);
+		set @Guardian4,guardianinfo(4);
+		set @Guardian5,guardianinfo(5);
+		set @Guardian6,guardianinfo(6);
+		set @Guardian7,guardianinfo(7);
+		set @AGuardian, 28634 + (@Defence*2000);
+		set @KGuardian, 30214 + (@Defence*2000);
+		set @SGuardian, 15670 + (@Defence*2000);
+		//set @AGuardian,strmobinfo(4,1285) + (@Defence*2000);
+		//set @KGuardian,strmobinfo(4,1286) + (@Defence*2000);
+		//set @SGuardian,strmobinfo(4,1287) + (@Defence*2000);
+
+		//if(agitcheck()) goto L_CantGuard;
+		show "Os Guardiões ajudarão a defender seu castelo.";
+		show "Escolha um Guardião.";
+		next;
+	
+		menu "Guardião Soldado (" + @Guardian0 + "/" + @SGuardian + ")",L4_1,
+			"Guardião Soldado (" + @Guardian1 + "/" + @SGuardian + ")",L4_2,
+			"Guardião Soldado (" + @Guardian2 + "/" + @SGuardian + ")",L4_3,
+			"Guardião Arqueiro (" + @Guardian3 + "/" + @AGuardian + ")",L4_4,
+			"Guardião Arqueiro (" + @Guardian4 + "/" + @AGuardian + ")",L4_5,
+			"Guardião Rei (" + @Guardian5 + "/" + @KGuardian + ")",L4_6,
+			"Guardião Rei (" + @Guardian6 + "/" + @KGuardian + ")",L4_7,
+			"Guardião Rei (" + @Guardian7 + "/" + @KGuardian + ")",L4_8;
+	
+		L4_1:
+			if (GetCastleData(getarg(1)+".gat",10) == 1) goto L_GotGuard;
+			set @GDnum,10;
+			set @GDnum2,18;
+			set @GuardianHP,@SGuardian;
+			goto L4_9;
+		L4_2:
+			if (GetCastleData(getarg(1)+".gat",11) == 1) goto L_GotGuard;
+			set @GDnum,11;
+			set @GDnum2,19;
+			set @GuardianHP,@SGuardian;
+			goto L4_9;
+		L4_3:
+			if (GetCastleData(getarg(1)+".gat",12) == 1) goto L_GotGuard;
+			set @GDnum,12;
+			set @GDnum2,20;
+			set @GuardianHP,@SGuardian;
+			goto L4_9;
+		L4_4:
+			if (GetCastleData(getarg(1)+".gat",13) == 1) goto L_GotGuard;
+			set @GDnum,13;
+			set @GDnum2,21;
+			set @GuardianHP,@AGuardian;
+			goto L4_9;
+		L4_5:
+			if (GetCastleData(getarg(1)+".gat",14) == 1) goto L_GotGuard;
+			set @GDnum,14;
+			set @GDnum2,22;
+			set @GuardianHP,@AGuardian;
+			goto L4_9;
+		L4_6:
+			if (GetCastleData(getarg(1)+".gat",15) == 1) goto L_GotGuard;
+			set @GDnum,15;
+			set @GDnum2,23;
+			set @GuardianHP,@KGuardian;
+			goto L4_9;
+		L4_7:
+			if (GetCastleData(getarg(1)+".gat",16) == 1) goto L_GotGuard;
+			set @GDnum,16;
+			set @GDnum2,24;
+			set @GuardianHP,@KGuardian;
+			goto L4_9;
+		L4_8:
+			if (GetCastleData(getarg(1)+".gat",17) == 1) goto L_GotGuard;
+			set @GDnum,17;
+			set @GDnum2,25;
+			set @GuardianHP,@KGuardian;
+		L4_9:
+			show "[ "+getarg(0)+" ]";
+			show "Confirma a instalação do Guardião? Você precisa de ^5533FF10,000 zeny^000000 para instalar....";
+			next;
+			menu "Instalar",-, "Cancelar",M_End;
+
+				if (Zeny < 10000){
+					show "[ "+getarg(0)+" ]";
+					show "Mestre , você esta sem dinheiro.";
+					return 0;
+				}
+				set Zeny,Zeny-10000;
+				SetCastleData getarg(1)+".gat",@GDnum,1;
+				SetCastleData getarg(1)+".gat",@GDnum2,@GuardianHP;
+				return 1;
+
+		L_GotGuard:
+			show "[ "+getarg(0)+" ]";
+			show "Guardião instalado.....";
+			emotion 4;
+			return 0;
+		L_CantGuard:
+			show "Mestre.... você não pode instalar guardiões durante a Guerra do Emperium?!!";
+			emotion 4;
+			return 0;
+
+	//===========================
+	M_Kaf:
+	//======
+		show "[ "+getarg(0)+" ]";
+		if (GetCastleData(getarg(1)+".gat",9) == 1) goto L_Dismiss;
+		if (getgdskilllv(@GID,10001) == 0){
+			show "Mestre, você não tem um contrato com o Kafra Serviço Companhia .";
+			show "A fim empregar um Kafra, você deve primeiramente aprender a habilidade do guild  ^5533FFContract With Kafra^000000.";
+			return 0;
+		}
+
+		L_Hire:
+			show "Deseja contratar os Serviços Kafra? Sera necessário ^5533FF10,000 Zeny^000000 para contrata-la... ";
+			next;
+			menu "Sim.",-,"Cancela",sM_KafEnd;
+
+				show "[ "+getarg(0)+" ]";
+				if (Zeny < 10000){
+					show "Mestre, você esta sem Zeny.";
+					return 0;
+				}
+				set Zeny,Zeny-10000;
+				enablenpc "Kafra Service#"+getarg(4);
+				SetCastleData getarg(1)+".gat",9,1;
+				show "Serviço contratado.";
+				next;
+				cutin "kafra_01",2;
+				show "[ Kafra Service ]";
+				show "Tentarei servi-lo da melhor maneira possível.";
+				next;
+				cutin "kafra_01",255;
+				show "[ "+getarg(0)+" ]";
+				//show "Seu contrato com a Kafra tem duração de ^5533FF1 mês^000000.  Após esse tempo, o contrato tera que ser refeito.";
+				show "Meus serviços beneficiarão todos os membros do Clã.";
+				return 0;
+
+			sM_KafEnd:
+				show "[ "+getarg(0)+" ]";
+				show "Você que sabe mestre, mas eu acho melhor termos os Serviços Kafra aqui!";
+				return 0;
+
+		L_Dismiss:
+			show "Deseja demitir os Seviços Kafra?";
+			next;
+			menu "Demitir",-,"Cancelar",sM_KafEnd2;
+
+				cutin "kafra_01",2;
+				show "[ Kafra Service ]";
+				show "O que eu fiz de errado, perdoa-me?";
+				next;
+				menu "Demitir sem dó",-,"Cancelar",ssM_KafEnd2;
+
+					show "[ Kafra Service ]";
+					show "Sinto muito ....";
+					next;
+					disablenpc "Kafra Service#"+getarg(4);
+					SetCastleData getarg(1)+".gat",9,0;
+					cutin "kafra_01",255;
+					show "[ "+getarg(0)+" ]";
+					show "Kafra demitida!";
+					return 0;
+				ssM_KafEnd2:
+					show "[ Kafra Service ]";
+					show "Obrigado Mestre , você é o Melhor! ^^.";
+					cutin "kafra_01",255;
+					return 0;
+			sM_KafEnd2:
+				show "[ "+getarg(0)+" ]";
+				show "Mestre eu aconselho a manter os Seviços Kafra";
+				return 0;
+
+	//=========================
+	M_Treas:
+	//========
+		show "[ "+getarg(0)+" ]";
+		show "Deseja ir para a sala do Tesouro?.";
+		next;
+		menu "Entrar na sala do Tesouro.",-,"Cancelar",sM_TresEnd;
+
+			show "[ "+getarg(0)+" ]";
+			show "Siga-me pela passagem secreta.";
+			show "Somente o Mestre podera entrar na Sala Secreta.";
+			next;
+			warp getarg(1)+".gat",getarg(2),getarg(3);
+			return 0;
+		sM_TresEnd:
+			show "[ "+getarg(0)+" ]";
+			show "Os bens são diáriamente produzidos.";
+			show "Você deve verificar sempre a existencia do tesouro, com o tempo eles podem sumir.";
+			return 0;
+
+
+	//==========================
+	M_End:
+	//=======
+		show "[ "+getarg(0)+" ]";
+		show "Você decide Mestre.";
+		return 0;
+}

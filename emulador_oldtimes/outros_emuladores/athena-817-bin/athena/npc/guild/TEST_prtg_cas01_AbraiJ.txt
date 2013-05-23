@@ -1,0 +1,392 @@
+//================================================
+//prtg_cas01 Abrai Kafra test script by Kalen
+//================================================
+//とりあえず、TEST作成('A`)
+//prtg_cas01.txtのアブライはコメントアウトですよ～
+prtg_cas01.gat,112,181,0	script	アブライ	55,{
+	set @GIDp1,getcastledata("prtg_cas01.gat",1);
+	if (@GIDp1 == 0) goto LStart;
+	if (getcharid(2) != @GIDp1) goto LStart2;
+	if (strcharinfo(0) == getguildmaster(@GIDp1)) goto LStart3;
+
+// ------- アジト未占領 ----------------------------------
+LStart:
+	mes "[執事アブライ]";
+	mes "私は、主人を待っています…、";
+	mes "勇敢なプレイヤー！あなたを待ってますよ！！";
+	close;
+// -------- マスターじゃない ------------------------------
+LStart2:
+	mes "[執事アブライ]";
+	mes "あなた方がいくら脅そうとも、";
+	mes "私は私のマスターである";
+	mes "^ff0000" + getguildmaster(@GIDp1) + "^000000様にのみ";
+	mes "お仕えする身である。";
+	mes "ガーディアンたちはどこか！";
+	mes "早くこの無礼な者等を追放しなさい！";
+	close;
+// -------- 以下マスター時 ---------------------------------
+LStart3:
+	mes "[執事アブライ]";
+	mes "おかえりなさいませ、^ff0000 "+ getguildmaster(@GIDp1) + " ^000000 様";
+	mes "何なりと申し付けくださいませ";
+	next;
+	menu "砦の状態を表示",L1,"商業発展に投資",L2,"砦の防衛に投資",L3,"ガーディアン設置",L4,"カプラとの契約 / 解雇",L5,"マスターの部屋に入る",L6,"アジトを放棄する",L7;
+//-----------------------------------------------------------
+//================================================
+//Phase 1:ギルドのプロパティ(未調整)
+//================================================
+L1:
+	mes "[執事アブライ]";
+	mes "ギルド基礎情報:";
+	mes " ";
+	mes "^0000ff現在の通商投資は" + GetCastleData("prtg_cas01.gat",2) + "です。";
+	mes "- 最後の期間に" + GetCastleData("prtg_cas01.gat",4) + "回投資しました。";
+	mes "現在の防御投資は" + GetCastleData("prtg_cas01.gat",3) + "です。";
+	mes "- 最後の期間に" + GetCastleData("prtg_cas01.gat",5) + "回投資しました。^000000";
+	mes " ";
+	mes "以上です。";
+	close;
+//================================================
+//Phase 2:商業への投資(未調整)
+//================================================
+L2:
+	mes "[執事アブライ]";
+	mes "あなたが通商投資を増やせば、";
+	mes "ギルドの生産力はより多くの品物を";
+	mes "生産するために増加します。";
+	mes " ";
+	mes "一日に一回、一期間に二回まで投資できます。";
+	next;
+	set @TriggerE,GetCastleData("prtg_cas01.gat",4);
+	set @Economy,GetCastleData("prtg_cas01.gat",2);
+	if(@TriggerE < 2) goto L2_1;
+		mes "[執事アブライ]";
+		mes "^ff0000ギルド投資は現在100%です。";
+		mes "今は投資する必要がありません。^000000";
+	 	close;
+L2_1:
+	mes "[執事アブライ]";
+	mes "^ff0000あなたは、一期間に2回まで投資することが出来ます。^000000";
+	mes " ";
+	mes "必要な投資量は^ff0000 10,000 ^000000Zenyです";
+	mes "投資しますか？";
+	next;
+	menu "投資する",L2_1_1,"投資しない",-;
+		mes "[執事アブライ]";
+		mes "了解しました。";
+		mes "急ぐ必要は無いですからね～";
+		close;
+	L2_1_1:
+		if(Zeny < 10000) goto L2_error;
+		set Zeny,Zeny-10000;
+		SetCastleData "prtg_cas01.gat",4,@TriggerE+1;
+		SetCastleData "prtg_cas01.gat",2,@Economy+10000;
+		mes "[執事アブライ]";
+		mes "投資に成功しました。";
+		close;
+L2_error:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "投資に必要なお金がありません。";
+	mes "投資を取り消しました。";
+	close;
+//================================================
+//Phase 3:ディフェンスへの投資(現状実装無理か？)
+//================================================
+L3:
+//var defenseOK = AgitGet AGIT_D_FUNDING_OK  
+	mes "[執事アブライ]";
+	mes "あなたが防御投資し、";
+	mes "ガーディアン達のHPを増加させれば、";
+	mes "敵が攻めてきたときに大いに助けになるでしょう";
+	mes " ";
+	mes "一日に一回、一期間に二回まで投資できます。";
+	next;
+	set @TriggerD,GetCastleData("prtg_cas01.gat",5);
+	set @Deffence,GetCastleData("prtg_cas01.gat",3);
+	if(@TriggerD < 2) goto L3_1;
+		mes "[執事アブライ]";
+		mes "^ff0000ギルド投資は現在100%です。";
+		mes "今は投資する必要がありません。^000000";
+	 	close;
+L3_1:
+	mes "[執事アブライ]";
+	mes "^ff0000あなたは、一期間に2回まで投資することが出来ます。^000000";
+	mes " ";
+	mes "必要な投資量は^ff0000 10,000 ^000000Zenyです";
+	mes "投資しますか？";
+	next;
+	menu "投資する",L3_1_1,"投資しない",-;
+		mes "[執事アブライ]";
+		mes "了解しました。";
+		mes "急ぐ必要は無いですからね～";
+		close;
+	L3_1_1:
+		if(Zeny < 10000) goto L3_error;
+		set Zeny,Zeny-10000;
+		SetCastleData "prtg_cas01.gat",5,@TriggerD+1;
+		SetCastleData "prtg_cas01.gat",3,@Deffence+10000;
+		mes "[執事アブライ]";
+		mes "投資に成功しました。";
+		close;
+L3_error:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "投資に必要なお金がありません。";
+	mes "投資を取り消しました。";
+	close;
+//================================================
+//Phase 4:ガーディアン設置
+//================================================
+L4:
+	mes "[執事アブライ]";
+	mes "ガーディアンを設置しますか？";
+	mes "ガーディアンは敵からギルドベースを保護するでしょう。";
+	mes "ガーディアンを選んでください。";
+	next;
+	menu "Soldier 1",L4_1,"Soldier 2",L4_2,"Soldier 3",L4_3,"Archer 1",L4_4,"Archer 2",L4_5,"Knight 1",L4_6,"Knight 2",L4_7,"Knight 3",L4_8;
+		L4_1:
+			if (GetCastleData("prtg_cas01.gat",10) == 1) goto L4Error2;
+			set @GDnum,10;goto L4_9;
+		L4_2:
+			if (GetCastleData("prtg_cas01.gat",11) == 1) goto L4Error2;
+			set @GDnum,11;goto L4_9;
+		L4_3:
+			if (GetCastleData("prtg_cas01.gat",12) == 1) goto L4Error2;
+			set @GDnum,12;goto L4_9;
+		L4_4:
+			if (GetCastleData("prtg_cas01.gat",13) == 1) goto L4Error2;
+			set @GDnum,13;goto L4_9;
+		L4_5:
+			if (GetCastleData("prtg_cas01.gat",14) == 1) goto L4Error2;
+			set @GDnum,14;goto L4_9;
+		L4_6:
+			if (GetCastleData("prtg_cas01.gat",15) == 1) goto L4Error2;
+			set @GDnum,15;goto L4_9;
+		L4_7:
+			if (GetCastleData("prtg_cas01.gat",16) == 1) goto L4Error2;
+			set @GDnum,16;goto L4_9;
+		L4_8:
+			if (GetCastleData("prtg_cas01.gat",17) == 1) goto L4Error2;
+			set @GDnum,17;goto L4_9;
+	L4_9:
+		mes "[執事アブライ]";
+		mes "本当に設置しますか？";
+		mes "ガーディアンの設置には^ff0000 10,000 ^000000Zenyが必要です。";
+		next;
+		menu "設置する",L4_9_1,"やめる",-;
+			mes "[執事アブライ]";
+			mes "了解しました。";
+			mes "急ぐ必要は無いですからね～";
+			close;
+		L4_9_1:
+//ギルドスキルの判定→ダメならL4Error
+		if (Zeny < 10000) goto L4Error3;
+		set Zeny,Zeny-10000;
+		setcastledata "prtg_cas01.gat",@GDnum,1;
+		mes "[執事アブライ]";
+		mes "ガーディアンが設置されました。";
+		mes "ガーディアンは私達の城を敵から守ってくれるでしょう。";
+		close;
+L4Error:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "ガーディアンを設置するギルドスキルがありません。ガーディアンを設置するスキルを獲得したければ、＾ff0000ガーディアンスキル＾000000を得なければなりません。";
+	mes " ";
+	mes "ガーディアン設置が取り消されました。";
+	close;
+L4Error2:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "既にガーディアンが設置されています。";
+	mes " ";
+	mes "ガーディアン設置が取り消されました。";
+	close;
+L4Error3:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "投資に必要なお金がありません。";
+	mes "投資を取り消しました。";
+	close;
+//================================================
+//Phase 5:カプラとの契約・解雇
+//================================================
+L5:
+	if (GetCastleData("prtg_cas01.gat",9) == 1) goto Lkafra_dimi;
+//=========================
+//(When Karfa off) Employment
+//=========================
+	mes "[執事アブライ]";
+	mes "カプラとの契約を結びますか？";
+	mes "契約には^ff0000 10000 ^000000Zeny 必要です";
+	next;
+	menu "契約する",-,"キャンセル",L_k_E;
+//debag
+	goto L_k_0;
+//check Kafraskill(OK -> L_k_0,NG -> -)
+		mes "[執事アブライ]";
+		mes "マスター！どうやらスキルが足りないようです。カプラと契約するには ^ff0000KAFRA SKILL^000000 が必要です。";
+		close;
+	L_k_0:
+		if (Zeny > 10000) goto L_k_1;
+		mes "[執事アブライ]";
+		mes "マスター！お金が足りませんよ！";
+		close;
+	L_k_1:
+		set Zeny,Zeny-10000;
+		enablenpc "カプラ職員#prt1";
+		setcastledata "prtg_cas01.gat",9,1;
+		mes "[執事アブライ]";
+		mes "カプラとの契約が完了しました";
+		next;
+		cutin "kafra_01",2;
+		mes "[カプラ職員]";
+		mes "初めまして、カプラディフォルテと申します。";
+		mes "最善を尽くしますので宜しくおねがいします！";
+		next;
+		cutin "kafra_01",255;
+		mes "[執事アブライ]";
+		mes "ギルドベースでカプラとの契約を維持するために";
+		mes "毎月Zenyを払わなければなりません。";
+		close;
+L_k_e:
+		mes "[執事アブライ]";
+		mes "イエッサー！";
+		mes "でも、そろそろカプラがほしいですね。";
+		close;
+//=========================
+//(When karfa ON) Dismissal
+//=========================
+Lkafra_dimi:
+	mes "[執事アブライ]";
+	mes "カプラ職員との契約を破棄しますか？";
+	next;
+	menu "解雇する",-,"キャンセル",L_D_1;
+		cutin "kafra_01",2;
+		mes "[カプラ職員]";
+		mes "私が何か間違っていましたか？そうならば、許してはもらえませんか…";
+		next;
+		menu "解雇する",-,"キャンセル",L_D_2;
+				mes "[カプラ職員]";
+				mes "ああ、解雇なさるんですね、、、TT";
+				next;
+				disablenpc "カプラ職員#prt1";
+				setcastledata "prtg_cas01.gat",9,0;
+				cutin "kafra_01",255;
+				mes "[執事アブライ]";
+				mes "....";
+				mes "カプラとの契約が破棄されました。";
+				close;
+			L_D_2:
+				mes "[カプラ職員]";
+				mes "ありがとうございます。全力を尽くして執務につきます！";
+				cutin "kafra_01",255;
+				close;
+		L_D_1:
+			mes "[執事アブライ]";
+			mes "わかりました。";
+			close;
+L5_1:
+//================================================
+//Phase 6:マスタールームに行く
+//================================================
+L6:
+	mes "[執事アブライ]";
+	mes "マスタールームへいきますか？";
+	mes "マスタールームに入れるのはギルドマスターだけです。つまり、入れるのはあなた一人だけということです。";
+	next;
+	menu "マスタールームに入る",-,"キャンセル",L6_1;
+			mes "[執事アブライ]";
+			mes "では、私の後についてきてください。";
+			mes "部屋から出るときは、レバーを引いてくださいね";
+			next;
+			warp "prtg_cas01",15,209;
+		L6_1:
+			mes "[執事アブライ]";
+			mes "品物は常に生産されています。出来る限り毎日取りに行ってください。";
+			mes "そのうちに品物をすべて得ることを怠らないでください。";
+			close;
+//================================================
+//Phase 7: アジト放棄
+//================================================
+L7:
+	mes "[執事アブライ]";
+	mes "マスター！";
+	mes "アジトを放棄するんですか！？";
+	mes " ";
+	mes "どうか考え直してください、マスター！";
+	next;
+	menu "アジトを放棄する",L7_1,"キャンセル",L7_2;
+		L7_1:
+			mes "[執事アブライ]";
+			mes "マスター！";
+			mes "どうかもう一度考え直してください…T_T!!";
+			mes "どうか、、お願い!!!!!!!!";
+			next;
+			menu "やめる",L7_2,"アジトを放棄する",-;
+				mes "[執事アブライ]";
+				mes "マスター!!…";
+				mes "…い……やだ……ぁ……";
+				next;
+		setcastledata "prtg_cas01.gat",1,0;
+		setcastledata "prtg_cas01.gat",2,0;
+		setcastledata "prtg_cas01.gat",3,0;
+		setcastledata "prtg_cas01.gat",4,0;
+		setcastledata "prtg_cas01.gat",5,0;
+		setcastledata "prtg_cas01.gat",6,0;
+		setcastledata "prtg_cas01.gat",7,0;
+		setcastledata "prtg_cas01.gat",8,0;
+		setcastledata "prtg_cas01.gat",9,0;
+		setcastledata "prtg_cas01.gat",10,0;
+		setcastledata "prtg_cas01.gat",11,0;
+		setcastledata "prtg_cas01.gat",12,0;
+		setcastledata "prtg_cas01.gat",13,0;
+		setcastledata "prtg_cas01.gat",14,0;
+		setcastledata "prtg_cas01.gat",15,0;
+		setcastledata "prtg_cas01.gat",16,0;
+		setcastledata "prtg_cas01.gat",17,0;
+		Announce "砦 [" + GetCastleName("prtg_cas01.gat") + "]を [" + GetGuildName(@GIDp1) + "]ギルドが破棄しました。",0;
+		MapRespawnGuildID "prtg_cas01.gat",GetCastleData("prtg_cas01.gat",1),7;
+		end;
+		L7_2:
+			mes "[執事アブライ]";
+			mes "イエッサー！マスター^^!";
+			mes "もう、そんな冗談よしてくださいよ^^.";
+			close;
+}
+prontera.gat,151,187,4	script	テストギルドフラッグ	722,{
+	set @GIDp1,getcastledata("prtg_cas01.gat",1);
+	if (@GIDp1 != 0) goto LStartg;
+		mes "[ ルーンミッドガッツ王国領 ]";
+		mes " ";
+		mes "1.";
+		mes "こちらはルーンミッドガッツ王国に";
+		mes "よって";
+		mes "正式所有者がないアジトであることを";
+		mes "公表する。";
+		next;
+		mes " ";
+		mes "2.";
+		mes "こちらを守っている凄じい";
+		mes "試練に勝って、エンペリウムを";
+		mes "破壊する勇者には国王が";
+		mes "認定するアジト所有権が附与される";
+		close;
+LStartg:
+		mes "[ ルーンミッドガッツ王国領 ]";
+		mes " ";
+		mes "1.";
+		mes "こちらはルーンミッドガッツ王国に";
+		mes "よって";
+		mes "ギルド ^ff0000 " + GetGuildName(@GID) + " ^000000の";
+		mes "所有であることを認められている。";
+		next;
+		mes " ";
+		mes "2.";
+		mes "^ff0000 " + GetGuildName(@GID) + " ^000000 のマスターは";
+		mes "^ff0000 " + getguildmaster(@GID) + " ^000000である。";
+		mes "これに異議のある者は、剣を取り";
+		mes "力を以って名誉を勝ち取りなさい。";
+		close;
+}

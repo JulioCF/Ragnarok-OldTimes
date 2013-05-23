@@ -1,0 +1,112 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Noviço
+//===== Por: =================================================
+//= Kobra_k88
+//= Matheus [Traduziu para PT(br)]
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus
+//===== Descrição: ===========================================
+//= Quest da skill 'Luz divina' dos noviços
+//============================================================
+
+
+prt_church,173,23,4	script	Noviço Klift	79,{
+	show "[Noviço Klift]";
+	if (baseClass == Job_Acolyte) goto L_Start;
+
+L_Other:
+	show "Ah, bem vindo à catedral de Prontera chamado tambem de santuário.";
+	show "Infelizmente não posso ser de muita utilidade à você.";
+	show "Mas Noviços e sacerdotes eu posso ajudar com uma ^5555FF'Habilidade escondida^000000";
+	close;
+
+L_Start:
+	if (HOLYLIGHT == 1) goto L_Check;
+	if (getskilllv(156)>0) goto L_GotSkill;
+	if(sex==1) show "Olá irmão!";
+	if(sex==0) show "Olá irmã!";
+	show "Não fique nervoso, eu estou aqui para te ajudar.";
+	next;
+	menu "Fale sobre as ^5555FF'Habilidades escondidas'^000000...",M_0, "Finalizar conversa.",M_End;
+
+	M_0:
+		show "[Noviço Klift]";
+		show "Conseguentimente do grande perigo que o demônio esta causando...";
+		show "Nossos irmãos estão precisando de auxilio.";
+		next;
+		show "[Noviço Klift]";
+		show "A habilidade é a ^5555FF'Luz Divína'^000000.";
+		show "Essa habilidade causa um dano maior nos monstros do tipo 'escuro'.";
+		next;
+		show "[Noviço Klift]";
+		show "Você gostaria de aprender esta habilidade?";
+		next;
+		menu "Sim , por favor.",-, "Por enquanto não me interessa.",M_End;
+
+			show "[Noviço Klift]";
+			show "Muito bom. Voce necitará de algumas coisinhas para aprender a";
+			show "habilidade.";
+			show "^5555FF1 Opala^000000,";
+			show "^5555FF1 Cristal azul^000000,";
+			show "and ^5555FF1 Rosário^000000.";
+			next;
+			show "[Noviço Klift]";
+			show "E conseguentemente necitará de um level minimo.";
+			show "è necessario level 30 de Classe para poder continuar.";
+			show "O level minímo não é necessario aos sacerdotes e aos monges";
+			show "Pois eles teviram uma enorme expêriencia no passado.";
+			next;
+			show "[Noviço Klift]";
+			show "Volte quando estiver pronto. Eu estarei sempre aqui.";
+			set HOLYLIGHT, 1;
+			close;
+	M_End:
+		show "[Noviço Klift]";
+		show "Eu entendo sua decisão.Você ainda tem muito tempo para praticar e";
+		show "ganhar experiência. Vá com Deus...";
+		close;
+
+L_Check:
+	show "Você quer mesmo aprender a luz divina? deixe me chegar....";
+	next;
+	show "[Noviço Klift]";
+	if (BaseJob==Job_Acolyte && JobLevel<30) goto L_LowLvl;
+	if (countitem(727)<1 || countitem(991)<1 || countitem(2608)<1) goto L_NoItems;
+	delitem 727,1;
+	delitem 991,1;
+	delitem 2608,1;
+	show "Oh! Muito bom.  Você coletou todos os itêns que pedi.";
+	next;
+	show "[Noviço Klift]";
+	show "Bem... vamos começar...";
+	next;
+	show "(* Depois de muitas horas de meditação *)";
+	next;
+	show "[Noviço Klift]";
+	show "Ótimo! Você esta pronto para usar a sua 'habilidade escondida' agora mesmo";
+	skill 156,1,0;
+	set HOLYLIGHT, 0;
+	show "[Sacerdote]";
+	show "Você seguiu o caminho correto. Que Deus esteja com você!";
+	emotion 21;
+	close;
+
+	L_LowLvl:
+		show "Me desculpe mas você necessita de mais treinamento para aprender a Luz Divina";
+		show "Volte quando seu level de classe for maior que 30.";
+		close;
+	L_NoItems:
+		show "Me perdoe se estiver errado, mas você não me toruxe todos os itens que preciso.";
+		show "Caso não lembre, esses sao os que preciso:";
+		show "^5555FF1 Opala^000000,";
+		show "^5555FF1 Cristal azul^000000,";
+		show "and ^5555FF1 Rosario^000000.";
+		close;
+
+L_GotSkill:
+	show "Ah, você já aprendeu a habilidade, faça um bom uso dela.";
+	show "Que deus esteja com você em todos momêntos.";
+	close;
+}

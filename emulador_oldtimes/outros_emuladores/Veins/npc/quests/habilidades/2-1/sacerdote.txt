@@ -1,0 +1,81 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Sacerdote
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0b (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//============================================================
+
+//============================================================
+// PRIEST - REDEMPTIO
+//============================================================
+prt_church,111,112,3	script	Nun Linus	79,{
+	show "[Nun Linus]";
+	if(BaseJob!=Job_Priest) goto L_nopriest;
+	if(getskilllv(1014)) goto L_alreadyhave;
+	if(getskilllv(54)<1) goto L_norez;
+
+	show "Eu posso lhe ensinar a clemência de Deus";
+	show "se você me trouxer algumas coisas,";
+	show "e se Deus lhe achar merecedor:";
+	show "1 Gema Azul";
+	show "1 Água Benta";
+	next;
+	
+	show "[Nun Linus]";
+	show "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(717)<1 || countitem(523)<1) goto L_noitems;//Items: Gema_Azul, Água_Benta,
+	delitem 717, 1;//Items: Gema_Azul,
+	delitem 523, 1;//Items: Água_Benta,
+	
+	show "[Nun Linus]";
+	show "Eu vejo que você tem todos os itens,";
+	show "assim nós veremos se Deus acha";
+	show "você merecedor!";
+	next;
+	if(rand(100)<JobLevel+25) goto L_bless;
+	show "[Nun Linus]";
+	show "Desculpe, mas Deus não está";
+	show "lustrado até o momento em você.";
+	show "Tente novamente quando você for um";
+	show "Sacerdote mais forte.";
+	close;
+	
+L_bless:
+	show "[Nun Linus]";
+	show "Hum... Eu vejo que Deus lustrou algo";
+	show "em você neste momento.";
+	skill 1014,1,0;
+	close;
+	
+L_noitems:
+	show "[Nun Linus]";
+	show "Você não tem todos os itens.";
+	show "Volte quando tiver tudo";
+	show "que eu lhe pedi.";
+	close;
+		
+L_nopriest:
+	show "Desculpe, você precisa ter fé em Deus.";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	show "Eu já lhe ensinei";
+	show "tudo o que eu sei.";
+	close;
+
+L_norez:
+	show "Meu irmão, volte quando";
+	show "aprender mais sobre Deus.";
+	close;
+}

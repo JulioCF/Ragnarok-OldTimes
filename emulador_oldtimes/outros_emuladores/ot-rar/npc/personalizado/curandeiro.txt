@@ -1,0 +1,56 @@
+prontera,154,190,5	script	Curandeiro#H01::dHeal	742,{
+
+	if (getgmlevel() > 0) {
+		sc_start SC_INCREASEAGI, 240000, 10;
+		sc_start SC_BLESSING, 240000, 10;
+	}
+	
+	setarray .@debuff[0], 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 33;
+	for (set .@i, 0; .@i < getarraysize(.@debuff); set .@i, .@i + 1) {
+		if (agitcheck())
+			break;
+		sc_end .@debuff[.@i];
+	}
+	
+	percentheal 100,100;
+
+	if (rand(15) == 3)
+		emotion 51;
+
+	end;
+}
+
+sec_in01,171,180,5	duplicate(dHeal)	Curandeiro VIP#H02	742
+omorocc,158,97,5	duplicate(dHeal)	Curandeiro#H03	742
+geffen,118,62,5	duplicate(dHeal)	Curandeiro#H04	742
+opayon,97,115,5	duplicate(dHeal)	Curandeiro#H05	742
+alberta,114,63,5	duplicate(dHeal)	Curandeiro#H06	742
+izlude,131,115,5	duplicate(dHeal)	Curandeiro#H07	742
+aldebaran,135,122,5	duplicate(dHeal)	Curandeiro#H08	742
+xmas,149,136,5	duplicate(dHeal)	Curandeiro#H09	742
+yuno,150,187,5	duplicate(dHeal)	Curandeiro#H10	742
+amatsu,104,153,5	duplicate(dHeal)	Curandeiro#H11	742
+gonryun,156,122,5	duplicate(dHeal)	Curandeiro#H12	742
+
+-	script	Buff	-1,{
+end;
+	OnWhisperGlobal:
+		setarray .@maps$[0],"prt_gld", "prtg_cas01", "prtg_cas02", "prtg_cas03", "prtg_cas04", "prtg_cas05",
+							"gefg_cas01", "gefg_cas02", "gefg_cas03", "gefg_cas04", "gefg_cas05",
+							"poring_w01", "koth01", "p_track01", "quiz_02", "ball2", "prt_are_in",
+							"guild_vs3", "pvp_n_5-5", "guild_vs1", "prt_are01", "guild_vs2";
+							
+		for( set .@i, 0; .@i < getarraysize(.@maps$); set .@i, .@i + 1 ) {
+			if( strcharinfo(3) == .@maps$[.@i] ) {
+				end;
+			}
+		}
+		
+		if( getgmlevel() < 1 ) {
+			end;
+		}
+
+		sc_start SC_INCREASEAGI, 240000, 5;
+		sc_start SC_BLESSING, 240000, 5;
+		end;
+}

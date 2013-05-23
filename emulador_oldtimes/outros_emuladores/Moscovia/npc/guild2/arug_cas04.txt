@@ -1,0 +1,2910 @@
+//===== cronus Script =======================================
+//= Guerra do Emperium - Segunda Edição
+//===== Por: ==================================================
+//= L0ne_W0lf
+//===== Versão Atual: =====================================
+//= 1.4/1.7
+//===== Compatível com: =====================================
+//= Cronus SVN
+//===== Descrição: =========================================
+//= WoE SE Castelo de Arunafeltz 1
+//===== Comentários Adicionais: =================================
+//= 1.0 First Version [L0ne_W0lf]
+//= 1.1 Swaped an end for a close in eco investing. [L0ne_W0lf]
+//=     Fixed improper label used in guaridan stone.
+//= 1.2 Fixed double message in defense investing. [L0ne_W0lf]
+//= 1.3 Fixed a guardian spawning NPCs. [L0ne_W0lf]
+//= 1.4 Fixed investment period not resetting. [L0ne_W0lf]
+//=     Made it so treasure won't spawn if castle is empty.
+//=     Treasure will now be killed before spawning.
+//= 1.5 Tradução Efetuada [Reploid]
+//= 1.6 Corrigido variáveis Defence [Asus]
+//=		Thx DaemonBSD por avisar.
+//= 1.7 Correções e revisão [DaemonBSD]
+//============================================================
+
+arug_cas04,1,1,0	script	Gerente#aru04_02	111,{
+	end;
+
+OnInterIfInitOnce:
+	GetCastleData "arug_cas04",0,"::OnRecvCastlear04";
+	end;
+
+OnRecvCastlear04:
+	RequestGuildInfo GetCastleData("arug_cas04",1);
+	if (GetCastleData("arug_cas04",1) == 0) {
+		donpcevent "Gerente#aru04_02::Onstart";
+	}
+	end;
+
+OnAgitStart:
+	if (agitcheck()) {
+		MapRespawnGuildID "arug_cas04",GetCastleData("arug_cas04",1),2;
+		GvgOn "arug_cas04";
+		donpcevent "Gerente#aru04_02::Onstart";
+	}
+	else {
+		donpcevent "#aru04_RL00::OnDisable";
+		donpcevent "#aru04_RL01::OnDisable";
+		donpcevent "#aru04_RL02::OnDisable";
+		donpcevent "#aru04_RL03::OnDisable";
+	}
+	end;
+
+OnAgitEnd:
+	GvgOff "arug_cas04";
+	if (GetCastleData("arug_cas04",1)) {
+		KillMonster "arug_cas04","Steward#aru04::OnStartArena";
+		donpcevent "Gerente#aru04_02::Onreset";
+	}
+	end;
+
+Onstart:
+	// 1st Guardian stone, 2nd Guardian stone, Barrier 1, Barrier 2, Barrier 3, Summon Guardians
+	// Settings for all but Summon Guardians
+	// 0 = Okay; 1 = Destroyed; 2 = Repairing
+	// Summon Guardians
+	// 0 = Do not Summon; 1 = Summon
+	if (GetCastleData("arug_cas04",1)) {
+		setarray $agit_ar04[0],0,0,0,0,0,0;
+		donpcevent "#aru04_df01::OnEnable";
+		donpcevent "#aru04_df02::OnEnable";
+		donpcevent "#aru04_RL00::OnEnable";
+		donpcevent "#aru04_RL01::OnEnable";
+		donpcevent "#aru04_RL02::OnEnable";
+		donpcevent "#aru04_RL03::OnEnable";
+	}
+	monster "arug_cas04",141,293,"Emperium",1288,1,"Steward#aru04::OnStartArena";
+	end;
+
+Onreset:
+	donpcevent "#aru04_df01::OnDisable";
+	donpcevent "#aru04_df02::OnDisable";
+	donpcevent "#aru04_gard01::Onreset";
+	donpcevent "#aru04_gard02::Onreset";
+	donpcevent "#aru04_RL00::OnDisable";
+	donpcevent "#aru04_RL01::OnDisable";
+	donpcevent "#aru04_RL02::OnDisable";
+	donpcevent "#aru04_RL03::OnDisable";
+	donpcevent "1ª Runa Guardiã#aru04::OnDisable";
+	donpcevent "2ª Runa Guardiã#aru04::OnDisable";
+	donpcevent "Controle01#aru04::OnDisable";
+	donpcevent "Controle02#aru04::OnDisable";
+	donpcevent "Controle03#aru04::OnDisable";
+	if (agitcheck()) {
+		setarray $agit_ar04[0],0,0,1,1,1,0;
+	}
+	end;
+
+Onchange:
+	setarray $agit_ar04[0],2,2,1,1,2,0;
+	monster "arug_cas04",141,293,"Emperium",1288,1,"Steward#aru04::OnStartArena";
+	donpcevent "Controle03#aru04::OnEnable";
+	donpcevent "1ª Runa Guardiã#aru04::OnEnable";
+	donpcevent "2ª Runa Guardiã#aru04::OnEnable";
+	end;
+
+OnClock0001:
+	if (!GetCastleData("arug_cas04",1)) end;
+	killmonster "arug_cas04","Gerente#aru04_02::OnMyTreasureDied";
+	set .@Treasure,GetCastleData("arug_cas04",2)/5+4;
+	if (.@Treasure) {
+		monster "arug_cas04",291,276,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		monster "arug_cas04",292,276,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		monster "arug_cas04",293,276,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		monster "arug_cas04",294,276,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 5) end;
+		monster "arug_cas04",295,276,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 6) end;
+		monster "arug_cas04",296,276,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 7) end;
+		monster "arug_cas04",293,274,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 8) end;
+		monster "arug_cas04",294,274,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 9) end;
+		monster "arug_cas04",295,274,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 10) end;
+		monster "arug_cas04",296,274,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 11) end;
+		monster "arug_cas04",297,274,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 12) end;
+		monster "arug_cas04",298,274,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 13) end;
+		monster "arug_cas04",291,272,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 14) end;
+		monster "arug_cas04",292,272,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 15) end;
+		monster "arug_cas04",293,272,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 16) end;
+		monster "arug_cas04",294,272,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 17) end;
+		monster "arug_cas04",295,272,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 18) end;
+		monster "arug_cas04",296,272,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 19) end;
+		monster "arug_cas04",293,269,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 20) end;
+		monster "arug_cas04",294,269,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 21) end;
+		monster "arug_cas04",295,269,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 22) end;
+		monster "arug_cas04",296,269,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 23) end;
+		monster "arug_cas04",297,269,"Baú do Tesouro",1946,1,"Gerente#aru04_02::OnTreasureDied";
+		if (.@Treasure < 24) end;
+		monster "arug_cas04",298,269,"Baú do Tesouro",1324,1,"Gerente#aru04_02::OnTreasureDied";
+	}
+	setcastledata "arug_cas04",4,0;
+	setcastledata "arug_cas04",5,0;
+	end;
+
+OnTreasureDied:
+	end;
+}
+
+arug_cas04,146,315,3	script	Nios#aru04_01	868,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (.@GID == 0) {
+		show "[Nios]";
+		show "Bom trabalho. Agora, tudo que";
+		show "você precisa fazer é destruir este";
+		show "Emperium para ganhar a propriedade";
+		show "desta fortaleza.";
+		close;
+	}
+	if (getcharid(2) == .@GID) {
+		if (strcharinfo(0) != getguildmaster(.@GID)) {
+			show "[Nios]";
+			show "Como guardião desta fortaleza,";
+			show "eu apenas respondo ao mestre";
+			show "do clã que controla este";
+			show "lugar.";
+			close;
+		}
+		else {
+			if (agitcheck() == 0) {
+				show "[Nios]";
+				show "Eu sou Nios, guardião desta";
+				show "fortaleza. Por enquanto,";
+				show "tudo está quieto por aqui.";
+				next;
+				switch(select("Conversar:Cancelar")) {
+				case 1:
+					show "[Nios]";
+					show "Você tem alguma pergunta";
+					show "para fazer sobre esta fortaleza?";
+					next;
+					switch(select("Runas Guardiãs:Portões da Fortaleza:Bandeiras:Estratégia de Batalha:Cancelar")) {
+					case 1:
+						show "[Nios]";
+						show "Há um Emperium e";
+						show "duas Runas Guardiãs em";
+						show "cada fortaleza. Estas runas";
+						show "são a primeira linha de defesa,";
+						show "e devem ser destruídas para que";
+						show "os enimigos possam entrar.";
+						next;
+						show "[Nios]";
+						show "As runas estão localizadas no";
+						show "^4D4DFFPortão Principal^000000 que deve ser";
+						show "protegido para previnir que os";
+						show "enimigos alcançem o Emperium.";
+						show "Runas Guardiãs podem ^4D4DFFchamar";
+						show "seus Guardiões^000000 para proteção.";
+						next;
+						show "[Nios]";
+						show "Fortalezas com maiores níveis";
+						show "de defesa podem invocar mais";
+						show "Guardiões: por isto é tão";
+						show "importante para os clãs";
+						show "investir no Aumento da Defesa.";
+						next;
+						show "[Nios]";
+						show "Runas Guardiãs que foram";
+						show "destruidas podem ser revividas";
+						show "após um certo tempo, mas um dos ^FFFFFF ^000000 membros do clã deve me dar";
+						show "a ordem. Eu apenas posso relatar^FFFFFF ^000000 o status das Runas Guardiãs.";
+						close;
+					case 2:
+						show "[Nios]";
+						show "Os ^4D4DFFPortões da Fortaleza^000000 são a segunda ^FFFFFF ^000000 linha de defesa da fortaleza,";
+						show "e são protegidos por barricadas extras ativadas pelas Runas Guardiãs.";
+						show "Estes portões estão localizados em três partes diferentes da fortaleza.";
+						next;
+						show "[Nios]";
+						show "As Barricadas são protegidas pelas";
+						show "Runas Guardiãs, e são";
+						show "restauradas quando as Runas";
+						show "Guardiãs são recuperadas. No entanto,";
+						show "não é tão fácil restaurar os Portões da";
+						show "Fortaleza que estão destruídos";
+						next;
+						show "[Nios]";
+						show "Os Portões da Fortalea só podem ser";
+						show "restaurados quando o ^4D4DFFLíder";
+						show "de uma fortaleza";
+						show "mudar^000000, ou se ^4D4DFFa restauração";
+						show "for solicitada pelo Líder";
+						show "da Fortaleza^000000.";
+						close;
+					case 3:
+						show "[Nios]";
+						show "Nas Fortalezas há várias";
+						show "Bandeiras que permitem que você";
+						show "tenha acesso a áreas vitais dentro";
+						show "das restrições colocadas pelas";
+						show "Barricadas. Normalmente, ^4D4DFFa Bandeira 1";
+						show "lhe envia para um dos Portões^000000.";
+						next;
+						show "[Nios]";
+						show "Muitas bandeiras o levam diretamente";
+						show "a outras bandeiras próximas ao Emperium.";
+						show "O número final de bandeiras conectadas";
+						show "é para haver Facilidade na";
+						show "entrada dos proprietários";
+						show "da Fortaleza. Tenha isso em mente.";
+						close;
+					case 4:
+						show "[Nios]";
+						show "Estrátegia? Seria melhor você";
+						show "desenvolver um plano de batalha";
+						show "explorando as vantagens que seu clã tem";
+						show "e as fraquezas de seus inimigos.";
+						show "Use os Portões e as Barricadas, e os reconstrua o mais rápido possível!";
+						close;
+					case 5:
+						show "[Nios]";
+						show "Você não tem nenhuma dúvida";
+						show "para mim? Bem, eu estou";
+						show "aqui para servir sempre que necessário.";
+						close;
+					}
+				case 2:
+					show "[Nios]";
+					show "Eu estou sempre aqui, então";
+					show "sinta-se a vontade para pedir";
+					show "minha assistência sempre que";
+					show "for necessário.";
+					close;
+				}
+			}
+			else {
+				show "[Nios]";
+				show "Saudações, "+strcharinfo(0)+".";
+				show "Quais são as suas ordens?";
+				next;
+				switch(select("Aumentar a defesa da Fortaleza:Relatório da Situação:Cancelar")) {
+				case 1:
+					if ($agit_ar04[5] == 0) {
+						if (getgdskilllv(.@GID,10002) == 0) {
+							show "[Nios]";
+							show "Lamento, mas as Runas Guardiãs";
+							show "não são fortes o bastante para";
+							show "invocar Guardiões no momento. Nós";
+							show "precisamos acumular";
+							show "sabedoria antes de invocarmos";
+							show "Guardiões.";
+							close;
+						}
+						else {
+							show "[Nios]";
+							show "Eu vou me empenhar para invocar";
+							show "um Guardião atraves de uma Runa";
+							show "Guardiã. No entanto, fique sabendo";
+							show "que isto não funcionará se a";
+							show "Runa Guardiã estiver destruída.";
+							setarray $agit_ar04[5],1;
+							if ($agit_ar04[0] == 0) {
+								donpcevent "#aru04_gard01::OnEnable";
+							}
+							if ($agit_ar04[1] == 0) {
+								donpcevent "#aru04_gard02::OnEnable";
+							}
+							close;
+						}
+					}
+					else {
+						show "[Nios]";
+						show "Você já me deu a ordem para";
+						show "invocar um Guardião para";
+						show "defender a fortaleza.";
+						close;
+					}
+				case 2:
+					show "[Nios]";
+					show "O Estado de nossa defesa é...";
+					if ($agit_ar04[0] == 1) {
+						show "1ª Runa Guardiã: ^FF0000Destruída^000000";
+					}
+					else if ($agit_ar04[0] == 2) {
+						show "1ª Runa Guardiã: ^008000Reparando^000000";
+					}
+					else {
+						show "1ª Runa Guardiã: ^4D4DFFOperacional^000000";
+					}
+					if ($agit_ar04[1] == 1) {
+						show "2ª Runa Guardiã: ^FF0000Destruída^000000";
+					}
+					else if ($agit_ar04[1] == 2) {
+						show "2ª Runa Guardiã: ^008000Reparando^000000";
+					}
+					else {
+						show "2ª Runa Guardiã: ^4D4DFFOperacional^000000";
+					}
+					if ($agit_ar04[2] == 1) {
+						show "1º Portão da Fortaleza: ^FF0000Destruído^000000";
+					}
+					else if ($agit_ar04[2] == 2) {
+						show "1º Portão da Fortaleza: ^008000Reparando^000000";
+					}
+					else {
+						show "1º Portão da Fortaleza: ^4D4DFFOperacional^000000";
+					}
+					if ($agit_ar04[3] == 1) {
+						show "2º Portão da Fortaleza: ^FF0000Destruído^000000";
+					}
+					else if ($agit_ar04[3] == 2) {
+						show "2º Portão da Fortaleza: ^008000Reparando^000000";
+					}
+					else {
+						show "2º Portão da Fortaleza: ^4D4DFFOperacional^000000";
+					}
+					if ($agit_ar04[4] == 1) {
+						show "3º Portão da Fortaleza: ^FF0000Destruído^000000";
+					}
+					else if ($agit_ar04[4] == 2) {
+						show "3º Portão da Fortaleza: ^008000Reparando^000000";
+					}
+					else {
+						show "3º Portão da Fortaleza: ^4D4DFFOperacional^000000";
+					}
+					close;
+				case 3:
+					show "[Nios]";
+					show "Eu vou estar aqui,";
+					show "aguardando suas ordens.";
+					close;
+				}
+			}
+		}
+	}
+	else {
+		show "[Nios]";
+		show "Quem é você? Salafrário!";
+		show "Deixe esta fortaleza agora!";
+		close;
+	}
+
+OnInit:
+	setarray $agit_ar04[0],0,0,0,0,0,0;
+	end;
+}
+
+arug_cas04,1,1,0	script	#aru04_gard01	-1,{
+OnEnable:
+	set .@defence,GetCastleData("arug_cas04",3);
+	guardian "arug_cas04",130,60,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //0;
+	if ((.@defence > 10) && (.@defence < 31)) {
+		set .MyMobCount,2;
+		guardian "arug_cas04",128,77,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //1;
+	}
+	else if ((.@defence > 30) && (.@defence < 51)) {
+		set .MyMobCount,3;
+		guardian "arug_cas04",128,77,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //1;
+		guardian "arug_cas04",128,90,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //2;
+	}
+	else if ((.@defence > 50) && (.@defence < 71)) {
+		set .MyMobCount,4;
+		guardian "arug_cas04",128,77,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //1;
+		guardian "arug_cas04",128,90,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //2;
+		guardian "arug_cas04",128,100,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //3;
+	}
+	else if (.@defence > 70) {
+		set .MyMobCount,5;
+		guardian "arug_cas04",128,77,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //1;
+		guardian "arug_cas04",128,90,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //2;
+		guardian "arug_cas04",128,100,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //3;
+		guardian "arug_cas04",110,96,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //4;
+	}
+	else {
+		set .MyMobCount,2;
+		guardian "arug_cas04",66,157,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //1;
+	}
+	initnpctimer;
+	end;
+
+OnTimer300000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",91,53,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //5;
+	mapannounce "arug_cas04","O 1º Guardião foi invocado pelo Portão Principal.",bc_map,"0xff4500";
+	end;
+
+OnTimer900000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",65,71,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //6;
+	mapannounce "arug_cas04","O 2º Guardião foi invocado pelo Portão Principal.",bc_map,"0xff4500";
+	end;
+
+OnTimer1800000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",65,103,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //7;
+	mapannounce "arug_cas04","O 3º Guardião foi invocado pelo Portão Principal.",bc_map,"0xff4500";
+	end;
+
+OnTimer2700000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",110,96,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //8;
+	mapannounce "arug_cas04","O 4º Guardião foi invocado pelo Portão Principal.",bc_map,"0xff4500";
+	end;
+
+OnTimer3600000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",128,100,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //9;
+	mapannounce "arug_cas04","O 5º Guardião foi invocado pelo Portão Principal.",bc_map,"0xff4500";
+	stopnpctimer;
+	end;
+
+OnGuardianDied:
+	set .MyMobCount,.MyMobCount-1;
+	if (.MyMobCount < 2) {
+		set .MyMobCount,.MyMobCount+1;
+		guardian "arug_cas04",128,77,"Guardião",1899,"#aru04_gard01::OnGuardianDied"; //10;
+	}
+	end;
+
+Onreset:
+	stopnpctimer;
+	killmonster "arug_cas04","#aru04_gard01::OnGuardianDied";
+	end;
+}
+
+arug_cas04,1,2,0	script	#aru04_gard02	-1,{
+OnEnable:
+	set .@defence,GetCastleData("arug_cas04",3);
+	guardian "arug_cas04",156,101,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //11;
+	if ((.@defence > 10) && (.@defence < 31)) {
+		set .MyMobCount,2;
+		guardian "arug_cas04",172,95,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //12;
+	}
+	else if ((.@defence > 30) && (.@defence < 51)) {
+		set .MyMobCount,3;
+		guardian "arug_cas04",172,95,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //12;
+		guardian "arug_cas04",154,90,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //13;
+	}
+	else if ((.@defence > 50) && (.@defence < 71)) {
+		set .MyMobCount,4;
+		guardian "arug_cas04",172,95,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //12;
+		guardian "arug_cas04",154,90,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //13;
+		guardian "arug_cas04",156,77,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //14;
+	}
+	else if (.@defence > 70) {
+		set .MyMobCount,5;
+		guardian "arug_cas04",172,95,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //12;
+		guardian "arug_cas04",154,90,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //13;
+		guardian "arug_cas04",156,77,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //14;
+		guardian "arug_cas04",155,60,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //15;
+	}
+	else {
+		set .MyMobCount,2;
+		guardian "arug_cas04",211,159,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //12;
+	}
+	initnpctimer;
+	end;
+
+OnTimer600000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",187,54,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //16;
+	end;
+
+OnTimer1200000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",212,67,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //17;
+	end;
+
+OnTimer2100000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",211,105,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //18;
+	end;
+
+OnTimer3000000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",155,60,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //19;
+	end;
+
+OnTimer3900000:
+	set .MyMobCount,.MyMobCount+1;
+	guardian "arug_cas04",156,77,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //20;
+	stopnpctimer;
+	end;
+
+OnGuardianDied:
+	set .MyMobCount,.MyMobCount-1;
+	if (.MyMobCount < 2) {
+		set .MyMobCount,.MyMobCount+1;
+		guardian "arug_cas04",172,95,"Guardião",1899,"#aru04_gard02::OnGuardianDied"; //21;
+	}
+	end;
+
+Onreset:
+	stopnpctimer;
+	killmonster "arug_cas04","#aru04_gard02::OnGuardianDied";
+	end;
+}
+
+arug_cas04,1,3,0	script	#aru04_df01	-1,{
+OnEnable:
+	guardian "arug_cas04",65,171,"1ª Runa Guardiã",1907,"#aru04_df01::OnGuardianStoneDied"; //22;
+	end;
+
+OnDisable:
+	killmonster "arug_cas04","#aru04_df01::OnGuardianStoneDied";
+	setarray $agit_ar04[0],1; //Global Variable
+	stopnpctimer;
+	end;
+
+OnGuardianStoneDied:
+	// 1st Guardian Stone is Destroyed
+	setarray $agit_ar04[0],1;
+	if (($agit_ar04[0] == 1) || ($agit_ar04[0] == 2)) {
+		set .@destroyed,.@destroyed + 1;
+	}
+	if (($agit_ar04[1] == 1) || ($agit_ar04[1] == 2)) {
+		set .@destroyed,.@destroyed + 1;
+	}
+	if (.@destroyed == 2) {
+		mapannounce "arug_cas04","Todas as Runas Guardiãs foram destruídas!",bc_map,"0x00ff00";
+		donpcevent "#aru04_RL00::OnDisable";
+		donpcevent "#aru04_gard01::Onreset";
+	}
+	else {
+		mapannounce "arug_cas04","A 1ª Runa Guardiã foi destruída!",bc_map,"0x00ff00";
+		donpcevent "#aru04_gard01::Onreset";
+	}
+	initnpctimer;
+	end;
+
+OnTimer300000:
+	donpcevent "1ª Runa Guardiã#aru04::OnGuardian";
+	setarray $agit_ar04[0],2; //Global Variable
+	stopnpctimer;
+	end;
+}
+
+arug_cas04,65,171,0	script	1ª Runa Guardiã#aru04	844,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFVocê precisará dos";
+		show "seguintes materiais para";
+		show "reconstruir uma Runa Guardiã";
+		show "que foi destruída.^000000";
+		next;
+		show "1 Oridecon";
+		show "1 Elunium";
+		show "30 Pedras";
+		show "5 Gemas Azuis";
+		show "5 Gemas Amarelas";
+		show "5 Gemas Vermelhas";
+		next;
+		show "^3355FFVocê deseja continuar?^000000";
+		switch(select("Não:Continuar")) {
+		case 1:
+			show "^3355FFServiço cancelado.^000000";
+			close;
+		case 2:
+			if ((countitem(984) > 0) && (countitem(985) > 0) && (countitem(7049) > 29) && (countitem(717) > 4) && (countitem(715) > 4) && (countitem(716) > 4)) {
+				show "^3355FFOrganize as Pedras, Eluniums, e";
+				show "Oridecons, nesta ordem, no";
+				show "centro. E então você deve organizar";
+				show "as Gemas encantadas para";
+				show "reconstruir a Runa Guardiã.^000000";
+				next;
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFOs Eluniums foram";
+					show "colocados no centro.^000000";
+					next;
+					break;
+				case 2:
+					show "^3355FFOs Oridecons foram";
+					show "colocados no centro.^000000";
+					next;
+					break;
+				case 3:
+					show "^3355FFAs Pedras foram";
+					show "colocadas no centro.^000000";
+					set .@nice,.@nice+10;
+					next;
+					break;
+				}
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com alguns Eluniums.^000000";
+					set .@nice,.@nice+10;
+					next;
+					break;
+				case 2:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com alguns Oridecons.^000000";
+					next;
+					break;
+				case 3:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com algumas Pedras.^000000";
+					next;
+					break;
+				}
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "alguns Eluniums.^000000";
+					next;
+					break;
+				case 2:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "alguns Oridecon.^000000";;
+					set .@nice,.@nice+10;
+					next;
+					break;
+				case 3:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "algumas Pedras.^000000";
+					next;
+					break;
+				}
+				show "^3355FFAgora você precisa organizar";
+				show "as Gemas encantadas de";
+				show "acordo. Você pode identificar";
+				show "suas propriedades Magicas pelo";
+				show "seu efeito lançado.^000000";
+				next;
+				while(1) {
+					if (.@roof0 > 7) {
+						break;
+					}
+					else {
+						switch(rand(1,3)) {
+						case 1:
+							specialeffect 54; //"1st Guardian Stone#aru04" EF_BEGINSPELL2
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"1st Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							}
+							break;
+						case 2:
+							specialeffect 225; //"1st Guardian Stone#aru04" EF_VOLCANO
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"1st Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							}
+							break;
+						case 3:
+							specialeffect 56; //"1st Guardian Stone#aru04" EF_BEGINSPELL4
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"1st Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							}
+						}
+					}
+				}
+				if (.@nice > 90) {
+					if ($agit_ar04[0] == 0) {
+						show "^3355FFO Sistema de Reparo";
+						show "de Runas Guardiãs";
+						show "está completo.^000000";
+						close;
+					}
+					else {
+						if (agitcheck() == 0) {
+							show "^3355FFÉ Impossível reconstruir";
+							show "a Runa Guardiã porque";
+							show "o Emperium não";
+							show "está presente.^000000";
+							close;
+						}
+						else {
+							show "^3355FFAs Gemas foram organizadas,";
+							show "e a Runa Guardiã foi reparada";
+							show "com sucesso.^000000";
+							delitem 984,1; //Oridecon
+							delitem 985,1; //Elunium
+							delitem 7049,30; //Stone
+							delitem 717,5; //Blue_Gemstone
+							delitem 715,5; //Yellow_Gemstone
+							delitem 716,5; //Red_Gemstone
+							close2;
+							donpcevent "#aru04_df01::OnEnable";
+							specialeffect 135; //"1st Guardian Stone#aru04" EF_ICECRASH
+							disablenpc "1ª Runa Guardiã#aru04";
+							setarray $agit_ar04[0],0;
+							set .@df_all,$agit_ar04[0]+$agit_ar04[1];
+							if (.@df_all == 0) {
+								mapannounce "arug_cas04","Ambas as Runas Guardiãs estão de pé, reforçando as defesas desta fortaleza!",bc_map,"0x00ff00";
+								donpcevent "#aru04_RL00::OnEnable";
+							}
+							else {
+								mapannounce "arug_cas04","A 1ª Runa Guardiã foi reparada com Sucesso.",bc_map,"0x00ff00";
+							}
+							if ($agit_ar04[5] == 1) {
+								donpcevent "#aru04_gard01::OnEnable";
+							}
+							end;
+						}
+					}
+				}
+				else {
+					show "^3355FFDepois de todo este trabalho...";
+					show "Parece que você falhou em";
+					show "fixar as Runas Guardiãs,";
+					show "e perdeu materiais.^000000";
+					delitem 7049,10; //Stone
+					delitem 717,2; //Blue_Gemstone
+					delitem 715,2; //Yellow_Gemstone
+					delitem 716,2; //Red_Gemstone
+					close;
+				}
+			}
+			else {
+				show "^3355FFVocê não tem materiais o";
+				show "suficiente para reparar";
+				show "a Runa Guardiã.^000000";
+				close;
+			}
+		}
+	}
+	end;
+
+OnInit:
+	disablenpc "1ª Runa Guardiã#aru04";
+	end;
+
+OnEnable:
+	enablenpc "1ª Runa Guardiã#aru04";
+	specialeffect 247; //"1st Guardian Stone#aru04" EF_MAPPILLAR2
+	end;
+
+OnDisable:
+	disablenpc "1ª Runa Guardiã#aru04";
+	end;
+}
+
+arug_cas04,1,4,0	script	#aru04_df02	-1,{
+OnEnable:
+	guardian "arug_cas04",212,149,"2ª Runa Guardiã",1908,"#aru04_df02::OnGuardianStoneDied"; //23;
+	end;
+
+OnDisable:
+	killmonster "arug_cas04","#aru04_df02::OnGuardianStoneDied";
+	setarray $agit_ar04[1],1; //Global Variable
+	stopnpctimer;
+	end;
+
+OnGuardianStoneDied:
+	// 2nd Guardian Stone is Destroyed
+	setarray $agit_ar04[1],1;
+	if (($agit_ar04[0] == 1) || ($agit_ar04[0] == 2)) {
+		set .@destroyed,.@destroyed + 1;
+	}
+	if (($agit_ar04[1] == 1) || ($agit_ar04[1] == 2)) {
+		set .@destroyed,.@destroyed + 1;
+	}
+	if (.@destroyed == 2) {
+		mapannounce "arug_cas04","Todas as Runas Guardiãs foram destruídas!",bc_map,"0x00ff00";
+		donpcevent "#aru04_RL00::OnDisable";
+		donpcevent "#aru04_gard02::Onreset";
+	}
+	else {
+		mapannounce "arug_cas04","A 2ª Runa Guardiã foi destruída!",bc_map,"0x00ff00";
+		donpcevent "#aru04_gard02::Onreset";
+	}
+	initnpctimer;
+	end;
+
+OnTimer300000:
+	donpcevent "2ª Runa Guardiã#aru04::OnGuardian";
+	setarray $agit_ar04[1],2; //Global Variable
+	stopnpctimer;
+	end;
+}
+
+arug_cas04,212,149,0	script	2ª Runa Guardiã#aru04	844,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFVocê precisará dos";
+		show "seguintes materiais para";
+		show "reconstruir uma Runa Guardiã";
+		show "que foi destruída.^000000";
+		next;
+		show "1 Oridecon";
+		show "1 Elunium";
+		show "30 Pedras";
+		show "5 Gemas Azuis";
+		show "5 Gemas Amarelas";
+		show "5 Gemas Vermelhas";
+		next;
+		show "^3355FFVocê deseja continuar?^000000";
+		switch(select("Não:Continuar")) {
+		case 1:
+			show "^3355FFServiço cancelado.^000000";
+			close;
+		case 2:
+			if ((countitem(984) > 0) && (countitem(985) > 0) && (countitem(7049) > 29) && (countitem(717) > 4) && (countitem(715) > 4) && (countitem(716) > 4)) {
+				show "^3355FFOrganize as Pedras, Eluniums, e";
+				show "Oridecons, nesta ordem, no";
+				show "centro. E então você deve organizar";
+				show "as Gemas encantadas para";
+				show "reconstruir a Runa Guardiã.^000000";
+				next;
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFOs Eluniums foram";
+					show "colocados no centro.^000000";
+					next;
+					break;
+				case 2:
+					show "^3355FFOs Oridecons foram";
+					show "colocados no centro.^000000";
+					next;
+					break;
+				case 3:
+					show "^3355FFAs Pedras foram";
+					show "colocadas no centro.^000000";
+					set .@nice,.@nice+10;
+					next;
+					break;
+				}
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com alguns Eluniums.^000000";
+					set .@nice,.@nice+10;
+					next;
+					break;
+				case 2:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com alguns Oridecons.^000000";
+					next;
+					break;
+				case 3:
+					show "^3355FFVocê faz um círculo";
+					show "em volta do centro";
+					show "com algumas Pedras.^000000";
+					next;
+					break;
+				}
+				switch(select("Eluniums:Oridecons:Pedras")) {
+				case 1:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "alguns Eluniums.^000000";
+					next;
+					break;
+				case 2:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "alguns Oridecon.^000000";;
+					set .@nice,.@nice+10;
+					next;
+					break;
+				case 3:
+					show "^3355FFVocê cobre o";
+					show "resto do material com";
+					show "algumas Pedras.^000000";
+					next;
+					break;
+				}
+				show "^3355FFAgora você precisa organizar";
+				show "as Gemas encantadas de";
+				show "acordo. Você pode identificar";
+				show "suas propriedades Magicas pelo";
+				show "seu efeito lançado.^000000";
+				next;
+				while(1) {
+					if (.@roof0 > 7) {
+						break;
+					}
+					else {
+						switch(rand(1,3)) {
+						case 1:
+							specialeffect 54; //"2nd Guardian Stone#aru04" EF_BEGINSPELL2
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"2nd Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							}
+							break;
+						case 2:
+							specialeffect 225; //"2nd Guardian Stone#aru04" EF_VOLCANO
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"2nd Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							}
+							break;
+						case 3:
+							specialeffect 56; //"2nd Guardian Stone#aru04" EF_BEGINSPELL4
+							show "^3355FFAs Gemas devem ser";
+							show "organizadas na ordem correta";
+							show "de acordo com seus Poderes";
+							show "e Propriedades Mágicas.^000000";
+							next;
+							switch(select("Gema Vermelha:Gema Amarela:Gema Azul")) {
+							case 1:
+								show "^3355FFVocê coloca a Gema Vermelha.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							case 2:
+								show "^3355FFVocê coloca a Gema Amarela.^000000";
+								set .@nice,.@nice+10;
+								set .@roof0,.@roof0 + 1;
+								specialeffect 18; //"2nd Guardian Stone#aru04" EF_STEAL
+								next;
+								break;
+							case 3:
+								show "^3355FFVocê coloca a Gema Azul.";
+								show "Porém, o Sistema de Reparo de";
+								show "Runas Guardiãs falha por causa";
+								show "de um conflito de poderes mágicos.^000000";
+								close;
+							}
+						}
+					}
+				}
+				if (.@nice > 90) {
+					if ($agit_ar04[1] == 0) {
+						show "^3355FFO Sistema de Reparo";
+						show "de Runas Guardiãs";
+						show "está completo.^000000";
+						close;
+					}
+					else {
+						if (agitcheck() == 0) {
+							show "^3355FFÉ Impossível reconstruir";
+							show "a Runa Guardiã porque";
+							show "o Emperium não";
+							show "está presente.^000000";
+							close;
+						}
+						else {
+							show "^3355FFAs Gemas foram organizadas,";
+							show "e a Runa Guardiã foi reparada";
+							show "com sucesso.^000000";
+							delitem 984,1; //Oridecon
+							delitem 985,1; //Elunium
+							delitem 7049,30; //Stone
+							delitem 717,5; //Blue_Gemstone
+							delitem 715,5; //Yellow_Gemstone
+							delitem 716,5; //Red_Gemstone
+							close2;
+							donpcevent "#aru04_df02::OnEnable";
+							specialeffect 135; //"2nd Guardian Stone#aru04" EF_ICECRASH
+							disablenpc "2ª Runa Guardiã#aru04";
+							setarray $agit_ar04[1],0;
+							set .@df_all,$agit_ar04[0]+$agit_ar04[1];
+							if (.@df_all == 0) {
+								mapannounce "arug_cas04","Ambas as Runas Guardiãs estão de pé, reforçando as defesas desta fortaleza!",bc_map,"0x00ff00";
+								donpcevent "#aru04_RL00::OnEnable";
+							}
+							else {
+								mapannounce "arug_cas04","A 2ª Runa Guardiã foi reparada com Sucesso.",bc_map,"0x00ff00";
+							}
+							if ($agit_ar04[5] == 1) {
+								donpcevent "#aru04_gard02::OnEnable";
+							}
+							end;
+						}
+					}
+				}
+				else {
+					show "^3355FFDepois de todo este trabalho...";
+					show "Parece que você falhou em";
+					show "fixar as Runas Guardiãs,";
+					show "e perdeu materiais.^000000";
+					delitem 7049,10; //Stone
+					delitem 717,2; //Blue_Gemstone
+					delitem 715,2; //Yellow_Gemstone
+					delitem 716,2; //Red_Gemstone
+					close;
+				}
+			}
+			else {
+				show "^3355FFVocê não tem materiais o";
+				show "suficiente para reparar";
+				show "a Runa Guardiã.^000000";
+				close;
+			}
+		}
+	}
+	end;
+
+OnInit:
+	disablenpc "2ª Runa Guardiã#aru04";
+	end;
+
+OnEnable:
+	enablenpc "2ª Runa Guardiã#aru04";
+	specialeffect 247; //"2nd Guardian Stone#aru04" EF_MAPPILLAR2
+	end;
+
+OnDisable:
+	disablenpc "2ª Runa Guardiã#aru04";
+	end;
+}
+
+// Barrier Summoners
+arug_cas04,2,1,0	script	#aru04_RL00	-1,{
+OnEnable:
+	setcell "arug_cas04",138,110,145,110,cell_walkable,0;
+	setcell "arug_cas04",138,110,145,110,cell_shootable,0;
+	guardian "arug_cas04",139,111," ",1905,"#aru04_RL00::OnBarrierDestroyed"; //24;
+	guardian "arug_cas04",141,111," ",1905,"#aru04_RL00::OnBarrierDestroyed"; //25;
+	guardian "arug_cas04",143,111," ",1905,"#aru04_RL00::OnBarrierDestroyed"; //26;
+	guardian "arug_cas04",145,111," ",1905,"#aru04_RL00::OnBarrierDestroyed"; //27;
+	end;
+
+OnDisable:
+	setcell "arug_cas04",138,136,145,110,cell_walkable,1;
+	setcell "arug_cas04",138,110,145,110,cell_shootable,1;
+	killmonster "arug_cas04","#aru04_RL00::OnBarrierDestroyed";
+	end;
+
+OnBarrierDestroyed:
+	end;
+}
+
+arug_cas04,2,2,0	script	#aru04_RL01	-1,{
+OnEnable:
+	set .MyMobCount,6;
+	setcell "arug_cas04",139,158,144,158,cell_walkable,0;
+	guardian "arug_cas04",140,157," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //28;
+	guardian "arug_cas04",142,157," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //29;
+	guardian "arug_cas04",144,157," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //30;
+	guardian "arug_cas04",139,156," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //31;
+	guardian "arug_cas04",141,156," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //32;
+	guardian "arug_cas04",143,156," ",1905,"#aru04_RL01::OnBarrierDestroyed"; //33;
+	end;
+
+OnBarrierDestroyed:
+	set .MyMobCount,.MyMobCount-1;
+	if (.MyMobCount == 0) {
+		setarray $agit_ar04[2],1;
+		mapannounce "arug_cas04","O 1º Portão da Fortaleza foi destruído.",bc_map,"0x00ff00";
+		setcell "arug_cas04",139,158,144,158,cell_walkable,1;
+	}
+	end;
+
+OnDisable:
+	setcell "arug_cas04",139,158,144,158,cell_walkable,1;
+	killmonster "arug_cas04","#aru04_RL01::OnBarrierDestroyed";
+	end;
+}
+
+arug_cas04,2,3,0	script	#aru04_RL02	-1,{
+OnEnable:
+	set .MyMobCount,6;
+	setcell "arug_cas04",138,210,145,210,cell_walkable,0;
+	guardian "arug_cas04",140,209," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //34;
+	guardian "arug_cas04",142,209," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //35;
+	guardian "arug_cas04",144,209," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //36;
+	guardian "arug_cas04",139,208," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //37;
+	guardian "arug_cas04",141,208," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //38;
+	guardian "arug_cas04",143,208," ",1905,"#aru04_RL02::OnBarrierDestroyed"; //39;
+	end;
+
+OnBarrierDestroyed:
+	set .MyMobCount,.MyMobCount-1;
+	if (.MyMobCount == 0) {
+		setarray $agit_ar04[3],1;
+		mapannounce "arug_cas04","O 2º Portão da Fortaleza foi destruído.",bc_map,"0x00ff00";
+		setcell "arug_cas04",138,210,145,210,cell_walkable,1;
+	}
+	end;
+
+OnDisable:
+	setcell "arug_cas04",138,210,145,210,cell_walkable,1;
+	killmonster "arug_cas04","#aru04_RL02::OnBarrierDestroyed";
+	end;
+}
+
+arug_cas04,2,4,0	script	#aru04_RL03	-1,{
+OnEnable:
+	set .MyMobCount,4;
+	setcell "arug_cas04",138,263,145,263,cell_walkable,0;
+	guardian "arug_cas04",139,262," ",1905,"#aru04_RL03::OnBarrierDestroyed"; //40;
+	guardian "arug_cas04",141,262," ",1905,"#aru04_RL03::OnBarrierDestroyed"; //41;
+	guardian "arug_cas04",143,262," ",1905,"#aru04_RL03::OnBarrierDestroyed"; //42;
+	guardian "arug_cas04",145,262," ",1905,"#aru04_RL03::OnBarrierDestroyed"; //43;
+	end;
+
+OnBarrierDestroyed:
+	set .MyMobCount,.MyMobCount-1;
+	if (.MyMobCount == 0) {
+		setarray $agit_ar04[4],1;
+		mapannounce "arug_cas04","O 3º Portão da Fortaleza foi destruído.",bc_map,"0x00ff00";
+		setcell "arug_cas04",138,363,145,263,cell_walkable,1;
+	}
+	end;
+
+OnDisable:
+	setcell "arug_cas04",138,363,145,263,cell_walkable,1;
+	killmonster "arug_cas04","#aru04_RL03::OnBarrierDestroyed";
+	end;
+}
+
+arug_cas04,143,158,0	script	Controle01#aru04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		if (strcharinfo(0) == getguildmaster(.@GID)) {
+			if ($agit_ar04[2] == 2) {
+				show "^3355FFPortões da Fortaleza";
+				show "Demolidos podem ser reparados,";
+				show "mas você precisa conseguir";
+				show "os seguintes materiais.^000000";
+				next;
+				show "^4D4DFF10 Aços^000000,";
+				show "^4D4DFF30 Troncos^000000,";
+				show "^4D4DFF5 Oridecons^000000, e";
+				show "^4D4DFF10 Emveretarcons^000000.";
+				next;
+				select("Continuar");
+				if ((countitem(1019) > 29) && (countitem(999) > 9) && (countitem(1011) > 9) && (countitem(984) > 4)) {
+					show "^3355FFVocê precisará de troncos para";
+					show "reparar a estrutura de suporte,";
+					show "Oridecons para aumentar";
+					show "a resistência do Portão, e";
+					show "Emveretarcons para basicamente";
+					show "segurar tudo junto.^000000";
+					next;
+					set .@ro_of01,rand(10,15);
+					while(1) {
+						if (.@ro_of02 == .@ro_of01) {
+							break;
+						}
+						else {
+							switch(rand(1,4)) {
+							case 1:
+								show "^3355FFA estrutura de suporte";
+								show "está terrivelmente danificada:";
+								show "reparar esta parte";
+								show "é a prioridade.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFA estrutura foi";
+									show "reforçada com madeira.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar o oridecon,";
+									show "mas parece que ele não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+								break;
+							case 2:
+								show "^3355FFParece que em geral";
+								show "a resistência do portão tem";
+								show "que ser reforçada com alguma coisa.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para reforçar o portão.^000000";
+									set .@ro_of02,.@ro_of02 + 1;
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê martelou o";
+									show "oridecon: parece que";
+									show "isso irá funcionar.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								}
+								break;
+							case 3:
+								show "^3355FFO dano ao portão";
+								show "causou todas estas";
+								show "rachaduras. Você terá de";
+								show "soldá-las de algum modo.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para corrigir este problema,";
+									show "mas parece que só piorou a situação.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê usou o aço para soldar";
+									show "todas as rachaduras: o portão está";
+									show "começando a ficar mais sólido.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas isto";
+									show "não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas isto não funcionou muito";
+									show "bem. Você terá que";
+									show "começar novamente.^000000";
+									close;
+								}
+								break;
+							case 4:
+								show "^3355FFAgora você tem que ter";
+								show "certeza de que o portão é seguro";
+								show "e ao mesmo tempo sólido.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira para";
+									show "solucionar este problema, mas parece";
+									show "que o problema até piorou.";
+									show "Você terá que começar tudo denovo.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê teve sucesso em";
+									show "usar emveretarcon para reparar";
+									show "os problemas do portão.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+							}
+						}
+					}
+					show "^3355FFBem, parece que";
+					show "você conseguiu reparar";
+					show "o portão.^000000";
+					next;
+					if (agitcheck() == 0) {
+						show "^3355FFInfelizmente, o Portão";
+						show "da Fortaleza não pode ser reconstruído:";
+						show "o Emperium não está mais aqui.^000000";
+						close;
+					}
+					else {
+						if (.@rp_temp == .@ro_of01) {
+							show "^3355FFO Portão da Fortaleza";
+							show "foi reparado com Sucesso!^000000";
+							delitem 1019,30; //Wooden_Block
+							delitem 999,10; //Steel
+							delitem 1011,10; //Emveretarcon
+							delitem 984,5; //Oridecon
+							close2;
+							donpcevent "#aru04_RL01::OnEnable";
+							disablenpc "Controle01#aru04";
+							mapannounce "arug_cas04","O 1º Portão da Fortaleza foi reconstruído!",bc_map,"0x00ff00";
+							setarray $agit_ar01[2],0;
+							end;
+						}
+						else {
+							show "^3355FFO muro foi destruído,";
+							show "e a tentativa de reparar o";
+							show "Portão da Fortaleza falhou.";
+							show "Você perdeu alguns de seus";
+							show "itens para a reparação...^000000";
+							delitem 984,2; //Oridecon
+							delitem 999,4; //Steel
+							delitem 1019,14; //Wooden_Block
+							delitem 1011,3; //Emveretarcon
+							close;
+						}
+					}
+				}
+				else {
+					show "^3355FFVocê não pode tentar reparar";
+					show "o Portão da Fortaleza se você não";
+					show "tiver todos os materiais necessários.^000000";
+					close;
+				}
+			}
+		}
+	}
+	end;
+
+OnInit:
+	disablenpc "Controle01#aru04";
+	end;
+
+OnEnable:
+	enablenpc "Controle01#aru04";
+	end;
+
+OnDisable:
+	disablenpc "Controle01#aru04";
+	end;
+}
+
+arug_cas04,135,212,0	script	Controle02#aru04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		if (strcharinfo(0) == getguildmaster(.@GID)) {
+			if ($agit_ar04[3] == 2) {
+				show "^3355FFPortões da Fortaleza";
+				show "Demolidos podem ser reparados,";
+				show "mas você precisa conseguir";
+				show "os seguintes materiais.^000000";
+				next;
+				show "^4D4DFF10 Aços^000000,";
+				show "^4D4DFF30 Troncos^000000,";
+				show "^4D4DFF5 Oridecons^000000, e";
+				show "^4D4DFF10 Emveretarcons^000000.";
+				next;
+				select("Continuar");
+				if ((countitem(1019) > 29) && (countitem(999) > 9) && (countitem(1011) > 9) && (countitem(984) > 4)) {
+					show "^3355FFVocê precisará de troncos para";
+					show "reparar a estrutura de suporte,";
+					show "Oridecons para aumentar";
+					show "a resistência do Portão, e";
+					show "Emveretarcons para basicamente";
+					show "segurar tudo junto.^000000";
+					next;
+					set .@ro_of01,rand(10,15);
+					while(1) {
+						if (.@ro_of02 == .@ro_of01) {
+							break;
+						}
+						else {
+							switch(rand(1,4)) {
+							case 1:
+								show "^3355FFA estrutura de suporte";
+								show "está terrivelmente danificada:";
+								show "reparar esta parte";
+								show "é a prioridade.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFA estrutura foi";
+									show "reforçada com madeira.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar o oridecon,";
+									show "mas parece que ele não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+								break;
+							case 2:
+								show "^3355FFParece que em geral";
+								show "a resistência do portão tem";
+								show "que ser reforçada com alguma coisa.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para reforçar o portão.^000000";
+									set .@ro_of02,.@ro_of02 + 1;
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê martelou o";
+									show "oridecon: parece que";
+									show "isso irá funcionar.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								}
+								break;
+							case 3:
+								show "^3355FFO dano ao portão";
+								show "causou todas estas";
+								show "rachaduras. Você terá de";
+								show "soldá-las de algum modo.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para corrigir este problema,";
+									show "mas parece que só piorou a situação.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê usou o aço para soldar";
+									show "todas as rachaduras: o portão está";
+									show "começando a ficar mais sólido.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas isto";
+									show "não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas isto não funcionou muito";
+									show "bem. Você terá que";
+									show "começar novamente.^000000";
+									close;
+								}
+								break;
+							case 4:
+								show "^3355FFAgora você tem que ter";
+								show "certeza de que o portão é seguro";
+								show "e ao mesmo tempo sólido.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira para";
+									show "solucionar este problema, mas parece";
+									show "que o problema até piorou.";
+									show "Você terá que começar tudo denovo.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê teve sucesso em";
+									show "usar emveretarcon para reparar";
+									show "os problemas do portão.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+							}
+						}
+					}
+					show "^3355FFBem, parece que";
+					show "você conseguiu reparar";
+					show "o portão.^000000";
+					next;
+					if (agitcheck() == 0) {
+						show "^3355FFInfelizmente, o Portão";
+						show "da Fortaleza não pode ser reconstruído:";
+						show "o Emperium não está mais aqui.^000000";
+						close;
+					}
+					else {
+						if (.@rp_temp == .@ro_of01) {
+							show "^3355FFO Portão da Fortaleza";
+							show "foi reparado com Sucesso!^000000";
+							delitem 1019,30; //Wooden_Block
+							delitem 999,10; //Steel
+							delitem 1011,10; //Emveretarcon
+							delitem 984,5; //Oridecon
+							close2;
+							donpcevent "#aru04_RL02::OnEnable";
+							disablenpc "Controle02#aru04";
+							mapannounce "arug_cas04","O 2º Portão da Fortaleza foi reconstruído!",bc_map,"0x00ff00";
+							setarray $agit_ar04[3],0; //Global Variable
+							setarray $agit_ar04[2],2; //Global Variable
+							donpcevent "Controle01#aru04::OnDevice01#aru04_dlrp01";
+							end;
+						}
+						else {
+							show "^3355FFO muro foi destruído,";
+							show "e a tentativa de reparar o";
+							show "Portão da Fortaleza falhou.";
+							show "Você perdeu alguns de seus";
+							show "itens para a reparação...^000000";
+							delitem 984,2; //Oridecon
+							delitem 999,4; //Steel
+							delitem 1019,14; //Wooden_Block
+							delitem 1011,3; //Emveretarcon
+							close;
+						}
+					}
+				}
+				else {
+					show "^3355FFVocê não pode tentar reparar";
+					show "o Portão da Fortaleza se você não";
+					show "tiver todos os materiais necessários.^000000";
+					close;
+				}
+			}
+		}
+	}
+	end;
+
+OnInit:
+	disablenpc "Controle02#aru04";
+	end;
+
+OnEnable:
+	enablenpc "Controle02#aru04";
+	end;
+
+OnDisable:
+	disablenpc "Controle02#aru04";
+	end;
+}
+
+arug_cas04,134,266,0	script	Controle03#aru04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		if (strcharinfo(0) == getguildmaster(.@GID)) {
+			if ($agit_ar04[4] == 2) {
+				show "^3355FFPortões da Fortaleza";
+				show "Demolidos podem ser reparados,";
+				show "mas você precisa conseguir";
+				show "os seguintes materiais.^000000";
+				next;
+				show "^4D4DFF10 Aços^000000,";
+				show "^4D4DFF30 Troncos^000000,";
+				show "^4D4DFF5 Oridecons^000000, e";
+				show "^4D4DFF10 Emveretarcons^000000.";
+				next;
+				select("Continuar");
+				if ((countitem(1019) > 29) && (countitem(999) > 9) && (countitem(1011) > 9) && (countitem(984) > 4)) {
+					show "^3355FFVocê precisará de troncos para";
+					show "reparar a estrutura de suporte,";
+					show "Oridecons para aumentar";
+					show "a resistência do Portão, e";
+					show "Emveretarcons para basicamente";
+					show "segurar tudo junto.^000000";
+					next;
+					set .@ro_of01,rand(10,15);
+					while(1) {
+						if (.@ro_of02 == .@ro_of01) {
+							break;
+						}
+						else {
+							switch(rand(1,4)) {
+							case 1:
+								show "^3355FFA estrutura de suporte";
+								show "está terrivelmente danificada:";
+								show "reparar esta parte";
+								show "é a prioridade.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFA estrutura foi";
+									show "reforçada com madeira.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon,";
+									show "mas parece que não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar o oridecon,";
+									show "mas parece que ele não funcionou";
+									show "muito bem. Você precisará tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+								break;
+							case 2:
+								show "^3355FFParece que em geral";
+								show "a resistência do portão tem";
+								show "que ser reforçada com alguma coisa.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para reforçar o portão.^000000";
+									set .@ro_of02,.@ro_of02 + 1;
+									next;
+									break;
+								case 2:
+									show "^3355FFVocê tentou usar aço";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas";
+									show "isto não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê martelou o";
+									show "oridecon: parece que";
+									show "isso irá funcionar.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								}
+								break;
+							case 3:
+								show "^3355FFO dano ao portão";
+								show "causou todas estas";
+								show "rachaduras. Você terá de";
+								show "soldá-las de algum modo.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira";
+									show "para corrigir este problema,";
+									show "mas parece que só piorou a situação.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê usou o aço para soldar";
+									show "todas as rachaduras: o portão está";
+									show "começando a ficar mais sólido.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 3:
+									show "^3355FFVocê tentou usar emveretarcon";
+									show "para reforçar o portão, mas isto";
+									show "não funcionou muito bem.";
+									show "Você terá que começar novamente.^000000";
+									close;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas isto não funcionou muito";
+									show "bem. Você terá que";
+									show "começar novamente.^000000";
+									close;
+								}
+								break;
+							case 4:
+								show "^3355FFAgora você tem que ter";
+								show "certeza de que o portão é seguro";
+								show "e ao mesmo tempo sólido.^000000";
+								next;
+								switch(select("Tronco:Aço:Emveretarcon:Oridecon")) {
+								case 1:
+									show "^3355FFVocê tentou usar madeira para";
+									show "solucionar este problema, mas parece";
+									show "que o problema até piorou.";
+									show "Você terá que começar tudo denovo.^000000";
+									close;
+								case 2:
+									show "^3355FFVocê tentou usar aço,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								case 3:
+									show "^3355FFVocê teve sucesso em";
+									show "usar emveretarcon para reparar";
+									show "os problemas do portão.^000000";
+									set .@rp_temp,.@rp_temp + 1;
+									set .@ro_of02,.@ro_of02 + 1;
+									specialeffect2 101; // EF_REPAIRWEAPON
+									next;
+									break;
+								case 4:
+									show "^3355FFVocê tentou usar oridecon,";
+									show "mas não funcionou muito";
+									show "bem. Você tem que tentar";
+									show "com outra coisa.^000000";
+									close;
+								}
+							}
+						}
+					}
+					show "^3355FFBem, parece que";
+					show "você conseguiu reparar";
+					show "o portão.^000000";
+					next;
+					if (agitcheck() == 0) {
+						show "^3355FFInfelizmente, o Portão";
+						show "da Fortaleza não pode ser reconstruído:";
+						show "o Emperium não está mais aqui.^000000";
+						close;
+					}
+					else {
+						if (.@rp_temp == .@ro_of01) {
+							show "^3355FFO Portão da Fortaleza";
+							show "foi reparado com Sucesso!^000000";
+							delitem 1019,30; //Wooden_Block
+							delitem 999,10; //Steel
+							delitem 1011,10; //Emveretarcon
+							delitem 984,5; //Oridecon
+							close2;
+							donpcevent "#aru04_RL03::OnEnable";
+							disablenpc "Controle03#aru04";
+							mapannounce "arug_cas04","O 3º Portão da Fortaleza foi reconstruído!",bc_map,"0x00ff00";
+							setarray $agit_ar04[4],0;
+							setarray $agit_ar04[3],2;
+							donpcevent "Controle02#aru04::OnDevice02#aru04_dlrp02";
+							end;
+						}
+						else {
+							show "^3355FFO muro foi destruído,";
+							show "e a tentativa de reparar o";
+							show "Portão da Fortaleza falhou.";
+							show "Você perdeu alguns de seus";
+							show "itens para a reparação...^000000";
+							delitem 984,2; //Oridecon
+							delitem 999,4; //Steel
+							delitem 1019,14; //Wooden_Block
+							delitem 1011,3; //Emveretarcon
+							close;
+						}
+					}
+				}
+				else {
+					show "^3355FFVocê não pode tentar reparar";
+					show "o Portão da Fortaleza se você não";
+					show "tiver todos os materiais necessários.^000000";
+					close;
+				}
+			}
+		}
+	}
+	end;
+
+OnInit:
+	disablenpc "Controle03#aru04";
+	end;
+
+OnEnable:
+	enablenpc "Controle03#aru04";
+	end;
+
+OnDisable:
+	disablenpc "Controle03#aru04";
+	end;
+}
+
+// Link Flags
+arug_cas04,122,314,0	script	LF-01#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Primeiro Portão Principal:Segundo Portão Principal:Cancelar")) {
+		case 1:
+			warp "arug_cas04",84,158;
+			end;
+		case 2:
+			warp "arug_cas04",197,136;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,125,314,0	script	LF-02#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 1-1:Área de Defesa 1-2:Cancelar")) {
+		case 1:
+			warp "arug_cas04",65,94;
+			end;
+		case 2:
+			warp "arug_cas04",211,97;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,128,314,0	script	LF-03#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 1-3:Área de Defesa 1-4:Cancelar")) {
+		case 1:
+			warp "arug_cas04",112,73;
+			end;
+		case 2:
+			warp "arug_cas04",171,73;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,131,314,0	script	LF-04#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 2-1:Área de Defesa 2-2:Cancelar")) {
+		case 1:
+			warp "arug_cas04",112,152;
+			end;
+		case 2:
+			warp "arug_cas04",172,152;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,134,314,0	script	LF-05#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 2-3:Área de Defesa 2-4:Cancelar")) {
+		case 1:
+			warp "arug_cas04",120,186;
+			end;
+		case 2:
+			warp "arug_cas04",162,186;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,149,314,0	script	LF-06#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 3-1:Área de Defesa 3-2:Cancelar")) {
+		case 1:
+			warp "arug_cas04",116,235;
+			end;
+		case 2:
+			warp "arug_cas04",164,235;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,152,314,0	script	LF-07#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 1-1:Área de Defesa 2-1:Área de Defesa 3-1:Cancelar")) {
+		case 1:
+			warp "arug_cas04",65,94;
+			end;
+		case 2:
+			warp "arug_cas04",112,152;
+			end;
+		case 3:
+			warp "arug_cas04",116,235;
+			end;
+		case 4:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,155,314,0	script	LF-08#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {		
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 1-2:Área de Defesa 2-2:Área de Defesa 3-2:Cancelar")) {
+		case 1:
+			warp "arug_cas04",211,97;
+			end;
+		case 2:
+			warp "arug_cas04",172,152;
+			end;
+		case 3:
+			warp "arug_cas04",164,235;
+			end;
+		case 4:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,158,314,0	script	LF-09#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Escolha";
+		show "a que local interno você";
+		show "deseja ir.^000000";
+		switch(select("Área de Defesa 1-4:Área de Defesa 2-4:Cancelar")) {
+		case 1:
+			warp "arug_cas04",171,73;
+			end;
+		case 2:
+			warp "arug_cas04",162,186;
+			end;
+		case 3:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,161,314,0	script	LF-10#arug_cas04	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Gostaria de";
+		show "ser teleportado para o";
+		show "Serviço de Conveniências para";
+		show "membros do clã?^000000";
+		switch(select("Ir para Serviço de Convêniencia:Cancelar")) {
+		case 1:
+			warp "arug_cas04",321,57;
+			end;
+		case 2:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,45,158,0	script	Gefn#LF_ar04_01::LF_ar04_01	111,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Gostaria de";
+		show "ser teleportado para a";
+		show "Sala do Emperium?^000000";
+		switch(select("Teleportar:Cancelar")) {
+		case 1:
+			warp "arug_cas04",121,318;
+			end;
+		case 2:
+			close;
+		}
+	}
+	end;
+}
+
+arug_cas04,226,156,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_01	111
+arug_cas04,134,62,4	duplicate(LF_ar04_01)	Gefn#LF_ar04_02	111
+arug_cas04,149,62,4	duplicate(LF_ar04_01)	Gefn#LF_ar04_03	111
+arug_cas04,123,154,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_04	111
+arug_cas04,160,154,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_05	111
+arug_cas04,135,205,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_06	111
+arug_cas04,148,205,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_07	111
+arug_cas04,134,260,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_08	111
+//arug_cas04,204,142,0	duplicate(LF_ar04_01)	Gefn#LF_ar04_09	111
+
+arug_cas04,148,103,4	script	Gefn#LF_ar04_10::LF_ar04_02	722,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID) {
+		show "^3355FFEste é o Serviço de Teleporte";
+		show "da Fortaleza. Gostaria de";
+		show "ser teleportado para a";
+		show "Sala do Emperium?^000000";
+		switch(select("Teleportar:Cancelar")) {
+		case 1:
+			warp "arug_cas04",121,318;
+			end;
+		case 2:
+			close;
+		}
+	}
+	end;
+
+OnRecvCastlear04:
+	FlagEmblem GetCastleData("arug_cas04",1);
+	end;
+}
+
+arug_cas04,135,103,4	duplicate(LF_ar04_02)	Gefn#LF_ar04_11	722
+arug_cas04,63,51,7	duplicate(LF_ar04_02)	Gefn#LF_ar04_12	722
+arug_cas04,214,51,1	duplicate(LF_ar04_02)	Gefn#LF_ar04_13	722
+
+// Guild Gerente
+arug_cas04,328,98,3	script	Steward#aru04	55,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (.@GID == 0) {
+		show "[ Steward ]";
+		show "Estou esperando por meu mestre";
+		show "para saber que destino ele escolheu";
+		show "para mim. Você acha que tem";
+		show "a coragem e força necessárias";
+		show "para conquistar esta fortaleza?";
+		close;
+	}
+	if (getcharid(2) != .@GID || strcharinfo(0) != getguildmaster(.@GID)) {
+		show "[ Steward ]";
+		show "Hmpf. Suas Ameaças não";
+		show "me assustam! Guardiões, levem";
+		show "este intruso para longe daqui!";
+		show "Eu sempre serei fiel ao";
+		show "mestre desta fortaleza,";
+		show "o primeiro e único ^FF0000" + getguildmaster(.@GID) + "^000000.";
+		close;
+	}
+	show "[ Steward ]";
+	show "Oh, Mestre ^FF0000" + getguildmaster(.@GID) + "^000000...";
+	show "Como posso lhe servir hoje?";
+	show "Há algum aspecto sobre a";
+	show "manuntenção da fortaleza";
+	show "que deseja discutir?";
+	next;
+	switch(select("Estado do Castelo:Investir no Crescimento Comercial:Investir no Aumento da Defesa:Habilitar/Desabilitar o Armazém do Clã:Ir para a Sala do Mestre")) {
+	case 1:
+		show "[ Steward ]";
+		show "O Nível do Crescimento";
+		show "Comercial desta fortaleza é ^0000ff" + GetCastleData("arug_cas04",2) + ".";
+		if (GetCastleData("arug_cas04",4) > 0) {
+			show "Da última vez, você investiu no";
+			show "Crescimento comercial " + GetCastleData("arug_cas04",4) + " vezes.";
+		}
+		next;
+		show "[ Steward ]";
+		show "O Nivel da Defesa";
+		show "da Fortaleza é " + GetCastleData("arug_cas04",3) + ".";
+		if (GetCastleData("arug_cas04",5) > 0) {
+			show "Da última vez, você investiu";
+			show "na defesa " + GetCastleData("arug_cas04",5) + " vezes.";
+		}
+		show " ";
+		show "Isto é tudo, mestre.";
+		close;
+	case 2:
+		set .@Economy,GetCastleData("arug_cas04",2);
+		if(.@Economy < 8) set .@eco_invest,10000;
+		if(.@Economy >= 8) set .@eco_invest,20000;
+		if(.@Economy >= 16) set .@eco_invest,40000;
+		if(.@Economy >= 25) set .@eco_invest,80000;
+		if(.@Economy >= 34) set .@eco_invest,160000;
+		if(.@Economy >= 44) set .@eco_invest,320000;
+		if(.@Economy >= 54) set .@eco_invest,640000;
+		if(.@Economy >= 65) set .@eco_invest,1280000;
+		if(.@Economy >= 76) set .@eco_invest,2560000;
+		if(.@Economy >= 88) set .@eco_invest,5120000;
+		show "[ Steward ]";
+		show "Aumentando o Crescimento";
+		show "Comercial da Fortaleza,";
+		show "a quantidade de bens produzidos";
+		show "pelo clã aumentará.";
+		show "Investindo no Crescimento Comercial";
+		show "você irá ajudar com o futuro do clã.";
+		next;
+		show "[ Steward ]";
+		show "Você pode fazer um investimento";
+		show "por dia, mas se você pode fazer";
+		show "dois investimentos se você pagar";
+		show "mais zenys: isto irá acelerar";
+		show "o desenvolvimento comercial,";
+		show "mas pode sair muito caro.";
+		next;
+		if (.@Economy == 100) {
+			show "[ Steward ]";
+			show "Bem... parece que o nivel de";
+			show "crescimento comercial da fortaleza";
+			show "está em 100%. Não é possível";
+			show "desenvolver o crescimento";
+			show "comercial além disso.";
+			close;
+		}
+		if (GetCastleData("arug_cas04",4) == 2) {
+			show "[ Steward ]";
+			show "Você já fez dois investimentos";
+			show "hoje, então você deve esperar";
+			show "até amanhã para poder fazer";
+			show "um novo investimento.";
+			close;
+		}
+		if (GetCastleData("arug_cas04",4) == 0) {
+			show "[ Steward ]";
+			show "Você deve pagar ^FF0000" + .@eco_invest + "^000000 zenys";
+			show "para fazer um investimento.";
+			show "Você vai investir no";
+			show "desenvolvimento comercial";
+			show "desta fortaleza agora?";
+		}
+		else {
+			show "[ Steward ]";
+			show "Você deve pagar ^FF0000" + .@eco_invest + "^000000";
+			show "zenys a mais para fazer um";
+			show "segundo investimento hoje. Você irá";
+			show "investir mais uma vez?";
+		}
+		next;
+		switch(select("Investir no Crescimento Comercial:Cancelar")) {
+		case 1:
+			if (Zeny < .@eco_invest) {
+				show "[ Steward ]";
+				show "Lamento, Mestre, mas";
+				show "você não tem a quantidade";
+				show "necessária de zenys para fazer";
+				show "um investimento pelo clã hoje.";
+				close;
+			}
+			set zeny,zeny-.@eco_invest;
+			SetCastleData "arug_cas04",4,GetCastleData("arug_cas04",4)+1;
+			SetCastleData "arug_cas04",2,.@Economy + 1 + (.@Economy<99 && rand(2) && getgdskilllv(.@GID,10014));
+			show "[ Steward ]";
+			show "Uma sábia escolha para utilizar os";
+			show "fundos do clã, Mestre. Temos que";
+			show "esperar para ver os resultados";
+			show "deste investimento amanhã.";
+			close;
+		case 2:
+			show "[ Steward ]";
+			show "As suas ordens, Mestre.";
+			close;
+		}
+	case 3:
+		set .@defence,GetCastleData("arug_cas04",3);
+		if(.@defence < 8) set .@def_invest,20000;
+		if(.@defence >= 8) set .@def_invest,40000;
+		if(.@defence >= 16) set .@def_invest,80000;
+		if(.@defence >= 25) set .@def_invest,160000;
+		if(.@defence >= 34) set .@def_invest,320000;
+		if(.@defence >= 44) set .@def_invest,640000;
+		if(.@defence >= 54) set .@def_invest,1280000;
+		if(.@defence >= 65) set .@def_invest,2560000;
+		if(.@defence >= 76) set .@def_invest,5120000;
+		if(.@defence >= 88) set .@def_invest,10240000;
+		show "[ Steward ]";
+		show "Investir na defesa de nossa";
+		show "fortaleza ajuda na durabilidade";
+		show "de nossos Guardiões e do";
+		show "Emperium. Nós precisaremos de";
+		show "toda a vantagem para nos proteger";
+		show "de nosso inimigos.";
+		next;
+		show "[ Steward ]";
+		show "Você pode investir na defesa";
+		show "uma vez por dia, mais se você pagar";
+		show "mais, você pode investir no";
+		show "máximo duas vezes por dia.";
+		next;
+		show "[ Steward ]";
+		if (GetCastleData("arug_cas04",3) == 100) {
+			show "O nível de Defesa desta";
+			show "Fortaleza está em 100%, e";
+			show "não podemos aumentar mais.";
+			close;
+		}
+		if (GetCastleData("arug_cas04",5) == 2) {
+			show "Mestre, você ja investiu em";
+			show "Defesa duas vezes por hoje.";
+			show "Você precisará esperar até amanhã";
+			show "se você deseja";
+			show "aumentar nossas defesas.";
+			close;
+		}
+		if (GetCastleData("arug_cas04",5) == 0) {
+			show "Nós precisamos de ^FF0000" + .@def_invest + "^000000";
+			show "zenys para investir na defesa";
+			show "de nossa fortaleza.";
+			show "Você vai investir agora?";
+		}
+		else {
+			show "Nós precisamos de ^FF0000" + .@def_invest + "^000000";
+			show "zenys para investir na defesa";
+			show "de nossa fortaleza.";
+			show "Você vai investir agora?";;
+		}
+		next;
+		switch(select("Investir na Defesa:Cancelar")) {
+		case 1:
+			if (Zeny < .@def_invest) {
+				show "[ Steward ]";
+				show "Lamento, Mestre, mas";
+				show "você não tem a quantidade";
+				show "necessária de zenys para fazer";
+				show "um investimento pelo clã hoje.";
+				close;
+			}
+			set zeny,zeny-.@def_invest;
+			SetCastleData "arug_cas04",5,GetCastleData("arug_cas04",5)+1;
+			SetCastleData "arug_cas04",3,.@defence+1;
+			show "[ Steward ]";
+			show "Uma sábia escolha para utilizar os";
+			show "fundos do clã, Mestre. O Aumento";
+			show "da frequência dos tesouros";
+			show "produzidos realmente";
+			show "ajudará a todos do clã.";
+			close;
+		case 2:
+			show "[ Steward ]";
+			show "As suas ordens, Mestre.";
+			close;
+		}
+	case 4:
+		if (GetCastleData("arug_cas04",9) == 1) {
+			show "[ Steward ]";
+			show "Você deseja despedir";
+			show "a Funcionária Kafra que";
+			show "contratamos para o clã?";
+			next;
+			switch(select("Despedir:Cancelar")) {
+			case 1:
+				cutin "kafra_01",2;
+				show "[ Funcionária Kafra Contratada ]";
+				show "Mestre, por favor reconsidere!";
+				show "Estive trabalhando muito duro";
+				show "pelo sucesso do clã!";
+				show "Vou tentar me esforçar mais para";
+				show "servir aos membros do clã desta";
+				show "fortaleza, Eu prometo!";
+				next;
+				switch(select("Despedir:Cancelar")) {
+				case 1:
+					show "[ Funcionária Kafra Contratada ]";
+					show "Por quê?! O que eu fiz";
+					show "para merecer isto? Waaah~!";
+					next;
+					cutin "kafra_01",255;
+					break;
+				case 2:
+					show "[ Funcionária Kafra Contratada ]";
+					show "Obrigado, Mestre!";
+					show "Eu vou obedecer todos os seus";
+					show "comandos da melhor forma!";
+					show "Você não vai se arrepender!";
+					close;
+				}
+				break;
+			case 2:
+				show "[ Steward ]";
+				show "Ela trabalha muito duro,";
+				show "na minha opnião. Foi de nossos";
+				show "todos melhores interesses";
+				show "permitir sua admissão.";
+				close;
+			}
+			disablenpc "Funcionária Kafra#arug_cas04";
+			SetCastleData "arug_cas04",9,0;
+			show "[ Steward ]";
+			show "A Funcionária Kafra foi";
+			show "despedida. Você estava";
+			show "insátisfeito de verdade com";
+			show "o serviço dela por aquele preço?";
+			close;
+		}
+		else {
+			show "[ Steward ]";
+			show "Deseja contratar uma";
+			show "Funcionária Kafra para servir";
+			show "nossa fortaleza? Você tem";
+			show "que pagar ^FF000010,000 zenys^000000 para contratar uma.";
+		       	next;
+			switch(select("Contratar:Cancelar")) {
+			case 1:
+				if (getgdskilllv(.@GID,10001) == 0) {
+					show "[ Steward ]";
+					show "Mestre, nós não podemos contarar uma";
+					show "Funcionária Kafra porque";
+					show "você ainda não tem a habilidade";
+					show "^FF0000Contrato com Kafra^000000";
+					show "do clã.";
+					close;
+				}
+				if (Zeny < 10000) {
+					show "[ Steward ]";
+					show "Mestre, nós não podemos contratar";
+					show "uma Funcionária Kafra porque";
+					show "não temos fundos o suficiente";
+					show "para pagar o contrato.";
+					close;
+				}
+				set zeny,zeny-10000;
+				enablenpc "Funcionária Kafra#aru04";
+				SetCastleData "arug_cas04",9,1;
+				show "[ Steward ]";
+				show "Muito bem. Agora nós temos";
+				show "com contrato oficial com a";
+				show "Corporação Kafra, e contratamos";
+				show "uma funcionária Kafra para nosso";
+				show "castelo. Aqui está ela~";
+				next;
+				cutin "kafra_01",2;
+				show "[ Funcionária Kafra Contratada ]";
+				show "Como vai? Fui enviada";
+				show "a pedido da chefe da";
+				show "Corporação Kafra para";
+				show "servir as nescessides.";
+				show "de seu clã.";
+				show "Aguardo seus comandos, Mestre.";
+				next;
+				cutin "kafra_01",255;
+				show "[ Steward ]";
+				show "Nosso contrato vencerá dentro";
+				show "de um mês, por isso é preciso";
+				show "pagar uma taxa adicional para";
+				show "manter está Empregada Kafra";
+				show "as ordens de nosso clã.";
+				close;
+			case 2:
+				show "[ Steward ]";
+				show "Como queira, Mestre.";
+				show "No entanto, eu sugiro contratar";
+				show "uma Funcionária Kafra logo";
+				show "pois possivemente, ela iria";
+				show "beneficiar muito nossos membros";
+				show "com as facilidades do serviço Kafra.";
+				close;
+			}
+		}
+	case 5:
+		show "[ Steward ]";
+		show "Você deseja entrar na";
+		show "sala do Tesouro do Clã?";
+		show "Só você, o Líder do Clã,";
+		show "tem permisão para entrar.";
+		next;
+		show "[ Steward ]";
+		show "Por favor lembre-se de abrir";
+		show "as Arca do Tesuro em pouco";
+		show "tempo. Caso contrário, o";
+		show "tesouro pode desaparecer se";
+		show "algo demorar muito.";
+		next;
+		switch(select("Ir para Sala do Tesouro:Cancelar")) {
+		case 1:
+			show "[ Steward ]";
+			show "Me permita orientá-lo";
+			show "sobre o segredo desta";
+			show "Sala do Tesouro.";
+			show "Aperte o interruptor secreto";
+			show "quando quiser voltar aqui.";
+			close2;
+			warp "arug_cas04",292,266;
+			end;
+		case 2:
+			show "[ Steward ]";
+			show "Os itens da Sala do Tesouro";
+			show "são produzidos uma vez por dia.";
+			show "Portanto, você deve obter os";
+			show "itens diáriamente.";
+			show "Para o bem do clã,";
+			show "destribua o tesouro com os membros!";
+			close;
+		}
+	}
+
+Onstop:
+	stopnpctimer;
+	end;
+
+OnStartArena:
+	set .@GID,getcharid(2);
+	// Lower castle Economy
+	set .@Economy,GetCastleData("arug_cas04",2) - 5;
+	if (.@Economy < 0) set .@Economy, 0;
+	SetCastleData "arug_cas04", 2, .@Economy;
+	// Lower Castle Defence
+	set .@defence,GetCastleData("arug_cas04",3) - 5;
+	if (.@defence < 0) set .@defence, 0;
+	SetCastleData "arug_cas04", 3, .@defence;
+	// Set new owner
+	SetCastleData "arug_cas04",1, .@GID;
+	// Clear castle's data.
+	for( set .@i, 4; .@i <= 9; set .@i, .@i+1 )
+		SetCastleData "arug_cas04", .@i, 0;
+	// Disable Kafra
+	disablenpc "Funcionária Kafra#aru04";
+
+	set .msg,2;
+	if (.msg == 1) {
+		announce "A Fortaleza [" + GetCastleName("arug_cas04") + "] de 'Valfreyja' foi conquistado pelo clã [" + getguildname(.@gid) + "].",bc_all;
+		donpcevent "Gerente#aru04_02::Onstart";
+	}
+	else if (.msg == 2) {
+		announce "O Clã [" + getguildname(.@gid) + "] conquistou [Valfreyja 4] fortaleza do clã "+GetCastleName("arug_cas04"),bc_all;
+		mapannounce "arug_cas04","O Emperium foi estilhaçado!",bc_map,"0x00FF00";
+		if (agitcheck()) {
+			donpcevent "Gerente#aru04_02::Onreset";
+			initnpctimer;
+		}
+		else {
+			donpcevent "Gerente#aru04_02::Onreset";
+			stopnpctimer;
+		}
+	}
+	else if (.msg == 0) {
+		announce "A Fortaleza [" + GetCastleName("arug_cas04") + "]de 'Valfreyja' foi conquistado pelo clã [" + getguildname(.@gid) + "].",bc_all;
+		donpcevent "Gerente#aru04_02::Onreset";
+		stopnpctimer;
+		end;
+	}
+	MapRespawnGuildID "arug_cas04",GetCastleData("arug_cas04",1),2;
+	GetCastleData "arug_cas04",0,"::OnRecvCastlear04";
+	end;
+
+OnTimer10000:
+	donpcevent "Gerente#aru04_02::Onchange";
+	mapannounce "arug_cas04","Reconstrua esta fortaleza e restaure os Portões e as Runas Guardiãs para tornar a segurança de seu Clã mais segura!",bc_map,"0x00FF00";
+	end;
+}
+
+// Guild Kafra
+arug_cas04,315,98,5	script	Funcionária Kafra#aru04	117,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (getcharid(2) == .@GID && getgdskilllv(.@GID,10001)) {
+		show "[Funcionária Kafra]";
+		show "Bem-vindo, bravo membro";
+		show "do Clã ^FF0000" + GetGuildName(.@GID) + "^000000!";
+		show "A Corporação Kafra está";
+		show "para ajudá-lo no que precisar!";
+		next;
+		switch(select("Usar Armazén:Usar Seviço de Teletransporte:Alugar Carrinho:Cancelar")) {
+		case 1:
+			if (basicskillcheck() && getskilllv(1) < 6) {
+				show "[Funcionária Kafra]";
+				show "Me desculpe, mas você";
+				show "precisa das habilidades básicas";
+				show "Lv.6 para usar o Armazén.";
+			}
+			else {
+				openstorage;
+			}
+			break;
+		case 2:
+			show "[Funcionária Kafra]";
+			show "Por favor, selecione";
+			show "o seu destino.";
+			next;
+			switch(select("Rachel -> 200 zeny:Cancelar")) {
+			case 1:
+				if (Zeny < 200) {
+					show "[Funcionária Kafra]";
+					show "Me desculpe, mas você";
+					show "não tem zeny o suficiente para";
+					show "pagar o serviço de teleporte.";
+					show "Por favor, obtenha 200z para usar o serviço.";
+					close2;
+					cutin "kafra_01",255;
+					end;
+				}
+				set zeny,zeny-200;
+				warp "rachel",115,125;
+				end;
+			case 2:
+				cutin "kafra_01",255;
+			}
+			break;
+		case 3:
+			if (BaseClass != Job_Merchant) {
+				show "[Funcionária Kafra]";
+				show "Me desculpe, mas este";
+				show "serviço só esta disponível";
+				show "para as classes Mercador, Ferreiro";
+				show "e Alquimistas.";
+			}
+			else if (checkcart() == 1) {
+				show "[Funcionária Kafra]";
+				show "Hm? Você já alugo";
+				show "um Carrinho.";
+			}
+			else {
+				show "[Funcionária Kafra]";
+				show "Para alugar um carrinho";
+				show "é cobrado 800 zeny. Você";
+				show "deseja Alugar um Carrinho?";
+				next;
+				switch(select("Alugar um Carrinho:Cancelar")) {
+				case 1:
+					if (Zeny < 800) {
+						show "[Funcionária Kafra]";
+						show "Me desculpe, mas você";
+						show "não tem zeny o suficiente";
+						show "para pegar um carrinho.";
+						close2;
+						cutin "kafra_01",255;
+						end;
+					}
+					set zeny,zeny-800;
+					setcart;
+					break;
+				case 2:
+					break;
+				}
+			}
+			break;
+		case 4:
+			show "[Funcionária Kafra]";
+			show "Obrigado por usar o";
+			show "Serviço Kafra. Volte";
+			show "sempre que precisar,";
+			show "de meus serviços Kafra!";
+			close2;
+			cutin "kafra_01",255;
+			end;
+		}
+		close2;
+		cutin "kafra_01",255;
+		end;
+	}
+	else {
+		show "[Funcionária Kafra]";
+		show "Me desculpe, mais tenho";
+		show "contrato exclusivo com os";
+		show "membros do Clã ^FF0000" + GetGuildName(.@GID) + "^000000.";
+		show "Você terá que pedir ajuda";
+		show "a outra Funcionária Kafra...";
+		close2;
+		cutin "kafra_01",255;
+		end;
+	}
+
+OnRecvCastlear04:
+	if (GetCastleData("arug_cas04",1) == 0) {
+		monster "arug_cas04",0,0,"Druída Malígno",1117,10;
+		monster "arug_cas04",0,0,"Khalitzburg",1132,4;
+		monster "arug_cas04",0,0,"Cavaleiro do Abismo",1219,3;
+		monster "arug_cas04",0,0,"Executor",1205,1;
+		monster "arug_cas04",0,0,"Penomena",1216,10;
+		monster "arug_cas04",0,0,"Relógio",1269,9;
+		monster "arug_cas04",0,0,"Raydric Arqueiro",1276,12;
+		monster "arug_cas04",0,0,"Andarilho",1208,3;
+		monster "arug_cas04",0,0,"Alice",1275,1;
+		monster "arug_cas04",0,0,"Cavaleiro Sanguinário",1268,2;
+		monster "arug_cas04",0,0,"Senhor das Trevas",1272,2;
+		monster "arug_cas04",0,0,"Gerente",1270,4;
+	}
+	if (GetCastleData("arug_cas04",9) < 1) {
+		disablenpc "Funcionária Kafra#aru04";
+	}
+	end;
+}
+
+arug_cas04,299,277,0	script	#aru04_switch	111,{
+	show " ";
+	show "^3355FFVocê vai puxar";
+	show "a pequena alavanca?^000000";
+	next;
+	switch(select("Puxar Alavanca:Cancelar")) {
+	case 1:
+		warp "arug_cas04",321,57;
+		end;
+	case 2:
+		close;
+	}
+}
+
+aru_gld,306,359,6	script	Gefn#flag_ar04_1::ar04_Flag	722,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (.@GID == 0) {
+		show "[ Decreto Real de Arunafeltz ]";
+		show "O Santo reino de Arunafeltz";
+		show "declara que ainda tem de";
+		show "reinvidicar um mestre";
+		show "sobre este castelo. O primeiro";
+		show "que quebrar o Emperium conquistará";
+		show "e se tornará o novo dono.";
+		close;
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			show "[ Voz da Alinhagem ]";
+			show "Bravo guerreiro,";
+			show "deseja retornar para";
+			show "o seu castelo?";
+			next;
+			switch(select("Retornar ao Castelo:Cancelar")) {
+			case 1:
+				set .@GID, GetCastleData("arug_cas04",1);
+				if (getcharid(2) == .@GID) {
+					warp "arug_cas04",121,318;
+					end;
+				}
+				close;
+			case 2:
+				close;
+			}
+		}
+		show "[ Decreto Real de Arunafeltz ]";
+		show "O Santo Reino de";
+		show "Arunafeltz declara que este";
+		show "castelo pertence ao Clã";
+		show "^FF0000" + GetGuildName(.@GID) + "^000000.";
+		next;
+		show "[ Decreto Real de Arunafeltz ]";
+		show "^FF0000" + GetGuildMaster(.@GID) + "^000000 é";
+		show "o Líder do Clã ^FF0000" + GetGuildName(.@GID) + "^000000.";
+		show "Qualquer objeção contra isso";
+		show "deverá revindicar este Castelo";
+		show "atravéz das forças do aço e da mágia";
+		show "e assim ser nomeado Mestre com seu Clã.";
+		close;
+	}
+
+OnRecvCastlear04:
+	FlagEmblem GetCastleData("arug_cas04",1);
+	end;
+}
+
+aru_gld,306,348,0	duplicate(ar04_Flag)	Gefn#flag_ar04_2	722
+
+aru_gld,301,318,4	script	Gefn#flag_ar04_3::ar04_Flag2	722,{
+	set .@GID, GetCastleData("arug_cas04",1);
+	if (.@GID == 0) {
+		show "[ Decreto Real de Arunafeltz ]";
+		show "O Santo reino de Arunafeltz";
+		show "declara que ainda tem de";
+		show "reinvidicar um mestre";
+		show "sobre este castelo. O primeiro";
+		show "que quebrar o Emperium conquistará";
+		show "e se tornará o novo dono.";
+		close;
+	}
+	else {
+		show "[ Decreto Real de Arunafeltz ]";
+		show "O Santo Reino de";
+		show "Arunafeltz declara que este";
+		show "castelo pertence ao Clã";
+		show "^FF0000" + GetGuildName(.@GID) + "^000000.";
+		next;
+		show "[ Decreto Real de Arunafeltz ]";
+		show "^FF0000" + GetGuildMaster(.@GID) + "^000000 é";
+		show "o Líder do Clã ^FF0000" + GetGuildName(.@GID) + "^000000.";
+		show "Qualquer objeção contra isso";
+		show "deverá revindicar este Castelo";
+		show "atravéz das forças do aço e da mágia";
+		show "e assim ser nomeado Mestre com seu Clã.";
+		close;
+	}
+
+OnRecvCastlear04:
+	FlagEmblem GetCastleData("arug_cas04",1);
+	end;
+}
+
+aru_gld,306,348,0	duplicate(ar04_Flag2)	Gefn#flag_ar04_4	722

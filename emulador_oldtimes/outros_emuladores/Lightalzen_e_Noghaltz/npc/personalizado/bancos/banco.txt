@@ -1,0 +1,98 @@
+//===== Cronus Script ======================================== 
+//= Banco
+//===== Por: ================================================= 
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Changelog: =========================================== 
+//= 1.0 Criado o Npc [Kamper]
+//= 1.1 Adicionado a opção de cancelar na transferência [Kamper]
+//============================================================ 
+
+prontera.gat,132,217,5	script	Banqueiro	109,{
+set @preco, 500;
+
+show "[Banqueiro]";
+show "Bem-vindo ao Banco de Prontera, como posso ajudá-lo?";
+next;
+menu "Gostaria de fazer um depósito.",L_Deposito,"Gotaria de fazer um saque.",L_Saque,"Gostaria de ver meu saldo.",L_Saldo,"Gostaria de fazer uma transferência.",L_Transferencia;
+
+L_Deposito:
+	show "[Banqueiro]";
+	show "Bem... Quanto você gostaria de depositar? O valor máximo que você poderá depositar é de 1.000.000 Zenys.";
+	next;
+	digit @zeny;
+	if(@zeny < 1 || @zeny > 1000000) goto L_NaoReal;
+	if(@zeny > Zeny) goto L_Zeny;
+	set Zeny, Zeny - @zeny;
+	setd "$banco_"+getcharid(3), getd("$banco_"+getcharid(3)) + @zeny;
+	show "[Banqueiro]";
+	show "Muito obrigado! Seus Zenys estão em boas mãos.";
+	close;
+
+L_Saque:
+	show "[Banqueiro]";
+	show "Bem... Quanto você gostaria de sacar? O valor máximo que você poderá sacar neste momento é de 1.000.000 Zenys.";
+	next;
+	digit @zeny;
+	if(@zeny < 1 || @zeny > 1000000) goto L_NaoReal;
+	if(@zeny > getd("$banco_"+getcharid(3))) goto L_Zeny;
+	setd "$banco_"+getcharid(3), getd("$banco_"+getcharid(3)) - @zeny;
+	set Zeny, Zeny + @zeny;	
+	show "[Banqueiro]";
+	show "Muito obrigado! Continue usando nossos serviços.";
+	close;
+	
+L_Saldo:
+	show "[Banqueiro]";
+	show "Bem... Um momento, deixe-me checar as papeladas.";
+	next;
+	show "[Banqueiro]";
+	show "Você possui atualmente em nossos serviços "+getd("$banco_"+getcharid(3))+" Zenys.";
+	show "O número de sua conta é "+getcharid(3)+".";
+	close;
+
+L_Transferencia:
+	show "[Banqueiro]";
+	show "Bem... Para que conta deseja fazer a transferencia? Lembrando que será descontado "+@preco+" Zenys como taxa.";
+L_Init:
+	next;
+	digit @account;
+	show "[Banqueiro]";
+	show "Para a conta "+@account+", está certo disso?";
+	next;
+	menu "Não, eu me enganei.",L_Errou,"Sim.",-,"Cancelar.",L_Cancelar;
+	show "[Banqueiro]";
+	show "Tudo certo... Quanto gostaria de transferir? O valor máximo que você poderá transferir neste momento é de 1.000.000 Zenys.";
+	next;
+	digit @zeny;
+	if(@zeny < 1 || @zeny > 1000000) goto L_NaoReal;
+	if(@zeny > getd("$banco_"+getcharid(3))) goto L_Zeny;
+	setd "$banco_"+getcharid(3), getd("$banco_"+getcharid(3)) - (@zeny + @preco);
+	setd "$banco_"+@account, getd("$banco_"+@account) + @zeny;
+	show "[Banqueiro]";
+	show "Obrigado... Você transferiu "+@zeny+" Zenys para a conta "+@account+".";
+	show "Continue utilizando nossos serviços.";
+	close;
+
+L_NaoReal:
+	show "[Banqueiro]";
+	show "Desculpe, mas você precisa digitar um valo aceito.";
+	close;
+
+L_Zeny:
+	show "[Banqueiro]";
+	show "Desculpe, mas você não possui essa quantidade de Zenys.";
+	close;
+
+L_Errou:
+	show "[Banqueiro]";
+	show "Ok, tente mais uma vez.";
+	goto L_Init;
+
+L_Cancelar:
+	show "[Banqueiro]";
+	show "Tudo bem, obrigado por utilizar nossos serviços.";
+	close;
+
+}

@@ -1,0 +1,155 @@
+//===== Cronus Script ======================================== 
+//= Estilista
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.3b
+//===== Descrição: =========================================== 
+//= Tingi Cabelo, Trocar Estilo de Cabelo e Mudar a cor da Roupa
+//===== Changelog: =========================================== 
+//= 1.0.1 Fixado algumas falas do NPC [Mehah]
+//= 1.0.2 Add suporte ate 23 no estilo de Cabelo [Mehah]
+//= 1.0.3 Add checagem se vc é um Arruaceiro, se for não poderá usar(mudar a cor da roupa) [Pudim]
+//= 1.0.4 Fixado Pontuações [Mehah]
+//= 1.1a Fix Checagem de classe(Arruaceiro e Mercenário) não poderá utilizar cores maiores que 1 em modo(Cores Oficiais) [Mehah]
+//= 1.1.1 Fix Checagem agora esta bem simplificado [Mehah]
+//= 1.2b Adicionado o sistema Menu2 [Mehah]
+//= 1.2.1b Fixado checagem de custompaleta modo ativo (1) [Mehah]
+//= 1.3b Adicionado o sistema para abilitar o menu2 [Mehah]
+//============================================================
+
+prontera.gat,170,180,1	script	Estilista	122,{
+
+//== Configurações =================================================================
+	set @nomedonpc$,"[^FF8000Estilista^000000]";
+	set @custompaletta,0; //(0) para desativar(Utilizar Cores Oficiais) (1) para ativar (Utilizar Custom Paleta)
+	set @menu2on,0; //(0) para utilizar o comando menu padrão (1) para utilizar a tecnologia menu2
+//(1)Custom Paleta
+	set @corroupa,0; //(Troque 0, pelo limite de cores para roupa)
+	set @corcabelo,0; //(Troque 0, pelo limite de cores para cabelo)
+//==================================================================================	
+	
+	show @nomedonpc$;
+	show "Bem vindo, meu caro ^853D85Aventureiro^000000.";
+	show "Eu posso tingi e trocar seu estilo de cabelo e mudar a cor da sua roupa.";
+	show "O que você deseja?";
+	next;
+	
+	L_menu:
+	if (@menu2on == 0) menu "Tingi o Cabelo",L_tingir,"Trocar Estilo de Cabelo",L_estilo,"Mudar a Cor da sua Roupa",L_roupa,"Sair",L_sair;
+	if (@menu2on == 1){
+	menu2 "Tingi o Cabelo",L_tingir,"Trocar Estilo de Cabelo",L_estilo,"Mudar a Cor da sua Roupa",L_roupa,"Sair",L_sair;
+	goto L_sair;
+	}
+
+//==================================================================================
+	L_tingir:
+	set @tipo,1;
+	show @nomedonpc$;
+	show "Escolha que cor deseja ter no seu Cabelo.";
+	if (@custompaletta == 0) show "As cores vão de ^571BED0^000000 à ^571BED8^000000.";
+	if (@custompaletta == 1) show "As cores vão de ^571BED0^000000 à ^571BED"+@corcabelo+"^000000.";
+	next;
+	if (@custompaletta == 1) goto L_tingir2;
+	if (@menu2on == 0) menu "Mudar a cor",L_tingir2,"Ver as cores que cada numeração oferece",L_vercores;
+	if (@menu2on == 1){
+	menu2 "Mudar a cor",L_tingir2,"Ver as cores que cada numeração oferece",L_vercores;
+	goto L_sair;
+	}
+	
+	L_tingir2:
+	digit @cor;
+	if (@custompaletta == 0 && @cor>8) goto L_checar;
+	if (@custompaletta == 1 && @cor>@corcabelo) goto L_checar;
+	setlook 6,@cor;
+	specialeffect2 54;
+	next;
+	show @nomedonpc$;
+	show "E agora, o que você deseja?";
+	next;
+	goto L_menu;
+	
+	L_vercores:
+	show @nomedonpc$;
+	show "0 é a cor Padrão";
+	show "1 é Loiro";
+	show "2 é Lavanda";
+	show "3 é Marrom";
+	show "4 é Verde";
+	show "5 é Azul";
+	show "6 é Branco";
+	show "7 é Preto";
+	show "8 é Vermelho";
+	next;
+	show @nomedonpc$;
+	show "Agora você deseja trocar as cores do seu cabelo?";
+	next;
+	if (@menu2on == 0) menu "Sim",L_tingir2,"Não",L_sair;
+	if (@menu2on == 1){
+	menu2 "Sim",L_tingir2,"Não",L_sair;
+	goto L_sair;
+	}
+	
+//==================================================================================
+L_estilo:
+	set @tipo,2;
+	show @nomedonpc$;
+	show "Bem, escolha entre ^571BED0^000000 à ^571BED23^000000.";
+	next;
+	
+	L_estilo2:
+	digit @estilo;
+	if (@estilo>23) goto L_checar;
+	setlook 1,@estilo;
+	specialeffect2 55;
+	next;
+	show @nomedonpc$;
+	show "E agora, o que você deseja?";
+	next;
+	goto L_menu;
+//==================================================================================
+L_roupa:
+	set @tipo,3;
+	show @nomedonpc$;
+	if (@custompaletta == 0) show "Bem, vamos então trocar sua roupa escolha entre ^571BED0^000000 à ^571BED4^000000.";
+	if (@custompaletta == 1) show "Bem, vamos então trocar sua roupa escolha entre ^571BED0^000000 à ^571BED"+@corroupa+"^000000.";
+	next;
+	
+	L_roupa2:
+	digit @cor;
+	if ((Class == 12 || Class == 17) && @custompaletta == 0 && @cor > 1) goto L_setjob;
+	set @jobSET,0;
+	if (@custompaletta == 0 && @cor>4) goto L_checar;
+	if (@custompaletta == 1 && @cor>@corroupa) goto L_checar;
+	setlook 7,@cor;
+	specialeffect2 56;
+	next;
+	show @nomedonpc$;
+	show "E agora, o que você deseja?";
+	next;
+	goto L_menu;
+
+//==================================================================================
+
+	L_setjob:
+	set @jobSET,1;
+	L_checar:
+	show @nomedonpc$;
+	if (@tipo == 1 && @custompaletta == 0) show "Por Favor, escolha entre ^571BED0^000000 à ^571BED8^000000.";
+	if (@tipo == 1 && @custompaletta == 1) show "Por Favor, escolha entre ^571BED0^000000 à ^571BED"+@corcabelo+"^000000.";
+	if (@tipo == 2) show "Por Favor, escolha entre ^571BED0^000000 à ^571BED23^000000.";
+	if (@jobSET == 0 && @tipo == 3 && @custompaletta == 0) show "Por Favor, escolha entre ^571BED0^000000 à ^571BED4^000000.";
+	if (@tipo == 3 && @custompaletta == 1) show "Por Favor, escolha entre ^571BED0^000000 à ^571BED"+@corroupa+"^000000.";
+	if ((Class == 12 || Class == 17) && @custompaletta == 0 && @cor > 1) show "Me desculpe, mas esta classe só pode usar a cor da roupa 0 e 1.";
+	next;
+	if (@tipo == 1) goto L_tingir2;
+	if (@tipo == 2) goto L_estilo2;
+	if (@tipo == 3) goto L_roupa2;
+
+	L_sair:
+	show @nomedonpc$;
+	show "Volte quando quiser meus serviços.";
+	close;
+//==================================================================================
+}
+

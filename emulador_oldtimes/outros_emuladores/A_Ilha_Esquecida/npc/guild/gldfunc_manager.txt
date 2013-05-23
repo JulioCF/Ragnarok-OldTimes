@@ -1,0 +1,368 @@
+//===== eAthena Script =======================================
+//= War of Emperium Guild Manager Function
+//===== By: ==================================================
+//= jAthena - kalen (1.0) & eAthena Team
+//===== Current Version: =====================================
+//= 2.0
+//===== Compatible With: =====================================
+//= eAthena SVN; RO Episode 4+
+//===== Description: =========================================
+//= [ Aegis Conversion]
+//= The Guild Manager allows the Guildmaster to invest in comerce
+//= and defense, hire guardians and kafras, go to the treasure room,
+//= and surrender the guild castle.
+//==============================================
+//= Break down of arguments used in the function:
+//=   arg(0): name of Castle Manager
+//=   arg(1): name of guild castle.
+//=   arg(2): x1 coordinate for warp to treasure room
+//=   arg(3): y1 coordinate for warp to treasure room
+//=   arg(4): guild script suffix for kafra, Guardian scripts etc.
+//===== Additional Comments: =================================
+//= 2.0 - Tradução para o Português		     [Banned]
+//============================================================
+
+function	script	F_GldManager	{
+	set .@GID, GetCastleData(getarg(1),1);
+
+	// Define the types of guardians on a per castle basis
+	// 1 - Soldier Guardian; 2 - Archer Guardian; 3 - Knight Guardian
+	// Aldebaran (Luina)
+	if (getarg(1) == "aldeg_cas01") setarray .@guardiantype[0],1,2,2,2,2,3,3,3;
+	if (getarg(1) == "aldeg_cas02") setarray .@guardiantype[0],3,3,3,1,1,2,2,2;
+	if (getarg(1) == "aldeg_cas03") setarray .@guardiantype[0],3,3,1,1,1,2,2,2;
+	if (getarg(1) == "aldeg_cas04") setarray .@guardiantype[0],2,2,2,1,1,1,3,3;
+	if (getarg(1) == "aldeg_cas05") setarray .@guardiantype[0],2,2,1,1,3,3,3,3;
+	// Geffen (Britoniah)
+	if (getarg(1) == "gefg_cas01") setarray .@guardiantype[0],1,1,1,2,2,3,3,3;
+	if (getarg(1) == "gefg_cas02") setarray .@guardiantype[0],1,1,1,2,2,3,3,3;
+	if (getarg(1) == "gefg_cas03") setarray .@guardiantype[0],2,2,1,1,1,3,3,3;
+	if (getarg(1) == "gefg_cas04") setarray .@guardiantype[0],2,2,1,1,1,3,3,3;
+	if (getarg(1) == "gefg_cas05") setarray .@guardiantype[0],2,2,1,1,1,3,3,3;
+	// Payon (Baulder)
+	if (getarg(1) == "payg_cas01") setarray .@guardiantype[0],2,2,2,2,2,2,2,3;
+	if (getarg(1) == "payg_cas02") setarray .@guardiantype[0],2,2,2,2,2,2,2,3;
+	if (getarg(1) == "payg_cas03") setarray .@guardiantype[0],2,2,2,2,2,2,2,3;
+	if (getarg(1) == "payg_cas04") setarray .@guardiantype[0],2,2,2,2,2,2,2,3;
+	if (getarg(1) == "payg_cas05") setarray .@guardiantype[0],2,2,2,2,2,2,2,3;
+	// Prontera (Valkyrie Realms)
+	if (getarg(1) == "prtg_cas01") setarray .@guardiantype[0],1,1,1,2,2,3,3,3;
+	if (getarg(1) == "prtg_cas02") setarray .@guardiantype[0],3,3,3,1,1,2,2,2;
+	if (getarg(1) == "prtg_cas03") setarray .@guardiantype[0],3,3,3,1,1,2,2,2;
+	if (getarg(1) == "prtg_cas04") setarray .@guardiantype[0],3,3,3,1,1,1,2,2;
+	if (getarg(1) == "prtg_cas05") setarray .@guardiantype[0],3,3,3,1,1,1,2,2;
+
+	if (.@GID == 0){
+		show "[ "+getarg(0)+" ]";
+		show "Eu estou esperando meu mestre para cumprir meu destino.";
+		show "Alma valente... a fé o guiará através do seu futuro...";
+		return 0;
+	}
+	if (getcharid(2) != .@GID || strcharinfo(0) != getguildmaster(.@GID)){
+		show "[ "+getarg(0)+" ]";
+		show "Não importa o quanto você tente, Eu ainda sou leal à ^ff0000" + getguildmaster(.@GID) + "^000000. Onde estão os Guardiões?! Tirem os invasores daqui agora!";
+		return 0;
+	}
+	show "[ "+getarg(0)+" ]";
+	show "Bem-Vindo, meu honorável mestre, ^ff0000" + getguildmaster(.@GID) + "^000000...";
+	show "O seu humilde servo, "+getarg(0)+", está aqui para servi-lo.";
+	next;
+
+	// To allow abandoning of castles, uncomment the following switch,
+	// comment out the switch below it, and uncomment case 7.
+	//switch(select("Castle briefing:Invest in commercial growth:Invest in Castle Defenses:Summon Guardian:Employ / discharge a storehouse staff member:Go into Master's room:Abandon Castle")) {
+	switch(select("Informações Sobre o Castelo:Investir no Comércio:Investir na Defesa do Castelo:Contratar Guardiões:Contratar Kafra:Entrar na Sala do Mestre")) {
+	case 1:
+		show "[ "+getarg(0)+" ]";
+		show "Aqui está o relatório sobre o Castelo, mestre.";
+		show " ";
+		show " ^0000ffAgora, o nível comercial do castelo é de: " + GetCastleData(getarg(1),2) + ".";
+		if (GetCastleData(getarg(1),4) > 0)
+			show "Você investiu "+ GetCastleData(getarg(1),4) + " vezes no ultimo dia.";
+		show "Agora, o Level da Defesa do Castelo é de: "+ GetCastleData(getarg(1),3) +".^000000";
+		if (GetCastleData(getarg(1),5) > 0)
+			show " ^0000ff- Você investiu " + GetCastleData(getarg(1),5) +" vezes no ultimo dia.^000000";
+		show " ";
+		show "Isso é tudo, Mestre.";
+		return 0;
+
+	case 2:
+		set .@Economy,GetCastleData(getarg(1),2);
+		if(.@Economy < 8) set .@eco_invest,10000;
+		if(.@Economy >= 8) set .@eco_invest,20000;
+		if(.@Economy >= 16) set .@eco_invest,40000;
+		if(.@Economy >= 25) set .@eco_invest,80000;
+		if(.@Economy >= 34) set .@eco_invest,160000;
+		if(.@Economy >= 44) set .@eco_invest,320000;
+		if(.@Economy >= 54) set .@eco_invest,640000;
+		if(.@Economy >= 65) set .@eco_invest,1280000;
+		if(.@Economy >= 76) set .@eco_invest,2560000;
+		if(.@Economy >= 88) set .@eco_invest,5120000;
+		show "[ "+getarg(0)+" ]";
+		show "Se você investir no Comércio, a quantidade de bens da Guilda irá Crescer. Se você pensa no futuro, investir é uma necessidade..";
+		show " ";
+		show "Inicialmente, você pode investir uma vez, se você tiver mais dinheiro, poderá investir duas vezes..";
+		if (.@Economy == 100) {
+			show " ";
+			show "^ff0000A Economia do Castelo está no máximo, ou seja, 100%. Nenhum investimento é necessário. Justamente o que eu esperava, Mestre.^000000";
+			return 0;
+		}
+		show " ";
+		if (GetCastleData(getarg(1),4) == 2) {
+			show "^ff0000Você já investiu duas vezes hoje, você não pode investir mais.^000000.";
+			return 0;
+		}
+		else if (GetCastleData(getarg(1),4) == 0)
+			show "A quantidade de investimento do Castelo é de ^ff0000" + .@eco_invest + "^000000 zeny. Você vai investr mais?";
+		else
+			show "Você já investiu uma vez, gostaria de ivestiu outra? Serão necessários ^ff0000" + .@eco_invest + "^000000 zenys.";
+		next;
+		if (select("Investir no Comércio:Cancelar") == 1) {
+			show "[ "+getarg(0)+" ]";
+			if (Zeny < .@eco_invest) {
+				show "Sinto muito, mas você não tem zenys necessários para investir no Castelo.";
+				return 0;
+			}
+			set zeny,zeny-.@eco_invest;
+			SetCastleData getarg(1),4,GetCastleData(getarg(1),4)+1;
+			SetCastleData getarg(1),2,.@Economy + 1 + (.@Economy<99 && rand(2) && getgdskilllv(.@GID,10014));
+			show "O investimento foi concluido com sucesso. Eu espero que o senhor continue investindo, Mestre.";
+			return 0;
+		}
+		show "[ "+getarg(0)+" ]";
+		show "Eu farei como instruido, Senhor... Não há pressa. Não há nada o que não podemos fazer.";
+		return 0;
+
+	case 3:
+		set .@Defence,GetCastleData(getarg(1),3);
+		if(.@Defence < 8) set .@def_invest,20000;
+		if(.@Defence >= 8) set .@def_invest,40000;
+		if(.@Defence >= 16) set .@def_invest,80000;
+		if(.@Defence >= 25) set .@def_invest,160000;
+		if(.@Defence >= 34) set .@def_invest,320000;
+		if(.@Defence >= 44) set .@def_invest,640000;
+		if(.@Defence >= 54) set .@def_invest,1280000;
+		if(.@Defence >= 65) set .@def_invest,2560000;
+		if(.@Defence >= 76) set .@def_invest,5120000;
+		if(.@Defence >= 88) set .@def_invest,10240000;
+		show "[ "+getarg(0)+" ]";
+		show "Se você investir na Defesa, os Guardiões e o Emperium ficarão mais fortes. Se o Senhor considerar as batalhas futuras, investir nessa área é necessário.";
+		show " ";
+		show "Você pode investir até duas vezes, se tiver dinheiro.";
+		if (.@Defence == 100) {
+			show " ";
+			show "^ff0000A defesa do Castelo está totalmente Sólida, ou seja, 100%. Nenhum investimento é necessário, o que era esperado de um grande estrategista como o senhor, Mestre.^000000";
+			return 0;
+		}
+		show " ";
+		if (GetCastleData(getarg(1),5) == 2) {
+			show "^ff0000Você só pode investir duas vezes ao dia.";
+			return 0;
+		}
+		else if (GetCastleData(getarg(1),5) == 1)
+			show "A quantidade de zeys investidos na defesa são de: ^ff0000" + .@def_invest + "^000000. Você rá investir mais?";
+		else
+			show "Você já investiu uma vez hoje, gostaria de investir mais uma vez? Serão necessários ^ff0000" + .@def_invest + "^000000 zenys.";
+		next;
+
+		if (select("Investir na Defesa.:Cancelar") == 1) {
+			show "[ "+getarg(0)+" ]";
+			if (Zeny < .@def_invest) {
+				show "Sinto muito, mas você não tem zenys necessários para investir no Castelo.";
+				return 0;
+			}
+			set Zeny,Zeny-.@def_invest;
+			SetCastleData getarg(1),5,GetCastleData(getarg(1),5)+1;
+			SetCastleData getarg(1),3,.@Defence+1;
+			show "O investimento foi concluido com sucesso. Eu espero que o senhor continue investindo, Mestre.";
+			return 0;
+		}
+		show "[ "+getarg(0)+" ]";
+		show "Eu farei como instruido, Senhor... Não há pressa. Não há nada o que não podemos fazer.";
+		return 0;
+
+	case 4:
+		show "[ "+getarg(0)+" ]";
+		show "Você gostaria de contratar um Guardião? Eles serão leais até o fim!.";
+		show "Escolha o Guardião.";
+		next;
+
+		for( set .@i, 0; .@i <= 7 ; set .@i, .@i+1 )
+		{
+			if (.@guardiantype[.@i] == 1)
+				set .@type$,"Guardian Soldier";
+			else if (.@guardiantype[.@i] == 2)
+				set .@type$,"Guardian Archer";
+			else 
+				set .@type$,"Guardian Knight";
+
+			if (guardianinfo(getarg(1),.@i,0) )
+				setarray .@name$[.@i], .@type$ + " - Implementado (" + guardianinfo(getarg(1),.@i,2) + "/" + guardianinfo(getarg(1),.@i,1) + ")";
+			else
+				setarray .@name$[.@i], .@type$ + " - Não Implementado";
+		}
+	
+		set .@menu$,.@name$[0]+":"+.@name$[1]+":"+.@name$[2]+":"+.@name$[3]+":"+.@name$[4]+":"+.@name$[5]+":"+.@name$[6]+":"+.@name$[7];
+
+		// this thing will propagate outside of this function
+		switch(select(.@menu$)) {
+		case 1: set @GDnum,10; break;
+		case 2: set @GDnum,11; break;
+		case 3: set @GDnum,12; break;
+		case 4: set @GDnum,13; break;
+		case 5: set @GDnum,14; break;
+		case 6: set @GDnum,15; break;
+		case 7: set @GDnum,16; break;
+		case 8: set @GDnum,17; break;
+		}
+
+		show "[ "+getarg(0)+" ]";
+		show "Deseja Contratar o Guardião selecionado? São necessários 10,000 zenys para fechar o Contrato.";
+		next;
+
+		if (select("Contratar:Cancelar") == 1) {
+			show "[ "+getarg(0)+" ]";
+			if (getgdskilllv(.@GID,10002) == 0) {
+				show "Mestre, nós não temos os conhecimentos necessários para Contratar um Guardião. .";
+				return 0;
+			}
+			if (GetCastleData(getarg(1),@GDnum) == 1) {
+				show "Mestre, você já contratou esse Guardião. Você não pode contratar outro da mesma Classe.";
+				return 0;
+			}
+			if (Zeny < 1000) {
+				show "Bem... Sinto muito, mas não temos fundos para Contratar o Guardião.";
+				return 0;
+			}
+			set zeny,zeny-10000;
+			SetCastleData getarg(1),@GDnum,1; // mark as 'installed'
+			// guardian will be spawned outside of this function
+			show "Guardião foi contratado com Sucesso!";
+			return 1;
+
+		}
+		show "[ "+getarg(0)+" ]";
+		show "Eu fiz como desejado senhor, e lembre-se, não deixe de contratar mais Guardiões.";
+		return 0;
+
+	case 5:
+		if (GetCastleData(getarg(1),9) == 1) {
+			show "[ "+getarg(0)+" ]";
+			show "Deseja demitir a Funcionária Kafra?";
+			next;
+			switch(select("Sim:Não")) {
+				cutin "kafra_01",2;
+				show "[ Funcionária Kafra ]";
+				show "Eu trabalhei tanto... como o senhor pode fazer isso, Mestre?... Por favor, reconsidere Mestre... Por favor...";
+				next;
+				switch(select("Demitir:Reconsiderar")) {
+				case 1:
+					show "[ Funcionária Kafra ]";
+					show "Oh, meu Deus! Isso não tem sentido!";
+					next;
+					cutin "kafra_01",255;
+					break;
+				case 2:
+					show "[ Funcionária Kafra ]";
+					show "Vou continuar trabalhando duro, obrigado Mestre!!!";
+					close2;					
+					cutin "kafra_01",255;
+					return 0;
+				}
+				break;
+			case 2:
+				show "[ "+getarg(0)+" ]";
+				show "Ela trabalha duro. Vou uma boa decisão mante-la.";
+				return 0;
+			}	
+			disablenpc "Kafra Staff#"+getarg(4);
+			SetCastleData getarg(1),9,0;
+			show "[ "+getarg(0)+" ]";
+			show "....";
+			show "Eu demiti a Funcionária Kafra... Mas... você está insatisfeito com essa decisão?";
+			return 0;
+		}
+		else {
+			show "[ "+getarg(0)+" ]";
+			show "Gostaria de Contratar uma Funcionária Kafra para o Castelo?";
+			show "^ff0000São necessários 10,000 zenys para assinar o Contrato.";
+			next;
+			if (select("Contratar.:Cancelar") == 1) {
+				show "[ "+getarg(0)+" ]";
+				if (getgdskilllv(.@GID,10001) == 0) {
+					show "Mestre, não podemos contratar uma Kafra sem ter um Contrato com a Corporação antes, por favor, assine esse contrato.";
+					return 0;
+				}
+				if (Zeny < 10000) {
+					show "[ "+getarg(0)+" ]";
+					show "Sinto muito, mas não temos Zenys para assinar o Contrato.";
+					return 0;
+				}
+				set Zeny,Zeny-10000;
+				enablenpc "Kafra Staff#"+getarg(4);
+				SetCastleData getarg(1),9,1;
+				show "O Contrato foi assinado com Sucesso.";
+				next;
+				cutin "kafra_01",2;
+				show "[ Funcionária Kafra ]";
+				show "Como vai você? Eu fui mandada pela Corporação.";
+				show "Eu farei o melhor para manter a imagem da Guilda como a melhor possível.";
+				next;
+				cutin "kafra_01",255;
+				show "[ "+getarg(0)+" ]";
+				show "O Contrato é válido por um mês, depois disso, o Senhor terá que pagar um adicional.";
+				show "Isso é para o bem das nossas funcionárias.";
+				return 0;
+			}
+			show "[ "+getarg(0)+" ]";
+			show "Eu fiz como o senhor mandou, mas pelo bem da Guilda, seria de bom grado contratar uma Kafra imediatamente.";
+			return 0;
+		}
+
+	case 6:
+		show "[ "+getarg(0)+" ]";
+		show "Deseja entrar na Sala, Mestre?.";
+		show "Este lugar é somente para o Senhor, ninguém mais pode entrar..";
+		next;
+		if (select("Entrar na Sala.:Cancelar") == 1) {
+			show "[ "+getarg(0)+" ]";
+			show "Eu lhe mostrarei o lugar secreto, por favor, me siga.";
+			show "Quando o Senhor quiser retornar, puxe a alavanca.";
+			warp getarg(1),getarg(2),getarg(3);
+			end;
+		}
+		show "[ "+getarg(0)+" ]";
+		show "Os materiais são produzidos diariamente... se o senhor não retirar, eles não serão mais produzidos.";
+		show "Sendo assim, é melhor checar eles todos os dias.";
+		return 0;
+
+	//case 7:
+	//	show "[ "+getarg(0)+" ]";
+	//	show "Master!!";
+	//	show "Will you give up this Castle after all that we have all gone through?!";
+	//	show "If.. If this is your final decision, what does all the blood that has been shed mean to you!?";
+	//	show "Please reconsider! Master!!";
+	//	next;
+	//	if (select("Leave Agit.:Cancel") == 1) {
+	//		show "[ "+getarg(0)+" ]";
+	//		show "Master!! Please think it over, Master!!";
+	//		show "The blood we shed so far...don't you care for all the sacrifices that were made?!";
+	//		next;
+	//		if (select("Cancel:Leave Castle.") == 1) {
+	//			show "[ "+getarg(0)+" ]";
+	//			show "I knew you were kidding, Master!!";
+	//			show "Please, Master.. Although you were kidding, don't do that again. You really scared me for a moment.";
+	//			return 0;
+	//		}
+	//		show "[ "+getarg(0)+" ]";
+	//		show "Master!!.....";
+	//		show "...... Ma..s...ter.....";
+	//		callfunc "F_GuildBreak",getarg(0),getarg(4);
+	//		return 0;
+	//	}
+	//	show "[ "+getarg(0)+" ]";
+	//	show "I knew you were kidding, Master!!";
+	//	show "Please, Master.. Although you were kidding, don't do that again. You really scared me for a moment.";
+	//	return 0;
+	}
+}

@@ -1,0 +1,100 @@
+// Cart Revolution
+
+alberta.gat,232,106,6	script	Gershaun	57,{
+	if ((Class == Job_Merchant) && (JobLevel < 35)) goto LStartLowlv;
+	if (!((Class == Job_Merchant) || (Class == Job_Blacksmith) || (Class == Job_Alchem))) goto LStartOther;
+	if (getskilllv(153)>0) goto LStartTwice;
+if ((countitem(533)>=2) && (countitem(998)>=15) && (countitem(938)>=30) && (countitem(601)>=20) && (countitem(962)>=5)) goto L3;
+Lstart:	
+	mes "[Gershaun]";
+	mes "Welcome to my simple place here in Alberta.";
+	mes "I am Gershaun a merchant trainer.";
+	mes "I can learn you the skill called: ^0033FFCart Revolution.";
+	mes "Would you like to know how to get this skill?";
+	next;
+	menu "Yes, please",L1_1,"No, thanks",L1_2;
+
+L1_1:
+	mes "[Gershaun]";
+	mes " As you may understand it is not for free.";
+	mes "That's why you need to give me some stuff in return.";
+	mes "Do you want to proceed, if not leave now and don't botter me anymore";
+	next;
+	menu "Yes, proceed",L2_1,"No, leave me alone",L2_2;
+
+L1_2:
+	mes "[Gershaun]";
+	mes "Bad for you then. Don't botter me anymore.";
+	mes "Good bye";
+	close;
+
+L2_1:
+	mes "[Gershaun]";
+	mes "Okay, For this skillquest you will need:";
+	mes "";
+	mes "30 ^FF0000Sticky Mucus";
+	mes "20 ^FF0000Fly wings";
+	mes "15 ^FF0000Iron";
+	mes "5 ^FF0000Tentacles";
+	mes "2 ^FF0000Grape Juice";
+	mes "";
+	mes "Come back later when you have all these stuff.";
+	mes "Good luck with your task.";
+	close;
+
+L2_2:
+	mes "[Gershaun]";
+	mes "Bad for you then. Don't botter me anymore.";
+	mes "Good bye";
+	close;
+
+L3:
+	mes "[Gershaun]";
+	mes "Well, well you have succeded with your task.";
+	mes "What should I say, congratulations I guess.";
+	mes "I am a man that keep a promise";
+	mes "Are you sure you want this skill?";
+	menu "yes, hand it over",L3_1,"No, thanks",L3_2;
+
+L3_1:
+	mes "[Gershaun]";
+	mes "Well then, I will now implement this skill.";
+	mes "Please stand by.";
+	next;
+	delitem 533,2;
+	delitem 998,15;
+	delitem 938,30;
+	delitem 601,20;
+	delitem 962,5;
+	skill 153,1,0;
+	mes "Congratulations now you have it.";
+	mes "Good luck.";
+	close;
+L3_2:
+	mes "[Gershaun]";
+	mes "Well that was a pitty.Sad man.";
+	mes "Good luck and don't BOTTER me again.";
+	close;
+
+
+	
+
+LStartOther:
+	mes "[Gershaun]";
+	mes "I am an merchant and I can teach other merchants how to make carts better.";
+	mes "This skill can only be used by merchants.";
+	mes "Unfortunately you ain't a merchant.";
+	close;
+
+LStartLowlv:
+
+	mes "[Gershaun]";
+	mes "Hello friendly merchant. You have to raise your level a little more before using Change Cart.";
+	mes "YOu need to be atleast joblevel 35.";
+	close;
+
+LStartTwice:
+	mes "[Gershaun]";
+	mes "YOu already have this skill implemented in your skilltree.";
+	close;
+}

@@ -1,0 +1,119 @@
+//============mapflag==================
+poring_w01	mapflag	nowarp
+poring_w01	mapflag	nosave
+poring_w01	mapflag	noicewall
+poring_w01	mapflag	noteleport
+poring_w01	mapflag	nowarpto
+poring_w01	mapflag	noskill
+poring_w01	mapflag	pvp	on
+poring_w01	mapflag	nobranch
+poring_w01	mapflag	nomemo
+poring_w01	mapflag	noreturn
+//======================================
+
+-	script	Evento Poring#var	-1,{
+end;
+	OnInit:
+		//- ID do item do prêmio.
+		set $ipe, 7180;
+
+		//- Quantidade do item do prêmio.
+		set $qpe, 20;
+
+		//- Tirar 50% de HP quando matar
+		//- um poring falso?
+		//- [0=NÃO|1=SIM]
+		set $hpe, 0;
+	end;
+}
+//===== Script: ==============================================
+prontera,131,201,6	script	Pegue o Poring	909,{
+
+	//if(getgmlevel() < 50)
+	//{
+		if(!.poringcatch)
+		{
+			mes "[Pegue o Poring]";
+			mes "O evento começa às 15h no Horário de Brasília (UTC-3).";
+			close;
+		}
+		mes "[Pegue o Poring]";
+		mes "Olá "+strcharinfo(0)+" o que posso fazer por você?";
+		next;
+		if (select ("Entrar no evento.:Informação.") == 1)
+		{
+			mes "[Pegue o Poring]";
+			mes "Divirta-se!";
+			close2;
+			warp "poring_w01", 0, 0;
+			end;
+		}
+		mes "[Pegue o Poring]";
+		mes "São invocados 100 Porings.";
+		mes "Somente 1 é verdadeiro e você tem que achá-lo.";
+		mes "Caso consiga, ganhará um item.";
+		mes "Boa Sorte!";
+		close;
+	//}
+	//mes "Olá "+strcharinfo(0)+" o que posso fazer por você?";
+	//next;
+	//menu "Ligar evento",open,"Entrar no evento",go,"Sair",-;
+	//close;
+
+	go:
+	mes "Teletransportando...";
+	warp "poring_w01", 0, 0;
+	end;
+
+		OnClock1500:
+			callsub OnEventStart;
+
+	open:
+		OnEventStart:
+			announce "[Pegue o Poring]: O evento 'Poring Catch' irá começar!",0;
+			initnpctimer;
+			monster "poring_w01",0,0,"Poring",1002,1,strnpcinfo(0)+"::OnMobKilled";
+			monster "poring_w01",0,0,"Pouring",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Proing",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Poirng",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Poing",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Porimg",1002,5,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Porinq",1002,1,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Poring",1113,1,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Poring",1062,1,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Por|ng",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Por1ng",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Porong",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"P0ring",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"P@ring",1002,10,strnpcinfo(0)+"::OnWrongKilled";
+			monster "poring_w01",0,0,"Porng",1002,1,strnpcinfo(0)+"::OnWrongKilled";
+			set .poringcatch, 1;
+			end;
+
+		OnTimer600000:
+			stopnpctimer;
+			announce "[Pegue o Poring]: O tempo acabou, tente na próxima vez.",0;
+			set .poringcatch,0;
+			killmonsterall "poring_w01";
+			
+			// Desativa o npc. leia "event_controller.txt"
+			//disablenpc "Pegue o Poring";
+
+			end;
+
+		OnMobKilled:
+			stopnpctimer;
+			announce "[Pegue o Poring]: "+strcharinfo(0)+" encontrou o Poring premiado!",0;
+			dispbottom "Parabéns, você me achou.";
+			getitem $ipe,$qpe;
+			killmonsterall "poring_w01";
+			mapwarp "poring_w01", "prontera", 150, 180;
+			set .poringcatch,0;
+			end;
+
+		OnWrongKilled:
+			dispbottom "Whaa, você errou feio.";
+			if($hpe) percentheal -50,0;
+			warp "prontera",150,185;
+			end;
+}

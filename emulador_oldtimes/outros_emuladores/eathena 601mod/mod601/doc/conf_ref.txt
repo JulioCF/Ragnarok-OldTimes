@@ -1,0 +1,736 @@
+==========================================================================
+ Athena dev 2.1.1 mod0537 現在のconfのリファレンス＋α
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+ Athena設定ファイルの設定方法のリファレンスです。
+ HowToではありませんが、これを見てもAthenaが動かせない人は
+ 素直にあきらめたほうが無難です。
+
+
+< confのリスト >
+
+ login_athena.conf	login-serverの設定
+ char_athena.conf	char-serverの設定
+ inter_athena.conf	inter-serverの設定
+ map_athena.conf	map-serverの設定
+ battle_athena.conf	map-serverの設定(特殊ルールなどの設定)
+ atcommand_athena.conf	GMコマンドや@コマンドの設定
+
+
+< 基本的な設定方法 >
+
+１行に「キー: 値」として記入します。
+<例>
+key: value
+
+行頭を // で始めるとコメントになります。
+<例>
+// この行はコメントなので、処理されません
+
+
+
+==========================================================================
+1. conf/login_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  login-server（アカウントを管理するサーバー）の設定を記述するものです。
+  主に管理者の設定になります。
+
+
+< キーの説明 >
+
+login_port
+	login-serverで使用するポートです。省略可能でデフォルトは6900です。
+
+admin_pass
+	アカウントを作成するのに使用する管理者パスワードです。
+	./tool/addaccount に設定するものです。
+
+gm_pass
+	@gmコマンドでGMになるときに必要なパスワードです。
+
+new_account
+	新しいアカウント作成を許可するかどうかです。
+	1で許可、0で禁止します。
+
+
+< 例 >
+
+login_port: 6900
+admin_pass: admin
+gm_pass: gm
+new_account: 1
+
+
+==========================================================================
+2. conf/char_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  char-server（１ワールドでのキャラクターデータを管理するサーバー）の設定
+  を記述するものです。ワールドの名前や、ワールドのパスワード、サーバーのIP、
+  データファイル名などを記述します。
+
+
+< キーの説明 >
+
+userid
+	このワールドが使用するIDです。login-serverに登録されている
+	アカウントのIDを指定します。
+	このワールドで使用するmap-serverの認証に使用するほか、
+	login-server内でのワールドの識別にも使用されます。
+	同じloin-serverに複数のワールドを登録する場合は、それぞれの
+	char-serverで別のIDを使用する必要があります。
+
+passwd
+	このワールドが使用するIDに対応するパスワードです。
+	login-serverへの登録時と、map-serverの認証に使用されます。
+
+server_name
+	このワールドの名前です。クライアントでログインしたときに表示されます。
+
+login_ip
+	char-serverから見た、ワールドを登録するlogin-serverのIPアドレスです。
+
+login_port
+	login-serverで使用するポートです。省略可能でデフォルトは6900です。
+
+char_ip
+	クライアントから見た、char-serverのIPアドレスです。
+
+char_port
+	char-serverで使用するポートです。省略可能でデフォルトは6121です。
+
+char_txt
+	キャラクターデータを格納するデータファイル名です。
+	省略不可能です。
+
+char_maintenance
+	1にすると、メンテナンス状態になります。
+	省略可能でデフォルトは0です。
+
+char_new
+	1にすると、クライアントに表示されるとき(new)がつきます。
+	省略可能でデフォルトは0です。
+
+char_txt
+	キャラデータを保存するファイルの
+
+max_connect_user
+	キャラサーバーに接続するユーザーの最大人数です。
+	0にすれば最大人数制限はなくなります。
+	接続人数の制限をかけたい時だけ使ってください。
+	省略可能でデフォルトは0です。
+
+autosave_time
+	ファイルにデータを自動保存する時間です。単位は秒です。
+	省略可能でデフォルトは300(5分)です。
+
+start_point
+	新しいキャラクターを作成したとき、最初にいる場所です。
+	「mapファイル名,X座標,Y座標」のように記述します。
+	省略可能で、デフォルトは new_1-1.gat,53,111 です。
+
+< 例 >
+userid: s1
+passwd: p1
+server_name: Athena
+login_ip: 127.0.0.1
+login_port: 6900
+char_ip: 127.0.0.1
+char_port: 6121
+char_txt: athena.txt
+max_connect_user: 0
+autosave_time: 300
+char_maintenance: 0
+char_new: 0
+start_point: new_,150,120
+
+
+==========================================================================
+3. conf/inter_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  inter-server（１ワールドでのグローバルデータを管理するサーバー）の設定
+  を記述するものです。データファイル名などを記述します。
+  (プログラム的には現在はchar-serverの一部として動作しています。)
+
+
+< キーの説明 >
+
+storage_txt
+	倉庫データを格納するファイル名です。
+	省略可能で、デフォルトは storage.txt です。
+
+party_txt
+	パーティデータを格納するファイル名です。
+	省略可能で、デフォルトは party.txt です。
+
+guild_txt
+	ギルドデータを格納するファイル名です。
+	省略可能で、デフォルトは guild.txt です。
+
+pet_txt
+	ペットデータを格納するファイル名です。
+	省略可能で、デフォルトは pet.txt です。
+
+< 例 >
+storage_txt: storage.txt
+party_txt: party.txt
+guild_txt: guild.txt
+pet_txt: pet.txt
+
+
+==========================================================================
+4. conf/map_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  map-server（担当マップでのゲーム進行を管理するサーバー）の基本的な設定
+  を記述するものです。
+
+
+< キーの説明 >
+
+userid
+	このワールドが使用するIDです。char-serverへの認証に使用されます。
+
+passwd
+	このワールドが使用するIDに対応するパスワードです。
+
+char_ip
+	map-serverからみた、このサーバーが担当するマップのワールドを管理する
+	char-serverのIPです。
+
+char_port
+	マップを登録するchar-serverのポートです。省略可能でデフォルトは6121です。
+
+map_ip
+	クライアントから見たこのmap-serverのIPです。
+
+map_port
+	map-serverで使用するポートです。省略可能でデフォルトは5121です。
+
+autosave_time
+	データを自動的にキャラ鯖に送る時間です。単位は秒です。
+	省略可能でデフォルトは60(1分)です。
+
+data_grf
+	ROデータファイル data.grf へのパスです。
+	省略可能で、デフォルトは ./data.grf です。
+	grf-files.txtがある場合そちらの設定が優先されます。
+
+sdata_grf
+	サクライデータファイル sdata.grf へのパスです。
+	省略可能で、デフォルトは ./sdata.grf です。
+	grf-files.txtがある場合そちらの設定が優先されます。
+
+npc
+	読み込むnpcデータファイルへのパスです。
+	複数指定可能で、指定した順にロードします。
+
+map
+	このマップが担当するマップファイル名です。
+	複数指定可能で、指定した順にロードします。
+	存在しないマップを指定した場合エラーになります。
+
+< 例 >
+
+userid: s1
+passwd: p1
+char_ip: 127.0.0.1
+char_port: 6121
+map_ip: 127.0.0.1
+map_port: 5121
+autosave_time: 60
+data_grf: ./data.grf
+sdata_grf: ./sdata.grf
+npc: conf/npc_warp.txt
+npc: conf/npc_warp25.txt
+npc: conf/npc_warp3.txt
+npc: conf/npc_monster3J.txt
+map: prontera.gat
+map: prt_castle.gat
+
+（npc、mapは多いので省略）
+
+
+==========================================================================
+5. conf/battle_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  map-server（担当マップでのゲーム進行を管理するサーバー）の戦闘関連や、
+  その他の設定を記述するものです。
+  設定は全て省略可能で、省略時はデフォルト値が利用されます。
+
+< 値に指定できる特殊な文字列 >
+
+  yes と on は 1 として処理されます。（有効の意味）
+  no と off は 0 として処理されます。（無効の意味）
+
+
+< キーの説明 >
+
+warp_point_debug
+	ワープポイントを普通に表示するかどうかです。これをyesにすると
+	ワープポイントのかわりにギルドフラグがその場所に出てワープ
+	ポイントの名前を確認することができます。デフォルトはnoです。
+
+enemy_critical
+	プレイヤーと同じLUKによるクリティカル判定をMOBに有効にするかどうかです
+	このクリティカルはもちろん必中なので、onにすると高Fleeでも、
+	LUKの高い敵の攻撃が避けづらくなります。デフォルトはyesです。
+
+casting_rate
+	スキルの詠唱時間を百分率で調整します。
+	200にすると詠唱時間が倍になり、0にすると詠唱がなくなります。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+delay_rate
+	スキル使用後ディレイを百分率で調整します。
+	200にするとディレイが倍になり、0にするとディレイがなくなります。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+delay_dependon_dex
+	スキル使用後ディレイが詠唱時間と同じようにDEXで影響を受けるかどうかを
+	指定します。デフォルトはnoです。
+
+skill_delay_attack_enable
+	スキルディレイの間攻撃できるかどうかです。yesにすればスキルディレイの間スキルは使えないけど攻撃はできます。
+	デフォルトはnoです。
+
+player_damage_delay
+	PCがダメージを受けた時移動できないディレイを入れるかどうかです。
+	yesにするとインデュアでも使わない限りダメージを受けた時
+	しばらくは動きません。デフォルトはyesです。
+
+defunit_not_enemy
+	防御ユニット（セイフティウォール/ニューマなど）がMOBに効果を
+	及ぼさないようにするかどうかです。デフォルトはyesです。
+
+attribute_recover
+	属性によって攻撃されても回復するかどうかです。noの場合は-属性を
+	0にします。デフォルトはyesです。
+
+flooritem_lifetime
+	床に落ちたアイテムが消えるまでかかる時間です。単位はms(ミリ秒)です。
+	デフォルトは60000(60秒)で最小は1000(1秒)です。1000未満ならデフォルトにセットされます。
+
+item_rate
+	アイテムドロップ率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+base_exp_rate
+	BaseEXPの所得倍率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+	
+job_exp_rate
+	JobEXPの所得倍率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+death_penalty_type: 0
+	デスペナルティのタイプを決定します。
+	0で死んだ後リスタートする時に適用で持っているEXPの量から比率の分を減らす仕様、1で死んだ直後に適用で持っているEXPの量から比率の分を減らす仕様です。
+	2で死んだ後リスタートする時に適用で次のレベルアップまでのEXPから比率の分を減らす仕様、3で死んだ直後に適用で次のレベルアップまでのEXPから比率の分を減らす仕様です。
+	デフォルトは0です。
+
+death_penalty_base
+	デスペナルティによるBASE経験値減少率を百分率で調整します。
+	あまり低すぎる値を使うと減りません。単位は0.01%です。
+	デフォルトは0です。
+
+death_penalty_job
+	デスペナルティによるJOB経験値減少率を百分率で調整します。
+	あまり低すぎる値を使うと減りません。単位は0.01%です。
+	デフォルトは0です。
+
+restart_hp_rate: 0
+	リスタートする時に回復するHP比率を百分率で調整します。単位は%です。
+	デフォルトは0です。0の場合1回復になります。
+
+restart_sp_rate: 0
+	リスタートする時に回復するSP比率を百分率で調整します。単位は%です。
+	デフォルトは0です。0の場合は回復しません。
+	そしてSPが比率より高い場合も回復しません。
+
+mvp_hp_rate
+	MVP MOBのHPを百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+mvp_item_rate
+	MVPアイテムの所得倍率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+mvp_exp_rate
+	MVP EXPの所得倍率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+atcommand_gm_only
+	＠コマンドをGM専用にするかどうかです。デフォルトはnoです。
+
+gm_all_skill
+	全てのスキルを覚えられるようにするGMのレベルを設定します。
+	これを0以外にすると、そのGMレベル以上のGMはJOBやスキル所得条件に関係なく全スキルが覚えられます。(クェストスキルも含めて)
+	デフォルトは 0 です。0の場合はGMではない全てのキャラの意味ではなく全てのGMが全てのスキルを覚えられないと言うことです。
+
+weapon_produce_rate
+	武器製造スキルでの製造成功率を百分率で調整します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+
+monster_active_enable
+	先攻モンスターを先攻にするかどうかです。これをnoにすると
+	先攻モンスターが非先攻になります。デフォルトはyesです。
+
+
+monster_loot_type
+	ルートモンスターの行動の仕方を指定します。
+	0の場合はLOOTITEM_SIZEまでアイテムを食べてもまたアイテムを食べて、
+	前のアイテムが消える仕様。1の場合はLOOTITEM_SIZEまでアイテムを食べると
+	もうアイテムを食べなくなる仕様。デフォルトは0です。
+
+mob_skill_use
+	MOBがスキルを使ってくるかどうかです。デフォルトはyesです。
+
+mob_count_rate
+	map_athena.confで指定されたnpcデータを読み込む際、
+	monsterで定義された配置MOBの数を百分率で調整します。
+	例外として、配置数1として定義されたMOBの数は変わりません。(BOSS対策)
+	また、配置数を下方修正したとき、1未満になった場合は1として処理します。
+	0-1000程度で指定してください。デフォルトは100です。
+
+quest_skill_learn
+	クェストスキルを普通に習得するかどうかです。
+	これをyesにするとクェストスキルが普通に表示されてスキルポイントを使って習得することができます。
+	デフォルトは noです。
+
+quest_skill_reset
+	スキルをリセットする時にクェストスキルをリセットするかどうかです。
+	デフォルトはyesです。
+	noにしてもquest_skill_learnをyesにすればリセットされます。
+
+basic_skill_check
+	座り、交換、パーティ結成、チャットルーム作り等の時基本スキルをチェックするかどうかです。 
+	これをnoにすれば座り、交換等の基本スキルが必要な行動を基本スキルに関係なく使うことができます。
+	デフォルトは yesです。
+
+ghost_time
+	単囲はms(ミリ秒)。デフォルトは5000(5秒)です。
+	攻撃行動、スキル使用、アイテム使用をするとこの時間はなくなる。
+	
+pet_catch_rate
+	ペットの捕獲倍率を百分率で設定します。
+	0-1000程度の数値を指定してください。デフォルトは100です。
+pet_rename
+	ペットの名前を変更するかどうかを決めます。デフォルトはnoです。
+	yesは何度でも名前の変更が可能。noは一度変更するともう変更不可能になる。
+
+pet_friendly_rate
+	ペットに餌をあげた時上がる親密度の倍率です。
+	親密度が減る場合は適用されません。デフォルトは100です。
+
+pet_hungry_delay_rate
+	ペットの腹が減る時間の倍率です。
+	倍率が高いと腹が減り難くなります。デフォルトは100です。
+
+skill_min_damage
+	スキルを使った時ダメージが連打数より未満の場合全てミスになるか1ダメージになるかを決定します。
+	デフォルトはnoです。
+
+sanctuary_type
+	スキルサンクチュアリとマグヌスエクソシズムの攻撃判定をどうするかを決定します。
+	0でアンデッドと悪魔種族で1で属性不死と悪魔種族に適用されます。
+	デフォルトは0です。
+
+finger_offensive_type
+	スキル指弾の表示タイプを決定します。
+	0は本サーバー仕様で1はアテナ仕様です。デフォルトは0です。
+
+heal_exp
+	スキル「ヒール」を使った際にもらえるジョブ経験値量の設定です。
+	100で回復した量と同量になります。
+	モンスターの経験値を変更してない場合は5～10程度が適当だと思われます。
+	デフォルトは0です。
+
+shop_exp
+	スキルディスカウントとオーバーチャージを習得してる場合NPC利用金額に応じたJOB経験値獲得倍率です。（100で通常、200で倍になります）
+	計算式はln(代金*スキルレベル) * shop_exp / 100 で買う場合はディスカウントがある時のみ適用で売る場合オーバーチャージがある時のみ適用されます。
+	計算式は適度に作った物です。
+	デフォルトは0です。
+
+
+< 例 >
+
+warp_point_debug: no
+enemy_critical: yes
+casting_rate: 100
+delay_rate: 100
+delay_dependon_dex: no
+skill_delay_attack_enable: no
+player_damage_delay: yes
+defunit_not_enemy: yes
+attribute_recover: yes
+flooritem_lifetime: 60000
+item_rate: 100
+base_exp_rate: 100
+job_exp_rate: 100
+death_penalty_type: 0
+death_penalty_base: 100
+death_penalty_job: 100
+restart_hp_rate: 0
+restart_sp_rate: 0
+mvp_hp_rate: 100
+mvp_item_rate: 100
+mvp_exp_rate: 100
+atcommand_gm_only: no
+gm_all_skill: 0
+weapon_produce_rate: 100
+monster_active_enable: yes
+monster_loot_type: 0
+mob_skill_use: yes
+mob_count_rate: 100
+quest_skill_learn: no
+quest_skill_reset: yes
+basic_skill_check: yes
+ghost_time: 5000
+pet_catch_rate: 100
+pet_rename: no
+pet_friendly_rate: 100
+pet_hungry_delay_rate: 100
+skill_min_damage: no
+sanctuary_type: 0
+finger_offensive_type: 0
+heal_exp: 0
+shop_exp: 0
+
+=====================================================================ghos6. atcommand_athena.conf
+--------------------------------------------------------------------------
+
+< このファイルは何？ >
+
+  GMコマンド(/mm、/nb等)や@コマンドを使うことができるGMのレベルを設定する物です。
+  設定は全て省略可能で、省略時はデフォルト値が利用されます。(デフォルトは0です。)
+
+broadcast
+	GMコマンド /nb、/b、/bb
+local_broadcast
+	GMコマンド /lb
+mapmove
+	GMコマンド /mm
+resetstate
+	GMコマンド /resetstate、/resetskill
+rura+
+	@コマンド @rura+
+rura
+	@コマンド @rura
+where
+	@コマンド @where
+jumpto
+	@コマンド @jumpto
+jump
+	@コマンド @jump
+who
+	@コマンド @who
+save
+	@コマンド @save
+load
+	@コマンド @load
+speed
+	@コマンド @speed
+storage
+	@コマンド @storage
+option
+	@コマンド @option
+hide
+	@コマンド @hide
+jobchange
+	@コマンド @jobchange
+die
+	@コマンド @die
+kill
+	@コマンド @kill
+alive
+	@コマンド @alive
+kami
+	@コマンド @kami、@kamib
+heal
+	@コマンド @heal
+item
+	@コマンド @item
+lvup
+	@コマンド @lvup
+joblvup
+	@コマンド @joblvup
+help
+	@コマンド @help、@h
+GM
+	@コマンド @GM
+pvpoff
+	@コマンド @pvpoff
+pvpon
+	@コマンド @pvpon
+gvgoff
+	@コマンド @gvgoff
+gvgon
+	@コマンド @gvgon
+model
+	@コマンド @model
+go
+	@コマンド @go
+monster
+	@コマンド @monster
+refine
+	@コマンド @refine
+produce
+	@コマンド @produce
+memo
+	@コマンド @memo
+gat
+	@コマンド @gat
+packet
+	@コマンド @packet
+stpoint
+	@コマンド @stpoint
+skpoint
+	@コマンド @skpoint
+zeny
+	@コマンド @zeny
+param
+	@コマンド @str、@agi、@vit、@int、@dex、@luk
+guildlvup
+	@コマンド @guildlvup
+makepet
+	@コマンド @makepet
+petfriendly
+	@コマンド @petfriendly
+pethungry
+	@コマンド @pethungry
+petrename
+	@コマンド @petrename
+recall
+	@コマンド @recall
+charjob
+	@コマンド @charjob
+revive
+	@コマンド @revive
+charstats
+	@コマンド @charstats
+charoption
+	@コマンド @charoption
+charsave
+	@コマンド @charsave
+charload
+	@コマンド @charload
+night
+	@コマンド @night
+day
+	@コマンド @day
+doom
+	@コマンド @doom
+doommap
+	@コマンド @doommap
+raise
+	@コマンド @raise
+raisemap
+	@コマンド @raisemap
+charbaselvl
+	@コマンド @charbaselvl
+charjlvl
+	@コマンド @charjlvl
+kick
+	@コマンド @kick
+questskill
+	@コマンド @questskil
+lostskill
+	@コマンド @lostskill
+spiritball
+	@コマンド @spiritball
+party
+	@コマンド @party
+itemreset
+	@コマンド @itemreset
+
+< 例 >
+
+broadcast: 1
+local_broadcast: 1
+mapmove: 1
+resetstate: 1
+rura+: 1
+rura: 1
+where: 1
+jumpto: 1
+jump: 1
+who: 1
+save: 1
+load: 1
+speed: 1
+storage: 1
+option:1
+hide: 1
+jobchange: 1
+die: 1
+kill: 1
+alive: 1
+kami: 1
+heal: 1
+item:1
+lvup: 1
+joblvup:1
+help: 1
+gm: 1
+pvpoff: 1
+pvpon: 1
+gvgoff: 1
+gvgon: 1
+model: 1
+go: 1
+monster: 1
+refine: 1
+produce: 1
+memo: 1
+gat: 1
+packet: 1
+stpoint : 1
+skpoint : 1
+zeny: 1
+param: 1
+guildlvup: 1
+makepet: 1
+petfriendly: 1
+pethungry: 1
+petrename: 1
+recall: 1
+charjob: 1
+revive: 1
+charstats: 1
+charoption: 1
+charsave: 1
+charload: 1
+night: 1
+day: 1
+doom: 1
+doommap: 1
+raise: 1
+raisemap: 1
+charbaselvl: 1
+charjlvl: 1
+kick: 1
+questskill: 1
+lostskill: 1
+spiritball: 1
+party: 0
+itemreset: 1
+
+==========================================================================
+EOF
+--------------------------------------------------------------------------

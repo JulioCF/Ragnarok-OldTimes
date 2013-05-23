@@ -1,0 +1,209 @@
+//===== Cronus Script =======================================
+//= Fabricante De Tinturas
+//===== Por: ==================================================
+//= kobra_k88
+//===== Versão Atual: =====================================
+//= 1.1/1.4
+//===== Descrição: =========================================
+//= Faz as tinturas
+//===== Comentarios Adicionais: ================================= 
+//= 1.0.1 Traduzido por old7
+//= 1.0.2 Adaptado Tradução para bRO [Mehah]
+//= 1.1 - Atualiado para a mais recente versão [Banned]
+//============================================================
+
+morocc_in,146,99,3	script	Java Dullihan	58,{
+	if ((MaxWeight-Weight) < 200 || checkweight(1201,1) == 0) {
+		show "- Espere um minuto! -";
+		show "- Você está carregado -";
+		show "- muitos itens com você. -";
+		show "- Por favor, volte mais tarde -";
+		show "- depois de se livrar de alguns itens. -";
+		close;
+	}
+	show "[Java Dullihan]";
+	show "Uau...";
+	show "Que dia lindo... Este é um dia perfeito para fazer Tinturas!";
+	next;
+	switch(select("Conversar:Fazer Tinturas:Cancelar")) {
+	case 1:
+		show "[Java Dullihan]";
+		show "Eu não tenho muito a dizer. Mas se você quiser saber sobre meu passado, eu estou certo que tenho algumas histórias para contar. Gostaria de ouvir alguma?";
+		next;
+		if (select("Claro, porque não?:Quem sabe outra hora") == 1) {
+			show "[JavaDullihan]";
+			show "Meu pai tem feito tinturas desde que eu era criança.....";
+			show "Eu posso ainda lembrar dele fazendo tinturas o dia inteiro.";
+			next;
+			show "[JavaDullihan]";
+			show "Mesmo durante a época que minha mãe se ia, meu pai manteve-se fazer tinturas sem descanso.";
+			show "Isto me fez ter raiva dele. Como poderia continuar a fazer tinturas em um momento como aquele?";
+			next;
+			show "[JavaDullihan]";
+			show "Eu apenas não compreendia o que meu pai pensava. E me disapontei muito com ele.";
+			show "As ações do meu pai fizeram-me desprezar a fabricação tintura, assim eu fugi para longe de minha casa. E sobrevivi fazendo vários trabalhos diferentes.";
+			next;
+			show "[JavaDullihan]";
+			show "Entretanto, como você pode ver, eu acabei me transformando em um Fabricante De Tinturas como meu pai.";
+			show "É fazem 15 anos desde que eu comecei a fazer este tipo de coisa...";
+			next;
+			show "[JavaDullihan]";
+			show "Agora que tenho feito isto por tanto tempo...  Eu posso finalmente compreender porque meu pai amava tanto seu trabalho.";
+			next;
+			show "[JavaDullihan]";
+			show "E porque ele sacrificou tudo teve por este trabalho...";
+			next;
+			show "[JavaDullihan]";
+			show "Talvez por causa de como as cores tornam-se cada vez mais e mais lindas...";
+			show "Talvez quis encontrar sua própria cor perfeita...";
+			next;
+			show "[JavaDullihan]";
+			show "Agora eu tenho queda para as cores... porque...  Eu estou trabalhando com a mesma paixão que ele tinha quando vivia.";
+			show "Eu posso  sentir as cores dentro de minha alma.  Eu sei que é duro compreender, mas você verá que a um significado.";
+			next;
+			show "[JavaDullihan]";
+			show "Pai, eu faço estas tinturas para você....";
+			close;
+		}
+			show "[JavaDullihan]";
+			show "Hahahaha...  Eu não tenho culpa de não poder adivinhar, oque quer aqui, com um velho Fabricante De um Tinturas....  Hahahaha...";
+			close;
+
+	case 2:
+		show "[Java Dullihan]";
+		show "Tudo Bem!  Eu farei a cor exatamente como você quer. O custo da tintura dependerá de sua qualidade.";
+		next;
+		show "[Java Dullihan]";
+		show "Não seja itimidado pelos preços, elas são todas minhas obras-primas.";
+		next;
+		show "[Java Dullihan]";
+		show "Então que cor você quer?";
+		next;
+		switch(select("Tintura Escarlate:Tintura Limão:Tintura Azul Cobalto:Tintura Verde Escura:Tintura Laranja:Tintura Violeta:Tintura Branca:Tintura Preta:Cancelar")) {
+		case 1: callsub S_MakeDye,1,1; break;
+		case 2: callsub S_MakeDye,2,1; break;
+		case 3: callsub S_MakeDye,3,2; break;
+		case 4: callsub S_MakeDye,4,3; break;
+		case 5: callsub S_MakeDye,5,4; break;
+		case 6: callsub S_MakeDye,6,4; break;
+		case 7: callsub S_MakeDye,7,4; break;
+		case 8: callsub S_MakeDye,8,4; break;
+		case 9:
+			show "[Java Dullihan]";
+			show "Aaaahhhh!! Mudou de idéia!? Então tudo bem...";
+			close;
+		}
+
+	case 3:
+		show "[Java Dullihan]";
+		show "Eu tenho ótimas habilidades para fazer corante. Quando precisar de corante, por favor, venha até mim. Eu vou criá-las para você por um preço bastante razoável.";
+		close;
+	}
+
+S_MakeDye:
+	show "[Java Dullihan]";
+	switch(getarg(0)) {
+	case 1:
+		show "Hmm... Para fazer uma tintura Escarlate, eu preciso de ^0000ff30 Ervas Vermelha, 1 Antígeno e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 3000 Zeny.";
+		setarray .@item[0], 507, 973, 713;
+		setarray .@count[0], 30,   1,   1;
+		set .@cost,3000;
+		set .@dyestuff,975;
+		break;
+	case 2:
+		show "Hmm... Para fazer uma tintura Limão, eu preciso de ^0000ff30 Ervas Amarela, 1 Antígeno, e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 3000 Zeny.";
+		setarray .@item[0], 508, 973, 713;
+		setarray .@count[0], 30,   1,   1;
+		set .@cost,3000;
+		set .@dyestuff,976;
+		break;
+	case 3:
+		show "Hmm... Para fazer uma tintura Azul Cobalto, eu preciso de ^0000ff20 Ervas Azuis, 1 Antígeno, e 1 Garrafa Vazia^000000.";
+		show "Trabalhar com ervas azuis é mais difícil, então o custo de minha mão de obra será de 3500 Zeny";
+		setarray .@item[0], 510, 973, 713;
+		setarray .@count[0], 20,   1,   1;
+		set .@cost,3500;
+		set .@dyestuff,978;
+		break;
+	case 4:
+		show "Hmm... Para fazer uma tintura Verde Escura, eu preciso de ^0000ff5 Ervas Azuis, 20 Ervas Verdes, 20 Ervas Amarelas, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 5000 Zeny.";
+		setarray .@item[0], 510, 511, 508, 974, 973, 713;
+		setarray .@count[0],  5,  20,  20,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,979;
+		break;
+	case 5:
+		show "Hmm... Para fazer uma TinturaOrange , eu preciso de ^0000ff20 Ervas Vermelha, 20 Ervas Amarela, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 5000 Zeny.";
+		setarray .@item[0], 507, 508, 974, 973, 713;
+		setarray .@count[0], 20,  20,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,980;
+		break;
+	case 6:
+		show "Hmm... Para fazer uma tintura Violeta , eu preciso de ^0000ff10 Ervas Azul, 30 Ervas Vermelha, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 5000 Zeny.";
+		setarray .@item[0], 510, 507, 974, 973, 713;
+		setarray .@count[0], 10,  30,   1,   1,   1;
+		set .@cost,5000;
+		set .@dyestuff,981;
+		break;
+	case 7:
+		show "Hmm... Para fazer uma tintura branco , eu preciso de ^0000ff30 Ervas Branca, 1 Antígeno, e 1 Garrafa Vazia^000000.";
+		show "O custo de minha mão de obra será de 3000 Zeny.";
+		setarray .@item[0], 509, 973, 713;
+		setarray .@count[0], 30,   1,   1; 
+		set .@cost,3000;
+		set .@dyestuff,982;
+		break;
+	case 8:
+		show "Hmm... Para fazer uma tintura Preta , eu preciso de ^0000ff30 Ervas Vermelhas, Amarelas, e Verdes, 5 Ervas Azuis, 1 Antígeno, 1 Mistura, e 1 Garrafa Vazia^000000.";
+		show "Esta é a que tintura consume mais tempo e da mais difícudade em fazer, assim eu terei que cobrar uma taxa de mão de obra de 7000 Zeny.";
+		setarray .@item[0], 507, 508, 511, 510, 974, 973, 713;
+		setarray .@count[0], 30,  30,  30,   5,   1,   1,   1;
+		set .@cost,7000;
+		set .@dyestuff,983;
+		break;
+	}
+	next;
+	show "[Java Dullihan]";
+	switch(getarg(1)) {
+	case 1: show "Ah! Eu acho que você tem tudo pronto. Gostaria de Iniciar o Processo?"; break;
+	case 2: show "Ok! Eu acho que você tem tudo pronto. Gostaria de Iniciar o Processo?"; break;
+	case 3: show "Ok! Eu acho que você tem tudo pronto. Podemos começar o processo?"; break;
+	case 4: show "Ok! Eu acho que você tem tudo pronto. Gostaria de Iniciar o Processo?"; break;
+	}
+	next;
+	if (select("Fazer Tinturas:Cancelar") == 1) {
+		set .@size, getarraysize(.@item);
+		// check requirements
+		for( set .@i,0 ; .@i < .@size ; set .@i,.@i+1 )
+			if( countitem(.@item[.@i]) < .@count[.@i] )
+				break;
+		if( .@i < .@size || Zeny < .@cost ) {
+			show "[Java Dullihan]";
+			show "Hmm...";
+			show "Eu não posso fazer o que você quer sem os materiais necessários... Porque você não traz tudo certo na próxima?";
+			close;
+		}
+		// delete items
+		for (set .@i, 0; .@i < .@size ; set .@i, .@i+1)
+			delitem .@item[.@i], .@count[.@i];
+		set zeny,zeny-.@cost;
+		// get dyestuff
+		additem .@dyestuff,1;
+		
+		show "[Java Dullihan]";
+		show "Hmm... Me saí melhor do que esperava. Uma cor muito rica. Claro que eu vou continuar tentando para melhorar sempre!";
+		next;
+		show "[Java Dullihan]";
+		show "Ok, então. Fale comigo quando precisa de mais Tinturas!";
+		close;
+	}
+	show "[Java Dullihan]";
+	show "Aaaahhhh!! Mudou de idéia!? Então tudo bem...";
+	return;
+}

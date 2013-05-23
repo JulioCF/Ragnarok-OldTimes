@@ -1,0 +1,197 @@
+//===== Cronus Script ===========================================
+//= Guia de Prontera
+//===== Por: ====================================================
+//= kobra_k88
+//===== Versão Atual: =========================================== 
+//= 1.5
+//===== Changelog: ============================================== 
+//= 1.1 Now using duplicate command.
+//= 1.2 Traduzido para o Português por Felipepoter
+//= 1.3 Testado e Revisado por Gabriel Taú em 16/12/2005
+//= 1.4 Ajeitado [Bart/Pudim]
+//= 1.5 Corrigido o esqueleto [Kamper]
+//= Script Reestruturado [Mehah]
+//===============================================================
+
+
+// Centro ---------------------------------------------------------
+prontera.gat,154,187,4	script	Guia::Prt_Guide	105,{
+	cutin "prt_soldier",2;
+	show "[Soldado de Prontera]";
+	show "Bem Vindo a prontera a capital de Rune-Midgard.";
+	next;
+	show "[Prontera Soldier]";
+	show "Nós estamos aqui para ajudar,Sinta-se avontade em falar,conosco para saber Alguma Notícia de Rune-Midgar.";
+	show "Você Gostaria de Saber das mais recentes Notícias e informações de Rune-Midgard???";
+M_Menu:
+	next;
+	switch(select("Sim,Gostaria.","Não,Obrigado.")){
+
+	case 1:
+		show "[Soldado de Prontera]";
+		show "Você quer Continuar???";
+		next;
+		switch(select("Sim,Por Favor.","Não,Obrigado.")){
+			case 1:	set @COMPASS_CHECK,1;break;
+			case 2:	set @COMPASS_CHECK,0;
+		}
+
+		sM_Menu:
+		switch(select("Associação de "+callfunc("classname",7,1,1)+"","^9999F5Santuário^000000","^ff0000Cavaleria De Prontera^000000","Armorariá","Loja de itens","Hotel","Negociador","Publicação","^FF8800Livraria^000000","Agência JOB","^AABBCCCastelo de Prontera^000000","Salão da Cidade","Oficina de Forja","Remover Todas as Indicações.","Cancelar")){
+
+		case 1:
+			show "[Soldado de Prontera]";
+			show "A Associação de "+callfunc("classname",7,1,1)+" foi para Izlude, A Cidade Sátelite de Rune-Midgard.";
+			viewpoint 1,237,41,1,0x2222AA;
+			break;
+			
+		case 2:
+			show "[Soldado de Prontera]";
+			show "A igreja principal do reino de Rune-Midgard, O 'Santuário', Fica situado na parte nordeste da cidade de Prontera.";
+			show "A igreja de Prontera é o Local onde você pode-rá se tornar um Acolito,A Igreja fica a Nordeste de Prontera.";
+			viewpoint 1,236,316,2,0xAAAAF5;
+			break;
+			
+		case 3:
+			show "[Soldado de Prontera]";
+			show "A 'Cavalaria de Prontera' Trás mais Soldados para se Alistarem em Prontera.A Cavalaria Está localizada na Parte Noroeste de Prontera.";
+			viewpoint 1,46,345,3,0xFF0000;
+			break;
+			
+		case 4:
+			show "[Soldado de Prontera]";
+			show "A 'Armorariá' tem uma seleção excelente de armas e Armaduras.";
+			viewpoint 1,175,220,4,0xFF00FF;
+			break;
+			
+		case 5:
+			show "[Soldado de Prontera]";
+			show "Você pode Encontrar Muitas Coisas Interessantes na Loja de Itens.";
+			viewpoint 1,134,221,5,0xFF00FF;
+			break;
+			
+		case 6:
+			show "[Soldado de Prontera]";
+			show "Há 2 Hotéis situados nos lados,Ocidentais e Orientais da cidade de Prontera.";
+			viewpoint 1,204,195,6,0x00DD55;
+			viewpoint 1,107,212,7,0x00DD55;
+			break;
+			
+		case 7:
+			show "[Soldado de Prontera]";
+			show "O 'Negociador' Fica a Sudeste de Prontera,Logo Atrás da Fonte.";
+			viewpoint 1,179,184,8,0x7901AD;
+			break;
+			
+		case 8:
+			show "[Soldado de Prontera]";
+			show "A 'publicação' é o ponto forte de Prontera,quem sabe você consiga vender seu Item nesta cidade.";
+			viewpoint 1,208,154,9,0xAA0077;
+			break;
+			
+		case 9:
+			show "[Soldado de Prontera]";
+			show "A 'Livraria' Abriga uma grande quantidade de Informações,vasta em Informações Sobre Os Monstros de Rune-Midgard.A Biblioteca fica ao Norte de Rune-Midgard.";
+			viewpoint 1,120,267,10,0xFF8800;
+			viewpoint 1,192,267,11,0xFF8800;
+			break;
+			
+		case 10:
+			show "[Soldado de Prontera]";
+			show "A 'Agência JOB' está sudoeste,Próximo a Fonte.";
+			viewpoint 1,133,183,12,0x4444FF;
+			break;
+			
+		case 11:
+			show "[Soldado de Prontera]";
+			show "Os 'Castelos de Prontera' Se Localizam ao Norte da Cidade de Prontera";
+			show "No outro lado do castelo está o campo norte de Prontera.";
+			viewpoint 1,156,360,13,0xAABBCC;
+			break;
+			
+		case 12:
+			show "[Soldado de Prontera]";
+			show " O 'Salão da Cidade' fica situada no canto do sudoeste da cidade.";
+			viewpoint 1,75,91,14,0xAAEE00;
+			break;
+	
+		case 13:
+			show "[Soldado de Prontera]";
+			show " A 'Oficina de Forja' é o lugar onde você pode refinar suas Armas e Armaduras.";
+			viewpoint 1,180,183,15,0xFF4477;
+			break;
+			
+		case 14: set @COMPASS_CHECK, 2;break;
+			
+		case 15: goto M_END;
+		
+		}
+
+			if(@COMPASS_CHECK != 2) next;	// avoids a double 'next' when 'wipe indications' is chosen
+			if(@COMPASS_CHECK == 1) goto sM_Menu;
+			viewpoint 2,237,41,1,0x2222AA;
+			viewpoint 2,236,316,2,0xAAAAF5;
+			viewpoint 2,46,345,3,0xFF0000;
+			viewpoint 2,175,220,4,0xFF00FF;
+			viewpoint 2,134,221,5,0xFF00FF;
+			viewpoint 2,204,195,6,0x00DD55;
+			viewpoint 2,107,212,7,0x00DD55;
+			viewpoint 2,179,184,8,0x7901AD;
+			viewpoint 2,208,154,9,0xAA0077;
+			viewpoint 2,120,267,10,0xFF8800;
+			viewpoint 2,192,267,11,0xFF8800;
+			viewpoint 2,133,183,12,0x4444FF;
+			viewpoint 2,156,360,13,0xAABBCC;
+			viewpoint 2,75,91,14,0xAAEE00;
+			viewpoint 2,180,183,15,0xFF4477;
+			if (@COMPASS_CHECK == 0) goto sM_Menu;
+			show "[Soldado de Prontera]";
+			show "Todas as Indicações foram removidas.";
+			cutin "prt_soldier",255;
+			close;
+			
+	case 2:
+		M_END:
+		show "[Soldado de Prontera]";
+		show "Tenha um Bom Dia.";
+		cutin "prt_soldier",255;
+		close;
+	}
+}
+
+prontera.gat,282,208,2	duplicate(Prt_Guide)	Guia#2	105
+// Oeste --------------------------------------------------
+prontera.gat,29,200,6	duplicate(Prt_Guide)	Guia#3	105
+// Sul -----------------------------------------------------
+prontera.gat,160,29,0	duplicate(Prt_Guide)	Guia#4	105
+// Norte -----------------------------------------------
+prontera.gat,151,330,4	duplicate(Prt_Guide)	Guia#5	105
+
+// Guarda -----------------------------------------------------
+prontera.gat,160,330,4	script	Guarda#1::Prt_Guard	105,{
+	show "[Guarda]";
+	show "Bem Vindo a prontera.";
+	close;
+}
+
+prontera.gat,229,104,5	duplicate(Prt_Guard)	Guarda#2	105
+prontera.gat,223,98,8	duplicate(Prt_Guard)	Guarda#3	105
+prontera.gat,52,344,5	duplicate(Prt_Guard)	Guarda#4	105
+prontera.gat,47,339,5	duplicate(Prt_Guard)	Guarda#5	105
+//---------------------------------------------------------------------------------------- Prontera Maze ----------------------------------------------------------------------------------\\
+prt_maze02.gat,100,69,4	script	Guarda	105,{
+	show "[Soldado]";
+	show "Ei.Você,Acho Melhor você Não Vir Para esse Lugar.";
+	show "Se Você Quiser,o Problema é seu.";
+	show "Só te digo uma coisa:";
+	show "Tome,Cuidado com os Monstros.";
+	close;
+}
+prt_maze02.gat,110,69,4	script	Guarda	105,{
+	show "[Soldier]";
+	show "O nosso Último Amigo entrou neste lugar,E não voltou TãoRapido. Não me escutou e não foi Bem-Sucedido ";
+	show "Então Me escute:";
+	show "Não entre neste lugar!!!";
+	close;
+}
+

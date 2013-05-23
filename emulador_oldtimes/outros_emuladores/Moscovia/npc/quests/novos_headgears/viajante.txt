@@ -1,0 +1,140 @@
+//===== Cronus Script ========================================
+//= Quests hats
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quests: Chapeu de Fumacento Dorminhoco,
+//= Peixe Azul, Tiara de Folha e Chapéu de Gatinho Dorminhoco
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text
+//=	added missing delitem, fixed nashow, item amount [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Fixed ingredients: Sashimi knife->Raw Fish (Sashimi) [Lupus]
+//= 1.4a fixed coords [Lupus]
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+morocc,273,78,6	script	Viajante	807,{ 
+ show "[Viajante]";
+ if(BaseJob == Job_Novice) GOTO L_NOVICE;
+ show "Que tipo de chapeu você quer que eu faça?";
+ next;
+ menu "Chapéu de Fumacento Dorminhoco.",-,"Peixe Azul",M_N2,"Chapéu de Gatinho Dorminhoco",M_N3,"Tiara de Folha",M_N4,"Nada.",M_EXIT;
+
+ show "[Viajante]";
+ show "Traga-me 1000 Avelãs,";
+ show "100 Peles de Lontra";
+ show "e 10 Folhas de Fumacento";
+ next;
+ show "[Viajante]";
+ show "Você tem esses items?";
+ next;
+ menu "Sim.",-,"Não!",M_EXIT;
+
+ if(countitem(1026) < 1000 || countitem(7065) < 100 || countitem(945) < 10) GOTO L_NOITEM;//Items: Acorn, Sea Otter Fur, Raccoon Leaf,
+ delitem 1026,1000;//Items: Avelã,
+ delitem 7065,100;//Items: Pele de Lontra,
+ delitem 945,10;//Items: Folha de Fumacento,
+ show "[Viajante]";
+ show "Bem, aqui está seu item";
+ next;
+ additem 5084,1;//Items: Chapeu de Fumacendo Dorm,
+ show "[Viajante]";
+ show "Aproveite.";
+ close;
+
+M_N2:
+ show "[Viajante]";
+ show "Traga-me:";
+ show "1 Peixe Podre";
+ show "300 Escamas Fétidas,";
+ show "50 Peixes Crus";
+ show "1 Cauda de Peixe";
+ show "e 100 Muco Pegajoso";
+ next;
+ show "[Viajante]";
+ show "Você  tem esses item?";
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(624) < 1 || countitem(959) < 300 || countitem(544) < 50 || countitem(1023) < 1 || countitem(938) < 100) GOTO L_NOITEM; //Items: Rotten Fish, Stinky Scale, Sashimi, Fish Tail, Sticky Mucus,
+ delitem 624,1;//Items: Rotten Fish,
+ delitem 959,300;//Items: Stinky Scale,
+ delitem 544,50;//Items: Raw Fish,
+ delitem 1023,1;//Items: Fish Tail,
+ delitem 938,100;//Items: Sticky Mucus,
+ show "[Viajante]";
+ show "Okay, Obrigado.";
+ next;
+ additem 5065,1;//Items: Fresh Blueish Fish,
+ show "[Viajante]";
+ show "Obrigado. Adeus.";
+ close;
+
+M_N3:
+ show "[Viajante]";
+ show "Traga-me 1 Tiara com 1 slot,";
+ show "1 Tintura Preta,";
+ show "300 Bonecos de Gato Preto,";
+ show "1 Peixe Podre";
+ show "e 1 Garra de Lobo do Deserto.";
+ next;
+ show "[Viajante]";
+ show "Você  tem esses item?";
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2233) && countitem(983) && countitem(7206) > 299 && countitem(7030)){
+ delitem 2233,1;
+ delitem 983,1;
+ delitem 7206,300;
+ delitem 7030,1;
+ show "[Viajante]";
+ show "Obrigado, aqui está seu chapéu.";
+ next;
+ additem 5058,1;
+ show "[Viajante]";
+ show "Aproveite seu item.";
+ close;
+ }else{
+ goto L_NOITEM;
+ }
+
+M_N4:
+ show "[Viajante]";
+ show "Traga-me 600 Folhas de Fumacento.";
+ next;
+ show "[Viajante]";
+ show "Você possui os items?";
+ next;
+ menu "Sim!",-,"Não.",M_EXIT;
+
+ if(countitem(945) < 600) GOTO L_NOITEM;//Items: Raccoon Leaf,
+ delitem 945,600;//Items: Raccoon Leaf,
+ show "[Viajante]";
+ show "Obrigado, aqui está sua folha.";
+ next;
+ additem 5064,1;//Items: Transformation Leaf,
+ show "[Viajante]";
+ show "Aproveite seu item.";
+ close;
+
+L_NOITEM:
+ show "[Viajante]";
+ show "Sem items, sem trato";
+ show "Quando tiver todos os item volte.";
+ close;
+
+L_NOVICE:
+ show "Está quente hoje....";
+ close;
+
+M_EXIT:
+ show "[Viajante]";
+ show "Adeus.";
+ close;
+}

@@ -1,0 +1,231 @@
+//===== Cronus Script ======================================== 
+//= Função Global das Classes
+//===== Por: =================================================
+//= massdriller
+//===== Versão Atual: ======================================== 
+//= 1.5
+//===== Descrição: =========================================== 
+//= Checa as classes
+//===== Changelog: =========================================== 
+//= 1.5 Traduzido [Kamper]
+//============================================================
+
+//Acolyte Check
+
+function	script	Aco_check	{
+		if(BaseJob == Job_Acolyte) goto JobAco;
+		if(BaseJob != Job_Novice) goto NotNov;
+		if(JobLevel < 10) goto JobLess10;
+		return;
+
+		JobAco:
+			show "Você se sente bem?....";
+			emotion 20;
+			next;
+			show "[Bispo Tomas Cerbantes]";
+			show "Você realmente já é um "+callfunc("classname",4,"S","M")+".....";
+			next;
+			show "[Bispo Tomas Cerbantes]";
+			show "Intão, não posso fazer nada por você, até mais.";
+			emotion 18;
+			close;
+			
+
+		NotNov:
+			show "Sinto muito filho, você já vive para outra profissão.  Sinto muito, mas você não poderá servir a Deus.";
+			close;
+			
+
+		JobLess10:
+			show "Minha criança você não possui ainda as habilidades necessárias para servir ao senhor.";
+			show "Volte por favor quando sua fé em Deus se tornar mais forte.";
+			next;
+			show "[Bispo Tomas Cerbantes]";
+			show "Que deus te abençoes.";
+			close;
+			
+}
+
+//Archer Check
+
+function	script	Arc_check	{
+
+		if(Class == 4004) goto sL_Archer;
+		if(BaseJob != Job_Novice) goto sL_Other;
+		show "Você esta fazendo uma ótima escolha de profissão.";
+		show "Me de por favor seu resumo de modo que eu possa verificar suas qualificações.";
+		next;
+		show "(Você entrega seu resumo)";
+		next;
+		show "[Guia de "+callfunc("classname",3,"S","M")+"]";
+		if(JobLevel < 10) goto sL_LowLvl;
+		set job_archer_q,1;
+		return;
+
+		sL_Archer:
+			show "Seus espirito narulialista me diz que você já é um "+callfunc("classname",3,"S","M")+"....também me diz o arco e flechas em suas mãos...Haha";
+			emotion 18;
+			close;
+			
+
+		sL_Other:
+			show "Desculpe, você já tem uma profissão e não pode virar um "+callfunc("classname",3,"S","M")+"...embora eu conpreenda o porque você quer mudar de profissão."; 
+			close;
+			
+
+		sL_LowLvl:
+			show "Parece que você ainda não pode se tornar um "+callfunc("classname",3,"S","M")+".  Por favor olhe os requerimentos mais uma vez.";
+			close;
+			
+
+}
+
+//mage Check
+function	script	Mag_check	{
+	
+		if(BaseJob == 2) goto L_JobMage;
+		if(BaseJob != 0) goto L_JobOther;
+		show "Está bem, então preencha esta ficha de candidatura, por favoooor.";
+		next;
+		show "(você preenche o formulário e devolve para ela avaliar)";
+		next;
+		show "["+callfunc("classname",2,"S","F")+" Guardiã]";
+		if(JobLevel < 10) goto L_JobLvl;
+		show "Oooh~ Você tem uma linda letra ^0000dd"+ strcharinfo(0) +"^000000, e o mais importante, você possui os requisitos necessários para se tornar um "+callfunc("classname",2,"S","M")+".";
+		next;
+		show "["+callfunc("classname",2,"S","F")+" Guardiã]";
+		return;
+
+		L_JobMage:
+			show "Voc ê deveria se olhar no espelho. Só assim você veria que ^ff0000já é um "+callfunc("classname",2,"S","M")+"^000000.";
+			show "Talvez eu possa te ajudar a se reconhecer, mudando a cor do seu cabelo...";
+			emotion 4;
+			close;
+		L_JobOther:
+			show "Oh...desculpe. Eu sei que dois é melhor que um, mas para o caso de trabalho isso não se aplica.";
+			show "Seja otimista. O seu trabalho atual não deve ser tão ruim assim...";
+			emotion 22;
+			close;
+
+		L_JobLvl:
+			show "Oh...desculpe. Você precisa estar no ^ff0000Nível de trabalho 9^000000 e gasto todos os ^0000ffPontos de Habiliadde Básico^000000 antes de se tornar um "+callfunc("classname",2,"S","M")+".";
+			show "Vá e mate uns cogumelos ou Salgueiros ou Porings até ficar tudo em ordem.";
+			emotion 22;
+			close;			
+
+}
+
+//Merchant Check
+function	script	Mer_check	{
+
+     		if(BaseJob==5) goto L_JobMer;
+		if(BaseJob !=0) goto L_JobOther;
+		if(JobLevel < 10) goto L_JobLvl;
+		show "[Chief Mahnsoo]";
+		show "Um "+callfunc("classname",5,"S","M")+"? Você falou?? Bom...";
+		next;
+		show "[Chefe Mahnsoo]";
+		show "Bom.  Você deve pagar 1000 Zeny.";
+		show "Se você não tiver todo o dinheiro agora, você pode pagar 500 Zeny agora e então mais tarde pagar o resto.";
+		next;
+		show "[Chefe Mahnsoo]";
+		show "Você esta interessado ainda?";
+		return;
+	
+		L_JobMer:
+			show "[Chefe Mahnsoo]";
+			show "Huh? O que você falou? Seu bobinho! Enfie isso na sua mente.  Você JÁ É UM MERCADOR!...!";
+			emotion 1;
+			emotion 0;
+			close;
+			
+
+		L_JobOther:
+			show "[Chefe Mahnsoo]";
+			show "Nós "+callfunc("classname",5,"P","M")+" realmente não gostamos dos povos que trabalham durante o dia, nós saímos como loucos a noite, assim não tem ninguém e vem dinheiro mais fácil.";
+			next;
+			show "[Chefe Mahnsoo]";
+			show "Bem, você já tem uma profissão, não há nada pra você aqui mesmo que tenha se arrependido com seu trabalho.";
+			close;
+			
+
+		L_JobLvl:
+			show "[Chefe Mahnsoo]";
+			show "Desculpe mas você deve ter 9 pontos em suas 'Hábilidades Básicas'.";
+			close;
+			
+}
+
+//Swordsman Check
+function	script	Swo_check	{
+
+		if(BaseJob == Job_Swordman) goto O_1b;
+		if(BaseJob != Job_Novice) goto O_1c;
+		show "Ah sim, você deseja se tornar um "+callfunc("classname",1,"S","M")+" neh... Hmmm uma boa escolha claro... Preencha esse formulário por favor.";
+		next;
+		show "..(você preenche o formulário e entregua a ele)..";
+		next;
+		show "["+callfunc("classname",1,"S","M")+" Mestre]";
+		if(JobLevel < 10) goto O_1d;
+		return;
+
+		O_1b:
+			show "Muhahaha! Você so pode estar brincando comigo! Você já é um "+callfunc("classname",1,"S","M")+".";
+			emotion 18;
+			close;
+
+		O_1c:
+			show "Desculpe, mas você não pode aprender a ser um "+callfunc("classname",1,"S","M")+", você já tem uma profissão... Assim terei de te recusar.";
+			emotion 18;
+			close;
+
+		O_1d:
+			show "Hmmmm hem...., você precisa aprender todas as 'Habilidades Básicas' para se tornar um "+callfunc("classname",1,"S","M")+".  Por favor, cheque os requerimentos novamente.";
+			close;
+
+}
+//Thief Check
+function	script	Thi_check	{
+
+	if(BaseJob == Job_Novice) return;
+	if(BaseJob == Job_Thief) goto L_JobThief;
+	show "[Guia de Ladrão]";
+	if(BaseJob==1 || BaseJob==7 || BaseJob==14) goto L_Swordman;
+	if(BaseJob==2 || BaseJob==9 || BaseJob==16) goto L_Mage;
+	if(BaseJob==3 || BaseJob==11 || BaseJob==19 || BaseJob==20) goto L_Archer;
+	if(BaseJob==4 || BaseJob==8 || BaseJob==15) goto L_Acolyte;
+	if(BaseJob==5 || BaseJob==10 || BaseJob==18) goto L_Merchant;
+
+		show "Você já tem uma profissão. Pare de me perturbar e vá ajudar outros novatos ou outra coisa qualquer.";
+		emotion 21;
+		close;
+	L_Acolyte:
+		show "Que diabos...? Ohhhhhh~DEUS... Adorador de PORING, você é um "+callfunc("classname",4,"S","M")+"...";
+		show "Por que não vai para alguma igreja orar em vez que ficar aqui me enchendo a minha paciência?";
+		close;
+	L_Archer:
+		show "Que diabos...? Hahahaha~você é um ladrão de monstros (mata-os de longe e rouba as mortes para você)... Você é um "+callfunc("classname",3,"S","M")+"...?";
+		emotion 18;
+		close;
+	L_Mage:
+		show "Que diabos...? Ehhh??? O Circo chegou na cidade? Faça fogo sem fósforo, estou precisando acender um cigarro.";
+		emotion 19;
+		close;
+
+	L_Merchant:
+		show "Que diabos...? Eeeeeek~"+callfunc("classname",5,"S","M")+"... Vai vender escova e bpiblia em outro lugar...!!!! Vou chamar o GM para te banir!!!";
+		emotion 0;
+		close;
+	L_Swordman:
+		show "Que diabos...? Meh!~Eis outra cabeça dura. Faça-me um favor, vá BATER em outro lugar seu Guerreiro de meia tigela. Ha!";
+		emotion 29;
+		close;
+
+L_JobThief:
+	show "[Guia de Ladrão]";
+	show "Você já é um "+callfunc("classname",6,"S","M")+", vá tentar roubar outro, nesse truque eu não caio... vá embora!";
+	emotion 4;
+	close;
+
+}
+

@@ -1,0 +1,3604 @@
+//===== eAthena Script ======================================= 
+//= Quests para as armas LVL 4 Grade A e Grade S
+//===== By: ================================================== 
+//= Vicious_Pucca, Reddozen & MasterOfMuppets -> eAthena
+//= Denis -> Tradução para o Cronus
+//===== Current Version: ===================================== 
+//= 1.0b/1.3
+//===== Compatible With: ===================================== 
+//= eAthena SVN 3422+(Requires jA Script System)
+//===== Description: ========================================= 
+//= Quest para as armas LVL 4 A/S
+//===== Additional Comments: ================================= 
+//= 1.0 Tradução baseada na versão 1.21 do eAthena [Denis]
+//= 1.0b Revisado e convertido para Cronus [Tiu Skan]
+//============================================================ 
+
+//------------------------------------------------------------------
+// Inicialização dos materiais básicos para melhor leitura/conversão
+//------------------------------------------------------------------
+
+-	script	lv4_weapon_init	-1,{
+OnInit:
+	set $@LV4_Citrine, 7295; // 7295,Citrina
+	set $@LV4_Turquoise, 7294; // 7294,Turquesa
+	set $@LV4_Agate, 7291; // 7291,Ágata
+	
+	set $@LV4_Muscovite, 7292; // 7292,Moscovita
+	set $@LV4_Biotite, 7297; // 7297,Biotita
+	set $@LV4_Pyroxene, 7296; // 7296,Piroxênio
+	
+	set $@LV4_Phlogopite, 7290; // 7290,Flogopita
+	set $@LV4_Olivine, 7289; // 7289,Cristal de Peridoto
+	set $@LV4_Rose_Quartz, 7293; // 7293,Quartzo Rosa	
+	
+	set $@LV4_Gold, 969; // 969,Ouro
+	set $@LV4_Steel, 999; // 999,Aço
+	set $@LV4_Emperium, 714; // 714,Emperium
+	set $@LV4_Hammer_Of_Blacksmith, 1005; // 1005,Martelo de Ferreiro
+	set $@LV4_Emperium_Anvil, 989; // 989,Bigorna de Emperium
+	set $@LV4_Illusion_Flower, 710; // 710,Flor das Ilusões
+	end;		
+}
+
+//--------------------------------------------------------------------------------
+// Bazo, cria (1141)=>Espada Imaterial, (1527)=>Quatrilho e (1526)=>Maça de Talho 
+//--------------------------------------------------------------------------------
+
+umbala,117,285,3	script	Bazo	85,{
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon == 1) goto LV4_1;
+	if(lv4_weapon == 2) goto LV4_2;
+	if(lv4_weapon == 3) goto LV4_2;
+	if(lv4_weapon == 4) goto LV4_2;
+	if(lv4_weapon == 5) goto LV4_5;
+	if(lv4_weapon == 6) goto LV4_5;
+	if(lv4_weapon == 7) goto LV4_5;
+	if(lv4_weapon > 7) goto LV4_7;	
+	end; // não deveria estar aqui
+
+	
+LV4_0:
+	show "[Bazo]";
+	show "Olá, você é de fora, não é?";
+	show "Posso dizer pela sua aparência";
+	show "Prazer em conhecê-lo. Meu nome é Bazo Heburiech.";
+	show "Eu também sou de fora.";
+	next;
+	show "[Bazo]";
+	show "Nós realmente devíamos ter nos conhecido .";
+	show "Se você não se importar, deixe-me explicar por um momento a respeito deste lugar.";
+	show "Umbala é próxima de Nifflheim, a cidade dos mortos.";
+	show "Mesmo à primeira vista, eu sabia";
+	show "que algo sobre este vilarejo.";
+	next;
+	show "[Bazo]";
+	show "Devido à esta característica geográfica,";
+	show "este vilarejo foi tomado por forças malignas";
+	show "que foram influenciadas pela cidade dos mortos.";
+	next;
+	show "[Bazo]";
+	show "A população local aprendeu";
+	show "a manipular esta forças malignas para";
+	show "produzir itens especiais.";
+	next;
+	show "[Bazo]";
+	show "Enquanto estive aqui, eu também aprendi";
+	show "algumas receitas. Se trouxer-me os materiais,";
+	show "ficarei grato em mostrar minhas habilidades.";
+	show "O que você acha?";
+	next;
+	
+	switch( select( "Parece bom.", "Não, obrigado." ) ) {
+		case 1:
+			if(BaseLevel >= 70) goto L4_0_1;
+			
+			show "[Bazo]";
+			show "Humm... Eu não acho que você é forte";
+			show "o suficiente para manejar meus produtos.";
+			show "Eles são carregados de força maligna.";
+			next;
+			show "Isto significa que se o dono desta arma";
+			show "não for forte ou experiente o suficiente,";
+			show "ela o tornará insano.";
+			show "E eu não posso fazer isto ao meu amigo.";
+			next;
+			show "[Bazo]";
+			show "Portanto, quero que retorne e primeiro aumente de nível.";
+			show "Aguardarei ansiosamente sua volta quando estiver preparado.";
+			break;
+L4_0_1:
+			show "[Bazo]";
+			show "Excelente! Deixe-me contá-lo";
+			show "quais materiais eu preciso. Espero que os anote.";
+			show "Embora não seja muitos materiais.";
+			next;
+			show "[Bazo]";
+			show "Eu preciso de 10 Ouros, 50 Aços e 10 Emperiuns";
+			show "como materiais básicos...";
+			show "e pode-se encantar o produto com um certo traço peculiar.";
+			show "Para isso, eu preciso de alguns minérios raros...";
+			next;
+			show "[Bazo]";
+			show "Por favor, traga-me 30 unidades de Citrina ou Turquesa ou Ágata.";
+			show "Cada minério possui seu atributo particular";
+			show "e de acordo com o minério que me trouxer,";
+			show "meu produto possuirá uma característica especial.";
+			next;
+			show "[Bazo]";
+			show "Desejo-lhe sorte...";
+			show "Estarei lhe aguardando!";
+			
+			set lv4_weapon, 1;
+			break;
+		case 2:
+			show "[Bazo]";
+			show "Oh, tudo bem. Está tudo certo para mim.";
+			show "Por acaso, você não quer saber o quão maligna a cidade dos mortos pode ser?";
+			show "Eu sei desde que aquela cidade influncia bastante este vilarejo";
+			show "com seus poderes misteriosos, voce sabe.";
+			break;			
+	}	
+	close;
+	
+
+
+//-----------------------------------------------------------------
+//Checar materiais básicos (Ouro, Aço e Emperium) + escolha da Gema
+//-----------------------------------------------------------------
+LV4_1:
+	if(countitem($@LV4_Gold) < 10) goto LV4_1_FAIL;
+	if(countitem($@LV4_Steel) < 50) goto LV4_1_FAIL;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_1_FAIL;
+
+	show "[Bazo]";
+	show "Humm... você trouxe todos os materiais básicos.";
+	show "Agora deixe-me olhar qual o tipo de minério raro";
+	show "você trouxe...";
+	next;
+	
+	if (countitem($@LV4_Citrine) >= 30 && countitem($@LV4_Turquoise) >= 30 && countitem($@LV4_Agate) >= 30) goto LV4_1_CTA;
+	if (countitem($@LV4_Citrine) >= 30 && countitem($@LV4_Turquoise) >= 30) goto LV4_1_CT;
+	if (countitem($@LV4_Citrine) >= 30 && countitem($@LV4_Agate) >= 30) goto LV4_1_CA;
+	if (countitem($@LV4_Turquoise) >= 30 && countitem($@LV4_Agate) >= 30) goto LV4_1_TA;
+	if (countitem($@LV4_Citrine) >= 30) goto LV4_1_C;
+	if (countitem($@LV4_Turquoise) >= 30) goto LV4_1_T;
+	if (countitem($@LV4_Agate) >= 30) goto LV4_1_A;
+	goto LV4_1_NOGEM;
+	end;
+
+
+LV4_1_CTA:	
+	show "[Bazo]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não todos.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Citrina", "Turquesa", "Ágata" ) ) {
+		case 1:
+			show "[Bazo]";
+			show "Citrina... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Citrine;
+			set @gemstring$,"Citrina";
+			break;
+		case 2:
+			show "[Bazo]";
+			show "Turquesa... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Turquoise;
+			set @gemstring$,"Turquesa";
+			break;
+		case 3:
+			show "[Bazo]";
+			show "Ágata.... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Agate;
+			set @gemstring$,"Ágata";
+			break;
+	}
+	
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+	
+LV4_1_CT:
+	show "[Bazo]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Citrina", "Turquesa" ) ) {
+		case 1:
+			show "[Bazo]";
+			show "Citrina... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Citrine;
+			set @gemstring$,"Citrina";
+			break;
+		case 2:
+			show "[Bazo]";
+			show "Turquesa... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Turquoise;
+			set @gemstring$,"Turquesa";
+			break;
+	}
+	
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+
+LV4_1_CA:	
+	show "[Bazo]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Citrina", "Ágata" ) ) {
+		case 1:
+			show "[Bazo]";
+			show "Citrina... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Citrine;
+			set @gemstring$,"Citrina";
+			break;
+		case 2:
+			show "[Bazo]";
+			show "Ágata.... Está certo. Antes de começarmos,";
+			set @gem, $@LV4_Agate;
+			set @gemstring$,"Ágata";
+			break;
+	}
+	
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+	
+LV4_1_TA:	
+	show "[Bazo]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Turquesa", "Ágata" ) ) {
+			case 1:
+				show "[Bazo]";
+				show "Turquesa... Está certo. Antes de começarmos,";
+				set @gem, $@LV4_Turquoise;
+				set @gemstring$,"Turquesa";
+				break;
+			case 2:
+				show "[Bazo]";
+				show "Ágata.... Está certo. Antes de começarmos,";
+				set @gem, $@LV4_Agate;
+				set @gemstring$,"Ágata";
+				break;
+	}
+	
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+	
+LV4_1_C:
+	show "[Bazo]";
+	show "Citrina... Está certo. Antes de começarmos,";
+	set @gem, $@LV4_Citrine;
+	set @gemstring$,"Citrina";
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+		
+		
+LV4_1_T:
+	show "[Bazo]";
+	show "Turquesa... Está certo. Antes de começarmos,";
+	set @gem, $@LV4_Turquoise;
+	set @gemstring$,"Turquesa";
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+	
+LV4_1_A:
+	show "[Bazo]";
+	show "Ágata.... Está certo. Antes de começarmos,";
+	set @gem, $@LV4_Agate;
+	set @gemstring$,"Agata";
+	goto LV4_1_PICK;
+	end; // não deveria estar aqui
+	
+	
+LV4_1_PICK:
+	show "nós devemos fazer uma coisa primeiro.";
+	show "Isto é, testar sua sorte.";
+	show "Como você já sabe,";
+	show "Eu não posso garantir que nós teremos sucesso";
+	show "em fazer a arma de primeira.";
+	next;
+	show "[Bazo]";
+	show "Se nós pudermos aumentar sua sorte antes de começar,";
+	show "nós seremos capazes de sucesso.";
+	next;
+	show "[Bazo]";
+	show "Agora você deve estar pensando o que iremos";
+	show "fazer de forma a aumentar sua sorte.";
+	show "É simples, nós iremos jogar um jogo de adivinhação.";
+	show "Eu irei pensar em um montro entre os meus quatro favoritos,";
+	show "e você deve adivinhar qual monstro é.";
+	next;
+	show "[Bazo]";
+	show "Você deve responder corretamente ao menos";
+	show "1 no total de 5 vezes. Não é tão difícil assim.";
+	show "E se você errar todas as vezes, nós teremos que fazer outra coisa";
+	show "para eliminar sua má sorte.";
+	next;
+	show "[Bazo]";
+	show "Eu tirarei 10 minérios especiais que você escolheu.";
+	show "Bem, eu entendo que isto não parece tentador";
+	show "mas vamos pensar desta forma.";
+	show "É muito melhor do que perder 30 minérios de uma só vez";
+	show "pela falha em criar o item, não acha?";
+	next;
+	show "[Bazo]";
+	show "OK, agora eu preciso de um tempo para preparar...";
+	show "Falo contigo mais tarde!";
+	
+	if(countitem($@LV4_Gold) < 10) goto LV4_HACK;
+	if(countitem($@LV4_Steel) < 50) goto LV4_HACK;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_HACK;
+	delitem $@LV4_Gold, 10;
+	delitem $@LV4_Steel, 50;
+	delitem $@LV4_Emperium, 10;
+	if(@gem == $@LV4_Citrine) set lv4_weapon, 2;
+	if(@gem == $@LV4_Turquoise) set lv4_weapon, 3;
+	if(@gem == $@LV4_Agate) set lv4_weapon, 4;	
+	close;
+
+
+LV4_1_NOGEM:
+	show "[Bazo]";
+	show "Eu preciso lembrar-lhe que eu pedi para me trazer";
+	show "30 unidades de um minério especial, Citrina, Turquesa ou Ágata...";
+	show "E eu não estou vendo a quantidade necessária destes minérios.";
+	show "Você pode ter esquecido deles. Por favor vá pegá-los também.";
+	close;
+
+
+LV4_1_FAIL:
+	show "[Bazo]";
+	show "Eu preciso de 10 Ouros, 50 Aços e 10 Emperiuns";
+	show "como materiais básicos...";
+	show "e pode-se encantar o produto com um certo traço peculiar.";
+	show "Para isso, eu preciso de alguns minérios raros...";
+	next;
+	show "[Bazo]";
+	show "Por favor, traga-me 30 unidades de Citrina ou Turquesa ou Ágata.";
+	show "Cada minério possui seu atributo particular";
+	show "e de acordo com o minério que me trouxer,";
+	show "meu produto possuirá uma característica especial.";
+	next;
+	show "[Bazo]";
+	show "Desejo-lhe sorte...";
+	show "Estarei lhe aguardando!";
+	close;
+
+
+
+//--------------------------------------------------
+//Jogo de Adivinhação
+//--------------------------------------------------
+LV4_2:
+	if(lv4_weapon == 2) set @gem, $@LV4_Citrine;
+	if(lv4_weapon == 3) set @gem, $@LV4_Turquoise;
+	if(lv4_weapon == 4) set @gem, $@LV4_Agate;
+	if(countitem(@gem) < 30) goto LV4_2_NOGEM; 
+	
+	show "[Bazo]";
+	show "OK, você parece estar preparado.";
+	show "Vamos começar.";
+	show "Meus monstros favoritos são Poring,";
+	show "Hode, Obeaune e Minorous.";
+	next;
+
+	set @dap, 0;
+	set @correct[0],1;
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		show "[Bazo]";
+		
+		if(@i == 1) show "Aqui está a primeira pergunta. Adivinhe o monstro";
+		if(@i != 1) show "Tudo bem. Agora adivinhe qual monstro";
+		
+		show "eu estou pensando neste momento.";
+		next;
+
+		set @mons, rand(1, 4);		
+
+		switch( select( "Poring", "Hode", "Obeaune", "Minorous" ) ) {
+				case 1:
+					set @correct[@i], 1;
+					if(@mons == 1) set @dap, @dap + 1;
+					break;
+
+				case 2:
+					set @correct[@i], 2;
+					if(@mons == 2) set @dap, @dap + 1;
+					break;
+
+				case 3:
+					set @correct[@i], 3;
+					if(@mons == 3) set @dap, @dap + 1;
+					break;
+
+				case 4:
+					set @correct[@i], 4;
+					if(@mons == 4) set @dap, @dap + 1;
+					break;
+		}
+	}
+
+	show "[Bazo]";
+	show "OK, deixe-me dar a você as respostas para as perguntas.";
+	show "Eu estava pensando no monstro nesta ordem";
+	next;
+	show "[Bazo]";
+
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		if(@correct[@i] == 1) show "Poring";
+		if(@correct[@i] == 2) show "Hode";
+		if(@correct[@i] == 3) show "Obeaune";
+		if(@correct[@i] == 4) show "Minorous";
+	}
+
+	if(@dap < 1) goto LV4_2_FAIL;
+	
+	next;
+	show "[Bazo]";
+	show "Você respondeu " + @dap + " vezes!";
+	show "Devo dizer que você é incrível!";
+	show "Como prometido, eu farei uma especialidade de Umbala para você.";
+	show "Por favor dê-me algum tempo para preparar.";
+	show "Converso contigo mais tarde.";
+	
+	if(countitem(@gem) < 30) goto LV4_HACK;
+	delitem @gem, 30;
+	set lv4_weapon, lv4_weapon + 3;
+	close;
+	
+	
+LV4_2_FAIL:
+	if(countitem(@gem) < 10) goto LV4_HACK;
+	delitem @gem, 10;
+	
+	next;
+	show "[Bazo]";
+	show "Errr... Não acho que você é bom em ler";
+	show "a mente de outras pessoas. Ou você teve má sorte, eu acho.";
+	show "Não podemos fazer isto novamente se não";
+	show "eliminarmos a má sorte.";
+	show "Dê-me 10 " + @gemstring$ + ", isto fará o trabalho.";
+	next;
+	show "[Bazo]";
+	show "Bem... se quiser fazer este jogo de adivinhação novamente,";
+	show "por favor volte com os materiais.";
+	show "Eu irei esperar aqui por você.";
+	close;
+
+
+LV4_2_NOGEM:
+	show "[Bazo]";
+	show "Errr... algo não parece certo. Nós perdemos algo...";
+	show "Você pode ver se a quantidade de minérios que você trouxe está correta?";
+	close;
+	
+	
+	
+//--------------------------------------------------
+//Criação das Armas
+//--------------------------------------------------
+LV4_5:
+	show "[Bazo]";
+	show "Ótimo... agora, vamos fazê-las!";
+	show "Deseje-me sorte... ah, eu esqueci de dizer-lhe.";
+	show "Eu não posso lhe dizer que tipo de produto será. É aleatório.";
+	show "Vamos torcer para que algo bom saia, certo?";
+	next;
+	show "- você sente um poder desconhecido unindo -";
+	show "- os materiais. Parece que os materiais estão -";
+	show "- absorvendo todo o poder maligno do ar. -";
+	next;
+	show "- Então, os materiais começam a fundir-se em um -";
+	show "- mesmo sem que Bazo tenha os tocado. -";
+	next;
+	show "[Bazo]";
+	show "Pode sentir isso? Os materiais estão juntando";
+	show "energia de acordo com vontade própria deles.";
+	show "Eles estão longe das minhas mãos agora. Vamos esperar e torcer.";
+	next;
+	show "- Após um tempo, o ar se torma calmo -";
+	show "- e você vê o resultado. -";
+	next;
+	show "[Bazo]";
+	show "Ooooooh! Está feito!";
+	show "Nós conseguimos! Ah, é incrível!";
+	show "Eu já lhe disse que é muito raro conseguir tão rapidamente?";
+	show "Sim, Deus deve ter escutado nossas preces.";
+	show "Oh, é uma arma! Ela será de grande utilidade para você.";
+	show "Vamos olhar mais de perto...";
+	next;
+
+	show "[Bazo]";
+
+	switch( lv4_weapon ) {
+		case 5:
+			show "Espada Imaterial!";
+			additem 1141, 1; // 1141,Espada_Imaterial
+			break;
+		case 6:
+			show "é uma Maça de Talho!";
+			additem 1526, 1; // 1526,Maça de Talho
+			break;
+		case 7:
+			show "é um Quatrilho!";
+			additem 1527, 1; // 1527,Quatrilho
+			break;
+	}
+
+	set lv4_weapon, 0;
+	show "Esta espada nasceu para ser sua!";
+	show "Parabéns e eu espero que seja de bom uso para você.";
+	next;
+
+	show "[Bazo]";
+	show "Eu me sinto tão gratificado. Se quiser ter";
+	show "outra arma, sinta-se a vontade para visitar-me novamente.";
+	show "Tenha uma boa viagem!";
+	close;
+
+
+
+//--------------------------------------------------
+//Outras Quests
+//--------------------------------------------------
+LV4_7:
+	show "[Bazo]";
+	show "Hmm... Eu sinto algo estranho em você.";
+	show "Eu sinto dizer que não tenho nada a dizer para você.";
+	show "Espero que tenha uma viagem segura.";
+	close;
+	
+	
+	
+//--------------------------------------------------
+//Tentativa de Hack
+//--------------------------------------------------
+LV4_HACK:
+	show "[Bazo]";
+	show "Hmm. Parece que temos temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest de armas LV4.";
+	close;
+}
+
+//-------------------------------------------------------------------------------------------------
+// Hibilaithan, cria (1225)=>Destruidor de Malha, (1224)=>Destruidor de Espada e (1367)=>Carniceiro
+//-------------------------------------------------------------------------------------------------
+
+umbala,163,257,3	script	Hibilaithan	785,{
+	if(event_umbala < 3) goto LumWord;
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon == 8) goto LV4_8;
+	if(lv4_weapon == 9) goto LV4_9;
+	if(lv4_weapon == 10) goto LV4_9;
+	if(lv4_weapon == 11) goto LV4_9;
+	if(lv4_weapon == 12) goto LV4_12;
+	if(lv4_weapon == 13) goto LV4_12;
+	if(lv4_weapon == 14) goto LV4_12;
+	if(lv4_weapon < 8) goto LV4_7;
+	if(lv4_weapon > 14) goto LV4_7;	
+	end; // shouldn't be here
+	
+
+LumWord:
+		show "[Hibilaithan]";
+		show "Umba! Umbaba...umum! Baumba!";
+		show "Umumumbababaumumbabaumba!";
+		show "Umbaumbaumbaumbaumhah!";
+		show "Umumumumumbababababab!";
+	close;
+
+	
+LV4_0:
+	show "[Hibilaithan]";
+	show "Haha, sim, eu sabia que este dia viria.";
+	show "Finalmente as pessoas reconhecem meu valor";
+	show "como o melhor artesão de Umbala!";
+	next;
+	show "[Hibilaithan]";
+	show "OK, vamos ser diretos.";
+	show "Eu, Hibilaithan posso forjar algo bom";
+	show "se você me trouxer os materiais!";
+	show "Hahahahahaha!";
+	next;
+	show "[Hibilaithan]";
+	show "Hum? O que? Você não veio visitar-me?";
+	show "Pare de pirraça... Não me julgue um idiota!";
+	show "As pessoas são tão tímidas para dizer a verdade nestes dias!";
+	show "Vamos ser honestos e diga-me se você o quer ou não.";
+	next;
+	
+	switch( select( "...OK.", "...desculpe, eu não preciso disso!" ) ) {
+		case 1:
+			if(BaseLevel >= 70) goto L4_0_1;
+			
+			show "[Hibilaithan]";
+			show "...que vergonha! Eu sinto em dizer isto,";
+			show "mas seu espírito é muito fraco";
+			show "para manejar o poder do meu item!";
+			show "Isto não é bom, não é bom de maneira alguma!";
+			show "Vá treinar primeiro.";
+			show "Quando se tornar forte, você pode voltar!";
+			break;
+L4_0_1:
+			show "[Hibilaithan]";
+			show "Ótimo! Eu gosto da sua atitude! Ótimo, ótimo!";
+			show "Eu vou lhe dizer o que eu preciso.";
+			show "Não é muito, então não esqueça.";
+			next;
+			show "[Hibilaithan]";
+			show "Traga-me 10 Ouros, 50 Aços e 10 Emperiuns";
+			show "... como materiais básicos.";
+			show "E eu preciso de alguns materiais raros para fornecer uma força...";
+			next;
+			show "[Hibilaithan]";
+			show "Traga-me 30 unidades de um minério entre Moscovita, Biotita ou Piroxênio.";
+			show "Lembre-se de trazer 30 unidades de apenas um minério.";
+			show "Eu não posso escolher entre estes porque";
+			show "não tenho certeza o que sairá. Heh.";
+			next;
+			show "[Hibilaithan]";
+			show "OK, desejo-lhe boa sorte!";
+			show "Enquanto isso eu vou esperar aqui.";
+			
+			set lv4_weapon, 8;
+			break;
+		case 2:
+			show "[Hibilaithan]";
+			show "Hunf.. está com medo de que?";
+			show "Estou tentando lhe fazer um fazer um favor, você sabia?";
+			show "Tudo bem, é sua decisão.";
+			show "Mas se mudar de idéia,";
+			show "sinta-se a vontade de voltar.";
+			break;			
+	}	
+	close;
+	
+
+
+//-----------------------------------------------------------------
+//Checar materiais básicos (Ouro, Aço e Emperium) + escolha da Gema
+//-----------------------------------------------------------------
+LV4_8:
+	if(countitem($@LV4_Gold) < 10) goto LV4_8_FAIL;
+	if(countitem($@LV4_Steel) < 50) goto LV4_8_FAIL;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_8_FAIL;
+
+	show "[Hibilaithan]";
+	show "Oh... você trouxe todos os materiais básicos.";
+	show "Agora deixe-me olhar que tipo de minérios raros";
+	show "você trouxe...";
+	next;
+	
+	if (countitem($@LV4_Muscovite) >= 30 && countitem($@LV4_Biotite) >= 30 && countitem($@LV4_Pyroxene) >= 30) goto LV4_8_MBP;
+	if (countitem($@LV4_Muscovite) >= 30 && countitem($@LV4_Biotite) >= 30) goto LV4_8_MB;
+	if (countitem($@LV4_Muscovite) >= 30 && countitem($@LV4_Pyroxene) >= 30) goto LV4_8_MP;
+	if (countitem($@LV4_Biotite) >= 30 && countitem($@LV4_Pyroxene) >= 30) goto LV4_8_BP;
+	if (countitem($@LV4_Muscovite) >= 30) goto LV4_8_M;
+	if (countitem($@LV4_Biotite) >= 30) goto LV4_8_B;
+	if (countitem($@LV4_Pyroxene) >= 30) goto LV4_8_P;
+	goto LV4_8_NOGEM;
+	end;
+
+
+LV4_8_MBP:	
+	show "[Hibilaithan]";
+	show "Uau, você trouxe todos os três tipos?";
+	show "Hahaha, está certo";
+	show "Mas não podemos usar todos os três agora.";
+	show "Escolha aquele que você deseja usar.";
+	next;
+			
+	switch( select( "Moscovita", "Biotita", "Piroxênio" ) ) {
+		case 1:
+			show "[Hibilaithan]";
+			show "Moscovita... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Muscovite;
+			set @gemstring$,"Moscovita";
+			break;
+		case 2:
+			show "[Hibilaithan]";
+			show "Biotita... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Biotite;
+			set @gemstring$,"Biotita";
+			break;
+		case 3:
+			show "[Hibilaithan]";
+			show "Piroxênio... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Pyroxene;
+			set @gemstring$,"Piroxênio";
+			break;
+	}
+	
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_8_MB:
+	show "[Hibilaithan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Moscovita", "Biotita" ) ) {
+		case 1:
+			show "[Hibilaithan]";
+			show "Moscovita... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Muscovite;
+			set @gemstring$,"Moscovita";
+			break;
+		case 2:
+			show "[Hibilaithan]";
+			show "Biotita... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Biotite;
+			set @gemstring$,"Biotita";
+			break;
+	}
+	
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+
+LV4_8_MP:	
+	show "[Hibilaithan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Moscovita", "Piroxênio" ) ) {
+		case 1:
+			show "[Hibilaithan]";
+			show "Moscovita... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Muscovite;
+			set @gemstring$,"Moscovita";
+			break;
+		case 2:
+			show "[Hibilaithan]";
+			show "Piroxênio... OK. Antes de comerçarmos,";
+			set @gem, $@LV4_Pyroxene;
+			set @gemstring$,"Piroxênio";
+			break;
+	}
+	
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_8_BP:	
+	show "[Hibilaithan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Biotita", "Piroxênio" ) ) {
+			case 1:
+				show "[Hibilaithan]";
+				show "Biotita... OK. Antes de comerçarmos,";
+				set @gem, $@LV4_Biotite;
+				set @gemstring$,"Biotita";
+				break;
+			case 2:
+				show "[Hibilaithan]";
+				show "Piroxênio... OK. Antes de comerçarmos,";
+				set @gem, $@LV4_Pyroxene;
+				set @gemstring$,"Piroxênio";
+				break;
+	}
+	
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_8_M:
+	show "[Hibilaithan]";
+	show "Moscovita... OK. Antes de comerçarmos,";
+	set @gem, $@LV4_Muscovite;
+	set @gemstring$,"Moscovita";
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+		
+		
+LV4_8_B:
+	show "[Hibilaithan]";
+	show "Biotita... OK. Antes de comerçarmos,";
+	set @gem, $@LV4_Biotite;
+	set @gemstring$,"Biotita";
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_8_P:
+	show "[Hibilaithan]";
+	show "Piroxênio... OK. Antes de comerçarmos,";
+	set @gem, $@LV4_Pyroxene;
+	set @gemstring$,"Piroxênio";
+	goto LV4_8_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_8_PICK:
+
+	show "nós devemos fazer uma coisa primeiro.";
+	show "Isto é, testar sua sorte.";
+	show "Como você já sabe,";
+	show "Eu não posso garantir que nós teremos sucesso";
+	show "em fazer a arma de primeira.";
+	next;
+	show "[Hibilaithan]";
+	show "Se nós pudermos aumentar sua sorte antes de começar,";
+	show "nós seremos capazes de sucesso.";
+	next;
+	show "[Hibilaithan]";
+	show "Agora você deve estar pensando o que iremos";
+	show "fazer de forma a aumentar sua sorte.";
+	show "É simples, nós iremos jogar um jogo de adivinhação.";
+	show "Eu irei pensar em um montro entre os meus quatro favoritos,";
+	show "e você deve adivinhar qual monstro é.";
+	next;
+	show "[Hibilaithan]";
+	show "Você deve responder corretamente ao menos";
+	show "1 no total de 5 vezes. Não é tão difícil assim.";
+	show "E se você errar todas as vezes, nós teremos que fazer outra coisa";
+	show "para eliminar sua má sorte.";
+	next;
+	show "[Hibilaithan]";
+	show "Eu tirarei 10 minérios especiais que você escolheu.";
+	show "Bem, eu entendo que isto não parece tentador";
+	show "mas vamos pensar desta forma.";
+	show "É muito melhor do que perder 30 minérios de uma só vez";
+	show "pela falha em criar o item, não acha?";
+	next;
+	show "[Hibilaithan]";
+	show "OK, agora eu preciso de um tempo para preparar...";
+	show "Falo contigo mais tarde!";
+
+
+	if(countitem($@LV4_Gold) < 10) goto LV4_HACK;
+	if(countitem($@LV4_Steel) < 50) goto LV4_HACK;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_HACK;
+	delitem $@LV4_Gold, 10;
+	delitem $@LV4_Steel, 50;
+	delitem $@LV4_Emperium, 10;
+	if(@gem == $@LV4_Muscovite) set lv4_weapon, 9;
+	if(@gem == $@LV4_Biotite) set lv4_weapon, 10;
+	if(@gem == $@LV4_Pyroxene) set lv4_weapon, 11;	
+	close;
+
+
+LV4_8_NOGEM:
+	show "[Hibilaithan]";
+	show "Eu preciso lembrar-lhe que eu pedi para me trazer";
+	show "30 unidades de um minério especial, Moscovita, Biotia ou Piroxênio...";
+	show "E eu não estou vendo a quantidade necessária destes minérios.";
+	show "Você pode ter esquecido deles. Por favor vá pegá-los também.";
+	close;
+
+
+LV4_8_FAIL:
+	show "[Hibilaithan]";
+	show "Eu preciso de 10 Ouros, 50 Aços e 10 Emperiuns";
+	show "como materiais básicos...";
+	show "e pode-se encantar o produto com um certo traço peculiar.";
+	show "Para isso, eu preciso de alguns minérios raros...";
+	next;
+	show "[Hibilaithan]";
+	show "Por favor, traga-me 30 unidades de Moscovita ou Biotita ou Piroxênio.";
+	show "Cada minério possui seu atributo particular";
+	show "e de acordo com o minério que me trouxer,";
+	show "meu produto possuirá uma característica especial.";
+	next;
+	show "[Hibilaithan]";
+	show "Desejo-lhe sorte...";
+	show "Estarei lhe aguardando!";
+	close;
+
+
+//--------------------------------------------------
+//Jogo de Adivinhação
+//--------------------------------------------------
+LV4_9:
+	if(lv4_weapon == 9) set @gem, $@LV4_Muscovite;
+	if(lv4_weapon == 10) set @gem, $@LV4_Biotite;
+	if(lv4_weapon == 11) set @gem, $@LV4_Pyroxene;
+	if(countitem(@gem) < 30) goto LV4_9_NOGEM; 
+	
+	show "[Hibilaithan]";
+	show "OK, vamos iniciar!";
+	show "É simples. Há quatro monstros";
+	show "que eu gosto. Eu vou pensar em um montro";
+	show "entre os quatro, você tenta adivinhar qual é.";
+	show "Nós jogaremos este jogo cinco vezes e você deve";
+	show "responder corretamente ao menos uma vez das cinco. Não é moleza?";
+	next;
+	show "[Hibilaithan]";
+	show "Este é um bom jogo para";
+	show "aumentar sua sorte!";
+	show "OK, melhor estar preparado agora.";
+	next;
+	
+	set @dap, 0;
+	set @correct[0],1;
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		show "[Hibilaithan]";
+		
+		if(@i == 1) show "Eu gosto mais de Jirtas, Alice,";
+		if(@i == 1) show "Munak e Isis entre todos os monstros.";
+		
+		show "Agora, adivinhe em qual";
+		show "estou pensando neste momento.";
+		next;
+
+		set @mons, rand(1, 4);		
+
+		switch( select( "Jirtas", "Alice", "Munak", "Isis" ) ) {
+				case 1:
+					set @correct[@i], 1;
+					if(@mons == 1) set @dap, @dap + 1;
+					break;
+
+				case 2:
+					set @correct[@i], 2;
+					if(@mons == 2) set @dap, @dap + 1;
+					break;
+
+				case 3:
+					set @correct[@i], 3;
+					if(@mons == 3) set @dap, @dap + 1;
+					break;
+
+				case 4:
+					set @correct[@i], 4;
+					if(@mons == 4) set @dap, @dap + 1;
+					break;
+		}
+	}
+
+	show "[Hibilaithan]";
+	show "OK, terminou! Agora deixe-me";
+	show "olhar as respostas. Eu estava pensando";
+	show "os monstros nesta ordem...";
+	next;
+	show "[Hibilaithan]";
+
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		if(@correct[@i] == 1) show "Jirtas";
+		if(@correct[@i] == 2) show "Alice";
+		if(@correct[@i] == 3) show "Munak";
+		if(@correct[@i] == 4) show "Isis";
+	}
+
+	if(@dap < 1) goto LV4_9_FAIL;
+	
+	next;
+	show "[Hibilaithan]";
+	show "Uau, você é um leitor de mente ou o que?";
+	show "Você respondeu " + @dap + " vezes corretamente! Veja só...";
+	show "Eu acho que você já é uma pessoa de sorte,";
+	show "portanto não temos razão alguma";
+	show "em adiar o trabalho agora!";
+	show "Eu preciso de um tempo para preparar, falo contigo mais tarde!";
+	
+	if(countitem(@gem) < 30) goto LV4_HACK;
+	delitem @gem, 30;
+	set lv4_weapon, lv4_weapon + 3;
+	close;
+	
+	
+LV4_9_FAIL:
+	if(countitem(@gem) < 10) goto LV4_HACK;
+	delitem @gem, 10;
+	
+	next;
+	show "[Hibilaithan]";
+	show "Isto não é bom, de forma alguma é bom!";
+	show "Você não acertou sequer uma vez a resposta certa.";
+	show "Nós não podemos iniciar o trabalho com este tipo de resultado.";
+	show "OK... Temos que eliminar sua má sorte primeiro.";
+	show "10 " + @gemstring$ + " farão isto!";
+	next;
+	show "[Hibilaithan]";
+	show "Agora, nós precisamos jogar novamente.";
+	show "Se você não tem mais minérios, vá pegar alguns.";
+	show "Eu não vou a lugar algum";
+	show "então não precisa ter pressa.";
+	show "Aproveite seu tempo!";
+	close;
+
+
+LV4_9_NOGEM:
+	show "[Hibilaithan]";
+	show "Hum. Você não tem os materiais?";
+	show "Veja novamente no seu inventário";
+	show "Viu. Eu sabia.";
+	close;
+	
+	
+	
+//--------------------------------------------------
+//Criação das Armas
+//--------------------------------------------------
+LV4_12:
+	show "[Hibilaithan]";
+	show "Ah, eu posso dizer que está pronto. Certo...";
+	show "Eu tentarei fazer um item incrível para você.";
+	show "...e você não pode olhar por sobre meus ombros!";
+	show "Não quero dividir minha receita secreta com ninguém!";
+	next;
+	show "- Hibilaithan toma todos os materiais -";
+	show "- e dá as costas a você. -";
+	show "- Você percebe ele ocupado com algo. -";
+	show "- Embora a forma que ele está fazendo -";
+	show "- pareça bem primitivo e cru, -";
+	show "- você sente que uma energia estranha passa a girar em torno dele. -";
+	next;
+	show "[Hibilaithan]";
+	show "Umm~ umm~ umm~";
+	show "Aww~aww~ aww~";
+	show "Phew~ phew~ phew~";
+	show "Woo~ woo~ woo~";
+	show "Ho~ ho~ ho~";
+	next;
+	show "[Hibilaithan]";
+	show " ";
+	show " ";
+	show "Haha, aqui está! Ufa, esta foi realmente difícil...";
+	show "Está ansioso, não? OK, vamos ver...";
+	next;
+	
+	show "[Hibilaithan]";
+	show "É um grande sucesso! Hahaha, veja, eu a fiz...";
+	show "Portanto, deveria ser um grande sucesso.";
+	show "Oh, você conseguiu uma arma aqui... Vamos ver,";
+	
+	switch( lv4_weapon ) {
+		case 12:
+			show "é um Destruidor de Malha!";
+			additem 1225, 1; // 1225,Mail_Breaker
+			break;
+		case 13:
+			show "é um Destruidor de Espadas!";
+			additem 1224, 1; // 1224,Sword_Breaker
+			break;
+		case 14:
+			show "é um Carniceiro!";
+			additem 1367, 1; // 1367,Slaughter
+			break;
+	}
+
+	set lv4_weapon, 0;
+	show "Esta foi feita muito bem pois eu sou habilidoso,";
+	show "e você deve me agradecer por isto!";
+	next;
+	
+	show "[Hibilaithan]";
+	show "Sempre que quiser uma coisa boa,";
+	show "volte quando que quiser!";
+	show "Eu sou um gênio muito generoso, entende?";
+	show "Seja sempre agradecido pela arma que fiz para você, OK?";
+	show "Nos vemos depois!";
+	close;
+
+//--------------------------------------------------
+//Outras Quests
+//--------------------------------------------------
+LV4_7:
+	show "[Hibilaithan]";
+	show "Hmm... Eu sinto algo estranho em você.";
+	show "Eu sinto dizer que não tenho nada a dizer para você.";
+	show "Espero que tenha uma viagem segura.";
+	close;
+	
+//--------------------------------------------------
+//Tentativa de HACK
+//--------------------------------------------------
+LV4_HACK:
+	show "[Hibilaithan]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest de armas LV4.";
+	close;
+}
+
+//--------------------------------------------------------------------------
+// Tabezthan cria (1134)=>Espada de César (1139)=>Talefing e (1365)=>Sabbath
+//--------------------------------------------------------------------------
+
+um_in,156,77,5	script	Tabezthan	788,{
+	if(event_umbala < 3) goto LumWord;
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon == 15) goto LV4_15;
+	if(lv4_weapon == 16) goto LV4_16;
+	if(lv4_weapon == 17) goto LV4_16;
+	if(lv4_weapon == 18) goto LV4_16;
+	if(lv4_weapon == 19) goto LV4_19;
+	if(lv4_weapon == 20) goto LV4_19;
+	if(lv4_weapon == 21) goto LV4_19;
+	if(lv4_weapon < 15) goto LV4_14;
+	if(lv4_weapon > 21) goto LV4_14;	
+	end; // shouldn't be here
+	
+
+LumWord:
+		show "[Tabezthan]";
+		show "Umba! Umbaba...umum! Baumba!";
+		show "Umumumbababaumumbabaumba!";
+		show "Umbaumbaumbaumbaumhah!";
+		show "Umumumumumbababababab!";
+	close;
+
+	
+LV4_0:
+	show "[Tabezthan]";
+	show "Hmm... Sinto algo diferente em você...";
+	show "Você é estrangeiro.... não é?";
+	next;
+	show "[Tabezthan]";
+	show "Deixe-me apresentar-me.";
+	show "Eu sou Tabezthan,";
+	show "o armazém de conhecimento e o gênio de Umbala...";
+	show "Hahahaha.";
+	next;
+	show "[Tabezthan]";
+	show "Eu tenho dois discípulos. Um se chama Hibilaithan o tolo";
+	show "e o outro é Bazo que é intelignte";
+	show "e também é estrangeiro assim como você.";
+	next;
+	show "[Tabezthan]";
+	show "Claro que ambos são talentosos e habilidosos";
+	show "mas estou preocupado com Hibilaithan, pois ele";
+	show "comete muitos erros estúpidos e não tem vergonha";
+	show "daquilo que ele fez.";
+	next;
+	show "[Tabezthan]";
+	show "Eu os ensinei como manipular";
+	show "a energia misteriosa existente em Umbala";
+	show "para criar itens com...";
+	show "Eu escutei que há uma habilidade similar chamada Alquimia";
+	show "no mundo de fora. Embora eu não tenha certeza se eu estou correto.";
+	next;
+	show "[Tabezthan]";
+	show "Bem, gostaria de ver minha habilidade?";
+	show "Se sim, traga-me os materiais que preciso,";
+	show "Estou mais que ansioso para mostrar minha habilidade para você.";
+	next;
+	
+	switch( select( "Sim, por favor.", "Não, obrigado." ) ) {
+		case 1:
+			if(BaseLevel >= 70) goto L4_0_1;
+			
+			show "[Tabezthan]";
+			show "Sebelumnya saya harus menekankan ini";
+			show "Barang spesial ini akan menjadi berbahaya jika kamu sendiri masih lemah";
+			show "Kamu harus lebih berpengalaman lagi anak muda";
+			show "Naikan level kamu terlebih dahulu";
+			show "jika kamu sudah merasa kuat kembalilah kesini kembali";
+			show "Sampai jumpa ~~";
+			break;
+L4_0_1:
+			show "[Tabezthan]";
+			show "Alguém com curiosidade... ele é chamado de aventureiro jovem...";
+			show "Certo. Deixe-me informá-lo";
+			show "quais materiais eu preciso. Por favor memorize-os";
+			show "ou anote em algum lugar.";
+			show "Não são muitos, no entanto.";
+			next;
+			show "[Tabezthan]";
+			show "Eu preciso de 10 Ouros, 50 Aços e 10 Emperiuns";
+			show "como materiais básicos...";
+			show "e pode-se encantar o produto com um certo traço peculiar.";
+			show "Para isso, eu preciso de alguns minérios raros...";
+			next;
+			show "[Tabezthan]";
+			show "Por favor, traga-me 30 unidades de Flogopita ou Cristal de Peridoto ou Quartzo Rosa.";
+			show "Cada minério possui seu atributo particular";
+			show "e de acordo com o minério que me trouxer,";
+			show "meu produto possuirá uma característica especial.";
+			next;
+			show "[Tabezthan]";
+			show "No entanto, fique ciente de que";
+			show "Não posso garantir que terá algo como resultado.";
+			show "Há muitos fatores no mundo da alquimia";
+			show "onde meu conhecimento é limitado.";
+			show "Então você deve aceitar o que o resultado do que você obter";
+			show "mesmo se isso não satisfaça suas expectativas.";
+			next;
+			show "[Tabezthan]";
+			show "Isto significa que você deve acreditar na sorte.";
+			show "Vamos falar disso mais tarde... Prepare os materiais primeiro.";
+			show "Volte quando estiver pronto.";
+			show "Eu aguardarei aqui.";
+			
+			set lv4_weapon, 15;
+			break;
+		case 2:
+			show "[Tabezthan]";
+			show "Oh... entendo. Não o estava forçando de qualquer forma.";
+			show "No entanto, é um pouco desapontador escutar isso.";
+			show "Eu iria mostrar toda minha habilidade.";
+			show "Quando mudar de idéia, por favor volte.";
+			break;			
+	}	
+	close;
+	
+
+
+//--------------------------------------------------
+//Gold, Steel, Emp Check + Choosing the gem
+//--------------------------------------------------
+LV4_15:
+	if(countitem($@LV4_Gold) < 10) goto LV4_15_FAIL;
+	if(countitem($@LV4_Steel) < 50) goto LV4_15_FAIL;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_15_FAIL;
+
+	show "[Tabezthan]";
+	show "Ah, você voltou antes que eu esperava.";
+	show "Vamos ver... você tem todos os materiais básicos... e";
+	show "precisamos de uma coisa a mais, lembra?";
+	show "Você a trouxe também?";
+	next;
+	
+	if (countitem($@LV4_Phlogopite) >= 30 && countitem($@LV4_Olivine) >= 30 && countitem($@LV4_Rose_Quartz) >= 30) goto LV4_15_POR;
+	if (countitem($@LV4_Phlogopite) >= 30 && countitem($@LV4_Olivine) >= 30) goto LV4_15_PO;
+	if (countitem($@LV4_Phlogopite) >= 30 && countitem($@LV4_Rose_Quartz) >= 30) goto LV4_15_PR;
+	if (countitem($@LV4_Olivine) >= 30 && countitem($@LV4_Rose_Quartz) >= 30) goto LV4_15_OR;
+	if (countitem($@LV4_Phlogopite) >= 30) goto LV4_15_P;
+	if (countitem($@LV4_Olivine) >= 30) goto LV4_15_O;
+	if (countitem($@LV4_Rose_Quartz) >= 30) goto LV4_15_R;
+	goto LV4_15_NOGEM;
+	end;
+
+
+LV4_15_POR:	
+	show "[Tabezthan]";
+	show "Você fez um grande esforço em trazer todos.";
+	show "No entanto, você pode usar apenas um tipo por vez.";
+	show "Por favor escolha qual item você deseja usar agora.";
+	next;
+			
+	switch( select( "Flogopita", "Cristal de Peridoto", "Quartzo Rosa" ) ) 
+{
+		case 1:
+			show "[Tabezthan]";
+			show "Flogopita... ok. Antes de começarmos,";
+			set @gem, $@LV4_Phlogopite;
+			set @gemstring$,"Flogopita";
+			break;
+		case 2:
+			show "[Tabezthan]";
+			show "Cristal de Peridoto... ok. Antes de começarmos,";
+			set @gem, $@LV4_Olivine;
+			set @gemstring$,"Cristal de Peridoto";
+			break;
+		case 3:
+			show "[Tabezthan]";
+			show "Quartzo Rosa... ok. Antes de começarmos,";
+			set @gem, $@LV4_Rose_Quartz;
+			set @gemstring$,"Quartzo Rosa";
+			break;
+	}
+	
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_15_PO:
+	show "[Tabezthan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Flogopita", "Cristal de Peridoto" ) ) {
+		case 1:
+			show "[Tabezthan]";
+			show "Flogopita... ok. Antes de começarmos,";
+			set @gem, $@LV4_Phlogopite;
+			set @gemstring$,"Flogopita";
+			break;
+		case 2:
+			show "[Tabezthan]";
+			show "Cristal de Peridoto... ok. Antes de começarmos,";
+			set @gem, $@LV4_Olivine;
+			set @gemstring$,"Cristal de Peridoto";
+			break;
+	}
+	
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+
+LV4_15_PR:	
+	show "[Tabezthan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Flogopita", "Quartzo Rosa" ) ) {
+		case 1:
+			show "[Tabezthan]";
+			show "Flogopita... ok. Antes de começarmos,";
+			set @gem, $@LV4_Phlogopite;
+			set @gemstring$,"Flogopita";
+			break;
+		case 2:
+			show "[Tabezthan]";
+			show "Quartzo Rosa... ok. Antes de começarmos,";
+			set @gem, $@LV4_Rose_Quartz;
+			set @gemstring$,"Quartzo Rosa";
+			break;
+	}
+	
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_15_OR:	
+	show "[Tabezthan]";
+	show "Hahaha, Eu lhe pedi para trazer-me um tipo de minério, não dois.";
+	show "Você pode usar apenas um tipo deles.";
+	show "Qual você gostaria de usar?";
+	next;
+	
+	switch( select( "Cristal de Peridoto", "Quartzo Rosa" ) ) {
+			case 1:
+				show "[Tabezthan]";
+				show "Cristal de Peridoto... ok. Antes de começarmos,";
+				set @gem, $@LV4_Olivine;
+				set @gemstring$,"Cristal de Peridoto";
+				break;
+			case 2:
+				show "[Tabezthan]";
+				show "Quartzo Rosa... ok. Antes de começarmos,";
+				set @gem, $@LV4_Rose_Quartz;
+				set @gemstring$,"Quartzo Rosa";
+				break;
+	}
+	
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_15_P:
+	show "[Tabezthan]";
+	show "Flogopita... ok. Antes de começarmos,";
+	set @gem, $@LV4_Phlogopite;
+	set @gemstring$,"Flogopita";	
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+		
+		
+LV4_15_O:
+	show "[Tabezthan]";
+	show "Cristal de Peridoto... ok. Antes de começarmos,";
+	set @gem, $@LV4_Olivine;
+	set @gemstring$,"Cristal de Peridoto";
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_15_R:
+	show "[Tabezthan]";
+	show "Quartzo Rosa... ok. Antes de começarmos,";
+	set @gem, $@LV4_Rose_Quartz;
+	set @gemstring$,"Quartzo Rosa";
+	goto LV4_15_PICK;
+	end; // shouldn't be here
+	
+	
+LV4_15_PICK:
+	show "devemos fazer uma coisa primeiro.";
+	show "Isto é, testar sua sorte.";
+	show "Como você já sabe,";
+	show "não posso garantir que teremos sucesso";
+	show "em fazer o item de primeira.";
+	next;
+	show "[Tabezthan]";
+	show "Se nós pudermos aumentar sua sorte antes de iniciarmos,";
+	show "nós seremos capazes de fazer o item.";
+	next;
+	show "[Tabezthan]";
+	show "Agora você estar imaginando o que";
+	show "iremos fazer para aumentar sua sorte.";
+	show "É simples, nós iremos jogar um jogo de adivinhação.";
+	show "Eu vou pensar em um entre 4 dos meus monstros favoritos,";
+	show "e você tentará adinhar qual monstro é.";
+	next;
+	show "[Tabezthan]";
+	show "Você deve responder corretamente ao menos";
+	show "uma em cinco vezes. Não é tão difícil assim.";
+	show "E caso você falhe em responder corretamente, nós teremos que fazer algo diferente";
+	show "para eliminar sua má sorte.";
+	next;
+	show "[Tabezthan]";
+	show "Eu tirarei 10 minérios especiais que você escolheu.";
+	show "Bem, eu entendo que isto não parece tentador";
+	show "mas vamos pensar desta forma.";
+	show "É muito melhor do que perder 30 minérios de uma só vez";
+	show "pela falha em criar o item, não acha?";
+	next;
+	show "[Tabezthan]";
+	show "OK, agora eu preciso de um algum tempo para preparar...";
+	show "Converso contigo mais tarde!";
+	
+	if(countitem($@LV4_Gold) < 10) goto LV4_HACK;
+	if(countitem($@LV4_Steel) < 50) goto LV4_HACK;
+	if(countitem($@LV4_Emperium) < 10) goto LV4_HACK;
+	delitem $@LV4_Gold, 10;
+	delitem $@LV4_Steel, 50;
+	delitem $@LV4_Emperium, 10;
+	if(@gem == $@LV4_Phlogopite) set lv4_weapon, 16;
+	if(@gem == $@LV4_Olivine) set lv4_weapon, 17;
+	if(@gem == $@LV4_Rose_Quartz) set lv4_weapon, 18; 
+	close;
+
+
+LV4_15_NOGEM:
+	show "[Tabezthan]";
+	show "Hmmm...Não consigo achar qualquer minério raro";
+	show "entre os materiais que trouxe...";
+	show "Por favor traga-me 30 minérios entre Flogopita,";
+	show "Cristal de Peridoto ou Quartzo Rosa.";
+	close;
+
+
+LV4_15_FAIL:
+	show "[Tabezthan]";
+	show "Eu preciso de 10 Ouros, 50 Aços e 10 Emperiuns";
+	show "como materiais básicos...";
+	show "e pode-se encantar o produto com um certo traço peculiar.";
+	show "Para isso, eu preciso de alguns minérios raros...";
+	next;
+	show "[Tabezthan]";
+	show "Por favor, traga-me 30 unidades de Moscovita ou Biotita ou Piroxênio.";
+	show "Cada minério possui seu atributo particular";
+	show "e de acordo com o minério que me trouxer,";
+	show "meu produto possuirá uma característica especial.";
+	close;
+
+
+
+//--------------------------------------------------
+//Jogo de Adivinhação
+//--------------------------------------------------
+LV4_16:
+	if(lv4_weapon == 16) set @gem, $@LV4_Phlogopite;
+	if(lv4_weapon == 17) set @gem, $@LV4_Olivine;
+	if(lv4_weapon == 18) set @gem, $@LV4_Rose_Quartz;
+	if(countitem(@gem) < 30) goto LV4_16_NOGEM; 
+	
+	show "[Tabezthan]";
+	show "OK, vamos iniciar!";
+	show "É simples. Há";
+	show "quatro monstros que eu gosto. Eu vou pensar em um";
+	show "entre os quatro, você deve adivinhar qual é.";
+	show "Iremos jogar cinco vezes e você deve";
+	show "responder corretamente ao menos uma das cinco vezes. Não é realmente fácil?";
+	next;
+	show "[Hibilaithan]";
+	show "Este é um jogo muito bom para";
+	show "aumentar sua sorte!";
+	show "OK, esteja preparado agora.";
+	next;
+	
+	set @dap, 0;
+	set @correct[0],1;
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		show "[Tabezthan]";
+		
+		if(@i == 1) show "Eu gosto mais de Bafomé, Senhor das Trevas,";
+		if(@i == 1) show "Cavaleiro Sanguinário e Cavaleiro da Tempestade entre todos os monstros.";
+		
+		show "Agora, adivinhe em qual";
+		show "estou pensando neste momento.";
+		next;
+
+		set @mons, rand(1, 4);		
+
+		switch( select( "Bafomé", "Senhor das Trevas", "Cavaleiro Sanguinário", "Cavaleiro da Tempestade" ) ) {
+				case 1:
+					set @correct[@i], 1;
+					if(@mons == 1) set @dap, @dap + 1;
+					break;
+
+				case 2:
+					set @correct[@i], 2;
+					if(@mons == 2) set @dap, @dap + 1;
+					break;
+
+				case 3:
+					set @correct[@i], 3;
+					if(@mons == 3) set @dap, @dap + 1;
+					break;
+
+				case 4:
+					set @correct[@i], 4;
+					if(@mons == 4) set @dap, @dap + 1;
+					break;
+		}
+	}
+
+	show "[Tabezthan]";
+	show "OK, é só isso! Agora deixe-me olhar";
+	show "as respostas. Eu estava pensando";
+	show "os monstros nesta ordem...";
+	next;
+	show "[Tabezthan]";
+
+	for( set @i, 1; @i <= 5; set @i, @i + 1 ) {
+		if(@correct[@i] == 1) show "Bafomé";
+		if(@correct[@i] == 2) show "Senhor das Trevas";
+		if(@correct[@i] == 3) show "Cavaleiro Sanguinário";
+		if(@correct[@i] == 4) show "Cavaleiro da Tempestade";
+	}
+
+	if(@dap < 1) goto LV4_16_FAIL;
+	
+	next;
+	show "[Tabezthan]";
+	show "Você respondeu " + @dap + " vezes corretamente.";
+	show "Parece que sua sorte está bem alta.";
+	show "Eu preciso de algum tempo para preparar, converso contigo mais tarde.";
+	
+	if(countitem(@gem) < 30) goto LV4_HACK;
+	delitem @gem, 30;
+	set lv4_weapon, lv4_weapon + 3;
+	close;
+	
+	
+LV4_16_FAIL:
+	if(countitem(@gem) < 10) goto LV4_HACK;
+	delitem @gem, 10;
+	
+	next;
+	show "[Tabezthan]";
+	show "Infelizmente você falhou...";
+	show "Quando tiver má sorte, não espere";
+	show "um bom resultado.";
+	show "OK, nós devemos eliminar sua má sorte.";
+	show "10 " + @gemstring$ + " farão isto.";
+	next;
+	show "[Tabezthan]";
+	show "Não fique desapontado.";
+	show "Ainda é melhor que perder 30 delas";
+	show "tentando fazer uma coisa quando você sabe";
+	show "que você não a faria.";
+	next;
+	show "[Tabezthan]";
+	show "Se você precisa de algo para preparar,";
+	show "por favor faça. Estarei aguardando você aqui.";
+	close;
+
+
+LV4_16_NOGEM:
+	show "[Tabezthan]";
+	show "Umm... parece que está faltando " + @gemstring$;
+	show "Por favor conte-os e caso";
+	show "você não os tenha em número suficiente,";
+	show "você pode procurar mais antes.";
+	close;
+	
+	
+	
+//--------------------------------------------------
+//Criação da Arma
+//--------------------------------------------------
+LV4_19:
+	show "[Tabezthan]";
+	show "Ótimo, estou pronto também.";
+	show "Podemos começar agora? Dê-me um minuto.";
+	show "Eu preciso arranjar estes materiais em um círculo mágico.";
+	next;
+	show "- Ele arranja os materiaisi em um círculo mágico -";
+	show "- e começa a cantar em uma lingua estranha. -";
+	show "- Enquanto ele faz isso, repentinamente o ar ao redor dele -";
+	show "- parece mudar e você sente algo poderoso -";
+	show "- se formando ao redor dele e os materiais. -";
+	next;
+	show "[Tabezthan]";
+	show "Por favor entenda que esta força não vem de mim.";
+	show "Usei apenas minha habilidade para unir o poder à estes materiais.";
+	show "O poder que vem da cidade dos mortos.";
+	next;
+	show "[Tabezthan]";
+	show "O resultado está nas mãos de Deus.";
+	show "Vamos rezar juntos para um bom resultado.";
+	show "Hmmmmm!";
+	next;
+	show "- Após um tempo... você percebe que os materiais -";
+	show "- estão se unindo e formando um novo objeto. -";
+	show "- Isto significa que você conseguiu ou falhou?! -";
+	next;
+	show "[Tabezthan]";
+	show "?!...Deus deve abençoá-lo!";
+	show "Não acredito que criei uma arma tão rara!";
+	show "Sim, meu pai disse-me o nome desta arma.";
+	
+	switch( lv4_weapon ) {
+		case 19:
+			show "Esta é a Espada de César.";
+			additem 1134, 1; // 1134,Caesar's_Sword
+			break;
+		case 20:
+			show "Esta é a Talefing.";
+			additem 1139, 1; // 1139,Talefing_
+			break;
+		case 21:
+			show "Esta é a Sabbath.";
+			additem 1365, 1; // 1365,Sabbath
+			break;
+	}
+
+	set lv4_weapon, 0;
+	show "[Tabezthan]";
+	show "Agora, como eu a fiz com os materiais";
+	show "que você me trouxe, ela é sua agora.";
+	show "Eu apenas o auxiliei a fazê-la,";
+	show "e estou muito feliz em dá-la a você.";
+	next;
+	show "[Tabezthan]";
+	show "Bem, sinta-se a vontade em voltar";
+	show "se quiser fazer outro item novamente...hahaha.";
+	show "Esta arma foi feita para ser sua.";
+	close;
+
+//--------------------------------------------------
+//Outras Quests
+//--------------------------------------------------
+LV4_14:
+	show "[Tabezthan]";
+	show "Umm...tem algo a tratar comigo?";
+	show "Por favor não acredite que sou um velho tolo.";
+	show "Quando um homem envelhece, ele pode ler o pensamento de outras pessoas.";
+	show "Vá adiante e faça o que você estava fazendo.";
+	show "Não vou mais interrompê-lo mais um segundo.";
+	close;
+	
+	
+	
+//--------------------------------------------------
+//Hack Attempt
+//--------------------------------------------------
+LV4_HACK:
+	show "[Tabezthan]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest de Arma LV4.";
+	close;
+}
+
+//---------------------------------------------------
+// Bill Thayer, Dá dicas para a quest de Armas LVL 4S
+//---------------------------------------------------
+
+aldebaran,178,239,3	script	Bill Thayer	712,{
+	// Explain Materials
+	if(lv4_weapon == 26) goto LV4_26;
+	if(lv4_weapon == 27) goto LV4_27;
+	if(lv4_weapon == 28) goto LV4_28;
+	
+	if(lv4_weapon == 35) goto LV4_35;
+	if(lv4_weapon == 36) goto LV4_36;
+	if(lv4_weapon == 37) goto LV4_37;
+
+	if(lv4_weapon == 44) goto LV4_44;
+	if(lv4_weapon == 45) goto LV4_45;
+	if(lv4_weapon == 46) goto LV4_46;
+	
+	if(lv4_weapon == 53) goto LV4_53;
+	if(lv4_weapon == 54) goto LV4_54;
+	if(lv4_weapon == 55) goto LV4_55;
+	
+	// Guide
+	if(lv4_weapon == 22) goto LV4_22;
+	if(lv4_weapon == 23) goto LV4_23;
+		
+	if(lv4_weapon == 31) goto LV4_31;
+	if(lv4_weapon == 32) goto LV4_32;
+	
+	if(lv4_weapon == 40) goto LV4_40;
+	if(lv4_weapon == 41) goto LV4_41;
+	
+	if(lv4_weapon == 49) goto LV4_49;
+	if(lv4_weapon == 50) goto LV4_50;
+	
+	show "[Bill Thayer]";
+	show "...Não posso fazer algo agora.";
+	show "No passado, eu era reconhecido como um famoso armeiro";
+	show "mas agora sou apenas um velho solitário que perdeu todos seus filhos.";
+	show "Por favor deixe-me sozinho.";
+	close;
+
+LV4_27:
+LV4_28:
+LV4_36:
+LV4_37:
+LV4_45:
+LV4_46:
+LV4_54:
+LV4_55:
+	if(lv4_weapon == 27)
+{
+			set @LV4_Gem1Name$, "Cristal de Peridoto";
+			set @LV4_Gem2Name$, "Turquesa";
+			set @LV4_Gem3Name$, "Ágata";
+}
+	if(lv4_weapon == 28)
+{
+			set @LV4_Gem1Name$, "Flogopita";
+			set @LV4_Gem2Name$, "Piroxênio";
+			set @LV4_Gem3Name$, "Quartzo Rosa";
+}
+	if(lv4_weapon == 36)
+{
+			set @LV4_Gem1Name$, "Moscovita";
+			set @LV4_Gem2Name$, "Quartzo Rosa";
+			set @LV4_Gem3Name$, "Cristal de Peridoto";
+}
+	if(lv4_weapon == 37)
+{
+			set @LV4_Gem1Name$, "Biotita";
+			set @LV4_Gem2Name$, "Ágata";
+			set @LV4_Gem3Name$, "Citrina";
+}
+	if(lv4_weapon == 45)
+{
+			set @LV4_Gem1Name$, "Turquesa";
+			set @LV4_Gem2Name$, "Biotita";
+			set @LV4_Gem3Name$, "Quartzo Rosa";
+}
+	if(lv4_weapon == 46)
+{
+			set @LV4_Gem1Name$, "Citrina";
+			set @LV4_Gem2Name$, "Piroxênio";
+			set @LV4_Gem3Name$, "Flogopita";
+}
+	if(lv4_weapon == 54)
+{
+			set @LV4_Gem1Name$, "Moscovita";
+			set @LV4_Gem2Name$, "Ágata";
+			set @LV4_Gem3Name$, "Citrina";
+}
+	if(lv4_weapon == 55)
+{
+			set @LV4_Gem1Name$, "Piroxênio";
+			set @LV4_Gem2Name$, "Turquesa";
+			set @LV4_Gem3Name$, "Flogopita";
+}
+
+	show "[Bill Thayer]";
+	show "Hmm... parece que você precisa de 30 ";
+	show @LV4_Gem1Name$ + ", " + @LV4_Gem2Name$ + ", e " + @LV4_Gem3Name$;
+	show "Tenho certeza que estes são os materiais...";
+	show "mas não posso garantir qualquer coisa a respeito do resultado...";
+	next;
+	show "[Bill Thayer]";
+	show "Meus filhos faleceram antes de terminarmos esta pesquisa...";
+	show "Hahaha... não vamos falar a respeito disso.";
+	show "De qualquer forma, já lhe disse o que precisa.";
+	close;
+
+
+LV4_26:
+LV4_35:
+LV4_44:
+LV4_53:
+	show "[Bill Thayer]";
+	if(lv4_weapon == 26) show "O que? A pesquisa de Kayron?";
+	if(lv4_weapon == 35) show "O que? A pesquisa de Reyghema?";
+	if(lv4_weapon == 44) show "O que? A pesquisa de Hein?";
+	if(lv4_weapon == 53) show "O que? A pesquisa de Waltboughst?";
+	show "Como você o conhece?";
+	show "Você era amigo dele quando ele ainda era vivo?";
+	show "Ah... aqui deve um ato de providência.";
+	next;
+	
+	set lv4_weapon, lv4_weapon + rand(1, 2);
+	
+	switch( lv4_weapon ) {
+		case 27:
+			set @LV4_Gem1Name$, "Cristal de Peridoto";
+			set LV4_Gem1, $@LV4_Olivine;
+			set @LV4_Gem2Name$, "Turquesa";
+			set LV4_Gem2, $@LV4_Turquoise;
+			set @LV4_Gem3Name$, "Ágata";
+			set LV4_Gem3, $@LV4_Agate;
+			break;
+		case 28:
+			set @LV4_Gem1Name$, "Flogopita";
+			set LV4_Gem1, $@LV4_Phlogopite;
+			set @LV4_Gem2Name$, "Piroxênio";
+			set LV4_Gem2, $@LV4_Pyroxene;
+			set @LV4_Gem3Name$, "Quartzo Rosa";
+			set LV4_Gem3, $@LV4_Rose_Quartz;
+			break;
+		case 36:
+			set @LV4_Gem1Name$, "Moscovita";
+			set LV4_Gem1, $@LV4_Muscovite;
+			set @LV4_Gem2Name$, "Quartzo Rosa";
+			set LV4_Gem2, $@LV4_Rose_Quartz;
+			set @LV4_Gem3Name$, "Cristal de Peridoto";
+			set LV4_Gem3, $@LV4_Olivine;
+			break;
+		case 37:
+			set @LV4_Gem1Name$, "Biotita";
+			set LV4_Gem1, $@LV4_Biotite;
+			set @LV4_Gem2Name$, "Ágata";
+			set LV4_Gem2, $@LV4_Agate;
+			set @LV4_Gem3Name$, "Citrina";
+			set LV4_Gem3, $@LV4_Citrine;
+			break;
+		case 45:
+			set @LV4_Gem1Name$, "Turquesa";
+			set LV4_Gem1, $@LV4_Turquoise;
+			set @LV4_Gem2Name$, "Biotita";
+			set LV4_Gem2, $@LV4_Biotite;
+			set @LV4_Gem3Name$, "Quartzo Rosa";
+			set LV4_Gem3, $@LV4_Rose_Quartz;
+			break;
+		case 46:
+			set @LV4_Gem1Name$, "Citrina";
+			set LV4_Gem1, $@LV4_Citrine;
+			set @LV4_Gem2Name$, "Piroxênio";
+			set LV4_Gem2, $@LV4_Pyroxene;
+			set @LV4_Gem3Name$, "Flogopita";
+			set LV4_Gem3, $@LV4_Phlogopite;
+			break;
+		case 54:
+			set @LV4_Gem1Name$, "Moscovita";
+			set LV4_Gem1, $@LV4_Muscovite;
+			set @LV4_Gem2Name$, "Ágata";
+			set LV4_Gem2, $@LV4_Agate;
+			set @LV4_Gem3Name$, "Citrina";
+			set LV4_Gem3, $@LV4_Citrine;
+			break;
+		case 55:
+			set @LV4_Gem1Name$, "Piroxênio";
+			set LV4_Gem1, $@LV4_Pyroxene;
+			set @LV4_Gem2Name$, "Turquesa";
+			set LV4_Gem2, $@LV4_Turquoise;
+			set @LV4_Gem3Name$, "Flogopita";
+			set LV4_Gem3, $@LV4_Phlogopite;
+			break;
+	}
+	
+	show "[Bill Thayer]";
+	show "Hmm... parece que você precisa de 30";
+	show @LV4_Gem1Name$ + ", " + @LV4_Gem2Name$ + ", e " + @LV4_Gem3Name$;
+	show "Tenho certeza que estes são os materiais...";
+	show "mas não posso garantir qualquer coisa a respeito do resultado...";
+	next;
+	show "[Bill Thayer]";
+	show "Meus filhos faleceram antes de terminarmos esta pesquisa...";
+	show "Hahaha... não vamos falar a respeito disso.";
+	show "De qualquer forma, já lhe disse o que precisa.";
+	close;	
+
+
+LV4_22:
+LV4_23:
+	show "[Bill Thayer]";
+	show "Aiai, eu já lhe disse";
+	show "que não há nada que eu possa fazer por você...";
+	show "desde que meus filhos se foram... Porque você";
+	show "está gastando meu fôlego? ^4D4DFFVocê está indefeso.^000000";
+	set lv4_weapon, 23;
+	next;
+	show "[Bill Thayer]";
+	show "... você me fez";
+	show "perder meus filhos novamente...";
+	show "Por favor deixe-me sozinho.";
+	close;
+	
+
+LV4_31:
+LV4_32:
+	show "[Bill Thayer]";
+	show "Todos os meus filhos partiram meu coração por morrerem jovens...";
+	show "...juventude... o que é juventude?";
+	show "^4D4DFFIsto significa que você nunca se arrepende de nada!^000000";
+	set lv4_weapon, 32;
+	next;
+	show "[Bill Thayer]";
+	show "Isto era o que estava acostumado a dizer aos meus filhos.";
+	show "Por favor lembre-se disso,";
+	show "nunca se arrependa de algo que você tenha feito.";
+	show "No entanto, para poder fazer iso, você deve";
+	show "sempre fazer a coisa certa... é tudo o que eu posso lhe dizer por hora.";
+	close;
+	
+		
+LV4_40:
+LV4_41:
+	show "[Bill Thayer]";
+	show "...não importa o quanto você deseja me pagar,";
+	show "eu não irei forjar arma alguma.";
+	show "Mesmo quando eu as forjava normalmente,";
+	show "eu não aceitava dinheiro dos meus clientes.";
+	show "Você sabe o por quê?";
+	next;
+	show "[Bill Thayer]";
+	show "Me traz má sorte";
+	show "^4D4DFF forjar uma boa arma.^000000";
+	show "Portanto eu não recebo qualquer quantia em dinheiro deles.";
+	set lv4_weapon, 41;
+	next;
+	show "[Bill Thayer]";
+	show "Bem, eu não irei fazê-las";
+	show "mesmo se você ofertar-me qualquer coisa";
+	show "...ao menos que todos os meus filhos voltem";
+	show "vivos....";
+	close;
+
+
+LV4_49:
+LV4_50:
+		show "[Bill Thayer]";
+		show "...você não tem outra coisa a fazer?";
+		show "Eu espero que pare me encher";
+		show "e faça o seu melhor no seu trabalho.";
+		show "Ah... fazer o melhor nem sempre";
+		show "resulta em sucesso, pense nisso.";
+		next;
+		show "[Bill Thayer]";
+		show "No entanto, ^4D4DFFtodos os homens bem sucedidos^000000";
+		show "^4D4DFFna história deram o seu melhor!^000000";
+		show "Espero que lembre-se disso.";
+		show "Eu costumava dizer isto aos meus filhos quando eles eram vivos.";
+		show "Hahaha...";
+		set lv4_weapon, 50;
+		close;
+}
+
+//----------------------------------------------------------------------------------------------------------
+// Kayron, cria (1469)=> Lança de Longiness, (1369)=>Guilhotina, (1364)=>Machado Impetuoso e (1470)=>Brionac
+//----------------------------------------------------------------------------------------------------------
+
+niflheim,240,193,3	script	Kayron	794,{
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(BaseLevel >= 80) goto LV4_LEVEL_PASS;
+	show "[Kayron]";
+	show "Aff, eu não acredito";
+	show "que um fracote como você veio aqui.";
+	show "Você tem um sinal invisívivel na sua testa";
+	show "que diz que você é um arregão. Torne-se forte primeiro.";
+	close;
+	
+
+LV4_LEVEL_PASS:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon < 22) goto LV4_21;
+	if(lv4_weapon == 22) goto LV4_22;
+	if(lv4_weapon == 23) goto LV4_23;
+	if(lv4_weapon == 24) goto LV4_24;
+	if(lv4_weapon == 25) goto LV4_25;
+	if(lv4_weapon == 26) goto LV4_26;
+	if(lv4_weapon == 27) goto LV4_27;
+	if(lv4_weapon == 28) goto LV4_28;
+	if(lv4_weapon == 29) goto LV4_29;
+	if(lv4_weapon == 30) goto LV4_30;
+	if(lv4_weapon > 30) goto LV4_31;
+	end; // shouldn't be here
+
+
+LV4_0:
+LV4_22:
+	show "[Kayron]";
+	show "Eu era chamado de Kayron quando era vivo.";
+	show "Agora sou nada mais que";
+	show "um fantasma vagando por aqui.";
+	show "Eu sou um inútil... Não consigo fazer nada";
+	show "sem um corpo...";
+	next;
+	
+	if(lv4_weapon == 0) goto LV4_0_ASK;
+	
+	show "[Kayron]";
+	show "Ah...Não me lembro o que eu iria dizer...";
+	show "Aaahhh.....Não me lembro....";
+	show "Minha memória se foi...!";
+	close;
+	
+LV4_0_ASK:
+	switch( select( "Mostre interesse.", "Ignorá-lo." ) ) {
+		case 1:
+			show "[Kayron]";
+			show "Ah...Não me lembro o que eu iria dizer...";
+			show "Aaahhh.....Não me lembro....";
+			show "Minha memória se foi...!";
+			set lv4_weapon, 22;
+			close;
+			break;
+		case 2:
+			show "- Por ter decidido ignorá-lo, -";
+			show "- você não consegue mais escutá-lo. -";
+			close;
+			break;
+	}
+	end;
+	
+
+LV4_21:
+LV4_31:
+	show "[Kayron]";
+	show "Sinto algo diferente em você.";
+	show "Você veio aqui com algum propósito?";
+	show "Tenho ciúmes de você...";
+	close;
+
+
+LV4_23:
+	show "[Kayron]";
+	show "Eu era chamado de Kayron quando era vivo.";
+	show "Agora sou nada mais que";
+	show "um fantasma vagando por aqui.";
+	show "Eu sou um inútil... Não consigo fazer nada";
+	show "sem um corpo...";
+	next;
+	set @dap1$, "Você está indefeso";
+	digit @answer1$;
+	if(@answer1$ == @dap1$) goto LV4_23_CORRECT;
+	show "[Kayron]";
+	show "...? O que acabou de dizer?";
+	show "Desculpe-me mas mas acredito que não o entendo.";
+	close;
+
+LV4_23_CORRECT:
+	show "[Kayron]";
+	show "Sim, você está indefeso...?! E?";
+	show "Isto era o que meu pai adorava dizer!";
+	show "Oww?! Ah...";
+	show "Sim... esqueci que já estou morto.";
+	show "Porque me fez lembrar de algo do meu passado?";
+	show "Não tem utilidade agora...";
+	next;
+	show "[Kayron]";
+	show "Mas gostaria de fazer algo como agradecimento...";
+	show "desde que você me fez encontrar um pedaço da minha memória.";
+	show "Eu era um armeiro no passado,";
+	show "então vou lhe forjar uma bela arma.";
+	next;
+	show "[Kayron]";
+	show "Mas terá que me trazer os materiais.";
+	show "Como pode ver, eu não tenho um corpo";
+	show "com o qual eu poderia tocar outros objetos...";
+	show "Então terá que me ajudar com isto.";
+	next;
+	show "[Kayron]";
+	show "Felizmente este lugar é cheio de energia misteriosa,";
+	show "que facilita o trabalho!";
+	show "Haha, mesmo que eu falhe em forjar uma arma,";
+	show "Não preciso me preocupar se irei morrer ou não.";
+	show "Porque já estou morto mesmo!";
+	next;
+	show "[Kayron]";
+	show "Falarei contigo em alguns instantes.";
+	show "Estou tentando lembrar da fórmula...";
+	set lv4_weapon, 24;
+	close;
+	
+	
+LV4_25:
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_25_BASE_MAT;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_25_BASE_MAT;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_25_BASE_MAT;
+	if(countitem($@LV4_Gold) < 20) goto LV4_25_BASE_MAT;
+	
+	show "[Kayron]";
+	show "Oh... você trouxe tudo que preciso!";
+	show "Você é alguém confiável ao contrário da sua aparência.";
+	show "Mas aqui está a coisa...";
+	show "Há alguns materiais que preciso...";
+	show "Mas não consigo lembrar-me de nenhum... minha memória";
+	show "está nublada... arrrrgh...";
+	next;
+	show "[Kayron]";
+	show "Eu preciso pensar nisto por mais alguns instantes.";
+	show "Eu sei que eu realmente preciso destes materiais... ahhhh...";
+	show "Tem alguma idéia de como trazer minha memória de volta?";
+	show "Ao mesmo tempo, fique tranquilo que os materiais";
+	show "que me trouxe serão usados na minha criação. Deixe-me guardá-los comigo.";
+	
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_HACK;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Gold) < 20) goto LV4_HACK;
+	delitem $@LV4_Hammer_Of_Blacksmith, 2;
+	delitem $@LV4_Emperium_Anvil, 1;
+	delitem $@LV4_Illusion_Flower, 1;
+	delitem $@LV4_Gold, 20;
+	set lv4_weapon, 26;
+	close;
+
+LV4_24:
+LV4_25_BASE_MAT:
+	switch( lv4_weapon ) {
+		case 24:
+			show "[Kayron]";
+			show "Oh, você voltou na hora certa.";
+			show "Eu acabei de me lembrar. Escute uma coisa.";
+			show "Não posso lhe garantir qual arma você receberá.";
+			show "E também, você deve bem como tomar um certo risco...";
+			show "Eu acho que o resultado será afetado pelo poder";
+			show "de Nifflheim no momento que eu a fizer.";
+			next;
+			show "[Kayron]";
+			show "Deixe-me dar a lista de materiais";
+			show "que preciso. São muitos itens,";
+			show "portanto anote-os se quiser.";
+			break;
+		case 25:
+			show "[Kayron]";
+			show "Eu lhe direi a lista de materiais que preciso novamente.";
+			show "Creio que preciso de uma boa quantidade de materiais.... então";
+			show "anote-os se quiser.";
+			break;
+		}
+		next;
+		show "[Kayron]";
+		show "Eu preciso de 2 Martelos de Ferreiro,";
+		show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+		next;
+		show "[Kayron]";
+		show "Traga-me estes primeiro. Estou apreensivo";
+		show "que eu esqueci de algo... mas eu tentarei me lembrar.";
+		show "enquanto espero que você me traga estes itens.";
+		next;
+		show "[Kayron]";
+		show "Tenha uma boa viagem.";
+		set lv4_weapon, 25;
+		close;
+		
+
+LV4_27:
+LV4_28:
+	if(countitem(LV4_Gem1) < 30) goto LV4_27_NOGEM;
+	if(countitem(LV4_Gem2) < 30) goto LV4_27_NOGEM;
+	if(countitem(LV4_Gem3) < 30) goto LV4_27_NOGEM;
+	show "[Kayron]";
+	show "...Hum? Os itens que me trouxe parecem";
+	show "ser bons materiais para minha criação...";
+	show "Dê-os para mim, eu preciso tentar primeiro!";
+	next;
+	show "[Kayron]";
+	show "Oh... Eu estava certo! Como você";
+	show "sabia que estes eram os materiais que eu precisava?";
+	show "Ótimo, dê-me um momento!";
+	next;
+	show "[Kayron]";
+	show "...espere, eu preciso testar sua sorte primeiro.";
+	show "Como eu não tenho certeza do resultado,";
+	show "nós devemos confiar na sorte para o resultado da minha criação.";
+	show "Você deve ter boa sorte...";
+	next;
+	show "[Kayron]";
+	show "Nós vamos jogar 'Pedra, Papel e Tesoura'.";
+	show "Você deve ganhar ao menos 2 das 3 vezes.";
+	show "Se você falhar, você deve jogar fora uma grande quantidade";
+	show "de um dos três tipos de minério que você trouxe.";
+	show "Isto para eliminar sua má sorte.";
+	next;
+	show "[Kayron]";
+	show "Darei-lhe um pedaço de papel.";
+	show "Você deve escolher entre 'Pedra, Papel e Tesoura' e anotar nele.";
+	show "Eu irei fazer o mesmo.";
+	show "Nós iremos comparar depois nossos papéis.";
+	next;
+	
+	set @shobu, 0;
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@i == 2) show "[Kayron]";
+		if(@i == 2) show "Vamos jogar pela sugunda vez!";
+		if(@i == 3) show "[Kayron]";
+		if(@i == 3) show "Agora a última jogada!";
+		if(@i == 3) show "Vamos comparar após essa jogada.";
+		set @npchand[@i], rand(1, 3);
+		switch( select( "Tesoura", "Pedra", "Papel" ) ) {
+			case 1:
+				set @myhand[@i], 1;
+				if(@npchand[@i] == 3) set @shobu, @shobu + 1;
+				break;
+			case 2:
+				set @myhand[@i], 2;
+				if(@npchand[@i] == 1) set @shobu, @shobu + 1;
+				break;
+			case 3:
+				set @myhand[@i], 3;
+				if(@npchand[@i] == 2) set @shobu, @shobu + 1;
+				break;
+		}
+	}
+		
+	if(countitem(LV4_Gem1) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem2) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem3) < 30) goto LV4_HACK;
+
+	if(@shobu > 1) goto LV4_27_WIN;
+
+	switch ( rand(1 ,3) ) {
+		case 1:
+			delitem LV4_Gem1, 30;
+			break;
+		case 2:
+			delitem LV4_Gem2, 30;
+			break;
+		case 3:
+			delitem LV4_Gem3, 30;
+			break;
+	}
+	goto LV4_27_RESULT;
+		
+LV4_27_WIN:
+	delitem LV4_Gem1, 30;
+	delitem LV4_Gem2, 30;
+	delitem LV4_Gem3, 30;
+	set lv4_weapon, lv4_weapon + 2;
+	goto LV4_27_RESULT;
+	
+LV4_27_RESULT:
+	show "[Kayron]";
+	show "OK... eu escolhi nesta ordem...";
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@npchand[@i] == 1) show "Tesoura";
+		if(@npchand[@i] == 2) show "Pedra";
+		if(@npchand[@i] == 3) show "Papel";
+	}
+
+	next;
+	show "[Kayron]";
+	show "e você escolheu...";
+
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@myhand[@i] == 1) show "Tesoura";
+		if(@myhand[@i] == 2) show "Pedra";
+		if(@myhand[@i] == 3) show "Papel";
+	}
+
+	next;
+
+	if(@shobu > 1) goto LV4_27_SAY_WIN;
+	
+	show "[Kayron]";
+	show "Bem bem bem... você perdeu o jogo.";
+	show "Ah, você esteve perto...";
+	show "Vamos eliminar esta má sorte.";
+	next;
+	show "[Kayron]";
+	show "OK, eu espero aqui,";
+	show "vá traga-me os materiais novamente...";
+	close;
+			
+LV4_27_SAY_WIN:
+	show "[Kayron]";
+	show "Vamos ver...";
+	show "Você ganhou um total de " + @shobu + " vezes.";
+	show "Ah, devo dizer que você é muito bom neste jogo!";
+	show "Sim, sua sorte está nas alturas!";
+	next;
+	show "[Kayron]";
+	show "Vou manter minha promessa.";
+	show "Mas preciso de um tempo para preparar.";
+	show "Dê-me os materiais agora e falarei contigo mais tarde.";
+	close;
+
+LV4_26:
+LV4_27_NOGEM:
+	show "[Kayron]";
+	show "Argh... ainda não voltou à minha memória.";
+	show "Ahhh.... isto é um problema.";
+	show "Eu costumava sempre discutir sobre os materiais";
+	show "com minha família... agora não lembro quais eram...";
+	close;
+
+
+LV4_29:
+LV4_30:
+	show "[Kayron]";
+	show "Hahaha... você voltou na hora certa.";
+	show "O resultado? Quer saber qual o resultado?...";
+	show "Haha... ok... vamos ver...";
+	next;
+	show "[Kayron]";
+	show "...SIM! É um sucesso!";
+	show "Eu criei a arma que me matou!";
+	show "Olhe para isso... haha! Eu morri enquanto eu a fazia!";
+	show "... O nome desta arma é...";
+	
+	
+	switch( rand(1, 2) ) {
+		case 1:
+			if(lv4_weapon == 29) show "Machado Impetuoso! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 29) additem 1364 ,1; // 1364,Great_Axe
+			if(lv4_weapon == 30) show "Lança de Longiness! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 30) additem 1469, 1; // 1469,Longinus's_Spear
+			break;
+		case 2:
+			if(lv4_weapon == 29) show "Guilhotina! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 29) additem 1369, 1; // 1369,Guillotine
+			if(lv4_weapon == 30) show "Brionac! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 30) additem 1470, 1; // 1470,Brionac
+	}
+	
+	set lv4_weapon, 0;
+	next;
+	show "[Kayron]";
+	show "Eu finalmente obtive sucesso na pesquisa...";
+	show "Eu adoraria mostrar este resultado ao meu pai...";
+	show "Ele ficará muito feliz com isto.";
+	next;
+	show "[Kayron]";
+	show "Ah~ Sinto que minhas lembranças estão sumindo novamente...";
+	show "Se você me ver uma próxima vez...";
+	show "por favor me ajude a recuperá-las novamente...";
+	show "Obrigado...";
+	close;
+	
+
+
+//--------------------------------------------------
+//Tentativa de Hack
+//--------------------------------------------------
+LV4_HACK:
+	show "[Kayron]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest Armas LV4 S.";
+	close;
+}
+
+//-------------------------------------------------------------------------------------------------
+// Reyghema, cria (1814)=>Fúria Insana, (1416)=>Tjungkulleti, (1720)=>Arco de Rudra e (1415)=>Broca
+//-------------------------------------------------------------------------------------------------
+
+niflheim,99,268,5	script	Reyghema	794,{
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(BaseLevel >= 80) goto LV4_LEVEL_PASS;
+	show "[Reyghema]";
+	show "Hum? Você tem algum tipo de relação comigo?";
+	show "Desculpe-me mas eu não tenho. Eu também não";
+	show "falo com fracotes iguais a você.";
+	show "Tenha uma boa viagem.";
+	close;
+	
+
+LV4_LEVEL_PASS:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon < 31) goto LV4_30;
+	if(lv4_weapon == 31) goto LV4_31;
+	if(lv4_weapon == 32) goto LV4_32;
+	if(lv4_weapon == 33) goto LV4_33;
+	if(lv4_weapon == 34) goto LV4_34;
+	if(lv4_weapon == 35) goto LV4_35;
+	if(lv4_weapon == 36) goto LV4_36;
+	if(lv4_weapon == 37) goto LV4_37;
+	if(lv4_weapon == 38) goto LV4_38;
+	if(lv4_weapon == 39) goto LV4_39;
+	if(lv4_weapon > 39) goto LV4_40;
+	end; // shouldn't be here
+
+
+LV4_0:
+LV4_31:
+	show "[Reyghema]";
+	show "Diaxo... Eu não queria morrer!";
+	show "Bem... não existe algo vivo que queira morrer mas...";
+	show "Especialmente eu, eu era muito jovem para morrer!";
+	show "Juventude! ...Ah... Acabei de lembrar da palavra.";
+	show "Falando nisso.... Eu acho que eu costumava dizer algo relacionado a isso...";
+	next;
+	
+	if(lv4_weapon == 0) goto LV4_0_ASK;
+	
+	show "[Reyghema]";
+	show "Ah... Não consigo lembrar o que eu iria dizer...";
+	show "Uaaahhh..... Não me lembro....";
+	show "Minha memória se foi...!";
+	close;
+	
+LV4_0_ASK:
+	switch( select( "Mostre interesse.", "Igonorá-lo." ) ) {
+		case 1:
+			show "[Reyghema]";
+			show "Ah... Não consigo lembrar o que eu iria dizer...";
+			show "Uaaahhh..... Não me lembro....";
+			show "Minha memória se foi...!";
+			set lv4_weapon, 31;
+			close;
+			break;
+		case 2:
+			show "- Por ter decidido ignorá-lo, -";
+			show "- você não consegue mais escutá-lo. -";
+			close;
+			break;
+	}
+	end;
+	
+
+LV4_30:
+LV4_40:
+	show "[Reyghema]";
+	show "Sinto algo diferente em você.";
+	show "Você veio aqui com algum propósito?";
+	show "Tenho ciúmes de você...";
+	close;
+
+
+LV4_32:
+	show "[Reyghema]";
+	show "Eu era chamado de Reyghema quando era vivo.";
+	show "Agora sou nada mais que";
+	show "um fantasma vagando por aqui.";
+	show "Eu sou um inútil... Não consigo fazer nada";
+	show "sem um corpo...";
+	next;
+	set @dap2$, "Isso significa que você nunca se arrepende de nada!";
+	digit @answer2$;
+	if(@answer2$ == @dap2$) goto LV4_32_CORRECT;
+	show "[Reyghema]";
+	show "O que? Você quer jogar comigo ou o que?";
+	show "Infelizmente tenho outra coisa a fazer...";
+	show "espere... o que eu iria fazer?";
+	close;
+
+LV4_32_CORRECT:
+	show "[Reyghema]";
+	show "...";
+	next;
+	show "[Reyghema]";
+	show "...";
+	show "......";
+	next;
+	show "[Reyghema]";
+	show "...";
+	show "......";
+	show ".........";
+	next;
+	show "[Reyghema]";
+	show "Tudo bem! Eu sou o segundo filho de Bill Thayer";
+	show "o Armeiro. E eu devo forjar uma arma";
+	show "de forma a não se arrepender por ter perdido minha juventude!";
+	show "Mesmo morto, não posso desistir!";
+	next;
+	show "[Reyghema]";
+	show "Ei você, obrigado por me ajudar a recuperar minha momória!";
+	show "Você precisa fazer-me outro favor!";
+	show "Traga-me alguns itens, eu preciso forjar uma arma.";
+	show "Quando eu fizer uma, eu darei-a a você em retribuição aos favores feitos a mim.";
+	next;
+	show "[Reyghema]";
+	show "Reyghema, respire fundo primeiro.... pif~.";
+	show "Dê-me um segundo!";
+	set lv4_weapon, 33;
+	close;
+	
+	
+LV4_34:
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_34_BASE_MAT;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_34_BASE_MAT;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_34_BASE_MAT;
+	if(countitem($@LV4_Gold) < 20) goto LV4_34_BASE_MAT;
+	
+	show "[Reyghema]";
+	show "Oh... você trouxe tudo que preciso!";
+	show "Você é alguém confiável ao contrário da sua aparência.";
+	show "Mas aqui está a coisa...";
+	show "Há alguns materiais que preciso...";
+	show "Mas não consigo lembrar-me de nenhum... minha memória";
+	show "está nublada... arrrrgh...";
+	next;
+	show "[Reyghema]";
+	show "Eu preciso pensar nisto por mais alguns instantes.";
+	show "Eu sei que eu realmente preciso destes materiais... ahhhh...";
+	show "Tem alguma idéia de como trazer minha memória de volta?";
+	show "Ao mesmo tempo, fique tranquilo que os materiais";
+	show "que me trouxe serão usados na minha criação. Deixe-me guardá-los comigo.";
+
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_HACK;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Gold) < 20) goto LV4_HACK;
+	delitem $@LV4_Hammer_Of_Blacksmith, 2;
+	delitem $@LV4_Emperium_Anvil, 1;
+	delitem $@LV4_Illusion_Flower, 1;
+	delitem $@LV4_Gold, 20;
+	set lv4_weapon, 35;
+	close;
+
+LV4_33:
+LV4_34_BASE_MAT:
+	switch( lv4_weapon ) {
+		case 33:
+			show "[Reyghema]";
+			show "Ok. Você precisa de mais algumas explicações?";
+			show "Direi-lhe o que eu preciso";
+			show "logo não esqueça estes materiais por favor.";
+			break;
+		case 34:
+			show "[Reyghema]";
+			show "Direi-lhe novamente a lista de materiais que preciso.";
+			show "Acho que preciso de uma boa quantidade de materiais...";
+			show "então anote-os se quiser.";
+			break;
+		}
+		next;
+		show "[Reyghema]";
+		show "Eu preciso de 2 Martelos de Ferreiro,";
+		show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+		show "...espere... isto é tudo.... ou eu preciso de algo mais?!";
+		if(lv4_weapon == 33) next;
+		if(lv4_weapon == 33) show "[Reyghema]";
+		if(lv4_weapon == 33) show "Ah... Acho que preciso de algo mais... e muito importante...";
+		if(lv4_weapon == 33) show "Mas não consigo me lembrar do que eu preciso...!";
+		if(lv4_weapon == 33) show "Aff... isto é muito frustrante.";
+		set lv4_weapon, 34;
+		close;
+		
+
+LV4_36:
+LV4_37:
+	if(countitem(LV4_Gem1) < 30) goto LV4_36_NOGEM;
+	if(countitem(LV4_Gem2) < 30) goto LV4_36_NOGEM;
+	if(countitem(LV4_Gem3) < 30) goto LV4_36_NOGEM;
+	show "[Reyghema]";
+	show "...Hum? Os itens que me trouxe parecem";
+	show "ser bons materiais para minha criação...";
+	show "Dê-os para mim, eu preciso tentar primeiro!";
+	next;
+	show "[Reyghema]";
+	show "Oh... Eu estava certo! Como você";
+	show "sabia que estes eram os materiais que eu precisava?";
+	show "Ótimo, dê-me um momento!";
+	next;
+	show "[Reyghema]";
+	show "...espere, eu preciso testar sua sorte primeiro.";
+	show "Como eu não tenho certeza do resultado,";
+	show "nós devemos confiar na sorte para o resultado da minha criação.";
+	show "Você deve ter boa sorte...";
+	next;
+	show "[Reyghema]";
+	show "Nós vamos jogar 'Pedra, Papel e Tesoura'.";
+	show "Você deve ganhar ao menos 2 das 3 vezes.";
+	show "Se você falhar, você deve jogar fora uma grande quantidade";
+	show "de um dos três tipos de minério que você trouxe.";
+	show "Isto para eliminar sua má sorte.";
+	next;
+	show "[Reyghema]";
+	show "Darei-lhe um pedaço de papel.";
+	show "Você deve escolher entre 'Pedra, Papel e Tesoura' e anotar nele.";
+	show "Eu irei fazer o mesmo.";
+	show "Nós iremos comparar depois nossos papéis.";
+	next;
+
+	set @shobu, 0;
+
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@i == 2) show "[Reyghema]";
+		if(@i == 2) show "Vamos jogar pela segunda vez!";
+		if(@i == 3) show "[Reyghema]";
+		if(@i == 3) show "Agora a última jogada!";
+		if(@i == 3) show "Vamos comparar após essa jogada.";
+		set @npchand[@i], rand(1, 3);
+		switch( select( "Tesoura", "Pedra", "Papel" ) ) {
+			case 1:
+				set @myhand[@i], 1;
+				if(@npchand[@i] == 3) set @shobu, @shobu + 1;
+				break;
+			case 2:
+				set @myhand[@i], 2;
+				if(@npchand[@i] == 1) set @shobu, @shobu + 1;
+				break;
+			case 3:
+				set @myhand[@i], 3;
+				if(@npchand[@i] == 2) set @shobu, @shobu + 1;
+				break;
+		}
+	}
+		
+	if(countitem(LV4_Gem1) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem2) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem3) < 30) goto LV4_HACK;
+
+	if(@shobu > 1) goto LV4_36_WIN;
+
+	switch ( rand(1 ,3) ) {
+		case 1:
+			delitem LV4_Gem1, 30;
+			break;
+		case 2:
+			delitem LV4_Gem2, 30;
+			break;
+		case 3:
+			delitem LV4_Gem3, 30;
+			break;
+	}
+	goto LV4_36_RESULT;
+		
+LV4_36_WIN:
+	delitem LV4_Gem1, 30;
+	delitem LV4_Gem2, 30;
+	delitem LV4_Gem3, 30;
+	set lv4_weapon, lv4_weapon + 2;
+	goto LV4_36_RESULT;
+	
+LV4_36_RESULT:
+	show "[Reyghema]";
+	show "OK... eu escolhi nesta ordem...";
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@npchand[@i] == 1) show "Tesoura";
+		if(@npchand[@i] == 2) show "Pedra";
+		if(@npchand[@i] == 3) show "Papel";
+	}
+
+	next;
+	show "[Reyghema]";
+	show "e você escolheu...";
+
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@myhand[@i] == 1) show "Tesoura";
+		if(@myhand[@i] == 2) show "Pedra";
+		if(@myhand[@i] == 3) show "Papel";
+	}
+
+	next;
+
+	if(@shobu > 1) goto LV4_36_SAY_WIN;
+	
+	show "[Reyghema]";
+	show "Bem bem bem... você perdeu o jogo.";
+	show "Ah, você esteve perto...";
+	show "Vamos eliminar esta má sorte.";
+	next;
+	show "[Reyghema]";
+	show "OK, eu espero aqui,";
+	show "vá traga-me os materiais novamente...";
+	close;
+			
+LV4_36_SAY_WIN:
+	show "[Reyghema]";
+	show "Vamos ver...";
+	show "Você ganhou um total de " + @shobu + " vezes.";
+	show "Ah, devo dizer que você é muito bom neste jogo!";
+	show "Sim, sua sorte está nas alturas!";
+	next;
+	show "[Reyghema]";
+	show "Vou manter minha promessa.";
+	show "Mas preciso de um tempo para preparar.";
+	show "Dê-me os materiais agora e falarei contigo mais tarde.";
+	close;
+
+LV4_35:
+LV4_36_NOGEM:
+		show "[Reyghema]";
+		show "Ainda não! Ainda não me lembrei dos materiais! Ahhhh...";
+		show "Isto está me matando...";
+		show "Oh, espere... eu já estou morto mesmo...";
+		show "Diabos!";
+	close;
+
+
+LV4_38:
+LV4_39:
+	show "[Reyghema]";
+	show "..................";
+	next;
+	show "[Reyghema]";
+	show "...SIM! É um sucesso!";
+	show "Eu criei a arma que me matou!";
+	show "Olhe para isso... haha! Eu morri enquanto eu a fazia!";
+	show "... O nome desta arma é...";
+
+	switch( rand(1, 2) ) {
+		case 1:
+			if(lv4_weapon == 38) show "Fúria Insana! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 38) additem 1814 ,1; // 1814,Berserk
+			if(lv4_weapon == 39) show "Tjungkuletti! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 39) additem 1416, 1; // 1416,Tjungkuletti
+			break;
+		case 2:
+			if(lv4_weapon == 38) show "Arco de Rudra! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 38) additem 1720, 1; // 1720,Bow_of_Rudra
+			if(lv4_weapon == 39) show "Broca! Ebaaa~ Eu consegui!";
+			if(lv4_weapon == 39) additem 1415, 1; // 1415,Skewer
+	}
+	
+	set lv4_weapon, 0;
+	next;
+	show "[Reyghema]";
+	show "...*pif*.";
+	next;
+	show "[Reyghema]";
+	show "A felicidade dura tão pouco...";
+	show "Como sou um homem morto, acho que não me é permitido";
+	show "lembrar-me do passado....";
+	show "Minhas lembranças estão sumindo novamente...";
+	next;
+	show "[Reyghema]";
+	show "Mas obrigado por deixar-me conseguir";
+	show "meu desejo de longa data.";
+	show "Se nos encontrarmos novamente, por favor deixe-me";
+	show "relembrar minhas memórias do passado novamente.";
+	show "Para tentar forjar uma nova arma.";
+	next;
+	show "[Reyghema]";
+	show "Adeus, aventureiro.";
+	close;
+	
+	
+
+//--------------------------------------------------
+//Tentativa de Hack
+//--------------------------------------------------
+LV4_HACK:
+	show "[Reyghema]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest Armas LV4 S.";
+	close;
+}
+
+//------------------------------------------------------------------------------------------------------------
+// Hein, cria (1137)=>Excalibur, (1167)=>Schweizersabel, (1166)=>Matadora de Dragões e (1132)=>Lâmina Turca
+//------------------------------------------------------------------------------------------------------------
+
+niflheim,187,280,3	script	Hein	795,{
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(BaseLevel >= 80) goto LV4_LEVEL_PASS;
+	show "[Hein]";
+	show "Você deve se preocupar com outras pessoas";
+	show "do que contigo mesmo...";
+	show "Você é muito fraco para um aventureiro.";
+	close;
+	
+
+LV4_LEVEL_PASS:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon < 40) goto LV4_39;
+	if(lv4_weapon == 40) goto LV4_40;
+	if(lv4_weapon == 41) goto LV4_41;
+	if(lv4_weapon == 42) goto LV4_42;
+	if(lv4_weapon == 43) goto LV4_43;
+	if(lv4_weapon == 44) goto LV4_44;
+	if(lv4_weapon == 45) goto LV4_45;
+	if(lv4_weapon == 46) goto LV4_46;
+	if(lv4_weapon == 47) goto LV4_47;
+	if(lv4_weapon == 48) goto LV4_48;
+	if(lv4_weapon > 48) goto LV4_49;
+	end; // shouldn't be here
+
+
+LV4_0:
+LV4_40:
+	show "[Hein]";
+	show "Ah... você vem me pedir algo?";
+	show "No entanto, eu não aceito dinheiro";
+	show "dos meus clientes. Porque.";
+	show "Traz-me má sorte...";
+	show "...o quêê? O que acabei de dizer?";
+	show "Ahhh.... estou tão confuso.";
+	next;
+	
+	if(lv4_weapon == 0) goto LV4_0_ASK;
+	
+	show "[Hein]";
+	show "Por que falei em dinheiro?";
+	show "Sou um cadáver e pessoas mortas";
+	show "não precisam de dinheiro... aff!";
+	show "Minha cabeça está doendo... Acho que";
+	show "um cadáver pode ter dor de cabeça!";
+	close;
+	
+LV4_0_ASK:
+	switch( select( "Mostre interesse.", "Igonorá-lo." ) ) {
+		case 1:
+			show "[Hein]";
+			show "Por que falei em dinheiro?";
+			show "Sou um cadáver e pessoas mortas";
+			show "não precisam de dinheiro... aff!";
+			show "Minha cabeça está doendo... Acho que";
+			show "um cadáver pode ter dor de cabeça!";
+			set lv4_weapon, 40;
+			close;
+			break;
+		case 2:
+			show "- Por ter decidido ignorá-lo, -";
+			show "- você não consegue mais escutá-lo. -";
+			close;
+			break;
+	}
+	end;
+	
+
+LV4_39:
+LV4_49:
+	show "[Hein]";
+	show "Sinto algo diferente em você.";
+	show "Você veio aqui com algum propósito?";
+	show "Tenho ciúmes de você...";
+	close;
+
+
+LV4_41:
+	show "[Hein]";
+	show "Ah... você iria perguntar-me algo?";
+	show "No entanto, eu não aceito dinheiro";
+	show "dos meus clientes. Porque.";
+	show "Traz-me má sorte...";
+	next;
+	set @dap3$, "forjar uma boa arma";
+	digit @answer3$;
+	if(@answer3$ == @dap3$) goto LV4_41_CORRECT;
+	show "[Hein]";
+	show "...? Do que você está falando?";
+	show "O que eu iria dizer?";
+	show "Aff.... minha cabeça doi...!";
+	close;
+
+LV4_41_CORRECT:
+	show "[Hein]";
+	show "Tudo bem! É má sorte!";
+	show "Criar armas é uma aposta! E eu sou... eu sou?";
+	show "Oh certo... Eu esqueci disto. Sim, eu sou um morto.";
+	show "Ahahahahaha.";
+	set lv4_weapon, 42;
+	next;
+	show "[Hein]";
+	show "Bem, eu devo ser um homem morto de sorte";
+	show "por lembrar do meu passado!";
+	show "Hahahahaha!";
+	next;
+	show "[Hein]";
+	show "Talvez Deus quer que eu";
+	show "continue minha pesquisa...?";
+	show "espere, deixe-me pedir um favor.";
+	next;
+	show "[Hein]";
+	show "Você pode trazer-me alguns materiais";
+	show "que preciso para minha pesquisa?";
+	show "Se eu tiver sucesso nesta pesquisa,";
+	show "lhe darei o resultado como sinal de agradecimento.";
+	next;
+	show "[Hein]";
+	show "Você pode ter o tempo que quiser para pensar na minha oferta.";
+	show "Por favor fale comigo mais tarde.";
+	close;
+	
+	
+LV4_43:
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_43_BASE_MAT;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_43_BASE_MAT;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_43_BASE_MAT;
+	if(countitem($@LV4_Gold) < 20) goto LV4_43_BASE_MAT;
+	
+	show "[Hein]";
+	show "Oh... você trouxe tudo que preciso!";
+	show "Mas aqui está a coisa. Não consigo lembrar-me do que eu preciso além destes materiais...";
+	show "Aww... Eu preciso de mais algum tempo para lembrar-me...";
+	next;
+	show "[Hein]";
+	show "Por favor tente encontrar o que preciso... se puder.";
+	show "É claro, não será uma tarefa fácil para você";
+	show "conseguir... mas sei que você tem um corpo para mover-se a sua vontade...";
+	show "É melhor do que ser um fantasma como eu...";
+	next;
+	show "[Hein]";
+	show "Por favor dê-me todos os materiais que preciso.";
+	show "Vou guardá-los comigo.";
+	
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_HACK;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Gold) < 20) goto LV4_HACK;
+	delitem $@LV4_Hammer_Of_Blacksmith, 2;
+	delitem $@LV4_Emperium_Anvil, 1;
+	delitem $@LV4_Illusion_Flower, 1;
+	delitem $@LV4_Gold, 20;
+	set lv4_weapon, 44;
+	close;
+
+LV4_42:
+LV4_43_BASE_MAT:
+	switch( lv4_weapon ) {
+		case 42:
+			show "[Hein]";
+			show "Eu entendo que, como está falando comigo novamente";
+			show "você atenderá ao meu pedido.";
+			show "Muito obrigado.";
+			next;
+			show "[Hein]";
+			show "Eu preciso de 2 Martelos de Ferreiro,";
+			show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+			show "Mais precisamente são os itens que eu preciso..";
+			next;
+			show "[Hein]";
+			show "E eu preciso três outros itens...";
+			show "mas eu estou tendo dificuldades em lembrar quais são.";
+			show "Isto significa que a memória não";
+			show "está de volta em absoluto.";
+			next;
+			show "[Hein]";
+			show "*pif*... Desculpe-me pedir isto a você...";
+			show "mas por favor procure quais são estes três itens.";
+			show "Enquanto isso, eu tentarei lembrar quais são.";
+			show "Obrigado.";
+			set lv4_weapon, 43;
+			break;
+		case 43:
+			show "[Hein]";
+			show "Eu preciso de 2 Martelos de Ferreiro,";
+			show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+			show "Mais precisamente são os itens que eu preciso..";
+			break;
+		}
+		close;
+		
+
+LV4_45:
+LV4_46:
+	if(countitem(LV4_Gem1) < 30) goto LV4_45_NOGEM;
+	if(countitem(LV4_Gem2) < 30) goto LV4_45_NOGEM;
+	if(countitem(LV4_Gem3) < 30) goto LV4_45_NOGEM;
+	show "[Hein]";
+	show "...Hum? Os itens que me trouxe parecem";
+	show "ser bons materiais para minha criação...";
+	show "Dê-os para mim, eu preciso tentar primeiro!";
+	next;
+	show "[Hein]";
+	show "Oh... Eu estava certo! Como você";
+	show "sabia que estes eram os materiais que eu precisava?";
+	show "Ótimo, dê-me um momento!";
+	next;
+	show "[Hein]";
+	show "...espere, eu preciso testar sua sorte primeiro.";
+	show "Como eu não tenho certeza do resultado,";
+	show "nós devemos confiar na sorte para o resultado da minha criação.";
+	show "Você deve ter boa sorte...";
+	next;
+	show "[Hein]";
+	show "Nós vamos jogar 'Pedra, Papel e Tesoura'.";
+	show "Você deve ganhar ao menos 2 das 3 vezes.";
+	show "Se você falhar, você deve jogar fora uma grande quantidade";
+	show "de um dos três tipos de minério que você trouxe.";
+	show "Isto para eliminar sua má sorte.";
+	next;
+	show "[Hein]";
+	show "Darei-lhe um pedaço de papel.";
+	show "Você deve escolher entre 'Pedra, Papel e Tesoura' e anotar nele.";
+	show "Eu irei fazer o mesmo.";
+	show "Nós iremos comparar depois nossos papéis.";
+	next;
+
+	set @shobu, 0;
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@i == 2) show "[Hein]";
+		if(@i == 2) show "Vamos jogar pela segunda vez!";
+		if(@i == 3) show "[Hein]";
+		if(@i == 3) show "Agora a última jogada!";
+		if(@i == 3) show "Vamos comparar após esta jogada.";
+		set @npchand[@i], rand(1, 3);
+		switch( select( "Tesoura", "Pedra", "Papel" ) ) {
+			case 1:
+				set @myhand[@i], 1;
+				if(@npchand[@i] == 3) set @shobu, @shobu + 1;
+				break;
+			case 2:
+				set @myhand[@i], 2;
+				if(@npchand[@i] == 1) set @shobu, @shobu + 1;
+				break;
+			case 3:
+				set @myhand[@i], 3;
+				if(@npchand[@i] == 2) set @shobu, @shobu + 1;
+				break;
+		}
+	}
+		
+	if(countitem(LV4_Gem1) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem2) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem3) < 30) goto LV4_HACK;
+
+	if(@shobu > 1) goto LV4_45_WIN;
+
+	switch ( rand(1 ,3) ) {
+		case 1:
+			delitem LV4_Gem1, 30;
+			break;
+		case 2:
+			delitem LV4_Gem2, 30;
+			break;
+		case 3:
+			delitem LV4_Gem3, 30;
+			break;
+	}
+	goto LV4_45_RESULT;
+		
+LV4_45_WIN:
+	delitem LV4_Gem1, 30;
+	delitem LV4_Gem2, 30;
+	delitem LV4_Gem3, 30;
+	set lv4_weapon, lv4_weapon + 2;
+	goto LV4_45_RESULT;
+	
+LV4_45_RESULT:
+	show "[Hein]";
+	show "OK... eu escolhi nesta ordem...";
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@npchand[@i] == 1) show "Tesoura";
+		if(@npchand[@i] == 2) show "Pedra";
+		if(@npchand[@i] == 3) show "Papel";
+	}
+
+	next;
+	show "[Hein]";
+	show "e você escolheu...";
+
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@myhand[@i] == 1) show "Tesoura";
+		if(@myhand[@i] == 2) show "Pedra";
+		if(@myhand[@i] == 3) show "Papel";
+	}
+
+	next;
+
+	if(@shobu > 1) goto LV4_45_SAY_WIN;
+	
+	show "[Hein]";
+	show "Bem bem bem... você perdeu o jogo.";
+	show "Ah, você esteve perto...";
+	show "Vamos eliminar esta má sorte.";
+	next;
+	show "[Hein]";
+	show "OK, eu espero aqui,";
+	show "vá traga-me os materiais novamente...";
+	close;
+			
+LV4_45_SAY_WIN:
+	show "[Hein]";
+	show "Vamos ver...";
+	show "Você ganhou um total de " + @shobu + " vezes.";
+	show "Ah, devo dizer que você é muito bom neste jogo!";
+	show "Sim, sua sorte está nas alturas!";
+	next;
+	show "[Hein]";
+	show "Vou manter minha promessa.";
+	show "Mas preciso de um tempo para preparar.";
+	show "Dê-me os materiais agora e falarei contigo mais tarde.";
+	close;
+
+LV4_44:
+LV4_45_NOGEM:
+		show "[Hein]";
+		show "Desculpe mas dê-me mais tempo para lembrar quais materiais eu preciso...";
+		show "Eu tinha uma memória tão boa quando era vivo...";
+		show "Eu poderia até mesmo recitá-los logo após eu acordar...";
+	close;
+
+
+LV4_47:
+LV4_48:
+	show "[Hein]";
+	show "Oh, sim. Eu acabei agorinha o trabalho.";
+	show "Você quer saber o resultado? OK...";
+	show "Respire fundo... antes de olharmos";
+	show "O resultado é...";
+	next;
+	show "[Hein]";
+	show "a Grande Sucesso! Isto é ótimo!";
+	show "Meu trabalho não foi em vão!";
+	show "Vamos ver a arma... ela é...";
+	
+	switch( rand(1, 2) ) {
+		case 1:
+			if(lv4_weapon == 47) show "Lâmina Turca.";
+			if(lv4_weapon == 47) additem 1132 ,1; // 1132,Edge
+			if(lv4_weapon == 48) show "Matadora de Dragão.";
+			if(lv4_weapon == 48) additem 1166, 1; // 1166,Dragon_Slayer
+			break;
+		case 2:
+			if(lv4_weapon == 47) show "Excalibur.";
+			if(lv4_weapon == 47) additem 1137, 1; // 1137,Excalibur
+			if(lv4_weapon == 48) show "Schweizersabel.";
+			if(lv4_weapon == 48) additem 1167, 1; // 1167,Schweizersabel
+	}
+
+	set lv4_weapon, 0;	
+	next;
+	show "[Hein]";
+	show "Bem... é isso.";
+	show "Sinto minha memória sumir novamente...";
+	show "Hahaha... estar morto não é bom.";
+	next;
+	show "[Hein]";
+	show "Obrigado pela sua ajuda. Se você tiver";
+	show "a chance de visitar Nifflheim novamente,";
+	show "por favor volte e ajude-me a relembrar minhas lembranças mais uma vez...";
+	next;
+	show "[Hein]";
+	show "Aaahhhh! Não acho que";
+	show "lembrarei-me de você na próxima vez...";
+	show "Tome cuidado, aventureiro... pai, eu consegui...";
+	close;
+
+
+//--------------------------------------------------
+//Tentativa de Hack
+//--------------------------------------------------
+LV4_HACK:
+	show "[Hein]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest Armas LV4 S.";
+	close;
+}
+
+//--------------------------------------------------------------------------------------------------------------
+// Waltboughst, cria (1140)=>Byeollungum, (1233)=>Adaga Exorcista, (1228)=>Faca de Combate e (1528)=>Grande Cruz
+//--------------------------------------------------------------------------------------------------------------
+
+niflheim,331,72,3	script	Waltboughst	795,{
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 3000) goto LV4_NOT_OW;
+	show "- Espere um momento! -";
+	show "- No momento você está com muito peso. -";
+	show "- Por favor libere um pouco do peso -";
+	show "- e tente novamente. -";
+	close;
+
+	
+LV4_NOT_OW:
+	if(BaseLevel >= 80) goto LV4_LEVEL_PASS;
+	show "[Waltboughst]";
+	show "...Hah!";
+	close;
+	
+
+LV4_LEVEL_PASS:
+	if(lv4_weapon == 0) goto LV4_0;
+	if(lv4_weapon < 49) goto LV4_48;
+	if(lv4_weapon == 49) goto LV4_49;
+	if(lv4_weapon == 50) goto LV4_50;
+	if(lv4_weapon == 51) goto LV4_51;
+	if(lv4_weapon == 52) goto LV4_52;
+	if(lv4_weapon == 53) goto LV4_53;
+	if(lv4_weapon == 54) goto LV4_54;
+	if(lv4_weapon == 55) goto LV4_55;
+	if(lv4_weapon == 56) goto LV4_56;
+	if(lv4_weapon == 57) goto LV4_57;
+	if(lv4_weapon > 57) goto LV4_58;
+	end; // shouldn't be here
+
+
+LV4_0:
+LV4_49:
+	show "[Waltboughst]";
+	show "Ah~ é frustrante ser um homem morto.";
+	show "Porque eu não posso fazer nada sem um corpo.";
+	show "Você sabe o que meu pai costumava dizer?";
+	show "Fazer o melhor nem sempre";
+	show "resulta em um sucesso.";
+	show "No entato... errr?";
+	next;
+	
+	if(lv4_weapon == 0) goto LV4_0_ASK;
+	
+	show "[Waltboughst]";
+	show "...Qual era o ditado do meu pai?";
+	show "Por que estou encalhado aqui";
+	show "após a morte? Ei, você";
+	show "Você sabe alguma coisa sobre";
+	show "Waltboughst quando ele era vivo?";
+	close;
+	
+LV4_0_ASK:
+	switch( select( "Mostre interesse.", "Igonorá-lo." ) ) {
+		case 1:
+			show "[Waltboughst]";
+			show "...o que ele dizia depois?";
+			show "Falando nisso, por que estou";
+			show "tão ansioso em fazer algo?";
+			show "Sou um homem morto, não devíamos fazer qualquer coisa!";
+			show "Ei, você sabe algo sobre mim quando eu era vivo?";
+			set lv4_weapon, 49;
+			close;
+			break;
+		case 2:
+			show "- Por ter decidido ignorá-lo, -";
+			show "- você não consegue mais escutá-lo. -";
+			close;
+			break;
+	}
+	end;
+	
+
+LV4_48:
+LV4_58:
+	show "[Waltboughst]";
+	show "Sinto algo diferente em você.";
+	show "Você veio aqui com algum propósito?";
+	show "Tenho ciúmes de você...";
+	close;
+
+
+LV4_50:
+	show "[Waltboughst]";
+	show "Ah~ é frustrante ser um homem morto.";
+	show "Porque eu não posso fazer nada sem um corpo.";
+	show "Você sabe o que meu pai costumava dizer?";
+	show "Fazer o melhor nem sempre";
+	show "resulta em um sucesso.";
+	show "No entanto...";
+	next;
+	set @dap4$, "todos os homens bem sucedidos da história deram o seu melhor";
+	digit @answer4$;
+	if(@answer4$ == @dap4$) goto LV4_50_CORRECT;
+	show "[Waltboughst]";
+	show "...O que? O que você disse?";
+	show "Hmmm.";
+	close;
+
+LV4_50_CORRECT:
+	show "[Waltboughst]";
+	show "Sim! É isso!";
+	show "Desde que faleci, eu não consigo nem tentar!";
+	show "Eh...?! Ah!";
+	show "Entendo, eu entendo agora.";
+	show "Eu devo ter morrido em algum tipo de acidente!";
+	set lv4_weapon, 51;
+	next;
+	show "[Waltboughst]";
+	show "OK, não vou terminar desta forma.";
+	show "Ei, você queria me conhecer!";
+	show "Agora você deve fazer-me um favor!";
+	next;
+	show "[Waltboughst]";
+	show "Eu darei-lhe o resultado da minha pesquisa";
+	show "como agradecimento! Tudo que quero é completar minha pesquisa,";
+	show "não o resultado.";
+	next;
+	show "[Waltboughst]";
+	show "Bem, dê-me algum tempo para pensar";
+	show "o que eu preciso para minha pesquisa.";
+	show "Falo contigo mais tarde.";
+	close;
+	
+	
+LV4_52:
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_52_BASE_MAT;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_52_BASE_MAT;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_52_BASE_MAT;
+	if(countitem($@LV4_Gold) < 20) goto LV4_52_BASE_MAT;
+	
+	show "[Waltboughst]";
+	show "Oh... você trouxe tudo que preciso!";
+	show "Você foi bem rápido... Eu ainda estou";
+	show "sofrendo para lembrar o que eu preciso além destes materiais.";
+	show "Isto não é bom, definitivamente não é bom.";
+	next;
+	show "[Waltboughst]";
+	show "De qualquer forma, eu guardarei estes materiais para você.";
+	show "Dê-me um pouco mais de tempo para";
+	show "lembrar o que preciso... argh!";
+	
+	if(countitem($@LV4_Hammer_Of_Blacksmith) < 2) goto LV4_HACK;
+	if(countitem($@LV4_Emperium_Anvil) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Illusion_Flower) < 1) goto LV4_HACK;
+	if(countitem($@LV4_Gold) < 20) goto LV4_HACK;
+	delitem $@LV4_Hammer_Of_Blacksmith, 2;
+	delitem $@LV4_Emperium_Anvil, 1;
+	delitem $@LV4_Illusion_Flower, 1;
+	delitem $@LV4_Gold, 20;
+	set lv4_weapon, 53;
+	close;
+
+LV4_51:
+LV4_52_BASE_MAT:
+	switch( lv4_weapon ) {
+		case 51:
+			show "[Waltboughst]";
+			show "Humm, você voltou logo.";
+			show "Acabei de lembrar-me dos materiais.";
+			next;
+			show "[Waltboughst]";
+			show "Eu preciso de 2 Martelos de Ferreiro,";
+			show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+			next;
+			show "[Waltboughst]";
+			show "Eu preciso também de outros itens.... mas eu preciso de algum tempo";
+			show "para lembrar quais são. Ai ai,";
+			show "nós temos tempo de sobra, então deixe-me pensar neles.";
+			set lv4_weapon, 52;
+			break;
+		case 52:
+			show "[Waltboughst]";
+			show "Eu preciso de 2 Martelos de Ferreiro,";
+			show "1 Bigorna de Emperium, 1 Flor das Ilusões e 20 Ouros...";
+			show "Mais precisamente são os itens que eu preciso..";
+			break;
+		}
+		close;
+		
+
+LV4_54:
+LV4_55:
+	if(countitem(LV4_Gem1) < 30) goto LV4_54_NOGEM;
+	if(countitem(LV4_Gem2) < 30) goto LV4_54_NOGEM;
+	if(countitem(LV4_Gem3) < 30) goto LV4_54_NOGEM;
+	show "[Waltboughst]";
+	show "...Hum? Os itens que me trouxe parecem";
+	show "ser bons materiais para minha criação...";
+	show "Dê-os para mim, eu preciso tentar primeiro!";
+	next;
+	show "[Waltboughst]";
+	show "Oh... Eu estava certo! Como você";
+	show "sabia que estes eram os materiais que eu precisava?";
+	show "Ótimo, dê-me um momento!";
+	next;
+	show "[Waltboughst]";
+	show "...espere, eu preciso testar sua sorte primeiro.";
+	show "Como eu não tenho certeza do resultado,";
+	show "nós devemos confiar na sorte para o resultado da minha criação.";
+	show "Você deve ter boa sorte...";
+	next;
+	show "[Waltboughst]";
+	show "Nós vamos jogar 'Pedra, Papel e Tesoura'.";
+	show "Você deve ganhar ao menos 2 das 3 vezes.";
+	show "Se você falhar, você deve jogar fora uma grande quantidade";
+	show "de um dos três tipos de minério que você trouxe.";
+	show "Isto para eliminar sua má sorte.";
+	next;
+	show "[Waltboughst]";
+	show "Darei-lhe um pedaço de papel.";
+	show "Você deve escolher entre 'Pedra, Papel e Tesoura' e anotar nele.";
+	show "Eu irei fazer o mesmo.";
+	show "Nós iremos comparar depois nossos papéis.";
+	next;
+
+	set @shobu, 0;
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@i == 2) show "[Waltboughst]";
+		if(@i == 2) show "Vamos jogar pela segunda vez!";
+		if(@i == 3) show "[Waltboughst]";
+		if(@i == 3) show "Agora a última jogada!";
+		if(@i == 3) show "Vamos comparar apos esta.";
+		set @npchand[@i], rand(1, 3);
+		switch( select( "Tesoura", "Pedra", "Papel" ) ) {
+			case 1:
+				set @myhand[@i], 1;
+				if(@npchand[@i] == 3) set @shobu, @shobu + 1;
+				break;
+			case 2:
+				set @myhand[@i], 2;
+				if(@npchand[@i] == 1) set @shobu, @shobu + 1;
+				break;
+			case 3:
+				set @myhand[@i], 3;
+				if(@npchand[@i] == 2) set @shobu, @shobu + 1;
+				break;
+		}
+	}
+		
+	if(countitem(LV4_Gem1) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem2) < 30) goto LV4_HACK;
+	if(countitem(LV4_Gem3) < 30) goto LV4_HACK;
+
+	if(@shobu > 1) goto LV4_54_WIN;
+
+	switch ( rand(1 ,3) ) {
+		case 1:
+			delitem LV4_Gem1, 30;
+			break;
+		case 2:
+			delitem LV4_Gem2, 30;
+			break;
+		case 3:
+			delitem LV4_Gem3, 30;
+			break;
+	}
+	goto LV4_54_RESULT;
+		
+LV4_54_WIN:
+	delitem LV4_Gem1, 30;
+	delitem LV4_Gem2, 30;
+	delitem LV4_Gem3, 30;
+	set lv4_weapon, lv4_weapon + 2;
+	goto LV4_54_RESULT;
+	
+LV4_54_RESULT:
+	show "[Waltboughst]";
+	show "OK... eu escolhi nesta ordem...";
+	
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@npchand[@i] == 1) show "Tesoura";
+		if(@npchand[@i] == 2) show "Pedra";
+		if(@npchand[@i] == 3) show "Papel";
+	}
+
+	next;
+	show "[Waltboughst]";
+	show "e você escolheu...";
+
+	for( set @i, 1; @i <= 3; set @i, @i + 1 ) {
+		if(@myhand[@i] == 1) show "Tesoura";
+		if(@myhand[@i] == 2) show "Pedra";
+		if(@myhand[@i] == 3) show "Papel";
+	}
+
+	next;
+
+	if(@shobu > 1) goto LV4_54_SAY_WIN;
+	
+	show "[Waltboughst]";
+	show "Bem bem bem... você perdeu o jogo.";
+	show "Ah, você esteve perto...";
+	show "Vamos eliminar esta má sorte.";
+	next;
+	show "[Waltboughst]";
+	show "OK, eu espero aqui,";
+	show "vá traga-me os materiais novamente...";
+	close;
+			
+LV4_54_SAY_WIN:
+	show "[Waltboughst]";
+	show "Vamos ver...";
+	show "Você ganhou um total de " + @shobu + " vezes.";
+	show "Ah, devo dizer que você é muito bom neste jogo!";
+	show "Sim, sua sorte está nas alturas!";
+	next;
+	show "[Waltboughst]";
+	show "Vou manter minha promessa.";
+	show "Mas preciso de um tempo para preparar.";
+	show "Dê-me os materiais agora e falarei contigo mais tarde.";
+	close;
+
+LV4_53:
+LV4_54_NOGEM:
+	show "[Waltboughst]";
+	show "Argh... Eu ainda não lembro quais são.";
+	show "Ahhh.... isto é um problema.";
+	show "Eu devo lembrá-los o mais breve possível...";
+	close;
+
+
+LV4_56:
+LV4_57:
+	show "[Waltboughst]";
+	show "Hehe, eu fiz algo com os materiais";
+	show "neste curto período! Quer ver?";
+	show "Você está imaginando o resultado?";
+	show "Hmmm.... vamos ver...";
+	next;
+	show "[Waltboughst]";
+	show "Waltboughst nunca falha!";
+	show "Embora você teve sorte,";
+	show "logo obtivemos um sucesso perfeito!";
+	show "Você conseguiu uma boa arma aqui, ela é...";
+	
+	switch( rand(1, 2) ) {
+		case 1:
+			if(lv4_weapon == 56) show "Byeollungum!";
+			if(lv4_weapon == 56) additem 1140 ,1; // 1140,Byeollungum
+			if(lv4_weapon == 57) show "Adaga Exorcista!";
+			if(lv4_weapon == 57) additem 1233, 1; // 1233,Exercise
+			break;
+		case 2:
+			if(lv4_weapon == 56) show "Faca de Combate!";
+			if(lv4_weapon == 56) additem 1228, 1; // 1228,Combat_Knife
+			if(lv4_weapon == 57) show "Grande Cruz!!";
+			if(lv4_weapon == 57) additem 1528, 1; // 1528,Grand_Cross
+	}
+	
+	set lv4_weapon, 0;
+	next;
+	show "[Waltboughst]";
+	show "Sou um gênio! Hahahaha!";
+	show "Eu a fiz quando meus irmãos não conseguiam!";
+	show "Muhahahahahaha!";
+	show "Eh...err? Arrr...pif?";
+	next;
+	show "[Waltboughst]";
+	show "Diabos... Eu devo tentar mais.";
+	show "Minha memória está sumindo novamente...";
+	show "Oh, de alguma forma eu provei";
+	show "que sou um gênio mesmo após a morte.";
+	next;
+	show "[Waltboughst]";
+	show "Se quiser que eu mostre minha geniosidade novamente,";
+	show "venha relembrar minha memória novamente.";
+	show "Obrigado!";
+	next;
+	show "[Waltboughst]";
+	show "Ah... minha memória está morrendo novamente...";
+	show "Adeus~ Não acho que vou lembrar de você";
+	show "mas espero que você lembre-me como Waltboughst";
+	show "o gênio de uma era!";
+	close;
+
+//--------------------------------------------------
+//Hack Attempt
+//--------------------------------------------------
+LV4_HACK:
+	show "[Waltboughst]";
+	show "Hmm. Parece que temos um pequeno problema.";
+	set lv4_weapon, 0;
+	logmes "[" +strcharinfo(0) + "] tentou hackear a quest Armas LV 4S.";
+	close;
+}

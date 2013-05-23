@@ -1,0 +1,2086 @@
+//===== Cronus Script ======================================== 
+//= NPCs da Quest Selo de Sleipnir.
+//===== Por: ================================================= 
+//= MasterOfMuppets
+//===== Versão Atual: ======================================== 
+//= 1.0b
+//===== Descrição: =========================================== 
+//= Quest para quebra do Selo de Sleipnir.
+//===== Comentários Adicionais: ==============================
+// 1.0b Tradução por [Denis]
+//============================================================
+// Cidadão de Juno Noyee
+yuno,164,200,4	script	Noyee	101,{
+
+	if(BaseLevel < 70)
+	{
+		show "[Noyee]";
+		show "Você sabe que há dois tipos diferentes de armaduras?";
+		show "Há as armaduras comuns que você pode comprar nos NPCs e aquelas que você pode obter caçando monstros.";
+		next;
+		show "[Noyee]";
+		show "A diferença entre elas é se elas são slotadas ou não.";
+		next;
+		show "[Noyee]";
+		show "No quesito defesa, ambas possuim a mesma taxa.";
+		show "No entanto, como uma armadura slotada permite-lhe equipar 'uma carta de monstro' no slot, esta será aprimorada com uma habilidade diferente.";
+		next;
+		show "[Noyee]";
+		show "Ao mesmo tempo, ambos armaduras slotadas e cartas de monstros são raras de se obter. Portanto, você raramente verá estes tipos de itens à venda no mercado.";
+		close;
+	}
+	if($God1 > 99)
+	{
+		show "[Noyee]";
+		show "Você sabe que há dois tipos diferentes de armaduras?";
+		show "Há as armaduras comuns que você pode comprar nos NPCs e aquelas que você pode obter caçando monstros.";
+		next;
+		show "[Noyee]";
+		show "A diferença entre elas é se elas são slotadas ou não.";
+		next;
+		show "[Noyee]";
+		show "No quesito defesa, ambas possuim a mesma taxa.";
+		show "No entanto, como uma armadura slotada permite-lhe equipar 'uma carta de monstro' no slot, esta será aprimorada com uma habilidade diferente.";
+		next;
+		show "[Noyee]";
+		show "Ao mesmo tempo, ambos armaduras slotadas e cartas de monstros são raras de se obter. Portanto, você raramente verá estes tipos de itens à venda no mercado.";
+		close;
+	}
+	show "[Noyee]";
+	show "Ah, eu acabei de lembrar-me de algo. Há um lugar muito interessante em...";
+	show "Parece-se com um tipo de laboratório, mas ninguém sabe exatamente o que é....";
+	next;
+	show "[Noyee]";
+	show "Houve, recentemente, muitos rumores sobre o lugar...? Não tenho idéia do que as pessoas estão falando.";
+	show "De qulquer forma, o local parece ser muito interessante.";
+	if(god_sl_1 == 0) set god_sl_1,1;
+	close;
+}
+//Cukure
+que_god01,98,98,4	script	Gerente	69,{
+
+	set @NowWeight, MaxWeight - Weight;
+	if (@NowWeight >= 5000) goto NOT_OW;
+	show "- Espere um pouco! -";
+	show "- Você está muito pesado. -";
+	show "- Por favor livre-se desse peso -";
+	show "- e tente novamente. -";
+	close;
+
+NOT_OW:
+	if(BaseLevel < 70)
+	{
+		show "[Cukure]";
+		show "Ahhh...";
+		show "Estou muito ocupado por estes dias.";
+		show "Não encontro tempo nem para um encontro.";
+		show "Diabos....";
+		next;
+		show "[Cukure]";
+		show "Espere, quando foi a última vez que eu fui em um encontro...?";
+		show "Umm....";
+		show "Ahhh.... Estou tão ocupado... ocupado!";
+		emotion 19;
+		close;
+	}
+
+	if($God1 < 100)
+	{
+		if(god_sl_1 == 0)
+		{
+			show "[Cukure]";
+			show "Ahhh...";
+			show "Estou muito ocupado por estes dias.";
+			show "Não encontro tempo nem para um encontro.";
+			show "Diabos....";
+			next;
+			show "[Cukure]";
+			show "Espere, quando foi a última vez que eu fui em um encontro...?";
+			show "Umm....";
+			show "Ahhh.... Estou tão ocupado... ocupado!";
+			emotion 19;
+			close;
+		}
+		else if(god_sl_1 == 1)
+    	{
+			show "[Cukure]";
+			show "Nós pesquisamos sinais de Deuses que foram deixados para trás neste mundo a muito tempo atrás.";
+			show "Especificamente, nós estamos estudando ferramentas que representaram o poderes de Deus.";
+			next;
+			show "[Cukure]";
+			show "...";
+			show "Recentemente muitos dos membros, excetos os líderes, se aposentaram devido aos seus assuntos pessoais e coisas parecidas.";
+			show "Logo estamos com poucos recursos humanos.";
+			next;
+			show "[Cukure]";
+			show "Por causa deste problema, nós paramos a maioria das pesquisas que estavam em progresso.";
+			show "Falando nisso...";
+			next;
+			show "[Cukure]";
+			show "Você se importa se eu lhe pedir uma ajuda em nossa pesquisa?";
+			show "Vou recompensá-los após a conclusão.";
+			next;
+			switch( select( "Estou muito ocupado...", "Claro, porque não." ) )
+			{
+				case 1:
+					show "[Cukure]";
+					show "Oh... está mesmo?";
+					show "Entendo.";
+					show "Então, você poderia recomendar alguém que possa nos ajudar a continuar as pesquisas?";
+					next;
+					show "[Cukure]";
+					show "Desculpe-me por pedir isto a você, mas....";
+					show "estamos com falta de pessoal... espero que entenda.";
+					show ".......";
+					close;
+				break;
+				case 2:
+					show "[Cukure]";
+					show "?! Tem certeza?";
+					show "Hahahahaha~";
+					show "Estou tão feliz em escutar isso.";
+					next;
+					show "[Cukure]";
+					show "Há alguns cientistas ali dentro.";
+					show "Eles irão precisar da sua ajuda, por favor vá vê-los.";
+					next;
+					show "[Cukure]";
+					show "Oh, espere...";
+					show "Deixe-me dá-lo um passe de admissão temporário.";
+					show "Muito obrigado pela sua ajuda.";
+					next;
+					show "^ff0000você recebeu um passe de admissão temporário.^000000";
+					set god_sl_1,2;
+					close;
+   	       		break;
+			}
+		}
+		else if(god_sl_1 < 10)
+		{
+			show "[Cukure]";
+			show "É cansativo gerenciar um laboratório.";
+			show "Outros laboratórios sempre tentam recrutar nossos membros ou interromper nossas pesquisas...";
+			show "Assim fico sem uma vida pessoal por causa do meu trabalho...";
+			show ".......";
+			next;
+			show "[Cukure]";
+			show "Ah...umm....";
+			show "Hahahaha...";
+			show "O que eu estou fazendo com um visitante...";
+			show "Heh, por favor desconsidere o que eu disse.";
+			show "Hahahahaha...";
+			close;
+		}
+		else if(god_sl_1 < 50)
+		{
+			show "[Cukure]";
+			show "Ah, obrigado pela sua ajuda até aqui.";
+			show "Espero que continue nos ajudando.";
+			show "Embora nossos cientistas sejam tipos estranhos eles são gente boa. Espero que entenda mesmo se eles lhe tratar de forma rude.";
+			close;
+		}
+		else if(god_sl_1 == 50)
+		{
+			show "[Cukure]";
+			show "Ah...~";
+			show "Você nos deu uma grande ajuda.";
+			show "Hahahaha...";
+			show "Nós teríamos dificuldades se não fosse você.";
+			next;
+			show "[Cukure]";
+			show "Como você já deve ter percebido, nós pesquisamos o 'Sleipnir' e se conseguimos reproduzir este 'item divino' ou não.";
+			next;
+			show "[Cukure]";
+			show "No entanto....";
+			show "até agora, os resultados mostram que é praticamente impossível com a tecnologia que temos.";
+			show "Hmmm...";
+			next;
+			show "[Cukure]";
+			show "De qualquer fora, nós continuaremos a pesquisar com esperança.";
+			next;
+			show "[Cukure]";
+			show "Com sua ajuda, nós conseguimos completar com sucesso a pesquisa básica.";
+			show "De agora em diante, nós planejaremos nossa próxima pesquisa baseada nos resultados obtidos até agora.";
+			next;
+			show "[Cukure]";
+			show "Oh, uma vez que você nos ajudou, eu vou recompensá-lo. Por favor aguarde um instante...";
+			next;
+			show "[Cukure]";
+			show "Aqui está.";
+			show "Pode não ser uma grande recompensa mas espero que você encare como um símbolo da minha gratidão.";
+			show "Tenha uma boa viagem!";
+			if($God1 < 100) set $God1,$God1+1;
+			if($God1 == 50)	announce "O primeiro Selo de [Sleipnir] apareceu.",bc_all;
+			else if($God1 == 100)
+			{
+				if ($God1 == 100 && $God2 == 100 && $God3 == 100 && $God4 == 100)
+					announce "Os quatros selos foram liberados junto com o selo de [Sleipnir].",bc_all;
+				else
+					announce "O selo [Sleipnir] foi liberado.",bc_all;
+				}
+				set god_sl_1,51;
+				set @god_treasure,rand(1,900);
+				set @god_treasure1,rand(1,1000);
+				if(@god_treasure < 101)
+    			{
+					if(@god_treasure1 < 210)
+						additem 2102,1;
+					else if(@god_treasure1 < 420)
+						additem 2104,1;
+					else if(@god_treasure1 < 630)
+						additem 2106,1;
+					else if(@god_treasure1 < 840)
+						additem 2108,1;
+					else
+						additem 2109,1;
+					}
+				else if(@god_treasure < 201)
+				{
+					if(@god_treasure1 < 48)
+						additem 2207,1;
+					else if(@god_treasure1 < 96)
+						additem 2210,1;
+					else if(@god_treasure1 < 150)
+						additem 2213,1;
+					else if(@god_treasure1 < 190)
+						additem 2215,1;
+					else if(@god_treasure1 < 238)
+						additem 2217,1;
+					else if(@god_treasure1 < 290)
+						additem 2223,1;
+					else if(@god_treasure1 < 340)
+						additem 2227,1;
+					else if(@god_treasure1 < 348)
+						additem 2229,1;
+					else if(@god_treasure1 < 400)
+						additem 2231,1;
+					else if(@god_treasure1 < 448)
+						additem 2233,1;
+					else if(@god_treasure1 < 496)
+						additem 2236,1;
+					else if(@god_treasure1 < 544)
+						additem 2244,1;
+					else if(@god_treasure1 < 592)
+						additem 2245,1;
+					else if(@god_treasure1 < 640)
+						additem 2247,1;
+					else if(@god_treasure1 < 688)
+						additem 2248,1;
+					else if(@god_treasure1 < 736)
+						additem 2250,1;
+					else if(@god_treasure1 < 784)
+						additem 2251,1;
+					else if(@god_treasure1 < 832)
+						additem 2252,1;
+					else if(@god_treasure1 < 880)
+						additem 2253,1;
+					else if(@god_treasure1 < 940)
+						additem 2257,1;
+					else
+						additem 2259,1;
+					}
+				else if(@god_treasure < 301)
+				{
+					if(@god_treasure1 < 160)
+						additem 2267,1;
+					else if(@god_treasure1 < 320)
+						additem 2262,1;
+					else if(@god_treasure1 < 480)
+						additem 2263,1;
+					else if(@god_treasure1 < 540)
+						additem 2265,1;
+					else if(@god_treasure1 < 700)
+						additem 2266,1;
+					else if(@god_treasure1 < 800)
+						additem 2260,1;
+					else if(@god_treasure1 < 900)
+						additem 2269,1;
+					else
+						additem 2270,1;
+					}
+				else if(@god_treasure < 401)
+				{
+					if(@god_treasure1 < 70)
+						additem 2298,1;
+					else if(@god_treasure1 < 140)
+						additem 2275,1;
+					else if(@god_treasure1 < 210)
+						additem 2276,1;
+					else if(@god_treasure1 < 280)
+						additem 2277,1;
+					else if(@god_treasure1 < 350)
+						additem 2279,1;
+					else if(@god_treasure1 < 420)
+						additem 2254,1;
+					else if(@god_treasure1 < 490)
+						additem 2299,1;
+					else if(@god_treasure1 < 560)
+						additem 2287,1;
+					else if(@god_treasure1 < 630)
+						additem 2289,1;
+					else if(@god_treasure1 < 700)
+						additem 2290,1;
+					else if(@god_treasure1 < 770)
+						additem 2291,1;
+					else if(@god_treasure1 < 840)
+						additem 2294,1;
+					else if(@god_treasure1 < 900)
+						additem 2295,1;
+					else if(@god_treasure1 < 950)
+						additem 2271,1;
+					else
+						additem 2285,1;
+					}
+				else if(@god_treasure < 501)
+				{
+					if(@god_treasure1 < 80)
+						additem 2306,1;
+					else if(@god_treasure1 < 160)
+						additem 2308,1;
+					else if(@god_treasure1 < 240)
+						additem 2310,1;
+					else if(@god_treasure1 < 320)
+						additem 2311,1;
+					else if(@god_treasure1 < 400)
+						additem 2313,1;
+					else if(@god_treasure1 < 480)
+						additem 2315,1;
+					else if(@god_treasure1 < 560)
+						additem 2329,1;
+					else if(@god_treasure1 < 630)
+						additem 2320,1;
+					else if(@god_treasure1 < 700)
+						additem 2322,1;
+					else if(@god_treasure1 < 760)
+						additem 2324,1;
+					else if(@god_treasure1 < 810)
+						additem 2326,1;
+					else if(@god_treasure1 < 850)
+						additem 2317,1;
+					else if(@god_treasure1 < 900)
+					additem 2331,1;
+					else if(@god_treasure1 < 950)
+						additem 2333,1;
+					else
+						additem 2336,1;
+					}
+				else if(@god_treasure < 601)
+				{
+					if(@god_treasure1 < 200)
+						additem 2402,1;
+					else if(@god_treasure1 < 400)
+						additem 2404,1;
+					else if(@god_treasure1 < 600)
+						additem 2406,1;
+					else if(@god_treasure1 < 800)
+						additem 2407,1;
+					else
+						additem 2409,1;
+					}
+				else if(@god_treasure < 701)
+				{
+					if(@god_treasure1 < 300)
+						additem 2502,1;
+					else if(@god_treasure1 < 550)
+						additem 2504,1;
+					else if(@god_treasure1 < 750)
+						additem 2506,1;
+					else
+						additem 2508,1;
+					}
+				else if(@god_treasure < 801)
+				{
+					if(@god_treasure1 < 110)
+						additem 2601,1;
+					else if(@god_treasure1 < 220)
+						additem 2602,1;
+					else if(@god_treasure1 < 330)
+						additem 2603,1;
+					else if(@god_treasure1 < 440)
+						additem 2604,1;
+					else if(@god_treasure1 < 550)
+						additem 2605,1;
+					else if(@god_treasure1 < 660)
+						additem 2607,1;
+					else if(@god_treasure1 < 770)
+						additem 2608,1;
+					else if(@god_treasure1 < 880)
+						additem 2617,1;
+					else
+						additem 2618,1;
+					}
+				else
+				{
+					if(@god_treasure1 < 150)
+						additem 2288,1;
+					else if(@god_treasure1 < 260)
+						additem 2297,1;
+					else if(@god_treasure1 < 370)
+						additem 5087,1;
+					else if(@god_treasure1 < 480)
+						additem 5088,1;
+					else if(@god_treasure1 < 590)
+						additem 5089,1;
+					else if(@god_treasure1 < 700)
+						additem 5090,1;
+					else if(@god_treasure1 < 810)
+						additem 5046,1;
+					else if(@god_treasure1 < 920)
+						additem 2264,1;
+					else
+						additem 2225,1;
+				}//endif
+				next;
+				show "[Cukure]";
+				show "Ah.... vou reter seu passe temporário dado para você.";
+				show "Até mais...";
+				close;
+			}
+			else
+			{
+				show "[Cukure]";
+				show "Com sua ajuda, nós conseguimos completar com sucesso a pesquisa básica.";
+				show "De agora em diante, nós planejaremos nossa próxima pesquisa baseada nos resultados obtidos até agora.";
+				show "Isto significa que eu posso me divertir...hahaha...";
+				close;
+			}
+		}
+		else
+		{
+			if(god_sl_1 == 0)
+			{
+				show "[Cukure]";
+				show "Ahhh...";
+				show "Estou muito ocupado por estes dias.";
+				show "Não encontro tempo nem para um encontro.";
+				show "Diabos....";
+				next;
+				show "[Cukure]";
+				show "Espere, quando foi a última vez que eu fui em um encontro...?";
+				show "Umm....";
+				show "Ahhh.... Estou tão ocupado... ocupado!";
+				emotion 19;
+				close;
+			}
+			else if(god_sl_1 < 51)
+			{
+				show "[Cukure]";
+				show "Ah, você voltou.";
+				show "Eu sei que iria nos ajudar, mas alguém já fez o serviço antes que você e nós conseguimos finalizar com sucesso a pesquisa.";
+				next;
+				show "[Cukure]";
+				show "Obrigado de qualquer forma.";
+				show "Espero que possa nos ajudar na próxima pesquisa.";
+				close;
+			}
+			else
+			{
+				show "[Cukure]";
+				show "Com sua ajuda, nós conseguimos completar com sucesso a pesquisa básica.";
+				show "De agora em diante, nós planejaremos nossa próxima pesquisa baseada nos resultados obtidos até agora.";
+				show "Isto significa que eu posso me divertir...hahaha...";
+				close;
+			}
+		}
+	}
+
+// Hallandaute Lagunis - Wheel of the Unknown
+que_god01,66,125,6	script	Investigator#God1	89,{
+
+	if($God2 < 100)
+	{
+		if(god_sl_1 == 2) set god_sl_1,11;
+		if(god_sl_1 == 11 || god_sl_1 == 22 || god_sl_1 == 33 || god_sl_1 == 44)
+		{
+			if(god_sl_2  == 0)
+			{
+				show "[Hallandaute]";
+				show "Ah...você é aquele que a Srta. Kirin estava falando a respeito?";
+				show "Sim, ela disse que você iria nos assistir na pesquisa.";
+				show "Hmmm...";
+				next;
+				show "[Hallandaute]";
+				show "Francamente, não precisamos de pessoas que não são especializadas nestes assunto mesmo que estejamos ficando sem pessoal.";
+				show "Mas você pode nos ajudar fazendo coisas que somos muito preguiçosos para fazer por nós mesmo... se você não se importar.";
+				next;
+				show "[Hallandaute]";
+				show "Oh bem...";
+				show "Qual seria um bom serviço para você....";
+				show "Deixe-me pensar...";
+				show "Ah...";
+				next;
+				show "[Hallandaute]";
+				show "Encontrei.";
+				show "Você pode visitar ^ff0000Metto^000000 para mim?";
+				show "Por favor traga as novidades dele para mim.";
+				next;
+				show "[Hallandaute]";
+				show "Como ele está trabalhando em um assunto semelhante ao meu, eu acredito que ele possa ser capaz de ajudar-me. Ele está em Juno, você pode achá-lo facilmente.";
+				set god_sl_2,1;
+				close;
+			}
+			else if(god_sl_2 == 1)
+			{
+				if (metto_q == 0)
+				{
+					show "[Hallandaute]";
+					show "Acredito que não tenha o visto ainda.";
+					show "Embora ele seja um pouco esnobe, ele não é um cara tão mal.";
+					show "Nós somos amigos de longa data já que trabalhamos em áreas similares.";
+					next;
+					show "[Hallandaute]";
+					show "Fico imaginando como ele está. Pergunte apenas como está o progresso da pesquisa dele.";
+					show "Obrigado por se dar o trabalho.";
+					close;
+				}
+				else if(metto_q < 9)
+				{
+					show "[Hallandaute]";
+					show "Hmmm....";
+					show "Entendo....";
+					show "Obrigado por se dar o trabalho...";
+					show "Hmmm... parece que ele mudou...";
+					show "hmmm..";
+					close;
+				}
+				else
+				{
+					show "[Hallandaute]";
+					show "?!";
+					show "...........";
+					show "Oh bem.....";
+					show "Nunca imaginei que a situação tornaria desta forma.";
+					show "Ummm....";
+					emotion 20; //ET_SCRATCH
+					next;
+					show "[Hallandaute]";
+					show "Oh bem, já aconteceu. Ok, obrigado pela sua ajuda.";
+					show "Por favor aguarde um momento. Tenho algo para pensar.";
+					show "Ummmmm...";
+					emotion 9; //ET_THINK
+					set god_sl_2,2;
+					close;
+				}
+			}
+			else if(god_sl_2 == 2)
+			{
+				if(rand(1,10) == 7)
+				{
+					show "[Hallandaute]";
+					show "Ah...";
+					show "Você voltou.";
+					show "...Deixe-me mostrar a essência da pesquisa em que trabalho.";
+					next;
+					show "[Hallandaute]";
+					show "Estou trabalhando na";
+					show "'^ff0000Roda Desconhecida^000000' que descobriram como sendo uma parte do '^ff0000Sleipnir^000000'.";
+					show "Parece ser uma engrenagem comum, mas não consigo descobrir como funciona.";
+					next;
+					show "[Hallandaute]";
+					show "A coisa mais estranha desta engrenagem é seu material.";
+					next;
+					show "[Hallandaute]";
+					show "Parece ser feita de aço mas não importa o quanto eu a tenha tentado esquentar ela nunca responde ao calor. A mesma coisa acontece quando eu tentei congelá-la.";
+					next;
+					show "[Hallandaute]";
+					show "Ainda, ela nunca responde a qualquer tipo de impacto.";
+					show "Não importa o quão duro seja a pancada. Simplesmente ela não sofre a influência de nada.";
+					next;
+					show "[Hallandaute]";
+					show "Mas descobri que esta coisa parece ser ressonante com alguns tipos de objetos.";
+					show "Então novamente, não há um padrão o tempo todo.";
+					next;
+					show "[Hallandaute]";
+					show "Deixe-me explicar, em um dado momento ela ressoa com um objeto 'A' mas, quando tento novamente, não funciona de maneira alguma com 'A'.";
+					show "Com certeza, deveria haver algum tipo de condições para satisfazer de forma a fazê-lo ressonate...";
+					show "Hmm hmmm...";
+					next;
+					show "[Hallandaute]";
+					show "Ah....";
+					show "Peço desculpas por falar em coisas que não são importantes.";
+					show "Por favor ignore as palavras que eu disse.";
+					show "Obrigado por sua ajuda, de qualquer forma. Outros cientistas podem precisar da sua ajuda também.";
+					show "Hmmm...";
+					set god_sl_2,0;
+					if(god_sl_1 == 11)
+						set god_sl_1,12;
+					if(god_sl_1 == 22)
+						set god_sl_1,23;
+					if(god_sl_1 == 33)
+						set god_sl_1,34;
+					if(god_sl_1 == 44)
+						set god_sl_1,50;
+					close;
+				}
+				else
+				{
+					show "[Hallandaute]";
+					show "Oh, por favor, dê-me um tempo. Tenho que organizar algo.";
+					show "Ummm....";
+					show "Por isso...";
+					show "*funciona assim.... talvez.... isto é.... material... ressonância....*";
+					close;
+				}
+			}
+			else
+			{
+				show "[Hallandaute]";
+				show "Hmmm...";
+				show "Portanto....";
+				show "Funciona desta forna...";
+				show "Umm....isto é...";
+				show "Oh céus, seria melhor se a engrenagem estivesse em bom estado...";
+				show "Pif...";
+				close;
+			}
+		}
+		else
+		{
+			show "[Hallandaute]";
+			show "Ummm....";
+			show "Então seria......";
+			show "Bah! Não é fácil trabalhar nisto sozinha!";
+			show "Sempre é bom ter um assistente.";
+			next;
+			show "[Hallandaute]";
+			show "Eu posso compartilhar a quantidade de trabalho com ele.";
+			show "No entanto, tipos diferentes de trabalham afetam os tipos de assistentes que preciso.";
+			next;
+			show "[Hallandaute]";
+			show "Pensando nisso, se estou trabalhando em um projeto chamado 'A' eu precisarei de um assistente chamado 'G' que é especializado no projeto.";
+			show "Mas se estou trabalhando em um projeto chamado 'B', eu precisarei de 'H' que é especializado neste projeto.";
+			next;
+			show "[Hallandaute]";
+			show "Claro, poderia haver pessoas que são boas em tudo, mas como é muito improvável encontrar alguem assim, nós devemos escolher as pessoas certas para cada projeto.";
+			close;
+		}
+	}
+	else
+	{
+		show "[Hallandaute]";
+		show "Ummm....";
+		show "Então seria......";
+		show "Bah! Não é fácil trabalhar nisto sozinha!";
+		show "Sempre é bom ter um assistente.";
+		next;
+		show "[Hallandaute]";
+		show "Eu posso compartilhar a quantidade de trabalho com ele.";
+		show "No entanto, tipos diferentes de trabalham afetam os tipos de assistentes que preciso.";
+		next;
+		show "[Hallandaute]";
+		show "Pensando nisso, se estou trabalhando em um projeto chamado 'A' eu precisarei de um assistente chamado 'G' que é especializado no projeto.";
+		show "Mas se estou trabalhando em um projeto chamado 'B', eu precisarei de 'H' que é especializado neste projeto.";
+		next;
+		show "[Hallandaute]";
+		show "Claro, poderia haver pessoas que são boas em tudo, mas como é muito improvável encontrar alguem assim, nós devemos escolher as pessoas certas para cada projeto.";
+		close;
+	}
+}
+
+//Aadin Keil - Feather of Angel Wing
+que_god01,11,136,6	script	Aadin	742,{
+
+	if($God1 < 100)
+	{
+		if(god_sl_1 == 2)set god_sl_1,21;
+
+		if(god_sl_1 == 21 || god_sl_1 == 32 || god_sl_1 == 43 || god_sl_1 == 14)
+		{
+			if(god_sl_2 == 0)
+			{
+				show "[Aadin]";
+				show "*yawn*~";
+				show "Umm?";
+				show "Hmmmm....";
+				next;
+				show "[Aadin]";
+				show "Prazer em conhecê-lo.";
+				show "Soube que você é o assistente temporário que está trabalhando conosco.";
+				show "Isto é ótimo, eu estava tendo muita dificuldade em fazer algo sozinho.";
+				next;
+				show "[Aadin]";
+				show "Okay...";
+				show "Deixe-me explicar-lhe o que estou fazendo agora.";
+				show "Eu estou estudando as ^FF00000'Pena de Asas Angelicais'^00000 a qual foi descoberta como sendo o material do 'Sleipnir'.";
+				next;
+				show "[Aadin]";
+				show "Estou focado especialmente na história por trás desta pena em como foi possível torná-la material do 'Sleipinir'.";
+				show "Disseram-me que há uma pessoa em 'Payon' que sabe a respeito desta história.";
+				show "Logo eu tentei enviar um membro para o vilarejo de forma a obter alguma informação dele...";
+				next;
+				show "[Aadin]";
+				show "Mas a situação atual de falta de pessoal não me permite usar alguém do laboratório, então fico pensando se eu deveria ir lá por minha conta ou não.";
+				show "Mas tenho receio de deixar este laboratório sozinho com a pena aqui dentro.";
+				next;
+				show "[Aadin]";
+				show "Portanto...";
+				show "como você já deve ter adivinhado...";
+				show "Gostaria de pedir-lhe que vá falar com esta pessoa em Payon sobre esta história e volte aqui para falar comigo.";
+				next;
+				show "[Aadin]";
+				show "Eu acredito que não deve ser tão difícil encontrar esta pessoa. Mas você deve memorizar todas as palavras da história que ele disser.";
+				show "O resultado da pesquisa pode ser afetado pelas palavras que você me trouxer.";
+				next;
+				show "[Aadin]";
+				show "Agradeço-lhe antecipadamente.";
+				show "Não há um tempo limite para esta tarefa, mas quanto mais rápido você for melhor será...";
+				show "Tenha uma boa viagem!";
+
+				set god_sl_2,1;
+				close;
+			}
+			else if(god_sl_2 == 1)
+			{
+				show "[Aadin]";
+				show "Você não foi a Payon ainda? Por favor, vá o mais rápido possível.";
+				show "Tenha uma boa viagem!";
+				close;
+			}
+			else if(god_sl_2 == 2)
+			{
+				show "[Aadin]";
+				show "Ah, você voltou.";
+				show "Então, você memorizou a história?";
+				show "Sim, eu sabia que seria muito mais conveniente se eles mantivessem a história escrita em um livro.";
+				show "Mas parece que eles tem algumas regras que não os permitem colocar em papel esta história. Ela deve ser passada de boca para ouvido.";
+				next;
+				show "[Aadin]";
+				show "Ok, estou pronto para escutar.";
+				show "Por favor continue.";
+				show ".......";
+				next;
+				show "[Aadin]";
+				show ".";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				show ".........";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				show ".........";
+				show "..........";
+				next;
+				show "[Aadin]";
+				show "Hmm......";
+				show "Entendo.";
+				show "Agora eu tenho um melhor entendimento sobre o assunto.";
+				show "Humm...";
+				next;
+				show "[Aadin]";
+				show "Parece que você esqueceu uma parte importante da história!";
+				show "Desculpe-me dizer isso, mas você poderia voltar à Payon e escutar a história novamente? Eu gostaria de escutá-la novamente.";
+				set god_sl_2,3;
+				close;
+			}
+			else if(god_sl_2 == 3)
+			{
+				show "[Aadin]";
+				show "Você não foi a Payon ainda? Por favor, vá o mais rápido possível.";
+				show "showmo com a história que você trouxe-me acho que posso completar uma boa parte desta pesquisa.";
+				close;
+			}
+			else if(god_sl_2 == 4)
+			{
+				show "[Aadin]";
+				show "Oh, você voltou.";
+				show "Ok, estou pronto para escutar.";
+				show "Por favor continue.";
+				show ".......";
+				next;
+				show "[Aadin]";
+				show ".";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				show ".........";
+				next;
+				show "[Aadin]";
+				show ".";
+				show "..";
+				show "...";
+				show "....";
+				show ".....";
+				show "......";
+				show ".......";
+				show "........";
+				show ".........";
+				show "..........";
+				next;
+				show "[Aadin]";
+				show "Hmm... entendo.";
+				show "Parece que sua história está quase tão correta quanto a original.";
+				show "É compreensível que a história é diferenciada pela pessoa que a conta, desde que nós a compartilhamos somente com palavras e não escrita.";
+				next;
+				show "[Aadin]";
+				show "Sim, a maioria das minhas dúvidas finalmente encontraram suas respostas.";
+				show "Ao mesmo tempo, esta história meu trouxe algumas novas dúvidas.";
+				show "Hmmm... isto realmente não é fácil.";
+				show "Muito obrigado por sua ajuda.";
+				set god_sl_2,0;
+				if(god_sl_1 == 21)
+					set god_sl_1,22;
+				else if(god_sl_1 == 32)
+					set god_sl_1,33;
+				else if(god_sl_1 == 43)
+					set god_sl_1,44;
+				else if(god_sl_1 == 14)
+					set god_sl_1,50;
+				close;
+			}
+		}
+		else
+		{
+			show "[Aadin]";
+			show "Hmmm....";
+			show "Algumas vezes uma lenda ou mito é contado de duas formas diferentes que são completamente conflitantes uma com a outra.";
+			show "Você pode encontrar a razão disto quando descobrir a origem das histórias.";
+			close;
+		}
+	}
+	else
+	{
+		show "[Aadin]";
+		show "Hmmm....";
+		show "Algumas vezes uma lenda ou mito é contado de duas formas diferentes que são completamente conflitantes uma com a outra.";
+		show "Você pode encontrar a razão disto quando descobrir a origem das histórias.";
+		close;
+	}
+}
+
+//Kurdt Jerremant - Spirit of Fish
+que_god01,55,47,3	script	Kurdt	803,{
+
+	if ($God1 < 100)
+	{
+		if(god_sl_1 == 2)set god_sl_1,31;
+
+		if(god_sl_1 == 31 || god_sl_1 == 42 || god_sl_1 == 13 || god_sl_1 == 24)
+		{
+			if(god_sl_2 == 0)
+			{
+				show "[Kurdt]";
+				show "Ah, você deve ser o novo assistente.";
+				show "Prazer em conhecê-lo.";
+				next;
+				show "[Kurdt]";
+				show "Estava na expectativa por um assistente profissional mas é compreensível uma vez que a situação atual não nos permite.";
+				show "E também, algumas vezes pessoas comuns fazem um trabalho melhor que alguns assistentes profissionais.";
+				show "Então espero que sejamos um bom time.";
+				next;
+				show "[Kurdt]";
+				show "De fato, estou quase no fim da pesquisa, logo não preciso de muita ajuda.";
+				show "No entanto, a última coisa de que preciso tem sido bastante difícil para alguém fazer sozinho... Estive pensando em contratar uma agência de fora.";
+				next;
+				show "[Kurdt]";
+				show "Afinal, não preciso mais fazer isso, uma vez que você está aqui.";
+				show "O que eu preciso agora são os materiais para reproduzir o";
+				show "'Hálito de Peixe'.";
+				next;
+				show "[Kurdt]";
+				show "Não tenho certeza se posso reproduzí-lo ou não.";
+				show "Mas podemos, ao menos, tentar.";
+				next;
+				show "[Kurdt]";
+				show "Basicamente, você pode ir adiante e coletar alguns itens tais como";
+				show "'Escama Aquática' ou 'Cauda de Peixe'";
+				show "ou qualquer coisa que você pode obter da vida marinha.";
+				show "Não preciso de muitos, cerca de 10 deles já bastarão.";
+				next;
+				show "[Kurdt]";
+				show "Espero que não tenha dificuldade em coletá-los.";
+				show "Obrigado pela ajuda e tenha uma boa viagem!";
+				set god_sl_2,1;
+				close;
+			}
+			else if(god_sl_2 == 1)
+			{
+				show "[Kurdt]";
+				show "Ah, você voltou.";
+				show "Ok, deixe-me verificar o que você trouxe pra mim.";
+				show "Hmmm....";
+				show ".........";
+				next;
+				show "[Kurdt]";
+				show "Hmmm......";
+				show "Eu poderia usar este...";
+				show "e este também.....";
+				show "eee aquele também......";
+				show "Umm.....";
+			set @itemcount,0;
+				if(countitem(918) > 8)set @itemcount,1; //pata pegajosa
+				if(countitem(950) > 8)set @itemcount,@itemcount + 1; //coração de sereia
+				if(countitem(951) > 8)set @itemcount,@itemcount + 1; //nadadeira
+				if(countitem(956) > 8)set @itemcount,@itemcount + 1; //guelra
+				if(countitem(959) > 8)set @itemcount,@itemcount + 1; //escama fétida
+				if(countitem(960) > 8)set @itemcount,@itemcount + 1; //garra de crustáceo
+				if(countitem(961) > 8)set @itemcount,@itemcount + 1; //concha
+				if(countitem(962) > 8)set @itemcount,@itemcount + 1; //tentáculo
+				if(countitem(963) > 8)set @itemcount,@itemcount + 1; //escama aquática
+				if(countitem(964) > 8)set @itemcount,@itemcount + 1; //casco de caranguejo
+				if(countitem(965) > 8)set @itemcount,@itemcount + 1; //casco de ostra
+				if(countitem(966) > 8)set @itemcount,@itemcount + 1; //carne de ostra
+				if(countitem(7013) > 8)set @itemcount,@itemcount + 1; //coral
+				if(countitem(1054) > 8)set @itemcount,@itemcount + 1; //lábios fossilizados
+				if(countitem(1053) > 8)set @itemcount,@itemcount + 1; //dente fossilizado
+				if(countitem(1052) > 8)set @itemcount,@itemcount + 1; //célula única
+				if(countitem(1051) > 8)set @itemcount,@itemcount + 1; //neurônio
+				if(countitem(1050) > 8)set @itemcount,@itemcount + 1; //tendões
+				if(countitem(1024) > 8)set @itemcount,@itemcount + 1; //cauda de peixe
+				if(countitem(1023) > 8)set @itemcount,@itemcount + 1; //tinta de polvo
+				next;
+				if(@itemcount > 14)
+				{
+					show "[Kurdt]";
+					show "Ah....!";
+					show "Você consegui tudo o que eu precisava.";
+					show "Muito obrigado.";
+					show "Com estes itens, eu posso conntinuar minha pesquisa sem problemas.";
+					next;
+					show "[Kurdt]";
+					show "Não esperava que você fizesse um trabalho tão bom...";
+					show "você é ótimo!";
+					show "Muito obrigado!";
+					show "Hahaha....";
+					show "Assim como eu, outros pesquisadores podem precisar que você os ajude.";
+
+					if(countitem(918) > 8)delitem 918,9;
+					if(countitem(950) > 8)delitem 950,9;
+					if(countitem(951) > 8)delitem 951,9;
+					if(countitem(956) > 8)delitem 956,9;
+					if(countitem(959) > 8)delitem 959,9;
+					if(countitem(960) > 8)delitem 960,9;
+					if(countitem(961) > 8)delitem 961,9;
+					if(countitem(962) > 8)delitem 962,9;
+					if(countitem(963) > 8)delitem 963,9;
+					if(countitem(964) > 8)delitem 964,9;
+					if(countitem(965) > 8)delitem 965,9;
+					if(countitem(966) > 8)delitem 966,9;
+					if(countitem(7013) > 8)delitem 7013,9;
+					if(countitem(1054) > 8)delitem 1054,9;
+					if(countitem(1053) > 8)delitem 1053,9;
+					if(countitem(1052) > 8)delitem 1052,9;
+					if(countitem(1051) > 8)delitem 1051,9;
+					if(countitem(1050) > 8)delitem 1050,9;
+					if(countitem(1024) > 8)delitem 1024,9;
+					if(countitem(1023) > 8)delitem 1023,9;
+
+					set god_sl_2,0;
+					if(god_sl_1 == 31)
+						set god_sl_1,32;
+					if(god_sl_1 == 42)
+						set god_sl_1,43;
+					if(god_sl_1 == 13)
+						set god_sl_1,14;
+					if(god_sl_1 == 24)
+						set god_sl_1,50;
+					close;
+				}
+				else
+				{
+					show "[Kurdt]";
+					show "Errr.........";
+					show "Parece que não conseguiu a quantidade suficiente de itens ainda.";
+					show "Desculpe-me pelo incômodo, por favor vá conseguir mais.";
+					close;
+				}
+			}
+		}
+		else
+		{
+			show "[Kurdt]";
+			show "Hmmm....";
+			show "Estudar qualquer coisa requer não somente fundos e mão de obra qualificada, mas principalmente entusiasmo e paixão.";
+			next;
+			show "[Kurdt]";
+			show "Alguns financiadores são tão ignorantes que eles acreditam que o estudo consome apenas dinheiro e mão de obra.";
+			show "No entano, mesmo que tenham fundos suficientes e muita mão de obra, se não derem a motivação necessária às pessoas que estudam, então o estudo não obtem sucesso.";
+			close;
+		}
+	}
+	else
+	{
+		show "[Kurdt]";
+		show "Hmmm....";
+		show "Estudar qualquer coisa requer não somente fundos e mão de obra qualificada, mas principalmente entusiasmo e paixão.";
+		next;
+		show "[Kurdt]";
+		show "Alguns financiadores são tão ignorantes que eles acreditam que o estudo consome apenas dinheiro e mão de obra.";
+		show "No entano, mesmo que tenham fundos suficientes e muita mão de obra, se não derem a motivação necessária às pessoas que estudam, então o estudo não obtem sucesso.";
+		close;
+	}
+}
+
+//Pavel Stheinus Breath of Spirit
+que_god01,14,47,3	script	Pavel	713,{
+
+	if($God1 < 100)
+	{
+		if(god_sl_1 == 2)set god_sl_1,41;
+		if(god_sl_1 == 41 || god_sl_1 == 12 || god_sl_1 == 23 || god_sl_1 == 34)
+		{
+			if(god_sl_2 == 0)
+			{
+				show "[Pavel]";
+				show "*sniff sniff*...";
+				show "Atchim!";
+				show "Huh?";
+				show "Quem é você....?";
+				show "....";
+				next;
+				show "[Pavel]";
+				show "Ah, minhas desculpas.";
+				show "Você deve ser o novo assistente...Aaaatchimmm!";
+				show "Hmm hmm *sniff sniff*...Desculpe-me, estou com gripe...";
+				show "*sniff sniff*...";
+				show "*sniff*...hmmm...";
+				next;
+				show "[Pavel]";
+				show "Umm....";
+				show "É bom saber que você está aqui para me ajudar....";
+				show "No entanto...Aaaaatchimmmm!";
+				show "*sniff sniff*...";
+				next;
+				show "[Pavel]";
+				show "Hmm...Aaaaatchimmmm!";
+				show "Assim mesmo, vá procurar ...Aaaaatchimmmm! aquela...Aaaaatchimmmm!";
+				show "coisa...*sniff sniff*~";
+				set god_sl_2,1;
+				close;
+			}
+			else if(god_sl_2 == 1)
+			{
+				show "[Pavel]";
+				show "Eu lhe disse para procurar Aaaaatchimmmm! aquilo... Aaaaatchimmmm! Atchim!";
+				show "*glhk glhk*...";
+				show "Hmm hmm..";
+				close;
+			}
+			else if(god_sl_2 == 2)
+			{
+				show "[Pavel]";
+				show "*cof cof*...";
+				show "*sniff sniff*...";
+				show "Então, você foi procurar aquilo?";
+				show "Sim, não acredito que entenda, mesmo se você o vê-lo.";
+				show "*glhk glhk*...";
+				next;
+				show "[Pavel]";
+				show "AAAATTTCHIMMMMMMM!";
+				show "Aquela lasca de pedra... espere...Atchimm!";
+				show "As letras engastadas na coisa indescritível são de uma linguagem... Atchimm! antiga.... Atchimm!... que não é mais usada hoje em dia.";
+				next;
+				show "[Pavel]";
+				show "Não posso... ...*glhk glhk* dizer qual linguagem";
+				show "antiga..Atchimm! ela é...Atchimm!";
+				show "Então...err...hmm hmm *sniff sniff*";
+				next;
+				show "[Pavel]";
+				show "Considerando...Atchimm! *sniff sniff* que o material";
+				show "Atchimm! Atchimm! usado na lasca...*sniff sniff*,";
+				show "não é Atchimm! Atchimm! *sniff sniff* comum em outras rochas...";
+				show "Eu acho...Aaaaaatchimmmmmm!!!!! que há algum tipo de dispositivo instalado nela *sniff sniff*...";
+				next;
+				show "[Pavel]";
+				show "Aaaaaatchimmmmmm!! *sniff sniff* Não apenas as...*sniff sniff*";
+				show "letras estão engastadas...*sniff sniff* Atchimm!!!";
+				show "mas alguma coisa Atchimm!! cobre...Atchimm!!";
+				show "AAAAATTTCHIMMMMMMM~~ a superfície também...*sniff sniff*";
+				next;
+				show "[Pavel]";
+				show "Eu devo *cough cough* remover o dispositivo para...*cough cough*";
+				show "futuras pesquisas...*cough cough*...mas veja meu estado.";
+				show "Não consigo sequer falar...*ghlk ghlk* adequadamente...";
+				next;
+				show "[Pavel]";
+				show "Hmm *sniff sniff*...então eu espero que você não";
+				show "se importe Atchim!...em me ajudar a remover Atchim!!...o dispositivo...";
+				show "Atchim! ~ Obrigado....";
+				show "AAAAAAAAAATTTCHIMMMMM~";
+				set god_sl_2,3;
+				close;
+			}
+			else if(god_sl_2 == 3)
+			{
+				show "[Pavel]";
+				show "Aaaaaa...Tccccchhhh...iiiiimmmmmmmmmm..!";
+				show "*sniff sniff*...";
+				show "Err...o que eu queria era..AAATCHIMMMMM!...";
+				show "*sniff sniff*...";
+				close;
+			}
+			else if(god_sl_2 == 4)
+			{
+				show "[Pavel]";
+				show "*cough*...";
+				show "......!!";
+				show "Oh...Atchimmm!~";
+				show "Agora eu entendo...";
+				show "*sniff sniff*...";
+				next;
+				show "[Pavel]";
+				show "Eu estava~Tchim! certo, Tchimm!";
+				show "havia um dispositivo instalado...Atchimm! nela.";
+				show "Eu não...*cough cough* pude...*sniff sniff*";
+				show "investigar...Atchim! a lasca completamente...Atchimm!";
+				show "por causa desta maldita gripe que me faz espirrar sem parar.";
+				next;
+				show "[Pavel]";
+				show "Atchimm! Atchim! ~ obrigado pela ajuda....*sniff sniff*";
+				show "Haha....*ghlk ghlk*...você fez um bom trabalho.";
+				show "*cough cough*..";
+				set god_sl_2,0;
+				if(god_sl_1 == 41)
+					set god_sl_1,42;
+				if(god_sl_1 == 12)
+					set god_sl_1,13;
+				if(god_sl_1 == 23)
+					set god_sl_1,24;
+				if(god_sl_1 == 34)
+					set god_sl_1,50;
+				close;
+			}
+		}
+		else
+		{
+			show "[Pavel]";
+			show "Umm....";
+			show "Não é tão importante se podemos ou não encorporar um espírito em uma forma";
+			show "É importante se pudermos provar a existência do espírito ou não.";
+			close;
+		}
+	}
+	else
+	{
+		show "[Pavel]";
+		show "Umm....";
+		show "Não é tão importante se podemos ou não encorporar um espírito em uma forma";
+		show "É importante se pudermos provar a existência do espírito ou não.";
+		close;
+	}
+}
+  
+que_god01,20,48,0	script	Lasca de Pedra	111,{
+
+	if($God1 < 100)
+	{
+		if(god_sl_1 == 41 || god_sl_1 == 12 || god_sl_1 == 23 || god_sl_1 == 34)
+		{
+			if(god_sl_2 == 1 || god_sl_2 == 2)
+			{
+				show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfb";
+				show "............djswhgks wkdusdnlrnlfn";
+				show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+				show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+				show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+				show "^ff00ffghswka^000000gks ........fusjs tmld.........";
+				set god_sl_2,2;
+				next;
+				show "Letras desconhecidas estão esgastadas na lasca de rocha.";
+				show "Eles parecem uma linguagem antiga.";
+				show "O pedaço de rocha foi danificado demais para se poder identificar qualquer letra.";
+				show "Quando você toca a superfície ela está quente. Definitivamente, a lasca não parece ser feita de uma rocha comum.";
+				close;
+			}
+			else if(god_sl_2 == 3)
+			{
+				show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfn";
+				show "............djswhgks wkdusdnlrnlfn";
+				show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+				show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+				show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+				show "^ff00ffghswka^000000gks.........fusjs tmld.........";
+				next;
+				show "Quando você olha de perto, você encontra traços estranhos em cada letra.";
+				show "Parece que havia algum tipo de dispositivo instalado nas letras.";
+				next;
+				show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfb";
+				show "............djswhgks wkdusdnlrnlfn";
+				show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+				show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+				show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+				show "^ff00ffghswka^000000gks ........fusjs tmld.........";
+				next;
+				digit @str$;
+				if (@str$ == "dirdnl")
+				{
+					show "Zap~";
+					show "Quando você pressionou a palavra '^ff0000dirdnl^000000',";
+					show "a rocha fez um som estranho.";
+					show "No entanto, não houve outras mudanças além do ruído.";
+					show "Você decidiu tocar outras palavas.";
+					next;
+					show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfb";
+					show "............djswhgks wkdusdnlrnlfn";
+					show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+					show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+					show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+					show "^ff00ffghswka^000000gks ........fusjs tmld.........";
+					next;
+				}
+				else
+				{
+					show "Você tocou a palavra ^ff0000"+@str$+"^000000, mas nada aconteceu.";
+					show "Você decide em pensar em uma alternativa diferente.";
+					close;
+				}
+				digit @str$;
+				if (@str$ == "tkaryf")  
+				{
+					show "Zap~";
+					show "Quando você pressionou a palavra '^ff0000tkaryf^000000',";
+					show "a rocha fez um som estranho.";
+					show "No entanto, não houve outras mudanças além do ruído.";
+					show "Você decidiu tocar outras palavas.";
+					next;
+					show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfb";
+					show "............djswhgks wkdusdnlrnlfn";
+					show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+					show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+					show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+					show "^ff00ffghswka^000000gks ........fusjs tmld.........";
+					next;
+				}
+				else
+				{
+					show "Você tocou a palavra ^ff0000"+@str$+"^000000, mas nada aconteceu.";
+					show "Você decide em pensar em uma alternativa diferente.";
+					close;
+				}
+				digit @str$;
+				if (@str$ == "ghswka")
+				{
+					show "Zap~";
+					show "Quando você pressionou a palavra '^ff0000ghswka^000000',";
+					show "a rocha fez um som estranho.";
+					show "No entanto, não houve outras mudanças além do ruído.";
+					show "Você decidiu tocar outras palavas.";
+					next;
+					show "....whgks ^ff00ffdirdnl^000000sjs wkrdjswhgks whdtnfb";
+					show "............djswhgks wkdusdnlrnlfn";
+					show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+					show "wkdusgks ^ff00fftkaryf^000000dnl durjfflrhsjs wkrdjswhgks ......";
+					show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+					show "^ff00ffghswka^000000gks ........fusjs tmld.........";
+					next;
+				}
+				else
+				{
+					show "Você tocou a palavra ^ff0000"+@str$+"^000000, mas nada aconteceu.";
+					show "Você decide em pensar em uma alternativa diferente.";
+					close;
+				}
+				show "Eeeeeeeeee~";
+				show "Quando você pressionou as três palavras em ordem,";
+				show "a lasca começa a vibrar e a fazer um ruído estranho.";
+				show "Ao mesmo tempo, os traços estranhos das palavras começam a desaparecer lentamente";
+				show "e letras diferentes começam a surgir abaixo delas.";
+				next;
+				show "wkrdjswhgks dirdnlsjs wkrdjswhgks whdtnfh";
+				show "wkrdjswhgks dldgnsdjs wkrdjswhgks wkdusdnlrnlfn";
+				show "thfdh duTsjswhsjs rhf tk dmqsjs rj ehddjfn";
+				show "wkdusgks tkaryfdnl durjfflrhsjs wkrdjswhgks tkatnfu";
+				show "wkrdjswhgks shfh wkrdjswhgks wkdus wkrdjswhgks dldgns";
+				show "ghswkagks tkatnfusjs tmldaldgks akrnl";
+				next;
+				show "..........";
+				show "Você ainda não pode entender o que estas letras significam.";
+				show ".........";
+				set god_sl_2,4;
+				next;
+				show "Após um período, estas novas letras desaparecem.";
+				show "Parece que você pode apenas cancelar o dispositivo nas letras por pouco tempo.";
+				close;
+			}
+			else
+			{
+				show "....whgks dirdnlsjs wkrdjswhgks whdtnfn";
+				show "............djswhgks wkdusdnlrnlfn";
+				show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+				show "wkdusgks tkaryfdnl durjfflrhsjs wkrdjswhgks ......";
+				show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+				show "ghswkagks .........fusjs tmld.........";
+				next;
+				show "A lasca de rocha foi danificada severamente, impossibilitando o reconhecimento de qualquer letra.";
+				show "Quando você toca a superfície, está quente.";
+				show "Definitivamente, a lasca não parece ser feita de uma rocha qualquer";
+				show "Mas você decide não se importar mais com a pedra.";
+				close;
+			}
+		}
+		else
+		{
+			show "....whgks dirdnlsjs wkrdjswhgks whdtnfn";
+			show "............djswhgks wkdusdnlrnlfn";
+			show ".......whsjs rhf tk dmqsjs rj ehddjfn";
+			show "wkdusgks tkaryfdnl durjfflrhsjs wkrdjswhgks ......";
+			show "wkrdjswhgks shfh wkrdjswhgks wkdus wkr...";
+			show "ghswkagks .........fusjs tmld.........";
+			next;
+			show "A lasca de rocha foi danificada severamente, impossibilitando o reconhecimento de qualquer letra.";
+			show "Quando você toca a superfície, está quente.";
+			show "Definitivamente, a lasca não parece ser feita de uma rocha qualquer";
+			close;
+		}
+	}
+	else
+	{
+		show "Você encontrou uma lasca de pedra com letras estranhas gravadas na superfície.";
+		show "Você não conseguiu identificar que língua era.";
+		close;
+	}
+}
+
+//Lania Grunkurque
+payon,79,171,4	script	Lania	95,{
+
+	if($God1 < 100)
+	{
+		if(god_sl_1 == 21 || god_sl_1 == 32 || god_sl_1 == 43 || god_sl_1 == 14)
+		{
+			if(god_sl_2 == 1 || god_sl_2 == 3)
+			{
+				show "[Lania]";
+				show "Lendas e folclores podem tranzer bons conselhos.";
+				show "Não imoprta quantos anos tenham passado e como as pessoas evoluíram, o básico da vida nunca muda.";
+				next;
+
+				switch( select( "Umm.....", "Endento." ) )
+				{
+					case 1:
+					show "[Lania]";
+					show "Bem......";
+					show "Parece que você quer algo de mim, posso lhe perguntar o que é?";
+					show "Eu o ajudarei o máximo que puder.";
+					next;
+					show "[Lania]";
+					show "Não faz sentindo ter poder para ajudar aos outros e não fazer uso dele.";
+					show "muito menos se essa energia não for na direção correta.";
+					next;
+
+					switch( select( "Em nada. Suas palavras jã me ajudaram.","Algo sobreo o Sleipnir." ) )
+					{
+						case 1:
+						show "[Lania]";
+						show "Eu devo ter me enganado.";
+						show "No entando, fique a vontade em pedir ajudar sempre que precisar.";
+						show "Encaro ajudar os outros como uma forma de treinamento.";
+						show "Espero que seja generoso com os outros também...";
+						close;
+						break;
+
+						case 2:
+						show "[Lania]";
+						show "Umm.........";
+						show "Entendo.";
+						show "Acho  que osso ajudá-lo com isso.";
+						show "Por favor, dê-me um tempo para lembrar...Sleipnir...";
+						show "Hmmm....";
+						show "..........";
+						show "...................";
+						next;
+						show "[Lania]";
+						show "Ah.........";
+						show "Agora me lembro...";
+						show "Sim, Sleipnir era o nome do corcel de Odin.";
+						next;
+						show "[Lania]";
+						show "No mundo dos Deuses, havia três corcéis lendários.";
+						show "Havia o ^ff0000'Sleipnir (aquele que plana no ar)'";
+						show "'Svadilfari (viajante infeliz)'";
+						show "'Gullfaxi (Crina Dourada)'^000000.";
+						next;
+						show "[Lania]";
+						show "Gullfaxi tinha como dono Hrungnir, o rei gigante e";
+						show "Svadilfari tinha como dono Hrimthurs.";
+						show "Também, 'Svadilfari' era o pai de 'Sleipnir'.";
+						next;
+						show "[Lania]";
+						show "Ok, agora vamos falar a respeito de como 'Sleipnir' nasceu.";
+						show "Bem...podemos ver, conhecendo esta história, que mesmo Deuses cometem erros.";
+						next;
+						show "[Lania]";
+						show "Em Asgard, o mundo dos Deuses,";
+						show "havia uma enorme muralha.";
+						show "Algo aconteceu e a muralha foi praticament destroída.";
+						show "Como a muralha era enorme, os Deuses não se deram";
+						show "o trabalho de reconstruí-la.";
+						next;
+						show "[Lania]";
+						show "Um dia, um homem bem magro viajando em um cavalo negro chegou à Asgard.";
+						show "O homem disse a Heimdall, que vigiava a entrada da cidade, que ele tinha algo a falar com Odin acerda da muralha.";
+						next;
+						show "[Lania]";
+						show "Como Heimdall estava muito preocupado com o estado da muralha, ele não hesitou de apresentar o homem a Odin.";
+						show "Naquele tempo, Odin estava com outros Deuses em Valhala.";
+						next;
+						show "[Lania]";
+						show "O homem prometeu a Odin que ele poderia reconstruir a muralha como se fosse nova em 18 meses.";
+						next;
+						show "[Lania]";
+						show "Embora Odin tenha sentido algo de suspeito no homem, os Deuses precisavam consertar o mais breve possível a muralha.";
+						show "Então, Odin perguntou-lhe o que ele queria em troca.";
+						show "Ele pediu que lhe dessem a deusa 'Freya' e 'o Sol e a Lua' como pagamento.";
+						next;
+						show "[Lania]";
+						show ".....";
+						show "Você está cansado?";
+						show "Se estiver, vamos conversar sobre isso mais tarde.";
+						next;
+						
+						switch( select( "OK. Até mais tarde.", "Não, por favor continue." ) )
+						{
+
+							case 1:
+							show "[Lania]";
+							show "Eu entendo que minha história não é muito interessante.";
+							show "Vou me esforçar ao máximo para te satisfazer a próxima vez.";
+							show "Tenha uma boa viagem.";
+							close;
+							break;
+
+							case 2:
+							show "[Lania]";
+							show "Oh ok.";
+							show "Então deixe-me continuar a história.";
+							next;
+							break;
+						}
+
+						show "[Lania]";
+						show "Os Deuses ficaram todos atordoados e enfureceram-se com o pedido do homem.";
+						show "Ele estava pedindo tudo que os Deuses tinham.";
+						next;
+						show "[Lania]";
+						show "Neste momento, Loki aproximou-se de Odin e disse aos Deuses que podiam manipular o homem a reparar a muralha sem ter que pagar pelo serviço.";
+						next;
+						show "[Lania]";
+						show "Odin decidiu seguir a sugestão de Loki.";
+						show "Mas Odin disse ao homem que ele deveria completar a reconstrução da muralha em seis meses ao invés de dezoito, para que fosse capaz de ser recompensado com a posse da deusa 'Freya' e 'o Sol e a Lua'.";
+						next;
+						show "[Lania]";
+						show ".....";
+						show "Você está cansado?";
+						show "Se estiver, vamos conversar sobre isso mais tarde.";
+						next;
+						
+						switch( select( "Deixe-me organizar a história primeiro.", "Até mais tarde.", "Por favor, continue." ) )
+						{
+
+							case 1:
+							show "[Lania]";
+							show "Ah....";
+							show "A história deve ser muito longa.";
+							show "Desculpe-me...";
+							show "Ok, vou deixá-lo terminar de organizar a compreensão da história...";
+							next;
+							show "......................";
+							show "..................";
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "..................";
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show ".........";
+							show "......";
+							next;
+							show "......";
+							next;
+							show "[Lania]";
+							show "Posso continuar agora?";
+							next;
+							menu "Sim, por favor.",-;
+							show "[Lania]";
+							show "Ok, continuando.";
+							next;
+							break;
+
+							case 2:
+							show "[Lania]";
+							show "Eu entendo que minha história não é muito interessante.";
+							show "Vou me esforçar ao máximo para te satisfazer a próxima vez.";
+							show "Tenha uma boa viagem.";
+							close;
+							break;
+
+							case 3:
+							show "[Lania]";
+							show "Oh ok.";
+							show "Então deixe-me continuar a história.";
+							next;
+							break;
+						}
+						
+						show "[Lania]";
+						show "O homem solicitou a Odin que o permitesse usar o seu cavalo no trabalho de reconstrução.";
+						show "Como o cavalo parecia muito fraco e incapaz para o esforço a que seria submetido, Odin não pensou duas vezes em aceitar o pedido dele.";
+						next;
+						show "[Lania]";
+						show "No entanto, o homem e o cavalo começaram a reconstruir a muralha em uma velocidade impressionante.";
+						show "A habilidade do homem era grande, mas a habilidade de reparar a mulhara do cavalo era ainda maior que a do seu dono.";
+						show "Esse cavalo era o lendário Corcel chamado Svadilfari.";
+						next;
+						show "[Lania]";
+						show "Com o passar do tempo, os Deuses foram ficando mais ansiosos, pois parecia que o trabalho de reconstrução das muralhas poderia ser feito ainda em menor tempo que os seis meses pedidos por Odin.";
+						show "Então os Deuses voltaram sua raiva e frustração sobre Loki por conta da sua sugestão em aceitar a proposta do homem.";
+						next;
+						show "[Lania]";
+						show "No entanto, Loki parecia bastante confiante.";
+						show "Ele garantiu aos Deuses que confiassem nele.";
+						show "Embora os Deuses não confiassem em Loki por conta da sua loucura e maldade, eles decidiram dá-lo uma chance porque a situação era desesperadora.";
+						next;
+						show "[Lania]";
+						show "E algo estranho aconteceu. A partir do memento do pedido de Loki aos Deuses em que confiassem nele, o progresso da reconstrução parou. Como se fosse mágica.";
+						next;
+						show "[Lania]";
+						show ".....";
+						show "Você está cansado?";
+						show "Se estiver, vamos conversar sobre isso mais tarde.";
+						next;
+						
+						switch( select( "OK. Até mais tarde.", "Não, por favor continue." ) )
+						{
+
+							case 1:
+							show "[Lania]";
+							show "Eu entendo que minha história não é muito interessante.";
+							show "Vou me esforçar ao máximo para te satisfazer a próxima vez.";
+							show "Tenha uma boa viagem.";
+							close;
+							break;
+
+							case 2:
+							show "[Lania]";
+							show "Oh ok.";
+							show "Então deixe-me continuar a história.";
+							next;
+							break;
+						}
+
+						show "[Lania]";
+						show "Os Deuses ficaram curiosos e decidiram investisgar o motivo.";
+						show "Eles descobriram que Svadilfari apaixonou-se por uma égua muito bonita e deixou de reconstruir a muralha.";
+						show "Então, passados seis meses, o homem havia finalizado toda a muralha, exceto o portão do castelo.";
+						next;
+						show "[Lania]";
+						show "Os Deuses ficaram encantados em dizer ao homem que não poderiam aceitar o pedido de pagamento, uma vez que ele não conseguiu manter a palavra.";
+						show "O homem ficou furioso e disse ter sido traído pelos Deuses de forma a evitar que ele conseguisse a deusa 'Freya' e 'o Sol e a Lua'.";
+						next;
+						show "[Lania]";
+						show "Então ele revelou sua verdadeira identidade.";
+						show "Ele era, na verdade, um gigante de Jotunnheim.";
+						show "O gigante estava tão furioso que começou a insultar os Deuses.";
+						next;
+						show "[Lania]";
+						show ".....";
+						show "Você está cansado?";
+						show "Se estiver, vamos conversar sobre isso mais tarde.";
+						next;
+						
+						switch( select( "OK. Até mais tarde.", "Não, por favor continue." ) )
+						{
+
+							case 1:
+							show "[Lania]";
+							show "Eu entendo que minha história não é muito interessante.";
+							show "Vou me esforçar ao máximo para te satisfazer a próxima vez.";
+							show "Tenha uma boa viagem.";
+							close;
+							break;
+
+							case 2:
+							show "[Lania]";
+							show "Oh ok.";
+							show "Então deixe-me continuar a história.";
+							next;
+							break;
+						}
+						
+						show "[Lania]";
+						show "Mais tarde, este gigante se transformou em Hrimthurs.";
+						show "No entano, mesmo que Hrimthurs começou uma batalha os Deuses não estavam nem um pouco preocupados com ele.";
+						show "Pois entre eles estava Thor, o caçador de gigantes.";
+						next;
+						show "[Lania]";
+						show "Quando Thor jogou seu martelo lendário 'Mjolnir' violentamente sobre Hrimthurs, a cabeça do gigante espatifou-se em vários fragmentos e ele foi levado ao inferno.";
+						next;
+						show "[Lania]";
+						show ".....";
+						show "Você está cansado?";
+						show "Se estiver, vamos conversar sobre isso mais tarde.";
+						next;
+						
+						switch( select( "Deixe-me organizar a história primeiro.", "Até mais tarde.", "Por favor, continue." ) )
+						{
+
+							case 1:
+							show "[Lania]";
+							show "Ah....";
+							show "A história deve ser muito longa.";
+							show "Desculpe-me...";
+							show "Ok, vou deixá-lo terminar de organizar a compreensão da história...";
+							next;
+							show "......................";
+							show "..................";
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "..................";
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "...............";
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show "............";
+							show ".........";
+							show "......";
+							next;
+							show ".........";
+							show "......";
+							next;
+							show "......";
+							next;
+							show "[Lania]";
+							show "Posso continuar agora?";
+							next;
+							menu "Sim, por favor.",-;
+							show "[Lania]";
+							show "Ok, continuando.";
+							next;
+							break;
+
+							case 2:
+							show "[Lania]";
+							show "Eu entendo que minha história não é muito interessante.";
+							show "Vou me esforçar ao máximo para te satisfazer a próxima vez.";
+							show "Tenha uma boa viagem.";
+							close;
+							break;
+
+							case 3:
+							show "[Lania]";
+							show "Oh ok.";
+							show "Então deixe-me continuar a história.";
+							next;
+							break;
+						}
+
+						show "[Lania]";
+						show "Após um tempo, Loki que estava vestido em roupas gastas e rotas, trouxe um pequeno corcel de aparência estranha com oito patas para Asgard.";
+						show "Loki apresentou o pequeno corcel como sendo 'Sleipnir' e o presenteou à Odin.";
+						show "Odin aceitou o presente de Loki muito agradecidamente.";
+						next;
+						show "[Lania]";
+						show "O fato é que Loki transformou-se na égua que encantou Svadilfari e eventualmente ele foi emprenhado por ele. Esta é a história de como 'Sleipnir' nasceu.";
+						next;
+						show "[Lania]";
+						show "Nós, membros desta ordem apenas passamos esta história apenas pela fala.";
+						show "Portanto, pequenos detalhes podem ser uns diferentes dos outros.";
+						show "No entanto, a história fundamental é a mesma.";
+						next;
+						show "[Lania]";
+						show "Não pude praticar muito bem ultimamente, portanto não estou tão confiante se lhe contei a história como a original.";
+						show "Mas espero que entenda que eu fiz o meu melhor.";
+						show "Isto foi tudo no que eu posso ajudá-lo.";
+						next;
+						show "[Lania]";
+						show "Se desejar escutar novamente a história, você será sempre bem-vindo.";
+						show "Tenha uma boa viagem.";
+						if(god_sl_2 == 1)
+							set god_sl_2,2;
+						else if(god_sl_2 == 3)
+							set god_sl_2,4;
+						close;
+						break;
+					}
+				break;
+				
+				case 2:
+				show "[Lania]";
+				show "Quando estiver em agonia, por favor olhe para seu passado.";
+				show "Assim como as lendas e mitos, a sua história também é uma história do passado.";
+				show "Você pode encontrar a solução dos seus problemas em si mesmo.";
+				close;
+				break;
+			}
+		}
+		else
+		{
+			show "[Lania]";
+			show "Eu contei-lhe tudo o que sabia.";
+			show "Espero que seja útil para você.";
+			show "Por favor seja gentil com outras pessoas...";
+			close;
+		}
+	}
+	else
+	{
+		show "[Lania]";
+		show "............";
+		show "Treinar não inclui apenas a prática mental ou física.";
+		show "Viver uma vida e conhecer as pessoas também são consideradas como uma parte da prática. Obviamente, cada um terá o seu resultado final.";
+		close;
+		}
+	}
+	else
+	{
+		show "[Lania]";
+		show "............";
+		show "Treinar não inclui apenas a prática mental ou física.";
+		show "Viver uma vida e conhecer as pessoas também são consideradas como uma parte da prática. Obviamente, cada um terá o seu resultado final.";
+		close;
+	}
+}
+  
+// warp 0 -laboratory entrance
+que_god01,84,95,0	script	Switch#God0	111,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	close2;
+	warp "que_god01",60,88;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,84,92,0	script	god_sl_w0	45,1,1,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",60,88;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+// ¿öÇÁ 1¹ø -ÇÏ¶õµµÆ®
+que_god01,49,97,0	script	Interruptor#God1	111,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",62,119;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,46,97,0	script	god_sl_w1	45,1,1,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",62,119;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+
+// ¿öÇÁ 2¹ø -&#190;Æµò
+que_god01,19,97,0	script	Interruptor#God2	111,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",12,119;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,16,97,0	script	god_sl_w2	45,1,1,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",12,119;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,14,80,0	script	Interruptor#God3	111,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",12,52;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,17,80,0	script	god_sl_w3	45,1,1,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",12,52;
+	end;
+	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+// ¿öÇÁ 4¹ø Äí&#184;£Æ®
+que_god01,44,80,0	script	Interrutpor#God4	111,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51)
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",50,52;
+	end;
+ 	}
+	else
+	{
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}
+
+que_god01,47,80,0	script	god_sl_w4	45,1,1,{
+
+	if(god_sl_1 > 1 && god_sl_1 < 51){
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Quando você colocou seu passe temporário no detector, a porta abriu.";
+	next;
+	warp "que_god01",50,52;
+	end;
+	} else {
+	show "A porta estava trancada.";
+	show "Você olhou ao redor e encontrou um detector do lado direito da porta.";
+	show "Parece que você precisa por algo no detector de forma a abrir a porta.";
+	close;
+	}
+
+}

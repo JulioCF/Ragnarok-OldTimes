@@ -1,0 +1,107 @@
+//===== Cronus Script ================================================= 
+//= Garota Negociante
+//===== Por: ==========================================================
+//= eAthena Dev Team
+//===== Versão Atual: ================================================= 
+//= 1.4.1a
+//===== Descrição: ==================================================== 
+//= Dá gratuitamente Falcões, PecoPecos e Carrinhos
+//===== Changelog: ==================================================== 
+//= 1.1 Iniciado o Npc [eAthena]
+//= 1.2 Traduzido [Ramon]
+//= 1.3 Organizado [Kamper]
+//= 1.4b Fixado todos bugs visto [Mehah]
+//=	 - Fixado Checagem de classe(todos)
+//=	 - Fixado Checagem de skills(todos)
+//=	 - Adicionado Checagem, se você possui ou não(Carrinho, Falcon ou PecoPeco)
+//= 1.4.1a Revisada as falas do NPC(foram corrigida e Testada) [Mehah]
+//=====================================================================
+
+prontera.gat,127,200,5	script	Garota Negociante	90,{
+	show "[Garota Negociante]";
+	show "Olá, aqui você pode pegar Carrinhos, Falcões e Pecopecos.";
+	next;
+
+L_Menu:
+	menu "Pegar Carrinho",L_Cart,"Pegar falcão",L_Falcon,"Pegar Pecopeco",L_Peco,"Sair",L_Quit;
+	close;
+
+L_Cart:
+	if(Class !=Job_Novice && checkcart(0) == 0 && getskilllv(39) >= 1) goto L_Cart_Ok;
+	if((Class == Job_Merchant || Class == Job_Blacksmith || Class == Job_Alchem || Class == Job_SuperNovice) && getskilllv(39)<1) goto L_Need_Skill;
+	if (checkcart(0) == 1) goto L_Cart2;
+	
+	show "[Garota Negociante]";
+	show "Desculpe " + strcharinfo(0) + ", os únicos que podem pegar carrinhos são Super Aprendizes e Mercadores com a habilidade que ambos possuem.";
+	close;
+
+L_Cart2:
+	show "[Garota Negociante]";
+	show "Você já possui Carrinho!";
+	close;
+
+L_Cart_Ok:
+	setcart;
+	goto L_Quit2;
+
+L_Need_Skill:
+	show "[Garota Negociante]";
+	show "Desculpe, você não tem a habilidade requerida para poder usar o Carrinho.";
+	close;
+
+L_Falcon:
+	if(Class !=Job_Novice && checkfalcon(0) == 0 && getskilllv(127) == 1) goto L_Falc;
+	if(Class == Job_Hunter && getskilllv(127)<1) goto L_Need_Skill2;
+	if (checkfalcon(0) == 1) goto L_Falcon2;
+
+	show "[Garota Negociante]";
+	show "Desculpe " + strcharinfo(0) + ", os únicos que podem pegar falcões são Caçadores com a habilidade que possue.";
+	close;
+
+L_Falcon2:
+	show "[Garota Negociante]";
+	show "Você já possui Falcão!";
+	close;
+
+L_Falc:
+	setfalcon;
+	goto L_Quit2;
+
+L_Need_Skill2:
+	show "[Garota Negociante]";
+	show "Desculpe, você não tem a habilidade requerida para poder usar um falcão.";
+	close;
+
+L_Peco:
+	if (Class !=Job_Novice && checkriding(0) == 0 && getskilllv(63) == 1) goto L_Peco_Ok;
+	if ((Class == Job_Knight || Class == Job_Crusader) && getskilllv(63)<1) goto L_Need_Skill3;
+	if (checkriding(0) == 1) goto L_Peco2;
+	
+	show "[Garota Negociante]";
+	show "Desculpe " + strcharinfo(0) + ", só quem pode pegar PecoPecos são Cavaleiros e Templários com a habilidade que ambos possuem.";
+	close;
+	
+L_Peco2:
+	show "[Garota Negociante]";
+	show "Você já possui PecoPeco!";
+	close;
+
+L_Peco_Ok:
+	setriding;
+	goto L_Quit2;
+
+L_Need_Skill3:
+	show "[Garota Negociante]";
+	show "Desculpe, você não tem a habilidade requerida para poder usar o PecoPeco.";
+	close;
+
+L_Quit:
+	show "[Garota Negociante]";
+	show strcharinfo(0) + ", por favor quando estiver pronto fale comigo novamente.";
+	close;
+
+L_Quit2:
+	show "[Garota Negociante]";
+	show strcharinfo(0) + ", por favor volte aqui quando precisar.";
+	close;
+}

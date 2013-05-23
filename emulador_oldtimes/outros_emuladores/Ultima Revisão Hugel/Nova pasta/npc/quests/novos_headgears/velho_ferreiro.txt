@@ -1,0 +1,101 @@
+//===== Cronus Script ========================================
+//= Quests Orelhas Malígnas e Orelhas de Anjo
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.4)
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quests das Orelhas Malígnas e Orelhas de Anjo
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text, wrong ID! [Lupus]
+//= 1.3 Fixed possible exploit, 1.3a coords fixed [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+yuno,240,52,4	script	Velho Ferreiro	813,{
+ show "[Velho Ferreiro]";
+ show "Muito bem meu bom homem!!";
+ show "O que eu posso fazer pr você?";
+ next;
+ menu "Dei-me uma Asas Malígnas!",M_EOD,"Dei-me uma Orelhas de Anjo!",M_EOA,"Nada, obrigado",M_EXIT;
+
+M_EOD:
+ show "[Velho Ferreiro]";
+ show "Bem, este item faz com que você pareça mau.";
+ show "Me faz sujar a calça quando eu vejo eles.";
+ next;
+ menu "Eu não me importo, faça-me o item!",-,"O que eu preciso?",M_EODREQ,"Nada",M_EXIT;
+
+ if(countitem(2255) < 1 || countitem(2286) < 1 || Zeny < 20000) GOTO L_NOITEM_EOD;//Items: Evil Wing, Elven Ears,
+ delitem 2255,1;//Items: Evil Wing,
+ delitem 2286,1;//Items: Elven Ears,
+ set Zeny,Zeny-20000;
+ show "[Velho Ferreiro]";
+ show "Uau, nunca pensei que um pessoa como você podesse pegar isso";
+ show "Bwahaha, ok.";
+ next;
+ additem 5068,1;//Items: Ears Of Demon,
+ show "[Velho Ferreiro]";
+ show "Bem, aproveite seu item!";
+ close;
+
+L_NOITEM_EOD:
+ show "[Velho Ferreiro]";
+ show "Bem, desculpa, mas você não os items necessarios!";
+ next;
+
+M_EODREQ:
+ show "[Velho Ferreiro]";
+ show "Bem, deixe-me ver...";
+ show "Eu necessito algo para o mal, isso seria uma Asa de Demônio,";
+ show "Eu também preciso da orelhas para base disso, Orelhas de Elfo está OK,";
+ show "para finalizar 20,000 de Zeny pelo meu trabalho.";
+ next;
+ show "[Velho Ferreiro]";
+ show "Hei, eu preciso criar uma vida!";
+ close;
+
+M_EOA:
+ show "[Velho Ferreiro]";
+ show "Bem, esse item faz com que você parece uma pessoa sagrada.";
+ next;
+ menu "Não me importo, faça-me o item",-,"O que eu preciso?",M_EOAREQ,"Nada",M_EXIT;
+
+ if(countitem(2286) < 1 || countitem(2254) < 1 || Zeny < 20000) GOTO L_NOITEM_EOA;//Items: Elven Ears, Angel Wing,
+ delitem 2286,1;//Items: Elven Ears,
+ delitem 2254,1;//Items: Angel Wing,
+ set Zeny,Zeny-20000;
+ show "[Velho Ferreiro]";
+ show "Bem bem bem! Alguém que tenha espirto!";
+ show "OK, dei-me os items";
+ next;
+ show "[Velho Ferreiro]";
+ show "Okay, e aqui está..";
+ next;
+ additem 5074,1;//Items: Ears of Angel,
+ show "[Velho Ferreiro]";
+ show "Aproveite!";
+ close;
+
+L_NOITEM_EOA:
+ show "[Velho Ferreiro]";
+ show "Be,, desculpa mas você não tem items sufucientes!";
+ next;
+
+M_EOAREQ:
+ show "[Velho Ferreiro]";
+ show "Bem, esse items são bem sagrados, entõa veja o que eu preciso:";
+ show "1 Asa de Anjo,";
+ show "1 Orelhas de Elfo para a Asa de Anjo";
+ show "e 20,000z para cobrir os gastos!";
+ close;
+
+M_EXIT:
+ show "[Velho Ferreiro]";
+ show "Muito bem!";
+ close;
+}

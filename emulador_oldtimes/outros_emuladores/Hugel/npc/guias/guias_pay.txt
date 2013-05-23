@@ -1,0 +1,188 @@
+//===== Cronus Script ===========================================
+//= Guias de Payon
+//===== Por: ====================================================
+//= Pudim
+//===== Versão Atual: ===========================================
+//= 1.0
+//===== Compatível Com: =========================================
+//= eAthena e Cronus
+//===== Descrição: ============================================== 
+//= Guias da Cidade de Payon
+//===== Comentarios Adicionais: ================================= 
+//= Script Reestruturado [Mehah]
+//===============================================================
+
+
+
+payon,162,67,4	script	Guia	708,{
+	show "[Guia de Payon]";
+	show "Bem vindo à Payon, a cidade das montanhas.";
+	next;
+	show "[Guia de Payon]";
+	show "Nós estamos aqui para ajudar os visitantes da cidade.  Se você tem alguma dúvida, consulte-nos.";
+	show "Se esta é a sua primeira vez utilizando um guia, por favor selecione 'Tutorial'.";
+M_Menu:
+	next;
+	switch(select("Indicações","Limpar indicações","Tutorial","Cancelar.")){
+
+		case 1:
+			show "[Guia de Payon]";
+			show "Por favor, selecione uma das opções.";
+			show "Você gostaria que as indicações permaneçam no mini-mapa?";
+			next;
+			switch(select("Sim","Não")){
+				case 1: set @COMPASS_CHECK,1; break;
+				case 2: set @COMPASS_CHECK,0;
+			}
+			next;
+
+	sM_Menu:
+		switch(select("^FF0000Guilda dos Arqueiros^000000","Loja de Armas","Loja de Ferramentas","Estalagaem","Palácio Central","Cancelar")){
+
+			case 1: 
+				show "[Guia de Payon]"; 
+				show "A Guilda dos Arqueiros é o lugal onde pode se tornar um Arqueiro.  Ela se encontra ao Norte da Vila dos Arqueiros. Para chegar na vila dos Arqueiros, saia da cidade pela direção nordeste."; 
+				viewpoint 1,175,189,1,0xFF0000; 
+				goto sL_Wipe;
+	
+			case 2: 
+				show "[Guia de Payon]"; 
+				show "A 'Loja de Armas' se encontra ao noroeste da cidade."; 
+				viewpoint 1,30,177,2,0xFF00FF; 
+				goto sL_Wipe;
+	
+			case 3: 
+				show "[Guia de Payon]"; 
+				show "A 'Loja de Ferramentas ' se encontra ao noroeste da Vila dos Arqueiros. Para chegar na Vila dos Arqueiros, saia da cidade pela direção nordeste.";
+				viewpoint 1,175,189,3,0xFF00FF; 
+				goto sL_Wipe;
+	
+			case 4: 
+				show "[Guia de Payon]"; 
+				show "A 'Estalagem' se encotra a leste do centro da cidade.";
+				viewpoint 1,172,133,4,0xFF00FF; 
+				goto sL_Wipe;
+	
+			case 5: 
+				show "[Guia de Payon]"; 
+				show "O 'Palácio Central' se encontra ao norte do centro da cidade."; 
+				viewpoint 1,90,167,5,0x00FF00; 
+				goto sL_Wipe;
+
+			case 6:
+				show "[Guia de Payon]";
+				show "Se você deseja apagar as indicaçoes do seu mini-mapa, por favor selecione 'Limpar Indicações'.";
+				next;
+				goto M_Menu;
+		}
+		
+	case 2: 
+		set @COMPASS_CHECK, 2; 
+
+		sL_Wipe: 
+			if(@COMPASS_CHECK != 2) next;   // desvia o segundo 'prox' quando 'limpar indicações'é escolhido
+			if(@COMPASS_CHECK == 1) goto sM_Menu; 
+			viewpoint 2,175,189,1,0xFF0000; 
+			viewpoint 2,30,177,2,0xFF00FF; 
+			viewpoint 2,175,189,3,0xFF00FF; 
+			viewpoint 2,172,133,4,0xFF00FF; 
+			viewpoint 2,90,167,5,0x00FF00; 
+			if (@COMPASS_CHECK == 0) goto sM_Menu; 
+			goto M_Menu;
+
+	case 3:
+		show "[Guia de Payon]";
+		show "Nós fomos exaustivamente treinados para serví-lo da melhor possivel e sem falhas. Assim você tem a garantia das melhores indicações possíveis.";
+		next;
+		show "[Guia de Payon]";
+		show "As indicações que lhe daremos podem ser marcadas no seu mini-mapa	.";
+		show "Para visualizar o seu mini-mapa, aperte 'ctrl+tab' ou clique no botão 'mapa' no menu principal.";
+		show "Controle o seu 'zoom' no mini-mapa por meio dos símbolos '+' e '-'.";
+		goto M_Menu;
+
+	case 4:
+		show "[Guia de Payon]";
+		show "Espero que você tenha uma viagem segura e aproveite sua estadia.";
+		close;
+	}
+}
+
+// Archer Village ----------------------------------------------------------------
+pay_arche,85,30,2	script	Guia	105,{
+	show "[Guia de Payon]";
+	show "Bem vindo à Payon, a cidade das montanhas.";
+	next;
+	show "[Guia de Payon]";
+	show "Nós estamos aqui para ajudar os visitantes da cidade.  Se você tem alguma dúvida, consulte-nos.";
+	show "Se esta é a sua primeira vez utilizando um guia, por favor selecione 'Tutorial'.";
+
+M_Menu:
+	next;
+	switch(select("Indicações","Limpar indicações","Tutorial","Cancelar.")){
+	menu "Indicações",M_1, "Limpar indicações",M_1_4, "Tutorial",M_2, "Cancelar.",M_End;
+		case 1:
+			show "[Guia de Payon]";
+			show "Por favor, selecione uma das opções.";
+			show "Você gostaria que as indicações permaneçam no mini-mapa?";
+			next;
+			switch(select("Sim","Não")){
+			menu "Sim",sM_1b,"Não",sM_1a;
+				case 1: set @COMPASS_CHECK,1;break;
+				case 2: set @COMPASS_CHECK,0;
+			}
+			next;
+		sM_Menu:
+		switch(select("^FF0000Guilda dos Arqueiros^000000","Loja de Ferramentas","Caverna de Payon","Cancelar")){
+
+		case 1: 
+			show "[Guia de Payon]"; 
+			show "A Guilda dos Arqueiros é o lugal onde pode se tornar um Arqueiro.  Ela se encontra ao Norte da Vila dos Arqueiros. Para chegar na vila dos Arqueiros, saia da cidade pela direção nordeste."; 
+			viewpoint 1,144,164,1,0xFF0000;
+			break;
+		case 2:
+			show "[Guia de Payon]"; 
+			show "A 'Loja de Ferramentas ' se encontra ao noroeste da Vila dos Arqueiros. Para chegar na Vila dos Arqueiros, saia da cidade pela direção nordeste.";
+			viewpoint 1,71,156,2,0xFF00FF;
+			break;
+		case 3:
+			show "[Guia de Payon]";
+			show "A 'Caverna de Payon' se encontra a noroeste da Vila dos Arquiros.  Para chegar na Vila dos Arqueiros, saia da cidade pela direção nordeste.";
+			viewpoint 1,34,132,3,0x0000FF;
+			break;
+			
+		case 4:
+			show "[Guia de Payon]";
+			show "Se você deseja apagar as indicaçoes do seu mini-mapa, por favor selecione 'Limpar Indicações'.";
+			next;
+			goto M_Menu;
+		}
+		goto sL_Wipe;
+		
+		case 2:
+			set @COMPASS_CHECK, 2;
+
+		sL_Wipe:
+			if(@COMPASS_CHECK != 2) next;	// desvia o segundo 'prox' quando 'limpar indicações'é escolhido
+			if(@COMPASS_CHECK == 1) goto sM_Menu;
+			viewpoint 2,144,164,1,0xFF0000;
+			viewpoint 2,71,156,2,0xFF00FF;
+			viewpoint 2,34,132,3,0x0000FF;
+			if (@COMPASS_CHECK == 0) goto sM_Menu;
+			goto M_Menu;
+
+		case 3:
+			show "[Guia de Payon]";
+			show "Nós fomos exaustivamente treinados para serví-lo da melhor possivel e sem falhas. Assim você tem a garantia das melhores indicações possíveis.";
+			next;
+			show "[Guia de Payon]";
+			show "As indicações que lhe daremos podem ser marcadas no seu mini-mapa	.";
+			show "Para visualizar o seu mini-mapa, aperte 'ctrl+tab' ou clique no botão 'mapa' no menu principal.";
+			show "Controle o seu 'zoom' no mini-mapa por meio dos símbolos '+' e '-'.";
+			goto M_Menu;
+
+		case 4:
+			show "[Guia de Payon]";
+			show "Espero que você tenha uma viagem segura e aproveite sua estadia.";
+			close;
+	}
+}

@@ -1,0 +1,62 @@
+// Moving HP Recovery
+
+izlude_in.gat,175,130,2	script	Thomas De Knight	98,{
+	if ((Class == Job_Swordman) && (JobLevel < 35)) goto LStartLowlv;
+	if (!((Class == Job_Swordman) || (Class == Job_Knight) || (Class == Job_Knight2) || (Class == Job_Crusader) || (Class == Job_Crusader2))) goto LStartOther;
+	if (getskilllv(144)>0) goto LStartTwice;
+	if ((countitem(713)>=500) && (countitem(752)>=1) && (countitem(2312)>=1)) goto L3;
+Lstart:		
+		mes "[Thomas De Knight]";
+		mes "Hello, I am Thomas De Knight.";
+		mes "I would like you to do me a favour. In return I will give you the HP movement recovery skill. ";
+		mes "Get me 500 ^FF0000Empty Bottles^000000, 1 ^FF0000Rocker Doll^000000, and 1 ^FF0000Padded Armour^000000.";
+		mes "Come back when you have these things and your reward will be waiting for you. ";
+		close;
+
+L3:
+		mes "[Thomas De Knight]";
+		mes "So you have succeded with your task.";
+		mes "I promised you that I would give you the HP movement recovery skill.";
+		mes "Do you want me to implement the skill right away?";
+		menu "Yes, please",L3_1,"No, thanks",L3_2;
+
+L3_1:
+				mes "[Thomas De Knight]";
+				mes "Congratulations";
+				next;
+				mes "[Thomas De Knight]";
+				mes "I will now give you the ability to move around and gain HP.";
+				mes "This is an old skill and only taught to strong men.";
+				next;
+				delitem 713,200;
+				delitem 1058,1;
+				skill 144,1,0;
+				mes "[Thomas De Knight]";
+				mes "Now it is implemented in to your skilltree.";
+				mes "The skill will be used automaticaly.";
+				mes "Good luck";
+				close;
+L3_2:
+				mes "[Thomas De Knight]";
+				mes "Come back when you feel ready.";
+				mes "I will be waiting for your arrival.";
+				mes "Good luck.";
+				close;
+LStartOther:
+	mes "[Thomas De Knight]";
+	mes "I am Thomas De Knight and I am a teacher in the HP recovery skill.";
+	mes "This skill can only be used by a Swordman.";
+	mes "Unfortunately you ain't a swordman.";
+	close;
+
+LStartLowlv:
+	mes "[Thomas De Knight]";
+	mes "Hello young Swordman. You have to raise your level a little more before learning the HP recovery skill.";
+	mes "YOu need to be atleast joblevel 35.";
+	close;
+
+LStartTwice:
+	mes "[Thomas De Knight]";
+	mes "YOu already have this skill implemented in your skilltree.";
+	close;
+}

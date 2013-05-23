@@ -1,0 +1,177 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Bruxo
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.1b (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0b Puxado do eA, traduzido e adaptado [Page]
+//= 1.1b Corrigido pequeno erro, digit ao inves de digit [ADM Endless]
+//============================================================
+
+
+//============================================================
+// WIZARD - SIGHTBLASTER
+//============================================================
+gef_tower,116,37,1	script	Enoz#2	748,{
+	if(HELLIONQ == 22)goto L_remember;
+	if(HELLIONQ == 21)goto L_joke;
+	if(HELLIONQ == 20)goto L_take;
+	if(BaseJob!=Job_Wizard) goto L_nowiz;
+	if(getskilllv(1006)) goto L_alreadyhave;
+
+	show "[Enoz]";
+	show "Eu irei lhe ensinar tudo o que sei por:";
+	show "10 Cristais Azuis";
+	show "10 Vidas Verdejantes";
+	show "10 Sangues Escarlates";
+	show "10 Frescores do Vento";
+	next;
+	
+	show "[Enoz]";
+	show "Deixe-me checar seus itens.";
+	next;
+	
+	if(countitem(990)<10 || countitem(991)<10 || countitem(992)<10 || countitem(993)<10) goto L_noitems;//Items: Red_Blood, Crystal_Blue, Wind_of_Verdure, Green_Live,
+	delitem 990, 10;//Items: Red_Blood,
+	delitem 991, 10;//Items: Crystal_Blue,
+	delitem 992, 10;//Items: Wind_of_Verdure,
+	delitem 993, 10;//Items: Green_Live,
+	
+	show "[Enoz]";
+	show "Eu vejo que você possui tudo o que preciso,";
+	show "então irei lhe ensinar meu talento.";
+	skill 1006,1,0;
+	close;
+
+L_take:
+	show "[Enoz]";
+	show "Foi, foi ele!";
+	show "Mas que inferno foi ele?!";
+	show "Poxa homem, quem poderia ter tido";
+	show "isso? Aguarde, ele era... Você?!";
+	next;
+	menu "Atualmente, Welshyun me enviou.",L_sent,"Sem chances, homem, claro que não.",-;
+
+	show "[Enoz]";
+	show "Sem chances, não?! Oh, você deve";
+	show "parecer doido, é isso?!";
+	show "Você parece insaaaano?!";
+	show "Eu irei sair daqui se";
+	show "você continuar a me incomodar!";
+	close;
+
+L_sent:
+	show "[Enoz]";
+	show "Meu mentor, Welshyun?";
+	show "Uh. Há algum relatório";
+	show "que eu não enviei para ele";
+	show "ainda? Então como se chamava?";
+	next;
+	digit @tempstr$;
+	if(@tempstr$ != "Monstros Vivem na Área de Geffen")goto L_wrongstr;
+
+	show "[Enoz]";
+	show "'Monstros vivem na";
+	show "Área de Geffen'?";
+	show "Oh, não. Meu mentor soube";
+	show "disso três dias atrás!";
+	show "Ele está usando seus";
+	show "velhos truques novamente?";
+	next;
+	show "[Enoz]";
+	show "Ai, meu deus!";
+	show "Onde está meu";
+	show "Livro de Referência";
+	show "do Mestre da Ciência?";
+	show "Esteve tudo tão certo";
+	show "aqui três dias atrás...";
+	set HELLIONQ,21;
+	close;
+
+L_joke:
+	show "[Enoz]";
+	show "Meu mentor Welshyun";
+	show "estava fazendo um jogo novamente,";
+	show "então é melhor você ir falar com ele.";
+	show "Hmm.. Onde está meu";
+	show "Livro de Referência";
+	show "do Mestre da Ciência?";
+	close;
+
+L_wrongstr:
+	show "[Enoz]";
+	show @tempstr$ + "?";
+	show "Eu não completei";
+	show "aquele tão procurado relato";
+	show "sobre esse assunto. Ou eu completei?";
+	show "Mesmo assim, eu preciso do nome";
+	show "exato do relatório!";
+	close;
+
+L_remember:
+	show "[Enoz]";
+	show "Hey, eu me lembro de você~";
+	show "Então seu mentor enviou-lhe";
+	show "novamente com que finalidade?";
+	next;
+	show "^3151FFVocê cautelosamente deixou o livro";
+	show "Livro de Referência do Mestre da Ciência.";
+	next;
+	show "[Enoz]";
+	show "Sim! Finalmente sim!";
+	show "Este é o livro que";
+	show "eu perdi tem três dias!";
+	show "Muito obrigado!";
+	show "Agora eu posso finalizar";
+	show "meu tão procurando projeto que--";
+	next;
+	show "[Enoz]";
+	show "Aguarde, a página que eu";
+	show "preciso está faltando! E temos";
+	show "sorte, há uma nota.. Hmm...";
+	show "^111111'Enoz, acho que essa página";
+	show "vale ao menos 1 Suco de Maçã.";
+	show "Certo? --Welshyun'^000000.";
+	next;
+	show "[Enoz]";
+	show "NãOoOoooOoOO!";
+	show "Não novameeente!";
+	show "Por que ele está";
+	show "sempre jogando assim?!";
+	show "Suco de Maçã! Eu preciso";
+	show "de Suco de Maçã!";
+	next;
+	show "^3151FFEle olha como se fosse";
+	show "hora de conseguir 1 Gema Azul,";
+	show "e entregá-la de volta ao";
+	show "Sábio Welshyun.";
+	set HELLIONQ,23;
+	close;
+	
+L_noitems:
+	show "[Enoz]";
+	show "Você não tem os itens suficientes.";
+	show "Volte apenas quando você possuir";
+	show "os itens que lhe pedi.";
+	close;
+	
+L_nowiz:
+	show "[Enoz]";
+	show "Pronto! Está pronto!";
+	show "Onde foi feito o livro";
+	show "que eu realmente necessito ir?";
+	show "Ai não, ai não, ai não!~~";
+	show "Waaaahh, eu irei chorar!";
+	close;
+
+L_alreadyhave:
+	show "[Enoz]";
+	show "Eu já lhe disse tudo";
+	show "o que eu sei...";
+	close;
+}

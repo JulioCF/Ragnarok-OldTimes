@@ -1,0 +1,71 @@
+//===== Cronus Script ========================================
+//= Quest Chapéu Para Modelos
+//===== Por: =================================================
+//= Halca (1.0
+//= Mass Zero (1.1
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest do Chapéu de Ursinho
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text
+//=	fixed wrong items ID [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Traduzido para o Cronus [Amandinha]
+//= 1.4 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+payon_in01,143,8,5	script	Nan Hyang	814,{
+ if(getequipisequiped(5073)) GOTO L_GOOD;
+ if(BaseJob == 0) GOTO L_NOVICE;
+ show "[Nan Hyang]";
+ show "Tut tut! Você tem uma terrivel postura!";
+ show "Você precisa conserta-la imediatamente!";
+ next;
+ show "[Nan Hyang]";
+ show "Eu posso conserta por você mas você precisará me dá uns itens para eu fazer um Chapéu para Modelos.";
+ next;
+ menu "Por favor, faça-me um",-,"O que eu preciso?",M_REQ,"Não, obrigado!",M_EXIT;
+
+ if(countitem(1550) < 1 || countitem(2285) < 1) GOTO L_NOITEM;//Items: Book, Apple o' Archer,
+ delitem 1550,1;//Items: Livro,
+ delitem 2285,1;//Items: Macã Guilherme Tell,
+ show "[Nan Hyang]";
+ show "Ahh enfim uma pessoa seria!";
+ next;
+ additem 5073,1;//Items: Chapéu para Modelos,
+ show "[Nan Hyang]";
+ show "Hehe, bem, talvez você se torne mas cuidadoso, ou então sua sensibilidade fique balançada.";
+ close;
+
+M_REQ:
+ show "[Nan Hyang]";
+ show "O que eu preciso é bem simples";
+ next;
+ show "[Nan Hyang]";
+ show "1 Livro";
+ show "e 1 Maçã de Guilherme Tell para balanciar ele.";
+ close;
+
+L_NOITEM:
+ show "[Nan Hyang]";
+ show "Ao menos seja sério, você não tem itens suficiente!";
+ show "Volte quando quiser conserta sua postura.";
+ close;
+
+L_GOOD:
+ show "[Nan Hyang]";
+ show "Oh, isso é ótimo! é bom ver que você está aprendendo rápido!";
+ close;
+
+L_NOVICE:
+ show "Olá, você poderia me visitar na próxima semana?";
+ close;
+
+M_EXIT:
+ show "[Nan Hyang]";
+ show "Bom dia para você.";
+ close;
+}

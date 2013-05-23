@@ -1,0 +1,558 @@
+/*
+
+http://sushiduy.plesk3.freepgs.com/ROScripts/WoeInfo/woeinfo_122.php
+
+*/
+//======================================================================================================
+//= Toasty's WoE Controller (formerly WoE Info Banner)
+//===== By: ============================================================================================
+//= ToastOfDoom (aka: iHeart)
+//===== Current Version: ===============================================================================
+//= 1.22
+//===== Description: ===================================================================================
+//= A WoE Controller function which controls castle based WoE by utilising npc events. 
+//= Includes a NPC that provides information on the next WoE session
+//=
+//= This script is kinda @reloadscript/@loadnpc safe, provided that someone clicks the NPCs afterwards 
+//= to start the OnInit function. That said..it is recommended that you don't use @reloadscript/@loadnpc 
+//= but reset your server.
+//===== Changelog: =====================================================================================
+//= 1.22
+//= - Fixed an issue regarding the controller getting confused when using @reloadscript/loadnpc while
+//=   WoE was still active. (thanks to annie for pointing out)
+//= 1.21
+//= - Fixed a misspelt variable name (thanks to rahuldev345 for pointing out)
+//= 1.20
+//= - Project renamed to 'Toasty's WoE Controller'. The script originally was only used to display WoE 
+//=   times then I 1st wrote it 3yrs ago and I feel it's purpose is more to control WoE these days. So 
+//=   name change to better reflect purpose.
+//= - Added support for novice WoE. Region teleport goes to the Novice Warper NPC (default in prontera)
+//=   Change position in .region_maps, .region_x, .region_y if needed.
+//= - Region warp now only displays regions that have castles used at least once. (eg. If you don't 
+//=   configure any castles for Payon region, payon will not show up)
+//= - Optimised WoE Active/Inactive map notifier. Old method used too many loops for something that
+//=   can happen alot.
+//= - Adjusted menus to be abit more friendly. 'next's will always display before 'menu's
+//= - Fixed bug with WoE autostarting when only configured for 2 sessions in one day
+//= - Added some nifty code that prevents catastrophic failure of the script if you try to run a trunk 
+//=   version on a stable server (ie. if you do, it will show an error message, but script will still 
+//=   run perfectly fine - check out WoEToggler function for those that want to peek at it =P)
+//= 1.11
+//= - Fixed timer glitch when players only configured sessions for one day of the week
+//= - Adjusted timer to show remaining time more accurately
+//= - Modified .num_woes calculation due to bug regarding 0's being counted as unset values in arrays
+//= 1.10
+//= - Expanded script to allow castle based configuration
+//= - Moved away from portal based woe control. Now using donpcevents to OnAgitEnd/2 events. Provided 
+//=   castles are linked to the main agit commands in this manner, they will be controllable using this 
+//=   script.
+//= - Added an onLoadMap WoE available notifier. Can be disabled by setting .notify_woe to 0 in the 
+//=   CONFIG section.
+//= - Did some funky color coding.
+//= - Added Coordinate based warping per region (see .region_x & .region_y in the CONSTANTS section)
+//= 1.02
+//= - Added delwaitingroom to banner npc to prevent memory leaks from bug #2325
+//= - To reduce spamming of waitingroom packets to players banner NPC only now updates when the banner 
+//=   text changes. Thus min time between updates is now 1sec regardless of setting.
+//= - Added setting for rate which banner time is updated (.banner_refresh_rate) in the CONFIG section.
+//= - Added agitstart2/end2 to provide WoE2 support (Hope it works ^_^;)
+//= 1.01
+//= - Hardcoded in refresh value for banner npc instead of getting it from config from WoEInfoBase. Had 
+//=   issues starting the script after @reloadscript/@loadnpc
+//======================================================================================================
+-	script	WoEInfoBase	-1,{
+
+	OnStartMenu:
+		if(.init == 0)
+			donpcevent strnpcinfo(3)+"::OnInit";
+	
+	OnStartMenu2:
+		mes "A " + ((.state)?"^00DD00atual":"^DD0000próxima") + "^000000 WoE é/será em: ";
+		mes " ";
+		mes "Dia: ^0000DD" + .daysOfWeek$[.woe_day[.woe_index]];
+		mes "^000000Início: ^00DD00" + .woe_0_str$[.woe_index];
+		mes "^000000Término: ^DD0000" + .woe_1_str$[.woe_index];
+		mes "^000000Feudo:";
+
+		set .@state_strs$, ".woe_state_str_" + .woe_state[.woe_index] + "$";
+		for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+			set .@output$, getd(.@state_strs$ + "[" + .@i + "]");
+			if(.@output$ != "")
+				mes "^000000- ^0000DD" + .@output$;
+		}
+		
+		
+		if(getgmlevel() >= .gm_access)
+		{
+			next;
+			select(
+				"Warp to Castle Grounds",
+				"View Castle Owners",
+				"View all WoE times", 
+				((!.state)?"Start next WoE":"End current WoE"),
+				((.state)?"":"Skip next WoE session")
+				);
+		}
+		else
+		/*
+			select(
+				//"Warp to Castle Grounds",
+				"Ver Donos de Castelos",
+				"View all WoE times");
+		*/
+			close;
+			
+		switch(@menu) {
+			case 1:		//warp
+				mes "Which region would you like to warp to?";
+				next;
+				select(.region_warp$[.woe_state[.woe_index]]);
+				if(@menu < 1 || @menu > .num_regions)
+					close;
+								
+				close2;
+				warp .region_maps$[@menu - 1], .region_x[@menu - 1], .region_y[@menu - 1];
+				end;
+			case 2:		//view			
+				set .@woe_state_array$, ".woe_state_" + .woe_state[.woe_index];
+				for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+					set .@k, 0;
+					set .@castles$, ".castles_" + .regions$[.@i] + "$";
+					set .@castle_check, getd(.@woe_state_array$ + "[" + .@i + "]");
+					while(.@castle_check && .@k < .num_castles[.@i]) {
+						if(.@castle_check & (1 << .@k)) {
+							set .@map$, getd(.@castles$+"["+.@k+"]");
+							if (GetCastleData(.@map$,1)) {
+								dispbottom "The [" + GetCastleName(.@map$) + "] castle of the [" + .region_names$[.@i] + "] region is currently held by the [" + GetGuildName(GetCastleData(.@map$,1)) + "] guild.";
+							} else {
+								dispbottom "The [" + GetCastleName(.@map$) + "] castle of the [" + .region_names$[.@i] + "] region is currently unoccupied.";
+							}
+							set .@castle_check, .@castle_check - (1 << .@k);
+						}
+						set .@k, .@k + 1;		
+					}
+				}
+				break;
+			case 3:		//woe times
+				for(set .@i, 0; .@i < .num_woes; set .@i, .@i + 1) {							
+					dispbottom "- " + .daysOfWeek$[.woe_day[.@i]] + " " + .woe_0_str$[.@i] + "-" + .woe_1_str$[.@i];
+					set .@woe_state_str_array$, ".woe_state_str_" + .woe_state[.@i] + "$";
+					for(set .@k, 0; .@k < .num_regions; set .@k, .@k + 1) {
+						set .@output$, getd(.@woe_state_str_array$ + "[" + .@k + "]");
+						if(.@output$ != "")
+							dispbottom "        " + .@output$;
+					}
+				}
+				break;
+			case 4:		//start next;
+				if(getgmlevel() <.gm_access) close;
+				
+				mes "^FF0000Are you sure you want to " + ((!.state)?"start the next WoE session?":"end the current WoE session?");
+				next;
+				if(select("Yes:No") == 2) break;
+				
+				set .remainTime, 0;	//might not work sometimes...you have like a 500ms window out of 505ms i guess..
+				sleep2 .timer_refresh_rate;	//wait abit so the menu doesn't screw up (how long it takes for the timer to update)
+				break;
+			case 5:		//skip next;
+				if(getgmlevel() <.gm_access || .state) close;
+				
+				mes "^FF0000Are you sure you want to skip the next WoE session^000000";
+				next;
+				if(select("Yes:No") == 2) break;
+				if(.state) {	//you really can't do this with woe active
+					next;
+					mes "Sorry, in the time you took making your decision, WoE started";
+					mes "Please either manually end it first or wait";
+					break;			
+				}
+				set .woe_index, (.woe_index + 1) % .num_woes;
+				donpcevent strnpcinfo(3)+"::OnUpdateCountTick";
+				sleep2 .timer_refresh_rate;
+				break;
+			default: close;		
+		}
+		goto OnStartMenu2;
+	
+	OnInit:
+
+		//-----------------------------------------------------------------------------------------//
+		//CONFIG START                                                                             //
+		//-----------------------------------------------------------------------------------------//
+		
+		set .gm_access, 80;
+		
+		//WoE timings needs to be ordered ascendingly unless you want to do weird 
+		//stuff like skip a region every other week or so...
+		//Also times can't overlap. Uses second of day(gettimetick(1)) for timing
+		// eg 1am -> 3600, 2:30pm -> 52200, midnight -> 86400 (anything past that doesn't work)
+		//Note: woe_0 is start times, woe_1 is end times. Ignore how it's called but
+		//		 don't change it either since it's dynamically used
+		//		 Also..woe has to end on the same day it starts (it's easier that way..)
+		setarray .woe_day[0],	0;
+		setarray .woe_0[0],	10800;
+		setarray .woe_1[0],	11400;
+		setarray .woe_state[0],	0;
+		
+		//WoE state settings. Every WoE session can be defined as a particular state of castle configuration.
+		//.woe_state_#[%] = $
+		// # - state number
+		// % - region number
+		// $ - binary representation of castles that are active for that region in that state (
+		//     (ie. 0 is no castles, 5 is castle 0 and 2  (2^0 + 2^2 = 5))
+		setarray .woe_state_0[0],1,0,0,0,0,0,0;
+		
+		//Setting for if script handles WoE controller function. Disable agit_controller.txt if you are using this.
+		//For if you want to use something else to handle your woe stuff but only this script
+		//to show info (1 - on, 0 - off...duh)
+		set .active_woe, 1;
+		
+		
+		//WoE inactive on map notifier. Basically notifies player if the castle they are entering is
+		//WoE active or not
+		set .notify_woe, 0;
+		
+		//-----------------------------------------------------------------------------------------//
+		//CONFIG END                                                                               //
+		//-----------------------------------------------------------------------------------------//
+		
+		
+		//-----------------------------------------------------------------------------------------//
+		//CONSTANTS START - Don't touch this unless you know what you are doing                    //
+		//-----------------------------------------------------------------------------------------//
+		
+		//castle maps by region
+		setarray .castles_prtg$[0],"prtg_cas01","prtg_cas02","prtg_cas03","prtg_cas04","prtg_cas05";
+		setarray .castles_payg$[0],"payg_cas01","payg_cas02","payg_cas03","payg_cas04","payg_cas05";
+		setarray .castles_gefg$[0],"gefg_cas01","gefg_cas02","gefg_cas03","gefg_cas04","gefg_cas05";
+		setarray .castles_aldeg$[0],"aldeg_cas01","aldeg_cas02","aldeg_cas03","aldeg_cas04","aldeg_cas05";
+		setarray .castles_arug$[0],"arug_cas01","arug_cas02","arug_cas03","arug_cas04","arug_cas05";
+		setarray .castles_schg$[0],"schg_cas01","schg_cas02","schg_cas03","schg_cas04","schg_cas05";
+		setarray .castles_novi$[0],"nguild_alde","nguild_gef","nguild_pay","nguild_prt";
+		
+		//woe kill functions for each castle
+		setarray .woe_kill_prtg$[0],"Agit#prtg_cas01::OnAgitEnd","Agit#prtg_cas02::OnAgitEnd","Agit#prtg_cas03::OnAgitEnd","Agit#prtg_cas04::OnAgitEnd","Agit#prtg_cas05::OnAgitEnd";
+		setarray .woe_kill_payg$[0],"Agit#payg_cas01::OnAgitEnd","Agit#payg_cas02::OnAgitEnd","Agit#payg_cas03::OnAgitEnd","Agit#payg_cas04::OnAgitEnd","Agit#payg_cas05::OnAgitEnd";
+		setarray .woe_kill_gefg$[0],"Agit#gefg_cas01::OnAgitEnd","Agit#gefg_cas02::OnAgitEnd","Agit#gefg_cas03::OnAgitEnd","Agit#gefg_cas04::OnAgitEnd","Agit#gefg_cas05::OnAgitEnd";
+		setarray .woe_kill_aldeg$[0],"Agit#aldeg_cas01::OnAgitEnd","Agit#aldeg_cas02::OnAgitEnd","Agit#aldeg_cas03::OnAgitEnd","Agit#aldeg_cas04::OnAgitEnd","Agit#aldeg_cas05::OnAgitEnd";
+		setarray .woe_kill_arug$[0],"Manager#aru01_02::OnAgitEnd2","Manager#aru02_02::OnAgitEnd2","Manager#aru03_02::OnAgitEnd2","Manager#aru04_02::OnAgitEnd2","Manager#aru05_02::OnAgitEnd2";
+		setarray .woe_kill_schg$[0],"Manager#sch01_02::OnAgitEnd2","Manager#sch02_02::OnAgitEnd2","Manager#sch03_02::OnAgitEnd2","Manager#sch04_02::OnAgitEnd2","Manager#sch05_02::OnAgitEnd2";
+		setarray .woe_kill_novi$[0],"Agit_N01::OnAgitEnd","Agit_N02::OnAgitEnd","Agit_N03::OnAgitEnd","Agit_N04::OnAgitEnd";
+		
+		//region prefixs
+		setarray .regions$[0],"prtg","payg","gefg","aldeg","arug","schg","novi";
+		
+		//region info
+		setarray .region_names$[0],"Prontera", "Payon", "Geffen", "Aldebaran", "Arunafeltz", "Schwarzwald", "Novice Castles";
+		setarray .region_maps$[0],"prt_gld", "pay_gld", "gef_fild13", "alde_gld", "aru_gld", "sch_gld", "prontera";
+		//coords to warp player to region (0 is random)
+		setarray .region_x[0],0, 0, 0, 0, 0, 0, 148;
+		setarray .region_y[0],0, 0, 0, 0, 0, 0, 163;
+
+		setarray .waitMsg$[0], "Início WoE: ", "Fim WoE: ";
+		setarray .startMsg$[0], "WoE está Começando", "WoE está Terminando";
+	
+		set .ticks_in_day, 86400;	//mmm...magic numbers
+		setarray .daysOfWeek$[0], "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado";
+
+		set .timer_refresh_rate, 500;	//how many ms per timer refresh...keep less than 1000 (in milliseconds)
+		set .change_state_sleep, 3000;	//how long to show "WoE is Start|End-ing" msg for in ms. (in milliseconds)
+										//Make sure WoE sessions are longer than this xD
+		set .banner_refresh_rate, 10;	//how many seconds per banner refresh...keep 1 or above (in seconds)
+		
+		//-----------------------------------------------------------------------------------------//
+		//CONSTANTS END                                                                            //
+		//-----------------------------------------------------------------------------------------//
+
+		set .num_regions, getarraysize(.regions$);
+		set .num_woes, getarraysize(.woe_1);
+		
+		//force WoE to end if active
+		callfunc "WoEToggler", 0;
+		
+		for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+			//count num castles per region
+			set .num_castles[.@i], getarraysize(getd(".castles_" + .regions$[.@i] + "$"));
+		}
+		
+		//convert timestamps to readable format
+		for(set .@i, 0; .@i < .num_woes; set .@i, .@i + 1)
+		{
+			set .@hrs, .woe_0[.@i] / 3600;
+			set .@mins, .woe_0[.@i] % 3600 / 60;
+			set .@output$, ((.@hrs % 12)?.@hrs%12:12) + ":" + ((.@mins < 10)?"0"+.@mins:.@mins) + " " + ((.@hrs > 12)?"PM":"AM");	
+			
+			set .woe_0_str$[.@i], .@output$;		
+			
+			set .@hrs, .woe_1[.@i] / 3600;
+			set .@mins, .woe_1[.@i] % 3600 / 60;
+			set .@output$, ((.@hrs % 12)?.@hrs%12:12) + ":" + ((.@mins < 10)?"0"+.@mins:.@mins) + " " + ((.@hrs > 12)?"PM":"AM");	
+			
+			set .woe_1_str$[.@i], .@output$;		
+		}
+		
+		//calc number of woe states and consolidate states to create list of castles used
+		set .num_states, 0;
+		while(getarraysize(getd(".woe_state_" + (.num_states)))) {
+			set .@state$, ".woe_state_" + .num_states;
+			set .@i, 0;
+			while(.@i < getarraysize(getd(.@state$))) {
+				set .castleUsage[.@i], .castleUsage[.@i] | getd(.@state$ + "[" + .@i + "]");
+				set .@i, .@i + 1;
+			}
+			set .num_states, .num_states + 1;			
+		}
+
+		for(set .@i, 0; .@i < .num_states; set .@i, .@i + 1) {							
+			set .@woe_state_array$, ".woe_state_" + .@i;
+			for(set .@k, 0; .@k < .num_regions; set .@k, .@k + 1) {
+				if(.castleUsage[.@k] > 0) {
+					set .@castles$, ".castles_" + .regions$[.@k] + "$";
+					set .@castle_check, getd(.@woe_state_array$ + "[" + .@k + "]");
+					if(.@castle_check == 0) { //region not in this state
+						//region warp menu string
+						set .region_warp$[.@i], .region_warp$[.@i] + "^DD0000" + .region_names$[.@k] + "^000000:";
+						continue;
+					} else {
+						if(.@castle_check >= ((1 << .num_castles[.@k]) - 1)) {
+							//includes all castles...just list as region.
+							setd(".woe_state_str_" + .@i + "$[" + .@k + "]", .region_names$[.@k]);
+							
+							//region warp menu string
+							set .region_warp$[.@i], .region_warp$[.@i] + "^00DD00" + .region_names$[.@k] + "^000000:";
+						} else {
+							set .@j, 0;
+							set .@output$, "";
+							while(.@j < .num_castles[.@k]) {
+								if(.@castle_check & (1 << .@j)) {
+									set .@output$, .@output$ + GetCastleName(getd(.@castles$+"["+.@j+"]"));
+									set .@castle_check, .@castle_check - (1 << .@j);
+									if(.@castle_check) {
+										if(.@output$ != "") 
+										set .@output$, .@output$ + ", ";
+									} else
+										break;
+								}
+								set .@j, .@j + 1;
+							}
+							setd(".woe_state_str_" + .@i + "$[" + .@k + "]", .region_names$[.@k] + " ("+  .@output$ + ")");
+							
+							//region warp menu string
+							set .region_warp$[.@i], .region_warp$[.@i] + "^00DD00" + .region_names$[.@k] + " ("+  .@output$ + ")^000000:";
+						}
+					}
+				} else {
+					set .region_warp$[.@i], .region_warp$[.@i] + ":";
+				}
+			}
+		}
+		
+		donpcevent strnpcinfo(3)+"::OnFindCurIndex";
+		donpcevent strnpcinfo(3)+"::OnUpdateCountTick";
+			
+		if(.active_woe) {
+			if(.notify_woe) {
+				//set mapflag for all castle maps
+				for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+					set .@region_array$, ".castles_" + .regions$[.@i] + "$";
+					for(set .@k, 0; .@k < .num_castles[.@i]; set .@k, .@k + 1) {
+						setmapflag getd(.@region_array$ + "[" + .@k + "]"), mf_loadevent;
+						setd(".loadmap_region_" + getd(.@region_array$ + "[" + .@k + "]"), .@i + 1);
+						setd(".loadmap_castleIndex_" + getd(.@region_array$ + "[" + .@k + "]"), .@k);
+					}
+				}
+			}
+			//activates WoE if needed
+			donpcevent strnpcinfo(3)+"::OnDoWoE";
+		}
+		//flag that init occured
+		set .init, 1;
+	
+	OnWoETimer:
+		//timer stuff
+		while (1) {
+			set .remainTime, .count_tick - gettimetick(2);
+			set .bannerTimer, .remainTime - (.remainTime % .banner_refresh_rate) + .banner_refresh_rate;
+			set .min, .bannerTimer / 60;
+			set .sec, .bannerTimer - .min * 60;
+			set .hr, .min / 60;
+			set .min, .min - .hr * 60;
+			set .roomMsg$, .waitMsg$[.state] + .hr + ":" + ((.min < 10 )?"0":"") + .min + ":" + ((.sec < 10 )?"0":"") + .sec;
+			sleep .timer_refresh_rate;
+			
+			if(.remainTime <= 0) {
+				if(.active_woe) {
+					donpcevent strnpcinfo(3)+"::OnDoWoE";
+					}
+				set .roomMsg$, .startMsg$[.state];
+				
+				set .woe_index, (.woe_index + .state) % .num_woes;	//go to next index if needed
+				set .state, (.state + 1) % 2;						//flip state
+
+				donpcevent strnpcinfo(3)+"::OnUpdateCountTick";
+				sleep .change_state_sleep;
+			}
+		}
+		end;	//obligatory end =D		
+
+	OnUpdateCountTick:
+		set .count_tick, getd(".woe_" + .state + "[" + .woe_index + "]");
+		set .count_tick, gettimetick(2) + .count_tick - gettimetick(1) + (.woe_day[.woe_index] - gettime(4) + 7) % 7 * .ticks_in_day;
+
+		if(gettimetick(2) > .count_tick)
+			set .count_tick, .count_tick + 7 * .ticks_in_day;
+		end;
+	
+	OnFindCurIndex:
+	
+		set .@cur_day, gettime(4);		
+		set .@cur_tick, gettimetick(1);
+		
+		set .woe_index, 0;
+		set .state, 0;
+
+		for(set .@i, 0; .@i < .num_woes; set .@i, .@i + 1) {
+			if(.woe_day[.@i] < .@cur_day)
+				continue;
+		
+			if(.woe_day[.@i] == .@cur_day) {
+				if(.woe_0[.@i] >= .@cur_tick) {
+					set .woe_index, .@i;
+					set .state, 0;
+					break;
+				}
+				if(.woe_1[.@i] >= .@cur_tick) {
+					set .woe_index, .@i;
+					set .state, 1;
+					break;
+				}
+			}
+			if(.woe_day[.@i] > .@cur_day) {
+				set .woe_index, .@i;
+				set .state, 0;
+				break;
+			}		
+		}
+		end;
+			
+	//On map notifier
+	//Comment out OnPCLoadMapEvent label if .notify_woe is disabled to prevent unnecessary triggering
+	//OnPCLoadMapEvent:
+		if(.state && .notify_woe) {
+			getmapxy(.@map$, .@x, .@y, 0);
+			set .@region, getd(".loadmap_region_" + .@map$) - 1;
+			if(.@region >= 0) {
+				set .@castleIndex, getd(".loadmap_castleIndex_" + .@map$);
+				if(getd(".woe_state_" + .woe_state[.woe_index] + "[" + .@region + "]") & 1 << .@castleIndex)
+					dispbottom "O castelo de [" + GetCastleName(.@map$) + "] está ativado neste dia de WoE.";
+				else
+					dispbottom "O castelo de [" + GetCastleName(.@map$) + "] NÃO está ativado neste dia de WoE.";
+			}
+		}
+		end;
+		
+	//------------------------------------------------------------------------------
+	// WoE Controller Stuff Here
+	//------------------------------------------------------------------------------
+		
+	OnDoWoE:	
+		if((.state == 0 && .init) || (.state == 1 && !agitcheck())) {	//starting
+			callfunc "WoEToggler", 1;	
+			
+			//kills WoE in all castles that shouldn't have WoE
+			set .@woe_state_array$, ".woe_state_" + .woe_state[.woe_index];
+			for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+				set .@castles$, ".castles_" + .regions$[.@i] + "$";
+				set .@castle_check, getd(.@woe_state_array$ + "[" + .@i + "]");
+				
+				for(set .@k, 0; .@k < .num_castles[.@i]; set .@k, .@k + 1) {
+					set .@map$, getd(.@castles$+"["+.@k+"]");
+					if((.@castle_check & (1 << .@k)) == 0) {
+						donpcevent getd(".woe_kill_" + .regions$[.@i] + "$[" + .@k + "]");
+					}
+				}
+			}
+
+			announce "The War Of Emperium has begun!",bc_all;
+			donpcevent strnpcinfo(3)+"::OnDisplayOwners";
+		} else {			//ending
+			if(agitcheck()) {
+				callfunc "WoEToggler", 0;
+				announce "The War Of Emperium is over!",bc_all;
+				donpcevent strnpcinfo(3)+"::OnDisplayOwners";
+			}
+		}
+		end;
+		
+	OnDisplayOwners:	//displays based on current region
+		set .@woe_state_array$, ".woe_state_" + .woe_state[.woe_index];
+		for(set .@i, 0; .@i < .num_regions; set .@i, .@i + 1) {
+			set .@k, 0;
+			
+			set .@castle_check, getd(.@woe_state_array$ + "[" + .@i + "]");
+			set .@castles$, ".castles_" + .regions$[.@i] + "$";
+			
+			while(.@castle_check && .@k < .num_castles[.@i]) {
+				if(.@castle_check & (1 << .@k)) {
+					set .@map$, getd(.@castles$+"["+.@k+"]");
+					if (GetCastleData(.@map$,1)) {
+						announce "O Castelo de [" + GetCastleName(.@map$) + "] pertence ao Clã [" + GetGuildName(GetCastleData(.@map$,1)) + "].",bc_all;
+					} else {
+						announce "O Castelo de [" + GetCastleName(.@map$) + "] está totalmente desocupado.",bc_all;
+					}
+					set .@castle_check, .@castle_check - (1 << .@k);
+				}				
+				set .@k, .@k + 1;		
+			}
+		}
+		end;
+}
+
+/*
+prontera,154,176,4	script	WoE Info	837,{
+	if(getwaitingroomstate(3, strnpcinfo(3)) == -1)
+		donpcevent strnpcinfo(3)+"::OnInit";
+
+	donpcevent "WoEInfoBase::OnStartMenu";
+	end;
+	
+	OnInit:
+		while (1) {
+			//only updates if msg is different
+			set .banner$, getwaitingroomstate(4, strnpcinfo(3));
+			if(getvariableofnpc(.roomMsg$, "WoEInfoBase") != .banner$) {
+				delwaitingroom;
+				waitingroom getvariableofnpc(.roomMsg$, "WoEInfoBase"), 0;
+			}
+			sleep 500;
+		}
+		end;
+}
+*/
+
+//---------------------------------------------------------------------------------------------------------------------
+
+//These two functions handle WoE's activation/deactivation. Since stable does not have AgitStart2/AgitEnd2, 
+//using the trunk version will result in catastrophic failure of the script. Double declaration of the following
+//functions fixes this (you will get warning messages though)
+
+function	script	WoEToggler	{ //<state> = 0|1
+	if(getarg(0)) {
+		AgitStart;	
+	} else {
+		AgitEnd;
+	}
+	return;
+}
+
+//if stable script will fail parsing this function, but the rest of the script will still be usable
+/*function	script	WoEToggler	{ //<state> = 0|1
+	if(getarg(0)) {
+		AgitStart;
+		AgitStart2;		
+	} else {
+		AgitEnd;
+		AgitEnd2;	
+	}
+	return;
+}*/

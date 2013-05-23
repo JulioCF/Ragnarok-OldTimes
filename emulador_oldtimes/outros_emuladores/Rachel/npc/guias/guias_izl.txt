@@ -1,0 +1,119 @@
+//===== Cronus Script ======================================== 
+//= Guias de Izlude
+//===== Por: ================================================= 
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.4.1
+//===== Compatível Com: ====================================== 
+//= eAthena  7.15 +, Cronus 477 +
+//===== Descrição: =========================================== 
+//= Guias da cidade de Izlude
+//===== Comentários Atuais: ================================== 
+//= 1.3b Traduzido e Adaptado para o Cronus [Pudim]
+//= 1.4 Traduzido o nome do npc [Kamper]
+//= 1.4.1 Corrigido classname [Kamper]
+//= Script Reestruturado [Mehah]
+//============================================================
+
+izlude,121,87,6	script	Guia	105,{
+	cutin "prt_soldier",2;
+	show "[Guia de Izlude]";
+	show "Bem vindo à Izlude,";
+	show "A cidade satelite de Prontera.";
+	show "Se você precisar de alguma orientação";
+	show "em torno de Izlude, sinta-se a";
+	show "vontade para me perguntar qualquer hora.";
+L_MENU:
+	next;
+	switch(select("Guia da Cidade","Limpar todas as indicações do mini-mapa","Cancelar")){
+		case 1:
+			show "Você deseja deixar as informações no mini-mapa?";
+			next;
+		switch(select("Sim","Não")){
+			case 1: set @COMPASS_CHECK,1;break;
+			case 2: set @COMPASS_CHECK,0;
+		}
+L_MENU_2:
+		switch(select("^FF0000Associação dos Espadachins^000000","Hall dos Espadachins","Arena","Marina de Izlude","Loja de Equipamentos","Loja de Ferramentas","Cancelar")){
+
+			case 1:
+				show "[Guia de Izlude]";
+				show "A Associação dos Espadachins";
+				show "é localizada na ilha ao";
+				show "Oeste de Izlude. Se você está pensando";
+				show "em se tornar um Espadachim,";
+				show "deveria visitar esse local.";
+				viewpoint 1,52,140,1,0xFF0000;
+				break;
+			case 2:
+				show "[Guia de Izlude]";
+				show "O Hall dos Espadachins";
+				show "está localizado na ilha";
+				show "leste conectada a Izlude.";
+				viewpoint 1,214,130,2,0x00FF00;
+				break;
+			case 3:
+				show "[Guia de Izlude]";
+				show "A Arena está localizada à";
+				show "extremidade do norte de Izlude.";
+				viewpoint 1,128,225,3,0x00FF00;
+				break;
+			case 4:
+				show "[Guia de Izlude]";
+				show "Vo pode encontrar a";
+				show "Marina na parte";
+				show "nordeste de Izlude. Lá, você pode";
+				show "viajar num navio o qual leva você";
+				show "para Alberta ou a Ilha de Byalan.";
+				viewpoint 1,200,180,4,0xFF0000;
+				break;
+			case 5:
+				show "[Guia de Izlude]";
+				show "Você pode facilmente";
+				show "encontrar a Loja de Equipamentos";
+				show "ao noroeste de Izlude.";
+				viewpoint 1,111,149,5,0xFF00FF;
+				break;
+			case 6:
+				show "[Guia de Izlude]";
+				show "A Loja de Ferramentas não deve";
+				show "ser tão difícil de se encontrar na";
+				show "parte noroeste de Izlude.";
+				viewpoint 1,148,148,6,0xFF00FF;
+				break;
+			case 7:
+				show "[Guia de Izlude]";
+			 	show "Por favor me peça para Limpar";
+			 	show "as indicações do mini-mapa se você";
+			 	show "não deseja mais ter os";
+			 	show "locais destacados";
+			 	show "em seu mini-mapa.";
+ 				goto L_MENU;
+ 		}
+ 			next;
+	 		if(@COMPASS_CHECK)goto L_MENU_2;
+			viewpoint 2,52,140,1,0xFF0000;
+			viewpoint 2,214,130,2,0x00FF00;
+			viewpoint 2,128,225,3,0x00FF00;
+			viewpoint 2,200,180,4,0xFF0000;
+			viewpoint 2,111,149,5,0xFF00FF;
+			viewpoint 2,148,148,6,0xFF00FF;
+			goto L_MENU_2;
+		case 2:
+			viewpoint 2,52,140,1,0xFF0000;
+			viewpoint 2,214,130,2,0x00FF00;
+			viewpoint 2,128,225,3,0x00FF00;
+			viewpoint 2,200,180,4,0xFF0000;
+			viewpoint 2,111,149,5,0xFF00FF;
+			viewpoint 2,148,148,6,0xFF00FF;
+			goto L_MENU;
+		case 3:
+		 	show "[Guia de Izlude]";
+		 	show "Tudo bem então, fique";
+		 	show "a vontade para vir aqui";
+			show "sempre que se perder";
+			show "em Izlude, certo?";
+			cutin "prt_soldier",255; 
+		 	close;
+	 }
+}

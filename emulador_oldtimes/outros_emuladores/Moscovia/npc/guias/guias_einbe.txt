@@ -1,0 +1,121 @@
+//===== Cronus Script ======================================== 
+//= Guias de Einbech
+//===== By: ================================================== 
+//= Muad_dib
+//===== Versão Atual: ======================================== 
+//= 1.6
+//===== Compatível com: ====================================== 
+//= Cronus
+//===== Description: ========================================= 
+//=
+//===== Additional Comments: =================================
+//= 1.5 Iniciado Tradução [UpTroni]
+//= 1.6 Revisão e Conversão [Ewerton]
+//= Script Reestruturado [Mehah]
+//============================================================
+
+einbech,67,37,4	script	Guia#1::Einbech_Guide	852,{
+	cutin "ein_soldier",2;
+	show "[Guia de Einbech]";
+	show "Bem vindo a Einbech, a cidade da Mineração.";
+	show "Nós estamos aqui para ajudar os turistas, então se você tiver qualquer dúvida, por favor sinta-se livre para nos perguntar.";
+L_MENU:
+	next;
+	switch(select("Guia da Cidade","Remover marcações do Mini-Mapa","Notícias","Cancelar")){
+	
+	case 1:
+		show "[Guia de Einbech]";
+		show "Por favor, selecione o local no menu que segue.";
+		show "Você gostaria que eu marcasse os locais em seu Mini-Mapa?";
+		next;
+		switch(select("Sim.","Não.")){
+			case 1: set @COMPASS_CHECK,1;break;
+			case 2:	set @COMPASS_CHECK,0;
+		}
+L_MENU_2:
+	switch(select("Estação de Trem","Taverna","Loja de Ferramentas","Guilda dos Espadachins","Mina","Cancelar")){
+		
+		case 1:
+			show "[Guia de Einbech]";
+			show "A Estação de Trem fica localizada na parte noroeste e nordeste de Einbech.";
+			show "Lá, você pode pegar um trem para Einbroch. Eles ficam passando entre aqui e Einbroch o dia todo, todo dia.";
+			viewpoint 1,44,216,1,0xFF0000;
+			break;
+
+		case 2:
+			show "[Guia de Einbech]";
+			show "A Taverna fica localizada na parte sul de Einbech.";
+			show "É um ótimo lugar para relaxar depois de um longo dia.";
+			viewpoint 1,145,112,2,0xFF00FF;
+			break;
+
+		case 3:
+			show "[Guia de Einbech]";
+			show "Você porde achar a Loja de Ferramentas no centro de Einbech.";
+			show "Lá, você pode comprar qualquer ferramenta que você possa precisar para sua jornada.";
+			viewpoint 1,177,135,3,0xFF00FF;
+			break;
+
+		case 4:
+			show "[Guia de Einbech]";
+			show "A Guilda dos Espadachins fica localizada nas margens leste de Einbech.";
+			show "Está em construção e eles não tem aceitado utilização.";
+			viewpoint 1,253,109,4,0xFF00FF;
+			break;
+
+		case 5:
+			show "[Guia de Einbech]";
+			show "A Mina, a qual é a maior indústria de Einbech, fica localizada na parte norte desta cidade.";
+			show "É onde nós pegamos todos nossos minérios, ainda que os mostros entrem no caminho das minas.";
+			viewpoint 1,138,250,5,0x00FF00;
+			break;
+	
+		case 6:
+			show "[Guia de Einbech]";
+			show "Por favor diga-me para remover as indicações no Mini-Mapa se você não deseja que as indicação aparecam em seu Mini-Mapa.";
+			goto L_MENU;
+		}
+		next;
+		if(@COMPASS_CHECK == 1)goto L_MENU_2;
+		viewpoint 2,44,216,1,0xFF0000;
+		viewpoint 2,145,112,2,0xFF00FF;
+		viewpoint 2,177,135,3,0xFF00FF;
+		viewpoint 2,253,109,4,0xFF00FF;
+		viewpoint 2,138,250,5,0x00FF00;
+		goto L_MENU_2;
+		
+	case 2:
+		viewpoint 2,44,216,1,0xFF0000;
+		viewpoint 2,145,112,2,0xFF00FF;
+		viewpoint 2,177,135,3,0xFF00FF;
+		viewpoint 2,253,109,4,0xFF00FF;
+		viewpoint 2,138,250,5,0x00FF00;
+		show "[Guia de Einbech]";
+		show "Certo, as indicações do seu Mini-Mapa foram removidas.";
+		show "Se você precisar de qualquer orientação sobre Einbech, por favor deixe que eu ou outro Guia de Einbech ajude.";
+		goto L_MENU;
+		
+	case 3:
+		show "[Guia de Einbech]";
+		show "Através da Tecnologia da República de Schwartzwalt, nós atualizamos para um sistema de informação digital que nós permite marcar indicações em seu Mini-Mapa para uma navegação mais fácil.";
+		next;
+	  	show "[Guia de Einbech]";
+	  	show "Seu Mini-Mapa fica localizado no canto superior direito da tela.";
+		show "Se você não consegue ver, aperte as teclas Ctrl + Tab ou clique no botão 'Mapa' em sua Janela de Informações Básicas.";
+	  	next;
+	  	show "[Guia de Einbech]";
+	 	show "Em seu Mini-Mapa, clique nos simbolos '+' e '-' para aumentar ou diminuir o zoom do seu Mini-Mapa.";
+		show "Nós esperamos que você aproveite sua jornada aqui na cidade de Einbech.";
+	 	goto L_MENU;
+	 	
+	case 4:
+		show "[Guia de Einbech]";
+		show "Nós esperamos que você";
+		show "aproveite sua jornada";
+		show "aqui em Einbech.";
+		cutin "ein_soldier",255; 
+		close;
+	}
+}
+
+einbech,48,214,4	duplicate(Einbech_Guide)	Guia#2::Einbe_Guide	852

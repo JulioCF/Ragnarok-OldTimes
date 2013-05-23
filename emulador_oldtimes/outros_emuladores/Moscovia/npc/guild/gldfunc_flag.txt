@@ -1,0 +1,72 @@
+//===== Cronus Script ========================================
+//= Bandeiras da Guerra do Emperium.
+//===== Por: =================================================
+//= jAthena - kalen (1.0)
+//= 1.1 by Akaru, ho|yAnge|X, and Valaris
+//= 1.7X - MaxDragon
+//===== Versão Atual: ========================================
+//= 1.7.1
+//===== Compatível com: ======================================
+//= Cronus 187X+
+//===== Descrição: ===========================================
+//= Mostram se um castelo está capturado ou não.
+//= Permitem aos membros da guilda a irem para seu castelo.
+//======================================
+//= Break down of arguments used in the function:
+//=   arg(0): name of City.
+//=   arg(1): name of guild castle.
+//=   arg(2): x1 coordinate for warp
+//=   arg(3): y1 coordinate for warp
+//=   arg(4): Teleportable (0/1) 
+//===== Additional Comments: =================================
+//= v1.2: All Guild flags scripts use this function. [kobra_k88]
+//= v1.3: Can now only flag in from outside the castle [Kayla]
+//= v1.3a: Implemented k3dt's exploit fix [Vicious]
+//= v1.4: By default town flags are set to no longer show text. [L0ne_W0lf]
+//= v1.5: Updated remaining dialog to iRO standards. [L0ne_W0lf]
+//= v1.6 Restructred script, and removed use of gotos. [L0ne_W0lf]
+//= 6.17 Whoops. fices a @GID -> .@GID. [L0ne_W0lf]
+//= v1.7 Traduzido e trazido ao Cronus.[MaxDragon]
+//= v1.7.1 Corrigido um bug no Script.[MaxDragon]
+//============================================================
+
+function	script	F_Flags	{
+	set .@GID, GetCastleData(getarg(1),1);
+	if (.@GID == 0) {
+		show "[ Marco de Rune Midgard ]";
+		show " ";
+		show "1. Seguindo as regras de Rune Midgard, ";
+		show "Declaramos que não há nenhum";
+		show "dono formal deste castelo.";
+		show " ";
+		show "2. Se sua guild conseguir";
+		show "passar por todos os desafios";
+		show "e destruír o Emperium deste castelo,";
+		show "você será nomeado como o dono deste castelo.";
+		return;
+	}
+	else {
+		if (getcharid(2) == .@GID && getarg(4) == 1) {
+			show "Bravo guerreiro...";
+			show "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo de sua Guild.:Sair.") == 1) {
+				if (getcharid(2) == GetCastleData(getarg(1),1))
+					warp getarg(1),getarg(2),getarg(3);
+			}
+			return;
+		}
+		show "[ Marco de Rune Midgard ]";
+		show " ";
+		show "1. Seguindo as regras de";
+		show "Rune Midgard,";
+		show "declaramos que este castelo está sobre";
+		show "a possessão da Guild ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		show " ";
+		show "2. O Mestre da Guild ^ff0000"+ GetGuildName(.@GID) + "^000000 é";
+		show "^FF0000" + GetGuildMaster(.@GID) + "^000000";
+		show "Se você é contra o domínio dele neste castelo,";
+		show "mostre sua força e honra e conquiste o castelo dele!";
+		return;
+	}
+}

@@ -1,0 +1,2146 @@
+//Swordman Quest for Athena by Script&DB Team 
+
+// Warps Added By DiaDz
+// Mapannounce Fixed By DiaDz
+// Falls Warps By RoVeRT
+// MOBs added by DiaDz
+
+// Warps
+sword_1-1.gat,193,244,0	warp	sword	1,1,sword_1-1.gat,214,243
+sword_1-1.gat,193,206,0	warp	sword1	1,1,sword_1-1.gat,214,205
+sword_1-1.gat,193,168,0	warp	sword2	1,1,sword_1-1.gat,214,167
+// End Warps
+
+izlude_in.gat,30,163,8	script	Test Hall Staff	105,{
+	set @TEMP,0;
+	if(Class != 0) goto L1;
+	if(job_swordman_q==1) goto jobswordqE1;
+	if(job_swordman_q==2) goto jobswordqE2;
+	if(job_swordman_q==3) goto jobswordqE3;
+
+	set @TEMP,rand(2);
+	if(@TEMP !=0) goto L0;
+	mes "[Test Hall Staff]";
+	mes "Dear me! How did you come inside, others are not supposed to be here. Please leave now!";
+	next;
+	warp "izlude_in.gat",66,170;
+	close;
+
+	L0:
+		mes "[Test Hall Staff]";
+		mes "Who are you?! This place for the Swordman Test, You are not belong to here! Leave now!";
+		next;
+		warp "izlude_in.gat",66,170;
+		close;
+
+	jobswordqE1:
+		mes "[Test Hall Staff]";
+		mes "So are you the one who wants be a swordy? Alright! You look reliable!!";
+		mes "Relax yourself and keep up the good work. This is not a diffecult course.";
+		set job_swordman_q,job_swordman_q+1;
+		next;
+		warp "sword_1-1.gat",10,245;
+		close;
+	jobswordqE2:
+		mes "[Test Hall Staff]";
+		mes "Retesting....? Whatsoever, I like the man like you who never be afraid of challange! Now,drink this and cheer up!";
+		getitem 512,5;
+		set job_swordman_q,job_swordman_q+1;
+		next;
+		warp "sword_1-1.gat",10,245;
+		close;
+	jobswordqE3:
+		mes "[Test Hall Staff]";
+		mes "Don't ever give up! Now retesting!";
+		next;
+		warp "sword_1-1.gat",10,245;
+		close;
+}
+
+izlude_in.gat,30,175,4	script	Swordman	92,{
+	mes "[Swordman]";
+	mes "I will tell you about the Test! Listen to me,I won't repeat again.";
+	next;
+	mes "[Swordman]";
+	mes "Purpose of this test is confirmation of your qualification for Swordman.As you know, Swordman needs Physical Strength and the spirit!";
+	mes "Of course you might be rejected if you have no talent. For the next, it's about the progress of Test.";
+	next;
+	mes "[Swordman]";
+	mes "^0083CFCondition of Success^000000 is very simple!";
+	mes "Get a success messages from the manager located at the check point of 3rd course within ^FF000010 minutes^000000.";
+	next;
+	mes "[Swordman]";
+	mes "On the contrary,in case of `Surrender' or when you're `Off the time limit', you will be rejected.";
+	mes "If you want to quit, Go into entrances of each course or inquire at managers of each check point.";
+	next;
+	mes "[Swordman]";
+	mes "Test consists of 3 courses,you will fall down to random place in underneath cave in case you're trapped or out of the course!";
+	mes "It will waste your time much more than anything.";
+	next;
+	mes "[Swordman]";
+	mes "May God bless you.";
+	close;
+}
+			
+izlude_in.gat,62,170,6	script	Swordman	85,{
+	mes "[Swordman]";
+	if(Class==1) goto JobSwo;
+	if(Class !=0) goto NotNov;
+	if(joblevel<9) goto JobLess9;
+	if(job_swordman_q==4) goto JobQ4;
+	if(job_swordman_q==0) goto JobQ0;
+		mes "Hmm let's see, " + strcharinfo(0) + "..." + strcharinfo(0) + "...Aha! There you are " + strcharinfo(0) + "! Come right this way!";
+		next;
+	savepoint "izlude_in.gat",65,165;
+	warp "izlude_in.gat",39,170;
+	close;
+	
+	JobSwo:
+		mes "Stop! This is Swordsman Test Hall!";
+		mes "Others are not permitted to go in! Go back!";
+		close;
+	NotNov:
+		mes "Who the hell are you?! Others except Novice are not permitted to go in! Go back!";
+		close;
+	JobLess9:
+		mes "Stop! This is not the place where the goof without Novice Skills can go in.";
+		mes "When you learn all Skills I will admit you to enter later.";
+		close;
+	JobQ4:
+		mes "Stay there! And inquire at the man in centre first!";
+		close;
+	JobQ0:
+		mes "Stop! Do you want to take the Swordsman Test?";
+		mes "If so, sign up on the swordsman application first!";
+		close;
+}
+
+izlude_in.gat,74,172,5	script	Sword Master	119,{
+	mes "[Sword Master]";
+	mes "Welcome to the Swordman Association! So..What business brings you to us!?";
+	next;
+	menu "Job Change",L0,"About Swordman.",L1,"About the Job requirements.",L2,"Cancel.",LEnd;
+        
+	L0:
+		if(Class==1) goto L0a;
+		if(Class !=0) goto L0b;
+		goto L0c;
+
+		L0a:
+			mes "[Sword Master]";
+			mes "Muhahaha! You must be kidding me! You are already a swordman.";
+			close;
+		L0b:
+			mes "[Sword Master]";
+			mes "Haha!Oh boy.I reject your offer on the behalf of Swordman Association.";
+			mes "You have occupied with another Job,haven't you?";
+			close;
+		L0c:
+			if(job_swordman_q==0) goto L0d;
+			goto L00a;
+		L0d:
+			mes "[Sword Master]";
+			mes "Do you want to change your job? Fine, sign up first.";
+			next;
+			menu "Sign up.",L00,"Cancel.",L00End;
+
+			L00:
+				savepoint "izlude_in.gat",65,165;
+				set job_swordman_q,1;
+				mes "[Sword Master]";
+				mes "Sign there....Okay. You are '" + strcharinfo(0) + "', right? I will present your registration as soon as I can.";
+				mes "... if you already met the requirements, you can take an interview right now.";
+				mes "Want to?";
+				next;
+				menu "Yes.",L000,"No.",L001;
+
+				L000:
+					mes "[Sword Master]";
+					mes "Oh yeah? Let me check.";
+					next;
+					goto L00a;
+				L001:
+					mes "[Sword Master]";
+					mes "Feel free to inquire of me whenever you need.";
+					mes "Now all you have to do is to meet the Requirements that we've laid down. Good luck " + strcharinfo(0) + ".";
+					close;
+			L00End:
+				mes "[Sword Master]";
+				mes "Oh yeah..? Alright, come again anytime when you change your mind.";
+				close;
+		
+		L00a:
+			mes "[Sword Master]";
+			if(joblevel<9) goto NotJob9;
+			if(job_swordman_q<=3) goto jobswordqLE3;
+			if(job_swordman_q==4) goto jobswordqE4;
+		
+		NotJob9:
+			mes "Yo, You haven't learn all Basic Skills you needed to be a Swordsman.";
+			mes "Check the requirements again and learn skills first.";
+			close;
+		jobswordqLE3:
+			mes "You have learned enough skills but didn't take a test yet.";
+			mes "If you don't pass the exam, your dreams of becoming a swordsman will quickly fade.";
+			next;
+			mes "[Sword Master]";
+			mes "The place where you can take a test is the right room next to me.";
+			mes "Even though that room seems to be blocked by a man afront,you can go inside.Please ask him.";
+			close;
+		jobswordqE4:
+			mes "Congratulations " + strcharinfo(0) + "! Now you are fully qualified for Real Swordsman!";
+			mes "I will promote you right away!!";
+			next;
+//			Release_All;
+			jobchange 1;
+			set job_swordman_q,0;
+			announce strcharinfo(0) + " has become a Swordsman!",3;
+			mes "[Sword Master]";
+			mes "Once again, I congratulate you " + strcharinfo(0) + ", in the meantime - I expect you will be on the go and promote the Swordman Assosiation.";
+			close;
+	L1:
+		mes "[Sword Master]";
+		mes "Do you wanna know about Swordman? Alrighty! I will explain for you.";
+		next;
+		mes "[Sword Master]";
+		mes "Priority of Swordman is the best melee attack among 6 jobs.";
+		mes "There are 3 reasons of why Swordy is the best for approch fight!";
+		next;
+		mes "[Sword Master]";
+		mes "1st, Swordman gets the benefit on HP.";
+		mes "2nd, it can use more kinds of weapon than others.";
+		mes "3rd,
+ Most of Swordy skills aid in physically attack.";
+		next;
+		mes "[Sword Master]";
+		mes "Simple but enough explanation for Freshman like you.";
+		mes "Aside from this,in my personal opinion,'Swordman' is the world-wide best job with great appearance!";
+		close;
+	L2:
+		mes "[Sword Master]";
+		mes "Do you wish to be a swordsman!?";
+		if(Class !=0) goto L2a;
+		goto L2d;
+		
+		L2a:
+			if(Class == 1) goto L2b;
+			mes "But, You have another job...? You're a tad too late for a swordsman.";
+			goto L2c;
+			
+			L2b:
+				mes "....but you're already a Swordsman...?";
+				goto L2c;
+			
+			L2c:
+				mes "...Still do you want to know about the Swordman...? Yeah.. Alright...";
+				goto L2d;
+		L2d:
+		next;
+		mes "[Sword Master]";
+		mes "First, You must learn Basic Skill until Level 9. If you can't qualify this condition,you won't be able to become anything.";
+		next;
+		mes "[Sword Master]";
+		mes "Secondly you must pass the Swordman Test.Inquire at the test manager located in the next;ing room of swordman test.";
+		next;
+		mes "[Sword Master]";
+		mes "You will be fully qualified with these 2 conditions,you can be a swordman anytime you want.";
+		close;
+	L3:
+		mes "[Sword Master]";
+		mes "Enjoy your youth before you lose it~~";
+		close;
+}
+
+sword_1-1.gat,230,245,2	script	Medic	105,{
+	heal 1000,1000;
+	mes "[Medic]";
+	mes "This is the 1st check point!";
+	mes "I shall heal you " + strcharinfo(0) + ".";
+	close;
+}
+	
+sword_1-1.gat,230,242,2	script	Test Hall Staff	105,{
+	mes "[Test Hall Staff]";
+	mes "Do you surrender?";
+	next;
+	menu "Yes.",L0,"No.",L1;
+
+	L0:
+		announce "Applicant " + strcharinfo(0) + ", has failed the test.",1;
+		mes "[Test Hall Staff]";
+		mes "We hope you do better next time " + strcharinfo(0) + ".";
+		next;
+		warp "izlude_in.gat",65,165;
+		close;
+	L1:
+		mes "[Test Hall Staff]";
+		mes "Bravo! You can do it " + strcharinfo(0) + "!";
+   		close;
+}
+
+sword_1-1.gat,230,207,2	script	Medic	105,{
+	heal 1000,1000;
+	mes "[Medic]";
+	mes "This is the 2nd check point!";
+	mes "I shall heal you " + strcharinfo(0) + ".";
+	close;
+}
+
+sword_1-1.gat,230,204,2	script	Test Hall Staff	105,{
+	mes "[Test Hall Staff]";
+	mes "Do you surrender?";
+	next;
+	menu "Yes.",L0,"No.",L1;
+
+	L0:
+		announce "Applicant " + strcharinfo(0) + ", has failed the test.",1;
+		mes "[Test Hall Staff]";
+		mes "We hope you do better next time " + strcharinfo(0) + ".";
+		next;
+		warp "izlude_in.gat",65,165;
+		close;
+	L1:
+		mes "[Test Hall Staff]";
+		mes "Bravo! You can do it " + strcharinfo(0) + "!";
+   		close;
+}
+				
+sword_1-1.gat,223,167,2	script	Mae	92,{
+	announce "Applicant " + strcharinfo(0) + ", has successfully passed the test.",1;
+	set job_swordman_q,4;
+    mes "[Mae]";
+	mes "I sincerely congratulate you " + strcharinfo(0) + " for passing the test!";
+	mes "I already sent your test result to the Job Department. Please inquire at the Officer in Centre. Thank you.";
+	next;
+	warp "izlude_in.gat",66,173;
+	close;
+}
+
+// Quest mobs by DiaDz
+sword_1-1.gat,35,78,0,0	monster	Chonchon		1183,3,60000,30000,0
+sword_1-1.gat,50,108,0,0	monster	Chonchon		1183,3,60000,30000,0
+sword_1-1.gat,61,28,0,0	monster	Chonchon		1183,3,60000,30000,0
+sword_1-1.gat,61,92,0,0	monster	Chonchon		1183,3,60000,30000,0
+sword_1-1.gat,110,112,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,161,94,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,130,76,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,103,58,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,130,24,0,0	monster	Chonchon		1183,5,60000,30000,0
+sword_1-1.gat,201,36,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,201,16,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,239,44,0,0	monster	Chonchon		1183,3,60000,30000,0
+sword_1-1.gat,239,76,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,231,101,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,234,117,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,198,91,0,0	monster	Chonchon		1183,2,60000,30000,0
+sword_1-1.gat,200,63,0,0	monster	Chonchon		1183,2,60000,30000,0
+
+// Fall Warps By: RoVeRT
+// Thanks!!! =D
+sword_1-1.gat,16,251,4	script	1_blank_1_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,19,251,4	script	1_blank_1_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}	
+
+sword_1-1.gat,17,250,4	script	1_blank_1_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,17,251,4	script	1_blank_1_a	139,1,1,{
+	set @TEMP,rand(5);
+	announce @TEMP,3;
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,18,251,4	script	1_blank_1_b	139,1,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}	
+
+sword_1-1.gat,17,251,4	script	1_blank_1_c	139,1,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,16,238,4	script	1_blank_2_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,19,238,4	script	1_blank_2_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,17,239,4	script	1_blank_2_c	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,28,246,4	script	1_blank_3_a	139,4,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,33,245,4	script	1_blank_3_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,29,242,4	script	1_blank_3_c	139,4,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,24,244,4	script	1_blank_3_d	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,38,251,4	script	1_blank_4_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,41,251,4	script	1_blank_4_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,39,250,4	script	1_blank_4_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,38,238,4	script	1_blank_5_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,41,238,4	script	1_blank_5_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,39,239,4	script	1_blank_5_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,54,251,4	script	1_blank_6_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,71,251,4	script	1_blank_6_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,62,250,4	script	1_blank_6_c	139,9,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,62,247,4	script	1_blank_7_a	139,8,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,71,244,4	script	1_blank_7_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,63,242,4	script	1_blank_7_c	139,8,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,54,244,4	script	1_blank_7_d	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,54,238,4	script	1_blank_8_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,71,238,4	script	1_blank_8_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,62,239,4	script	1_blank_8_c	139,9,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,102,247,4	script	1_blank_9_a	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,105,245,4	script	1_blank_9_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,103,242,4	script	1_blank_9_c	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,100,244,4	script	1_blank_9_d	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,156,249,4	script	1_blank_10_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,156,248,4	script	1_blank_10_b	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,170,249,4	script	1_blank_10_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,170,248,4	script	1_blank_10_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,156,245,4	script	1_blank_11_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,156,244,4	script	1_blank_11_b	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,170,245,4	script	1_blank_11_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+
+sword_1-1.gat,170,244,4	script	1_blank_11_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,156,241,4	script	1_blank_12_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,156,240,4	script	1_blank_12_b	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,170,241,4	script	1_blank_12_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}	
+
+sword_1-1.gat,170,240,4	script	1_blank_12_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,180,251,4	script	1_blank_13_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+sword_1-1.gat,183,251,4	script	1_blank_13_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,181,250,4	script	1_blank_13_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,180,238,4	script	1_blank_14_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,183,238,4	script	1_blank_14_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,181,239,4	script	1_blank_14_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",65,56;
+	if (@TEMP==1) warp "sword_1-1.gat",29,26;
+	if (@TEMP==2) warp "sword_1-1.gat",43,16;
+	if (@TEMP==3) warp "sword_1-1.gat",23,112;
+	if (@TEMP==4) warp "sword_1-1.gat",58,83;
+	end;
+}
+
+sword_1-1.gat,56,212,4	script	2_blank_1_a	139,40,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,95,212,4	script	2_blank_1_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,56,210,4	script	2_blank_2_a	139,40,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,95,210,4	script	2_blank_2_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,16,206,4	script	2_blank_2_c	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,97,206,4	script	2_blank_2_d	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,56,203,4	script	2_blank_2_e	139,40,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,95,203,4	script	2_blank_2_f	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,56,201,4	script	2_blank_3_a	139,40,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,95,201,4	script	2_blank_3_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+// part 2
+
+sword_1-1.gat,113,212,4	script	2_blank_4_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,125,212,4	script	2_blank_4_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,113,210,4	script	2_blank_5_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,125,210,4	script	2_blank_5_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,100,206,4	script	2_blank_5_c	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,127,206,4	script	2_blank_5_d	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,113,203,4	script	2_blank_5_e	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,125,210,4	script	2_blank_5_f	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,113,201,4	script	2_blank_6_a	139,14,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,113,201,4	script	2_blank_6_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+// part 3
+
+sword_1-1.gat,155,212,4	script	2_blank_7_a	139,21,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,181,212,4	script	2_blank_7_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,155,210,4	script	2_blank_8_a	139,21,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,181,210,4	script	2_blank_8_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,130,206,4	script	2_blank_8_c	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,183,206,4	script	2_blank_8_d	139,0,3,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+sword_1-1.gat,155,203,4	script	2_blank_8_e	139,21,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,181,203,4	script	2_blank_8_f	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+sword_1-1.gat,155,201,4	script	2_blank_9_a	139,40,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,181,201,4	script	2_blank_9_b	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",162,120;
+	if (@TEMP==1) warp "sword_1-1.gat",94,120;
+	if (@TEMP==2) warp "sword_1-1.gat",94,85;
+	if (@TEMP==3) warp "sword_1-1.gat",162,85;
+	if (@TEMP==4) warp "sword_1-1.gat",130,47;
+	end;
+}
+
+sword_1-1.gat,17,174,4	script	3_blank_1_a	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,17,163,4	script	3_blank_2_a	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,29,171,4	script	3_blank_3_a	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,31,168,4	script	3_blank_3_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,28,166,4	script	3_blank_3_c	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,26,168,4	script	3_blank_3_d	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,36,169,4	script	3_blank_4_a	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,37,169,4	script	3_blank_4_b	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,37,168,4	script	3_blank_4_c	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,36,168,4	script	3_blank_4_c	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,40,175,4	script	3_blank_5_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,41,175,4	script	3_blank_5_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,41,171,4	script	3_blank_6_a	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,41,170,4	script	3_blank_6_b	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,41,167,4	script	3_blank_6_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,41,166,4	script	3_blank_6_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,42,169,4	script	3_blank_6_e	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,43,170,4	script	3_blank_6_f	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,43,167,4	script	3_blank_6_g	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,40,162,4	script	3_blank_7_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,41,162,4	script	3_blank_7_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,46,175,4	script	3_blank_8_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,51,175,4	script	3_blank_8_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,47,174,4	script	3_blank_8_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,50,174,4	script	3_blank_8_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,48,173,4	script	3_blank_8_e	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,49,173,4	script	3_blank_8_f	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,46,162,4	script	3_blank_9_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,51,162,4	script	3_blank_9_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,47,163,4	script	3_blank_9_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,50,163,4	script	3_blank_9_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,48,164,4	script	3_blank_9_e	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,49,164,4	script	3_blank_9_f	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,54,170,4	script	3_blank_10_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,55,170,4	script	3_blank_10_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,54,167,4	script	3_blank_10_c	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,55,167,4	script	3_blank_10_d	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,53,169,4	script	3_blank_10_e	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,53,168,4	script	3_blank_10_f	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,56,169,4	script	3_blank_10_g	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,56,168,4	script	3_blank_10_h	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,58,175,4	script	3_blank_11_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,59,174,4	script	3_blank_11_b	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,60,173,4	script	3_blank_11_c	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,61,172,4	script	3_blank_11_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,58,162,4	script	3_blank_12_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,59,163,4	script	3_blank_12_b	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,60,164,4	script	3_blank_12_c	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,61,165,4	script	3_blank_12_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,76,172,4	script	3_blank_13_a	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,77,173,4	script	3_blank_13_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,78,174,4	script	3_blank_13_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,79,175,4	script	3_blank_13_d	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,76,165,4	script	3_blank_14_a	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,77,164,4	script	3_blank_14_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,78,163,4	script	3_blank_14_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,79,162,4	script	3_blank_14_d	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,94,175,4	script	3_blank_15_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,95,174,4	script	3_blank_15_b	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,98,174,4	script	3_blank_15_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,99,175,4	script	3_blank_16_d	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,96,169,4	script	3_blank_17_a	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,97,169,4	script	3_blank_17_b	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,97,168,4	script	3_blank_17_c	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,96,168,4	script	3_blank_17_d	139,0,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,94,162,4	script	3_blank_18_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,95,163,4	script	3_blank_18_b	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,98,163,4	script	3_blank_18_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,99,162,4	script	3_blank_18_d	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,114,175,4	script	3_blank_19_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,115,175,4	script	3_blank_19_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,114,162,4	script	3_blank_20_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,115,162,4	script	3_blank_20_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,126,175,4	script	3_blank_21_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,127,175,4	script	3_blank_21_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,126,162,4	script	3_blank_23_a	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,127,162,4	script	3_blank_23_b	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,160,174,4	script	3_blank_24_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,161,174,4	script	3_blank_24_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,160,163,4	script	3_blank_25_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,161,163,4	script	3_blank_25_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,168,175,4	script	3_blank_26_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,169,175,4	script	3_blank_26_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,168,162,4	script	3_blank_27_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+sword_1-1.gat,169,162,4	script	3_blank_27_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,176,174,4	script	3_blank_28_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,177,174,4	script	3_blank_28_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,178,173,4	script	3_blank_28_c	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,178,172,4	script	3_blank_28_d	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,181,174,4	script	3_blank_28_e	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,179,169,4	script	3_blank_29_a	139,3,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,179,168,4	script	3_blank_29_b	139,3,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,182,169,4	script	3_blank_29_c	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,183,169,4	script	3_blank_29_d	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,181,167,4	script	3_blank_29_e	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,181,166,4	script	3_blank_29_f	139,1,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,183,167,4	script	3_blank_29_g	139,0,1,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,176,163,4	script	3_blank_30_a	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,177,163,4	script	3_blank_30_b	139,0,2,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}
+
+sword_1-1.gat,181,163,4	script	3_blank_30_c	139,2,0,{
+	set @TEMP,rand(5);
+	if (@TEMP==0) warp "sword_1-1.gat",195,15;
+	if (@TEMP==1) warp "sword_1-1.gat",195,38;
+	if (@TEMP==2) warp "sword_1-1.gat",231,30;
+	if (@TEMP==3) warp "sword_1-1.gat",198,65;
+	if (@TEMP==4) warp "sword_1-1.gat",196,116;
+	end;
+}

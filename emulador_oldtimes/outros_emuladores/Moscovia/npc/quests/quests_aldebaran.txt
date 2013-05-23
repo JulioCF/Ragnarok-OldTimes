@@ -1,0 +1,89 @@
+//===== Cronus Script ========================================
+//= Quest de Itens em Aldebaran
+//===== Por: =================================================
+//= Ea Dev
+//===== Versão: ========================================
+//= 1.2
+//===== Descrição: ===========================================
+//= Quest de 4 itens
+//===== Changelog: ===========================================
+//= 1.2 Traduzido [Stefanno]
+//= 1.3 Retirado a mensagem do Sakkat Craftsman, ele não existe [Kamper]
+//============================================================
+
+aldeba_in,152,166,4	script	Comerciante	86,{
+	show "[Comerciante]";
+	show "Muhahaha! Eu sou o comerciante mais enigmático de Rune-Midgard!!";
+	show "As minha coisa são UNICAS NO MUNDO!!!!";
+	next;
+	show "(1) · ^3355FFEspelho de Médico^000000 :";
+	show "^FF55331 Faixa Marrom + 50 Ferros + 1 Diamante Rachado + 3500 Zeny^000000.";
+	show "(2) · ^3355FFChapéu com Pluma^000000 :";
+	show "^FF55331 Chapéu Romântico + 300 Plumas de Ave + 500 Zeny^000000.";
+	show "(3) · ^3355FFMáscara do Fantasma^000000 :";
+	show "^FF553320 Ferros + 1 Planta da Melodia + 5000 Zeny^000000.";
+	show "(4) · ^3355FFChapéu Chinês^000000 :";
+	show "^FF5533120 Troncos + 10000 Zeny^000000.";
+	next;
+	menu "Espelho de Médico",M_0, "Chapéu com Pluma",M_1, "Máscara do Fantasma",M_2, "Chapéu Chinês",M_3;
+		
+	M_0:
+		show "[Comerciante]";
+		if ((countitem(2275) == 0) || (countitem(998) < 50) || (countitem(733) == 0) || (Zeny < 3500)) goto L_CantMake;
+		delitem 2275,1;//Items: Faixa Marrom,
+		delitem 998,50;//Items: Ferro,
+		delitem 733,1;//Items: Diamante Rachado
+		set Zeny,Zeny - 3500;
+		show "Hm... Você tem uma licença médica?";
+		emotion 1;
+		next;
+		show "[Comerciante]";
+		show "Eu ouvi sobre um físico sem licensa 'Cuwaki'... Eu espero que ele não tenha pego....";
+		show "Tudo bem, se você quer... Por favor Receba.";
+		additem 2273,1; //Items: Espelho de Médico,
+		close;
+	M_1:
+		show "[Comerciante]";
+		if ((countitem(2247) == 0) || (countitem(916) < 300) || (Zeny < 500)) goto L_CantMake;//Items: Romantic Gent, Feather of Birds,
+		delitem 2247,1;//Items: Chapéu Romântico,
+		delitem 916,300;//Items: Plumas de Ave,
+		set Zeny,Zeny - 500;
+		show "Umhahaha. Você está muito na moda!! Eu sei que você gastou muito tempo coletando esse itens não é? Ok, você mereceu, por favor receba.";
+		emotion 18;
+		additem 5018,1;//Items: Chapéu com Pluma
+		close;
+	M_2:
+		show "[Comerciante]";
+		if ((countitem(998) < 20) || (countitem(707) == 0) || (Zeny < 5000)) goto L_CantMake;//Items: Iron, Singing Plant,
+		delitem 998,20;//Items: Ferro,
+		delitem 707,1;//Items: Planta da Melodia,
+		set Zeny,Zeny - 5000;
+		show "São itens muito bonitos. Hm... Eu acho que da um poco de 'Energia'. O que você acha ?";
+		next;
+		show "[Comerciante]";
+		show "Você gostou né ? Então tome!";
+		additem 2281,1;//Items: Máscara do Fantasma,
+		close;
+	M_3:
+		show "[Comerciante]";
+		if ((countitem(1019) < 120) || (Zeny < 10000)) goto L_CantMake;//Items: Trunk,
+		delitem 1019,120;//Items: Tronco,
+		set Zeny,Zeny - 10000;
+		//show "Se você tiver oportunidade de visitar a cidade de Payon e conhecer o Sakkat Craftsman.";
+		show "Tinha um cara que vendia Chapéu Chinês em Payon. Só que ele desapareceu, nunca mais vi ele.";
+		show "Ele nunca vendeu um Chapéu Chinês, fora pra mim.";
+		next;
+		show "[Comerciante]";
+		show "Porque somente eu realmente conheço a qualidade do Chapéu Chinês, é um dos itens mais raros, mas pena que agora está ficando tão popular!";
+		next;
+		show "[Comerciante]";
+		show "Pegue aqui!";
+		additem 2280,1;//Items: Chapéu Chinês,
+		close;
+
+	L_CantMake:
+		show "Seu tolo! Verifique os requirimentos novamente..... Você tem mesmo cara de doido!! Vamos!!..... me da um tempo.";
+		emotion 6;
+		close;
+}
+

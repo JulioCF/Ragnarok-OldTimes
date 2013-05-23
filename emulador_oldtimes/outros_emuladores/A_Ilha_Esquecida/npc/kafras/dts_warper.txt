@@ -1,0 +1,762 @@
+//===== eAthena Script ======================================= 
+//= Dungeon Teleport Service
+//===== By: ================================================== 
+//= Evera
+//===== Current Version: ===================================== 
+//= 2.3c
+//===== Compatible With: ===================================== 
+//= eAthena
+//===== Description: =========================================
+//= Cool Event Corp NPCs vs. Kafra Dungeon Teleport Service and voting system.
+//= This is a special event on official servers where there's a
+//= big competition between Kafra Corp. and Cool Event Corp.
+//= To warp to selected levels of certain dungeons.
+//= Also includes Cool Event Corp HQ NPCs.
+//===== Variables: ===========================================
+//=Server - 	$dtsvote		= Variable for # of votes
+//=					= Positive = Cool Corp winning
+//=					= Negative = Kafra Corp winning
+//=		$dts			= Variable for DTS status
+//=					= (1<<0) Election
+//=					= (1<<1) Cool Corp Enabled
+//=					= (1<<2) Kafra Enabled
+//=					= (1<<3) No winner last election
+//=					= (1<<4) Cool Corp won last election
+//=					= (1<<5) Kafra won last election
+//=		$dtsday			= Week count for dts vote count, used for resetting players' votes
+//=Character -	dtseligible 		= eligibility status, 0 not eligible yet, 1 eligible.
+//=					= $dtsday used when MISC_QUEST|128, and signifies that person already voted.
+//=		MISC_QUEST		= |128 = eligible and voted.
+//=NPC Func. -	arg(0) 			= 0, Cool Event Corp Voting Staff; 1, Kafra Corp Voting Staff
+//=		arg(1)			= Kafra only, Cool Corp script does not use. Changes illus for different sprites.
+//=					= 0 = 4_f_kafra6 (yellow ponytail, classic outfit, spr 112)
+//=					= 1 = 4_f_kafra5 (pink hair, classic outfit, spr 113)
+//=					= 2 = 4_f_kafra4 (orange short hair, classic outfit, spr 114)
+//=					= 3 = 4_f_kafra3 (brown bangs, classic outfit, spr 115)
+//=					= 4 = 4_f_kafra2 (brown ponytale, classic outfit, spr 116)
+//=					= 5 = 4_f_kafra1 (blue hair, classic outfit, spr 117)
+//=					= 6 = 4_f_agentkafra (purp hair, black outfit, spr 859)
+//=					= 7 = 4_f_kafra8 (blue hair, brown outfit, spr 860)
+//=					= 8 = 4_f_kafra9 (red hair, brown outfit, spr 861)
+//=Temporary - 	@dtstemp		= Temporary buffer, used in GM vote-fixing
+//=		@dtstemps$		= Temporary buffer, like above, but a string.
+//=		$@dtstempg		= Temporary buffer, but global
+//===== Additional Comments: ================================= 
+//= Some unofficial translations, some unofficial dungeon warps
+//= Also includes unofficial GM-enabled tweaking for script
+//= Includes NPCs in Cool Event Corp headquarters
+//= If new locations are found of this NPC, please report on forums
+//= http://www.eathena.ws/board/index.php?showforum=106
+//= Base level 60 required to vote
+//===== Version History: ====================================
+//= 1.0	Initial release [Evera]
+//= 1.1	SVN release, removed from major town (found true info after research),
+//=	put more arg(2) parameters, fixed a few bugs [Evera]
+//= 1.2 Mushed some variables together, optimized a bit [Evera]
+//= 1.3 Removed selfconfig [Evera]
+//= 1.4 Changed global variables to read from 3 global variables, updated nashow,
+//= 	fixed array bug [Evera]
+//= 1.5 Mushed voting varialbes into 1 variable. [Evera]
+//= 1.6 Removed Duplicates [Silent]
+//= 1.7	Fixed bug of DTS_Admin not running by itself [Evera]
+//= 1.8	Changed requirement to lvl 60 [Evera]
+//= 1.9 Removed global eligibility option [Evera]
+//= 2.0 Fixed zeny bug [Evera]
+//= 2.1 Fixed headers with and updated with newer information [Evera]
+//= 2.2 Changed dtseligible 2 to MISC_QUEST|128, to clean up variable usage. [Evera]
+//=	Also added F_ClearGarbage function to the scripts. [Evera]
+//= 2.3	Changed dtseligible to be $dtsday when MISC_QUEST|128
+//=	Added $dtsday for vote session counter
+//=	Fixed bug that involved having both warpers enabled at the same time. [Evera]
+//=	New $dtsday system and bug fix[Evera]
+//= 2.3a fixed 2 bugs with comparision [Lupus]
+//= 2.3b corrected Glast warp coords [Lupus] 2.3c Bailand -> Bayalan
+//============================================================ 
+
+//Yuno
+yuno,153,191,4	script	Assist. da Eleição::S01	874,{
+	callfunc "F_DTS_Warp",0,0;
+}
+yuno,162,191,6	script	Kafra Assist. da Eleição::S02	861,{
+	callfunc "F_DTS_Warp",1,8;
+}
+//Lighthalzen
+lighthalzen,154,60,6	script	Assist. da Eleição::S03	874,{
+	callfunc "F_DTS_Warp",0,0;
+}
+//Prontera
+prontera,147,125,4	script	Assist. da Eleição::S04	874,{
+	callfunc "F_DTS_Warp",0,0;
+}
+prontera,164,125,6	script	Kafra Assist. da Eleição::S05	115,{
+	callfunc "F_DTS_Warp",1,3;
+}
+
+//Cool Event Staff Headquarters NPCs
+//Kudiuu (Maintenance Guy)
+lhz_in02,20,274,6	script	Garoto da manutenção	851,{
+	show "[Kudiuu]";
+	show "Buracos...! Este lugar já foi limpo? Há tanto pó aqui, *Cof cof* é quase um risco de vida!";
+	close;
+}
+//Cesuna (Zondaman at desk)
+lhz_in02,36,284,1	script	Assist. do Evento Legal::01	874,{
+	show "[Cesuna]";
+	show "Ack! Eu estou totalmente submerso com todo esse trabalho! Mas eu não quero faça qualquer disso. É isso! Eu preciso de um tempo.";
+	next;
+	show "[Cesuna]";
+	show "*Suspiro...* Eu desejo saber se Saera já considerou andar lá fora comigo? Isso será agradável.";
+	close;
+}
+//Jellarin (Event planner)
+lhz_in02,40,279,3	script	Planejador de evento	833,{
+	show "[Jellarin]";
+	show "Eu ou não gosto dessa idéia. Mas eu ou não gosto dessa idéia. O que eu farei para um evento novo, eh?";
+	next;
+	show "[Jellarin]";
+	show "Eu preciso algo principal, algo que realmente tremerá para cima o mundo, algo legal, mas isso que? Ei, você tem alguma idéia?";
+	close;
+}
+//Baoto (Cool Event Manager)
+lhz_in02,110,283,5	script	Gerente do Evento Legal	853,{
+	show "[Baoto]";
+	show "Hmmm... Os empregados parecem estar se divertindo muito recentemente entre eles. Isto não pressagia nada bem...";
+	next;
+	show "[Baoto]";
+	show "Me parece apenas vai ter que começar rachando mais freqüentemente aquele chicote e muito mais forte. ha ha ha ha!";
+	close;
+}
+//Saera (Secretary), contains GM menu
+lhz_in02,36,274,3	script	Assess. do Evento Legal::02	831,{
+	callfunc "F_ClearGarbage";				//Clear outdated, unused variables
+	if($dts == 0){
+		set $dts,$dts|(1<<0);				//Sets NPCs to election mode if first time running
+		set $dts,$dts|(1<<3);
+	}
+	if($dts&(1<<1) && $dts&(1<<2) || $dts&(1<<0) && $dts&(1<<1) || $dts&(1<<0) && $dts&(1<<2)){
+		if($dts&(1<<0)) set $dts,$dts&~(1<<0);
+		if($dts&(1<<1)) set $dts,$dts&~(1<<1);
+		if($dts&(1<<2)) set $dts,$dts&~(1<<2);
+		set $dts,$dts|(1<<0);
+	}
+	if($dts&(1<<4) && $dts&(1<<5) || $dts&(1<<3) && $dts&(1<<4) || $dts&(1<<3) && $dts&(1<<5)){
+		if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+		if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+		if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+		set $dts,$dts|(1<<3);
+	}
+	show "[Saera]";
+	show "Bem-vindo à sede temporária da Corporação de Evento Legal Como posso lhe ajudar hoje?";
+	next;
+	if(getgmlevel()>=40){ 						//Unofficial Text, GM-configurable settings for Event (GM level above 40 required)
+		show "[Saera]";
+		show "Por que, eu não fui notificada sobre você, "+strcharinfo(0)+". O que você gostaria de fazer hoje?";
+		next;
+		menu "Fixar Voto",Lfixvote,
+		"Estabelecer teleporte atual",Lsettele,
+		"Estabelecer o último vencedor da eleição",Lsetlast,
+		"Executar manualmente a checagem de voto",Lmanuvotecheck,
+		"menu normal por favor",-;
+		show "[Saera]";
+		show "Tudo bem";
+		next;
+	}
+	menu "Sede temporária?",Ltemphead,
+	"Votando",Lvoting,"Não, obrigado.",Lnothx;
+
+	Ltemphead:
+		show "[Saera]";
+		show "Nosso edifício de sede está sofrendo modificações atualmente, assim nós estamos fundando nossas operações aqui neste lugar";
+		close;
+
+	Lvoting:
+		show "[Saera]";
+		show "Atualmente, A Corporação Kafra e a Corporação de Evento legal estão trabalhando em um programa colaborador que proverá serviços de teleporte diretos para calabouços.";
+		next;
+		show "[Saera]";
+		show "Devido a assuntos técnicos, ambas as companias não podem prover serviços de teleporte para o mesmo calabouço. Então, nós estaremos selecionando nossos clientes avaliados para escolher a compania que eles querem.";
+		next;
+		if((dtseligible == 0 || dtseligible == 3) && baselevel >= 60 && MISC_QUEST&128 == 0) set dtseligible,1;
+		//Clear previous var of dtseligible,3 being tried for eligibility already
+		if(dtseligible != $dtsday && baselevel >= 60 && MISC_QUEST&128){
+			set MISC_QUEST,MISC_QUEST&~128;
+			set dtseligible,1;
+		}
+		switch(dtseligible){
+			default:
+				show "[Saera]";
+				show "Só um número limitado de eleitores será escolhido, assim você pode conferir sua elegibilidade de votação à sede de ambas as companias participando. Obrigada pela compreensão.";
+				close;
+				break;
+			case 1:
+				show "[Saera]";
+				show "Me parece que você é elegível a voto por favor der seu voto a qualquer Assessoria Representante da Votação. Obrigada.";  // o texto aqui tava sem pé e sem cabeça, esse foi o meu melhor//
+				close;
+				break;
+			case 2:
+				show "[Saera]";
+				show "Você é elegível a voto, mas você já votou. Obrigada por sua participação";
+				close;
+				break;
+		}
+
+	Lnothx:
+		show "[Saera]";
+		show "Muito obrigada. Tenha um bom dia.";
+		close;
+									//começo das opções de GM
+	Lfixvote:							//Fixar Voto
+		show "[Saera]";
+		show "Humm, certamente...";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		show "A quem você gostaria de dar votos para?";
+		next;
+		menu "Corporação Kafra",-,"Corporação de Evento Legal",Lfixcool;
+
+	Lfixkafra:							//Fixando buffer para voto de Kafra
+		show "[Saera]";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";	//multiplied by -1 because var is negative
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		show "Por favor introduza a quantia que você deseja dar a Corp Kafra.";
+		digit @dtstemp;					//Fixa buffer para voto da Corp Kafra
+		next;
+		show "[Saera]";
+		show "You inputted "+@dtstemp+" for Kafra";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		show "Você está seguro que quer fazer estas mudanças?";
+		next;
+		menu "Sim",-,"Não",Lnothx;
+		set $dtsv,$dtsv-@dtstemp;				//Fixando buffer para voto de Kafra
+		show "[Saera]";
+		show "Certo, você fixou o voto da Corporação Kafra.";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		close;
+
+	Lfixcool:						//Fixando buffer para voto do Evento Legal
+		show "[Saera]";
+		show "Let me find the papers...";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		show "Por favor introduza o novo voto para Corporção Evento Legal.";
+		digit @dtstemp;					//Fixando buffer para voto do Evento Legal
+		next;
+		show "[Saera]";
+		show "Você introduziu "+@dtstemp+" para Corporação Evento Legal.";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		show "Você está seguro que quer fazer estas mudanças?";
+		next;
+		menu "Sim",-,"Não",Lnothx;			//Confirmação
+		set $dtsv,@dtsv+@dtstemp;			//Fixando buffer para voto do Evento Legal
+		show "[Saera]";
+		show "Certo, você fixou o voto da Corporação Evento Legal.";
+		if($dtsv > 0) show "A Corporação de Evento Legal está ganhando atualmente por "+$dtsv+" votes.";
+		if($dtsv < 0) show "A Corporação Kafra está ganhando atualmente por "+$dtsv*-1+" votes.";
+		if($dtsv == 0) show "A votação está empatada atualmente.";
+		close;
+
+	Lsettele:							//Fixar teleporte de DTS atual
+		show "[Saera]";
+		show "Digite Kafra para habilitar o teleporte pela Kafra, Legal para habilitar o teleporte pela Corporação de Evento Legal, Eleição para modo de eleição, ou Cancela para cancelar.";
+		if($dts&(1<<0)) show "A eleição está atualmente em modo de eleição.";
+		if($dts&(1<<1)) show "Corporação de Evento Legal estar atualmente o teleporte de DTS.";
+		if($dts&(1<<2)) show "Corporação Kafra Estar atualmente o teleporte de DTS.";
+		next;
+		digit @dtstemps$;					//Digitar na escolhas para prevenir erros
+		show "Deixe-me achar os documentos...";
+		next;
+		if(@dtstemps$ == "Eleição" || @dtstemps$ == "eleição"){
+			if($dts&(1<<1)){
+				set $dts,$dts&~(1<<1);			//Remove o vencedor prévio
+				set $dts,$dts|(1<<0);			//mudar os estatus da eleição
+			}
+			if($dts&(1<<2)){
+				set $dts,$dts&~(1<<2);
+				set $dts,$dts|(1<<0);
+			}
+			show "[Saera]";
+			show "Fixar o modo de eleição.";
+			close;
+		}
+		if(@dtstemps$ == "Legal" || @dtstemps$ == "legal"){
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);
+				set $dts,$dts|(1<<1);
+			}
+			if($dts&(1<<2)){
+				set $dts,$dts&~(1<<2);
+				set $dts,$dts|(1<<1);
+			}
+			show "[Saera]";
+			show "Corporação de Evento Legal. Estar agora o teleporte de DTS.";
+			close;
+		}
+		if(@dtstemps$ == "Kafra" || @dtstemps$ == "kafra"){
+			if($dts&(1<<1)){
+				set $dts,$dts&~(1<<1);
+				set $dts,$dts|(1<<2);
+			}
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);
+				set $dts,$dts|(1<<2);
+			}
+			show "[Saera]";
+			show "Corporação Kafra. Estar agora o teleporte de DTS";
+			close;
+		}
+		if(@dtstemps$ == "Cancelar" || @dtstemps$ == "cancelar") goto Lnothx;
+		show "[Saera]";
+		show "Por favor introduza um nome correto para a eleição";
+		next;
+		goto Lsettele;
+
+	Lsetlast:							//Set last winner
+		show "[Saera]";
+		show "Digite ^ff0000Kafra^000000 para eleição registrar para mostrar Kafra, ^ff0000Legal^000000 para registrar a eleição e mostrar para Corporação de Evento Legal, ^ff0000Nenhum^000000 para nenhum registro de vencedor na eleição, ou Cancelar para cancelar.";
+		if($dts&(1<<3)) show "Não há nenhum vencedor prévio.";
+		if($dts&(1<<4)) show "Corporação de Evento Legal foi a última vencedora.";
+		if($dts&(1<<5)) show "A Corporação Kafra foi a última vencedora.";
+		next;
+		digit @dtstemps$;
+		show "[Saera]";
+		show "Deixe-me achar os documentos...";
+		next;
+		if(@dtstemps$ == "Nenhum" || @dtstemps$ == "nenhum"){
+			if($dts&(1<<4)){
+				set $dts,$dts&~(1<<4);			//remove o último vencedor
+				set $dts,$dts|(1<<3);			//fixa o último vencedor atual
+			}
+			if($dts&(1<<5)){
+				set $dts,$dts&~(1<<5);
+				set $dts,$dts|(1<<3);
+			}
+			show "[Saera]";
+			show "Fixa registros para mostrar nenhum vencedor prévio.";
+			close;
+		}
+		if(@dtstemps$ == "legal" || @dtstemps$ == "Legal"){
+			if($dts&(1<<3)){
+				set $dts,$dts&~(1<<3);
+				set $dts,$dts|(1<<4);
+			}
+			if($dts&(1<<5)){
+				set $dts,$dts&~(1<<5);
+				set $dts,$dts|(1<<4);
+			}
+			show "[Saera]";
+			show "Corporação de Evento Legal. É agora a vencedora prévio.";
+			close;
+		}
+		if(@dtstemps$ == "Kafra" || @dtstemps$ == "kafra"){
+			if($dts&(1<<3)){
+				set $dts,$dts&~(1<<3);
+				set $dts,$dts|(1<<5);
+			}
+			if($dts&(1<<4)){
+				set $dts,$dts&~(1<<4);
+				set $dts,$dts|(1<<5);
+			}
+			show "[Saera]";
+			show "Corporação Kafra. É agora a vencedora prévio.";
+			close;
+		}
+		if(@dtstemps$ == "Cancelar" || @dtstemps$ == "cancelar") goto Lnothx;
+		show "[Saera]";
+		show "Por favor introduza um nome correto para o vencedor prévio";
+		next;
+		goto Lsetlast;
+
+	Lmanuvotecheck:
+		show "[Saera]";
+		show "Você está seguro que quer executar o voto e conferir novamente?";
+		next;
+		menu "Sim",Lmanuvoteyes,"Não",Lnothx;
+
+	Lmanuvoteyes:
+		if($dtsday<4 || $dtsday>=100) set $dtsday,4;
+		else set $dtsday,$dtsday+1;
+		if($dts&(1<<1) && $dts&(1<<2) || $dts&(1<<0) && $dts&(1<<1) || $dts&(1<<0) && $dts&(1<<2)){
+			if($dts&(1<<0)) set $dts,$dts&~(1<<0);
+			if($dts&(1<<1)) set $dts,$dts&~(1<<1);
+			if($dts&(1<<2)) set $dts,$dts&~(1<<2);
+			set $dts,$dts|(1<<0);
+		}
+		if($dts&(1<<4) && $dts&(1<<5) || $dts&(1<<3) && $dts&(1<<4) || $dts&(1<<3) && $dts&(1<<5)){
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			set $dts,$dts|(1<<3);
+		}
+		if($dtsv == 0){
+			set $@dtstemp,rand(1,2);
+			if($@dtstemp == 1) set $dtsv,$dtsv+100;
+			else set $dtsv,$dtsv-100;
+		}
+		if($dtsv > 0){
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);			//removes last winner varialbes
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);				//removes winner variable
+				set $dts,$dts|(1<<3);				//sets last winner varialbe
+				set $dts,$dts|(1<<1);				//sets current winner variable
+			}
+			if($dts&(1<<1)) set $dts,$dts|(1<<4);
+			if($dts&(1<<2)){
+				set $dts,$dts&~(1<<2);
+				set $dts,$dts|(1<<1);
+				set $dts,$dts|(1<<5);
+			}
+			set $dtsv,0;
+		}
+		else{
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);
+				set $dts,$dts|(1<<2);
+				set $dts,$dts|(1<<3);
+			}
+			if($dts&(1<<1)){
+				set $dts,$dts&~(1<<1);
+				set $dts,$dts|(1<<2);
+				set $dts,$dts|(1<<4);
+			}
+			if($dts&(1<<2)) set $dts,$dts|(1<<5);
+			set $dtsv,0;
+		}
+		show "[Saera]";
+		show "Executar o cheque de voto novamente.";
+		if($dts&(1<<0)) show "A eleição está atualmente em modo de eleição.";
+		if($dts&(1<<1)) show "Corporação de Evento Legal estar atualmente o teleporte de DTS.";
+		if($dts&(1<<2)) show "Corporação Kafra Estar atualmente o teleporte de DTS.";
+		close;
+}
+
+//Function for Voting Staff NPC
+function	script	F_DTS_Warp	{
+	callfunc "F_ClearGarbage"; //Clear outdated, unused variables
+	if($dts == 0){ 						//Sets NPCs to election mode if first time running
+		set $dts,$dts|(1<<0);
+		set $dts,$dts|(1<<3);
+	}
+	if((dtseligible == 0 || dtseligible == 3) && baselevel >= 60 && MISC_QUEST&128 == 0) set dtseligible,1;	//Clear previous var of dtseligible,3 being tried for eligibility already
+	if(dtseligible != $dtsday && baselevel >= 60 && MISC_QUEST&128){
+		set MISC_QUEST,MISC_QUEST&~128;
+		set dtseligible,1;
+	}
+	switch(getarg(0)){
+	case 0:
+		cutin "zonda_01",2;
+		show "[CEL - Assistente da Eleição]";
+		show "Oi! Não esqueça de fazer que sua voz seja ouvida e tenha certeza de ter seu voto nas eleições entre Corporação de Evento Legal. E a Corporação Kafra para controle dos serviços de teleporte para os Calabouços!";
+		break;
+	case 1:
+		switch(getarg(1)){
+		case 0: cutin "kafra_06",2; break;			//Finding arguments to find which illust to use
+		case 1: cutin "kafra_05",2; break;			//Used Red hair "kafra_09" for black outfit kafra
+		case 2: cutin "kafra_04",2; break;			//because I couldn't find a suitable illust
+		case 3: cutin "kafra_03",2; break;
+		case 4: cutin "kafra_02",2; break;
+		case 5: cutin "kafra_01",2; break;
+		case 6: cutin "kafra_09",2; break;
+		case 7: cutin "kafra_08",2; break;
+		case 8: cutin "kafra_09",2; break;
+		default: cutin "kafra_09",2; break;
+		}
+		show "[Kafra Assistente da Eleição]";
+		show "Saudações, aventureiro. Como você pode estar sabendo, nós estamos promovendo uma eleição para prover os Serviços de Teleporte para os Calabouços. Como eu posso o ajudar?";
+		break;
+	}
+	next;
+	menu "Razão da Eleição",Lelection,"Dê um Voto",Lvote,
+	"Usar Serviço de Teleporte",Lteleport,"Cancelar",Lcancel;
+
+	Lelection: 							//explicação da razão de eleição
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]";
+			show "A Corporção de Evento Legal. tem planejado prover um novo Serviço de Teleporte para os Calabouços para seus clientes, um serviço que não é feito pela Corporação Kafra. Porém...";
+			next;
+			show "[CEL - Assistente da Eleição]";
+			show "Corporação Kafra que já monopoliza o mercado de teleporte público, atualmente também teve planos para prover um serviço semelhante.";
+			next;
+			show "[CEL - Assistente da Eleição]";
+			show "Por causa de limitações tecnológicas, só uma compania pode ser escolhida como o provedor deste Serviço de Teleporte para os Calabouços. Conseqüentemente, nós deixaremos os clientes decidirem por estas eleições.";
+			next;
+			show "[CEL - Assistente da Eleição]";
+			show "Serão seguradas eleições múltiplas de forma que nossos clientes possa testar os serviços especiais de cada compania para eles. Porém, lembre-se de que você deve ser elegível para votar.";
+			next;
+			show "[CEL - Assistente da Eleição]";
+			show "Para elegibilidade de eleitor detalhada, por favor visite nossa sede na cidade de Lighthalzen localizada na República de Schwarzwald. Obrigado por seu tempo.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Corporação de Evento Legal e a Corporação  Kafra que ambos têm planejado prover um Serviço de Teleporte para os calabouços.";
+			next;
+			show "[Kafra Assistente da Eleição]";
+			show "Mas devido a limitações tecnológicas, só uma compania pode servir de cada vez como provedor para este Serviço de teleporte para os Calabouço. Ai, ambas as companhias concordaram em organizar uma eleição especial.";
+			next;
+			show "[Kafra Assistente da Eleição]";
+			show "Cada companhia tem suas próprias políticas e garantias com respeito ao Serviço de Teleporte aos Calabouços, e nesta eleição, decidirão os clientes no final das contas e escolherão o que é melhor para eles.";
+			next;
+			show "[Kafra Assistente da Eleição]";
+			show "Para agora, o Serviço de Teleporte aos Calabouços será provido em umas séries de períodos de testes. Deste modo, clientes podem ver os benefícios de ambas as companias antes de fazer a decisão final";
+			next;
+			show "[Kafra Assistente da Eleição]";
+			show "Se você está qualificado, por favor vote em cada eleição para decidir qual companhia proverá o Serviço de Teleporte aos Calabouços do próximo período de testes. Obrigada por seu apoio";
+			break;
+		}
+		goto Lend;
+
+	Lvote: //If you clicked you wanted to vote
+		if(dtseligible == 1) goto Leligible; 			//Varredura de check se é elegível
+
+	Lnoteligible: 							//Text displayed if wanted to vote, but not eligible/voted
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]";
+			show "Eu sinto muito, mas você não é elegível para votar neste momento. Por favor visite nossa sede em Lighthalzen para informação relacionada a adquirir direitos de votação. Obrigado por seu tempo.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Oh, Eu sinto muito, mas você não é qualificado para votar atualmente. Para informação de qualificação de voto, por favor visite nossa Sede em Al De Baran Kafra. Obrigada e tenha um dia agradável.";
+			break;
+		}
+		goto Lend;
+
+	Leligible: 							//Text displayed if eligible to vote
+		if(MISC_QUEST&128 && $dtsday == dtseligible) goto Lnoteligible; //Var check if voted
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]"; 		//Texto não oficial
+			show "Conferindo suas credenciais, você pode votar na eleições do Serviço de teleporte aos Calabouços. Você gostaria de votar para...";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Me parece que você é qualificado a votar na eleição do Serviçi de Teleporte aos Calabouços. Você gostaria de votar para..."; //Final de texto não oficial
+			break;
+		}
+		next;
+		menu "Corporação de Evento Legal.",Lvotecool,"Corporação Kafra.",Lvotekafra;
+	
+	Lvotecool:
+		set $dtsv,$dtsv+1;				//Adds 1 to cool count
+		set MISC_QUEST,MISC_QUEST|128;				//Sets var so that you can't vote over and over
+		set dtseligible,$dtsday;
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]";
+			show "Obrigado por votar em nós. Seu voto foi contado, e nós apreciamos sua contribuição obrigado e tenha um bom dia.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Nós lhe agradecemos pelo seu voto. Sua opinião é muito importa e foi contada para Corporação de Evento Legal.";
+			break;
+		}
+		goto Lend;
+
+	Lvotekafra:
+		setd $dtsv,$dtsv-1; 				//Adds 1 to kafra count
+		set MISC_QUEST,MISC_QUEST|128; 			//Sets var to prevent cheating
+		set dtseligible,$dtsday;
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]";		//Unofficial Text
+			show "Obrigado por sua opinião. Seu voto para Corporação Kafra. foi contado. Obrigado e tenha um bom dia.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Seu voto foi contado para nós. Nós muito obrigada pela sua contribuição, e nós esperamos que satisfaçamos suas necessidades aventureiras e padrões de excelência.";
+			break;
+		}
+		goto Lend;						//End Unofficial text
+
+	Lteleport: 							//Selected Teleport
+		switch(getarg(0)){
+		case 0:
+			if($dts&(1<<0)){
+				show "[CEL - Assistente da Eleição]";
+				show "Eu sinto muito, mas o Serviço de Teleporte aos Calabouços estar indisponível durante as eleições e será reativado depois que os resultados da eleição forem anunciados. Obrigado e tenha um belo dia.";
+				goto Lend;
+			}
+			if($dts&(1<<1)) goto Lteleenabled;
+			show "[CEL - Assistente da Eleição]";		//Text if Kafra won DTS elect.
+			show "Eu sinto muito, mas a Corporação de Evento Legal. não oferece atualmente o Serviço de Teleporte aos Calabouços devido aos resultados da última eleição. Por favor vote da próxima vez em nós, certo? Tenha um bom dia.";
+		case 1:
+			if($dts&(1<<0)){
+				show "[Kafra Assistente da Eleição]";
+				show "Sinto muito, mas as eleições para usar o Sistema de Teleporte aos Calabouços estar atualmente agora mesmo acontecendo. Nós somos incapazes de prestar o serviço até que seja anunciado os resultados";  //O contexto tava sem noção adptado por poringao
+				goto Lend;
+			}
+			if($dts&(1<<2)) goto Lteleenabled;
+			show "[Kafra Assistente da Eleição]";
+			show "Nós sentimos muitos, mas a Corporação Kafra não oferece atualmente o Serviço de teleporte aos Calabouços devido aos resultados de última eleição, Por favor vote da próxima vez na Corporação Kafra.";
+			break;
+		}
+		goto Lend;
+
+	Lteleenabled: 							//Shows DTS tele selections
+	cleararray @dtswarpmap$[0],"",getarraysize(@dtswarpmap$);
+	cleararray @dtswarp$[0],"",getarraysize(@dtswarp$);
+	switch(getarg(0)){
+	case 0:
+		show "[CEL - Assistente da Eleição]";
+		show "Por favor lembre-se que nós não podemos aceitar Tickets de Teleporte Grátis ou Conceder Pontos de Reserva Especiais por este serviço. Agora, por favor escolha seu destino.";
+		setarray @dtswarpmap$[0],"Calabouço de Byalan, Nível 4","Torre do Relógio, Base 3";
+		setarray @dtswarp$[0],@dtswarpmap$[0]+" -> 4,000z",
+		@dtswarpmap$[1]+" -> 4,000z","Cancelar";
+		if($dts&(1<<4)){ 
+			set @dtswarpmap$[2],"Entrada de Glastheim";
+			setarray @dtswarp$[2],@dtswarpmap$[2]+" -> 4,000z","Cancelar";
+		}
+		break;
+	case 1:
+		show "[Kafra Assistente da Eleição]";
+		show "Obrigada por escolher o Serviço de Teleporte aos Calabouço. Por favor lembre-se de que os tickts de Teleporte Grátis e que os Pontos de Reserva Especiais da Kafra não se aplicam neste serviço especial.";
+		setarray @dtswarpmap$[0],"Fábrica de Brinquedo, Nível 2","Torre do Relógio, Nível 3";
+		setarray @dtswarp$[0],@dtswarpmap$[0]+" -> 4,000z",
+		@dtswarpmap$[1]+" -> 4,000z","Cancelar";
+		if($dts&(1<<5)){ 
+			set @dtswarpmap$[2],"Calabouço de Mágma, Nível 2";
+			setarray @dtswarp$[2],@dtswarpmap$[2]+" -> 4,000z","Cancelar";
+		}
+		break;
+	}
+	next;
+	switch(select(@dtswarp$[0],@dtswarp$[1],@dtswarp$[2],@dtswarp$[3])){
+		case 1:
+			set @num, 0;
+			break;
+		case 2:
+			set @num, 1;
+			break;
+		case 3:
+			set @num, 2;
+			break;
+		case 4:
+			set @num, 3;
+			break;
+	}
+	Lwarp:
+		if (@dtswarp$[@num] == "Cancelar") goto Lcancel;
+		if (Zeny<4000) goto Lnomoney;
+		set Zeny, Zeny-4000;
+		if (@dtswarpmap$[@num] == "Fábrica de Brinquedo, Nível 2") warp "xmas_dun02",130,123;
+ //Maps to warp to
+		if (@dtswarpmap$[@num] == "Torre do Relógio, Nível 3") warp "alde_dun03",265,22;
+
+		if (@dtswarpmap$[@num] == "Calabouço de Mágma, Nível 2") warp "mag_dun02",47,40;
+
+		if (@dtswarpmap$[@num] == "Calabouço de Byalan, Nível 4") warp "iz_dun03",32,63;
+
+		if (@dtswarpmap$[@num] == "Torre do Relógio, Base 3") warp "alde_dun03",277,178;
+
+		if (@dtswarpmap$[@num] == "Entrada de Glastheim") warp "glast_01",370,304;
+
+		cutin "", 255;
+		end;
+	Lnomoney:
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]"; 		//Unofficial Text
+			show "Umm, aparentemente você não tem fundos adequados para seu teleporte selecionado. Por favor confira se você tem a quantia correta de dinheiro, e tente novamente depois.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Me parece que você não tem bastante zeny para o teleporte. Por favor confira seus fundos e tente novamente.";
+			break;
+		}
+		goto Lend;						//End unofficial text
+
+	Lcancel: 							//Selected Cancel on first menu
+		switch(getarg(0)){
+		case 0:
+			show "[CEL - Assistente da Eleição]";	
+			show "Corporação de Evento Legal. sempre está trabalhando para ter certeza que não é só nossos clientes satisfeitos, mas que nós também excedemos seus padrões extremos. Obrigado e tenha um dia bom.";
+			break;
+		case 1:
+			show "[Kafra Assistente da Eleição]";
+			show "Nós, aqui da Corporação de Kafra, estamos sempre empreendendo para lhe proporcionar os melhores serviços. Esperamos que nós satisfaçamos suas necessidades aventureira e os padrões de excelência.";
+			break;
+		}
+		goto Lend;
+	Lend:
+		close2;
+		cutin "", 255;
+		end;
+
+}
+
+//Elections administration NPC (hidden)
+-	script	DTS_Admin	-1,{
+	OnSun0100:					//Works only at 1am on sunday
+		if($dtsday<4 || $dtsday>=100) set $dtsday,4;
+		else set $dtsday,$dtsday+1;
+		if($dts == 0){
+			set $dts,$dts|(1<<0);
+			set $dts,$dts|(1<<3);
+		}
+		if($dts&(1<<1) && $dts&(1<<2) || $dts&(1<<0) && $dts&(1<<1) || $dts&(1<<0) && $dts&(1<<2)){
+			if($dts&(1<<0)) set $dts,$dts&~(1<<0);
+			if($dts&(1<<1)) set $dts,$dts&~(1<<1);
+			if($dts&(1<<2)) set $dts,$dts&~(1<<2);
+			set $dts,$dts|(1<<0);
+		}
+		if($dts&(1<<4) && $dts&(1<<5) || $dts&(1<<3) && $dts&(1<<4) || $dts&(1<<3) && $dts&(1<<5)){
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			set $dts,$dts|(1<<3);
+		}
+		if($dtsv == 0){				//If tied, gives random side 100 votes
+			set $@dtstemp,rand(1,2);
+			if($@dtstemp == 1) set $dtsv,$dtsv+100;
+			else set $dtsv,$dtsv-100;
+		}
+		if($dtsv > 0){
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);
+				set $dts,$dts|(1<<1);
+				set $dts,$dts|(1<<3);
+			}
+			if($dts&(1<<1)) set $dts,$dts|(1<<4);
+			if($dts&(1<<2)){
+				set $dts,$dts&~(1<<2);
+				set $dts,$dts|(1<<1);
+				set $dts,$dts|(1<<5);
+			}
+			set $dtsv,0;
+		}
+		else{
+			if($dts&(1<<3)) set $dts,$dts&~(1<<3);
+			if($dts&(1<<4)) set $dts,$dts&~(1<<4);
+			if($dts&(1<<5)) set $dts,$dts&~(1<<5);
+			if($dts&(1<<0)){
+				set $dts,$dts&~(1<<0);
+				set $dts,$dts|(1<<2);
+				set $dts,$dts|(1<<3);
+			}
+			if($dts&(1<<1)){
+				set $dts,$dts&~(1<<1);
+				set $dts,$dts|(1<<2);
+				set $dts,$dts|(1<<4);
+			}
+			if($dts&(1<<2)) set $dts,$dts|(1<<5);
+			set $dtsv,0;
+		}
+		end;
+}

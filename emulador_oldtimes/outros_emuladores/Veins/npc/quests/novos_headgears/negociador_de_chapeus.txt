@@ -1,0 +1,148 @@
+//===== Cronus Script ========================================
+//= Quest de novos Chapéus
+//===== Por: ================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz as Quests dos Novos Chapéus
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text
+//=	added missing delitem, fixed nashow, item amount [Lupus]
+//= 1.3 Fixed Straw Hat items by dshome [Lupus]
+//= 1.4 Fixed Wool Hat items [Lupus]
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//= 1.6 Corrigido a quest do Chapéu de Festa e de Palha [Kamper]
+//============================================================
+
+xmas_in,36,25,4	script	Negociador de Chapéus	806,{
+ show "[Negociador de Chapéus]";
+ show "De qual chapeu você quer informação?";
+ show "Eu posso fazer qualquer um desses Chapéus";
+ next;
+ menu "Chapéu de Festa",M_1,"Chapéu de Palha",M_2,"Chapéu de Cowboy",M_3,"Sombrero",M_4,"Gorro",M_5,"Sair",M_EXIT;
+
+L_NOITEM:
+ show "[Negociador de Chapéus]";
+ show "Sem items suficiente? Adeus.";
+ close;
+
+M_EXIT:
+ show "[Negociador de Chapéus]";
+ show "Adeus!";
+ close;
+
+M_1:
+ show "[Negociador de Chapéus]";
+ show "Para esse item eu necessito de:";
+ show "1 Gorro de Natal,";
+ show "100 Papéis Amarelados,";
+ show "100 Pedaços de Papéis.";
+ next;
+ show "[Negociador de Chapéus]";
+ show "Traga eles e faremos uma troca.";
+ show "Você conseguiu eles?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2236) < 1 || countitem(7151) < 100 || countitem(7111) < 100) GOTO L_NOITEM;
+ delitem 2236,1;
+ delitem 7151,100;
+ delitem 7111,100;
+ additem 5060,1;
+ show "[Negociador de Chapéus]";
+ show "Agora você vai embora... Adeus.";
+ close;
+
+M_2:
+ show "[Negociador de Chapéus]";
+ show "Para esse item eu necessito de:";
+ show "1 Chapéu Chinês,";
+ show "300 Palhas e";
+ show "300 Pedaços de Bambú.";
+ next;
+ show "[Negociador de Chapéus]";
+ show "Traga eles e faremos uma troca.";
+ show "Você conseguiu eles?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2280) < 1 || countitem(7197) < 300 || countitem(7150) < 300) GOTO L_NOITEM;
+ delitem 2280,1;
+ delitem 7197,300;
+ delitem 7150,300;
+ additem 5062,1;
+ show "[Negociador de Chapéus]";
+ show "Agora você vai embora... Adeus.";
+ close;
+
+M_3:
+ show "[Negociador de Chapéus]";
+ show "Para este item eu preciso de :";
+ show "1 Chapéu do Velho Oeste,";
+ show "108 Garras de Lobo do Deserto,";
+ show "108 Gramas,";
+ show "e 4 Ferradura em Chamas.";
+ next;
+ show "[Negociador de Chapéus]";
+ show "Traga eles e faremos a troca.";
+ show "Você já os tem?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2248) < 1 || countitem(7030) < 108 || countitem(7194) < 108 || countitem(7120) < 4) GOTO L_NOITEM;//Items: Western Grace, Claw of Desert Wolf, Soft Grass Leaf, Burning Horseshoe,
+ delitem 2248,1;//Items: Chapéu do Velho Oeste,
+ delitem 7030,108;//Items: Garra de Lobo do Deserto,
+ delitem 7194,108;//Items: Grama,
+ delitem 7120,4;//Items: Ferradura em Chamas,
+ additem 5075,1;//Items: Chapéu de Cowboy,
+ show "[Negociador de Chapéus]";
+ show "Agora pode ir...adeus.";
+ close;
+
+M_4:
+ show "[Negociador de Chapéus]";
+ show "Para esse item eu preciso de:";
+ show "1 Chapéu de Palha,";
+ show "1 Violão,";
+ show "50 Cordames.";
+ next;
+ show "[Negociador de Chapéus]";
+ show "Traga eles e faremos uma troca?";
+ show "Você já os tem?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(5062) < 1 || countitem(1907) < 1 || countitem(952) < 50) GOTO L_NOITEM;//Items: Straw Hat, Guitar, Cactus Needle,
+ delitem 5062,1;//Items: Chapéu de Palha,
+ delitem 1907,1;//Items: Violão,
+ delitem 952,50;//Items: Cordame,
+ additem 5067,1;//Items: Sombrero,
+ show "[Negociador de Chapéus]";
+ show "Você pode ir agora...adeus";
+ close;
+
+M_5:
+ show "[Negociador de Chapéus]";
+ show "Para este item eu precisarei de:";
+ show "1 Barrete e";
+ show "500 Novelos.";
+ next;
+ show "[Negociador de Chapéus]";
+ show "Traga eles e faremos uma troca";
+ show "Você já os tem?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(2226) < 1 || countitem(7038) < 500) GOTO L_NOITEM;//Items: Cap, Yarn,
+ delitem 2226,1;//Items: Cap,
+ delitem 7038,500;//Items: Novelo,
+ additem 5076,1;//Items: Gorro,
+ show "[Negociador de Chapéus]";
+ show "Você conseguiu... Tchau.";
+ close;
+}

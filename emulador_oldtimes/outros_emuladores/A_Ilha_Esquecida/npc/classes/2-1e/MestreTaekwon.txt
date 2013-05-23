@@ -1,0 +1,290 @@
+//===== Cronus Script =======================================
+//= Quest da classe Mestre Taekwon
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.2/1.0
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quest para troca de classe
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido	[Page]
+//= 1.1 Adaptado	[Page]
+//= 1.2 Revisado	[Page]
+//===========================================================
+
+payon,215,102,2	script	MooHyun	828,{
+	show "[MooHyun]";
+	if(Class==Job_Taekwon && JobLevel>=40 && STGL_Q==0) goto L_Taekwon;
+	if(STGL_Q) goto L_Quest;
+	show "Aaaah, o clima está simplesmente adorável, você não acha?";
+	close;
+
+L_Taekwon:
+	show "Oooh, um Tae Kwon Dô!";
+	show "Não vejo muitos desses por aqui.";
+	show "Suponho que não esteja interessado em se tornar ainda mais forte, não é?";
+	next;
+	menu "Oh..?",-,"Na verdade, não.",L_No;
+
+	show "[MooHyun]";
+	show "Bom, existem esses dedicados";
+	show "guerreiros que são conhecidos como Mestre Taekwon.";
+	show "Eu por um acaso conheço alguém que pode lhe";
+	show "teleportar para o ponto de meditação deles.";
+	next;
+	menu "Oopa! Eu quero ser um deles!",-,"E...?",L_No;
+	show "[MooHyun]";
+	show "Que coincidência!";
+	show "Entretanto, ele precisa de raros";
+	show "materiais para fazer o portal.";
+	set STGL_Q,1;
+	next;
+	show "[MooHyun]";
+L_Quest:
+	show "Anote bem o quê você terá de levá-lo:";
+	show "^0000FF- 1 Coração Flamejante^000000";
+	show "^0000FF- 1 Gelo Místico^000000";
+	show "^0000FF- 1 Vento Bruto^000000";
+	show "^0000FF- 1 Natureza Grandiosa^000000";
+	next;
+	show "[MooHyun]";
+	show "Você pode achá-lo em Comodo.";
+	show "Ele normalmente gosta de andar pelo";
+	show "topo da montanha de lá.";
+	//show "Anote bem isso, pois não lhe falarei mais uma vez.";
+	close;
+L_No:
+	show "[MooHyun]";
+	show "Entendo. Bom, se é assim que você se sente...";
+	close;
+}
+
+comodo,172,231,2	script	Homem do Portal#SKTest	730,{
+	if(STGL_Q==1) goto L_Talk;
+	if(STGL_Q>=2) goto L_Needwarp;
+	show "[Homem]";
+	show "...";
+	close;
+
+L_Talk:
+	show "[Homem do Portal]";
+	show "...";
+	next;
+	show "[Homem do Portal]";
+	show "Oh, um Tae Kwon Dô. Creio que MooHyun lhe mandou aqui, então.";
+	show "Você quer que eu lhe teletransporte?";
+	next;
+	menu "Sim.",L_Warp,"Não.",-;
+	show "[Homem do Portal]";
+	show "Hmph, gastando meu tempo...";
+	show "Volte quando você tiver CERTEZA";
+	show "de que quer que eu lhe teletransporte.";
+	close;
+
+L_Warp:
+	if(countitem(994) < 1 || countitem(995) < 1 || countitem(996) < 1 || countitem(997) < 1) goto L_Noitem;
+	delitem 994,1;
+	delitem 995,1;
+	delitem 996,1;
+	delitem 997,1;
+	set STGL_Q,2;
+	show "[Homem do Portal]";
+	show "Ótimo! Com estes itens eu posso criar um portal a qualquer hora.";
+	show "Então se você precisar se teletransportar novamente é só me pedir, ok?";
+	next;
+	warp "job_star",33,41;
+	close;
+
+L_Noitem:
+	show "[Homem do Portal]";
+	show "Para te teleportar, eu preciso de itens mágicos bem raros.";
+	next;
+	show "[Homem do Portal]";
+	show "Traga-me:";
+	show "^0000FF- 1 Coração Flamejante^000000";
+	show "^0000FF- 1 Gelo Místico^000000";
+	show "^0000FF- 1 Vento Bruto^000000";
+	show "^0000FF- 1 Natureza Grandiosa^000000";
+	close;
+
+L_Needwarp:
+	show "[Homem do Portal]";
+	show "Você quer que eu lhe teleteleporte novamente?";
+	next;
+	menu "Sim.",L_Again,"Não.",-;
+	close;
+
+L_Again:
+	warp "job_star",33,41;
+	close;
+}
+
+job_star,29,33,4	script	Gladiador do Sol	823,{
+	if(STGL_Q==3) goto L_Warpnow1;
+	if(Class==Job_Taekwon && JobLevel>=40) goto L_Talk1;
+	show "[Gladiador do Sol]";
+	show "Como você chegou aqui!?";
+	show "Vá embora agora!";
+	next;
+	warp "payon",256,242;
+	close;
+
+L_Talk1:
+	show "[Gladiador do Sol]";
+	show "Ah. Um Tae Kwon Dô.";
+	show "É sempre bom ver um seguidor de uma arte disciplinada.";
+	next;
+	show "[Gladiador do Sol]";
+	show "Eu suponho que você veio aqui para se tornar um Mestre Taekwon.";
+	show "Então permita-me explicar...";
+	next;
+	show "[Gladiador do Sol]";
+	show "O Sol, a Lua, e as Estrelas.";
+	show "Todos têm suas próprias";
+	show "energias. Nós, Gladiadores Estrelares,";
+	show "usamos estas energias adicionadas";
+	show "com nossa própria força para";
+	show "ajudar-nos nos combates.";
+	next;
+	show "[Gladiador do Sol]";
+	show "Aqui eu ensino os  como";
+	show "chegar à energia do Sol.";
+	show "Eu devo lhe ensinar isso agora.";
+	next;
+	show "^0000FFVocês passam longas horas meditando^000000";
+	show "^0000FFjuntos embaixo do sol.^000000";
+	show "^0000FFVocê realmente sente-se quente, mesmo^000000";
+	show "^0000FFque provavelmente seja por causa de não estar^000000";
+	show "^0000FFusando protetor solar.^000000";
+	next;
+	show "[Gladiador do Sol]";
+	show "Você aprendeu tudo que poderia lhe ensinar.";
+	show "Eu devo agora lhe enviar para seu";
+	show "próximo instrutor.";
+	next;
+
+L_Warpnow1:
+	warp "job_star",99,41;
+	close;
+}
+
+job_star,95,34,4	script	Gladiador da Lua	758,{
+	if(STGL_Q==3) goto L_Warpnow2;
+	if(Class==Job_Taekwon && JobLevel>=40) goto L_Talk2;
+	show "[Gladiador da Lua]";
+	show "Como você entrou aqui!?";
+	show "Vá embora agora!";
+	next;
+	warp "payon",256,242;
+	close;
+
+L_Talk2:
+	show "[Gladiador da Lua]";
+	show "Ah. Um Taekwon.";
+	show "É bom que você tenha";
+	show "conseguido vir de tão longe.";
+	next;
+	show "[Gladiador da Lua]";
+	show "Meu trabalho aqui é ajudar";
+	show "Taekwons a ficarem mais em";
+	show "contato com as energias da Lua.";
+	next;
+	show "[Gladiador da Lua]";
+	show "A Lua tem energias calmantes.";
+	show "Então deves ter cuidado para";
+	show "não dormir enquanto medita.";
+	next;
+	show "[Gladiador da Lua]";
+	show "Agora, sente-se.";
+	show "Olhe para a Lua e sinta.";
+	show "Sua luz flui por você.";
+	next;
+	show "^0000FFApós alguns minutos de meditação^000000";
+	show "^0000FFseus olhos começam a ficar pesados.^000000";
+	show "^0000FFVocê se força para^000000";
+	show "^0000FFmanter-se acordado, e sente um^000000";
+	show "^0000FFrenovado vigor.^000000";
+	next;
+	show "[Gladiador da Lua]";
+	show "Você aprendeu tudo que eu podia lhe ensinar.";
+	show "Devo agora lhe enviar para seu próximo e";
+	show "último instrutor.";
+	next;
+
+L_Warpnow2:
+	warp "job_star",165,39;
+	close;
+}
+
+job_star,161,34,4	script	Gladiador das Estrelas	77,{
+	if(Class==Job_Taekwon && JobLevel>=40) goto L_Talk3;
+	if(STGL_Q==3) goto L_Itemcheck;
+	show "[Gladiador das Estrelas]";
+	show "Como você entrou aqui!?";
+	show "Vá embora agora!";
+	next;
+	warp "payon",256,242;
+	close;
+
+L_Talk3:
+	show "[Gladiador das Estrelas]";
+	show "Cumprimentos, Taekwon.";
+	show "Estou aqui para lhe ensinar sobre";
+	show "as múltiplas energias que ";
+	show "vem das Estrelas.";
+	next;
+
+L_Itemcheck:
+	if(countitem(1000) < 1 || countitem(1001) < 1) goto L_Noitem3;
+	if(SkillPoint) goto L_Skill;
+	delitem 1000,1;
+	delitem 1001,1;
+	show "[Gladiador das Estrelas]";
+	show "Desde que tem os itens requeridos,";
+	show "nós devemos começar.";
+	next;
+	show "^0000FFConforme você medita, sente ^000000";
+	show "^0000FFpoder crescendo dentro de você.^000000";
+	show "^0000FFEste poder não parece ser^000000";
+	show "^0000FFseu, mas parece algo que está ^000000";
+	show "^0000FFem algum lugar lhe dando uma ajuda.^000000";
+	next;
+	setjob Job_Star_Gladiator;
+	callfunc "F_ClearJobVar";
+	show "[Gladiador das Estrelas]";
+	show "Parece-me que você está de fato";
+	show "em contato com o Sol,a Lua, e as Estrelas.";
+	next;
+	show "[Gladiador das Estrelas]";
+	show "Deseje sorte em sua jornada.";
+	next;
+	warp "payon",256,242;
+	close;
+
+L_Skill:
+	show "[Gladiador das Estrelas]";
+	show "Parece-me que você ainda tem";
+	show "alguns Pontos de Habilidade sobrando.";
+	show "Use-os, e então";
+	show "venha falar comigo novamente.";
+	close;
+
+L_Noitem3:
+	show "[Gladiador das Estrelas]";
+	show "Para se tornar apenas um junto às";
+	show "estrelas, você terá de me trazer:";
+	show "^0000FF- 1 Fragmento Estelar^000000";
+	show "^0000FF- 1 Poeira Estelart^000000";
+	next;
+	show "[Gladiador das Estrelas]";
+	show "Eu agora lhe mandarei de volta para que possa";
+	show "procurar por estes itens.";
+	next;
+	set STGL_Q,3;
+	warp "payon",256,242;
+	close;
+}

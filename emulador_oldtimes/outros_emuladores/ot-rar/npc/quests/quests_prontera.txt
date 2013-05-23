@@ -1,0 +1,87 @@
+//= Cronus r3353 + otRag ??
+prt_in,38,108,4	script	Professora#01	53,{
+
+	mes "[Professora]";
+	if(countitem(710) >= 1 && countitem(703) >= 1 && countitem(704) >= 1 && countitem(708) >= 1){
+		mes "Oh... Essas Flores em sua mão são....";
+		set @i,1;
+		while(@i){
+			next;
+			select("Flores de espetáculo:Dê Flores:Cancelar");
+			mes "[Professora]";
+			switch(@menu){
+				case 1:
+					mes "Ah... Como maravilhoso!! Estes são definitivamente os 4 tipos de Flores eu estava procurando..";
+					mes "A Flor de ^3355FFIlusão, Hinalle, Babosa, e Menta^000000. você os daria a mim?...";
+					next;
+					mes "[Professora]";
+					mes "Se você as me trouxer eu lhe darei um item especial.....";
+					break;	
+				case 2:
+					if(countitem(710) < 1 || countitem(703) < 1 || countitem(704) < 1 || countitem(708) < 1){
+						mes "Eu não darei um item especial a um trapaceiro...";
+						mes "Agora vá embora!";
+					}
+					else {		
+						delitem 710,1;
+						delitem 703,1;
+						delitem 704,1;
+						delitem 708,1;
+						mes "Eu realmente, realmente gostei do que você fez para mim!! eu  agradeço-lhe! Eu lhe darei um item muito especial como lhe prometi.";
+						emotion e_thx;
+						next;
+						mes "[Professora]";
+						mes "Este é o chapéu que eu usei a minha Cerimônia de Graduação.  É uma lembrança dos dias que eu estava na Universidade.";
+						mes "Por favor leve-o...";
+						getitem 5012,1;
+						set @i,0;
+					}
+					break;
+				case 3:
+					mes "Um destes dias eu cobrirei mundo inteiro em Flores!.....";
+					set @i,0;
+			}
+		}
+	}
+	else {
+		mes "Você não pensa que as.... ^4444FF'flores'^000000 são bonitas?";
+		next;
+		select("Conversar.:Terminar Conversa.");
+		mes "[Professora]";
+		switch(@menu){
+			case 1:
+				mes "Quando eu era criança eu ao invez de brincar com as outras crianças, eu ficava estudando sozinha.";
+				next;
+				mes "[Professora]";
+				mes "Às vezes eu lamento aquela decisão.... mas realmente não importa agora.  Por trabalhar duro, eu sempre era a primeira a terminar as tarefas.";
+				next;
+				mes "[Professora]";
+				mes "Eu estava porém muito só..... derrepente as coisas ficaram difíceis e eu não tive ninguém para conversar sobre meus sentimentos.";
+				next;
+				mes "[Professora]";
+				mes "Então um dia, eu achei minha melhor amiga.";
+				next;
+				mes "[Professora]";
+				mes "Quando eu vi esta bonita flor desabrochar em um jardim abandonado.... eu percebi que nós eramos parecidas, eu achei minha melhor amiga.";
+				next;
+				mes "[Professora]";
+				mes "Embora, a outros era há pouco uma flor comum.... para mim esta flor significou muito mais.  Esta flor me deu a força para continuar meus estudos.";
+				mes "Eu poderia alcançar minhas metas por causa dela.";
+				next;
+				mes "[Professora]";
+				mes "Assim.. agora... eu estou tentando para reembolsar a ela.  Eu comecei estudando Flores, e é minha meta para cobrir o mundo inteiro em Flores!";
+				next;
+				mes "[Professora]";
+				mes "Realizar meu trabalho.. eu preciso de muito flores. Infelizmente por causa de meus estudos, eu raramente posso ir fora.";
+				mes "É realmente duro achar tantas flores quanto preciso.";
+				next;
+				mes "[Professora]";
+				mes "Eu preciso de 1 ^3355FFFlor das Ilusões^000000 ,1 ^3355FFHinalle^000000,1 ^3355FFAloe^000000 e 1 ^3355FFMenta^000000..";
+				mes "Se você puder trazer estas flores a mim, eu estaria disposto lhe dar um artigo especial..";
+				break;
+			case 2:
+				mes "Um dia desses eu cobrirei o mundo inteiro com Flores!.....";
+		}
+	}
+	close;		
+}

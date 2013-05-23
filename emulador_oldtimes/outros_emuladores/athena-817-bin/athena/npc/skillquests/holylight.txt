@@ -1,0 +1,81 @@
+//Holy Light
+
+prt_church.gat,173,23,4	script	Holylight priest	79,{
+	if ((Class == Job_Acolyte) && (JobLevel < 30)) goto LStartLowlv;
+	if (!((Class == Job_Acolyte) || (Class == Job_Priest) || (Class == Job_Monk))) goto LStartOther;
+	if (getskilllv(156)>0) goto LStartTwice;
+	if (((countitem(727)>=1) && (countitem(991)>=1) && (countitem(2608)>=1))) goto L3;
+Lstart:
+	mes "[Priest]";
+	mes "Hello and welcome to our beloved church here in Prontera.";
+	mes "If not my age are mistaken I see a Acolyte standing in front of me.";
+	mes "Yes it sure is. Welcome I am so happy to see you in our church.";
+	mes "As a gift I want to give you a present";
+	next;
+	menu "a present?",L1,"No, thanks",L2;
+L1:
+	mes "[Priest]";
+	mes "Yes my dear friend. Unfortunately you have to go and collect the ingredients.";
+	mes "I am to old and can't get the ingredients.";
+	next;
+	mes "[Priest]";
+	mes "Okay, For this skillquest(Holy Light) you will need:";
+	mes "";
+	mes "1 ^FF0000Rosary";
+	mes "1 ^FF0000Crystal Blue";
+	mes "1 ^FF0000Opal";
+	mes "";
+	mes "Come back later when you have all these stuff.";
+	mes "Good luck with your task.";
+	close;
+	
+
+L2:
+	mes "[Priest]";
+	mes "I see, Good luck with your task.";
+	mes "I hope to see you here again";
+	close;
+
+
+L3:
+	mes "[Priest]";
+	mes "Oh mighty lord you have found all the items I asked for.";
+	mes "If you give me these items I will give you Holy Light in return.";
+	mes "Do you want me to use your items for this skill?";
+	menu "Yes, please",L3_1,"No,please",L3_2;
+L3_1:
+		mes "[Priest]";
+		mes "Ohh my ohh my. This is going to be swell.";
+		mes "Hand over the items. Thank you.";
+ 		next;
+		delitem 727,1;
+		delitem 991,1;
+		delitem 2608,1;
+		skill 156,1,0;
+ 		mes "[Priest]";
+ 		mes "Halleluja, you now have the Holy Light skill implemented";
+ 		mes "Good luck my child.";
+ 		close;
+L3_2:
+		mes "Ohh I see, good luck anyway.";
+ 		close;
+LStartOther:
+	mes "[Priest]";
+	mes "I am an Priest and I can teach other Acolytes how to use the Holy Light.";
+	mes "This skill can only be used by Acolytes.";
+	mes "Unfortunately you ain't an Acolyte.";
+	close;
+
+LStartLowlv:
+
+	mes "[Priest]";
+	mes "Hello friendly Acolyte. You have to raise your level a little more before using the Holy Light.";
+	mes "YOu need to be atleast joblevel 30.";
+	close;
+
+LStartTwice:
+	mes "[Priest]";
+	mes "You already have this skill implemented in your skilltree.";
+	close;
+
+}

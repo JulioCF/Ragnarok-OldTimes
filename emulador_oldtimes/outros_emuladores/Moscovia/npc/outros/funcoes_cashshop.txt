@@ -1,0 +1,132 @@
+//===== Cronus Script ======================================= 
+//= Funções dos Items de ROPs
+//===== Por: ================================================== 
+//= L0ne_W0lf[1.0]
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= Cronus SVN
+//===== Description: ========================================= 
+//= Funções para que os seguintes items de ROPs Funcionem:
+//= - Cartão Kafra
+//= - Asas de Mosca Gigantes
+//= - Neuralizador
+//= - Pergaminho de Teleporte para Calabouço
+//- - Pergaminhos de Teleporte para Cidades
+//===== Comentários Adicionais: ================================= 
+//= 1.0 First version. [L0ne_W0lf]
+//=	F_CashPartyCall Optimized by Trancid.
+//=     Traduzido e Adaptado para o Cronus[Reploid]
+//============================================================ 
+
+// Cartão Kafra
+//============================================================ 
+// - Abre o Armazem dos Players.
+function	script	F_CashStore	{
+	cutin "kafra_01",2;
+	show "[Funcionária Kafra]";
+	show "Bem-Vindo a Corporação Kafra.";
+	show "Deixe-me abrir seu Armazém Para Você.";
+	close2;
+	openstorage;
+	cutin "",255;
+	return;
+}
+
+
+// Asa de Mosca Gigante
+//====================================================================================== 
+// - Teleporta o Lider do Grupo e seus integrantes para algum lugar aleatório no Mapa.
+function	script	F_CashPartyCall	{
+	warp "Random",0,0;
+	if(getpartyleader(getcharid(1),2) == getcharid(0)) {
+		getmapxy .@mapl$, .@xl, .@yl, 0;
+		getpartymember getcharid(1);
+		set .@partymembercount, $@partymembercount;
+		copyarray .@partymembername$[0], $@partymembername$[0], .@partymembercount;
+		for(set .@i, 0; .@i < .@partymembercount; set .@i, .@i + 1)
+		if(!(getmapxy(.@mapm$, .@xm, .@ym, 0, .@partymembername$[.@i])) && (.@mapm$ == .@mapl$))
+		warpchar .@mapl$, .@xl, .@yl, getcharid(0, .@partymembername$[.@i]);
+	}
+	return;
+}
+
+// Neuralizador
+//============================================================================================================ 
+// - Reseta os Pontos de Habilidade.Mas para isto você não pode estar com items ou Carrinho/Falcão/Peco-Peco.
+function	script	F_CashReset	{
+	if (Class != Job_Novice) {
+		if (Weight < 1) { 
+			if (checkriding() || checkfalcon() || checkcart()) return;
+			else {
+				resetskill;
+				sc_end SC_ALL;
+			}
+		}
+	}
+	return;
+}
+
+// Pergaminho_de_Teleporte_para_Calabouço
+//======================================================================= 
+// - Teleporta o jogador para um lugar aleatorio no Calabouço Escolhido
+function	script	F_CashDungeon	{
+	switch(select("Calabouço de Magma:Monte Mjolnir (02):Loja de Carpintaria:Calabouço da Mina:Caverna de Payon (0):Depósito da Fábrica de Brinquedos:Prisão Subterrânea de Glast Heim (0):A Tumba Real:Tabuleiro de Go:Túnel Submarino (0):Calabouço da Ilha da Tartaruga:Torre do Relógio (s3):Torre do Relógio (1)")) {
+	case 1: warp "mag_dun01",0,0; end;
+	case 2: warp "mjolnir_02",0,0; end;
+	case 3: warp "um_dun01",0,0; end;
+	case 4: warp "ein_dun01",0,0; end;
+	case 5: warp "pay_dun00",0,0; end;
+	case 6: warp "xmas_dun01",0,0; end;
+	case 7: warp "gl_prison",0,0; end;
+	case 8: warp "lou_dun01",0,0; end;
+	case 9: warp "gon_dun02",0,0; end;
+	case 10: warp "iz_dun00",0,0; end;
+	case 11: warp "tur_dun02",0,0; end;
+	case 12: warp "alde_dun03",0,0; end;
+	case 13: warp "c_tower1",0,0; end;
+	}
+	return;
+}
+
+// Pergaminho_de_Teleporte_para_Cidade
+//================================================================= 
+// - Teleporta o Player para uma cidade dependendo do Pergaminho
+function	script	F_CashCity	{
+	switch(getarg(0))
+	{
+		// Yellow
+		case 1: switch(select("Prontera:Geffen:Payon:Morroc:Aldebaran:Alberta")) {
+			case 1: warp "prontera",0,0; end;
+			case 2: warp "geffen",0,0; end;
+			case 3: warp "payon",0,0; end;
+			case 4: warp "morocc",0,0; end;
+			case 5: warp "aldebaran",0,0; end;
+			case 6: warp "alberta",0,0; end;
+			}
+		break;
+		// Green
+		case 2: switch(select("Juno:Lighthalzen:Einbroch:Hugel")) {
+			case 1: warp "yuno",0,0; end;
+			case 2: warp "lighthalzen",0,0; end;
+			case 3: warp "einbroch",0,0; end;
+			case 4: warp "hugel",0,0; end;
+			}
+		break;
+		// Red
+		case 3: switch(select("Rachel:Veins")) {
+			case 1: warp "rachel",0,0; end;
+			case 2: warp "veins",0,0; end;
+			}
+		break;
+		// Blue
+		case 4: switch(select("Ayothaya:Amatsu:Louyang:Kunlun")) {
+			case 1: warp "ayothaya",0,0; end;
+			case 2: warp "amatsu",0,0; end;
+			case 3: warp "louyang",0,0; end;
+			case 4: warp "gonryun",0,0; end;
+			}
+		break;
+	}
+	return;
+}

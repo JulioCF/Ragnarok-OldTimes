@@ -1,0 +1,550 @@
+//===== Cronus Script ================================================= 
+//= Niflheim
+//===== Por: ==========================================================
+//= Fyrien, Dizzy, PKGINGO
+//= NPCs oficial traduzido e re-editado por Celest
+//===== Versão Atual: ================================================= 
+//= 2.1
+//===== Descrição: ==================================================== 
+//= Npcs de Niflheim
+//===== Changelog: ==================================================== 
+//= 2.0 Traduzido por Matheusc
+//= 2.1 Fix by Mehah (line 340)
+//=====================================================================
+
+//prontera.gat,164,161,4	script	Traveler::NifTrav	68,{
+//	show "[Viajante]";
+//	show "Eu vim através de algumas coisas estranhas de meu tempo. Coisas que só vendo para crer. Você ja ouviu falar de Niffleheim, a cidade dos mortos??";
+//	next;
+//	menu "Mostre para mim por favor...",M_show, "hm.. nunca..",-;
+//
+//	show "[Viajante]";
+//	show "Hm... Uma escolha sabia...";
+//	close;
+//M_show:
+//	warp "niflheim.gat",202,171;
+//	close;
+//}
+//-	script	EDNifTrav	-1,{
+//OnInit:
+//OnMinute00:
+//	disablenpc "NifTrav";
+//	end;
+//OnMinute56:
+//	enablenpc "NifTrav";
+//	end;
+//}
+
+niflheim.gat,52,174,3	script	Kirz	796,{
+	show "[Kirz]";
+	show "Seres humanos não são bem vindos aqui!";
+	show "Coisas vivas.... Grr...";
+	show "Você pode passar...";
+	close;
+}
+
+niflheim.gat,213,221,0	script	Spirit::spirits	802,{
+	show "[Espirito]";
+	show "Bem vindo ao meu mundo";
+	show "Esse lugar que nos chamamos de...";
+	show "Niflheim....";
+	percentheal -85,-85;
+	close;
+}
+
+niflheim.gat,39,146,0	duplicate(spirits)	Spirit#2	802
+niflheim.gat,95,61,0	duplicate(spirits)	Spirit#3	802
+niflheim.gat,313,187,0	duplicate(spirits)	Spirit#4	802
+niflheim.gat,212,264,0	duplicate(spirits)	Spirit#5	802
+niflheim.gat,247,72,0	duplicate(spirits)	Spirit#6	802
+niflheim.gat,130,176,0	duplicate(spirits)	Spirit#7	802
+niflheim.gat,173,110,0	duplicate(spirits)	Spirit#8	802
+niflheim.gat,182,167,0	duplicate(spirits)	Spirit#9	802
+
+niflheim.gat,184,199,5	script	Little Girl	793,{
+	show "[Sairin]";
+	if(niflheimlost2 == 1) goto L_thanks;
+	if(niflheimlost == 1) goto L_foundhim;
+	if(lostgirl == 1) goto L_sure2;
+	show "Senhor. Pode me ajudar por favor?";
+	if(BaseJob==Job_Novice) show "Oh... Você esta perdido também..."; //Exploit fix
+	if(BaseJob==Job_Novice) close;
+	next;
+	menu "Sim",-, "Não",M_no;
+
+	show "[Sairin]";
+	show "Meu amigo e eu estavamos passeando por lugares novos.";
+	next;
+	show "[Sairin]";
+	show "Derrepente achei uma boneca, eu peguei-a e ela se transformou em um fantasma!";
+	next;
+	show "[Sairin]";
+	show "Eu gritei e saí correndo! Mas quando parei de correr vim parar nessa cidade extranha...";
+	next;
+	show "[Sairin]";
+	show "Ninguem aqui quiz me ajudar. E há fantasmas em toda a parte! Você pode me ajudar a encontrar o meu amigo?";
+	next;
+	menu "Claro!",-, "Não",M_no;
+L_sure2:
+	set lostgirl,1;
+	show "Então se encontra-lo pelos campos de Niflhein, diga para ele onde eu estou!";
+	close;
+
+L_foundhim:
+	show "Você encontrou ele?";
+	show "Oh! Muito obrigado!";
+	show "Por favor, pegue isso como forma de minha gratidão.";
+	additem 642,1;//Items: Book of Devil,
+	set niflheimlost2,1;
+	close;
+L_thanks:
+	show "Muito obrigado novamente";
+M_no:
+	close;
+}
+
+nif_fild01.gat,213,268,5	script	Little Boy	797,{
+	show "[Marius]";
+	if(niflheimlost == 1) goto L_alreadydone;
+	if(lostgirl == 1) goto L_sure2;
+	show "Sairin...Cade Você?";
+	close;
+L_alreadydone:
+	show "Obrigado por ter nos ajudado!";
+	close;
+L_sure2:
+	show "Quem é Você?";
+	show "...";
+	show "Você achou Sairin?";
+	show "Ela correu para Niflhein...";
+	next;
+	set niflheimlost,1;
+	show "[Marius]";
+	show "Você pode falar onde ela esta?";
+	show "Eu sou um pouco lerdo, e seria importante achar ela...";
+	menu "Sim",L_alreadydone, "Não",-;
+
+	close;
+}
+
+niflheim.gat,195,211,5	script	Gigantia	796,{
+	show "[Gigantia]";
+	show "O Senhor da Morte vê tudo...";
+	close;
+}
+
+niflheim.gat,153,215,3	script	Feline	794,{
+	show "[Feline]";
+	show "O que faz nessa vila perigosa?";
+	show "Saida desse lugar rapidamente...";
+	close;
+}
+
+nif_in.gat,16,27,1	script	Dead Cock	800,{
+	show "[Morto Vivo]";
+	show "Eu fui comido por seres humanos quando era vivo,";
+	show "Agora vou comê-lo! *NHack!*";
+	show "Ah! Não posso acreditar que estou vivo após a morte! hahaha!";
+	percentheal -5,0;
+	close;
+}
+
+nif_in.gat,16,30,4	script	Vampire Bat	799,{
+	show "[Morcego Vampiro]";
+	show "Vivo ou morto.. Sangue humano!";
+	show "É sempre o que me da mais gosto!";
+	show "O que? Você quer seu sangue..";
+	show "sugado por mim??? *nhack* Muito bom!";
+	percentheal -5,0;
+	close;
+}
+
+nif_in.gat,156,93,5	script	Child	793,{
+	show "[Anna]";
+	show "Onde é esse lugar? Eu só lembro que acordei aqui.";
+	show "e encontrei... mamãe...";
+	show "Você viu minha mãe, ein?? ...";
+	show "Eu quero ir para casa...";
+	next;
+	menu "Sobre a "+callfunc("classname",9,"S","F")+"...",L_Wizzard,"Sobre a Maldição...",L_Curse,"Parar de conversar",L_end;
+
+L_Wizzard:
+	show "[Anna]";
+	show "Uma "+callfunc("classname",9,"S","F")+"? Eu não conheço nenhuma "+callfunc("classname",9,"S","F")+"...";
+	show "embora eu tenha lido sobre isso em alguns livros,";
+	show "Mas não sei se é real,";
+	show "se for real deve ser muito assustador...";
+	next;
+	show "[Anna]";
+	show "Porque esta tão frio? ";
+	if (sex == 1) show "Você não esta com frio amigo?";
+	if (sex == 0) show "Você não esta com frio amiga?";
+	show "Eu tenho saudades do calor da minha casa...";
+	show "Você pode me ajudar? Hmmm? Hmmm?";
+	close;
+   
+L_Curse:
+	show "[Anna]";
+	show "Maldição... Minha avó me disse";
+	show "tem uma maneira de evitar a maldição";
+	show "proteção de luz sagrada...";
+	next;
+	show "[Anna]";
+	show "Klaatu...";
+	show "Verata.....";
+	show "E... alguma coisa... algo... o que era ele?";
+	show "Eu nao me lembro muito bem...";
+	next;
+	show "[Anna]";
+	show "Disse que se você pudesse falar essas palavras mágicas";
+	show "Para escapar de uma maldição.";
+	show "Agora... eu não me lembro o que disse de tão importante";
+	show "como eu esqueci demais...";
+	close;
+   
+L_end:
+	show "[Anna]";
+	show "Frio... Muito frio... eu quero...";
+	show "va pra casa... me leve com você...";
+	show "é tão assustador aqui...";
+	show "por favor... me ajude...";
+	close;
+}
+
+niflheim.gat,350,258,5	script	Cursed Soul	802,{
+	killmonster "niflheim.gat","mymob";
+	show "[Aesop Bruce]";
+	show "Eu sinto uma forte maldição e vocêeeehh!";
+	show "Eu negarei sua existenciaaaahh!";
+	show "Va pra casa ou você morre-raaaaahhhh";
+	show "Não mexa no meu livrooooooh";
+	next;
+	menu "Toque acima do 1º livro",L_book1,"Toque acima do 2º livro",L_book2,"Toque acima do 3º livro",L_book3,"Saia em silencio",L_back;
+   
+L_book1:
+	show "[Aesop]";
+	show "Não! Você tocou meu livroooohhh!!";
+	show "Ahahaha, Eu amaldiçoei você! Sera mordido e rasgado!!!";
+	show "Leve para sempre essa maldição!!";
+	monster "niflheim.gat",350,258,"Rideword",1478,1,"mymob";
+	close;
+
+L_book2:
+	show "[Aesop Bruce]";
+	show "Eu disse não toque em meu livrooooh!...";
+	show "Perdedor...";
+	show "Não perturbe meu sonooohhhh!!";
+	warp "niflheim.gat",34,162;
+	close;
+
+L_book3:
+	set nif_t,0;
+	set @nif_random1,rand(1,10);
+	show "[Aesop Bruce]";
+	show "Ahahaha! Eu vi que você é corajoso!!!";
+	show "Diga as palavras magicashasahahahah!!";
+	next;
+L_MENU1:
+	menu "Trevo.",L_MENU1_1,"Klaatu.",L_MENU1_2,"Kleitos.",L_MENU1_3;
+
+	L_MENU1_1:
+	goto L_MENU2;
+
+	L_MENU1_2:
+	set nif_t,nif_t + 10;
+	goto L_MENU2;
+
+	L_MENU1_3: 
+	goto L_MENU2;
+
+L_MENU2:
+	menu "Verit.",L_MENU2_1,"Veritas.",L_MENU2_2,"Verata.",L_MENU2_3;
+	
+	L_MENU2_1:
+	goto L_MENU3;
+
+	L_MENU2_2: 
+	goto L_MENU3;
+
+	L_MENU2_3:
+	set nif_t,nif_t + 10;
+	goto L_MENU3;
+
+L_MENU3:
+	menu "Necktie.",L_MENU3_1,"Colar.",L_MENU3_2,"Nero.",L_MENU3_3,"^FFFFFFNictu.^000000",L_MENU3_4;
+
+	L_MENU3_1: 
+	goto L_score;
+
+	L_MENU3_2: 
+	goto L_score;
+
+	L_MENU3_3:
+	goto L_score;
+
+	L_MENU3_4:
+	set nif_t,nif_t + 10;
+	goto L_score;
+
+
+L_score:
+	if (nif_t == 30) goto L_sucess1;
+	show "[Aesop Bruce]";
+	show "HAHAHAHA! Suas palavras estão erradashhhh!";
+	show "Hora de enfrentar a morte! hahahahah,";
+	show "Você sera amaldiçoado para semprehhh!!!hahahaha!!";
+	monster "niflheim.gat",349,256,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",347,258,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",347,254,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",350,252,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",344,255,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",348,252,"Orc Skeleton",1462,1,"mymob";
+	monster "niflheim.gat",347,259,"Orc Skeleton",1462,1,"mymob";
+	close;
+
+L_sucess1:
+	if (@nif_random1 == 10) goto L_sucess2;
+	show "[Aesop Bruce]";
+	show "Você acertouhhh";
+	show "Mas sua maldição permanesse aindahhhh!!";
+	show "Haahahahaha.....!!!";
+	close;
+
+L_sucess2:
+       show "[Aesop Bruce]";
+       show "Hahahaha!! Sua maldição ja saiu!!";
+       show "Gahahahaha.....!!!";
+       close;
+
+L_back:
+	show "[Aesop Bruce]";
+	show "Ahahahaha! Não pense mal em tudohhhaahaaa...";
+	show "Eu espero que você retornehhhh....";
+	close;
+}
+
+niflheim.gat,224,243,3	script	Alager	795,{
+	show "[Alager]";
+	show "Muahaha, eu adoro comer carne...";
+	show "Você parece... Delicioso!";
+	next;
+	show "[Alager]";
+	show "Eu vou come-lo...";
+	next;
+	show "*Chomp*";
+	if (nif_quest1 == 1 || nif_q_done == 1) goto L_end;
+	percentheal -60,0;
+	next;
+	show "[Alager]";
+	show "Ahh, nunca comi uma carne tão deliciosa";
+	// 50% made up, not the slightest idea how to translate these ^^;
+	show "Como 'chef', essa é minha carne favorita";
+	show "sei preparar um bom filé,";
+	show "grelhado fica uma perfeição,";
+	show "isso seria tão delicioso.... ";
+	next;
+	show "[Alager]";
+	show "Ah, tenho que lhe agradecer por isso";
+	show "Eu achei isso no chão...";
+	additem 7184,1;//Items: Piano Key,
+	set nif_quest1, 1;
+	close;
+L_end:
+	percentheal -30,0;
+ 	close;
+}
+
+nif_in.gat,105,81,3	script	Grey	794,{
+	show "[Grey]";
+	show "Ah, havia um poema...";
+	show "que não sabia o autor e a epoca era desconhecida,";
+	show "e havia circulado por um bom tempo...";
+	next;
+	show "[Grey]";
+	show "^FF0000Quando o sol se ajustar no ocidente,^000000";
+	show "^FF0000Pontos de veludo se escurecerão no alvorecer,^000000";
+	show "^FF0000E uma bela melodia vira das sombras^000000";
+	show "^FF0000É a chave da ira do Senhor da Morte.^000000";
+	next;
+	if (nif_quest2 == 1 || nif_q_done == 1) goto L_end;
+	set @nif_random,rand(1,4);
+	show "[Grey]";
+	show "Hehe, deixe-me lhe fazer um pequeno teste";
+	show "Repita as frases... " + @nif_random + " do poema";
+	show "que você ouviu de mim";
+	next;
+	digit @inputstr1$;
+	if (@nif_random == 2) goto L_RAN_2;
+	if (@nif_random == 3) goto L_RAN_3;
+	if (@nif_random == 4) goto L_RAN_4;
+	//if (@nif_random == 1) goto L_RAN_1;	
+	L_RAN_1:
+		set @str1$,"Quando o sol se ajustar no ocidente,";
+		goto L_RAN_B;
+	
+	L_RAN_2:
+		set @str1$,"Pontos de veludo se escurecerão no alvorecer,";
+		goto L_RAN_B;
+
+	L_RAN_3:
+		set @str1$,"E uma bela melodia vira das sombras,";
+		goto L_RAN_B;
+
+	L_RAN_4:
+		set @str1$,"É a chave da ira do Senhor da Morte.";
+		goto L_RAN_B;
+
+	L_RAN_B:
+		if (@inputstr1$ == @str1$) goto L_RAN_SC;
+		show "[Grey]";
+		show "Ah... você tem que prestar mais atenção,";
+		show "para saber a resposta correta,";
+		show "volte para me desafiar denovo,";
+		show "mas somente quando estiver preparado!";
+		close;
+
+	L_RAN_SC:
+		show "[Grey]";
+		show "Oh! Você prestou atenção!";
+		show "Meu nome é Grey, sou um poeta vagador";
+		show "Você é a pessoa que mais deu audiencia a meus poemas";
+		show "Aqui, receba isso como reconpensa";
+		additem 7184,1;//Items: Piano Key,
+		set nif_quest2, 1;
+		next;
+		show "[Grey]";
+		show "Espero que você encontre outros poetas";
+		show "e trate-os assim como me tratou...";
+		close;
+
+L_end:
+	show "[Grey]";
+	show "Eu quero sabe o que ele significa";
+	show "Se você ler cuidadosamente,";
+	show "parece ter um significado profundo";
+	show "e um segredo misterioso";
+	show "escondido nessas palavras...";
+	close;
+}
+
+nif_in.gat,31,20,3	script	Kurtz	794,{
+	show "[Kurtz]";
+	show "O negocio hoje em dia é ruim";
+	show "Era melhor quando estava vivo,";
+	show "Meu servisso estra muito ruim";
+	if (nif_quest3 == 1 || nif_q_done == 1) close;
+	next;
+	show "[Kurtz]";
+	show "Hey! Você! Jogue fora isso pra mim!";
+	show "Ou segure pra você";
+	additem 7184,1;//Items: Piano Key,
+	set nif_quest3, 1;
+	next;
+	show "[Kurtz]";
+	show "Porque o negocio anda tao mal ultimamente...";
+	show "...";
+	close;
+}
+
+niflheim.gat,169,71,5	script	#1	111,2,2{
+	if (nif_q_done == 1) end;
+	if (nif_quest4 == 1) end;
+
+	show "- nos tumulos proximos -";
+	show "- você ve algo -";
+	show "- um buraco na terra -";
+	show "- O que é isso? -";
+	show "- Tem alguma coisa ai -";
+	next;
+	show "- Pegar? -";
+	menu "Sim",-,"Não",L_end;
+	additem 7184,1;//Items: Piano Key,
+	set nif_quest4, 1;
+L_end:
+	close;
+}
+
+niflheim.gat,208,103,5	script	#2	111,2,2{
+	if (nif_q_done == 1) end;
+	if (nif_quest5 == 1) goto L_key2;
+	if (nif_quest5 >= 2) end;
+
+	show "- nos tumulos proximos -";
+	show "- você ve algo -";
+	show "- um buraco na terra -";
+	show "- O que é isso? -";
+	show "- Tem alguma coisa ai -";
+	next;
+	show "- Pegar? -";
+	menu "Sim",-,"Não",L_end;
+	additem 7184,1;//Items: Piano Key,
+	set nif_quest5, 1;
+	close;
+L_key2:
+	show "- No buraco você escavou -";
+	show "- Há algo a mais -";
+	show "- Enterrado bem no fundo -";
+	show "- Outro fragmento -";
+	next;
+	show "- Pick it up? -";
+	menu "Sim",-,"Não",L_end;
+	additem 7184,1;//Items: Piano Key,
+	set nif_quest5, 2;
+L_end:
+	close;
+}
+
+nif_in.gat,115,181,5	script	#4	111,3,3{
+	show "- Você ve um grande piano -";
+	if (nif_q_done==0) show "- Com algumas chaves faltando  -";
+	if (nif_q_done==1) show "- as chaves foram perdidas -";
+	if (nif_q_done==0 && countitem(7184) > 5) goto L_event;//Items: Piano Key,
+	close;
+
+L_event:
+	delitem 7184,6;//Items: Piano Key,
+	set nif_q_done, 1;
+	//clear auxiliary vars now
+	set nif_quest1, 0;
+	set nif_quest2, 0;
+	set nif_quest3, 0;
+	set nif_quest4, 0;
+	set nif_quest5, 0;
+	set nif_random,0; //clear garbage from the previous version of the script
+	set nif_random1,0; //clear garbage
+	show "- Você transforma as 6 chaves do piano em 1 -";
+	show "- e coloca no buraco  -";
+	show "- no piano, e você  -";
+	show "- Vê que no lado do piano -";
+	show "- falta mais uma chave. -";
+	close;
+}
+
+nif_in.gat,118,151,5	script	#5	111,3,3{
+	if (nif_q_done != 1) end;
+
+	show "- Um momento de escuridão -";
+	show "- seu corpo cai sobre o piano -";
+	next;
+	show "- você se sente mais claro -";
+	show "- e sua visão embaça -";
+	next;
+	warp "nif_in.gat",179,163;
+	close;
+}
+
+nif_in.gat,188,168,3	script	Witch	792,{
+	show "[Kilgana]";
+	show "hmm? você não é um humano vivo?";
+	show "parece que você fez algum esforço";
+	show "para chegar nesse lugar...";
+	show "Embora, isso não é um lugar";
+	show "onde a vida pertencerá...";
+	next;
+	show "[Kilgana]";
+	show "Eu usarei meus poderes para você voltar...";
+	show "mas você não deve voltar aqui...";
+	close2;
+	warp "umbala.gat",138,208;
+	end;
+}

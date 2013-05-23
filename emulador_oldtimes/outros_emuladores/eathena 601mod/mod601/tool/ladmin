@@ -1,0 +1,391 @@
+#!/usr/bin/perl
+
+##########################################################################
+# Athenaのログインサーバー保守ツール Ver.1.00
+#
+# 　起動中のAthenaのlogin.exeに接続してアカウントの保守を行うツール.
+# 　アカウントの追加、削除、パスワードの変更、リスト表示ができます.
+#
+#-------------------------------------------------------------------------
+# 設定方法
+# 　ログイン鯖のIP、ポート、管理者パスワードを正しく設定します.
+#
+#-------------------------------------------------------------------------
+# プロンプトによる作業
+# 　引数なしで起動するとプロンプトがでます。コマンドは後述。
+# 　コマンドは最初の数文字でもかまいません
+#	<例>  q  <= quit , li <= list , pass <= passwd …など
+#
+# 　コマンドリスト
+#	quit				終了
+#
+#	list	[start_id [end_id]]	アカウントリスト表示
+#		start_id,end_idは共に省略可能です。
+#		<例> list 10 9999999
+#		アカウント名での検索などはできません
+#
+#	search	keyword			アカウント検索
+#	search	--expr keyword		アカウント正規表現検索
+#		キーワードがマッチするアカウントのリストを表示します
+#
+#	add	userid gender passwd	アカウント追加
+#		ID,性別,passです。性別は MかFです(最初の１文字で判断)
+#		<例> add testname Male testpass
+#	
+#	del	userid			アカウント削除
+#		警告がでるのでそこでyを入力すると削除します
+#
+#	passwd	userid newpassword	アカウントパスワード変更
+#
+#	help				簡単なヘルプテキスト表示
+#
+#-------------------------------------------------------------------------
+# シェルの単一コマンドとしての作業
+#	./ladmin --mode param1 ...
+#
+#	--add		userid gender passwd	アカウントの追加(-aでも可)
+#	--del		userid			アカウントの削除(-d)
+#	--passwd	userid newpasswd	パスワードの変更(-p)
+#	--list		start_id end_id		アカウントリスト表示(-l)
+#	--search	keyword			アカウント検索(-s)
+#	--search	--expr keyword		アカウント正規表現検索(-s)
+#	<例> ./ladmin --addaccount testname Male testpass
+#
+#-------------------------------------------------------------------------
+# シェルの複数のコマンドとしての作業
+#	あらかじめ --makesymlink を指定して起動し、シンボリックリンクを
+#	作成しておき、そのファイルで起動します。
+#	古いVerのaddaccountは削除して置いてください。
+#	
+#	addaccount	userid gender passwd	アカウントの追加
+#	delaccount	userid			アカウントの削除
+#	passwdaccount	userid newpasswd	パスワードの変更
+#	listaccount	start_id end_id		アカウントリスト表示
+#	searchaccount	keyword			アカウント検索
+#	searchaccount	--expr keyword		アカウント正規表現検索
+#	<例> ./addaccount testname Male testpass
+#
+##########################################################################
+
+
+$loginserverip="127.0.0.1";		#ログイン鯖のIP
+$loginserverport=6900;			#ログイン鯖のポート
+$loginserveradminpassword="admin";	#ログイン鯖の管理者パスワード
+
+$connecttimeout=10;	# 接続タイムアウト(秒)
+
+#-------------------------------設定ここまで-----------------------------
+
+
+
+
+
+
+
+
+use IO::Socket;
+
+$ver="1.01";
+
+
+print "Athena login-server administration tool Ver.$ver\n";
+
+if( $ARGV[0] eq "--makesymlink" ){
+	symlink "ladmin","addaccount";
+	symlink "ladmin","delaccount";
+	symlink "ladmin","passwdaccount";
+	symlink "ladmin","listaccount";
+	symlink "ladmin","searchaccount";
+	print "Symbolic link created.\n";
+	exit(0);
+}
+# サーバーに接続する
+my($so,$er)=();
+eval{
+	$so=IO::Socket::INET->new(
+		PeerAddr=> $loginserverip,
+		PeerPort=> $loginserverport,
+		Proto	=> "tcp",
+		Timeout	=> $connecttimeout) or $er=1;
+};
+if($er || $@){
+	print "\nCant connect to login server [${loginserverip}:$loginserverport] !\n";
+	exit(2);
+}
+
+print $so pack("v3a24",0x7918,30,0,$loginserveradminpassword);
+$so->flush();
+
+# 返答待ち
+my($buf)=readso(3);
+if(unpack("v",$buf)!=0x7919 || unpack("x2c",$buf)!=0 ){
+	print "login error. (password incorrect ?)\n";
+	exit(4);
+}
+print "logged on.\n";
+
+# プロンプト無しの処理
+
+if( $0=~/addaccount$/ ||
+    (($ARGV[0] eq "-a" || $ARGV[0] eq "--add") && ((shift @ARGV),1)) ){
+	my($r)=addaccount($ARGV[0],$ARGV[1],$ARGV[2]);
+	quit();
+	exit($r);
+}elsif( $0=~/delaccount$/||
+    (($ARGV[0] eq "-d" || $ARGV[0] eq "--del") && ((shift @ARGV),1)) ){
+	my($r)=delaccount($ARGV[0]);
+	quit();
+	exit($r);
+}elsif( $0=~/passwdaccount$/||
+    (($ARGV[0] eq "-p" || $ARGV[0] eq "--passwd") && ((shift @ARGV),1)) ){
+	my($r)=changepasswd($ARGV[0],$ARGV[1]);
+	quit();
+	exit($r);
+}elsif( $0=~/listaccount$/||
+    (($ARGV[0] eq "-l" || $ARGV[0] eq "--list") && ((shift @ARGV),1)) ){
+	my($r)=listaccount(int($ARGV[0]),int($ARGV[1]));
+	quit();
+	exit($r);
+}elsif( $0=~/searchaccount$/||
+    (($ARGV[0] eq "-s" || $ARGV[0] eq "--search") && ((shift @ARGV),1)) ){
+	my($r)=searchaccount($ARGV[0],$ARGV[1]);
+	quit();
+	exit($r);
+}
+
+# ログインできたのでプロンプトのループ
+while(1){
+	# プロンプト表示と入力
+	print "ALadmin> ";
+	$cmd=<STDIN>;
+	chomp $cmd;
+	$cmd=~s/[\x00-\x1f]//g;
+	my(@cmdlist)=split / /,$cmd;
+	
+	if( eval{ ""=~/$cmdlist[0]/; }, $@ ){
+		print "Command Error: Regular-Expression compiling failed.\n";
+		next;
+	}
+
+	# コマンド解析
+	eval{
+		if("help"=~/^$cmdlist[0]/ ){
+			print << "EOD";
+  add username gender password -- add account
+  del username                 -- delete account
+  passwd username new_password -- change password of account
+  list [start_id [end_id] ]    -- list account
+  help                         -- this help
+  quit                         -- quit
+EOD
+		}elsif("quit"=~/^$cmdlist[0]/){
+			last;
+		}elsif("add"=~/^$cmdlist[0]/){
+			addaccount($cmdlist[1],$cmdlist[2],$cmdlist[3]);
+		}elsif("del"=~/^$cmdlist[0]/){
+			delaccount($cmdlist[1]);
+		}elsif("passwd"=~/^$cmdlist[0]/){
+			changepasswd($cmdlist[1],$cmdlist[2]);
+		}elsif("list"=~/^$cmdlist[0]/){
+			listaccount(int($cmdlist[1]),int($cmdlist[2]));
+		}elsif("search"=~/^$cmdlist[0]/){
+			searchaccount($cmdlist[1],$cmdlist[2]);
+		}elsif($cmdlist[0]){
+			print "Unknown command [".$cmdlist[0]."]\n";
+		}
+	};
+	if($@){
+		print "Error [".$cmdlist[0]."]\n$@";
+	}
+};
+
+# 終了処理
+quit();
+
+print "bye.\n";
+exit(0);
+
+
+
+#--------------------------------------------------------------------------
+
+# アカウントリスト表示
+sub listaccount(){
+	my($st,$ed)= @_;
+	print $so pack("vV2c",0x7920,$st,$ed,0);
+	$so->flush();
+	$buf=readso(4);
+	if(unpack("v",$buf)!=0x7921){
+		print "List failed.\n";
+		exit(10);
+	}
+	#      0123456789 012345678901234567890123 012345 
+	print "account_id user_id                  Gender Login-count\n";
+	print "------------------------------------------------------\n";
+	my($i);
+	my($len)=unpack("x2v",$buf);
+	for($i=4;$i<$len;$i+=57){
+		my(@dat)=unpack("Va24ca24V",readso(57));
+		printf "%10d %-24s %s %d\n",$dat[0],$dat[1],
+			("Female","Male  ","Server")[$dat[2]],$dat[4];
+	}
+	return 0;
+}
+# アカウント追加
+sub addaccount(){
+	my($userid,$sex,$passwd)= @_;
+	if($userid=~/[^A-Za-z0-9\@-_]/){
+		print "Illeagal charactor found in user_id ".$`."[${&}]${'}\n";
+		return 101;
+	}
+	if(length($userid)<4 || length($userid)>24){
+		print "Account id too short or long. please input 4-24bytes.\n";
+		return 102;
+	}
+	$sex=uc(substr($sex,0,1));
+	if( $sex!~/^[MF]$/ ){
+		print "Illeagal gender [$sex] please input M or F.\n";
+		return 103;
+	}
+	if($passwd=~/[\x00-\x1f]/){
+		print "Illeagal charactor found in password ".$`."[$&]$'\n";
+		return 104;
+	}
+	if(length($passwd)<4){
+		print "Password too short or long. please input 4-24bytes.!\n";
+		return 105;
+	}
+	print $so pack("v2a24a24a1", 0x7930,53, $userid,$passwd,$sex );
+	$so->flush();
+	$buf=readso(2);
+	if(unpack("v",$buf)!=0x7931){
+		print "Packet error.\n";
+		return 106;
+	}
+	$buf=readso(26);
+	print "Account [$userid] ";
+	if(unpack("v",$buf)!=0){
+		print "creation failed. same account exists.\n";
+		return 107;
+	}else{
+		print "is successfully created.\n";
+	}
+	return 0;
+}
+# アカウント削除
+sub delaccount(){
+	my($userid)= @_;
+	print "** Are you really sure to DELETE account [$userid]? (y/n) ";
+	if(lc(substr(<STDIN>,0,1)) ne "y"){
+		return 121;
+	}
+	print $so pack("v2a24", 0x7932,28, $userid);
+	$so->flush();
+	$buf=readso(2);
+	if(unpack("v",$buf)!=0x7933){
+		print "Packet error.\n";
+		return 122;
+	}
+	$buf=readso(26);
+	print "Account [$userid] ";
+	if(unpack("v",$buf)!=0){
+		print "deletion failed. account dosent exist.\n";
+		return 123;
+	}else{
+		print "is successfully DELETED.\n";
+	}
+	return 0;
+}
+# アカウントパスワード変更
+sub changepasswd(){
+	my($userid,$passwd)= @_;
+	if(length($passwd)<4){
+		print "New password too short or long. please input 4-24bytes.!\n";
+		return 131;
+	}
+	print $so pack("v2a24a24", 0x7934,52, $userid,$passwd);
+	$so->flush();
+	$buf=readso(2);
+	if(unpack("v",$buf)!=0x7935){
+		print "Packet error.\n";
+		return 132;
+	}
+	$buf=readso(26);
+	print "Account [$userid] ";
+	if(unpack("v",$buf)!=0){
+		print "password changing failed. account dosent exist.\n";
+		return 133;
+	}else{
+		print "password successfully changed.\n";
+	}
+	return 130;
+}
+# アカウント検索
+sub searchaccount(){
+	my($p1,$p2)= @_;
+	my($exp,$st)=("",0);
+	if($p1 eq"-e" || $p1 eq"--expr"){
+		$exp=$p2;
+	}else{
+		$exp=$p1;
+		$exp=~s/([\@])/\\$1/g;
+		$exp=~s/([\*\?])/\.$1/g;
+	}
+	if( eval{ ""=~/$exp/; }, $@ ){
+		print "Regular-Expression compiling failed.\n";
+		return 141;
+	}
+	#      0123456789 012345678901234567890123 012345 
+	print "account_id user_id                  Gender Login-count\n";
+	print "------------------------------------------------------\n";
+	while(1){
+		print $so pack("vV2c",0x7920,$st,0,0);
+		$so->flush();
+		$buf=readso(4);
+		if(unpack("v",$buf)!=0x7921){
+			print "Search failed.\n";
+			exit(10);
+		}
+		my($i);
+		my($len)=unpack("x2v",$buf);
+		last if($len<=4);
+		for($i=4;$i<$len;$i+=57){
+			my(@dat)=unpack("Va24ca24V",readso(57));
+			$st=$dat[0]+1;
+			next if( $dat[1]!~/$exp/ );
+			printf "%10d %-24s %s %d\n",$dat[0],$dat[1],
+				("Female","Male  ","Server")[$dat[2]],$dat[4];
+		}
+	}
+	return 0;
+}
+# 切断要求
+sub quit(){
+	print $so pack("v",0x7532);
+	$so->flush();
+}
+# READY信号待ち（未使用）
+sub waitready(){
+	$buf=readso(2);
+	if(unpack("v",$buf)!=0x791f){
+		print "Command stream error.\n";
+		exit(9);
+	}
+	return 0;
+}
+# 標準出力のフラッシュ(未使用)
+sub flush_stdout {
+	$|=1;
+	$|=0;
+}
+
+# ソケットからデータを読み出す
+sub readso(){
+	my($len)=shift;
+	my($buf);
+	if( read($so,$buf,$len)<$len ){
+		print "Socket read error.\n";
+		exit(3);
+	}
+	return $buf;
+}

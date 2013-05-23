@@ -1,0 +1,68 @@
+//===== Cronus Script ========================================
+//= Quest BonGun
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ========================================
+//= 1.1.1
+//===== Descrição: ===========================================
+//= Quest BonGun, ganha um Coração Apaixonado e Espada Chanfrada
+//===== Changelog: ===========================================
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.1 Tirado o item Trança [Kamper]
+//= 1.1.1 Retirado vestígio do item Trança [Mehah]
+//============================================================
+comodo.gat,135,227,5	script	Sherri	93,{
+
+show "[Sherri]";
+show "Ai ai... Vida pacata...";
+next;
+show "[Sherri]";
+show "Anh? Qual é o problema? ... Bem, eu finalmente controlei a alma de um garoto bonito...";
+next;
+show "[Sherri]";
+show "... então por que eu estou triste?";
+show "É porque eu não sei como é a personalidade dele... se você encontrar um 'Diário de Menina' sobre ele, eu vou lhe dar o diário que ele escreveu!";
+next;
+show "[Sherri]";
+show "Por favor, você pode me ajudar?";
+
+	menu "O que eu preciso buscar?",L_Item,"Aqui! Eu tenho o que você precisa!",L_Criar,"Desculpe, mas não posso ajudá-lo.",L_Sair;
+
+    L_Item:
+        show "[Sherri]";
+        show "A nada de mais! Eu preciso de...";
+	show "Um 'Diário de Menina'...";
+	show "Se você poder me trazer, eu agradeço.";
+	close;
+
+    L_Criar:
+        show "[Sherri]";
+	show "Sério!! Você tem!? Tem mesmo!?";
+	next;
+	if(countitem(1558) < 1) goto L_SemItem;
+        goto L_Quest;
+
+	    L_SemItem:
+		show "[Sherri]";
+		show "Aahhhh, pare de brincar com meus sentimentos!";
+		show "Vá embora!";
+		close;
+
+	    L_Quest:
+		show "[Sherri]";
+		show "ISSO!! Obrigado cara, te devo uma!";
+		delitem 1558,1; //Diário de Menina
+		additem 659,1; //Coração Apaixonado
+		show "Aqui está o diário que lhe prometi. Obrigado mesmo cara!";
+		next;
+		show "[Sherri]";
+		show "Espere! Aqui está uma espada, eu a achei próximo a ele. Mas ela está quebrada... Eu conheço um velho no oeste de Geffen que pode reparar esta espada!";
+		show "Vá encontrá-lo!";
+		additem 7110,1; //Espada Chanfrada
+		close;
+
+    L_Sair:
+        show "[Sherri]";
+	show "Todos falam isso... Preguiçosos...";
+	close;    
+}

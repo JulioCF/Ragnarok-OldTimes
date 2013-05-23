@@ -1,0 +1,96 @@
+//===== Cronus Script =======================================
+//= Quests de Juperos
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.1
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quest relativa à Juperos
+//===== Changelog: ==========================================
+//= 1.0 Traduzido 	    [Page]
+//= 1.1 Adaptado e Revisado [Page]
+//===========================================================
+
+juperos_01.gat,79,91,1	script	Escultura#Juperos1	111,{
+
+	show "^3131FFUma escultura que";
+	show "parece familiar à você.";
+	close;
+
+}
+
+juperos_01.gat,100,71,1	script	Estátua de Bronze#Juperos2	111,{
+
+	show "^3131FFUma elaborada";
+	show "estátua de bronze que";
+	show "possui o dobro da altura";
+	show "de um humano normal.";
+	close;
+
+}
+
+juperos_01.gat,124,92,1	script	Estátua de Pedra#Juperos3	111,{
+
+	show "^3131FFUma velha";
+	show "estátua esculpida";
+	show "de Pedra.";
+	close;
+
+}
+
+juperos_02.gat,1,1,1	script	JuperosLvl2QuestInit	-1,{
+OnInit:
+while(1)
+	{
+
+		monster "juperos_02.gat",24,276,"Interruptor da Porta 1",1674,1,"JuperosLvl2QuestInit::OnGate1Dead";
+		monster "juperos_02.gat",240,29,"Interruptor da Porta 2",1674,1,"JuperosLvl2QuestInit::OnGate2Dead";
+		monster "juperos_02.gat",282,183,"Interruptor da Porta 3",1674,1,"JuperosLvl2QuestInit::OnGate3Dead";
+		end;
+
+OnGate1Dead:
+
+	mapannounce "juperos_02.gat","Você está procurando por Juperos? Isto não existe...",1,0xFF0000;
+	set $JupeGate1,1;
+	if($JupeGate1 && $JupeGate2 && $JupeGate3)goto s_WarpOpen;
+	end;
+
+OnGate2Dead:
+
+	mapannounce "juperos_02.gat","Quem é você para vir aqui?",1,0xFF0000;
+	set $JupeGate2,1;
+	if($JupeGate1 && $JupeGate2 && $JupeGate3)goto s_WarpOpen;
+	end;
+
+OnGate3Dead:
+
+	mapannounce "juperos_02.gat","Você veio para me ver? Bom! Encontre-me primeiro!",1,0xFF0000;
+	set $JupeGate3,1;
+	if($JupeGate1 && $JupeGate2 && $JupeGate3)goto s_WarpOpen;
+	end;
+
+s_WarpOpen:
+	attachnpctimer;
+	initnpctimer;
+		end;
+	OnTimer3000:
+		mapannounce "juperos_02.gat","Vroom! Vroom!",1,0xBA55D3;
+		end;
+	OnTimer6000:
+		mapannounce "juperos_02.gat","Atenção, visitantes.",1,0xBA55D3;
+		end;
+	OnTimer9000:
+		mapannounce "juperos_02.gat","Você tem permissão de entrar na próxima zona por um curto período de tempo. Por favor, utilize o portal no centro do mapa.",1,0xBA55D3;
+		enablenpc "JupeWarp2";
+		end;
+	OnTimer309000:
+		mapannounce "juperos_02.gat","O portal acaba de se fechar.",1,0xBA55D3;
+		disablenpc "JupeWarp2";
+		set $JupeGate1,0;
+		set $JupeGate2,0;
+		set $JupeGate3,0;
+	stopnpctimer;
+	}
+}

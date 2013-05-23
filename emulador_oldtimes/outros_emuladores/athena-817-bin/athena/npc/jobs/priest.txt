@@ -1,0 +1,550 @@
+////////////////////////////////////////////
+////            Priest Quest            ////
+////////////////////////////////////////////
+////              By DiaDz              ////
+////////////////////////////////////////////
+////            Jan 9th 2004            ////
+////////////////////////////////////////////
+////         Designed For Athena        ////
+////////////////////////////////////////////
+
+/////////////////////
+///  High Priest  ///
+/////////////////////
+prt_church.gat,16,41,4	script	High Priest	60,{
+	if(Class==8) goto ispriest;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Welcome to the Church of Prontera.";
+	mes "How may I aid you?";
+	next;
+	menu "I'm ready to become a ^0000FFPriest^000000.",check,"What must I do to become a ^0000FFPriest^000000.",req,"I'm okay, no aid is needed.",noaid;
+
+ispriest:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Good day ^0000FFFather "+strcharinfo(0)+"^000000.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "I hope all goes well with you.";
+	mes " ";
+	mes "May God Bless You.";
+	close;
+	
+noaid:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Ah very well then..";
+	mes " ";
+	mes "May God Bless You.";
+	close;
+
+check:
+	if(job_priest_q==1) goto subexam;
+	if(job_priest_q==2) goto quest;
+	if(job_priest_q==3) goto getpriest;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Ah! So you've come to obtain a higher form of being - You have my admiration!";
+	mes "Now let the ^FF0000Eligibility Exam^000000 begin!";
+	next;
+	if(Class !=4) goto notaco;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Good! Being an Acolyte will help you very much in becoming a ^0000FFPriest^000000.";
+	mes "But are you Prepared?";
+	next;
+	if(joblevel<40) goto not40;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "...Hmm...yes, your aura is very strong.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Congratulations! You have passed the ^FF0000Eligibility Exam^000000.";
+	announce ""+strcharinfo(0)+" has passed the Eligibility Exam!",3;
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Please sign your name here so as it will not be mistaken with somebody else's exam";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^0000FF"+strcharinfo(0)+"^000000 is it? ...Good - we are now ready to give you the ^FF0000Fundamentals Exam^000000.";
+	set job_priest_q,1;
+	next;
+	goto exam;
+
+notaco:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Hmm, wait a minute - you're not an 'Acolyte'!";
+	mes "Only an 'Acolyte' may become a ^0000FFPriest^000000.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "May God Bless You.";
+	close;
+	
+not40:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Hmm, I'm dreadfully sorry...you haven't reached the 'Job Level 40' prerequisite.";
+	mes "I encourage you to meet this prerequisite and return at the time you do.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "May God Bless You.";
+	close;
+
+req:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "I admire your thirst for knowledge - with that, you will go very far.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "What do you wish to learn?";
+	next;
+	menu "^FF00001. Eligibility Exam^000000",req1,"^FF00002. Fundamentals Exam^000000",req2,"^FF00003. Quest Exam^000000",req3;
+req1:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "I will estimate your eligibilty in becoming a ^0000FFPriest^000000 by taking note of the following traits.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF001. Job 'Acolyte'^000000";
+	mes "^00FF002. Job 'Level 40' Minimum^000000";
+	next;
+	goto reqmore;
+req2:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "This is an Exam to test your basic knowledge of Acolyte-Hood.";
+	mes "You will be tested on the following.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF001. Basic Acolyte Spells^000000";
+	mes "^00FF002. Basic Monster Types^000000";
+	mes "^00FF003. 70% Or More To Pass^000000";
+	next;
+	goto reqmore;
+req3:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "This is the physical portion of the Exam designed to test your trust and intuition.";
+	mes "It is very complicated. Let me explain what will happen.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF001. There are 3 Level you must pass^000000";
+	mes "^00FF002. The monsters in these levels should be avoided at all costs^000000";
+	mes "^00FF003. You must reach the goal holding the Holy Grail^000000";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "There will be ^00FF003 Nuns^000000 on each Level, they each serve a purpose as listed in the following.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF00Mother Nun - Gives you a Grail^000000";
+	mes "^00FF00Nun 1 - Will take the '1 Grail'^000000";
+	mes "^00FF00Nun 2 - Will take the '2 Grail'^000000";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "It's your job to get a ^00FF00Grail^000000 from the ^00FF00Mother Nun^000000.";
+	mes "At random, she will give you a ^00FF00Grail^000000 with a ^00FF00Number^000000 on it.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "It's then your job to deliver the ^00FF00Numbered Grail^000000 to the correct ^00FF00Numbered Nun^000000 in order to advance to the next level.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Upon completeing the quest, return to me and that's it! You will have proven yourself a ^0000FFPriest^000000.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Again I stress that the monsters below are very powerful, yet slow - you should move with much haste.";
+	next;
+	goto reqmore;
+reqmore:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Do you wish to learn more?";
+	next;
+	menu "Yes.",req,"No.",noreq;
+noreq:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Very well - best of health to you.";
+	mes " ";
+	mes "May God Bless You.";
+	close;
+	
+subexam:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Welcome back ^0000FF"+strcharinfo(0)+"^000000.";
+	next;
+	goto exam;	
+exam:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Are you ready to take the ^FF0000Fundamentals Exam^000000?";
+	next;
+	menu "Yes.",exam1,"No, I must study a bit more.",noexam;
+noexam:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Study hard ^0000FF"+strcharinfo(0)+"^000000, you have my full support.";
+	close;
+exam1:
+	set @priest_test,0;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "There are ^00FF0010^000000 questions, good luck!";
+	next;
+	goto exama;
+
+exama:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "1. Zombies, along with other undead - Are suspectable to be damaged by 'Heal'.";
+	next;
+	menu "True",a,"False",examb;
+a:
+	set @priest_test,@priest_test+1;
+	goto examb;
+examb:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "2. Acolytes Can Weild:";
+	mes "Maces";
+	mes "Swords";
+	next;
+	menu "True",examc,"False",b;
+b:
+	set @priest_test,@priest_test+1;
+	goto examc;
+examc:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "3. 'Demon Bane' provides extra damage against Undead and Demon types.";
+	next;
+	menu "True",c,"False",examd;
+c:
+	set @priest_test,@priest_test+1;
+	goto examd;
+examd:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "4. 'Aqua Bendicta' is used to make 'Holy Water' while standing in water.";
+	next;
+	menu "True",d,"False",exame;
+d:
+	set @priest_test,@priest_test+1;
+	goto exame;
+exame:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "5. 'Agi Up' is based in INT.";
+	next;
+	menu "True",examf,"False",e;
+e:
+	set @priest_test,@priest_test+1;
+	goto examf;
+examf:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "6. 'Ruwach' deals damage to all enemies onscreen.";
+	next;
+	menu "True",examg,"False",f;
+f:
+	set @priest_test,@priest_test+1;
+	goto examg;
+examg:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "7. 'Porings' are are worthless experience points.";
+	next;
+	menu "True",g,"False",examh;
+g:
+	set @priest_test,@priest_test+1;
+	goto examh;
+examh:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "8. 'Teleport' can only be leveled '2' times.";
+	next;
+	menu "True",h,"False",exami;
+h:
+	set @priest_test,@priest_test+1;
+	goto exami;
+exami:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "9. You must hold the 'CTRL' button to 'Heal Attack' an enemy.";
+	next;
+	menu "True",examj,"False",i;
+i:
+	set @priest_test,@priest_test+1;
+	goto examj;
+examj:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "10. 'Blessing' adds +10 to all Stats.";
+	next;
+	menu "True",examdone,"False",j;
+j:
+	set @priest_test,@priest_test+1;
+	goto examdone;
+	
+examdone:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Well done ^0000FF"+strcharinfo(0)+"^000000! Let's count your score.";
+	next;
+	if(@priest_test<7) goto examfail;
+	set @percent,@priest_test*10;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "You have scored: ^00FF00"+@priest_test+"/10^000000";
+	mes "Your Percentage is: ^00FF00"+@percent+"%^000000";
+	mes "A Required ^0000FF70%^000000 is needed to pass.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Congratulations! You have passed the ^FF0000Fundamentals Exam^000000!";
+	announce ""+strcharinfo(0)+" has passed the Fundamentals Exam!",3;
+	set @priest_test,0;
+	set job_priest_q,2;
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "You are now ready to take the ^FF0000Quest Exam^000000.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Please speak to the ^0000FFNun^000000 behind the church building to enter the Quest area.";
+	mes " ";
+	mes "May God Bless You.";
+	close;	
+
+examfail:
+	set @percent,@priest_test*10;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "You have scored: ^FF0000"+@priest_test+"/10^000000";
+	mes "Your Percentage is: ^FF0000"+@percent+"%^000000";
+	mes "A Required ^0000FF70%^000000 is needed to pass.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "I'm very sorry ^0000FF"+strcharinfo(0)+"^000000, you've failed the ^FF0000Fundamentals Exam^000000.";
+	set @priest_test,0;
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Please return once you've studied a bit more.";
+	mes " ";
+	mes "May God Bless You.";
+	close;
+	
+quest:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "If it isn't ^0000FF"+strcharinfo(0)+"^000000, back so soon?";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "I see... The Quest is very hard indeed, but you musn't give up hope!";
+	mes "The best I can do is educate you about the quest.";
+	next;
+	goto questmenu;
+
+questmenu:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "What do you wish to learn?";
+	next;
+	menu "Where is the Quest NPC again?",quest1,"What is the Quest about?",quest2;
+quest1:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "The ^0000FFNun^000000 can be located ^0000FFbehind the church^000000 building";
+	next;
+	goto morequest;
+quest2:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "This is the physical portion of the Exam designed to test your trust and intuition.";
+	mes "It is very complicated. Let me explain what will happen.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF001. There are 3 Level you must pass^000000";
+	mes "^00FF002. The monsters in these levels should be avoided at all costs^000000";
+	mes "^00FF003. You must reach the goal holding the Holy Grail^000000";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "There will be ^00FF003 Nuns^000000 on each Level, they each serve a purpose as listed in the following.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "^00FF00Mother Nun - Gives you a Grail^000000";
+	mes "^00FF00Nun 1 - Will take the '1 Grail'^000000";
+	mes "^00FF00Nun 2 - Will take the '2 Grail'^000000";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "It's your job to get a ^00FF00Grail^000000 from the ^00FF00Mother Nun^000000.";
+	mes "At random, she will give you a ^00FF00Grail^000000 with a ^00FF00Number^000000 on it.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "It's then your job to deliver the ^00FF00Numbered Grail^000000 to the correct ^00FF00Numbered Nun^000000 in order to advance to the next level.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Upon completeing the quest, return to me and that's it! You will have proven yourself a ^0000FFPriest^000000.";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Again I stress that the monsters below are very powerful, yet slow - you should move with much haste.";
+	next;
+	goto morequest;
+
+morequest:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Do you more assistance?";
+	next;
+	menu "Yes.",questmenu,"No.",noquest;
+	
+noquest:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Very well - best of luck to you.";
+	mes " ";
+	mes "May God Bless You.";
+	close;
+	
+getpriest:
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Welcome back ^0000FF"+strcharinfo(0)+"^000000, yes we here have recieved news already of your triumph in the ^FF0000Quest Exam^000000!";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "Without furthur ado, I the ^0000FFHigh Priest^000000 of the Church of Prontera.";
+	mes "Hereby declare you ^0000FF"+strcharinfo(0)+"^000000...";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "...In the name of the ^0000FFFather^000000...";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "...^0000FFSon^000000...";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "...and the ^0000FFHoly Spirit^000000...";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "...you will forever be known as...";
+	next;
+	set job_priest_q,0;
+	jobchange 8;
+	announce ""+strcharinfo(0)+" has become a Priest!",3;
+	mes "[^0000FFHigh Priest^000000]";
+	mes " ";
+	mes "...^0000FFHigh Priest, '"+strcharinfo(0)+"'^000000!";
+	next;
+	mes "[^0000FFHigh Priest^000000]";
+	mes "May God Bless You.";
+	close;
+}
+
+/////////////////////
+///  Quest Exam   ///
+/////////////////////
+prontera.gat,275,355,3	script	Nun	79,{
+	if(job_priest_q==3) goto questexamdone;
+	if(job_priest_q==2) goto questexam;
+	mes "[Nun]";
+	mes "Countless heros rest here, I just tend to the cleanliness of their tombstones.";
+	close;
+
+questexam:
+	mes "[Nun]";
+	mes "You are ^0000FF"+strcharinfo(0)+"^000000, correct? I hope you're ready for the Quest.";
+	next;
+	mes "[Nun]";
+	mes "Are you prepared?";
+	next;
+	menu "Yes.",yes,"No.",no;
+	
+questexamdone:
+	mes "[Nun]";
+	mes "Congratulations ^0000FF"+strcharinfo(0)+"^000000 on passing the Quest!";
+	close;
+
+yes:
+	mes "[Nun]";
+	mes "Best of luck!";
+	next;
+	warp "priest_1-1",100,17;
+	close;
+no:
+	mes "[Nun]";
+	mes "I understand, continue preparing then.";
+	close;
+}
+
+priest_1-1.gat,100,176,4	script	Mother Nun	79,{
+	set @grail,0;
+	set @grail,rand(2)+1;
+	announce "Received Grail ["+@grail+"]",3;
+	close;
+}
+
+priest_2-1.gat,100,176,4	script	Mother Nun	79,{
+	set @grail,0;
+	set @grail,rand(2)+1;
+	announce "Received Grail ["+@grail+"]",3;
+	close;
+}
+
+priest_3-1.gat,100,176,4	script	Mother Nun	79,{
+	set @grail,0;
+	set @grail,rand(2)+1;
+	announce "Received Grail ["+@grail+"]",3;
+	close;
+}
+
+priest_1-1.gat,36,122,4	script	Nun 1	79,{
+	if(@grail==1) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	announce "Correct, You Advance!!!",3;
+	warp "priest_2-1",100,17;
+	close;
+}
+
+priest_2-1.gat,36,122,4	script	Nun 1	79,{
+	if(@grail==1) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	announce "Correct, You Advance!!!",3;
+	warp "priest_3-1",100,17;
+	close;
+}
+
+priest_3-1.gat,36,122,4	script	Nun 1	79,{
+	if(@grail==1) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	set job_priest_q,3;
+	announce "Correct, "+strcharinfo(0)+" Has Passed The Quest Exam!!!",3;
+	warp "prontera",274,354;
+	close;
+}
+
+priest_1-1.gat,162,122,4	script	Nun 2	79,{
+	if(@grail==2) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	announce "Correct, You Advance!!!",3;
+	warp "priest_2-1",100,17;
+	close;
+}
+
+priest_2-1.gat,162,122,4	script	Nun 2	79,{
+	if(@grail==2) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	announce "Correct, You Advance!!!",3;
+	warp "priest_3-1",100,17;
+	close;
+}
+
+priest_3-1.gat,162,122,4	script	Nun 2	79,{
+	if(@grail==2) goto correct;
+	announce "Incorrect Grail!!!",3;
+	close;
+correct:
+	set @grail,0;
+	set job_priest_q,3;
+	announce "Correct, "+strcharinfo(0)+" Has Passed The Quest Exam!!!",3;
+	warp "prontera",274,354;
+	close;
+}
+
+/////////////////////
+///   Monsters    ///
+/////////////////////
+priest_1-1.gat,0,0,0,0	monster	Wraith	1192,10,0,0,0
+priest_2-1.gat,0,0,0,0	monster	Wraith	1192,12,0,0,0
+priest_3-1.gat,0,0,0,0	monster	Wraith	1192,14,0,0,0
+
+/////////////////////
+///   Map Flags   ///
+/////////////////////
+priest_1-1.gat	mapflag	nopenalty	dummy
+priest_2-1.gat	mapflag	nopenalty	dummy
+priest_3-1.gat	mapflag	nopenalty	dummy
+priest_1-1.gat	mapflag	noteleport	dummy
+priest_2-1.gat	mapflag	noteleport	dummy
+priest_3-1.gat	mapflag	noteleport	dummy
+priest_1-1.gat	mapflag	nomemo	dummy
+priest_2-1.gat	mapflag	nomemo	dummy
+priest_3-1.gat	mapflag	nomemo	dummy
+priest_1-1.gat	mapflag	nosave	prontera.gat,274,354
+priest_2-1.gat	mapflag	nosave	prontera.gat,274,354
+priest_3-1.gat	mapflag	nosave	prontera.gat,274,354

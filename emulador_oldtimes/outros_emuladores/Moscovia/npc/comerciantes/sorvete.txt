@@ -1,0 +1,58 @@
+//===== Cronus Script =======================================
+//= Fabricante de sorvete
+//===== Por: ==================================================
+//= KOOK SWU
+//===== Versão Atual: =====================================
+//= 1.3c/1.2
+//===== Descrição: =========================================
+//= 1.3 Realizado a tradução
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Mehah
+//= Modificado por MaN  [1.3b]
+//= 1.3c Erros de português corrigido por @Coja ImortalRO Staff
+//============================================================
+
+//ALBERTA
+alberta,120,45,2	script	Fabricante de Sorvete::IceCreamer	85,{
+	show "[Fabricante de Sorvete]";
+	show "Sorvete fresco feito com a neve de Lutie!";
+	show "Agora desfrute, não estará à venda durante muito tempo";
+	show "E custara apenas ^0000FF100 Zenys^000000";
+	next;
+	menu "Eu Gostaria!",-,"Cancelar Compra",L_End;
+	
+		show "[Fabricante de Sorvete]";
+		show "Todo mundo quer nosso sorvete delicioso, mas nós limitamos a quantia,";
+		show "você so pode comprar ate 5 de cada !!";
+		next;
+		digit @input;
+		show "[Fabricante de Sorvete]";
+		if(@input<1) goto L_inpC;
+		if(@input>5) goto L_inpM;
+		if(Zeny< @input*100) goto L_NoZ;
+		set Zeny,Zeny-100*@input;
+		additem 536,@input;
+		show "Aqui vai  " +@input+ "  Sorvete para você.";
+		close;
+		
+		L_inpC:
+			show "Transação foi cancelada.";
+			close;
+		L_inpM:
+			show "Desculpe, mas você só pode comprar 5 de cada vez.";
+			close;
+		L_NoZ:
+			show "Desculpe, mas você precisa de mais dinheiro.";
+			close;
+	L_End:
+		show "[Fabricante de Sorvete]";
+		show "Você tem certeza que não quer um sorvete?";
+		show "Ja já estou indo em bora, e não voltarei em breve";
+		close;
+}
+
+//Campo de MORROC
+moc_fild16,88,304,4	duplicate(IceCreamer)	Fabricante de Sorvete#2	85
+
+//MORROC
+//morocc,160,144,4	duplicate(IceCreamer)	Fabricante de Sorvete#3	85

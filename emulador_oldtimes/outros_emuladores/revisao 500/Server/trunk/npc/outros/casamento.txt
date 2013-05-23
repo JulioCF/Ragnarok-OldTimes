@@ -1,0 +1,698 @@
+//===== Cronus Script ===========================================================
+//= Script de Casamento (Em inglês: Weeding)
+//===== Por: ====================================================================
+//= AppleGirl e Evera(versão 1.0) 
+//===== Versão Atual: ===========================================================
+//= 1.50b
+//===== Descrição: ==============================================================
+//= Npc casamenteiro, com menu de GM.
+//===== Changelog: ==================================================== 
+//= 1.45b Npc iniciado
+//= 1.48b Traduzido o Npc
+//= 1.50b Adiciona o menu para GM [Kamper]
+//= 2.00b Corrigido o erro dos scripts [Kamper]
+//= 2.05b Modificado o nome Marry Sad para Guida [Kamper]
+//===============================================================================
+// Notas Variáveis: 
+// 
+// event_wedding - 1 signifies marriage 
+// $groom$ - Groom's name storage 
+// $bride$ - Bride's name storage 
+// $@progress - Sets global restriction upon wedding 
+// @register - Temporary registration check 
+// @zleft - Temporary zeny needed check 
+// $name$ - Insert name for bride 
+// $name2$ - Insert name for groom 
+// $get_ring - Check so you can't get ring twice 
+// $reason$ - Objection to wedding 
+// @outfit - Check if the char already got a dress or tuxedo from the npc 
+// Tristan 
+
+prt_church.gat,99,125,4	script	Tristan III	108,{ 
+
+if($groom$ == strcharinfo(0) && $@progress != 3) goto L_GroomCeremony; 
+if(@register == 0) goto L_GroomNeedToRegister; 
+if($bride$ == strcharinfo(0)) goto L_BrideCeremony; 
+menu "Aqui para participar ",L_Wedding,"Aqui por outra razão.",L_OtherReason; 
+
+L_GroomCeremony: 
+if(@register == 0) goto L_GroomNeedToRegister; 
+if($@progress == 1) goto L_BrideNeedToRegister; 
+if($@progress == 0) goto L_Wedding; 
+if(countitem(2613) < 1) goto L_NeedRing; //Items: Diamond_Ring, 
+if((getequipid(2) != 2338) && (getequipid(2) != 7170)) goto L_Attire; 
+show "[Tristan III]"; 
+show "Todos estão prontos, é a sua chamada agora..."; 
+next; 
+menu "Celebra Casamento.",-,"Cancela Casamento.",L_CancelWedding; 
+set $@progress,3; 
+show "[Tristan III]"; 
+show "Bem, essa é a parte mais fácil. Você tem que dizer, agora, o nome da sua noiva. Lembre-se de soletrar corretamente."; 
+digit $name2$; 
+next; 
+if($name2$ != $bride$) goto L_WrongBrideName; 
+deltimer "a13"; 
+marriage $name2$; 
+show "[Tristan III]"; 
+show "Por favor, diga a sua esposa para falar comigo e então nós daremos início a troca das alianças"; 
+delitem 2613,1; //Items: Diamond_Ring, 
+if (sex == 0) additem 2635,1;//Items: Wedding_Ring_F, 
+if (sex == 1) additem 2634,1;//Items: Wedding_Ring_M, 
+set @get_ring,1; 
+next; 
+show "[Tristan III]"; 
+show "Por favor, você e sua noiva subam no altar. Eu celebrarei agora a Cerimônia de Casamento!"; 
+set event_wedding,1; 
+deltimer "weddinglimit1"; 
+deltimer "weddinglimit2"; 
+announce "O Casamento de "+$groom$+" e "+$bride$+", será agora celebrado na Catedral de Prontera.",5; 
+addtimer 50000,"a1"; 
+addtimer 55000,"a2"; 
+addtimer 60000,"a3"; 
+addtimer 65000,"a4"; 
+addtimer 70000,"a5"; 
+addtimer 75000,"a6"; 
+addtimer 80000,"a7"; 
+addtimer 85000,"a8"; 
+addtimer 90000,"a9"; 
+addtimer 95000,"a10"; 
+addtimer 100000,"a11"; 
+addtimer 105000,"a12"; 
+close; 
+
+L_BrideCeremony: 
+if(countitem(2613) < 1) goto L_NeedRing;//Items: Diamond_Ring, 
+if((getequipid(2) != 2338) && (getequipid(2) != 7170)) goto L_Attire; 
+show "[Tristan III]"; 
+show "Bem, essa é a parte mais fácil. Você precisa digitar o nome do seu noivo agora, lembre de soletrar corretamente."; 
+digit $name$; 
+next; 
+if($name$ != $groom$) goto L_WrongGroomName; 
+deltimer "a13"; 
+deltimer "weddinglimit1"; 
+deltimer "weddinglimit2"; 
+marriage $name$; 
+delitem 2613,1;//Items: Diamond_Ring, 
+if (sex == 0) additem 2635,1;//Items: Wedding_Ring_F, 
+if (sex == 1) additem 2634,1;//Items: Wedding_Ring_M, 
+set @get_ring,1; 
+close; 
+L_CancelWedding: 
+show "[Tristan III]"; 
+show "O Casamento foi cancelado por "+strcharinfo(0)+"."; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set @register,0; 
+set event_wedding,0; 
+set @get_ring,0; 
+deltimer "a1"; 
+deltimer "a2"; 
+deltimer "a3"; 
+deltimer "a4"; 
+deltimer "a5"; 
+deltimer "a6"; 
+deltimer "a7"; 
+deltimer "a8"; 
+deltimer "a9"; 
+deltimer "a10"; 
+deltimer "a11"; 
+deltimer "a12"; 
+deltimer "a13"; 
+close; 
+
+L_GroomNeedToRegister: 
+show "[Tristan III]"; 
+show "Olá, por favor faça o registro com a Marry, se você deseja que eu realize sua cerimônia de casamento."; 
+close; 
+L_Wedding: 
+if(event_wedding != 1) goto L_Guest; 
+show "[Tristan III]"; 
+show "Olá novamente. "+strcharinfo(0)+", Desejo tudo de bom na sua vida. Boa sorte!"; 
+close; 
+L_BrideNeedToRegister: 
+show "[Tristan III]"; 
+show "Sinto muito, não posso iniciar a cerimônia se a noiva ainda não se registrou."; 
+close; 
+L_OtherReason: 
+if(@get_ring == 1) goto L_Wedding; 
+show "[Tristan III]"; 
+show "Vocês conhecem algum motivo que impeça essas duas pessoas de se unirem nos laços sagrados do matrimônio?"; 
+next; 
+menu "Sim, eu conheço.",-,"Não",L_NoReason; 
+areaannounce "prt_church.gat",0,0,350,350,"Senhoras e Senhores,"+strcharinfo(0)+" tem uma objeção a esse casamento.",0; 
+show "[Tristan III]"; 
+show "Por favor, diga-nos o seu motivo."; 
+digit $reason$; 
+next; 
+areaannounce "prt_church.gat",0,0,350,350,""+$reason$+"",0; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+set @register,0; 
+set event_wedding,0; 
+set @get_ring,0; 
+deltimer "a1"; 
+deltimer "a2"; 
+deltimer "a3"; 
+deltimer "a4"; 
+deltimer "a5"; 
+deltimer "a6"; 
+deltimer "a7"; 
+deltimer "a8"; 
+deltimer "a9"; 
+deltimer "a10"; 
+deltimer "a11"; 
+deltimer "a12"; 
+show "O Casamento foi cancelado."; 
+close; 
+
+L_NoReason: 
+if($groom$ == strcharinfo(0)) goto L_InProgress; 
+if($bride$ == strcharinfo(0)) goto L_InProgress; 
+show "[Tristan III]"; 
+show "Por favor, sente-se e deixe-me prosseguir com a Cerimônia."; 
+close; 
+L_Guest: 
+show "[Tristan III]"; 
+show "Aproveite a cerimônia."; 
+show "Mas eu devo continuar o casamento, então fale depois."; 
+close; 
+L_InProgress: 
+show "[Tristan III]"; 
+show "Seu casamento está sendo celebrado agora. Por favor, tente falar comigo mais tarde."; 
+close; 
+L_WrongBrideName: 
+show "[Marry]"; 
+show "Como você esqueceu o nome da sua esposa!? Sinto muito, volte mais tarde quando você souber com quem quer se casar."; 
+close; 
+L_WrongGroomName: 
+show "[Marry]"; 
+show "Como você esqueceu o nome do seu marido!? Sinto muito, volte mais tarde quando você souber com quem quer se casar."; 
+close; 
+L_NeedRing: 
+show "[Tristan III]"; 
+show "Você precisa de um Anel de Diamante para prosseguir com a cerimônia de casamento."; 
+close; 
+L_Attire: 
+if(sex == 1) goto L_NeedTuxedo; 
+if(sex == 0) goto L_NeedDress; 
+close; 
+L_NeedTuxedo: 
+show "[Tristan III]"; 
+show "Você precisa de um Smoking para prosseguir com a cerimônia de casamento."; 
+close; 
+L_NeedDress: 
+show "[Tristan III]"; 
+show "Oh, hoje é o dia do seu casamento?"; 
+show "Bem, sinto decepcioná-la, mas você precisa de um Vestido de Casamento para se casar."; 
+close; 
+} 
+
+// Marry 
+prt_church.gat,95,100,4	script	Marry	71,{ 
+set @costgroomA,120000; 
+set @costgroomB,60000; 
+set @costbrideA,100000; 
+set @costbrideB,50000; 
+show "[Marry]"; 
+show "O Casamento representa a esperança de todos em encontrar a tão desejada felicidade."; 
+show "Então eu devo perguntar, existe alguém especial que você deseje ter para sempre ao seu lado?"; 
+next; 
+set @gmlevel,getgmlevel(50); 
+if(@gmlevel < 50)menu "Fale sobre a Cerimônia de Casamento.",L_Principles,"Fale sobre os princípios da cerimônia do Casamento.",L_WeddingSystem,"Candidatar-se a cerimônia de casamento.",L_Marry,"Nós somos invencíveis sozinhos!",L_LiveSolo; 
+if(@gmlevel >= 50)menu "Fale sobre a Cerimônia de Casamento.",L_Principles,"Fale sobre os princípios da cerimônia do Casamento.",L_WeddingSystem,"Candidatar-se a cerimônia de casamento.",L_Marry,"Nós somos invencíveis sozinhos!",L_LiveSolo,"Menu Especial.",L_GmMenu;
+
+L_GmMenu: 
+show "Olá. " + strcharinfo(0) + " Como eu posso ajudá-lo?"; 
+menu "Habilite o casamento entre pessoas do mesmo sexo.",L_EnableSameSex,"Disabilite o casamento entre pessoas do mesmo sexo.",L_DisableSameSex,"Resetar as Variáveis.",L_ResetVariables,"Só verificando...",L_Bye; 
+
+L_EnableSameSex: 
+set $samesex,1; 
+show "Casamento entre pessoas do mesmo sexo está disponível agora!"; 
+close; 
+L_DisableSameSex: 
+set $samesex,0; 
+show "Casamento entre pessoas do mesmo sexo NÃO está disponível agora!"; 
+close; 
+L_ResetVariables: 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+set @register,0; 
+set event_wedding,0; 
+set @get_ring,0; 
+set @outfit,0; 
+deltimer "weddinglimit1"; 
+deltimer "weddinglimit2"; 
+deltimer "a1"; 
+deltimer "a2"; 
+deltimer "a3"; 
+deltimer "a4"; 
+deltimer "a5"; 
+deltimer "a6"; 
+deltimer "a7"; 
+deltimer "a8"; 
+deltimer "a9"; 
+deltimer "a10"; 
+deltimer "a11"; 
+deltimer "a12"; 
+deltimer "a13"; 
+show "Todas as Variáveis foram resetadas!"; 
+close; 
+L_Principles: 
+show "[Marry]"; 
+show "Sua Majestade Rei Tristan III do Reino de Rune Midgard vai oficializar esse casamento, com a intenção de abençoar todos os povos, através de sua nobre mensagem."; 
+next; 
+show "[Marry]"; 
+show "Embora Sua Majestade tenha uma agenda bastante ocupada, em consideração aos casais, ele virá pessoalmente a Catedral de Prontera."; 
+show "É o favor de nosso Rei para que todos vivam felizes para sempre."; 
+next; 
+show "[Marry]"; 
+show "A proposta deve ser feita com prudência e cortesia."; 
+show "Uma vez que os matrimônios foram contraídos, não podem ser desfeitos."; 
+show "O casal que contraiu matrimônio deve permanecer junto até que a morte os separe."; 
+next; 
+show "[Marry]"; 
+show "O casamento só pode ser consumado entre pessoas do sexo oposto. Embora possa haver aqueles que desejem uma união homossexual ou com animais... isso não é aprovado."; 
+next; 
+show "[Marry]"; 
+show "Se houver um outro pretendente com o qual você queira passar o resto da sua vida, não se envergonhe de propor."; 
+show "Desejando muitas bençãos aos casais que querem viver feliz para sempre..."; 
+close; 
+L_WeddingSystem: 
+show "[Marry]"; 
+show "Certifique-se, primeiramente, que ambos os jogadores estejam registrados para se casar."; 
+show "Obviamente, vocês devem conhecer-se para se casar"; 
+show "Se ambos estão registrados e no mesmo grupo."; 
+show "Então falem com Rei Tristan III."; 
+next; 
+show "[Marry]"; 
+show "Você deve procurar o Rei Tristan III,"; 
+show "e o rapaz deve falar com ele primeiro."; 
+show "E você deve dizer a ele"; 
+show "com que moça você quer se casar."; 
+show "Esteja certo de falar pra ele exatamente com quem você quer se casar."; 
+next; 
+show "[Marry]"; 
+show "Depois do noivo ter falado, então a noiva deve falar."; 
+show "Então, depois que cada um tiver falado o nome do outro,"; 
+show "O Rei Tristan III vai ler o nome de vocês."; 
+next; 
+show "[Marry]"; 
+show "Depois de vocês se casarem"; 
+show "ambos receberão uma aliança de casamento."; 
+show "E assim que os noivos estiverem usando as alianças,"; 
+show "estarão casados para sempre."; 
+show "Você pode também ser recusado de um casamento duradouro."; 
+show "Mas, não fique triste."; 
+next; 
+show "[Marry]"; 
+show "Se várias pessoas quiserem se casar,"; 
+show "por favor, façam fila para se registrar."; 
+show "Thristan não faz vários casamentos de uma só vez."; 
+show "Ele só vai celebrar um casamento de cada vez."; 
+next; 
+show "[Marry]"; 
+show "Por fim, você deve falar seu nome rapidamente"; 
+show "o Rei Tristan III."; 
+show "Depois do noivo dizer Sim para o casamento, "; 
+show "a noiva terá 3 minutos para responder."; 
+show "Ou você nunca mais poderá"; 
+show "se casar."; 
+next; 
+show "[Marry]"; 
+show "Uma maneira fácil de cada um escrever o nome do outro é..."; 
+show "cada um enviar uma mensagem privada para o outro e "; 
+show "na janela de mensagem privada, pressionar Up."; 
+next; 
+show "[Marry]"; 
+show "Então será mostrado o nome do outro personagem."; 
+// show "Se você pressionar Ctrl + C , o nome será gravado."; 
+// show "Na próxima vez que você precisar desse nome,"; 
+// show "pressione Shift + Insert."; 
+// show "Então, você terá o nome rápido e facilmente."; 
+next; 
+show "[Marry]"; 
+show "Você pode e deve usar este método."; 
+// show "Lembre-se, pressione Ctrl + C para gravar o nome."; 
+next; 
+digit $nametest$; 
+show "[Marry]"; 
+show "Espero que você não se esqueça desse método,"; 
+show "caso você decida se casar."; 
+show "Não se esqueça de registrar-se."; 
+close; 
+L_Marry: 
+show "[Marry]"; 
+show "Se você deseja se casar, deve primeiramente se registrar e pagar a taxa de casamento."; 
+show "Para homem custa ^FF00FF" + @costgroomA + "^000000 zeny e para Mulher ^FF00FF" + @costbrideA + "^000000 zeny"; 
+if((countitem(2338) > 0) || (countitem(7170) > 0) || (@outfit == 1)) show "Mas somente ^FF00FF" + @costgroomB + "^000000 zeny para homens e ^FF00FF" + @costbrideB + "^000000 zeny para mulheres se você já tiver se registrado antes"; 
+show "Ambos, homem e mulher, devem estar registrados,"; 
+show "e os dois devem ter pago as taxas, ter anel de Diamante e ser do mesmo grupo!"; 
+show "A noiva deverá ter um Vestido de Casamento, enquanto o noivo deverá ter um Smoking"; 
+next; 
+show "[Marry]"; 
+show "ISe ambos tiverem pago e preencherem os requisitos,"; 
+show "vocês estarão aptos a se casar."; 
+show "Um deve ser o Noivo e o outro deve ser a Noiva."; 
+show "Você quer se registrar para o casamento?"; 
+if($SameSex == 1) menu "Eu quero ser o Noivo.",-,"Eu quero ser a Noiva.",L_BrideRegister,"Nem pensar!",L_Bye; 
+if(event_wedding == 1) goto L_Married; 
+if(@register >= 1) goto L_AlreadyRegistered; 
+if($@progress >= 2) goto L_InProgress; 
+if(($samesex == 0) && (sex == 0)) goto L_BrideRegister; 
+if((countitem(2338) > 0) || (countitem(7170) > 0) || (@outfit == 1)) goto L_GroomRegister2; 
+show "[Marry]"; 
+if(sex == 1) show "Sem problemas, senhor. Por favor, preencha seu nome aqui."; 
+if(sex == 0) show "Sem problemas, senhora. Por favor, preencha seu nome aqui."; 
+show "E você precisa me pagar, " + @costgroomA + " zeny de taxa para o seu casamento."; 
+next; 
+show "[Marry]"; 
+show "Agora, você deve preencher o nome da sua Noiva."; 
+digit $name$; 
+next; 
+if(zeny < @costgroomA) goto L_NeedZeny1; 
+set $groom$,strcharinfo(0); 
+set @register,1; 
+set zeny,zeny-@costgroomA; 
+set $@progress,1; 
+if(sex == 1) additem 7170,1; 
+if(sex == 0) additem 2338,1; 
+set @outfit,1; 
+show "[Marry]"; 
+show "Você já está registrado, "+strcharinfo(0)+", Eu lhe desejo muita sorte no seu casamento."; 
+addtimer 300000,"weddinglimit1"; 
+areaannounce "prt_church.gat",0,0,350,350,strcharinfo(0)+" se registrou para o Casamento.",0; 
+next; 
+show "Por favor, corra até o altar. Nós temos que estar prontos para o outro casamento em 5 minutos."; 
+deltimer "a13"; 
+addtimer 300000,"a13"; 
+close; 
+L_BrideRegister: 
+if ($name$ != strcharinfo(0)) goto L_NotBride; 
+if($groom$ == strcharinfo(0)) goto L_CantMarryYourself; 
+if($@progress != 1) goto L_GroomNotRegistered; 
+if(@register >= 1) goto L_AlreadyRegistered; 
+if((countitem(2338) > 0) || (countitem(7170) > 0) || (@outfit == 1)) goto L_BrideRegister2; 
+show "[Marry]"; 
+if(sex == 1) show "Sem problemas, senhor. Por favor, preencha seu nome aqui."; 
+if(sex == 0) show "Sem problemas, senhora. Por favor, preencha seu nome aqui."; 
+show "E você precisa me pagar, " + @costgroomA + ", zeny de taxa para o seu casamento."; 
+next; 
+if(zeny < @costbrideA) goto L_NeedZeny2; 
+show "[Marry]"; 
+show "Agora, você deve preencher o nome do seu Noivo."; 
+digit $name2$; 
+if($name2$ != $groom$) goto L_WrongName; 
+set $bride$,strcharinfo(0); 
+set @register,1; 
+set zeny,zeny-@costbrideA; 
+set $@progress,2; 
+set event_wedding,1; 
+if(sex == 1) additem 7170,1; 
+if(sex == 0) additem 2338,1; 
+set @outfit,1; 
+deltimer "weddinglimit1"; 
+addtimer 300000,"weddinglimit2"; 
+next; 
+show "[Marry]"; 
+show "Você já está registrado, "+strcharinfo(0)+", Eu lhe desejo muita sorte no seu casamento."; 
+areaannounce "prt_church.gat",0,0,350,350,strcharinfo(0)+" se registrou para o Casamento.",0; 
+next; 
+show "Por favor, corra até o altar. Nós temos que estar prontos para o outro casamento em 5 minutos."; 
+deltimer "a13"; 
+addtimer 300000,"a13"; 
+close; 
+
+L_GroomRegister2: 
+show "[Marry]"; 
+if(sex == 1) show "Sem problemas, senhor. Por favor, preencha seu nome aqui."; 
+if(sex == 0) show "Sem problemas, senhora. Por favor, preencha seu nome aqui."; 
+show "E você precisa me pagar 60,000zeny de taxa para o seu casamento."; 
+next; 
+show "[Marry]"; 
+show "Agora, você deve preencher o nome da sua Noiva"; 
+digit $name$; 
+next; 
+if(zeny < @costgroomB) goto L_NeedZeny3; 
+set $groom$,strcharinfo(0); 
+set @register,1; 
+set zeny,zeny-@costgroomB; 
+set $@progress,1; 
+show "[Marry]"; 
+show "Você já está registrado, "+strcharinfo(0)+", Eu lhe desejo muita sorte no seu casamento."; 
+addtimer 300000,"weddinglimit1"; 
+areaannounce "prt_church.gat",0,0,350,350,strcharinfo(0)+" se registrou para o Casamento.",0; 
+next; 
+show "Por favor, corra até o altar. Nós temos que estar prontos para o outro casamento em 5 minutos."; 
+deltimer "a13"; 
+addtimer 300000,"a13"; 
+close; 
+L_BrideRegister2: 
+show "[Marry]"; 
+if(sex == 1) show "Sem problemas, senhor. Por favor, preencha seu nome aqui."; 
+if(sex == 0) show "Sem problemas, senhora. Por favor, preencha seu nome aqui."; 
+show "E você precisa me pagar 50,000zeny de taxa para o seu casamento."; 
+next; 
+if(zeny < @costbrideB) goto L_NeedZeny4; 
+show "[Marry]"; 
+show "Agora, você deve preencher o nome do seu Noivo"; 
+digit $name2$; 
+if($name2$ != $groom$) goto L_WrongName; 
+set $bride$,strcharinfo(0); 
+set @register,1; 
+set zeny,zeny-@costbrideB; 
+set $@progress,2; 
+set event_wedding,1; 
+deltimer "weddinglimit1"; 
+addtimer 300000,"weddinglimit2"; 
+next; 
+show "[Marry]"; 
+show "Você já está registrado, "+strcharinfo(0)+", Eu lhe desejo muita sorte no seu casamento."; 
+areaannounce "prt_church.gat",0,0,350,350,strcharinfo(0)+" se registrou para o Casamento.",0; 
+next; 
+show "Por favor, corra até o altar. Nós temos que estar prontos para o outro casamento em 5 minutos."; 
+deltimer "a13"; 
+addtimer 300000,"a13"; 
+close; 
+
+L_NeedZeny1: 
+set @zleft,@costgroomA-zeny; 
+show "[Marry]"; 
+show "Eu sinto muitíssimo, mas não posso registrar você. Você parece ter menos de "+@zleft+"z."; 
+set @zleft,0; 
+close; 
+L_NeedZeny2: 
+set @zleft,@costbrideA-zeny; 
+show "[Marry]"; 
+show "Eu sinto muitíssimo, mas não posso registrar você. Você parece ter menos de "+@zleft+"z."; 
+set @zleft,0; 
+close; 
+L_NeedZeny3: 
+set @zleft,@costgroomB-zeny; 
+show "[Marry]"; 
+show "Eu sinto muitíssimo, mas não posso registrar você. Você parece ter menos de "+@zleft+"z."; 
+set @zleft,0; 
+close; 
+L_NeedZeny4: 
+set @zleft,@costbrideB-zeny; 
+show "[Marry]"; 
+show "Eu sinto muitíssimo, mas não posso registrar você. Você parece ter menos de "+@zleft+"z."; 
+set @zleft,0; 
+close; 
+L_AlreadyRegistered: 
+show "[Marry]"; 
+show "Você não pode se registrar de novo, seu tolo."; 
+close; 
+
+L_Bye: 
+show "[Marry]"; 
+show "OK então, volte mais tarde!"; 
+close; 
+
+L_InProgress: 
+show "[Marry]"; 
+show "Eu não posso aceitar registros durante a celebração de um Casamento, tente outra vez mais tarde."; 
+close; 
+L_WrongName: 
+show "[Marry]"; 
+show "Ninguém está registrado com esse nome. Sinto muito."; 
+close; 
+L_GroomNotRegistered: 
+show "[Marry]"; 
+show "O Noivo deve se registrar antes de iniciarmos o Casamento."; 
+close; 
+
+L_Married: 
+show "[Marry]"; 
+show "Olá de novo, "+strcharinfo(0)+", Eu lhe desejo muita sorte na sua vida de casado."; 
+close; 
+L_LiveSolo: 
+show "[Marry]"; 
+show "Nós temos uma ótima vida de solteiros"; 
+close; 
+L_NotBride: 
+show "[Marry]"; 
+show "Você não é a Noiva"; 
+close; 
+L_YouCantMarryYourself: 
+show "[Marry]"; 
+show "Mas que raios você está tentando fazer? Casar com você mesmo?O_O"; 
+close; 
+} 
+
+prt_church.gat,95,95,4	script	Guida	95,{ 
+show "[Guida]"; 
+show "Se divorciar pode causar muita tristeza."; 
+show "Pela última vez, você quer mesmo se divorciar?"; 
+next; 
+menu "Sim, eu quero me divorciar.",L_FirstDivorce,"O que é necessário para me divorciar?",L_DivorceSystem; 
+L_FirstDivorce: 
+if(divorce > 0) goto L_AlreadyDivorced; 
+show "[Guida]"; 
+show "Então você quer se divorciar... bem, eu mesma já me divorciei 2 vezes."; 
+show "A vida continua, quem disse que você precisa ficar com a pessoa errada?"; 
+show "Não esqueça que ambos precisam estar online!"; 
+next; 
+menu "Você tem certeza?",-,"Não, eu não estou pronto.",L_No; 
+show "[Guida]"; 
+show "Você fez sua escolha,"; 
+show "Agora você deve viver com isso."; 
+next; 
+show "Você está divorciado!"; 
+set event_wedding,0; 
+set divorce,1; 
+set @register,0; 
+divorce; 
+close; 
+L_AlreadyDivorced: 
+show "[Guida]"; 
+show "Então você já vem de um outro divórcio. Bem... você deve estar procurando o verdadeiro amor."; 
+show "Não se preocupe com isso, não é você. A culpa é dos outros."; 
+next; 
+menu "Você tem certeza?",-,"Não, eu não estou pronto.",L_No; 
+show "[Guida]"; 
+show "Você fez sua escolha,"; 
+show "Agora você deve viver com isso."; 
+next; 
+show "Você está divorciado novamente!"; 
+set event_wedding,0; 
+set divorce,2; 
+set @register,0; 
+divorce; 
+close; 
+L_No: 
+show "[Guida]"; 
+show "Você deve sempre ter certeza, quando der um passo importante na vida."; 
+close; 
+L_DivorceSystem: 
+show "[Guida]"; 
+show "Você só precisa desejar não estar casado novamente e eu farei o seu divórcio."; 
+show "Ambos, marido e mulher, devem estar online."; 
+close; 
+} 
+prt_church.gat,99,124,0	script	weddinglimit1	-1,{ 
+announce "A noiva não se registrou antes do tempo estabelecido.",3; 
+announce "Seu casamento foi cancelado.",3; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+set @register,0; 
+deltimer "a1"; 
+deltimer "a2"; 
+deltimer "a3"; 
+deltimer "a4"; 
+deltimer "a5"; 
+deltimer "a6"; 
+deltimer "a7"; 
+deltimer "a8"; 
+deltimer "a9"; 
+deltimer "a10"; 
+deltimer "a11"; 
+deltimer "a12"; 
+} 
+
+prt_church.gat,99,124,0	script	weddinglimit2	-1,{ 
+announce "O noivo não iniciou a cerimônia de casamento falando com o Tristan III.",3; 
+announce "Seu casamento foi cancelado.",3; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+set @register,0; 
+set event_wedding,0; 
+deltimer "a1"; 
+deltimer "a2"; 
+deltimer "a3"; 
+deltimer "a4"; 
+deltimer "a5"; 
+deltimer "a6"; 
+deltimer "a7"; 
+deltimer "a8"; 
+deltimer "a9"; 
+deltimer "a10"; 
+deltimer "a11"; 
+deltimer "a12"; 
+} 
+
+prt_church.gat,99,124,0	script	a1	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Senhoras e senhores, nós iremos agora unir em matrimônio esses dois apaixonados.",0; 
+} 
+prt_church.gat,99,124,0	script	a2	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"A partir de agora, suas vidas estarão sempre juntas, assim como suas almas também.",0; 
+} 
+prt_church.gat,99,124,0	script	a3	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Vocês devem honrar e respeitar um ao outro, nos bons e nos maus momentos.",0; 
+} 
+prt_church.gat,99,124,0	script	a4	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"A partir de agora, a segurança e bem estar de cada um será responsabilidade dos dois.",0; 
+} 
+prt_church.gat,99,124,0	script	a5	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Na saúde e na doença, a chama do seu amor deve estar sempre acesa e nada poderá apagá-la.",0; 
+} 
+prt_church.gat,99,124,0	script	a6	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"As testemunhas aqui presentes concordam e apoiam o ato de vocês.",0; 
+} 
+prt_church.gat,99,124,0	script	a7	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Ficando bem claro que, nós somos apenas mortais nessa Terra, mas esse é o nosso triunfo.",0; 
+} 
+prt_church.gat,99,124,0	script	a8	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Nós, aqui presentes, unimos agora esses dois seres e criamos um amor imortal.",0; 
+} 
+prt_church.gat,99,124,0	script	a9	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,$groom$+", você aceita "+$bride$+" como sua legítima esposa?",0; 
+} 
+prt_church.gat,99,124,0	script	a10	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"E você, "+$bride$+", aceita "+$groom$+" como seu legítimo marido?",0; 
+} 
+prt_church.gat,99,124,0	script	a11	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Sendo assim, pelo poder investido em mim...",0; 
+} 
+prt_church.gat,99,124,0	script	a12	-1,{ 
+areaannounce "prt_church.gat",0,0,350,350,"Eu os declaro Marido e Mulher, você pode beijar a noiva.",0; 
+wedding; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+} 
+prt_church.gat,99,124,0	script	a13	-1,{ 
+
+areaannounce "prt_church.gat",0,0,350,350,"O Casamento foi cancelado.",0; 
+set $@progress,0; 
+set $groom$,"null"; 
+set $bride$,"null"; 
+set $name$,"null"; 
+set $name2$,"null"; 
+set @register,0; 
+set event_wedding,0; 
+set @get_ring,0; 
+}

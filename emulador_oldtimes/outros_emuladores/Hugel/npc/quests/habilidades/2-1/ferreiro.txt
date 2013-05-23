@@ -1,0 +1,131 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Ferreiro
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0b (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//============================================================
+
+//============================================================
+// BLACKSMITH SKILL - GREED + UNFAIR TRICK
+//============================================================
+//== GOODDAY - GREED SKILL ===================================
+geffen,172,53,7	script	Goodday	826,{
+	show "[Goodday]";
+	if(BaseJob!=Job_Blacksmith) goto L_nosmith;
+	if(getskilllv(1013)) goto L_alreadyhave;
+	if(Weight < 5000 || (Weight > MaxWeight-MaxWeight/10)) goto L_notstrong;
+
+	show "Você parece bem forte, então vou";
+	show "lhe ensinar um pequeno truque. Este eu achei";
+	show "enquanto assistia alguns mágicos movendo";
+	show "coisas ao seu redor, sem mexer um dedo!";
+	skill 1013,1,0;
+	close;
+
+L_notstrong:
+	show "Volte quando você for forte o";
+	show "bastante para controlar o peso";
+	show "de minha habilidade. Você precisará";
+	show "poder levar 5000 de peso,";
+	show "e não passar de 90% do peso total.";
+	close;
+
+L_nosmith:
+	show "Geffen é uma grande cidade.";
+	show "Você também não acha?";
+	next;
+	emotion e_omg;
+	show "[Goodday]";
+	show "O QUÊ?...";
+	show "Não?!";	
+	close;
+
+L_alreadyhave:
+	show "Eu já lhe ensinei";
+	show "tudo o que eu sei.";
+	show "Preciso voltar ao meu";
+	show "trabalho.";
+	close;
+}
+
+//== AKI - UNFAIR TRICK SKILL ==================================
+geffen,178,72,7	script	Aqui	726,{
+	show "[Aqui]";
+	if(BaseJob!=Job_Blacksmith) goto L_nosmith;
+	if(getskilllv(1012)) goto L_alreadyhave;
+	if(getskilllv(1013)<1) goto L_nogreed;
+	if(JobLevel<30) goto L_nojob;
+	show "Nós vamos precisar de alguns coisas";
+	show "para esta lição. Traga-me:";
+	show "2 Aços";
+	show "8 Carvões";
+	show "2 Martelos de Ferro";
+	show "1 Detrimindexta e";
+	show "500 Zeny";
+	next;
+	
+	show "[Aqui]";
+	show "Me deixe conferir seus itens.";
+	next;
+	
+	if(countitem(999)<2 || countitem(1003)<8 || countitem(613)<2 || countitem(971)<1 || zeny<500) goto L_noitems;//Items: Aço, Carvão, Martelo_de_Ferro, Detrimindexta,
+	delitem 999, 2;//Items: Aço,
+	delitem 1003, 8;//Items: Carvão,
+	delitem 613, 2;//Items: Martelo_de_Ferro,
+	delitem 971, 1;//Items: Detrimindexta,
+	set zeny, zeny-500;
+	
+	show "[Aqui]";
+	show "Bom, Você já trouxe tudo!";
+	show "Vamos começar o processo agora.";
+	skill 1012,1,0;
+	next;
+	
+	specialeffect 183;
+	show "Wow, você é um estudante rápido.";
+	show "Desfrute seus novos talentos!";
+	close;
+
+L_noitems:
+	show "[Aqui]";
+	show "Você não tem todos os itens.";
+	show "Volte quando você tiver tudo";
+	show "que eu lhe pedi.";
+	close;
+	
+L_nosmith:
+	show "Não preste atenção com o Goodday lá em cima.";
+	show "Ele pensa que todo mundo deveria gostar";
+	show "desse lugar chato!";
+	emotion e_laugh;
+	close;
+
+L_nogreed:
+	show "Se você está procurando mais";
+	show "para aprender, então você deve";
+	show "falar com Goodday lá por cima";
+	close;
+
+L_alreadyhave:
+	show "WOW, Eu vejo que você aprendeu ";
+	show "tudo que os Ferreiros de";
+	show "Geffen podem ensinar. Boa sorte";
+	show "com suas viagens.";
+	close;
+	
+L_nojob:
+	show "Volte quando você aprender";
+	show "mais sobre ser um Ferreiro.";
+	show "Você precisará pelo menos de";
+	show "level 30 de classe para aprender";
+	show "o que eu sei.";
+	close;
+}

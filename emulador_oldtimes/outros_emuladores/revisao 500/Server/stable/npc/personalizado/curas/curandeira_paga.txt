@@ -1,0 +1,99 @@
+//===== Cronus Script ======================================== 
+//= Curandeira Paga
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.0
+//===== Descrição: =========================================== 
+//= Recupera HP e SP com um preço
+//= Usado as cordenadas do NPC do eAthena
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o Npc [Kamper]
+//============================================================
+
+prontera.gat,150,184,5	script	Curandeira#h1-1::Healer	90,{
+	set @curaHp, MaxHp-Hp;
+	set @curaSp, ((MaxSp-Sp) * BaseLevel) / 5;
+	if(@curaHp > 0) goto L0;
+	if(@curaSp > 0) goto L1;
+
+	show "[Curandeira]";
+	show "Ahn?";
+	show "VoCê não parece estar machucado.";
+	close;
+
+	L0:
+		if(@curaSp > 0) goto L2;
+		show "[Curandeira]";
+		show "Oh, você parece mesmo machucado.";
+		show "Eu posso curar você por: "+ @curaHp +" zeny.";
+		show "Você quer que eu-lhe cure?";
+		next;
+		menu "Curar",CURARHP,"Não, obrigado",FIM;
+
+	L1:
+		show "[Curandeira]";
+		show "Oh, você parece mesmo fraco.";
+		show "Eu posso regenerar você por: "+@tempSp+" zeny";
+		next;
+		menu "Regenerar",CURARSP,"Não, obrigado",FIM;
+
+	L2:
+		show "[Curandeira]";
+		show "Você quer apenas curar seu HP? ("+@curaHp+" zeny)";
+		show "Você quer apenas regenerar seu SP? ("+@curaSp+" zeny)?";
+		show "Ou você gostaria de curar ambos? ("+(@curaHp+@curaSp)+" z)";
+		next;
+		menu "Apenas HP ("+@curaHp+"z)",CURARHP,"Apenas SP ("+@curaSp+"z)",CURARSP,"Ambos, HP e SP ("+(@curaHp+@curaSp)+"z)",CURARAM,"Não, obrigado",FIM;
+
+	CURARHP:
+		if (Zeny < @curaHp) goto SEM_ZENYS;
+		set Zeny, Zeny-@curaHp;
+		heal 30000,0;
+		goto FEITO;
+
+	CURARSP:
+		if (Zeny < @curaSp) goto NO_ZENYS;
+		set Zeny, Zeny-@curaSp;
+		heal 0,30000;
+		goto FEITO;
+
+	CURARAM:
+		if (Zeny < (@curaHp+@curaSp)) goto NO_ZENYS;
+		set Zeny, Zeny-(@curaHp+@curaSp);
+		heal 30000,30000;
+		goto FEITO;
+
+	SEM_ZENYS:
+		show "[Curandeira]";
+		show "Oh, você não tem todo o dinheiro necessário.";
+		show "Desculpe, mas não posso curá-lo.";
+		close;
+
+	FEITO:
+		show "[Curandeira]";
+		show "Vocês está completamente curado!";
+		show "Obrigado e volte sempre que precisar.";
+		close;
+
+	FIM:
+		show "[Curandeira]";
+		show "Tudo bem. Volte quando você necessitar.";
+		close;
+
+}
+morocc.gat,159,96,5	duplicate(Healer)	Curandeira#h2-2	90
+ayothaya.gat,155,111,5	duplicate(Healer)	Curandeira#h2-3	90
+geffen.gat,121,61,5	duplicate(Healer)	Curandeira#h2-4	90
+umbala.gat,94,162,5	duplicate(Healer)	Curandeira#h2-5	90
+payon.gat,180,105,5	duplicate(Healer)	Curandeira#h2-6	90
+alberta.gat,185,144,5	duplicate(Healer)	Curandeira#h2-7	90
+aldebaran.gat,134,123,5	duplicate(Healer)	Curandeira#h2-8	90
+izlude.gat,125,118,5	duplicate(Healer)	Curandeira#h2-9	90
+xmas.gat,149,136,5	duplicate(Healer)	Curandeira#h2-10	90
+comodo.gat,188,162,5	duplicate(Healer)	Curandeira#h2-11	90
+amatsu.gat,200,80,5	duplicate(Healer)	Curandeira#h2-12	90
+gonryun.gat,164,130,5	duplicate(Healer)	Curandeira#h2-13	90
+yuno.gat,152,186,5	duplicate(Healer)	Curandeira#h2-14	90
+niflheim.gat,188,180,5	duplicate(Healer)	Curandeira#h2-15	90
+louyang.gat,225,103,5	duplicate(Healer)	Curandeira#h2-16	90

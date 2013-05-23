@@ -1,0 +1,2166 @@
+//===== Cronus Script ======================================== 
+//= Script Sábio
+//===== Por: =================================================
+//= Roberto Tradução / Olivete Revisão/Tradução Final
+//===== Versão Atual: ======================================== 
+//= 1.4/2.0b
+//===== Descrição: =========================================== 
+//= Muda a classe para Sábio
+//===== Changelog: =========================================== 
+// 1.0 Traducao do ROberto
+// 1.1 Adaptacao para Cronus + Revisao 1 [Olivete]
+// 1.2 Traduzido nomes dos npcs e itens [Kamper]
+// 1.3 Adaptado Classname Na Função F_BlockHigh [Kamper]
+// 1.4 Revisado e corrigido erros [Paulo]
+//============================================================
+
+
+//==================================
+//Sage Castle
+//==================================
+yuno_in02,38,61,4	script	Funcionário Acadêmico	743,{
+	callfunc "F_BlockHigh",Job_Mage_High,"Mago T.",Job_Professor,"Professor","Keiron";
+	if(BaseJob == Job_Sage) goto L_Menu3_3;
+	if(BaseJob != Job_Mage) goto L_Menu2_1;
+	if(SAGE_Q == 11) goto L_Menu3_1;
+	if(SAGE_Q >= 3) goto L_Menu2_2;
+	show "[Keiron]";
+	show "Todos que apreciam a bela arte da magia sao bem-vindos aqui.";
+	show "Como posso te ajudar?";
+	next;
+	menu "Mudar minha classe para Sábio",L_Menu1_1,"Sobre a classe Sábio",-,"To apenas dando uma olhada por aqui...",L_Menu1_2;
+		show "[Keiron]";
+		show "Entao voce está interessado em ser um Sábio?";
+		show "Bem, eu não posso te transformar num imediatamente...";
+		next;
+		show "[Keiron]";
+		show "Para se tornar um Sábio, voce irá precisar preencher um formulário para inscriçao na Academia de Magia Shubaichul e fazer alguns testes.";
+		next;
+		show "[Keiron]";
+		show "Assim que voce tiver preenchido, voce precisará completar o trabalho de sala e entao escrever uma tese e defende-la.";
+		next;
+		show "[Keiron]";
+		show "Se voce completar todos os requisitos voce ganhará a licensa para se tornar um Sábio.";
+		next;
+		show "[Keiron]";
+		show "Se voce deseja preencher o forumlário, procure por Mathias na Academia de Magia Shubaichul.";
+		show "Diga que eu te enviei.";
+		close;
+L_Menu1_1:
+	show "[Keiron]";
+	show "Um Sábio?";
+	show "Bem...";
+	show "Para mudar o seu jeito de viver, voce precisa mudar o seu jeito de pensar.";
+	next;
+	show "[Keiron]";
+	show "Sábios contribuem continuamente com pesquisas para melhorar o  'conhecimento' de nosso Reino.";
+	show "Eles tambem ajudam a sociedade a resolver os piores problemas.";
+	show "Só por que voce usa uma roupa de Sábio, nao quer dizer que voce seja um.";
+	next;
+	show "[Keiron]";
+	show "Para se tornar um Sábio , preencha o formulário da Academia de Magia Shubaichul.";
+	show "Os responsáveis pela sua admissão irão te passar os requisitos.";
+	close;
+L_Menu1_2:
+	show "[Keiron]";
+	show "Excelente! Se voce tem algum tempo livre, por que nao procura por algum volume em nossa biblioteca?";
+	show "Nossa biblioteca é um verdadeiro mundo de conhecimentos.";
+	next;
+	show "[Keiron]";
+	show "É claro que tem muita coisa que nao pode se aprender por livros, mas isso é um bom começo!";
+	close;
+L_Menu2_1:
+	show "[Keiron]";
+	show "Nós Sábios fazemos várias pesquisas sobre nosso mundo,";
+	show "mas para maximizar nosso conhecimento,";
+	show "nós organizamos grupos de pesquisas.";
+	next;
+	show "[Keiron]";
+	show "Voce deve falar com nossos Sábios e compartilhar quaisquer pesquisas que voce já tenha realizado.";
+	close;
+L_Menu2_2:
+	show "[Keiron]";
+	show "Tornar-se um Sábio nao é fácil";
+	show "Você precisa se dedicar muito para dominar as artes da magia.";
+	next;
+	show "[Keiron]";
+	show "Voce precisa estar sempre voltado para sua tese.";
+	show "Boa sorte!";
+	close;
+L_Menu3_1:
+	if(countitem(1550) >= 1) goto L_Menu3_2;
+	show "[Keiron]";
+	show "Onde está sua tese?";
+	show "Estou ansioso para analisa-la.";
+	next;
+	show "[Keiron]";
+	show "Voce esqueceu dela?";
+	show "Nesse caso, traga-me sem mais demora...";
+	close;
+L_Menu3_2:
+	show "[Keiron]";
+	show "Me parece que voce trouxe sua tese... vamos dar uma olhada...";
+	next;
+	show "[Keiron]";
+	show "Hmmm...";
+	next;
+	show "[Keiron]";
+	show "Sim...";
+	next;
+	show "[Keiron]";
+	show "Interessante..";
+	next;
+	show "[Keiron]";
+	show "Não tem muito estilo coesivo, mas seu desenvolvimento em pesquisa foi muito bom. Eu aprovo sua tese!";
+	next;
+	if(SkillPoint == 0) goto LCHANGE;
+	show "[Keiron]";
+	show "Bem, voce está totalmente preparado para mudar de classe, exceto por uma coisa...";
+	show "Voce precisa usar todos seus pontos de habilidade.";
+	show "Por favor faça isso e volte aqui...";
+	close;
+
+	LCHANGE:
+	callfunc "Job_Change",Job_Sage;
+	callfunc "F_ClearJobVar";
+	show "[Keiron]";
+	show "Parabéns!";
+	show "Voce é um Sábio agora!";
+	show "Nunca deixe sua paixão pela pesquisa ser abandonada.";
+	next;
+	show "[Keiron]";
+	show "Matenha sua tese à mostra, uma vez que ela possa ser útil para todos...";
+	next;
+	show "[Keiron]";
+	show "Algum dia voce mesmo será um poço de conhecimentos!";
+	close;
+L_Menu3_3:
+	show "[Keiron]";
+	show "Hmmm?  O que foi?";
+	show "Só por que voce é um Sábio, não significa que voce deve abandonar seus estudos.";
+	next;
+	show "[Keiron]";
+	show "Para manter nossa fama de Pesquisadores do Reino, nós nunca devemos perder a chance de descobrir o desconhecido!";
+	close;
+}
+
+//===============================
+//Biotech Lab
+//===============================
+yuno_in03,244,31,3	script	Professor de Física	120,{
+	if(BaseJob == Job_Sage) goto L_Menu3_2;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 11) goto L_Menu3_1;
+	if(SAGE_Q2 == 8) goto L_Menu2_1;
+	if(SAGE_Q2 == 9) goto L_Menu2_3;
+	if(SAGE_Q2 == 10) goto L_Menu2_5;
+	if(SAGE_Q2 == 11) goto L_ThesisStart1;
+	if(SAGE_Q == 9) goto L_Menu1_2;
+	show "[Ebeshi]";
+	show "O que?";
+	next;
+	show "[Ebeshi]";
+	show "Voce veio estudar sob meus cuidados?";
+	next;
+	show "[Ebeshi]";
+	show "Voce precisa se inscrever primeiro...";
+	show "Heheheheh...";
+	close;
+L_Menu1_1:
+	show "[Ebeshi]";
+	show "Eh???????????????????????????????";
+	next;
+	show "[Ebeshi]";
+	show "Não acredito que alguem feito voce possa aprender algo de mim.";
+	next;
+	show "[Ebeshi]";
+	show "Desapontado?";
+	show "Hehehehe....";
+	close;
+L_Menu1_2:
+	set SAGE_Q2,8;
+	show "[Ebeshi]";
+	show "Estou feliz em conhecer um bom estudante feito voce!";
+	next;
+	show "[Ebeshi]";
+	show "Voce nao está feliz em ser meu aluno?";
+	show "Hehehehe....";
+	next;
+	show "[Ebeshi]";
+	show "Desculpe-me por isso... mas voce pode me trazer algumas coisas antes de começar nossas aulas?";
+	next;
+	show "[Ebeshi]";
+	show "Eu preciso ^3051FD30 Pedras^000000 como parte de nosso material de estudo.";
+	show "Voce consegue pega-las ?";
+	next;
+	show "[Ebeshi]";
+	show "Se voce deseja arrumar as pedras rapidamente,";
+	show "voce deveria procurar por um Gatuno para ajudar voce! Obrigado por sua ajuda.";
+	close;
+L_Menu2_1:
+	if(countitem(7049) >= 30) goto L_Menu2_2;
+		show "[Ebeshi]";
+		show "Ei, o que voce está fazendo?";
+		show "Voce está tentando sair fora?";
+		show "Vamos, mantenha-se firme em seu objetivo.";
+		next;
+		show "[Ebeshi]";
+		show "Eu preciso de ^3051FD30x Stone^000000 para continuar...";
+		show "Com tantas pedras por ai... não deveria ser fácil de encontrá-las?";
+		show "Não devem ser fácil encontrá-las?";
+		close;
+	L_Menu2_2:
+		show "[Ebeshi]";
+		show "Isso!  Você possui todas as pedras de que eu necessito.";
+		show "Agora, assista isso!";
+		next;
+		show "[Ebeshi]";
+		show "Abracadabra!!";
+		next;
+		show "[Ebeshi]";
+		show "Abracadabra!!";
+		next;
+		show "[Ebeshi]";
+		show "Abracadabra!!";
+		next;
+		delitem 7049,30;
+		set SAGE_Q2,9;
+		show "[Ebeshi]";
+		show "Você viu isso?";
+		show "Eu criei três pedras elementais!";
+		next;
+		show "[Ebeshi]";
+		show "Muito massa, você não acha?";
+		show "Você pode ficar com elas!";
+		next;
+		additem 991,1;
+		additem 993,1;
+		additem 992,1;
+		show "[Ebeshi]";
+		show "Agora para sua próxima lição, você precisa sintetizar unst tipos de flechas diferentes com estas pedras.";
+		next;
+		show "[Ebeshi]";
+		show "Especificamente...";
+		show "^3051FD50 Flechas de Cristal^000000";
+		show "^3051FD50 Flechas de Pedra^000000";
+		show "^3051FD50 Flechas de Vento^000000";
+		next;
+		show "[Ebeshi]";
+		show "Um amigo arqueiro pode te ajudar a fazer as flechas.";
+		show "Vá lá e tente!";
+		close;
+	L_Menu2_3:
+		if((countitem(1754) >= 50) && (countitem(1756) >= 50) && (countitem(1755) >= 50)) goto L_Menu2_4;
+		show "[Ebeshi]";
+		show "Hmmm?";
+		show "O que você fez com as pedras que eu te dei?";
+		show "Eu espero que você não as tenha vendido...";
+		next;
+		show "[Ebeshi]";
+		show "Você precisa delas para fazer";
+		show "^3051FD50 Flechas de Cristal^000000";
+		show "^3051FD50 Flechas de Pedra^000000";
+		show "^3051FD50 Flechas de Vento^000000";
+		show "Um amigo arqueiro pode te ajudar a fazer as flechas.";
+		close;
+	L_Menu2_4:
+		show "[Ebeshi]";
+		show "Você fez as flechas! Bom trabalho.";
+		show "Agora, para continuar com as lições...";
+		next;
+		show "[Ebeshi]";
+		show "Esta lição cobre o capitulo das afinidades dos elementos em seu livro.";
+		next;
+		show "[Ebeshi]";
+		show "A primeira afinidade é realmente fácil.";
+		show "Mágica de água é muito eficiente contra fogo.";
+		show "É fácil de lembrar.";
+		show "tudo que que você precisa se lembrar é da água sendo jogada no fogo.";
+		next;
+		show "[Ebeshi]";
+		show "Magia do vento irá matar monstros a base de água.";
+		show "Observe o que acontece quando um lago é atingido por um raio.";
+		next;
+		show "[Ebeshi]";
+		show "Magia da terra vai esmagar monstros a base de vento fácilmente.";
+		show "Você não constrói uma casa sobre uma forte fundação para não sofrer com o vento?";
+		next;
+		show "[Ebeshi]";
+		show "Magia do fogo queima a terra sem piedade.";
+		show "Uma arvore não se queimará num incêndio?";
+		show "O mesmo com monstros do elemento terra.";
+		next;
+		show "[Ebeshi]";
+		show "Você entendeu?";
+		show "Aqui está um dever de casa para a próxima vez...";
+		next;
+		delitem 1754,50;
+		delitem 1756,50;
+		delitem 1755,50;
+		set SAGE_Q2,10;
+		show "[Ebeshi]";
+		show "Da próxima vez me traga ^3051FD1 Água Benta^000000.";
+		show "Nós precisaremos para a lição.";
+		show "Será fácil de conseguir se você tiver contados na igreja.";
+		close;
+	L_Menu2_5:
+		if(countitem(523) >= 1) goto L_Menu2_6;
+		show "[Ebeshi]";
+		show "Ooops!";
+		show "Você se esqueceu do item que eu tinha te pedido?";
+		next;
+		show "[Ebeshi]";
+		show "Eu preciso de ^3051FD1 Água Benta^000000 para a lição.";
+		show "Peça a um noviço para te ajudar a fazer.";
+		show "Hehehehe...";
+		close;
+	L_Menu2_6:
+		show "[Ebeshi]";
+		show "Beleza, você está com a Água Benta.";
+		show "Vamos continuar com a lição!";
+		next;
+		show "[Ebeshi]";
+		show "Por favor faça bons apontamentos sobre esta parte.";
+		show "Pois ela estará no teste.";
+		next;
+		show "[Ebeshi]";
+		show "Magia da água é uma droga contra vento!";
+		show "Um relâmpago ligaria se ele estivesse congelado?";
+		show "Heheheheh....";
+		next;
+		show "[Ebeshi]";
+		show "Magia do vento é totalmente inútil contra terra.";
+		show "Uma árvore sofrerá dano permanente se bater um vento forte nela?";
+		next;
+		show "[Ebeshi]";
+		show "Magia da terra é ineficiente contra fogo.";
+		show "se você colocar umas folhas no fogo, ele apaga?";
+		show "Não, é exatamente o oposto que acontece.";
+		next;
+		show "[Ebeshi]";
+		show "Fogo não vai fazer muito contra água.";
+		show "Se você aquecer água, ela não fica mais perigosa?";
+		next;
+		show "[Ebeshi]";
+		show "essa foi uma aula muito informativa!";
+		show "Você não acha?";
+		next;
+		delitem 523,1;
+		set SAGE_Q2,11;
+		show "[Ebeshi]";
+		show "Agora você tem conhecimento suficiente para preparar uma tese que possa ser defendida.";
+		show "Hehehehehe!";
+		next;
+		show "[Ebeshi]";
+		show "Para montar a tese você precisa de:";
+		show "^3051FD1 Plumas de Ave^000000 como seu instrumento de escrita.";
+		show "^3051FD1 Couro de Animal^000000 para as páginas.";
+		show "^3051FD1 Tronco^000000 para unir as páginas.";
+		show "^3051FD1 Tinta de Polvo^000000 para ser sua tinta.";
+		show "^3051FD1 Garrafa Vazia^000000 para guardar sua tinta.";
+		next;
+		show "[Ebeshi]";
+		show "Venha me ver quando você tiver todos os itens.";
+		close;
+	L_ThesisStart1:
+		if((countitem(916) >= 1) && (countitem(919) >= 1) && (countitem(1019) >= 1) && (countitem(1024) >= 1) && (countitem(713) >= 1)) goto L_ThesisStart2;
+		show "[Ebeshi]";
+		show "Hmmm?";
+		show "Você não pode se esquecer de coisas importantes como estas!";
+		next;
+		show "[Ebeshi]";
+		show "Você precisa destes itens para começar sua tese:";
+		show "^3051FD1 Plumas de Ave^000000 como seu instrumento de escrita.";
+		show "^3051FD1 Couro de Animal^000000 para as páginas.";
+		show "^3051FD1 Tronco^000000 para unir as páginas.";
+		show "^3051FD1 Tinta de Polvo^000000 para ser sua tinta.";
+		show "^3051FD1 Garrafa Vazia^000000 para guardar sua tinta.";
+		next;
+		show "[Ebeshi]";
+		show "Você tem alguns amigos que possam te ajudar a coletar os materiais?";
+		show "Isso fará com que a tarefa se torne muito mais simples!";
+		close;
+	L_ThesisStart2:
+		delitem 916,1;
+		delitem 919,1;
+		delitem 1019,1;
+		delitem 1024,1;
+		delitem 713,1;
+		show "[Ebeshi]";
+		show "Beleza...";
+		show "Você mesmo precisa escrever isto.";
+		show "eu sou simplesmente o seu orientador na pesquisa!";
+		show "Hehehehe...";
+		next;
+		show "......";
+		next;
+		show "......";
+		next;
+		show "......";
+		next;
+		show "Magia elemental é dividida em quatro tipos...";
+			menu "...chamadas fogo, vento, água e terra.",L_ThesisMenu1_1,"...nomeadas fogo, vento, água e terra",L_ThesisMenu1_2,"que se opõem: Fogo, Vento, Água e Terra",L_ThesisMenu1_3;
+		L_ThesisMenu1_1:
+			show "...chamadas Fogo, Vento, Água e Terra";
+			goto L_Thesis2;
+		L_ThesisMenu1_2:
+			show "...nomeadas Fogo, Vento, Água e Terra";
+			goto L_Thesis2;
+		L_ThesisMenu1_3:
+			show "...que se opõem: Fogo, Vento, Água e Terra";
+			goto L_Thesis2;
+		L_Thesis2:
+			show "cada atributo possui certas propriedades.";
+			menu "Vento conquista água...",L_ThesisMenu2_1,"Água abafa o fogo...",L_ThesisMenu2_2,"Fogo queima a terra...",L_ThesisMenu2_3;
+		L_ThesisMenu2_1:
+			show "Vento conquista a água e Terra ataca o vento";
+			goto L_Thesis3;
+		L_ThesisMenu2_2:
+			show "Água abafa o fogo, enquanto o vento acerta a água";
+			goto L_Thesis3;
+		L_ThesisMenu2_3:
+			show "Fogo queima a terra, e água abafa o fogo.";
+			goto L_Thesis3;
+		L_Thesis3:
+			menu "Mas fraquezas também existem",L_ThesisMenu3_1,"Você também pode customizar o elemento de sua arma",L_ThesisMenu3_2,"Affinidade aos elementais varia de acordo com o tipo de monstro,",L_ThesisMenu3_3;
+		L_ThesisMenu3_1:
+			show "Mas fraquezas também existem";
+			goto L_Thesis4;
+		L_ThesisMenu3_2:
+			show "Você também pode customizar o elemento de sua arma";
+			goto L_Thesis4;
+		L_ThesisMenu3_3:
+			show "Affinidade aos elementais varia de acordo com o tipo de monstro,";
+			goto L_Thesis4;
+		L_Thesis4:
+			menu "Você precisa ser prudente quando estiver enfrentando monstros...",L_ThesisMenu4_1,"Portanto você deve customizar sua arma de acordo com a situação",L_ThesisMenu4_2,"Poções vermelhas tem um sabor de morango delicioso",L_ThesisMenu4_3;
+		L_ThesisMenu4_1:
+			show "Você precisa ser prudente quando estiver enfrentando monstros que você não saiba a sua afinidade ao certo.";
+			goto L_Thesis5;
+		L_ThesisMenu4_2:
+			show "Você deveria personalizar sua arma diante da ocasião.";
+			goto L_Thesis5;
+		L_ThesisMenu4_3:
+			show "Poções vermelhas tem um sabor de morango delicioso";
+			goto L_Thesis5;
+		L_Thesis5:
+			next;
+			menu "Eimi em prontera é gostosa",L_ThesisMenu5_1,"Eu me pergunto como poções vermelhas são feitas",L_ThesisMenu5_2,"A complexidade das magias excede a capacidade humana em aprender",L_ThesisMenu5_3;
+		L_ThesisMenu5_1:
+			show "Eimi em prontera é gostosa";
+			goto L_Thesis6;
+		L_ThesisMenu5_2:
+			show "Eu me pergunto como poções vermelhas são feitas";
+			goto L_Thesis6;
+		L_ThesisMenu5_3:
+			show "A complexidade das magias excede a capacidade humana em aprender";
+			goto L_Thesis6;
+		L_Thesis6:
+			menu "As mulheres de Morroc também são gostosas",L_ThesisMenu6_1,"Talvez seja uma receita secreta",L_ThesisMenu6_2,"É perigoso depender tanto da magia...",L_ThesisMenu6_3;
+		L_ThesisMenu6_1:
+			show "As mulheres de Morroc também são gostosas";
+			goto L_Thesis7;
+		L_ThesisMenu6_2:
+			show "Talvez seja uma receita secreta";
+			goto L_Thesis7;
+		L_ThesisMenu6_3:
+			show "É perigoso depender tanto da magia...";
+			goto L_Thesis7;
+		L_Thesis7:
+			menu "Eu queria ter orelhinhas de coelho",L_ThesisMenu7_1,"Aquele gosto da poção branca...",L_ThesisMenu7_2,"...se você quiser ficar seguro. Poder...",L_ThesisMenu7_3;
+		L_ThesisMenu7_1:
+			show "Eu queria ter orelhinhas de coelho";
+			goto L_Thesis8;
+		L_ThesisMenu7_2:
+			show "Aquele gosto da poção branca...";
+			goto L_Thesis8;
+		L_ThesisMenu7_3:
+			show "...se você quiser ficar seguro. Poder...";
+			goto L_Thesis8;
+		L_Thesis8:
+			menu "Isso me faria feliz",L_ThesisMenu8_1,"...é dificil de imaginar",L_ThesisMenu8_2,"No interesse de uma batalha mais segura...",L_ThesisMenu8_3;
+		L_ThesisMenu8_1:
+			show "Isso me faria feliz";
+			goto L_Thesis9;
+		L_ThesisMenu8_2:
+			show "...é dificil de imaginar";
+			goto L_Thesis9;
+		L_ThesisMenu8_3:
+			show "No interesse de uma batalha mais segura...";
+			goto L_Thesis9;
+		L_Thesis9:
+			menu "Orelhinhas de coelho dão um bom acessório para noviços",L_ThesisMenu9_1,"Me faz querer saber se...",L_ThesisMenu9_2,"...você deve trazer amigos junto",L_ThesisMenu9_3;
+		L_ThesisMenu9_1:
+			show "Orelhinhas de coelho dão um bom acessório para noviços";
+			goto L_Thesis10;
+		L_ThesisMenu9_2:
+			show "Me faz querer saber se...";
+			goto L_Thesis10;
+		L_ThesisMenu9_3:
+			show "...você deve trazer amigos junto";
+			goto L_Thesis10;
+		L_Thesis10:
+			menu "Eu queria saber se um cavaleiro também a usaria",L_ThesisMenu10_1,"...as pessoas podem bebê-la quando não estiverem machucadas",L_ThesisMenu10_2,"É a coisa responsável a se fazer",L_ThesisMenu10_3;
+		L_ThesisMenu10_1:
+			show "Eu queria saber se um cavaleiro também a usaria";
+			next;
+			goto L_ThesisEnd;
+		L_ThesisMenu10_2:
+			show "...as pessoas podem bebê-la quando não estiverem machucadas";
+			next;
+			goto L_ThesisEnd;
+		L_ThesisMenu10_3:
+			show "É a coisa responsável a se fazer";
+			next;
+			goto L_ThesisEnd;
+	L_ThesisEnd:
+		show "......";
+		next;
+		show "......";
+		next;
+		show "......";
+		next;
+		set SAGE_Q,11;
+		additem 1550,1;
+		show "[Ebeshi]";
+		show "Beleza!";
+		show "Você terminou! Parece muito bom!";
+		next;
+		show "[Ebeshi]";
+		show "Você deve levar isto para o Funcionário Acadêmico!";
+		show "Ele decidirá se você será graduado ou não.";
+		show "Hehehehehe....";
+		close;
+L_Menu3_1:
+	show "[Ebeshi]";
+	show "E ai? você se esqueceu de alguma coisa?!";
+	next;
+	show "[Ebeshi]";
+	show "Você deveria ver o Funcionário Acadêmico e apresentar a sua tese para que você se forme!";
+	close;
+L_Menu3_2:
+	show "[Ebeshi]";
+	show "Boa Tarde!";
+	show "É bom encontrar outros Sábios e trocar informações.";
+	show "Heheheheh!!";
+	next;
+	show "[Ebeshi]";
+	show "Mesmo que compania seja boa algumas vezes, Eu preciso continuar a minha pesquisa!";
+	next;
+	show "[Ebeshi]";
+	show "Você quer continuar seus estudos aqui?";
+	show "Por favor fique avontade para conversar com os outros professores e ler a literatura aqui.";
+	show "Hehehehe!";
+	close;
+}
+
+//==================================
+//Monster Museum
+//==================================
+
+yuno_in03,32,102,0	script	Professor de Biologia	755,{
+	if(BaseJob == Job_Sage) goto L_Menu5_4;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 11) goto L_Menu5_3;
+	if((SAGE_Q2 >= 1) && (SAGE_Q2 <= 3)) goto L_Menu3_1;
+	if((SAGE_Q2 >= 4) && (SAGE_Q2 <= 6)) goto L_Menu4_1;
+	if(SAGE_Q2 == 7) goto L_Menu5_1;
+	if(SAGE_Q == 8) goto L_Menu2_1;
+	show "[Lucias]";
+	show "eu estou com dor de cabeça...";
+	show "Eu tenho muitas coisas na cabeça ao mesmo tempo!";
+	next;
+	show "[Lucias]";
+	show "Mas claro, eu ensirarei biologia a outras pessoas mesmo com dor de cabeça!";
+	close;
+L_Menu1_1:
+	show "[Lucias]";
+	show "Hmmm?  você só esta bisbilhotanto?";
+	next;
+	show "[Lucias]";
+	show "Tudo bem, mas por favor não toque em nada.";
+	show "Nós guardamos bioagentes perigosos aqui!";
+	next;
+	show "[Lucias]";
+	show "Se você tiver informação sobre monstros raros nós te pagaremos bem.";
+	close;
+L_Menu2_1:
+	show "[Lucias]";
+	show "Oh, você fez o teste?";
+	show "Eu sou Lucias, um pesquisador proeminente nas ciências biologicas.";
+	next;
+	show "[Lucias]";
+	show "Qual o seu nome jovem?";
+	next;
+	menu "Eu sou" + strcharinfo(0) + "!",-;
+	show "[Lucias]";
+	show "Este é um bom nome.";
+	show "Agora, deixe-me explicar os objetivos de nossa pesquisa.";
+	next;
+	show "[Lucias]";
+	show "Minha área de especialidade são os monstros.";
+	show "Eu tenho certeza que a esta altura você já encontrou e matou muitos monstros.";
+	show "Estou certo?";
+	next;
+		menu "Você está certo",-,"Bem, na verdade não...",L_Menu2_2;
+		show "[Lucias]";
+		show "Sério?";
+		show "eu espero que sua base de conhecimento seja diversa.";
+		show "Minha aula não é muito fácil.";
+		next;
+		goto L_Menu2_3;
+	L_Menu2_2:
+//==================================
+//If you respond negatively
+		show "[Lucias]";
+		show "Você pode estar em disvantagem.";
+		show "Meu curso pressupõe que você já tenha muito conhecimento prévio.";
+		show "Minha aula não foi feita para ser fácil...";
+		next;
+//==================================
+L_Menu2_3:
+	show "[Lucias]";
+	show "Então, devemos começar?";
+	show "Você aprenderá muito nesta aula se ficar atento.";
+	next;
+		set @sagerand,0;
+		set @sagerand,rand(3);
+		show "[Lucias]";
+		show "Primeiro você precisa coletar";
+		if(@sagerand == 1) goto L_Menu2_4;
+		if(@sagerand == 2) goto L_Menu2_5;
+		set SAGE_Q2,1;
+		show "^3051FD5 Tendões^000000";
+		show "^3051FD5 Garras de Crustáceos^000000";
+		show "^3051FD5 Escamas Aquáticas^000000";
+		next;
+		goto L_Menu2_6;
+	L_Menu2_4:
+		set SAGE_Q2,2;
+//==================================
+//mes–¢‰ñŽû
+		show "^3051FD5 Carnes de Ostra^000000";
+		show "^3051FD5 Garras de Crustáceos^000000";
+		show "^3051FD5 Coraçãos de Sereia^000000";
+		next;
+		goto L_Menu2_6;
+	L_Menu2_5:
+		set SAGE_Q2,3;
+		show "^3051FD5 Células Únicas^000000";
+		show "^3051FD5 Tentáculos^000000";
+		show "^3051FD5 Caudas de Peixe^000000";
+//==================================
+		next;
+	L_Menu2_6:
+		show "[Lucias]";
+		show "Nós continuaremos quando você tiver coletado os itens.";
+		close;
+L_Menu3_1:
+	if((countitem(1050) >= 5) && (countitem(960) >= 5) && (countitem(963) >= 5) && (SAGE_Q2 == 1)) goto L_Menu3_4;
+	if((countitem(966) >= 5) && (countitem(960) >= 5) && (countitem(950) >= 5) && (SAGE_Q2 == 2)) goto L_Menu3_4;
+	if((countitem(1052) >= 5) && (countitem(962) >= 5) && (countitem(1023) >= 5) && (SAGE_Q2 == 3)) goto L_Menu3_4;
+	show "[Lucias]";
+	show "Você não tem os itens necessários.";
+	show "Deixe me repetir o que você precisa procurar:";
+	next;
+		show "[Lucias]";
+		if(SAGE_Q2 == 2) goto L_Menu3_2;
+		if(SAGE_Q2 == 3) goto L_Menu3_3;
+		show "^3051FD5 Tendões^000000";
+		show "^3051FD5 Garras de Crustáceos^000000";
+		show "^3051FD5 Escamas Aquáticas^000000";
+		close;
+	L_Menu3_2:
+		show "^3051FD5 Carnes de Ostra^000000";
+		show "^3051FD5 Garras de Crustáceos^000000";
+		show "^3051FD5 Coraçãos de Sereia^000000";
+		close;
+	L_Menu3_3:
+		show "^3051FD5 Células Únicas^000000";
+		show "^3051FD5 Tentáculos^000000";
+		show "^3051FD5 Caudas de Peixe^000000";
+		close;
+L_Menu3_4:
+	show "[Lucias]";
+	show "Bem, você tem os itens mas eu não tenho certeza se você os coletou ou os comprou.";
+	next;
+	show "[Lucias]";
+	show "Existe uma similaridade nos monstros que soltam estes itens.";
+	show "Você sabe qual é?";
+	next;
+		menu "Affinidade da água",L_Menu3_5,"Eles são peixes e crustáceos",L_Menu3_6,"Eles são bem ativos",-,"Eles são monstros",-;
+//==================================
+		show "[Lucias]";
+		show "...Eu estou desapontado com você.";
+		show "A resposta correta é que todos os monstros tem a afinidade da água.";
+		show "Monstros que vivem em uma área aquática desenvolvem adaptações para tal ambiente.";
+//==================================
+		next;
+		goto L_Menu3_6;
+	L_Menu3_5:
+		show "[Lucias]";
+		show "Correto!";
+		show "A maioria dos monstros aquaticos tem afinidade da água pois estão adaptados para o seu meio.";
+		show "Peixes e crustáceos evoluiram em uma maneira lógica.";
+		next;
+	L_Menu3_6:
+		show "[Lucias]";
+		show "Nem todo peixe e crustáceo tem afinidade da água, mas esta não é a regra geral.";
+		show "Agora, qual tipo de magia você acha que seria mais eficiente contra eles?";
+		next;
+		menu "Relâmpago",L_Menu3_7,"Lanças de Fogo",-,"Tempestade de Raios",L_Menu3_8,"Dilúvio",-;
+//==================================
+//mes–¢‰ñŽû
+		show "[Lucias]";
+		show "Está errado.";
+		show "Você deve usar magias como Relâmpago ou Tempestade de Raios.";
+		show "Dê uma olhada na matriz de elementais novamente.";
+		next;
+//==================================
+		goto L_Menu3_9;
+	L_Menu3_7:
+		show "[Lucias]";
+		show "Ótimo, esta certo!";
+		show "Usando Relâmpago é uma maneira fácil de se vencer.";
+		next;
+		show "[Lucias]";
+		show "Você precisa ser cuidadoso com monstros tipo Penomena e aster pois os seus atributos são diferentes.";
+		next;
+		goto L_Menu3_9;
+	L_Menu3_8:
+		show "[Lucias]";
+		show "Ótimo, esta certo!";
+		show "Esando Tempestade de Raios é jeito fácil de se vencer";
+		next;
+		show "[Lucias]";
+		show "Você precisa ser cuidadoso com monstros tipo Penomena e aster pois os seus atributos são diferentes.";
+		next;
+	L_Menu3_9:
+		show "[Lucias]";
+		show "Agora, vamos nos dedicar a mostros insetóides.";
+		next;
+		set @sagerand,rand(3);
+		show "[Lucias]";
+		show "Agora, você precisa coletar";
+		if(@sagerand == 1) goto L_Menu3_10;
+		if(@sagerand == 2) goto L_Menu3_11;
+		set SAGE_Q2,4;
+		show "^3051FD5 Teias de Aranha^000000";
+		show "^3051FD5 Cascas^000000";
+		show "^3051FD5 Antenas de Inseto^000000";
+		next;
+		goto L_Menu2_6;
+	L_Menu3_10:
+		set SAGE_Q2,5;
+//==================================
+//mes–¢‰ñŽû
+		show "^3051FD5 Pós de Traça^000000";
+		show "^3051FD5 Cascos de Caramujo^000000";
+		show "^3051FD5 Chifres^000000";
+		next;
+		goto L_Menu2_6;
+	L_Menu3_11:
+		set SAGE_Q2,6;
+		show "^3051FD5 Foices de Louva-a-Deus^000000";
+		show "^3051FD5 Peles de Verme^000000";
+		show "^3051FD5 Cascos Arco-Íris^000000";
+//==================================
+		next;
+		goto L_Menu2_6;
+L_Menu4_1:
+	if((countitem(1025) >= 5) && (countitem(935) >= 5) && (countitem(928) >= 5) && (SAGE_Q2 == 4)) goto L_Menu4_4;
+	if((countitem(1057) >= 5) && (countitem(946) >= 5) && (countitem(947) >= 5) && (SAGE_Q2 == 5)) goto L_Menu4_4;
+	if((countitem(1031) >= 5) && (countitem(955) >= 5) && (countitem(1013) >= 5) && (SAGE_Q2 == 6)) goto L_Menu4_4;
+	show "[Lucias]";
+	show "Você se esqueceu do que deveria trazer?";
+	show "Ouça com atenção desta vez! Você precisa trazer:";
+	next;
+		show "[Lucias]";
+		if(SAGE_Q2 == 5) goto L_Menu4_2;
+		if(SAGE_Q2 == 6) goto L_Menu4_3;
+		show "^3051FD5 Teias de Aranha^000000";
+		show "^3051FD5 Cascas^000000";
+		show "^3051FD5 Antenas de Inseto^000000";
+		close;
+	L_Menu4_2:
+		show "^3051FD5 Pós de Traça^000000";
+		show "^3051FD5 Cascos de Caramujo^000000";
+		show "^3051FD5 Chifres^000000";
+		close;
+	L_Menu4_3:
+		show "^3051FD5 Foices de Louva-a-Deus^000000";
+		show "^3051FD5 Peles de Verme^000000";
+		show "^3051FD5 Cascos Arco-Íris^000000";
+		close;
+L_Menu4_4:
+	set SAGE_Q2,7;
+	show "[Lucias]";
+	show "Excelente. Você se saiu bem.";
+	show "Eu espero que você tenha sido atencioso ao observar os arredores de onde você coletou os itens. ";
+	next;
+	show "[Lucias]";
+	show "Com insetos, você precisa considerar com cuidado qual magia usar, já que insetos possuem afinidades com várias coisas.";
+	next;
+	show "[Lucias]";
+	show "você também tem que estar atento para o fato de o esconderijo dos gatunos e furtividade de mercenários não funcionam com certos tipos de insetos.";
+	next;
+	show "[Lucias]";
+	show "Insetos também pode agir em grupos.";
+	show "Geralmente insetos chefes terão um número considerável de subordinados.";
+	next;
+	show "[Lucias]";
+	show "A senhora das formigas Maya...";
+	show "A mandante das abelhas Abelha-Rainha...";
+	next;
+	show "[Lucias]";
+	show "Se você enfrentar um monstro chefe sozinho, é melhor estar preparado para morrer.";
+	show "Você tem que levar um grupo de amigos para enfrentar tais criaturas.";
+	next;
+	show "[Lucias]";
+	show "Bem, você ja estudou bastante.";
+	show "Agora você precisa escrever uma tese.";
+	show "Você precisa de alguns materiais antes de começar a escrever.";
+	show "Aqui estão:";
+	next;
+	show "[Lucias]";
+	show "^3051FD1 Plumas de Ave^000000 para ser o seu instrumento de escrita.";
+	show "^3051FD1 Couro de Animal^000000 para as páginas.";
+	show "^3051FD1 Tronco^000000 para unir as páginas.";
+	show "^3051FD1 Tinta de Polvo^000000 para sua tinta.";
+	show "^3051FD1 Garrafa Vazia^000000 para guardar a tinta.";
+	next;
+	show "[Lucias]";
+	show "Nós podemos começar quando você retornar.";
+	close;
+L_Menu5_1:
+	if((countitem(916) >= 1) && (countitem(919) >= 1) && (countitem(1019) >= 1) && (countitem(1024) >= 1) && (countitem(713) >= 1) && (SAGE_Q2 == 7)) goto L_Menu5_2;
+	show "[Lucias]";
+	show "Você precisa coletar os itens primeiro.";
+	show "eles são:";
+	next;
+	show "[Lucias]";
+	show "^3051FD1 Plumas de Ave^000000 para ser o seu instrumento de escrita.";
+	show "^3051FD1 Couro de Animal^000000 para as páginas.";
+	show "^3051FD1 Tronco^000000 para unir as páginas.";
+	show "^3051FD1 Tinta de Polvo^000000 para sua tinta.";
+	show "^3051FD1 Garrafa Vazia^000000 para guardar a tinta.";
+	next;
+	show "[Lucias]";
+	show "Você foi bem até agora.";
+	show "Só mais um pouco e você se formará.";
+	close;
+L_Menu5_2:
+	delitem 916,1;
+	delitem 919,1;
+	delitem 1019,1;
+	delitem 1024,1;
+	delitem 713,1;
+	show "[Lucias]";
+	show "Parece que você já tem tudo.";
+	next;
+	show "[Lucias]";
+	show "Agora, você mesmo precisa escrever.";
+	show "Eu só estarei assumindo um papel de aconselhar.";
+	next;
+	show "[Lucias]";
+	show "Você está pronto para começar?";
+	show "Vejamos se você adquiriu conhecimento suficiente para escrever uma tese coerente.";
+	next;
+	show "......";
+	next;
+	show "......";
+	next;
+	show "......";
+	next;
+	menu "Monstros aparecem com tipos diferentes",-;
+	show "Monstros aparecem com tipos diferentes";
+	menu "Eles tem afinidades elementais diferentes",-;
+	show "Eles tem afinidades elementais diferentes";
+	menu "Se você souber o elemento do monstro antecipadamente...",-;
+	show "Se você souber o elemento do monstro antecipadamente...";
+	menu "...você pode melhorar a sua experiência de batalha",-;
+	show "...você pode melhorar a sua experiência de batalha";
+	menu "Você deve ser especialmente cuidadoso com...",-;
+	show "Você deve ser especialmente cuidadoso com...";
+	menu "...monstros com afinidade holy e darkness.",-;
+	show "...monstros com afinidade holy e darkness.";
+	next;
+	show "......";
+	next;
+	show "......";
+	next;
+	show "......";
+	next;
+	set SAGE_Q,11;
+	additem 1550,1;
+	show "[Lucias]";
+	show "Isto esta muito bom!";
+	show "Estou orgulhoso de você!";
+	next;
+	show "[Lucias]";
+	show "Mostre isso ao Funcionário Acadêmico que você certamente se formará.";
+	show "Boa sorte.";
+	close;
+L_Menu5_3:
+	show "[Lucias]";
+	show "Hmmm? Qual o problema?";
+	show "Você precisa mostrar sua tese para o Funcionário Acadêmico.";
+	close;
+L_Menu5_4:
+	show "[Lucias]";
+	show "Você esta confuso com alguma coisa?";
+	show "Eu estou muito ocupado, portanto você precisa marcar uma hora com uma semana te antecedência.";
+	next;
+	show "[Lucias]";
+	show "Hahaha...Quando você for um Sábio por algum tempo, você estará dizendo a mesma coisa.";
+	next;
+	show "[Lucias]";
+	show "Também, se você tiver algum tempo livre.";
+	show "você deve ir até a dungeon e deitar no chão.";
+	show "Olhe para o teto e estude-o.";
+	show "Você pode acabar aprendendo alguma coisa.";
+	close;
+}
+
+//=================================
+//Academy Interior
+//=================================
+
+yuno_in03,154,35,4	script	Equipe Acadêmica	742,{
+	callfunc "F_BlockHigh",26,"High Mage",40,"Professor","Mathias";
+
+	if(BaseJob == Job_Sage) goto L_Menu6_4;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 11) goto L_Menu6_3;
+	if(SAGE_Q >= 4) goto L_Menu6_2;
+	if(SAGE_Q == 3) goto L_Menu6_1;
+	if(SAGE_Q == 2) goto L_Menu5_1;
+	show "[Mathias]";
+	show "Olá.";
+	show "Esta é a Academia de Magia Shubaichul?";
+	show "Você parece ser um mago.";
+	show "Posso te ajudar?";
+	next;
+	menu "informação sobre troca de classe para Sábio",-,"Eu quero me inscrever na academia",L_Menu3_1,"Esqueça",L_Menu2;
+		show "[Mathias]";
+		show "Você quer trocar de classe para Sábio?";
+		show "Eu não posso mudar sua classe aqui.";
+		next;
+		show "[Mathias]";
+		show "Você deve completar um programa completo de trabalhos e pesquisas.";
+		next;
+		show "[Mathias]";
+		show "uma vez formado pela academia";
+		show "você pode mudar de classe.";
+		show "Para prosseguir você precisa pagar a taxa de tutela e fazer o teste.";
+		next;
+		show "[Mathias]";
+		show "Somente os que possuem um ^3051FDGrimório Antigo^000000 e um ^3051FDColar da Sabedoria^000000 podem ter a taxa de tutoria suspensa.";
+		next;
+		show "[Mathias]";
+		show "Quando você tiver pago a taxa, você primeiro fará o teste. ";
+		show "Se você obtiver uma nota alta o bastante para ser incluso em nosso programa, você será colocado para pesquisar de acordo com sua colocação.";
+		show "Finalmente, você deverá preparar e defender uma tese.";
+		next;
+		show "[Mathias]";
+		show "O Funcionário Acadêmico decide se a tese se encaixa ou não no padrão para a sua graduação.";
+		show "Se ele a aprovar, você poderá começar sua carreira como Sábio formalmente.";
+		next;
+		show "[Mathias]";
+		show "Se você estiver interessado, você só precisa submeter um requerimento e começar.";
+		show "Tenha um bom dia.";
+		close;
+L_Menu2:
+	show "[Mathias]";
+	show "Oh?";
+	show "Você está hesitante?";
+	show "Então te vejo mais tarde.";
+	close;
+L_Menu1_1:
+	show "[Mathias]";
+	show "Bem vindo.";
+	show "Esta é Academia de Magia Shubaichul.";
+	next;
+	show "[Mathias]";
+	show "Nós fazemos pesquisas em magias e monstros aqui.";
+	show "Nós também treinamos Sábios inexperientes.";
+	next;
+	show "[Mathias]";
+	show "Qualquer Magician que tem nivel de classe maior ou igual a 40 pode se inscrever na academia.";
+	show "Uma vez que você tenha completado nosso processo prescrito para acquisição de grau, você poderá se tornar um Sábio.";
+	next;
+	show "[Mathias]";
+	show "Adeus.";
+	close;
+L_Menu3_1:
+	show "[Mathias]";
+	show "Você quer se inscrever? Maravilha!";
+	next;
+	show "[Mathias]";
+	show "Para que você entre na academia,";
+	show "você precisa ser um Magician de nivel de classe 40 ou maior.";
+	show "Você também precisará pagar a taxa de tutela para cobrir as aulas e materiais.";
+	next;
+	show "[Mathias]";
+	show "A tutoria é 70,000 zeny.";
+	show "Se você possuir um ^3051FDGrimório Antigo^000000 ou um ^3051FDColar da Sabedoria^000000,a taxa não será cobrada.";
+	next;
+	show "[Mathias]";
+	show "Então você gostaria de se inscrever?";
+	next;
+	menu "Sim, eu gostaria",L_Menu5_5,"A taxa é muito cara!",-,"Eu volto mais tarde",L_Menu3_2;
+		show "[Mathias]";
+		show "Bom...nós precisamos da taxa para cobrir as instruções e os materiais...";
+		next;
+		menu "Não existe outra maneira?",-,"Eu vou tentar mais tarde",L_Menu3_2;
+		set SAGE_Q,2;
+		show "[Mathias]";
+		show "Bom... talvez exista. Eu posso reduzir a taxa para 30,000 zeny se você puder nos trazer alguns materiais que nosso departamento de pesquisa precisa.";
+		next;
+		show "[Mathias]";
+		show "Nós precisamos especificamente de:";
+		show "^3051FD50 Plumas de Ave^000000";
+		show "^3051FD50 Felpas^000000";
+		show "^3051FD50 Trevos^000000";
+		show "^3051FD50 Plumas^000000";
+		next;
+		show "[Mathias]";
+		show "Se você conseguir tudo isto. eu descontarei a taxa até 30,000 zeny.";
+		show "Por favor faça o melhor para coletá-los.";
+		next;
+		show "[Mathias]";
+		show "Claro, você também pode conseguir os 70,000 zeny ao invés de coletar os itens se você quiser.";
+		next;
+		show "[Mathias]";
+		show "Por favor faça o melhor para coletá-los.";
+		show "Até mais tarde.";
+		close;
+	L_Menu3_2:
+		show "[Mathias]";
+		show "Ok, beleza.";
+		show "Não se apresse.";
+		show "Obrigado por ter passado.";
+		close;
+L_Menu5_1:
+	show "[Mathias]";
+	show "Então, você gostaria de se inscrever?";
+	next;
+	if(JobLevel < 40) goto L_Menu5_9;
+	if(countitem(1006) > 0) goto L_Menu5_4;
+	if(countitem(1007) > 0) goto L_Menu5_4_;
+	if(Zeny < 70000) goto L_Menu5_2;
+		set Zeny,Zeny-70000;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Ve jo que você possui 70000 Zeny.";
+		show "Eu o aceitarei para a tutoria. Você agora está inscrito na escola.";
+		next;
+	L_Menu5_5:
+		if(JobLevel < 40) goto L_Menu5_9;
+		show "[Mathias]";
+		show "Nós precisamos de sua assinatura neste formulário para prosseguir.";
+		show "Por favor assine no X";
+		next;
+		menu "" + strcharinfo(0) + "",-;
+		show "[Mathias]";
+		show "Beleza, então você é o";
+		show "" + strcharinfo(0) + ".";
+		show "Este é um belo nome.";
+		next;
+			if(JobLevel == 50) goto L_JobMax;
+			if(SAGE_Q == 3) goto L_Menu5_6;
+			if(countitem(1006) > 0) goto L_Menu5_7;
+			if(countitem(1007) > 0) goto L_Menu5_7_;
+			if(Zeny < 70000) goto L_Menu5_2;
+			set Zeny,Zeny-70000;
+			set SAGE_Q,3;
+
+			show "[Mathias]";
+			show "Ve jo que você possui 70000 Zeny.";
+			show "Eu o aceitarei para a tutoria. ";
+			show " Você agora está inscrito na escola.";
+			next;
+
+		L_Menu5_6:
+			show "[Mathias]";
+			show "Você primeiro precisa fazer um teste com o professor Kreitos.";
+			next;
+			show "[Mathias]";
+			show "Professor Kreitos está na biblioteca da academia.";
+			show "É no lado mais distante a esquerda do prédio.";
+			next;
+			show "[Mathias]";
+			show "Boa sorte no teste.";
+			close;
+		L_JobMax:
+			set SAGE_Q,3;
+			show "[Mathias]";
+			show "Você treinou até o nivel máximo de classe para Magicians!";
+			show "Neste caso eu te darei uma bolsa integral!";
+			next;
+			show "[Mathias]";
+			show "Agora tudo o que você precisa fazer é o teste.";
+			next;
+			show "[Mathias]";
+			show "Vá ver o professor Kreitos na biblioteca, no lado esquerdo mais distante do prédio.";
+			close;
+	L_Menu5_2:
+		if(SAGE_Q != 2) goto L_Menu5_8;
+		if((countitem(916) >= 50) && (countitem(914) >= 50) && (countitem(949) >= 50) && (countitem(705) >= 50)) goto L_Menu5_3;
+		show "[Mathias]";
+		show "Parece que você ainda não possui os materiais.";
+		next;
+		show "[Mathias]";
+		show "Você precisa trazer:";
+		show "^3051FD50 Plumas de Ave^000000";
+		show "^3051FD50 Felpas^000000";
+		show "^3051FD50 Trevos^000000";
+		show "^3051FD50 Plumas^000000";
+		next;
+		show "[Mathias]";
+		show "se você conseguir tudo isso, eu irei descontar sua taxa para 30,000 zeny";
+		show "Por favor faça o melhor para coletar os itens.";
+		close;
+	L_Menu5_3:
+//==================================
+		if(Zeny < 30000) goto L_Menu5_8;
+		delitem 916,50;
+		delitem 914,50;
+		delitem 705,50;
+		delitem 949,50;
+		set Zeny,Zeny-30000;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Parece que você está com os materiais que eu pedi e os 30,000 zeny.";
+		show "Parabéns.";
+		show "você agora está inscrito na Academia.";
+		set SAGE_Q,3;
+		next;
+		goto L_Menu5_5;
+	L_Menu5_4:
+		delitem 1006,1;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Oh, você tem um ^3051FDGrimório Antigo^000000.";
+		show "Eu vou aceitá-lo como a tutoria.";
+		next;
+		goto L_Menu5_5;
+	L_Menu5_4_:
+		delitem 1007,1;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Oh, você tem um ^3051FDColar da Sabedoria^000000.";
+		show "Eu vou aceitá-lo como a tutoria.";
+		next;
+		goto L_Menu5_5;
+	L_Menu5_7:
+		delitem 1006,1;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Oh, you have a ^3051FDGrimório Antigo^000000.";
+		show "Eu vou aceitá-lo como a tutoria.";
+		next;
+		goto L_Menu5_6;
+	L_Menu5_7_:
+		delitem 1007,1;
+		set SAGE_Q,3;
+		show "[Mathias]";
+		show "Oh, você tem um ^3051FDColar da Sabedoria^000000.";
+		show "Eu vou aceitá-lo como a tutoria.";
+		next;
+		goto L_Menu5_6;
+	L_Menu5_8:
+		show "[Mathias]";
+		show "Parece que você não tem dineiro suficiente.";
+		show "Por favor consiga algum dinheiro e retorne.";
+		close;
+	L_Menu5_9:
+		show "[Mathias]";
+		show "Seu nivel de classe é muito baixo.";
+		show "Treine um pouco mais e volte.";
+		close;
+//==================================
+L_Menu6_1:
+	show "[Mathias]";
+	show "Hmmm? Você se esqueceu do que tem que fazer agora?";
+	show "Vá até o professor Kreitos na biblioteca, no lado esquerdo do prédio.";
+	close;
+L_Menu6_2:
+	show "[Mathias]";
+	show "Oh, perdoe-me. eu tenho tanto pra fazer agora que eu não posso te ajudar.";
+	show "Novamente, minhas desculpas...";
+	close;
+L_Menu6_3:
+	show "[Mathias]";
+	show "Oh, você terminou sua tese?";
+	show "Você precisa ver o Funcionário Acadêmico Keiron para ele a avaliar.";
+	next;
+	show "[Mathias]";
+	show "Se ele a aprovar, você se formará!";
+	show "Boa sorte.";
+	close;
+L_Menu6_4:
+	show "[Mathias]";
+	show "Bem vindo, colega.";
+	show "Como está indo sua pesquisa?";
+	next;
+	show "[Mathias]";
+	show "Para ser um grande pesquisador, você precisa complementar sua pesquisa teorica com encontros reais com monstros.";
+	next;
+	show "[Mathias]";
+	show "Se você conhecer outros com potencial para serem Sábio, por favor mande os aqui.";
+	show "Dê minhas condiderações a meus outros colegas também.";
+	close;
+}
+
+yuno_in03,169,180,4	script	Professor#3	755,{
+	if(BaseJob == Job_Sage) goto L_Menu4_5;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 5) goto L_Menu2_1;
+	if(SAGE_Q == 6) goto L_Menu2_3;
+	if(SAGE_Q == 7) goto L_Menu3_1;
+	if(SAGE_Q == 8) goto L_Menu4_1;
+	if(SAGE_Q == 9) goto L_Menu4_2;
+	if(SAGE_Q == 11) goto L_Menu4_4;
+	show "[Hermes]";
+	show "Olá, eu sou Hermes. Eu faço parte da equipe de teste de habilidade.";
+	show "Você é um candidato a Sábio?";
+	next;
+	if(SAGE_Q == 3) goto L_Menu1_2;
+	if(SAGE_Q >= 3) goto L_Menu1_2;
+	show "[Hermes]";
+	show "Beleza.";
+	show "Primeiro você precisa se inscrever e fazer o teste.";
+	close;
+L_Menu1_1:
+	show "[Hermes]";
+	show "Esta é a Academia de Magia Shubaichul.";
+	next;
+	show "[Hermes]";
+	show "Existem magos que são menos magos do que pesquisadores.";
+	show "Ter um grupo apoiando este tipo de pessoa é muito importante.";
+	next;
+	show "[Hermes]";
+	show "Continue apoiando seu grupo da melhor maneira possivel.";
+	show "Isto é tudo que você precisa saber.";
+	close;
+L_Menu1_2:
+	show "[Hermes]";
+	show "Você precisa fazer o teste com Kreitos antes de fazer meu teste.";
+	close;
+L_Menu2_1:
+	set SAGE_Q,6;
+	show "[Hermes]";
+	show "Oh, você fez e passou no teste de colocação?";
+	show "Agora você precisa fazer o teste de habilidade comigo.";
+	next;
+	show "[Hermes]";
+	show "As regras para o teste são simples.";
+	show "Você precisa matar todos os monstros dentro da área prescrita.";
+	next;
+	show "[Hermes]";
+	show "Existe um velho provérbio que diz que a experiência vale mais do que mil palavras, então porque não tentar logo isso?";
+	next;
+	menu "Me parece uma boa idéia",-,"Eu ainda não estou pronto.",L_Menu2_2;
+		show "[Hermes]";
+		show "Bem, vamos começar.";
+		show "Faça o melhor!";
+		close2;
+		warp "job_sage",50,154;
+		end;
+	L_Menu2_2:
+		show "[Hermes]";
+		show "Okay.";
+		show "Por favor preparese logo.";
+		close;
+L_Menu2_3:
+	show "[Hermes]";
+	show "Você está pronto para o teste de habilidade?";
+	show "Não é tão dificil.";
+	next;
+	show "[Hermes]";
+	show "Que tal?";
+	next;
+	menu "Boa idéia.",-,"Eu ainda não estou pronto.",L_Menu2_2;
+		show "[Hermes]";
+		show "Bem, Vamos começar.";
+		show "Faça o seu melhor.";
+		close2;
+		warp "job_sage",50,154;
+		end;
+L_Menu3_1:
+	show "[Hermes]";
+	show "Bom trabalho! Você passou";
+	show "no teste de habilidade! Agora você pode prosseguir para a fase de pesquisa!";
+	next;
+	show "[Hermes]";
+	show "Antes de eu decidir a sua área de pesquisa, vamos dar uma olhada na sua nota do teste de colocação, e no tempo gasto no teste de habilidade.";
+	next;
+	show "[Hermes]";
+	show "Hmmm...";
+	show "Me parece bom.";
+	next;
+
+//It's not clear how the script decides
+
+	if(sagecheck >= 12) goto L_Menu3_2;
+	set SAGE_Q,8;
+	show "[Hermes]";
+	show "Me parece que pesquisa com monstros lhe seria melhor.";
+	next;
+	show "[Hermes]";
+	show "Para que você tenha informação necessária para fazer uma tese coerente eu sugiro que você";
+	show "assista as aulas do curso de biologia do professor Lucias";
+	next;
+	goto L_Menu3_4;
+L_Menu3_2:
+	set SAGE_Q,9;
+	show "[Hermes]";
+	show "Parece que temos um ávido pesquisador das magias elementais aqui.";
+	show "O campo é imprescindivel para o avanço do conhecimento mágico.";
+	next;
+	show "[Hermes]";
+	show "Você precisa fazer o curso do professor Ebeshi no laboratório biotécnico, para se aprofundar no conhecimento das magias elementais.";
+	next;
+L_Menu3_4:
+	show "[Hermes]";
+	show "eu espero que as aulas prossigam bem.";
+	close;
+L_Menu4_1:
+	show "[Hermes]";
+	show "Você não estava ouvindo?";
+	show "Você precisa ver o professor Lucias para começar seu estudo em biologia de monstros.";
+	close;
+L_Menu4_2:
+	show "[Hermes]";
+	show "Você não estava ouvindo?";
+	show "você precisa ver o professor Ebeshi para iniciar seus estudos em magias elementais.";
+	close;
+L_Menu4_4:
+	show "[Hermes]";
+	show "Bom trabalho em completar sua tese, agora você precisa mostrá-la para o Funcionário Acadêmico.";
+	show "É ele quem julgará se você se formará ou não.";
+	close;
+L_Menu4_5:
+	show "[Hermes]";
+	show "Como vai você?";
+	show "Seu rosto indica que você tem passado por muito estresse últimamente.";
+	next;
+	show "[Hermes]";
+	show "Por mais estressante que a pesquisa de fato seja,";
+	show "ela é totalmente diferente de pesquisar somente usando conceitos abstratos.";
+	next;
+	show "[Hermes]";
+	show "Claro, se você for para Dungeons dificeis";
+	show "não existe vergonha alguma em levar uns amigos para te ajudar.";
+	close;
+}
+
+yuno_in03,62,176,3	script	Professor de História	109,{
+	if(BaseJob == Job_Sage) goto L_Menu2_2;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 11) goto L_Menu2_1;
+	show "[Sapien]";
+	show "Você não parece ter certeza sobre a orientação de seus estudos,";
+	show "Talves você devesse reconsiderar...";
+	close;
+L_Menu1_1:
+	show "[Sapien]";
+	show "Sim, eu ensinho história.";
+	next;
+	show "[Sapien]";
+	show "Quando o presente vai sumindo da memória, ele se torna o passado.";
+	show "O conhecimento que nós conseguimos no passado é a ponte entre o presente e o futuro.";
+	next;
+	show "[Sapien]";
+	show "Você deve estudar o seu próprio passado também.";
+	show "Ao entender o que aconteceu com você até agora,";
+	show "você pode traçar uma caminho para o futuro sem estar preso a problemas não resolvidos.";
+	close;
+L_Menu2_1:
+	show "[Sapien]";
+	show "O que você está fazendo?";
+	show "corra e mostre sua tese para o Funcionário Acadêmico antes que você a perca!";
+	close;
+L_Menu2_2:
+	show "[Sapien]";
+	show "Sim...?";
+	show "Ah, um ex-aluno daqui.";
+	show "Parabéns pela sua graduação.";
+	next;
+	show "[Sapien]";
+	show "O presente só pode ser compreendido, se entendento o passado.";
+	show "Tal entendimento nos permite ter uma visão do futuro.";
+	next;
+	show "[Sapien]";
+	show "Você também deve estudar o seu passado.";
+	show "Ao entender o que aconteceu com você até agora,";
+	show "você pode traçar uma caminho para o futuro sem estar preso a problemas não resolvidos.";
+	close;
+}
+
+yuno_in03,105,177,4	script	Professor do Teste	754,{
+	if(BaseJob == Job_Sage) goto L_Menu3_4;
+	if(BaseJob != Job_Mage) goto L_Menu1_1;
+	if(SAGE_Q == 11) goto L_Menu3_3;
+	if(SAGE_Q >= 6) goto L_Menu3_2;
+	if(SAGE_Q == 3) goto L_Menu1_2;
+	if(SAGE_Q == 4) goto L_Menu2_1;
+	if(SAGE_Q == 5) goto L_Menu3_1;
+	show "[Kreitos]";
+	show "Você tem aquele olhar...";
+	show "Eu creio que você quer ser um Sábio.";
+	next;
+	show "[Kreitos]";
+	show "Você precisa se inscrever formalmente na academia, antes que eu possa te ajudar.";
+	close;
+L_Menu1_1:
+	show "[Kreitos]";
+	show "Oh, você não está interessado em nosso tipo de magia?";
+	show "Tudo bem...";
+	next;
+	show "[Kreitos]";
+	show "Qualquer um que ensine os outros e tenha um bom coração é de grande valor para sociedade.";
+	show "Por favor não se esqueça disso.";
+	close;
+L_Menu1_2:
+	set SAGE_Q,4;
+	set sagecheck,10;
+	show "[Kreitos]";
+	show "Parece que você está inscrito na Academia de Magia Shubaichul.";
+	show "Não é isso?";
+	next;
+	show "[Kreitos]";
+	show "Então, deixe me achar a sua papelada...";
+	show "Você é" + strcharinfo(0) + ",";
+	show "certo?";
+	show "Vamos começar o teste de colocação.";
+	next;
+		show "[Kreitos]";
+		show "Este teste consiste em vinte perguntas sobre o mundo.";
+		show "Se você fizer pelo menos 80 pontos, você será colocado em nosso programa.";
+		show "Cada resposta correta vale 5 pontos.";
+		next;
+		show "[Kreitos]";
+		show "Se você cancelar, vai ter que começar de novo, portanto tenha cuidado.";
+		next;
+		goto L_Menu2_2;
+	L_Menu2_1:
+		show "[Kreitos]";
+		show "Você esta pronto para tentar de novo?";
+		show "Você estudou bastante?";
+		next;
+		show "[Kreitos]";
+		show "A nota para passar é a mesma de antes.";
+		show "Você precisa fazer 80 pontos, com cada questão valendo 5 pontos.";
+		next;
+		show "[Kreitos]";
+		show "Então vamos começar.";
+		show "Faça o seu melhor.";
+		show "E como antes, se você cancelar";
+		show "você terá que começar de novo.";
+		next;
+	L_Menu2_2:
+
+		set @sage_test2,0;
+		set @sage_test1,rand(3);
+		if (@sage_test1 == 1) goto L_Test2_1;
+		if (@sage_test1 == 2) goto L_Test3_1;
+
+//==================================
+//Written Test: Route 1.
+//==================================
+			show "1. O que o joalheiro de Morroc não vende?";
+			next;
+			menu "Topázio",L_Test1_1,"Granada",-,"Diamante",L_Test1_1,"Safira",L_Test1_1;
+			set @sage_test2,@sage_test2+5;
+			goto L_Test1_1;
+		L_Test1_1:
+			show "2. Em que cidade você não compra ração para monstros?";
+			next;
+			menu "Prontera",L_Test1_2,"Morroc",L_Test1_2,"Aldebaran",-,"Alberta",L_Test1_2;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_2:
+			show "3. Que cidade fica mais perto do labirinto da floresta?";
+			next;
+			menu "Prontera",-,"Morroc",L_Test1_3,"Geffen",L_Test1_3,"Payon",L_Test1_3;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_3:
+			show "4. Qual desses monstros é de raça diferente dos outros três?";
+			next;
+			menu "Muka",L_Test1_4,"Drops",L_Test1_4,"Plankton",L_Test1_4,"Penomena",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_4:
+			show "5. Todos estes monstros exceto um tem a mesma afinidade elemental.";
+			show "Qual tem a afinidade diferente?";
+			next;
+			menu "Dokebi",L_Test1_5,"Isis",L_Test1_5,"Giearth",-,"Deviruchi",L_Test1_5;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_5:
+			show "6. Qual deles difere em tamanho aproximado dos outros?";
+			next;
+			menu "Besouro-Ladrão Macho",L_Test1_6,"Besouro-Chifre",L_Test1_6,"Metaller",L_Test1_6,"Argos",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_6:
+			show "7. Qual destes monstros não solta folha de Yggdrasil??";
+			next;
+			menu "Marduk",-,"Bafomé Jr.",L_Test1_7,"Angeling",L_Test1_7,"Nômade",L_Test1_7;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_7:
+			show "8. Qual destas pessoas pode fazer a troca de classe para Sacerdote?";
+			next;
+			menu "Padre Thomas",-,"Bispo José",L_Test1_8,"Windser Benedicto",L_Test1_8,"Madre Maria",L_Test1_8;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_8:
+			show "9. Quem não vive em Morroc?";
+			next;
+			menu "Muda Armani",L_Test1_9,"Aragham",L_Test1_9,"Antonio",-,"Abldul",L_Test1_9;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_9:
+			show "10. Qual das Kafra tem o cabelo azul bonito?";
+			next;
+			menu "Pavianne",-,"Debril",L_Test1_10,"Claris",L_Test1_10,"Tayelin",L_Test1_10;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_10:
+			show "11. Qual não é necessário para destravar a habilidade Barreira de Fogo?";
+			next;
+			menu "Lanças de Fogo Nv4",L_Test1_11,"Ataque Espiritual Nv4",-,"Bolas de Fofo Nv5",L_Test1_11,"Chama Reveladora Nv1",L_Test1_11;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_11:
+			show "12. Quando a habilidade 'Aumentar Recuperação de SP Nv6' esta ativa, quanto de SP ahabilidade restaura a cada dez segundos??";
+			next;
+			menu "14 sp",L_Test1_12,"16 sp",L_Test1_12,"18 sp",-,"21 sp",L_Test1_12;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_12:
+			show "13. Se você é um mago com classe nível 33, quantos pontos adicionais você receberá para inteligência?";
+			next;
+			menu "7",L_Test1_13,"6",L_Test1_13,"5",L_Test1_13,"4",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_13:
+			show "14. Se a habilidade de arqueiro 'Concentração Nv5' esta ativa,  quanto de SP ela irá consumir?";
+			next;
+			menu "45 / 140sec",-,"50 / 140sec",L_Test1_14,"45 / 150sec",L_Test1_14,"50 / 150sec",L_Test1_14;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_14:
+			show "15. Qual delas não é necessário para destravar a habilidade de ferreiro 'Amplificar Poder'?";
+			next;
+			menu "Punho Firme",L_Test1_15,"Resistência ao Fogo",-,"Martelo de Thor",L_Test1_15,"Manejo Perfeito",L_Test1_15;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_15:
+			show "16. Qual é o poder de defesa e a habilidade suplementar de uma Ribbon?";
+			next;
+			menu "0 / SP +20",L_Test1_16,"0 / SP +30",L_Test1_16,"1 / SP +20",-,"1 / SP +30",L_Test1_16;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_16:
+			show "17. Qual classe não pode equipar um Manto Sagrado?";
+			next;
+		//Swordsmen can't equip it either as of this writing.
+			menu "Espadachim",-,"Mercador",L_Test1_17,"Gatuno",-,"Noviço",L_Test1_17;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_17:
+			show "18. Qual alinhamento de estatus não pode ser removido com uma Poção Verde?";
+			next;
+			menu "Silenciado",L_Test1_18,"Envenenado",L_Test1_18,"Atordoado",L_Test1_18,"Amaldiçoado",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_18:
+			show "19. Qual é o nome do reino antigo do qual Geffen descende?";
+			next;
+			menu "Gefin",L_Test1_19,"Geffenia",-,"Gefdoria",L_Test1_19,"Gefria",L_Test1_19;
+			set @sage_test2,@sage_test2+5;
+		L_Test1_19:
+			show "20. Qual árvore é dita ter a raiz do mundo?";
+			next;
+			menu "Igg Drasil",-,"Idrasil",L_Menu2_3,"Master",L_Menu2_3,"Antiga Árvore",L_Menu2_3;
+			set @sage_test2,@sage_test2+5;
+			goto L_Menu2_3;
+	//==================================
+	//Written Test: Route 2.
+	//==================================
+		L_Test2_1:
+			show "1. Qual não é vendido na loja de itens mágicos de Geffen?";
+			next;
+			menu "Capote",-,"Vareta",L_Test2_2,"Tiara",L_Test2_2,"Manto Prateado",L_Test2_2;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_2:
+			show "2. Qual cidade não vende lâminas?";
+			next;
+			menu "Prontera",L_Test2_3,"Izlude",L_Test2_3,"Aldebaran",-,"Payon",L_Test2_3;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_3:
+			show "3. Que cidade fica mais perto de Glast Heim?";
+			next;
+			menu "Prontera",L_Test2_4,"Geffen",-,"Morroc",L_Test2_4,"Payon",L_Test2_4;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_4:
+			show "4. Qual tipo de monstro é diferente dos outros três?";
+			next;
+			menu "Estrela-do-Mar",L_Test2_5,"Cavalo-Marinho",L_Test2_5,"Marte",L_Test2_5,"Marin",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_5:
+			show "5. Qual afinidade ao elemental de um mostro difere dos outros?";
+			next;
+			menu "Filhote de Lobo do Deserto",L_Test2_6,"Fumacento",-,"Picky",L_Test2_6,"Choco",L_Test2_6;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_6:
+			show "6. Qual dos monstros é de uma classe de tamanho diferente dos outros?";
+			next;
+			menu "Drake",-,"Alma Penada",L_Test2_7,"Druida Malígno",L_Test2_7,"Khalitzburg",L_Test2_7;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_7:
+			show "7. Qual monstro não solta Fracon?";
+			next;
+			menu "Pupa",L_Test2_8,"Condor",-,"Bebe Selvagem",L_Test2_8,"Filhote de Lobo do Deserto",L_Test2_8;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_8:
+			show "8. Quem não esta envolvido com a troca de classe de Ferreiro?";
+			next;
+// =========================
+// Acording To mRO Site And eAthena Blacksmith Script the following ppl looking like ppl listed here are:
+// - Baisulitst - looks like some1 listed by mRO
+// - Wickebine - mRO has him as option listed
+// - Gromgast - mRO has him as option listed
+// - Mitmayer - translator has him listed as option
+// == Conclusion == I took the following:
+// =========================
+			menu "Baisulitst",L_Test2_9,"Wickebine",L_Test2_9,"Barkdale",-,"Mitmayer",L_Test2_9;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_9:
+			show "9. Quem não vive em Aldebaran?";
+			next;
+			menu "RS125",L_Test2_10,"Maasaru",-,"Munster",L_Test2_10,"Isenberg",L_Test2_10;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_10:
+			show "10.Quem é a pessoa mais jovem da organização Kafra?";
+			next;
+			menu "Deflute",L_Test2_11,"Claris",L_Test2_11,"Tayelin",L_Test2_11,"Curly Sue",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_11:
+			show "11. Quando você usa a habilidade 'Escudo Mágico Nv6',quanto de SP é consumido e quantos ataques ela irá bloquear?";
+			next;
+			menu "SP 40, 6bl",L_Test2_12,"SP 35, 6bl",L_Test2_12,"SP 35, 7bl",L_Test2_12,"SP 40, 7bl",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_12:
+			show "12. Quando você usa 'Ataque Espiritual Nv6', qual é o poder de ataque relacionado com o MATK?";
+			next;
+			menu "1.2x MATK",L_Test2_13,"1.3x MATK",-,"1.4x MATK",L_Test2_13,"1.5x MATK",L_Test2_13;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_13:
+			show "13. Qual deles cataliza a reação para fazer o liquido #4 durante o teste de classe para Mago?";
+			next;
+			menu "Gema Azul",L_Test2_14,"Gema Vermelha",L_Test2_14,"Gema Laranja",L_Test2_14,"Diamante de 1 quilate",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_14:
+			show "14. Qual é o múltipo do dano e o consumo de SP para 'Golpe Fulminante Nv6'?";
+			next;
+			menu "250% / 8",L_Test2_15,"280% / 8",L_Test2_15,"280% / 15",-,"310% / 15",L_Test2_15;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_15:
+			show "15. Qual não é necessário para ativar a habilidade de caçador 'Armadilha Explosiva'?";
+			next;
+			menu "Remove Trap",-,"Land Mine",L_Test2_16,"Ankle Snare",L_Test2_16,"Flash",L_Test2_16;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_16:
+			show "16. Qual é o poder de defesa e a habilidade suplementar de um Veil?";
+			next;
+			menu "0 / MDEF +3",L_Test2_17,"0 / MDEF +5",-,"1 / MDEF +3",L_Test2_17,"1 / MDEF +5",L_Test2_17;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_17:
+			show "17. Qual classe não equipa um Casaco?";
+			next;
+			menu "Espadachim",L_Test2_18,"Mago",L_Test2_18,"Gatuno",L_Test2_18,"Aprendiz",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_18:
+			show "18. Qual item não é de cor azul?";
+			next;
+			menu "Álcool",L_Test2_19,"Detrimindexta",-,"Karvodailnirol",L_Test2_19,"Erva Azul",L_Test2_19;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_19:
+			show "19. Qual item o deus Odim usou para criar o mundo?";
+			next;
+//			menu "Yomir's Heart",L_Test2_20,"Yomir's Nail",-,"Yomir's Tooth",L_Test2_20,"Yomir's Stuff",L_Test2_20;
+// All answers correct untill i know the real answer, only Stuff is wrong cause that NOT it
+			menu "Coração de Yomir",-,"Rabo de Yomir",-,"Dente de Yomir",-,"Couro de Yomir",L_Test2_20;
+			set @sage_test2,@sage_test2+5;
+		L_Test2_20:
+			show "20. Qual metal pode mudar o destino do mundo?";
+			next;
+			menu "Envertacon",L_Menu2_3,"Emperium",-,"Enbera",L_Menu2_3,"Fracon",L_Menu2_3;
+			set @sage_test2,@sage_test2+5;
+			goto L_Menu2_3;
+//==================================
+//Written Test: Route 3.
+//==================================
+		L_Test3_1:
+			show "1. Qual deste sitens não é vendido na loja de presentes de Prontera?";
+			next;
+			menu "Armadura Branca",L_Test3_2,"Moldura Vermelha",L_Test3_2,"Flor",-,"Bolinha de Gude",L_Test3_2;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_2:
+			show "2. Que cidade não vende Stilettos?";
+			next;
+			menu "Prontera",-,"Morroc",L_Test3_3,"Geffen",L_Test3_3,"Lutie",L_Test3_3;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_3:
+			show "3. Que cidade é mais perto da Ilha das Tartarugas?";
+			next;
+			menu "Aldebaran",L_Test3_4,"Alberta",-,"Comodo",L_Test3_4,"Izlude",L_Test3_4;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_4:
+			show "4. Qual dos monstros é de raça diferente dos outros três?";
+			next;
+			menu "Raggler",L_Test3_5,"Peste",L_Test3_5,"Frilldora",L_Test3_5,"Estrela-do-Mar",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_5:
+			show "5.Qual monstro tem uma afinidade elemental diferente dos outros três?";
+			next;
+			menu "Louva-a-Deua",L_Test3_6,"Metaller",-,"Rocker",L_Test3_6,"Besouro-Chifre",L_Test3_6;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_6:
+			show "6. Que monstro é de classe de tamanho diferente dos outros?";
+			next;
+			menu "Raydric",-,"Raydric Arqueiro",L_Test3_7,"Nômade",L_Test3_7,"Moldura Maldita",L_Test3_7;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_7:
+			show "7. Qual monstro não solta Álcool?";
+			next;
+			menu "Besouro-Chifre",L_Test3_8,"Plankton",L_Test3_8,"Esporo Venenoso",-,"Sapo-Cururu",L_Test3_8;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_8:
+			show "8. Quem não esta envolvido na troca de classe para Cavaleiro?";
+			next;
+// =========================
+// Acording To mRO Site And eAthena Knight Script the following ppl looking like ppl listed here
+// =========================
+			menu "Cavaleiro Devotado",L_Test3_9,"Padre Thomas",-,"Cavaleiro das Lutas",L_Test3_9,"Cavaleiro Honroso",L_Test3_9;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_9:
+			show "9. Quem não vive em Prontera?";
+			next;
+			menu "Nami",L_Test3_10,"Aldefun",-,"Thomas",L_Test3_10,"Hollengrhen",L_Test3_10;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_10:
+			show "10. Qual Kafra usa óculos?";
+			next;
+			menu "Deflute",L_Test3_11,"Tayelin",L_Test3_11,"Leilah",-,"Debril",L_Test3_11;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_11:
+			show "11. Quanto de SP custa para usar 'Tempestade de Raios Nv7'?";
+			next;
+			menu "49",L_Test3_12,"59",-,"69",L_Test3_12,"74",L_Test3_12;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_12:
+			show "12. Se você tem 50% de seu SP sobrando, quanto de dano 'Proteção Arcana' bloqueia e quanta SP será consumida?";
+			next;
+			menu "24% bloqueado SP1.5% consumido",L_Test3_13,"24% bloqueado SP2% consumido",L_Test3_13,"18% bloqueado SP1.5% consumido",L_Test3_13,"18% bloqueado SP2% consumido",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_13:
+			show "13. Qual elemento não pode ser usado na forma de lanças pelo Mago?";
+			next;
+			menu "Água",L_Test3_14,"Terra",-,"Fogo",L_Test3_14,"Vento",L_Test3_14;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_14:
+			show "14. Quando um Gatuno tem a habilidade 'Ataque Duplo Nv7', qual é a chance de ativação e o múltiplo da força de ataque?";
+			next;
+			menu "35% / 120%",L_Test3_15,"35% / 140%",-,"40% / 120%",L_Test3_15,"40% / 140%",L_Test3_15;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_15:
+			show "15. Qual não é necessário para liberar a habilidade 'Magnus Exorcismus'?";
+			next;
+			menu "Proteção Divina",-,"Curar",L_Test3_16,"Ressuscitar",L_Test3_16,"Aqua Benedicta",L_Test3_16;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_16:
+			show "16. Qual é o poder de defesa e a habilidade suplementar de uma Orelha de Coelho?";
+			next;
+			menu "1 / LUK +2",L_Test3_17,"1 / LUK +5",L_Test3_17,"2 / LUK +2",-,"2 / LUK +5",L_Test3_17;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_17:
+			show "17. Qual classe não equipa armodura?";
+			next;
+			menu "Espadachim",L_Test3_18,"Mercador",L_Test3_18,"Gatuno",L_Test3_18,"Arqueiro",-;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_18:
+			show "18. Que item restaura completamente HP e SP?";
+			next;
+			menu "Geléia Real",L_Test3_19,"Semente de YggDrasil",L_Test3_19,"Fruto de YggDrasil",-,"Mastela",L_Test3_19;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_19:
+			show "19. Qual o nome do rei de Rune-Midgard?";
+			next;
+			menu "Trisdan III",L_Test3_20,"Tristan III",-,"Traisda III",L_Test3_20,"Trist III",L_Test3_20;
+			set @sage_test2,@sage_test2+5;
+		L_Test3_20:
+			show "20. A qual deus os Templários servem?";
+			next;
+			menu "Odin",-,"Loki",L_Menu2_3,"Tooru",L_Menu2_3,"Aragamsaree",L_Menu2_3;
+			set @sage_test2,@sage_test2+5;
+
+		L_Menu2_3:
+			show "[Kreitos]";
+			show "Você terminou?";
+			show "Certo, então eu vou corrigir o teste.";
+			next;
+			show "[Kreitos]";
+			show "Hmmm...";
+			show "Sim...";
+			next;
+			if (@sage_test2 >= 100) goto L_Menu2_5;
+			if (@sage_test2 < 80) goto L_Menu2_4;
+			show "[Kreitos]";
+			show "Tudo pronto.";
+			show "Você marcou" + @sage_test2 + "pontos.";
+			show "Me parece bom.";
+			show "Você fez o suficiente para passar.";
+			next;
+			goto L_Menu2_6;
+		L_Menu2_4:
+			set sagecheck,sagecheck-1;
+			show "[Kreitos]";
+			show "Tudo pronto.";
+			show "Você fez" + @sage_test2 + "pontos";
+			show "......";
+			show "Lamento mas não é o bastante.";
+			next;
+			show "[Kreitos]";
+			show "Nós esperamos que nossos alunos tenham o máximo de informação sobre o mundo.";
+			show "Aprenda um pouco mais e retorne.";
+			show "Você então pode fazer o teste novamente.";
+			close;
+		L_Menu2_5:
+			show "[Kreitos]";
+			show "Pronto.";
+			show "Você fez" + @sage_test2 + "pontos.";
+			show "Incrível. Você foi maravilhoso.";
+			show "Não existe dúvida de que você será um grande Sábio.";
+			next;
+		L_Menu2_6:
+			set SAGE_Q,5;
+			show "[Kreitos]";
+			show "Certo.";
+			show "Você completou o teste de colocação.";
+			show "Agora você precisa fazer o teste de habilidade com o professor Hermes.";
+			close;
+L_Menu3_1:
+	show "[Kreitos]";
+	show "Heh?";
+	show "Você adora tanto os testes que você quer fazer o teste de colocação de novo?";
+	next;
+	show "[Kreitos]";
+	show "Vá ver o professor Hermes e faça o teste de Habilidade.";
+	show "Futuros Sábios não podem ficar de bobeira.";
+	close;
+L_Menu3_2:
+	show "[Kreitos]";
+	show "Eu estou ocupado corrigindo as provas de outros alunos no momento.";
+	show "Se você precisa de algo, por favor me procure mais tarde.";
+	close;
+L_Menu3_3:
+	show "[Kreitos]";
+	show "É muito bom você ter terminado sua tese, mas eu não as corrijo.";
+	next;
+	show "[Kreitos]";
+	show "Mostre a para o Funcionário Acadêmico Keiron.";
+	show "Ele é quem irá julgar se a qualidade do documento é suficiente para você se formar.";
+	close;
+L_Menu3_4:
+	show "[Kreitos]";
+	show "você já se formou?";
+	show "Você quer assistir mais aulas?";
+	next;
+	show "[Kreitos]";
+	show "Eu sei que é maravilhoso se formar, mas você tem que continuar aprendendo.";
+	show "Você pode fundir a cuca se você ficar muito bitolado e nunca sair da biblioteca para o mundo de vez em quando.";
+	show "O perigo é estasiante.";
+	next;
+	show "[Kreitos]";
+	show "Não se esqueça de fazer anotações sobre suas jornadas.";
+	show "elas podem vir a calhar quando você estiver ensinando os outros sobre o que você estudou.";
+	close;
+}
+
+//==================================
+//Skill Test Room
+//==================================
+
+job_sage,50,165,4	script	Coordenador do Teste::jobsage_wroom	700,{
+	show "[Coordenador do Teste]";
+	show "Bem vindo ao teste de habilidade para Sábio.";
+	show "Por favor vá até a área de espera se você quiser fazer o teste.";
+	next;
+	show "[Coordenador do Teste]";
+	show "Outros estão sendo testados neste momento.";
+	show "Quando for a hora de você ser testado, nós chamaremos o seu nome.";
+	next;
+	show "[Coordenador do Teste]";
+	show "Leva mais ou menos de 5-10 minutos para testar uma pessoa.";
+	close;
+OnInit:
+	waitingroom "Área e Espera do Teste",10,"jobsage_wroom::OnStart",1;
+	end;
+OnStart:
+	disablewaitingroomevent;
+	warpwaitingpc "job_sage",118,99;
+	set $@jobsage_pid,$@warpwaitingpc[0];
+	if( attachrid($@jobsage_pid)==0 ) goto L_Error;
+		set $@jobsage_pname$,strcharinfo(0);
+		donpcevent "jobsage_1st::OnStart";
+		end;
+L_Error:
+	enablewaitingroomevent;
+	end;
+OnEnable:
+	enablewaitingroomevent;
+	end;
+}
+
+//======== Test Step 1
+job_sage,1,1,1	script	jobsage_1st	-1,{
+	end;
+OnStart:
+	set $@jobsage_m,16;
+	monster "job_sage",115,106,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",120,102,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",124,98,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",120,93,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",115,90,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",111,93,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",107,98,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",111,102,"Unit",1183,1,"jobsage_1st::OnKilled";
+	monster "job_sage",128,110,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",124,106,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",124,89,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",128,85,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",107,89,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",103,85,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",107,106,"Unit",1184,1,"jobsage_1st::OnKilled";
+	monster "job_sage",103,110,"Unit",1184,1,"jobsage_1st::OnKilled";
+	initnpctimer;
+	end;
+OnReset:
+	killmonster "job_sage","All";
+	end;
+OnKilled:
+	set $@jobsage_m,$@jobsage_m-1;
+	if( $@jobsage_m > 0 )goto L_NotWin;
+	if(getnpctimer(0) < 60000 ) set sagecheck,sagecheck+1;
+	if((getnpctimer(0) >= 120000 ) && (getnpctimer(0) <= 170000 )) set sagecheck,sagecheck-1;
+	if(getnpctimer(0) > 170000 ) set sagecheck,sagecheck-2;
+		stopnpctimer;
+		mapannounce "job_sage","Examinador:" + $@jobsage_pname$ + "Matou todos os monstros!",8;
+		donpcevent "jobsage_2nd::OnStart";
+	L_NotWin:
+	end;
+OnTimer1000:
+	mapannounce "job_sage","Examinador: O teste começa agora.",8;
+	end;
+OnTimer2500:
+	mapannounce "job_sage","Examinador: O tempo limite para esta parte do teste é de 3 minutos.",8;
+	end;
+OnTimer4000:
+	mapannounce "job_sage","Examinador: Você deve matar todos os monstros dentro deste periodo de tempo.",8;
+	end;
+OnTimer30000:
+	mapannounce "job_sage","Examinador: 2 minutos e 30 segundos faltando.",8;
+	end;
+OnTimer60000:
+	mapannounce "job_sage","Examinador: 2 minutos faltando.",8;
+	end;
+OnTimer90000:
+	mapannounce "job_sage","Examinador: 1 minuto e 30 segundos faltando.",8;
+	end;
+OnTimer120000:
+	mapannounce "job_sage","Examinador: 1 minuto faltando.",8;
+	end;
+OnTimer150000:
+	mapannounce "job_sage","Examinador: 30 segundos faltando.",8;
+	end;
+OnTimer170000:
+	mapannounce "job_sage","Examinador: 10 segundos faltando.",8;
+	end;
+OnTimer180000:
+	donpcevent "jobsage_1st::OnReset";
+	mapannounce "job_sage","Examinador: O tempo acabou!",8;
+	end;
+OnTimer181500:
+	mapannounce "job_sage","Examinador:" + $@jobsage_pname$ + "falhou no teste.",8;
+	areawarp "job_sage",100,82,131,113,"yuno",324,258;
+	end;
+OnTimer183000:
+	mapannounce "job_sage","Proximo candidato, por favor se apresente.",8;
+	end;
+OnTimer184000:
+	donpcevent "jobsage_wroom::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+//======== Test Step 2
+job_sage,1,1,1	script	jobsage_2nd	-1,{
+	end;
+OnStart:
+	donpcevent "jobsage_2nd::OnReset";
+	set $@jobsage_m,24;
+	monster "job_sage",120,102,"GeographyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,102,"StatisticsInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,102,"MeteorologyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,102,"AstronomyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,102,"LinguisticsInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,102,"CityLifeInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",124,98,"ForestryInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",124,98,"HealthInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",124,98,"PsychologyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,93,"AnthropologyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,93,"BiologyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",120,93,"EthicsInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"ArchitectureInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"PlasticsInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"NutritionInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"FoodInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"ManagementInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,93,"SociologyInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",107,98,"EconomicsInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",107,98,"MagicInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",107,98,"PoliSciInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,102,"MathInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,102,"HistoryInfo",1063,1,"jobsage_2nd::OnKilled";
+	monster "job_sage",111,102,"PhysicsInfo",1063,1,"jobsage_2nd::OnKilled";
+	initnpctimer;
+	end;
+OnReset:
+	killmonster "job_sage","All";
+	end;
+OnKilled:
+	set $@jobsage_m,$@jobsage_m-1;
+	if( $@jobsage_m > 0 )goto L_NotWin;
+		stopnpctimer;
+		if(getnpctimer(0) < 60000 ) set sagecheck,sagecheck+1;
+		if((getnpctimer(0) >= 120000 ) && (getnpctimer(0) <= 170000 )) set sagecheck,sagecheck-1;
+		if(getnpctimer(0) > 170000 ) set sagecheck,sagecheck-2;
+		mapannounce "job_sage","Examinador:" + $@jobsage_pname$ + "Matou todos os monstros.",8;
+		donpcevent "jobsage_3rd::OnStart";
+	L_NotWin:
+	end;
+OnTimer1500:
+	mapannounce "job_sage","Examinador: O limite de tempo para esta parte do teste é de 3 minutos.",8;
+	end;
+OnTimer3000:
+	mapannounce "job_sage","Examinador: Você deve matar todos os monstros neste periodo de tempo.",8;
+	end;
+OnTimer30000:
+	mapannounce "job_sage","Examinador: 2 minutos e 30 segundos faltando.",8;
+	end;
+OnTimer60000:
+	mapannounce "job_sage","Examinador: 2 minutos faltando.",8;
+	end;
+OnTimer90000:
+	mapannounce "job_sage","Examinador: 1 minuto e 30 segundos faltando.",8;
+	end;
+OnTimer120000:
+	mapannounce "job_sage","Examinador: 1 minuto faltando.",8;
+	end;
+OnTimer150000:
+	mapannounce "job_sage","Examinador: 30 segundos faltando.",8;
+	end;
+OnTimer170000:
+	mapannounce "job_sage","Examinador: 10 segundos faltando.",8;
+	end;
+OnTimer180000:
+	donpcevent "jobsage_2nd::OnReset";
+	mapannounce "job_sage","Examinador: O tempo acabou.",8;
+	end;
+OnTimer181500:
+	mapannounce "job_sage","Examinador:" + $@jobsage_pname$ + "Falhou no teste.",8;
+	areawarp "job_sage",100,82,131,113,"yuno",324,258;
+	end;
+OnTimer183000:
+	mapannounce "job_sage","Proximo candidato, por favor se apresente.",8;
+	end;
+OnTimer184000:
+	donpcevent "jobsage_wroom::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+
+//======== Test Step 3
+job_sage,1,1,1	script	jobsage_3rd	-1,{
+	end;
+OnStart:
+	donpcevent "jobsage_3rd::OnReset";
+	set $@jobsage_m,1;
+	monster "job_sage",116,98,"Bachelor",1179,1,"jobsage_3rd::OnKilled";
+	monster "job_sage",124,106,"Tardy",1185,1;
+	monster "job_sage",124,89,"Loaner",1185,1;
+	monster "job_sage",107,89,"Cheater",1185,1;
+	monster "job_sage",107,106,"Absentee",1185,1;
+	initnpctimer;
+	end;
+OnReset:
+	end;
+OnKilled:
+	set $@jobsage_m,$@jobsage_m-1;
+	if( $@jobsage_m > 0 )goto L_NotWin;
+		stopnpctimer;
+		killmonster "job_sage","All";
+		set SAGE_Q,7;
+		if(getnpctimer(0) < 20000 ) set sagecheck,sagecheck+1;
+		if((getnpctimer(0) >= 30000 ) && (getnpctimer(0) <= 50000 )) set sagecheck,sagecheck-1;
+		if(getnpctimer(0) > 50000 ) set sagecheck,sagecheck-2;
+		mapannounce "job_sage","Examinador: Parabéns." + $@jobsage_pname$ + "Passou no teste.",8;
+		donpcevent "jobsage_success::OnSuccess";
+	L_NotWin:
+	end;
+OnTimer1500:
+	mapannounce "job_sage","Examinador: 1 minuto faltando.",8;
+	end;
+OnTimer30000:
+	mapannounce "job_sage","Examinador: 30 segundos faltando.",8;
+	end;
+OnTimer50000:
+	mapannounce "job_sage","Examinador: 10 segundos faltando.",8;
+	end;
+OnTimer60000:
+	donpcevent "jobsage_3rd::OnReset";
+	mapannounce "job_sage","Examinador: O tempo acabou.",8;
+	end;
+OnTimer61500:
+	mapannounce "job_sage","Examinador:" + $@jobsage_pname$ + "Falhou no teste.",8;
+	areawarp "job_sage",100,82,131,113,"yuno",324,258;
+	end;
+OnTimer63000:
+	mapannounce "job_sage","Examinador: Isto conclui o teste. Proximo candidato, por favor se apresente.",8;
+	end;
+OnTimer64000:
+	donpcevent "jobsage_wroom::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+//======== Successful
+job_sage,1,7,1	script	jobsage_success	66,{
+OnSuccess:
+	killmonster "job_sage","All";
+	initnpctimer;
+	end;
+OnTimer3000:
+	mapannounce "job_sage","Examinador: Por favor permita me que eu te guie para fora.",8;
+	end;
+OnTimer6000:
+	mapannounce "job_sage","Próximo candidato por favor.",8;
+	areawarp "job_sage",100,82,131,113,"yuno_in03",163,180;
+	end;
+OnTimer7000:
+	donpcevent "jobsage_wroom::OnEnable";
+	stopnpctimer;
+	end;
+}
+
+//==============================================================================
+// mapflag
+//==============================================================================
+job_sage	mapflag	nomemo
+job_sage	mapflag	noteleport
+job_sage	mapflag	nosave
+job_sage	mapflag	nopenalty
+job_sage	mapflag	nobranch
+job_sage	mapflag	noexp
+job_sage	mapflag	noloot

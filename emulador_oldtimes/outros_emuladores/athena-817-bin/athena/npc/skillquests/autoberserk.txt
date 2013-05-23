@@ -1,0 +1,68 @@
+// Auto-Berserk
+
+prt_in.gat,94,57,3	script	Juan	85,{
+	if ((Class == Job_Swordman) && (JobLevel < 30)) goto LStartLowlv;
+	if (!((Class == Job_Swordman) || (Class == Job_Knight) || (Class == Job_Knight2) || (Class == Job_Crusader) || (Class == Job_Crusader2))) goto LStartOther;
+	if (getskilllv(146)>0) goto LStartTwice;
+	if ((countitem(924)>=35) && (countitem(957)>=10) && (countitem(958)>=10) && (countitem(518)>=10)) goto L3_0;
+
+Lstart:
+	mes "[Juan]";
+	mes "Welcome young Swordman you have come to me for something?";
+	mes "You want me to learn you the berserk skill?";
+	mes "You have to understand that it is not that easy.";
+	next;
+	mes "[Juan]";
+	mes "If im going to learn you the berserk skill you have to give me something in return.";
+	mes "Hmm.. Let me se.";
+	next;
+	mes "[Juan]";
+	mes "Get me 35 ^FF0000Powder of Butterfly^000000, 10 ^FF0000Nail of Decayed^000000, 10 ^FF0000Horrendeous Mouth^000000 and 10 ^FF0000Honey^000000.";
+	mes "If you bring me these things I will learn you how to use the berserk. You have my word";
+	close;
+
+L3_0:
+	mes "[Juan]";
+	mes "Congratulations my dear friend. You have all 4 items I asked for.";
+	mes "In return I will now learn you the skill: ^FF0000Berserk^000000.";
+	mes "Are you really sure you want to learn this skill?";
+	next;
+	menu "yes I am",L3_1,"No I've changed my mind",L3_2;
+	close;
+L3_1:
+	mes "[Juan]";
+	mes "Great job you have done well and deserve this skill.";
+	next;
+	delitem 924,35;
+	delitem 958,10;
+	delitem 957,10;
+	delitem 518,10;
+	skill 146,1,0;
+	mes "[Juan]";
+	mes "Good luck with your new skill.";
+	close;
+
+L3_2:
+	mes "[Juan]";
+	mes "Come back whenever you feel ready for the Berserk skill.";
+	mes "Good luck with your adventure.";
+	close;
+
+LStartOther:
+	mes "[Juan]";
+	mes "I am Juan and I am a teacher in the Berserk skill.";
+	mes "This skill can only be used by a Swordman.";
+	mes "Unfortunately you ain't a swordman.";
+	close;
+
+LStartLowlv:
+	mes "[Juan]";
+	mes "Hello young Swordman. You have to raise your level a little more before learning Berserk skill.";
+	mes "YOu need to be atleast joblevel 30.";
+	close;
+
+LStartTwice:
+	mes "[Juan]";
+	mes "YOu already have this skill implemented in your skilltree.";
+	close;
+}

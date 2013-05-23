@@ -1,0 +1,165 @@
+//===== Cronus Script ======================================== 
+//= Quest de Carnaval (bRO)
+//===== Por: =================================================
+//= Page
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Quest de Carnaval do bRO 2007
+//===== Comentários: =========================================
+//= Favor adicionar as Perucas que são dadas como premiação
+//= na sua item_db, ou poderá causar erros e instabilidade.
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o NPC [Page]
+//= 1.1 Corrigido algumas funções [Page]
+//= 1.2 Adicionado modo de checagem [Page]
+//= Script Reestruturado [Mehah]
+//============================================================
+
+prontera,120,112,0	script	Janette	729,{
+
+	show "[Janette]";
+	if(holiday0207_p1 == 1) {
+		show "Já experimentou";
+		show "a peruca que eu fiz?";
+		show "Hoho";
+		close;
+	}
+	show "O festival do Carnaval está";
+	show "chegando. Quero que vocês todos";
+	show "se divirtam muito usando uma";
+	show "peruca especial durante a festa.";
+	show "E, especialmente nesta época,";
+	show "eu fiz uma linda peruca para você.";
+	next;
+	show "[Janette]";
+	show "Gostaria de participar do evento";
+	show "de carnaval?";
+	next;
+	if(select("Sim.","Não.") == TRUE){
+		show "[Janette]";
+		show "Isso é bom!";
+		show "Eu posso fazer 4 tipos de peruca.";
+		show "Você pode escolher uma delas!";
+		show "Mas você precisa me trazer os";
+		show "materiais para eu fazer a sua";
+		show "peruca!";
+		next;
+		show "[Janette]";
+		show "É claro, eu posso fazer uma";
+		show "peruca agora mesmo, se você";
+		show "tiver os materiais.";
+		show "Por favor, escolha a peruca";
+		show "que você quer usar.";
+		next;
+		switch(select("Peruca Feliz","Peruca Brilhante","Peruca Maravilhosa","Peruca Fantástica")){
+			show "[Janette]";
+			set @item,0;
+			switch(@menu){
+			case 1:	if(countitem(511) >= 50 || countitem(507) >= 40 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(717) >= 1) set @item,5273; break;
+			case 2: if(countitem(508) >= 50 || countitem(509) >= 20 || countitem(1019) >= 5 || countitem(715) >= 1) set @item,5274; break;
+			case 3:	if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(716) >= 1) set @item,5275; break;
+			case 4:	if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(1024) >= 5) set @item,5276;
+			}
+			if(@item){
+				show "Ah, você trouxe todos os";
+				show "materiais necessários e";
+				show "eu vou usá-los para fazer";
+				show "essa peruca.";
+				show "Você quer que eu faça";
+				show "a peruca agora?";
+				next;
+				switch(select("Sim, eu quero.","Não, eu não quero.")){
+				case 1:
+					show "[Janette]";
+					show "Boa escolha!";
+					show "Vou fazer uma '"+getitemname(@item)+"' para";
+					show "você.";
+					next;
+					show "Rip";
+					next;
+					show "Rip Tac";
+					next;
+					show "Rip Tac";
+					show "Tic tac";
+					next;
+					show "Rip Rip";
+					show "Tic tac Tic tac";
+					next;
+					show "[Janette]";
+					if(@item == 5273){
+						delitem 511,50;
+						delitem 507,40;
+						delitem 509,30;
+						delitem 717,1;
+					}else
+					if(@item == 5274){
+						delitem 508,50;
+						delitem 509,20;
+						delitem 715,1;				
+					}else
+					if(@item == 5275){
+						delitem 507,50;
+						delitem 509,30;
+						delitem 716,1;
+					}else
+					if(@item == 5276){
+						delitem 507,50;
+						delitem 509,30;
+						delitem 1024,5;
+					}
+					delitem 1019,5;
+					additem @item,1;
+					set holiday0207_p1,1;
+					show "Certo, está pronta.";
+					show "O quê você acha? Não acha que sou";
+					show "uma boa fabricante de perucas?";
+					show "Eu faço essa peruca de graça, para";
+					show "aproveitarmos o carnaval juntos.";
+					show "Por favor, use-a durante uma";
+					show "festa.";
+					close;
+					
+				case 2:
+					show "[Janette]";
+					show "Não seja bobo. Muito bem, se mudar";
+					show "de idéia, volte aqui!";
+					close;
+				}
+			}
+			show "Hehe, você escolheu uma boa.";
+			show "Mas você ainda não trouxe os";
+			show "materiais que preciso para";
+			show "fazer a peruca.";
+			show "Não se esqueça, você deve trazer";
+		case 1:
+			show "50 Ervas Verdes, 40 Ervas";
+			show "Vermelhas, 30 Ervas Brancas,";
+			show "5 Troncos e 1 Gema Azul.";
+			break;
+
+		case 2:
+			show "50 Ervas Amarelas, 20 Ervas";
+			show "Brancas, 5 Troncos e 1 Gema";
+			show "Amarela.";
+			break;
+
+		case 3:
+			show "50 Ervas Vermelhas, 30 Ervas";
+			show "Brancas, 5 Troncos e 1 Gema";
+			show "Vermelha.";
+			break;
+
+		case 4:
+			show "50 Ervas Vermelhas, 30 Ervas";
+			show "Brancas, 5 Troncos e 5 Tintas";
+			show "de Polvo.";
+		}
+		show "Então, eu farei a peruca para";
+		show "você.";
+		close;
+	}
+	show "[Janette]";
+	show "Então, esquece!";
+	close;
+}

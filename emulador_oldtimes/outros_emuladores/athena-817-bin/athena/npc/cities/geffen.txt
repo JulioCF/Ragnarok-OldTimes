@@ -1,0 +1,267 @@
+//Geffen City for Athena by AjS15822
+geffen_in.gat,110,172,2	script	Christopher	63,{
+	mes "[Christopher Guillenrow]";
+	mes "Welcome to Christopher's Workshop.";
+	mes "You can get every stuff to forge here.";
+	mes "My dear... What business brings you to me?";
+	next;
+	menu "Purchase Anvil",PurAnvil,"Purchase Forging Item",PurForgIt,"Purchase Metal",PurMetal,"Purify Rough Ores",PurRouOre,"Cancel",PurCancel;
+	
+	PurAnvil:
+		mes "[Christopher Guillenrow]";
+		mes "Better Anvil gives you more chances to make better weapons, you know.";
+		mes "But it will cost you more money than common ones";
+		mes "Just get off your chest and choose the best one for your convenience";
+		next;
+		menu "Anvil - 30000z.",Anvil,"Oridecon Anvil - 120000z.",OriAnvil,"Golden Anvil - 300000z.",GolAnvil,"Better Anvil than others",BetAnvil,"Cancel",PurACancel;
+
+		Anvil:
+			if(Zeny<30000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			mes "This is the cheapest one but efficient to forge.";
+			set Zeny,zeny-30000;
+			getitem 986,1;
+			goto ThankYou;
+		OriAnvil:
+			if(Zeny<120000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			mes "Oh, buddy you have an eye for anvil.";
+			mes "This must be the proper anvil for a Blacksmith, right?";
+			set Zeny,zeny-120000;
+			getitem 987,1;
+			goto ThankYou;
+		GolAnvil:
+			if(Zeny<300000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			mes "This one is the best among stuffs in my workshop!";
+			mes "With this, you could rule the Blacksmith world.";
+			set Zeny,zeny-300000;
+			getitem 988,1;
+			goto ThankYou;
+			
+		BetAnvil:
+			mes "[Christopher Guillenrow]";
+			mes "Well sorry but I don't have harder one than golden anvil.";
+			mes "Maybe 'Ringgel' the Legendary Anvil maker would have one... But I don't think you can find him somewhere in this world";
+			close;
+		PurACancel:
+			mes "[Christopher Guillenrow]";
+			mes "Ok, Feel free to come anytime whenever you need. Farewell.";
+			close;
+	PurForgIt:
+		mes "[Christopher Guillenrow]";
+		mes "A respectable blacksmith uses fine tools.";
+		mes "You will become one with my Stuff.";
+		mes "Choose anything you want.";
+		next;
+		menu "Mini-Furnace - 150z.",MiniFurn,"Iron Hammer - 1000z.",IronHam,"Golden Hammer - 3000z.",GoldHam,"Oridecon Hammer - 5000z.",OriHam,"Cancel",PurFICancel;
+		
+		MiniFurn:
+			mes "[Christopher Guillenrow]";
+			mes "It's a tool qequisite for Metal refining!!";
+			mes "So, how many do you wish to buy? If you want to quit, please note the number as '0'.";
+			next;
+			input @input;
+			if(@input !=0) goto inputMF;
+			goto DealCanc;
+			
+			inputMF:
+				if(GetMaxWeight < (GetWeight + (@input * 20))) goto inputOW;
+				if(Zeny < 150 * @input) goto NoZeny;
+				mes "[Christopher Guillenrow]";
+				set Zeny,zeny-150 * @input;
+				getitem 612,@input;
+				goto ThankYou;
+		IronHam:
+			if(Zeny<1000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			set Zeny,zeny-100;
+			getitem 613,1;
+			goto ThankYou;
+		GoldHam:
+			if(Zeny<3000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			set Zeny,zeny-3000;
+			getitem 614,1;
+			goto ThankYou;
+		OriHam:
+			if(Zeny<5000) goto NoZeny;
+			mes "[Christopher Guillenrow]";
+			set Zeny,zeny-5000;
+			getitem 615,1;
+			goto ThankYou;
+		PurFICancel:
+			mes "[Christopher Guillenrow]";
+			mes "Ok, Feel free to come anytime whenever you need. Farewell.";
+			close;
+	PurMetal:
+		mes "[Christopher Guillenrow]";
+		mes "I prepare Every Metals Only High Quality one.";
+		mes "Now then. Which one do you want?";
+		next;
+		menu "Phracon - 200z.",PurMPhracon,"Emveretarcon - 1000z.",PurMEmveretarcon,"Cancel",PurMCancel;
+		
+		PurMPhracon:
+			mes "[Christopher Guillenrow]";
+			mes "So, how many do you wish to buy? If you want to quit, please note the number as '0'.";
+			next;
+			input @input;
+			if(@input !=0) goto inputPP;
+			goto DealCanc;
+
+			inputPP:
+				if(Zeny < 200 * @input) goto NoZeny;
+				mes "[Christopher Guillenrow]";
+				set Zeny,zeny-200 * @input;
+				getitem 1010,@input;
+				goto ThankYou;
+		PurMEmveretarcon:
+			mes "[Christopher Guillenrow]";
+			mes "So, how many do you wish to buy? If you want to quit, please note the number as '0'.";
+			next;
+			input @input;
+			if(@input !=0) goto inputPP;
+			goto DealCanc;
+
+			inputPE:
+				if(Zeny < 1000 * @input) goto NoZeny;
+				mes "[Christopher Guillenrow]";
+				set Zeny,zeny-1000 * @input;
+				getitem 1011,@input;
+				goto ThankYou;
+		PurMCancel:
+			mes "[Christopher Guillenrow]";
+			mes "Ok, Feel free to come anytime whenever you need. Farewell.";
+			close;
+	PurRouOre:
+		mes "[Christopher Guillenrow]";
+		mes "I can purify Oridecon and Elunium.";
+		mes "I make a cutting Ore out of 5 each rough ones.";
+		mes "Well... Which one do you want to make?";
+		next;
+		menu "Make Oridecon",MakeOrid,"Make Elunium",MakeElun,"Cancel",PurROCancel;
+		
+		MakeOrid:
+			if(countitem(756)<5) goto CantMakeOrid;
+			delitem 756,5;
+			getitem 984,1;
+			mes "[Christopher Guillenrow]";
+			mes "*rumble*...";
+			mes "Theres your Oridecon!";
+			close;
+			
+			CantMakeOrid:
+				mes "[Christopher Guillenrow]";
+				mes "I told you I need 5 rough Oridecons for one Oridecon.";
+				close;
+		MakeElun:
+			if(countitem(757)<5) goto CantMakeElun;
+			delitem 757,5;
+			getitem 985,1;
+			mes "[Christopher Guillenrow]";
+			mes "*rumble*";
+			mes "Theres your Elunium!.";
+			close;
+
+			CantMakeElun:
+				mes "[Christopher Guillenrow]";
+				mes "I told you I need 5 rough Eluniums for one Eluniums.";
+				close;
+		PurROCancel:
+			mes "[Christopher Guillenrow]";
+			mes "Ok, Feel free to come anytime whenever you need. Farewell.";
+			close;
+	PurCancel:
+		close;
+		
+			DealCanc:
+				mes "[Christopher Guillenrow]";
+				mes "Deal has Canceled. Farewell.";
+				close;
+			NoZenys:
+				mes "[Christopher Guillenrow]";
+				mes "I don't think I can let you have this... at lower price. I can't loose my money because of you.";
+				close;
+			ThankYou:
+				mes "Thank you for shopping at my workshop. Feel free to come anytime whenever you need.";
+				close;
+}
+
+geffen_in.gat,141,140,2	script	Morgenshtein	121,{
+//	if(coutitem($$$)<1) goto Standard;
+//	Standard:
+		mes "[Chemist Morgenshtein]";
+		mes "Heheheheheh... Shiff Shiff... I can smell something appetizing here.";
+		mes "It is a Human Being... living one... umm yummy... Heheheheheh";
+		close;
+}
+
+geffen_in.gat,164,109,2	script	Dark Wizard	64,{
+	mes "[Dark Wizard]";
+	mes "Oh... I can feel Fresh and Mighty Spirits. Oh... Is that you? You seem to use magic as well.";
+	mes "Magic... the power fo magic is controlled by the rule of couse and effect...";
+	next;
+	mes "[Dark Wizard]";
+	mes "That is, if you use magic for the purpose of doing harm to others, or against the rule of mother nature, then the reaction will be back to you. Remember you reap what you sow";
+	next;
+	mes "[Dark Wizard]";
+	mes "But, if it's an item that protects the caster from the reaction, you can use magic safely with it. Those kinds of items are the shining stones known as Gemstones.";
+	mes "Gemstone... Keep in mind of this Item.";
+	close;
+}
+
+geffen.gat,59,143,8	script	Lady	91,{
+	mes "[Womankind]";
+	mes "Oh, you must be a Stranger here.";
+	mes "Wellcome to geffen, the City of Magic. You Must be very tired, aren't you? Why don't you eat Some Honey? It will relieve of your Fatigue~";
+	mes "Hornets, the Bee Family living in Grassland, gather Honey at the Queen Bee's Command, for Their Entire Life. Honey is Very Sweet and of high Nutritive Value, os it is the one of High-priced Articles.";
+	next;
+	mes "[Womankind]";
+	mes "But it doesn't mean Honey is the Best of Bee Products.";
+	mes "A rumor has it that is nothing compare with the `Royal Jelly' from the Queen bee.";
+	mes "Ah~ Thinking of Royal Jelly makes my mouth Water~";
+	close;
+}
+
+geffen.gat,111,48,2	script	Womankind	101,{
+	mes "[Womankind]";
+	mes "Good Day, Adventurer? Have you ever happened to see Orcs, the Demi-Human Tribe?";
+	mes "When you go down to the Southward from here, in the Deep Forest, you will meet Orcs.";
+	next;
+	mes "[Womankind]";
+	mes "They have, as Human, thier Own Language and Culture by hearsay.";
+	mes "What I wonder is... Would they Whisper Sweet Nothings and Fool Around? Hmm... I am so Curious.";
+	close;
+}
+
+geffen.gat,156,190,8	script	Young Man	82,{
+	mes "[Young Man]";
+	mes "Hmm... Interesting. Hmm... It is Very interesting... Oh, You've come at Just Right Time. let me tell you this Marvellous Story.";
+	mes "I found out a Mysterious Scroll when I was researching Magic, It describes the tree named Yggdrasill in which it's leaves, seeds and fruits have been deeply involved with everything alive in the world and the myth about Yggdrasil created the world.";
+	next;
+	mes "[Young Man]";
+	mes "Hmm Well, Frankly I've never touched that Tree or even seen it either...!";
+	mes "Anyway, It is Weirdly and Wondeful, isn't it?";
+	close;
+}
+
+geffen.gat,181,114,4	script	Aure Dupon	82,{
+	mes "[Aure Dupon]";
+	mes "Time never awaits you. Even Magic can't make it slow. Now I can feel it still passing by while I am talking";
+	mes "Anyway, why did you call me to stop?";
+	next;
+	menu "Talk",Talk,"Cancel",Cancel;
+	
+	Talk:
+		mes "[Aure Dupon]";
+		mes "I don't think I am a normal person because I am bewitched by power of magic. However beside me it seems so many strange people are out there ...";
+		mes "If were you, would you stake your life on one thing? Negleting everything more important in your life... as you're gone insane...";
+		close;
+	Cancel:
+		mes "[Aure Dupon]";
+		mes "I can see your strong will on your look. But you won't tell me anything";
+		mes "I feel sorry but I can't help it...";
+		mes "Human being is one part of Nature... The Human will is the same as ... Mother Nature.";
+		close;
+}
+

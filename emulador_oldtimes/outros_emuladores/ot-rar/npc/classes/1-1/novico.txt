@@ -1,0 +1,530 @@
+//= Conversão Aegis EP12.1
+prt_church,184,41,4	script	Necrus	60,{
+/*
+		if (job_karma != 0)
+		{
+			if ((job_karma == 2) || (job_karma == 8))
+			{
+				if (Class == Job_Novice_High)
+				{
+					mes "[Necrus]";
+					mes "Depois de muito tempo, você volta a este lugar.";
+					mes "Você tem ouvido, visto e experimentado muitas coisas.";
+					next;
+					if (getskilllv("NV_BASIC") < 9)
+					{
+						mes "[Necrus]";
+						mes "Posso torná-lo "+(Sex?"um Noviço":"uma Noviça")+",";
+						mes "mas será necessário reaprender os fundamentos.";
+						next;
+						mes "[Necrus]";
+						mes "OK... Esperarei aqui por você.";
+						mes "Cuide-se.";
+						close;
+					}
+					mes "[Necrus]";
+					mes "Você volta a trilhar a estrada do clero,";
+					mes "toda a igreja de Prontera dá as boas-vindas a você.";
+					next;
+					skill 143, 0, 0;
+					jobchange Job_Acolyte_High;
+					skill 156, 1, 0;
+					mes "[Necrus]";
+					mes "Mais uma vez, você pode progredir.";
+					mes "Abençôo o seu futuro com esperança.";
+					close;
+				}
+				else
+				{
+					mes "[Necrus]";
+					mes "Mais uma vez, você pode progredir.";
+					mes "Abençôo o seu futuro com esperança.";
+					close;
+				}
+			}
+			else
+			{
+				mes "[Necrus]";
+				mes "Você renasceu depois de um tempo muito longo.";
+				mes "Você tem ouvido, visto e experimentado muitas coisas.";
+				next;
+				mes "[Necrus]";
+				mes "Entretanto, suas experiências de vida não são condizentes com o caminho do Noviço.";
+				mes "Recorde-se de suas memórias e descubra qual o seu caminho certo.";
+				close;
+			}
+		}
+*/
+		mes "[Necrus]";
+		mes "O que você procura na casa do Senhor?";
+		next;
+		switch (select ("Eu desejo me tornar "+(Sex?"um Noviço":"uma Noviça")+".","Quais os pré-requisitos para ser "+(Sex?"um Noviço":"uma Noviça")+"?","Eu vim olhar os vitrais."))
+		{
+			case 1:
+				if (BaseJob == Job_Acolyte)
+				{
+					mes "[Necrus]";
+					if (Sex)
+						mes "Mas meu filho, você já é um Noviço.";
+					else
+						mes "Mas minha filha, você já é uma Noviça.";
+					close;
+				}						
+				else if (BaseJob != Job_Novice)
+				{
+					mes "[Necrus]";
+					mes "Vejo que você já tem uma classe, desejo sucesso a você!";
+					close;
+				}
+				if (job_acolyte_q == 0)
+				{
+					mes "[Necrus]";
+					mes "Você deseja mesmo, de todo o seu coração, se tornar "+(Sex?"um servo":"uma serva")+" do Senhor?";
+					next;
+					if (select ("Sim.","Nem, eu menti.") == 1)
+					{
+						mes "[Necrus]";
+						mes "Muito bom. Eu aceito a vontade de " + strcharinfo(0) + " de se tornar "+(Sex?"um Noviço":"uma Noviça")+".";
+						mes "Espero que você entenda que, para se tornar um servo do Senhor, deve fazer realizar uma penitência.";
+						next;
+						set .@acolyte_cho, rand(1, 3);
+						mes "[Necrus]";
+						mes "A sua penitência é uma forma de peregrinação.";
+						if (.@acolyte_cho == 1)
+						{
+							set job_acolyte_q, 2;
+							mes "Você deve visitar o ^000077 Irmão Simão ^000000, ele se isolou com o animais perto da ^000077Abadia ao Nordeste de Prontera^000000.";
+							setquest 1001;
+						}
+						else if (.@acolyte_cho == 2)
+						{
+							set job_acolyte_q, 3;
+							mes "Você deve visitar a ^000077 Irmã Matilda ^000000, ela se isolou no deserto, ^000077no mapa ao Norte de Morroc^000000.";
+							setquest 1002;
+						}
+						else
+						{
+							set job_acolyte_q, 4;
+							setquest 1003;
+							mes "Você deve visitar o ^000077 Irmão Bartolomeu ^000000, ele pode ser encontrado ^000077em uma ponte à Noroeste de Prontera^000000.";
+						}
+						mes "Que a graça do Senhor o acompanhe em sua jornada!";
+						close;
+					}
+					else
+					{
+						mes "[Necrus]";
+						mes "Que a vontade do Senhor seja a sua segurança.";
+						close;
+					}
+				}
+
+				mes "[Necrus]";
+				mes "Oh, você voltou!";
+				next;
+				mes "[Necrus]";
+
+				if (getskilllv("NV_BASIC") < 9)
+				{
+					mes "Meu bom Deus! Você ainda não tem nível 9 de habilidade básicas, não é possivel servir ao Senhor assim.";
+					close;
+				}
+
+				if (job_acolyte_q < 5)
+				{
+					mes "Deixe-me dizer qual deve ser sua peregrinação.";
+					if (job_acolyte_q == 2)
+						mes "Você deve visitar o ^000077 Irmão Simão ^000000, ele se isolou com o animais perto da ^000077Abadia ao Nordeste de Prontera^000000.";
+					else if (job_acolyte_q == 3)
+						mes "Você deve visitar a ^000077 Irmã Matilda ^000000, ela se isolou no deserto, ^000077no mapa ao Norte de Morroc^000000.";
+					else if (job_acolyte_q == 4)
+						mes "Você deve visitar o ^000077 Irmão Bartolomeu ^000000, ele pode ser encontrado ^000077em uma ponte à Noroeste de Prontera^000000.";
+					mes "Complete sua penitência antes de retornar.";
+					close;
+				}
+
+				mes "Você completou sua peregrinação e isso enche meu coração de alegria. Neste momento o recebo nos caminhos do Senhor e "+(Sex?"o torno um Noviço":"a torno uma Noviça")+".";
+				next;
+				set job_acolyte_q, 0;
+				skill 143, 0, 0;
+				jobchange Job_Acolyte;
+				completequest (999 + job_acolyte_q);
+				mes "[Necrus]";					
+				mes "Tenha sempre Deus em seu coração, e seja nas horas de tranquilidade ou no calor da batalha, nunca se esqueça Dele, que nos ama tanto apesar de sermos imperfeitos.";
+				next;
+				mes "[Necrus]";					
+				mes "Do mesmo modo que você não hesitou em sua penitência, eu espero que você nunca hesite frente às tentações do pecado.";
+				close;
+					
+			case 2:
+				mes "[Necrus]";	
+				mes "Os pré-requisitos para se tornar "+(Sex?"um Noviço":"uma Noviça")+" são dois,";
+				mes "Por favor, ouça com atenção.";
+				next;
+				mes "[Necrus]";				
+				mes "Antes de tudo, você deve alcançar Nível de Classe 9 como Aprendiz.";
+				mes "Com esse nível, será possível que você realize uma peregrinação em nome do Senhor.";
+				next;
+				mes "[Necrus]";
+				mes "O seu objetivo será o seguinte:";
+				if (job_acolyte_q != 0)
+				{
+					if (job_acolyte_q == 2)
+						mes "Você deve visitar o ^000077 Irmão Simão ^000000, ele se isolou com o animais perto da ^000077Abadia ao Nordeste de Prontera^000000.";
+					else if (job_acolyte_q == 3)
+						mes "Você deve visitar a ^000077 Irmã Matilda ^000000, ela se isolou no deserto, ^000077no mapa ao Norte de Morroc^000000..";
+					else
+						mes "Você deve visitar o ^000077 Irmão Bartolomeu ^000000, ele pode ser encontrado ^000077em uma ponte à Noroeste de Prontera^000000.";
+					mes "Que a graça do Senhor o acompanhe em sua jornada!";
+				}					
+				else
+					mes "Que a vontade do Senhor seja a sua segurança.";
+				next;
+				mes "[Necrus]";				
+				mes "Após completar estes dois requerimentos, será permitido que você se torne "+(Sex?"um servo":"uma serva")+" de Deus.";
+				close;
+
+			case 3:
+				close;
+		}
+}
+
+prt_fild03,365,255,2	script	Irmão Simão	89,{
+
+		if (BaseJob == Job_Novice)
+		{
+			if (job_acolyte_q == 6)
+			{
+				mes "[Irmão Simão]";
+				mes "Não se preocupe, já enviei um pombo à Prontera para avisá-lo de sua visita.";
+				next;
+				mes "[Irmão Simão]";				
+				mes "Agora se preocupe apenas em como voltar em segurança para a cidade.";
+				close;
+			}
+			else if (job_acolyte_q != 0)
+			{
+				if (job_acolyte_q == 2)
+				{
+	   				mes "[Irmão Simão]";	
+	   				mes "Oh... Você é "+(Sex?"o":"a")+" jovem que deseja se tornar "+(Sex?"um Noviço":"uma Noviça")+", não é?";
+	   				mes "Você se chama " + strcharinfo(0) + ", certo? Bem, muito obrigado por ter vindo me visitar!";
+	   				next;
+	   				mes "[Irmão Simão]";				
+	   				mes "Eu espero que a sua Fé nunca lhe falhe nos anos de provação que se postam adiante.";
+	   				next;
+	   				mes "[Irmão Simão]";				
+	   				mes "Eu mandarei a noticia de que você chegou até aqui para o Necrus.";
+	   				mes "Desejo-lhe uma jornada segura de volta à Prontera.";
+	   				next;
+	   				mes "[Irmão Simão]";				
+	   				mes "Adeus e que o Senhor esteja contigo.";
+	   				close2;
+					savepoint "prt_fild03", 361, 255;
+	  				set job_acolyte_q, 6;
+	   				end;
+				}
+	   			else
+				{
+	   				mes "[Irmão Simão]";	
+	   				mes "Oh... Você é "+(Sex?"o":"a")+" jovem que deseja se tornar "+(Sex?"um Noviço":"uma Noviça")+", não é?";
+	   				mes "Você se chama " + strcharinfo(0) + ", certo? Hmm.. Sinto informa-lhe que seu nome não se encontra em minha lista.";
+	   				next;
+	   				mes "[Irmão Simão]";	    				
+	   				mes "Recomendo que você verifique corretamente qual é a sua peregrinação.";
+	   				close;
+	   			}
+			}
+	   		else
+			{
+	   			mes "[Irmão Simão]";
+	   			mes "O que o traz aqui "+(Sex?"pequenino":"pequenina")+"? Este lugar tem monstros fortes demais para alguém como você.";
+	   			close;
+	   		}
+		}
+		else if (BaseJob == Job_Acolyte)
+		{
+			if (job_priest_q != 0)
+			{
+				if (job_priest_q == 1)
+				{
+					mes "[Irmão Simão]";
+					mes "Você é "+(Sex?"o Noviço":"a Noviça")+" em peregrinação, não é?";
+					mes "Fico feliz que você tenha começado a peregrinação tão cedo.";
+					next;
+					mes "[Irmão Simão]";
+					mes "Eu lhe desejo boa sorte nas proximas partes dos testes para se tornar "+(Sex?"um Sacedorte":"uma Sacedortisa")+".";
+					mes "Que a sua vocação para a fé não o abandone.";
+					next;
+					mes "[Irmão Simão]";
+					mes "Que o Senhor esteja contigo.";
+					close2;
+	 				savepoint "prt_fild03", 361, 255;
+	 				set job_priest_q, 2;
+					end;
+				}
+				else if (job_priest_q == 2)
+				{
+					mes "[Irmão Simão]";
+					mes "Há pessoas esperando por você, apresesse-se.";
+					close;
+				}
+				else
+				{
+					mes "[Irmão Simão]";
+					mes "Você ainda não está a caminho da proxima pessoa!?";
+					close;
+				}
+			}
+			else
+			{
+				mes "[Irmão Simão]";
+				mes "Que a Fé não o abandone.";
+				close;
+			}
+		}
+	   	else
+		{
+			mes "[Irmão Simão]";
+			mes "Como um servo do Senhor vim me juntar a estas criaturas, que como nós, foram criadas por Deus.";
+			mes "Desse modo pretendo compreender mais profundamente esta nossa dádiva, a Humanidade.";
+			close;
+		}
+}
+
+moc_fild07,41,335,4	script	Irmã Matilda	95,{
+
+	if (BaseJob == Job_Novice)
+	{
+		if (job_acolyte_q == 7)
+		{
+			mes "[Irmã Matilda]";
+			mes "Não se preocupe, já enviei um pombo à Prontera para avisá-lo de sua visita.";
+			mes "Agora se preocupe apenas em como voltar em segurança para a cidade.";
+			close;
+
+		}
+		if (job_acolyte_q != 0)
+		{
+			if (job_acolyte_q == 3)
+			{
+	   			mes "[Irmã Matilda]";	
+	   			mes "Oh... Você é "+(Sex?"o":"a")+" jovem que deseja se tornar "+(Sex?"um Noviço":"uma Noviça")+", não é?";
+	   			next;
+	   			mes "[Irmã Matilda]";				
+	   			mes "Você se chama " + strcharinfo(0) + ", certo? Bem, muito obrigada por ter vindo me visitar!";
+	   			mes "Eu mandarei a noticia de que você chegou até aqui para o Necrus.";
+	   			mes "Desejo-lhe uma jornada segura de volta à Prontera.";
+	   			close2;
+				savepoint "moc_fild07", 35, 355;
+				set job_acolyte_q, 7;
+				end;
+			}
+			else
+			{
+	   			mes "[Irmã Matilda]";
+	   			mes "Oh... Você é "+(Sex?"o":"a")+" jovem que deseja se tornar "+(Sex?"um Noviço":"uma Noviça")+", não é?";
+	   			mes "Você se chama " + strcharinfo(0) + ", certo? Hmm.. ";
+	   			mes "Sinto informa-lhe que seu nome não se encontra em minha lista.";
+	   			next;
+	   			mes "[Irmã Matilda]";
+	   			mes "Recomendo que você verifique corretamente qual é a sua peregrinação.";
+	   			close;
+			}
+		}
+		else
+		{
+	   		mes "[Irmã Matilda]";
+	   		mes "...........";
+	   		close;
+	 	}
+	}
+	else if (BaseJob == Job_Acolyte)
+	{
+		if (job_priest_q != 0)
+		{
+			if (job_priest_q == 1)
+			{
+				mes "[Irmã Matilda]";
+				mes "Você está em peregrinação para se tornar "+(Sex?"um Sacedorte":"uma Sacedortisa")+".";
+				mes "Mas antes de vir aqui, você devia ter visitado outra pessoa.";
+				next;
+				mes "[Irmã Matilda]";
+				mes "Você deveria consultar o Bispo Tomas ou a Irmã Cecília.";
+				mes "Que Deus esteja em seu coração.";
+				close;
+			}
+			else if (job_priest_q == 2)
+			{
+				mes "[Irmã Matilda]";
+				mes "Você veio aqui por causa da peregrinação para "+(Sex?"Sacedorte":"Sacedortisa")+". Parabens por chegar até aqui.";
+				mes "Como "+(Sex?"Sacedorte":"Sacedortisa")+", uma de suas funções será a de espalhar a palavra de Deus.";
+				next;
+				mes "[Irmã Matilda]";
+				mes "Quando você se tornar "+(Sex?"um Sacedorte":"uma Sacedortisa")+", você deve ir à Pirâmide, há muitas criaturas malditas lá.";
+				mes "Eu espero que você as liberte de sua danação.";
+				next;
+				mes "[Irmã Matilda]";
+				mes "Boa sorte na resto de sua peregrinação.";
+				close2;
+				savepoint "moc_fild07", 35, 355;
+	 			set job_priest_q, 3;
+				end;
+			}
+			else if (job_priest_q == 3)
+			{
+				mes "[Irmã Matilda]";
+				mes "Não fique aí parado, falta pouco.";
+				close;
+			}
+			else
+			{
+				mes "[Irmã Matilda]";
+				mes "Por que você voltou? Vá em frente em sua peregrinação.";
+				close;
+			}
+		}
+		else
+		{
+			mes "[Irmã Matilda]";
+			mes "Que Deus esteja contigo.";
+			close;
+		}
+	}
+	else
+	{
+		mes "[Irmã Matilda]";
+		mes "Que o Senhor esteja contigo.";
+		close;
+	}
+}
+
+prt_fild00,208,218,6	script	Irmão Bartolomeu	98,{
+
+		if (BaseJob == Job_Novice)
+		{
+			if (job_acolyte_q == 8)
+			{
+				mes "[Irmão Bartolomeu]";
+				mes "Eu acho melhor você começar o seu caminho de volta...";
+				mes "Ou você quer ficar aqui comigo vendo a grama crescer?!?";
+				close;
+			}
+			if (job_acolyte_q != 0)
+			{
+				if (job_acolyte_q == 4)
+				{
+	   				mes "[Irmão Bartolomeu]";	
+	   				mes "Ou você é um Aprendiz querendo ser Noviç"+(Sex?"o":"a")+" ou eu sou um Caramelo!";
+	   				next;
+	   				mes "[Irmão Bartolomeu]";	
+	   				mes "Nada mal hein, chegou até aqui inteiro...";
+	  				mes "O seu nome é " + strcharinfo(0) + ", não é?";
+	   				next;
+	   				mes "[Irmão Bartolomeu]";    				
+	   				mes "Então está tudo certinho, vou avisar o Necrus de que você chegou até aqui.";
+	   				mes "Agora volte para Prontera e fale com ele.";
+	   				close2;
+					savepoint "prt_fild00", 206, 230;
+					set job_acolyte_q, 8;
+					end;
+				}
+				else
+				{
+	   				mes "[Irmão Bartolomeu]";	
+	   				mes "Ei, você aí!";
+	   				mes "Ou você é um Aprendiz querendo ser Noviç"+(Sex?"o":"a")+" ou eu sou um Caramelo!";
+	   				next;
+	   				mes "[Irmão Bartolomeu]";	
+	   				mes "Nada mal hein, chegou até aqui inteiro...";
+	   				mes "Qual o seu nome? " + strcharinfo(0) + "? Hmmm... O seu nome não está na minha lista...";
+	   				next;
+	   				mes "[Irmão Bartolomeu]";	    				
+	   				mes "Acho que você se confundiu, você deve visitar outra pessoa que não eu.";
+	   				mes "Volte para Prontera e consulte o Necrus novamente.";
+	   				close;
+				}
+			}
+			else
+			{
+	 			mes "[Irmão Bartolomeu]";	
+	   			mes "Não, eu não sou o Bicho-Papão da ponte...";
+	   			close;
+	 		}
+		}
+		else if (BaseJob == Acolyte)
+		{
+			if (job_priest_q != 0)
+			{
+				if (job_priest_q == 1)
+				{
+					mes "[Irmão Bartolomeu]";
+					mes "Hmmm, você está aqui em sua peregrinação para ser "+(Sex?"Sacedorte":"Sacedortisa")+".";
+					mes "Eu fico feliz que você tenha chegado até aqui.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Porém, você devia ter visitado outra pessoa antes de mim.";
+					mes "volte para a Igreja e consulte o Bispo Tomas ou a Irmã Cecília.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Que Deus esteja contigo.";
+					close;
+				}
+				else if (job_priest_q == 2)
+				{
+					mes "[Irmão Bartolomeu]";
+					mes "Hmmm, você está aqui em sua peregrinação para ser "+(Sex?"um Sacedorte":"uma Sacedortisa")+".";
+					mes "Eu fico feliz que você tenha chegado até aqui.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Porém, você devia ter visitado outra pessoa antes de mim.";
+					mes "volte para a Igreja e consulte o Bispo Tomas ou a Irmã Cecília.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Que Deus esteja contigo.";
+					close;
+				}
+				else if (job_priest_q == 3)
+				{
+					mes "[Irmão Bartolomeu]";
+					mes "Hmmm, você está aqui em sua peregrinação para ser "+(Sex?"um Sacedorte":"uma Sacedortisa")+". ";
+					mes "Eu fico feliz que você tenha chegado até aqui.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Parabens, você terminou sua peregrinação. Volte para a Igreja de Prontera.";
+					next;
+					mes "[Irmão Bartolomeu]";
+					mes "Que Deus esteja contigo.";
+					close2;
+					savepoint "prt_fild00", 206, 230;
+	 				set job_priest_q, 4;
+					end;
+				}
+				else if (job_priest_q == 4)
+				{
+					mes "[Irmão Bartolomeu]";
+					mes "Tem certeza de que você quer ficar morando aqui comigo?";
+					close;
+				}
+				else
+				{
+					mes "[Irmão Bartolomeu]";
+					mes "Não demore para se tornar "+(Sex?"um Sacedorte":"uma Sacedortisa")+"!";
+					close;
+				}
+			}
+			else
+			{
+				mes "[Irmão Bartolomeu]";
+				mes "Que Deus esteja contigo.";
+				close;
+			}
+		}
+	   	else
+		{
+			mes "[Irmão Bartolomeu]";	
+			mes "Para atravessar esta ponte você deve responder 3 perguntas... Qual o seu nome? Qual a sua cor favorita? Qual a velocidade de uma andorinha carregando um coco?";
+			mes "Huauauauau!! Tô só brincando com você.. Hehehehe.";
+			close;
+		}
+}

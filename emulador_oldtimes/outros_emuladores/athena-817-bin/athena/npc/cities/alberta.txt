@@ -1,0 +1,724 @@
+//Alberta City, modified for Athena by AjS15822, added Turtle Island to Sailor
+alb2trea.gat,39,50,5	script	Sailor	100,{
+	mes "[Sailor]";
+	mes "Do you wanna return?";
+	next;
+	menu "Return to Alberta",M0,"Quit",MEnd;
+
+	M0:
+		warp "alberta.gat",192,169;
+		close;
+	MEnd:
+		close;
+}
+
+alberta_in.gat,16,28,4	script	Grampa Pharmacist	61,{
+	mes "[Grampa Pharmacist]";
+	mes "Err... Who are you...?";
+	next;
+	menu "Make Potion",L0,"Talk",L1,"Information",L2,"Cancel",LEnd;
+	
+	L0:
+		mes "[Grampa Pharmacist]";
+		if(countitem(713) < 1) goto NeedBottle;
+		mes "Do you prepare all items needed?";
+		mes "Which potion do you want?";
+		next;
+		menu "Red Potion",L00,"Orange Potion",L01,"Yellow Potion",L02,"White Potion",L03,"Blue Potion",L04,"Green Potion",L05,"Nah, I change my mind.",Nah;
+		
+		L00:
+			mes "[Grampa Pharmacist]";
+			if(((countitem(507) < 2) || (countitem(713) < 0)) || (Zeny < 3)) goto NeedOther;
+			set l0,507;
+			set l1,501;
+			mes "How many?";
+			next;
+			set l2,0;
+			menu "As many as I can?",L00a,"Um I will set the Numbers.",L00b,"Nah, forget about it",L00c;
+			
+			L00a:
+				if(((countitem(507) < 2) || (countitem(713) < 0)) || (Zeny < 3)) goto L00ab;
+				goto L00aa;
+				
+				L00aa:
+					delitem l0,2;
+					delitem 713,1;
+					set Zeny,zeny - 3;
+					set l2,l2 + 1;
+					goto L00a;
+				L00ab:
+					if(l2==0) goto NeedOther;
+					getitem l1,l2;
+					goto GotMsg;
+			L00b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCan;
+				if(((countitem(507) < 2 * @input) || (countitem(713) < @input)) || (Zeny < 3 * @input)) goto NeedOther;
+				delitem 507,@input * 2;
+				delitem 713,@input;
+				set Zeny,zeny - 3 * @input;
+				getitem 501,@input;
+				goto GotMsg;
+
+			L00c:
+				goto MakeMenu;
+				close;
+		L01:
+			mes "[Grampa Pharmacist]";
+			if((countitem(507) < 1) || (countitem(508) < 1) || (countitem(713) < 0) || (Zeny < 5)) goto NeedOther;
+			set l0,507;
+			set l1,508;
+			set l2,502;
+			mes "How many?";
+			next;
+			set l3,0;
+			menu "As many as I can?",L01a,"Um I will set the Numbers.",L01b,"Nah, forget about it",L01c;
+			
+			L01a:
+				if((countitem(507) < 1) || (countitem(508) < 1) || (countitem(713) < 0) || (Zeny < 5)) goto L01ab;
+				goto L01aa;
+
+				L01aa:
+					delitem l0,1;
+					delitem l1,1;
+					delitem 713,1;
+					set Zeny,zeny - 5;
+					set l3,l3 + 1;
+					goto L01a;
+				L01ab:
+					if(l3 == 0) goto NeedOther;
+					getitem l2,l3;
+					goto GotMsg;
+			L01b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCan;
+				if(((countitem(507) < @input) || (countitem(508) < @input) || (countitem(713) < @input)) || (Zeny<5*@input)) goto NeedOther;
+				delitem 507,@input;
+				delitem 508,@input;
+				delitem 713,@input;
+				set Zeny,zeny - 5 * @input;
+				getitem 502,@input;
+				goto GotMsg;
+			L01c:
+				goto MakeMenu;
+				close;
+		L02:
+			mes "[Grampa Pharmacist]";
+			if((countitem(508) < 2) || (countitem(713) < 0) || (Zeny < 10)) goto NeedOther;
+			set l0,508;
+			set l1,503;
+			mes "How many?";
+			next;
+			set l2,0;
+			menu "As many as I can?",L02a,"Um I will set the Numbers.",L02b,"Nah, forget about it",L02c;
+			
+			L02a:
+				if((countitem(508) < 2) || (countitem(713) < 0) || (Zeny < 10)) goto L02ab;
+				goto L02aa;
+
+				L02aa:
+					delitem l0,2;
+					delitem 713,1;
+					set Zeny,zeny - 10;
+					set l2,l2 + 1;
+					goto L02a;
+				L02ab:
+					if(l2 == 0) goto NeeOther;
+					getitem l1,l2;
+					goto GotMsg;
+			L02b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCan;
+				if(((countitem(508) < 2 * @input) || (countitem(713) < @input)) || (Zeny < 10 * @input)) goto NeedOther;
+				delitem 508,@input;
+				delitem 508,@input;
+				delitem 713,@input;
+				set Zeny,zeny - 10 * @input;
+				getitem 503,@input;
+				goto GotMsg;
+			L02c:
+				goto MakeMenu;
+				close;
+		L03:
+			mes "[Grampa Pharmacist]";
+			if((countitem(509) < 2) || (countitem(713) < 0) || (Zeny < 20)) goto NeedOther;
+			set l0,509;
+			set l1,504;
+			mes "How many?";
+			next;
+			set l2,0;
+			menu "As many as I can?",L03a,"Um I will set the Numbers.",L03b,"Nah, forget about it",L03c;
+			
+			L03a:
+				if((countitem(509) < 2) || (countitem(713) < 0) || (Zeny < 20)) goto L03ab;
+				goto L03aa;
+
+				L03aa:
+					delitem l0,2;
+					delitem 713,1;
+					set Zeny,zeny - 20;
+					set l2,l2 + 1;
+					goto GotMsg;
+				L03ab:
+					if(l2 == 0) goto NeedOther;
+					getitem l1,l2;
+					goto GotMsg;
+			L03b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCon;
+				if(((countitem(509) < 2 * @input) || (countitem(713) < @input)) || (Zeny < 20 * @input)) goto NeedOther;
+				delitem 509,@input;
+				delitem 509,@input;
+				delitem 713,@input;
+				set Zeny,zeny - 20 * @input;
+				getitem 504,@input;
+				goto GotMsg;
+			L03c:
+				goto MakeMenu;
+				close;
+		L04:
+			mes "[Grampa Pharmacist]";
+			if((countitem(510) < 2) || (countitem(713) < 0) || (Zeny < 30)) goto NeedOther;
+			set l0,510;
+			set l1,505;
+			mes "How many?";
+			next;
+			set l2,0;
+			menu "As many as I can?",L04a,"Um I will set the Numbers.",L04b,"Nah, forget about it",L04c;
+			
+			L04a:
+				if((countitem(510) < 2) || (countitem(713) < 0) || (Zeny < 30)) goto L04ab;
+				goto L04aa;
+
+				L04aa:
+					delitem l0,2;
+					delitem 713,1;
+					set Zeny,zeny - 30;
+					set l2,l2 + 1;
+					goto GotMsg;
+				L04ab:
+					if(l2 == 0) goto NeetOther;
+					getitem l1,l2;
+					goto GotMsg;
+			L04b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCan;
+				if(((countitem(510) < 2 * @input) || (countitem(713) < @input)) || (Zeny < 30 * @input)) goto NeedOther;
+				delitem 510,@input;
+				delitem 510,@input;
+				delitem 713,@input;
+				set Zeny,zeny - 30 * @input;
+				getitem 505,@input;
+				goto GotMsg;
+			L04c:
+				goto MakeMenu;
+				close;
+		L05:
+			mes "[Grampa Pharmacist]";
+			if((countitem(511) < 2) || (countitem(713) < 0) || (Zeny < 3)) goto NeedOther;
+			set l0,511;
+			set l1,506;
+			mes "How many?";
+			next;
+			set l2,0;
+			menu "As many as I can?",L05a,"Um I will set the Numbers.",L05b,"Nah, forget about it",L05c;
+			
+			L05a:
+				if((countitem(511) < 2) || (countitem(713) < 0) || (Zeny < 3)) goto L05ab;
+				goto L05aa;
+
+				L05aa:
+					delitem l1,2;
+					delitem 713,1;
+					set Zeny,zeny - 3;
+					set l2,l2 + 1;
+					goto GotMsg;
+				L05ab:
+					if(l2 == 0) goto NeedOther;
+					getitem l1,l2;
+					goto GotMsg;
+			L05b:
+				input @input;
+				mes "[Grampa Pharmacist]";
+				if(@input <= 0) goto inpCan;
+				if(((countitem(511) < 2 * @input) || (countitem(713) < @input)) || (Zeny < 3 * @input)) goto NeedOther;
+				delitem 511,@input;
+				delitem 511,@input;
+				delitem 713,@input;
+				set Zeny,zeny - 3 * @input;
+				getitem 506,@input;
+				goto GotMsg;
+			L05c:
+				goto MakeMenu;
+				close;
+
+		NeedBottle:
+			mes "Don't you see I need at least 1 Empty Bottle to fill medicine within it! Why did you come without it! You idiot!!";
+			close;
+			
+			NeedOther:
+				mes "You rascal! What did you expect from me after you even didn't bring all items!";
+				mes "Get lost!";
+				close;
+
+				inpCan:
+					mes "Deal canceled.";
+					close;
+
+				MakeMenu:
+					mes "[Grampa Pharmacist]";
+					mes "What did you say?! You little punk... Spit spit! Get the Heck out of here!";
+					close;
+
+					GotMsg:
+						mes "Here you are. Take it.";
+						mes "But keep in mind! Overdose could kill you.";
+						close;
+	L1:
+		mes "[Grampa Pharmacist]";
+		mes "You can cure disease with medicine.";
+		mes "But you have to be careful in medicine otherwise you would be addicted...";
+		mes "Pssssst... I am too old to talk so long.";
+		mes "Anyway Potion is a Medicine which can assist you when you are out of physical energy. That's all.";
+		close;
+	L2:
+		mes "[Grampa Pharmacist]";
+		mes "Gasp... What an annoying young one... Fine, I will explain how the potions work for you.";
+		next;
+		mes "[Grampa Pharmacist]";
+		mes "You can consume nomal Hearbs as themeself, but if you consumethem after proccesing into a potion, you will be able to recover more energy in the same time.";
+		next;
+		mes "[Grampa Pharmacist]";
+		mes "I am the one and only who can make potion out of herbs. But there is the few fee for my effort....!";
+		mes "need some money for living";
+		next;
+		mes "[Grampa Pharmacist]";
+		mes "Red Potion - ^00FFFF2 Red Herb, 1 Empty Bottle, Fee 3 Zeny.^000000";
+		mes "Orange Potion - ^00FFFF1 Red Herb, 1 Yellow Herb, 1 Empty Bottle, Fee 5 Zeny.^000000";
+		mes "Yellow Potion - ^00FFFF2 Yellow Herb, 1 Empty Bottle, Fee 10 Zeny.^000000";
+		next;
+		mes "[Grampa Pharmacist]";
+		mes "White Potion - ^00FFFF2 White Herb, 1 Empty Bottle, Fee 20 Zeny.^000000";
+		mes "Blue Potion - ^00FFFF2 Blue Herb, 1 Empty Bottle, Fee 30 Zeny.^000000";
+		mes "Green Potion - ^00FFFF2 Grren Herb, 1 Empty Bottle, Fee 3 Zeny.^000000";
+		close;
+	LEnd:
+		mes "[Grampa Pharmacist]";
+		mes "Didn't you have anything to say?!";
+		close;
+}
+
+alberta_in.gat,20,183,6	script	Young Man	49,{
+	mes "[Merchant]";
+	mes "People say Gungnir, the legendary weapon never miss the target... It will be great if it's true.";
+	close;
+}
+
+alberta_in.gat,133,55,6	script	Louitz	84,{
+	mes "[Louitz]";
+	mes "What's the matter?";
+	next;
+	menu "Talk",Talk,"Cancel",Cancel;
+	
+	Talk:
+		mes "[Merchant Louitz]";
+		mes "I'd stayed in Geffen to find Magic Tools for a while. In Geffen, I heard the Rumor about the Mad Scientist.";
+		mes "With Great Interest, I tried to meet him several time and finally I did. But it was no use... Because he was too immersed in his work, he didn't take a look on me at all.";
+		next;
+		mes "[Merchant Louitz]";
+		mes "Now I still remember what I heard his murmuring at the next moment.";
+		mes "'Karvodainirol... Detrimindexta...'";
+		mes "In first place I thought it's just useless murmur, But now I realised those things are new Solutions totally different from Water.";
+		close;
+	Cancel:
+		mes "[Louitz]";
+		mes "Um... Now I've seen everything.";
+		close;
+}
+
+alberta.gat,53,39,8	script	Merchant	100,{
+	mes "[Merchant]";
+	mes "Oh, you look like a stranger, huh?";
+	mes "Welcome to Alberta. By the way, excuse me for a while. I am thinking of some great plans.";
+	mes "I happened to hear there is a store selling unique armors which resist magic in Geffen. If I can circulate them in bulk, It will be in no time to be rich.";
+	close;
+}
+
+alberta.gat,58,80,8	script	Merchant	99,{
+	set @TEMP,rand(2);
+	mes "[Merchant]";
+	if(@TEMP == 1) goto Rmsg1;
+	if(@TEMP == 0) goto Rmsg0;
+
+	Rmsg1:
+		mes "We merchant can open a roadside stand and do business. With Discount skill we could buy goods really cheap from the stores in towns and load them in the cart we rent. Then we could go anywhere and making money.";
+		next;
+		mes "[Merchant]";
+		mes "This way, business is more convenient and safe. Don't fall asleep though it's too eaay.";
+		close;
+	Rmsg0:
+		mes "We merchant have our own negotiating skill when we sell goods. The skill can get us more money than when others sell goods.";
+		mes "When people say 'too cheap! You'll have to give more money please!~~'.";
+		next;
+		mes "[Merchant]";
+		mes "We could just get 24 % more with this incredible skill. But remember to train hard to acquire it!!";
+		close;
+}
+
+alberta.gat,62,156,2	script	Phina	102,{
+	set @TEMP,rand(3);
+	mes "[Phina]";
+	if(@TEMP == 2) goto Rmsg2;
+	if(@TEMP == 1) goto Rmsg1;
+	if(@TEMP == 0) goto Rmsg0;
+
+	Rmsg2:
+		mes "This one time, I was walking in the forest and I saw this little green grass sticking out on the ground.";
+		mes "It was soooo cute so I wanted to touch it. And then you know what happened?. The grass actualy slapped my hand.";
+		next;
+		mes "[Phina]";
+		mes "I was so surprised so backed off a bit. Then I realized it was not grass but a very small animal.";
+		mes "Don't startle them even by mistakes. Even calm animals can be very dangerouswhen they are angry";
+		close;
+	Rmsg1:
+		mes "You know those dumb-looking bears living in a forest connecting Alberta and Payon...";
+		mes "playing around with the flies..making buzz noise?";
+		next;
+		mes "[Phina]";
+		mes "Just for the sake of fun, I threw a twig at one. All of sudden it rushed towards me. I was sooooo scared and quickly move to the side. Then Bamb!!! It hit the huge tree and the tree crushed into pieces.";
+		mes "I learned the lesson that I shouldn't tempt any animal just in case they might get angry with me.";
+		close;
+	Rmsg0:
+    	mes "Did you know? Wolves are much more cooperative than they might seem. If one of them is attacked, then all others will run to help him.";
+    	mes "You'd be careful, too, if you ever want to fight one.";
+		close;
+}
+
+alberta.gat,93,174,2	script	Grandma	103,{
+	mes "[Grandma]";
+	mes "Some time ago derelict ship drifted in at the harbor of Alberta.";
+	mes "Holding onto a little hope of survivors, some of town's young people walked into the ship, but they all ran out terrified. They said the corpses are walking around inside the ship.";
+	next;
+	mes "[Grandma]";
+	mes "Oh~ and marine organisms, which they newer saw before, were packed inside, so young people couldn't even get pass the entrance area of the ship...";
+	next;
+	mes "[Grandma]";
+	mes "So we can't do anything about that ominous-looking ship but just leave it. We were just hopping some day it will sink or drift away and then Cool Event Corp. heard the rumor.";
+	mes "I wonder how on earth they knew about the ship. Anyway, they paid the city a huge amount for letting them handle the matter.";
+	next;
+	mes "[Grandma]";
+	mes "Now they recruit all those young people from all over the places to wipe out the monsters. Well... It looks like Cool Event Corp. persuaded the young to test thier ability. It might be a good experience as a young person...";
+	mes "But it's not worth risking one's life...";
+	close;
+}
+
+alberta.gat,97,51,7	script	Merchant	84,{
+	mes "[Merchant]";
+	mes "When you travel all around the world, you will hear of many rumors. One of Rumors I've heard was really interesting. There are cards which seals the power of monsters within.";
+	mes "If anybody happens to get a hand on those cards, he will obtain the power of monsters... Bah, I don't believe it though."; 
+	close;
+}
+
+alberta.gat,117,135,7	script	Kid	96,{
+	mes "[Kid]";
+	mes "Heh? Is this your first time in Alberta? Heh... you don't like dolls, don't you? Boys don't like girlish stuff. I like dolls a looooooooot!";
+	next;
+	mes "I mean~ I want a new doll~I wish my dad will buy me a doll for the birthday present.";
+	mes "I am wondering what kind of doll he will buy... I hope it will be a yoyo the monkey doll. Heh~ Cute yoyo doll. So cute.";
+	close;
+}
+
+alberta.gat,131,139,4	script	Drunken old man	54,{
+	mes "[Drunken old man]";
+	mes "hiccup... Huh?... Wh-what are you staring at? Get lost!!";
+	next;
+	menu "Stay",L0,"Leave him alone",L1;
+	
+	L0:
+		mes "[Drunken old man]";
+		mes "Hahahaha hiccup... So you got some nerve...";
+		mes "he... I look worthless now, but I used to be a sailor of the infamous `Going Mary'.";
+		next;
+		menu "Is that a ship?",L0a,"Really? No kidding!",L0b;
+		
+		L0a:
+			mes "[Drunken old man]";
+			mes "Come again? Never heard of it?";
+			mes "Stupid! Everybody knew the notorious pirateship `Going Mary'! hiccup~";
+			next;
+			mes "[Drunken old man]";
+			mes "Ah~ my ol'days... Only-only if we hadn't met that STORM... hiccup";
+			mes "AH~ Captian. I miss our cap'n more than anything... No foe survired before cap'n's sword.";
+			next;
+			mes "[Drunken old man]";
+			mes "CAPTIAN~~~!!! HICCUP~ You know He swung his sword like this... then... THEN!!!";
+			mes "Not only the targeted bastard but also enemies next were surrounded by flames. You know, now I think of it, the sword should've had some sort of mysterious power within.";
+			next;
+			mes "[Drunken old man]";
+			mes "Phew~~ sob sob... God I miss everyone... Now I'm depressed. Go away now.";
+			close;
+		L0b:
+			mes "[Drunken old man]";
+			mes "CAPTIAN~~~!!! HICCUP~ You know He swung his sword like this... then... THEN!!!";
+			mes "Not only the targeted bastard but also enemies next were surrounded by flames. You know, now I think of it, the sword should've had some sort of mysterious power within.";
+			next;
+			mes "[Drunken old man]";
+			mes "Phew~~ sob sob... God I miss everyone... Now I'm depressed. Go away now.";
+			close;
+	L1:
+		mes "[Drunken old man]";
+		mes "That's right! Go AWAY~";
+		close;
+}
+
+alberta.gat,189,151,5	script	Sailor	100,{
+	mes "[Sailor]";
+	mes "Where do you wanna go?";
+	next;
+	menu "Sunken Ship -> 250 Zeny.",M0,"Izlude Marina -> 500 Zeny",M1,"Turtle Island -> 800 Zeny",M2,"Amatsu = 1,000 Zeny",M3,"Gonryun Harbor = 1,500 Zeny",M4,"Quit",L0c;
+	
+	M0:
+		if(Zeny < 250) goto NoZenyM0;
+		set Zeny,zeny - 250;
+		warp "alb2trea.gat",43,53;
+		close;
+
+		NoZenyM0:
+			mes "[Sailor]";
+			mes "I'm sorry but i told you i would need 250 Zeny, and it looks like you dont have it.";
+			goto NoZeny;
+	M1:
+		if(Zeny < 500) goto NoZenyM1;
+		set Zeny,zeny - 500;
+		warp "izlude.gat",176,182;
+		close;
+
+		NoZenyM1:
+			mes "[Sailor]";
+			mes "I'm sorry but i told you i would need 500 Zeny, and it looks like you dont have it.";
+			goto NoZeny;
+	M2:
+		if(Zeny < 800) goto NoZenyM2;
+		set Zeny,zeny - 800;
+		warp "tur_dun01.gat",154,242;
+		close;
+	M3:
+		if(Zeny < 1000) goto NoZenyM3;
+		set Zeny,zeny - 1000;
+		warp "amatsu.gat",197,82;
+		close;
+	M4:
+		if(Zeny < 1500) goto NoZenyM4;
+		set Zeny,zeny - 1500;
+		warp "gon_fild01.gat",258,85;
+		close;
+
+		NoZenyM2:
+			mes "[Sailor]";
+			mes "I'm sorry but i told you i would need 800 Zeny, and it looks like you dont have it.";
+			goto NoZeny;
+		NoZenyM3:
+			mes "[Sailor]";
+			mes "I'm sorry but i told you i would need 1,000 Zeny, and it looks like you dont have it.";
+			goto NoZeny;
+		NoZenyM4:
+			mes "[Sailor]";
+			mes "I'm sorry but i told you i would need 1,500 Zeny, and it looks like you dont have it.";
+			goto NoZeny;
+
+		NoZeny:
+			mes "Please come back later when you have this.";
+			close;
+
+	L0c:
+		close;
+}
+
+alberta.gat,190,173,4	script	Phelix	85,{
+	if(event_zelopy == 1) goto EveZel;
+	mes "[Phelix]";
+	mes "What the hell are you doing here?";
+	mes "There is nothing you can get for free in this ship, if you want to get rewarded, Do work!!";
+	next;
+	mes "[Phelix]";
+	mes "Hmm, however if you bring me 10 Jellopies I will consider to give you 1 potion.";
+	mes "Well, if it's too much burden on you, 3 Jellopies are affordable for 1 sweet potato.";
+	next;
+	mes "[Phelix]";
+	mes "If you have a interest in my offer, catch me later with stuffs required.";
+	set event_zelopy,1;
+	close;
+	
+	EveZel:
+		mes "[Phelix]";
+		mes "Hmm.. you want to exchange jellopies to Red Potion or Sweet Potato? Well.. What do you want to get?";
+		next;
+		menu "Red Potion please.",M0,"Sweet Potato please.",M1;
+
+		M0:
+			mes "[Phelix]";
+			mes "Ok then let me take a look on the stuffs you brought..";
+			next;
+			mes "[Phelix]";
+			if(countitem(909) < 10) goto NoJel4Red;
+			set l0,909;
+			set l1,501;
+			mes "Ho...Well done.";
+			mes "How many potions do you want to get?";
+			next;
+			set l2,0;
+			menu "As many as I can,please.",M00,"I want to set numbers.",M01,"Well I want to cancel.",M0End;
+
+			M00:
+				if(countitem(909) < 10) goto M00b;
+				goto M00a;
+
+				M00a:
+					delitem 909,10;
+					set l2,l2 + 1;
+					goto M00;
+				M00b:
+					if(l2 == 0) goto NotEnoJel4Red;
+					getitem l1,l2;
+					goto GotMsgJel4Red;
+			M01:
+				mes "[Phelix]";
+				mes "Write numbers less than 100, OK? If you change your mind, just write '0'.";
+//				mes "I assume you can get " + gap + " for the maximum.";
+				next;
+
+				inpAgaRed:
+					input @input;
+					mes "[Phelix]";
+					if(@input <= 0) goto inpCan1;
+					if(@input > 100) goto inpErrRed;
+					if(countitem(909) < @input * 10) goto NotEnoJel4Red;
+					delitem 909,@input * 10;
+					getitem 501,@input;
+					goto GotMsgJel4Red;
+
+					inpCan1:
+						mes "Come again whenever you want.";
+						close;
+
+					NotEnoJel4Red:
+						mes "Well well you don't have enough Jellopies.";
+						mes "Go get more Jellopies for your convenience.";
+						close;
+
+					inpErrRed:
+						mes "It is unfair demand, I can't give you more than 100 at one time. Set the numbers again.";
+						next;
+						goto inpAgaRed;
+
+					GotMsgJel4Red:
+						mes "There you go~! Potions I promised. Hopefully they will be useful for you.";
+						close;
+			M02:
+				mes "[Phelix]";
+				mes "No problem, see you next time.";
+				close;
+
+			NoJel4Red:
+				mes "Ouch! It's not enough. I said 10 Jellopies go with 1 Red Potion.. Do you understand?";
+				close;
+		M1:
+			mes "[Phelix]";
+			mes "Ok then let me take a look on the stuffs you brought here..";
+			next;
+			mes "[Phelix]";
+			if(countitem(909) < 3) goto NoJel4SwP;
+			set l0,909;
+			set l1,516;
+			mes "Ho...well done.";
+			mes "How many potatoes do you want?";
+			next;
+			set l2,0;
+			menu "As many as I can, please",M10,"I prefer to set numbers.",M11,"I want to cancel.",MEnd;
+
+			M10:
+				if(countitem(909) < 3) goto M10b;
+				goto M10a;
+
+				M10a:
+					delitem l0,3;
+					set l2,l2 + 1;
+					goto M10;
+				M10b:
+					if(l1 == 0) goto NotEnoJel4SwP;
+					getitem l1,l2;
+					goto GotMsgJel4SwP;
+			M11:
+				mes "[Phelix]";
+				mes "Write numbers less than 100. If you change your mind, just write '0'.";
+//				mes "I assume you can get " + gap + " for the maximum.";
+				next;
+
+				inpAgaSwP:
+					input @input;
+					mes "[Phelix]";
+					if(@input <= 0) goto inpCan2;
+					if(@input > 100) goto inpErrSwP;
+					if(countitem(909) < @input * 3) goto NotEnoJel4SwP;
+					delitem 909,@input * 3;
+					getitem 516,@input;
+					goto GotMsgJel4SwP;
+
+					inpCan2:
+						mes "Well see you next time.";
+						close;
+					NotEnoJel4SwP:
+						mes "Well well you don't have enough Jellopies.";
+						mes "Go get more Jellopies for your convenience.";
+						close;
+					inpErrSwP:
+						mes "It is unfair demand, I can¡¯t give you more than 100 at one time. Set the numbers again.";
+						next;
+						goto inpAgaSwP;
+
+					GotMsgJel4SwP:
+						mes "There you go~! Sweet Potatoes I promised. Hopefully they will efficiently aid you in fights.";
+						close;
+
+			M12:
+				mes "[Phelix]";
+				mes "Come again.";
+				close;
+
+			NoJel4SwP:
+				mes "Ouch! It's not enough. I said 3 Jellopies go with 1 sweet potato.. Do you understand?";
+				close;
+}
+
+alberta.gat,195,151,3	script	Paul	86,{
+	mes "[Paul]";
+	mes "Good Day, Ladies and Gentleman. Would you like to join exploration of Sunken Ship, the special event provided by Cool Event Corp.?";
+	mes "Oh! Before you join, I would like to suggest you one thing neccessary. Don't dare to challange if you are not that strong ~.";
+	next;
+	mes "[Paul]";
+	mes "So, Are you ready? Ok then, please choose your way.";
+	mes "Ouch! Adminssion fee is 200 Zeny.";
+	next;
+	menu "Enter",M0,"Quit",MEnd;
+	
+	M0:
+		if(Zeny < 200) goto NoZeny;
+		set Zeny,zeny - 200;
+		warp "alb2trea.gat",62,69;
+		close;
+	MEnd:
+		mes "[Paul]";
+		mes "Please come later.";
+		close;
+
+		NoZeny:
+			mes "[Paul]";
+			mes "I'm sorry but i told you i would need 200 Zeny, and it looks like you dont have it.";
+			mes "Please come back later when you have this";
+			close;
+}

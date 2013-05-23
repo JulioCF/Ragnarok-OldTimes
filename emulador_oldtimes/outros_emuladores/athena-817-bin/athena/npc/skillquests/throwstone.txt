@@ -1,0 +1,65 @@
+//Throw Stone
+morocc.gat,165,124,4	Script	Sono-san	60,{
+		if (getskilllv(152)>0) goto LstartTwice;
+		if (((countitem(910)>=2) && (countitem(911)>=2))) goto L3;
+		if ((Class == 6) && (JobLevel < 15)) goto LStartLowlv;
+		if (!((Class == 6) || (Class == 17) || (Class == 12))) goto LStartOther;
+
+Lstart:
+	mes "[Sono-san]";
+	mes "Hi punk! wanna learn to";
+	mes "to throw some stone?";
+	mes "Well then you've found the";
+	mes "right person!";
+	next;
+	mes "[Sono-san]";
+	mes "I won't do it for free though.";
+	mes "Get me these items and I'll see";
+	mes "if I'm in a good mood:";
+	mes "- 2 ^FF0000Garlet^000000";
+	mes "- 2 ^FF0000Scell^000000";
+	mes "Go now!";
+	close;
+
+
+L3:
+	mes "[Sono-san]";
+	mes "Hello there little fellah! here for";
+	mes "the skill I can see.";
+	next;
+	mes "[Sono-san]";
+	mes "Well you brought me all the items";
+	mes "so here's the secret tip how to perform";
+	mes "the skill:";
+	mes "(whisper, whisper)....(whisper, mumble)..";
+	delitem 910,2;
+	delitem 911,2;
+	skill 152,1,0;
+	next;
+	mes "[Sono-san]";
+	mes "Now go crash some windows!";
+	close;
+
+
+LstartTwice:
+		mes "[Sono-san]";
+		mes "You have already learned this";
+		mes "don't come back here anymore!";
+		close;
+
+
+LStartOther:
+	mes "[Sono-san]";
+	mes "I am an Theif master and I can teach other Theives how to use the Throwstone.";
+	mes "This skill can only be used by Theives.";
+	mes "Unfortunately you ain't an Theives.";
+	close;
+
+
+LStartLowlv:
+	mes "[Sono-san]";
+	mes "Hello friendly Theives. You have to raise your level a little more before using the Throwstone.";
+	mes "YOu need to be atleast joblevel 15.";
+	close;
+
+}

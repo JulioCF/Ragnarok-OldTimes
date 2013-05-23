@@ -1,0 +1,447 @@
+//===== Cronus Script =======================================
+//= Quest da classe Taekwon
+//===== Por: ================================================
+//= RagnaONE Dev's Team
+//===== Versão Atual: =======================================
+//= 1.2/1.0a
+//===== Compatível com: =====================================
+//= Cronus Rev 1400+
+//===== Descrição: ==========================================
+//= Quest para troca de classe
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido	[Page]
+//= 1.1 Adaptado	[Page]
+//= 1.2 Revisado	[Page]
+//===========================================================
+
+payon,157,141,5	script	Fênix#TKJobChange	753,{
+
+	if (Class == Job_Taekwon || Class == Job_Star_Gladiator || Class == Job_Soul_Linker)goto L_Complete;
+	if (TK_Q == 1)goto L_Activated2;
+	if (TK_Q == 2)goto L_JobChange;
+	if (TAEK_Q > 0)goto L_Activated1;
+
+	show "[Fênix]";
+	show "Essa terra. Uma vez nossa,";
+	show "bonita como havia sido,";
+	show "dominada pelo mau: haviam";
+	show "muitos homens corrompidos pela";
+	show "escuridão, muitos monstros";
+	show "ameaçando os inocentes...";
+	next;
+	show "[Fênix]";
+	show "O poder que reina esse";
+	show "mundo é muito para os";
+	show "humanos normais, que não podem";
+	show "batalhar com tais coisas";
+	show "estranhas. Mas, alguém";
+	show "pode se inspirar e batalhar.";
+	next;
+	show "[Fênix]";
+	show "E, eu me dediquei a ser mais";
+	show "forte. Eu tenho treinado para";
+	show "conseguir engrandecer minha";
+	show "mente e corpo, como uma arte,";
+	show "e desejo que todos possam";
+	show "dividir dessa experiência.";
+	next;
+	show "[Fênix]";
+	show "Eu posso não conseguir mudar";
+	show "o mundo sozinho, mas eu nunca";
+	show "irei de parar de treinar";
+	show "espiritualmente e fisicamente.";
+	show "Eu sei que a resposta virá";
+	show "em um tempo...";
+	next;
+	show "[Fênix]";
+	show "Se você ainda não decidiu";
+	show "qual passagem tomar na";
+	show "vida, eu gostaria de lhe";
+	show "considerar um praticante";
+	show "da minha arte. Isso não";
+	show "será fácil, porém lhe";
+	show "levará a uma grande força...";
+	next;
+	menu "Ok, eu me juntarei!",L_Join,"Não, obrigado",L_NoThx;
+
+L_Join:
+	if (Class != Job_Novice || JobLevel < 9) goto L_Failed1;
+	show "[Fênix]";
+	show "Muito bem... Eu lhe aceito";
+	show "como meu estudante. No começo";
+	show "do treino, seu corpo físico";
+	show "deve primeiramente ser";
+	show "condicionado em reconquistar";
+	show "para executar as habilidades.";
+	show "Isso você estará aprendendo.";
+	next;
+	show "[Fênix]";
+	show "A mente não é necessariamente";
+	show "ligada aos limites do corpo,";
+	show "mas você não irá nunca chegar ao";
+	show "seu verdadeiro potencial sem unir";
+	show "mente e corpo. Vá ganhar mais ^ff00001";
+	show "Nível de base^000000, e depois retorne.";
+	next;
+	show "[Fênix]";
+	show "Eu entendo que essa tarefa";
+	show "não seja fácil para aprendizes,";
+	show "mas você precisa estar preparado";
+	show "para a mais difícil jornada dessa";
+	show "classe.  Espero que você esteja";
+	show "mais forte na próxima vez que";
+	show "nos encontrarmos.";
+	set TAEK_Q,BaseLevel;
+	close;
+
+L_NoThx:
+	show "[Fênix]";
+	show "Eu entendo, uma vida pode ter";
+	show "muitas passagens, mas você só";
+	show "pode escolher uma de cada vez";
+	show "para trilhar. Eu espero que o";
+	show "trabalho ilumine o seu próprio";
+	show "caminho, aventureiro.";
+	close;
+
+L_Failed1:
+	if (Class != Job_Novice)goto L_Failed2;
+	show "[Fênix]";
+	show "Mas que pena! Você";
+	show "ainda não está pronto para";
+	show "começar a treinar sobre";
+	show "minha arte de ensinar com";
+	show "o seu atual nível de classe.";
+	show "Por favor, volte quando";
+	show "alcançar nível 9 de classe.";
+	close;
+
+L_Failed2:
+	show "[Fênix]";
+	show "Parece que você já tenha";
+	show "escolhido um trajeto da vida...";
+	close;
+
+L_Activated1:
+	if(TAEK_Q < BaseLevel) goto L_Finish;
+	show "[Fênix]";
+	show "Cocê precisa ganhar mais ^ff00001";
+	show "léveis de base^000000 para";
+	show "provar que você pode suportar";
+	show "o difícil treinamento dessa";
+	show "classe.";
+	close;
+
+L_Finish:
+	if (SkillPoint > 0) goto L_Failed1;
+	show "[Fênix]";
+	show "Ótimo, eu sinto que o";
+	show "contato com sua força";
+	show "interior aumentou. Esse";
+	show "é o resultado natural de";
+	show "ganhar léveis. Nós estamos";
+	show "prontos para prosseguir";
+	show "para a próxima parte do";
+	show "treinamento.";
+	set TK_Q,1;
+	close;
+
+L_Activated2:
+	show "[Fênix]";
+	show "Para o seu treinamento";	
+	show "espiritual, irei lhe fazer";
+	show "uma série de perguntas";
+	show "para testar seu espírito.";
+	show "Relaxe. Responda-nas o mais";
+	show "honestamente que puder.";
+	show "Seus desejos e convicções";
+	show "serão testadas.";
+	next;
+	show "[Fênix]";
+	show "Como um praticante da minha";
+	show "arte, a habilidade de tomar";
+	show "as melhores decisões";
+	show "rapidamente será necessária";
+	show "em batalha. Agora, começaremos";
+	show "o questionário.";
+	next;
+	show "[Fênix]";
+	show "Quando você econtra uma";
+	show "uma grande dificuldade,";
+	show "como você agiria, naturalmente?";
+	next;
+	menu "Eu encaro de cabeça",L_TKQST1,"Esquivo dela de alguma forma",L_TKQST2,"Paro e analiso o problema",L_TKQST3;
+
+L_TKQST1:
+	show "[Fênix]";
+	show "Sim, essa é a resposta";
+	show "que eu queria. Mesmo se";
+	show "não podemos enfrentar";
+	show "de primeira um problema,";
+	show "nós só nos beneficiamos";
+	show "dessa forte determinação.";
+	show "Não há nenhum obstáculo";
+	show "que possa lhe parar.";
+	next;
+	show "[Fênix]";
+	show "Mesmo se você falhar, você";
+	show "só poderá aprender com a";
+	show "experiência, quando você";
+	show "dá tudo de si.";
+	show "Tentativas se esforço total";
+	show "raramente dão resultados";
+	show "aproveitáveis.";
+	next;
+	show "[Fênix]";
+	show "Vendo que você já entende";
+	show "a real importância disso,";
+	show "vamos prosseguir para";
+	show "a próxima pergunta.";
+	next;
+	show "[Fênix]";
+	show "Em sua jornada, você irá";
+	show "encontrar muitas pessoas";
+	show "com diferentes treinamentos";
+	show "e pontos de vista, e";
+	show "inevitalvelmente você irá";
+	show "encontar algumas, que o";
+	show "modo de vida não tem futuro.";
+	next;
+	show "[Fênix]";
+	show "Assim sendo, essas pessoas";
+	show "não entenderão seu modo de";
+	show "vida. Quando seus pontos";
+	show "de vista se chocarem,";
+	show "causando conflito, como";
+	show "você agiria?";
+	next;
+	menu "Insistiria que estou certo, sem me importar",L_TKQST4,"Desarmaria o ponto de vista conflitante",L_TKQST5,"Aceitaria as diferenças e aprenderia com elas",L_TKQST6;
+
+L_TKQST4:
+	show "[Fênix]";
+	show "É importante que você";
+	show "tenha sua opinião.";
+	show "Porém, você precisa";
+	show "reconhecer que pode estar";
+	show "errado, e a visão oposta";
+	show "talvez tenha algum mérito.";
+	next;
+	show "[Fênix]";
+	show "Não existe resposta certa,";
+	show "e a luz da verdade pode se";
+	show "se esconder entre sombras,";
+	show "assim como a natureza.";
+	show "Forçar ideias nos otros é";
+	show "uma prática opressiva.";
+	next;
+	show "[Fênix]";
+	show "Não se limite a";
+	show "uma visão única, e";
+	show "não determine seu";
+	show "crescimento aderindo a";
+	show "uma única verdade.";
+	show "Pense nisso e depois";
+	show "fale comigo novamente";
+	close;
+
+L_TKQST5:
+	show "[Fênix]";
+	show "É importante se dar";
+	show "bem com os outros, mas";
+	show "você não irá trazer";
+	show "valor para esse mundo";
+	show "sem suas únicas";
+	show "contribuições, pensamentos";
+	show "e opiniões.";
+	next;
+	show "[Fênix]";
+	show "Um conflito de ideais,";
+	show "quando conduzido,";
+	show "respeitando a si mesmo";
+	show "e aos outros, é uma";
+	show "grande oportunidade de";
+	show "aumentar seu conhecimento";
+	show "do mundo na visão de";
+	show "outros.";
+	next;
+	show "[Fênix]";
+	show "Reflita nessa idéia de";
+	show "estebelecer uma harmonia";
+	show "com si mesmo e com os";
+	show "outros, e depois retorne.";
+	close;
+
+L_TKQST6:
+	show "[Fênix]";
+	show "Ótimo! Você precisa ver";
+	show "as diferenças do que elas";
+	show "realmente são. Você também";
+	show "deve levar o criticismo à";
+	show "sua própria visão com graça";
+	show "e sincera consideração.";
+	next;
+	show "[Fênix]";
+	show "É impossível de saber";
+	show "sobre tudo nesse mundo.";
+	show "É impossível de entender";
+	show "toda e única visão. Mas";
+	show "isso não significa que as";
+	show "visões que você não entende";
+	show "não mereçam mérito.";
+	next;
+	show "[Fênix]";
+	show "Aquele com o qual você";
+	show "discorda, pode ter a";
+	show "resposta pra o que você";
+	show "não sabe. No seu tempo";
+	show "de fraqueza, essa pessoa";
+	show "pode vir a ser sua melhor";
+	show "ajuda. Lembre-se disso.";
+	next;
+	show "Eu estou satisfeito com";
+	show "as respostas que você";
+	show "me concedeu. Por favor,";
+	show "reflita um pouco sobre";
+	show "o que nós discutimos.";
+	show "Quando sua mente se acalmar,";
+	show "venha e converse comigo.";
+	set TK_Q,2;
+	close;
+
+L_TKQST2:
+	show "[Fênix]";
+	show "Desleixado! Como você";
+	show "espera crescer, se você";
+	show "foge dos desafios? Medo";
+	show "pode ser uma reaçao segura";
+	show "que pode salvar sua vida,";
+	show "mas covardice é descartável.";
+	next;
+	show "[Fênix]";
+	show "Eu me desaponto ao escutar";
+	show "o quê você disse. Nunca";
+	show "diga uma coisa assim para";
+	show "mim, novamente. Hm...,";
+	show "contemple os significados";
+	show "de coragem e covardice,";
+	show "só assim volte a falar";
+	show "comigo novamente.";
+	close;
+
+L_TKQST3:
+	show "[Fênix]";
+	show "Analisar? É bom fazer isso";
+	show "após ter sido derrotado.";
+	show "É sempre melhor enfrentar";
+	show "os problemas assim que";
+	show "você encontra eles. Não";
+	show "é sempre que você terá o";
+	show "privilégio de analisar.";
+	next;
+	show "[Fênix]";
+	show "Problemas podem ser previstos";
+	show "e analisados, mas eu creio";
+	show "que repulsão imediata não é";
+	show "bom. Pense nos seus medos";
+	show "também, quando você define";
+	show "derrota. Depois, volte a falar comigo.";
+	close;
+
+L_JobChange:
+	show "[Fênix]";
+	show "Você esta se sentindo calmo";
+	show "e em paz? Eu lhe farei uma";
+	show "pergunta muito importante.";
+	show "Me dê sua honesta resposta.";
+	next;
+	show "[Fênix]";
+	show "^ff0000Você está preparado para";
+	show "se dedicar à essa arte especial?";
+	show "Eu lhe ensinarei, e porei em";
+	show "prática sua dignidade e filosofia?^000000";
+	next;
+	menu "Sim",L_JobChangeA,"Não",L_JobChangeB;
+
+L_JobChangeA:
+	show "[Fênix]";
+	show "Muito bem. Você não é mais";
+	show "apenas um estudante. Você";
+	show "agora conhece os poderes";
+	show "e responsabilidades da";
+	show "disciplina do ^ff0000Taekwon^000000.";
+	next;
+	show "[Fênix]";
+	show "Tae Kwon significa";
+	show "socar e chutar,";
+	show "e Dô significa";
+	show "arte. Essa arte marcial é";
+	show "focada nas habilidades de";
+	show "uso do punho e do pé.";
+	next;
+	show "[Fênix]";
+	show "Use essa disciplina somente";
+	show "para honrar corpo e alma,";
+	show "e aprenda as habilidades";
+	show "que melhor lhe servem.";
+	show "Nunca diminua seu treinamento,";
+	show "ou traga vergonha para os";
+	show "Taekwons.";
+	next;
+	show "[Fênix]";
+	show "Você ainda é jovem, então";
+	show "eu suponho que queira um";
+	show "título de classe. Nesse caso,";
+	show "você agora é um";
+	show "^ff0000Taekwon^000000.";
+	show "Sim, isso é bom.";
+	callfunc "Job_Change",Job_Taekwon;
+	callfunc "F_ClearJobVar";
+	additem 2101,1;
+	next;
+	show "[Fênix]";
+	show "Por favor, pegue esse";
+	show "uniforme de treinamento";
+	show "e itens de defesa. Faça um";
+	show "bom uso desses presentes.";
+	show "Conforme você viaja e treina,";
+	show "mostre aos outros sobre nossa";
+	show "arte e aprenda o quê puder";
+	show "em retorno.";
+	next;
+	show "[Fênix]";
+	show "Agora esta na hora de";
+	show "embarcar na sua própria";
+	show "jornada em busca de novos";
+	show "desafios para desenvolver";
+	show "sua força. Siga seu caminho";
+	show "com orgulho, como um";
+	show "praticante de Taekwon!";
+	next;
+	show "[Fênix]";
+	show "Muito bem. Eu lhe desejo sorte.";
+	show "Espero vê-lo novamente em";
+	show "breve, "+strcharinfo(0)+".";
+	close;
+
+L_JobChangeB:
+	show "[Fênix]";
+	show "Hm, talvez você não esteja";
+	show "preparado para progredir de";
+	show "aluno para um verdadeiro";
+	show "lutador. Quando se sentir";
+	show "preparado, venha e fale";
+	show "comigo.";
+	close;
+
+L_Complete:
+	show "[Fênix]";
+	show "Como vai indo seu";
+	show "treinamento? Conforme";
+	show "suas técnicas ficam mais";
+	show "espetaculares, nunca se";
+	show "esqueça que você pode sempre";
+	show "se sustentar no básico.";
+	close;
+}

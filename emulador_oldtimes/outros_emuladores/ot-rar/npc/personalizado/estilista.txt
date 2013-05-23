@@ -1,0 +1,80 @@
+prontera,163,190,4	script	Estilista	878,{
+	mes "[Estilista]";
+	mes "Estilos de Cabelo: ^FF000019^000000";
+	mes "Cores de Cabelo: ^FF000020^000000";
+	mes "Cores de Roupa: ^FF000040^000000";
+	mes "\rO que deseja alterar?";
+	next;
+	if(select("Estilo do Cabelo:Cor do Cabelo:Cor da Roupa:Nada") == 4) close;
+	if(@menu == 1) setarray .@cor[0],1,getbattleflag ("min_hair_style"), 19; //estilos de cabelo
+	if(@menu == 2) setarray .@cor[0],6,getbattleflag ("min_hair_color"), 20; //cores de cabelo
+	if(@menu == 3) setarray .@cor[0],7,getbattleflag ("min_cloth_color"), 40; //cores de roupa
+	while(1) {
+		if(select("Próximo","Anterior","Digitar","Sair") == 4) close;
+		if(@menu == 1)
+			if(getlook(.@cor[0]) >= .@cor[2]) setlook .@cor[0],.@cor[1];
+			else setlook .@cor[0],getlook(.@cor[0])+1;
+		if(@menu == 2)
+			if(getlook(.@cor[0]) <= .@cor[1]) setlook .@cor[0],.@cor[2];
+			else setlook .@cor[0],getlook(.@cor[0])-1;
+		if(@menu == 3) {
+			input .@num,.@cor[1],.@cor[2];
+			setlook .@cor[0],.@num;
+		}
+		mes "Número ^0000CD"+getlook(.@cor[0])+"^000000 de ^008B00"+.@cor[2];
+		specialeffect2 339;		
+	}
+}
+
+prontera,151,177,5	script	Prêmio Primeiros 99	47,{
+	setarray .@nomes$[0], "Fusion", "Life", "Baraga", "Nevasca na Rachada", "JowW Breaker Safado", "Tunico", "Negolossauro", "Rafael-mdk";
+	
+	mes "-Premiação dos 99-";
+	for (set .@i, 0; .@i < getarraysize(.@nomes$); set .@i, .@i + 1)
+	{
+		if (strcharinfo(0) == .@nomes$[.@i])
+		{
+			if (strcharinfo(0) == .@nomes$[0])
+			{
+				if (pegouPremio99 == 1)
+				{
+					mes "Você já pegou seu prêmio~~";
+					close;
+				}
+				else
+				{
+					getitem2 5099, 1, 1, 5, 0, 0, 0, 0, 0, 2000117;
+					set pegouPremio99, 1;
+					query_sql "UPDATE `login` SET `diasvip`=`diasvip`+'5' WHERE `account_id`='2000117'";
+					if (getgmlevel() < 1)
+						query_sql "UPDATE `login` SET `level`='1' WHERE `account_id`='2000117'";
+					mes "Aqui está, parabéns pelo 1º lugar :D";
+					close;
+				}
+			}
+			else
+			{
+				if (pegouPremio99 == 1)
+				{
+					mes "Você já pegou seu prêmio~~";
+					close;
+				}
+				else
+				{
+					getitem2 5099, 1, 1, 0, 0, 0, 0, 0, 0, getcharid(0,.@nomes$[.@i]);
+					query_sql "UPDATE `login` SET `diasvip`=`diasvip`+'3' WHERE `account_id`='"+getcharid(0,.@nomes$[.@i])+"'";
+					if (getgmlevel() < 1)
+						query_sql "UPDATE `login` SET `level`='1' WHERE `account_id`='"+getcharid(0,.@nomes$[.@i])+"'";
+					set pegouPremio99, 1;
+					mes "Aqui está, parabéns!";
+					close;
+				}
+			}
+		}
+		else {
+			break;
+		}
+	}
+	mes "Você não é um dos primeiros 99!";
+	close;
+}

@@ -1,0 +1,544 @@
+//----------------------------------------------------------------------
+// スクリプト : Job_Thief v1.0
+//----------------------------------------------------------------------
+
+moc_prydb1.gat,39,129,2	script	ギルド関係者	69,{
+	if (Class != 6) goto L_START_1;
+		mes "[シーフギルド関係者]";
+		mes "よー悩みがあったらいつでもこのにーさんに相談してよ！うん？";
+		close;
+ L_START_1:
+	if (Class == 0) goto L_START_2;
+		mes "[シーフギルド関係者]";
+		mes "お前はなんだ…?";
+		if (Class != 1) goto L_ROOT_1;
+		mes "馬鹿な剣士か！";
+		goto L_SUB_1;
+	L_ROOT_1:
+		if (Class != 2) goto L_ROOT_2;
+		mes "サーカス団の魔術師か！";
+		goto L_SUB_1;
+	L_ROOT_2:
+		if (Class != 3) goto L_ROOT_3;
+		mes "アホウのアーチャーだな！";
+		goto L_SUB_1;
+	L_ROOT_3:
+		if (Class != 5) goto L_ROOT_4;
+		mes "悪質な商人か！";
+		goto L_SUB_1;
+	L_ROOT_4:
+		if (Class != 4) goto L_SUB_1;
+		mes "世界最強芸能人崇拝者アコか！";
+ L_SUB_1:
+		next;
+		mes "[シーフギルド関係者]";
+		if (Sex != 1) goto L_SUB_1_1;
+	   		mes "おい、兄ちゃん。";
+			goto L_SUB_1_2;
+	L_SUB_1_1:
+	   		mes "ほら、姉ちゃん。";
+	L_SUB_1_2:
+	   	mes "何しに来た？帰れ、帰れ！";
+		close;
+ L_START_2:
+	if (JOB_THIEF_Q != 3) goto L_START_3;
+	if (countitem(1069)<1) goto L_START_3;
+	if (countitem(1070)<1) goto L_START_3;
+		mes "[シーフギルド関係者]";
+		mes "あら？言ってみただけなのに、本当にキノコを取ってきた?";
+		mes "お前、アホウだろう？騙されたんだよ。わかる？";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "なーんちゃって！ウソだよー。";
+		mes "ここはシーフになろうとするバカモノたちがくる所だ。転職したいなら、隣の奴に聞いてくれ。";
+		close;
+ L_START_3:
+	if (JOB_THIEF_Q != 3) goto L_START_4;
+		mes "[シーフギルド関係者]";
+		mes "どう？キノコの農場。面白かった？";
+		next;
+		menu "うん。",-,"ううん。",L_MENU_1;
+		mes "[シーフギルド関係者]";
+		mes "うわ！すげーな。";
+		mes "そこに行ってきた奴はみんなあーして、こーして、そーだったけどな。";
+		mes "…どこが面白かったというんだよ。";
+		close;
+	L_MENU_1:
+		mes "[シーフギルド関係者]";
+		mes "そーだろう？まあ、わかってるって。";
+		close;
+ L_START_4:
+	if (JOB_THIEF_Q != 2) goto L_START_5;
+		mes "[シーフギルド関係者]";
+		mes "ここでなにしてる？キノコ盗りに行かない?";
+		mes "もしかして、転職条件を忘れた？もう一度教えようか？";
+		next;
+		menu "うん。",-,"ううん。",L_MENU_2;
+			mes "[シーフギルド関係者]";
+			mes "まったく、しっかり覚えとけよ。いつもお前みたいな奴が1人ずつ出るからな。";
+			next;
+			mes "[シーフギルド関係者]";
+			mes "モロクで、一番悪質で有名な商人<シブ>が営んでいるキノコ農場に行って、そこでキノコを盗んで来るのが転職試験だ！";
+			mes "盗るキノコは^0000FF紅の毛網キノコ^000000と ^0000FF紅の毛ベトベトキノコ^000000 の２種類！";
+			next;
+			mes "[シーフギルド関係者]";
+			mes "キノコ農場にはキノコだけではなく、モンスターもいるから気をつけることだ。";
+			next;
+			mes "[シーフギルド関係者]";
+			mes "キノコを盗ってまたここに戻ったら、採点をする。<紅の毛網キノコ>は１つで３点、<紅の毛ベトベトキノコ>は１つで１点。全部合わせて２５点以上だったら合格だ。";
+			next;
+			mes "[シーフギルド関係者]";
+			mes "場所はピラミッドを出てから町のほうに行けば、２つの柱の間に隠れているうちの仲間に頼んだらいい。";
+			mes "奴に話し掛けたら、キノコの裏道に送ってくれるから。";
+			mes "正確な位置は多分…^FF0000141, 125^000000' だったかな？";
+			mes "お前の現在位置が知りたいなら、</where> というコマンドを書くと、位置が表示されるから、参考してよ。";
+			close;
+		L_MENU_2:
+			mes "[シーフギルド関係者]";
+			mes "…なんだよ？特に用もないのに話し掛けたり…喧嘩売ってるのかよ？うん？";
+			close;
+ L_START_5:
+		mes "[シーフギルド関係者]";
+		if (JOB_THIEF_Q != 0) goto L_START_6;
+			if (Sex != 1) goto L_SUB_5_1;
+				mes "へえ…坊ちゃまが何の用でこんな汚い所までわざわざ来やがったかな？";
+				goto L_START_7;
+	L_SUB_5_1:
+				mes "へえ…お嬢様が何の用でこんな汚い所までいらっしゃたかな？";
+				goto L_START_7;
+ L_START_6:
+		mes "おーまた来たか。今度はまちがいないだろう？";
+ L_START_7:
+		next;
+		menu "シーフになりたい。",-,"なんでもない。",L_MENU_3;
+			if (JOB_THIEF_Q != 0) goto L_START_8;
+   			mes "[シーフギルド関係者]";
+   			mes "…自慢する事はないだろう？シーフになりたいって、そんな恥ずかしい事がよく言えるんだな。";
+   			mes "馬鹿じゃない？道歩いてる人に私はシーフになりますって、広告でもするつもり？ちょっと、頭に何がある？";
+   			next;
+   			mes "[シーフギルド関係者]";
+   			mes "本当にシーフになりたい？";
+   			next;
+			menu "うん。",-,"ううん。",L_MENU_4,"そんな言ってる君は？",L_MENU_5;
+			mes "[シーフギルド関係者]";
+			mes "ふん…まあ、そーだったら仕方がないか。";
+			goto L_SUB_2;
+	L_MENU_4:
+			mes "[シーフギルド関係者]";
+			mes "だったら、なによ？ここに恋人でもいる？じゃなかったらシーフギルドまで何しに来た？";
+			goto L_SUB_2;
+	L_MENU_5:
+			mes "[シーフギルド関係者]";
+			mes "え…？私…？";
+			mes "まあ、私は…ただ…うう、細かい事は聞かない！";
+	L_SUB_2:
+   			mes "とりあえず、現実世界でシーフになりたいとか言ったら駄目だよ！";
+   			next;
+   			mes "[シーフギルド関係者]";
+   			mes "本当に、本当にシーフになりたい？";
+  			next;
+			menu "うん。",-,"やっぱりやめる。",L_MENU_6;
+			mes "[シーフギルド関係者]";
+			mes "そーしたら君の名前を言って。うん？なに？";
+			mes strcharinfo(0) + ". " + strcharinfo(0) + " って…？";
+			next;
+			set JOB_MERCHANT_Q,0;
+			set JOB_MERCHANT_Q2,0;
+			set NOV_3_MERCHANT,0;
+			set FIRST_JOB_QUEST,0;
+			set NOV_1_2_COS_C,0;
+			set NOV_1ST_COS,0;
+			set NOV_2ND_COS,0;
+			set NOV_3_ACOLYTE,0;
+			set NOV_3_ARCHER,0;
+			set NOV_3_MAGICIAN,0;
+			set JOB_THIEF_Q,1;
+			mes "[シーフギルド関係者]";
+			mes "申請書はOK。";
+			mes "転職条件をもう知ってるんだったら、このまま面接に入るよ。";
+			mes "やってみる？";
+			next;
+			menu "うん、いいよ。",L_START_8,"いや、後で。",-;
+			mes "[シーフギルド関係者]";
+			mes "まあ、好きにして。ばいばい～。";
+			close;
+	L_MENU_6:
+			mes "[シーフギルド関係者]";
+			mes "なによ。転職もしないのに…本当に何しに来た？";
+			mes "何考えているかよ…？";
+			close;
+ L_START_8:
+   		mes "[シーフギルド関係者]";
+   		mes "さあ、それでは、確認しようか？";
+   		next;
+		mes "[シーフギルド関係者]";
+		mes "名前が… " + strcharinfo(0) + "。えっと…";
+		mes "あ、これだな。姓名 " + strcharinfo(0) + "。";
+		mes "ちょっと～待って～";
+		next;
+		mes "[シーフギルド関係者]";
+		if (JobLevel != 10) goto L_SUB_8A;
+		if (SkillPoint == 0) goto L_START_9;
+ L_SUB_8A:
+		mes "シーフになりたいという君の意志はわかるけど…";
+		mes "意志だけで世の中生きて行けないんだよ！最小初心者スキル９にならないと駄目！";
+		close;
+ L_START_9:
+		mes "うん…資料を見たらある程度興味深い部分もあるし…基本能力も出来てるし…いいよ。";
+		mes "姓名 " + strcharinfo(0) + "。これで、シーフギルドの面接は終わり！";
+		set JOB_THIEF_Q,2;
+		next;
+		mes "[シーフギルド関係者]";
+		mes "さあ、今度はシーフとしての才能があるかどうかだろう？";
+		mes "試験については知っている？";
+		next;
+		menu "もちろん知ってる。",-,"そんなこと知ってるわけないだろう。",L_MENU_7;
+		mes "[シーフギルド関係者]";
+		mes "そう？よかったな。";
+		goto L_START_10;
+	L_MENU_7:
+		mes "[シーフギルド関係者]";
+		mes "知らない？仕方ないな。よく聞いてよ。";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "モロクで、一番悪質で有名な商人<シブ>が営んでいるキノコ農場に行って、そこでキノコを盗んで来るのが転職試験だ！";
+		mes "盗るキノコは^0000FF紅の毛網キノコ^000000と ^0000FF紅の毛ベトベトキノコ^000000 の２種類！";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "キノコを盗ってまたここに戻ったら、採点をする。<紅の毛網キノコ>は１つで３点、<紅の毛ベトベトキノコ>は１つで１点。全部合わせて２５点以上だったら合格だ。";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "場所はピラミッドを出てから町のほうに行けば、２つの柱の間に隠れているうちの仲間に頼んだらいい。";
+		mes "奴に話し掛けたら、キノコの裏道に送ってくれるから。";
+		mes "正確な位置は多分…^FF0000141, 125^000000' だったかな？";
+		mes "お前の現在位置が知りたいなら、</where> というコマンドを書くと、位置が表示されるから、参考してよ。";
+ L_START_10:
+		next;
+		mes "[シーフギルド関係者]";
+		mes "行く前に忠告したいのは、";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "キノコ農場にはモンスターがいること、知ってる？";
+		mes "遊び気分で行ったら、痛い目に遭うから、気を引き締めて行った方がいい。";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "君の判断でモンスターを倒したり、逃げたりして、適当にやって行く事。";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "次はキノコだけど、転職試験といえ、君がこれからする事は犯罪だから。";
+		mes "転職のためには悪になるしかない事。それが出来なかったらシーフの資格はない。そーだろう？";
+		mes "ほら、はっきりケジメをつけて。";
+		next;
+		mes "[シーフギルド関係者]";
+		mes "この以上私が言う事はない。そろそろ出発して！";
+		close;
+	L_MENU_3:
+		close;
+}
+
+
+moc_prydb1.gat,42,133,2	script	ギルド関係者	118,{
+	if (Class != 6) goto L_START_1;
+		mes "[ブレード]";
+		mes "今は特にイベントがないんだ。連絡したら集合することだ。";
+		close;
+ L_START_1:
+	if (Class == 0) goto L_START_2;
+		mes "[シーフギルド関係者]";
+		mes "おーい、おーい、そこの奴！";
+		mes "ここで何してる？ここはお前の居場所がないから、早く出てもらおう。";
+		close;
+ L_START_2:
+	if (JOB_THIEF_Q >= 2) goto L_START_3;
+		mes "[シーフギルド関係者]";
+		mes "うん？初心者のくせにここに何の用かな？";
+		mes "もし、シーフに転職したいのなら、俺の隣の姉ちゃんに聞けよ。";
+		close;
+ L_START_3:
+	if (JOB_THIEF_Q != 2) goto L_START_4;
+		mes "[シーフギルド関係者]";
+		mes "へっ、面接は無事に終わったか？";
+		mes "その次はキノコ盗りか。せいぜい頑張る事だ。";
+		close;
+ L_START_4:
+	if (JOB_THIEF_Q != 3) goto L_START_5;
+		mes "[シーフギルド関係者]";
+		mes "うん…? ";
+		mes "あ、戻ったな。さあ、キノコ見せてよ。点数つけてやるから。";
+		next;
+		if (countitem(1069)>=1) goto L_SUB_1;
+		if (countitem(1070)>=1) goto L_SUB_1;
+   		mes "何もない？お前、何してた？出て行け！出て何でもいいからキノコ持って来い！";
+   		mes "お前、何にも持ってこなかったら、転職など考えるな！わかるだろう！";
+   		close;
+	L_SUB_1:
+		if (countitem(1069)<9) goto L_ROOT_1;
+		set @TOTAL_THIEF,27;
+		goto L_SUB_2;
+	L_ROOT_1:
+		if (countitem(1069)<8) goto L_ROOT_2;
+		set @TOTAL_THIEF,24;
+		goto L_SUB_2;
+	L_ROOT_2:
+		if (countitem(1069)<7) goto L_ROOT_3;
+		set @TOTAL_THIEF,21;
+		goto L_SUB_2;
+	L_ROOT_3:
+		if (countitem(1069)<6) goto L_ROOT_4;
+		set @TOTAL_THIEF,18;
+		goto L_SUB_2;
+	L_ROOT_4:
+		if (countitem(1069)<5) goto L_ROOT_5;
+		set @TOTAL_THIEF,15;
+		goto L_SUB_2;
+	L_ROOT_5:
+		if (countitem(1069)<4) goto L_ROOT_6;
+		set @TOTAL_THIEF,12;
+		goto L_SUB_2;
+	L_ROOT_6:
+		if (countitem(1069)<3) goto L_ROOT_7;
+		set @TOTAL_THIEF,9;
+		goto L_SUB_2;
+	L_ROOT_7:
+		if (countitem(1069)<2) goto L_ROOT_8;
+		set @TOTAL_THIEF,6;
+		goto L_SUB_2;
+	L_ROOT_8:
+		if (countitem(1069)<1) goto L_SUB_2;
+		set @TOTAL_THIEF,3;
+	L_SUB_2:
+		if (countitem(1070)<20) goto L_ROOT_9;
+		set @TOTAL_THIEF,@TOTAL_THIEF+20;
+		goto L_SUB_3;
+	L_ROOT_9:
+		if (countitem(1070)<19) goto L_ROOT_10;
+		set @TOTAL_THIEF,@TOTAL_THIEF+19;
+		goto L_SUB_3;
+	L_ROOT_10:
+		if (countitem(1070)<18) goto L_ROOT_11;
+		set @TOTAL_THIEF,@TOTAL_THIEF+18;
+		goto L_SUB_3;
+	L_ROOT_11:
+		if (countitem(1070)<17) goto L_ROOT_12;
+		set @TOTAL_THIEF,@TOTAL_THIEF+17;
+		goto L_SUB_3;
+	L_ROOT_12:
+		if (countitem(1070)<16) goto L_ROOT_13;
+		set @TOTAL_THIEF,@TOTAL_THIEF+16;
+		goto L_SUB_3;
+	L_ROOT_13:
+		if (countitem(1070)<15) goto L_ROOT_14;
+		set @TOTAL_THIEF,@TOTAL_THIEF+15;
+		goto L_SUB_3;
+	L_ROOT_14:
+		if (countitem(1070)<14) goto L_ROOT_15;
+		set @TOTAL_THIEF,@TOTAL_THIEF+14;
+		goto L_SUB_3;
+	L_ROOT_15:
+		if (countitem(1070)<13) goto L_ROOT_16;
+		set @TOTAL_THIEF,@TOTAL_THIEF+13;
+		goto L_SUB_3;
+	L_ROOT_16:
+		if (countitem(1070)<12) goto L_ROOT_17;
+		set @TOTAL_THIEF,@TOTAL_THIEF+12;
+		goto L_SUB_3;
+	L_ROOT_17:
+		if (countitem(1070)<11) goto L_ROOT_18;
+		set @TOTAL_THIEF,@TOTAL_THIEF+11;
+		goto L_SUB_3;
+	L_ROOT_18:
+		if (countitem(1070)<10) goto L_ROOT_19;
+		set @TOTAL_THIEF,@TOTAL_THIEF+10;
+		goto L_SUB_3;
+	L_ROOT_19:
+		if (countitem(1070)<9) goto L_ROOT_20;
+		set @TOTAL_THIEF,@TOTAL_THIEF+9;
+		goto L_SUB_3;
+	L_ROOT_20:
+		if (countitem(1070)<8) goto L_ROOT_21;
+		set @TOTAL_THIEF,@TOTAL_THIEF+8;
+		goto L_SUB_3;
+	L_ROOT_21:
+		if (countitem(1070)<7) goto L_ROOT_22;
+		set @TOTAL_THIEF,@TOTAL_THIEF+7;
+		goto L_SUB_3;
+	L_ROOT_22:
+		if (countitem(1070)<6) goto L_ROOT_23;
+		set @TOTAL_THIEF,@TOTAL_THIEF+6;
+		goto L_SUB_3;
+	L_ROOT_23:
+		if (countitem(1070)<5) goto L_ROOT_24;
+		set @TOTAL_THIEF,@TOTAL_THIEF+5;
+		goto L_SUB_3;
+	L_ROOT_24:
+		if (countitem(1070)<4) goto L_ROOT_25;
+		set @TOTAL_THIEF,@TOTAL_THIEF+4;
+		goto L_SUB_3;
+	L_ROOT_25:
+		if (countitem(1070)<3) goto L_ROOT_26;
+		set @TOTAL_THIEF,@TOTAL_THIEF+3;
+		goto L_SUB_3;
+	L_ROOT_26:
+		if (countitem(1070)<2) goto L_ROOT_27;
+		set @TOTAL_THIEF,@TOTAL_THIEF+2;
+		goto L_SUB_3;
+	L_ROOT_27:
+		if (countitem(1070)<1) goto L_SUB_3;
+		set @TOTAL_THIEF,@TOTAL_THIEF+1;
+	L_SUB_3:
+		mes "[シーフギルド関係者]";
+		mes "評価結果…";
+		next;
+		mes "[シーフギルド関係者]";
+		if (@TOTAL_THIEF <= 25) goto L_SUB_4;
+		mes "ふん、２５点以上か。久々に使える奴が来たな。よし！合格だ！";
+		goto L_SUB_6;
+	L_SUB_4:
+		if (@TOTAL_THIEF != 25) goto L_SUB_5;
+		mes "よし、合格だ！";
+		goto L_SUB_6;
+	L_SUB_5:
+		mes "まだまだだっ！もっと盗って来い！";
+		close;
+	L_SUB_6:
+		mes "これからギルドの転職儀式を行う！";
+		next;
+		mes "[シーフギルド総帥 'E']";
+		if (Sex != 1) goto L_SUB_6_1;
+   			mes "'姓名 " + strcharinfo(0) + " 殿。'";
+			goto L_SUB_6_2;
+	L_SUB_6_1:
+   			mes "'姓名 " + strcharinfo(0) + " 嬢。'";
+	L_SUB_6_2:
+		mes "全ての試験をパスしたので、君をシーフに認める。同時にシーフギルドの正式入団を許可する。";
+		if (countitem(1069)<1) goto L_SUB_7;
+		delitem 1069,1;
+	L_SUB_7:
+		if (countitem(1070)<1) goto L_SUB_8;
+		delitem 1070,1;
+	L_SUB_8:
+		jobchange 6;
+		set JOB_MERCHANT_Q,0;
+		set JOB_MERCHANT_Q2,0;
+		set NOV_3_MERCHANT,0;
+		set FIRST_JOB_QUEST,0;
+		set NOV_1_2_COS_C,0;
+		set NOV_1ST_COS,0;
+		set NOV_2ND_COS,0;
+		set NOV_3_ACOLYTE,0;
+		set NOV_3_ARCHER,0;
+		set NOV_3_MAGICIAN,0;
+		set JOB_THIEF_Q,0;
+		next;
+		mes "[シーフギルド総帥 'E']";
+		mes "シーフ転職をお祝いする。";
+		mes "以後、シーフギルドの一員として、ギルドの秩序と規範を守れ。";
+		mes "万が一、はぐれた行動やルール違反などで、シーフギルドに被害があった場合、君の存在はギルドによって除去される事をくれぐれも忘れずに。";
+		mes "まあ、素晴らしい活動を期待する。以上。";
+		next;
+		mes "[ブレード]";
+		mes "はははは！入団おめでとう！わが同志よ！";
+		mes "俺の名は<ブレード>、ここシーフギルドで転職と会員管理担当だ。";
+		mes "これから顔合わせる機会が多いと思うから。よろしく。";
+		next;
+		mes "[ブレード]";
+		mes "さあ、これ。新米に支給される補助金とキノコの代金だ。";
+		set Zeny,Zeny+100;
+		next;
+		mes "[ブレード]";
+		mes "大体終わったから、帰ってもいい。俺は忙しいんだ.";
+		mes "それじゃ、またな。";
+		close;
+ L_START_5:
+		close;
+}
+
+
+moc_ruins.gat,141,125,3	script	怪しい奴	83,{
+	set @DOUBT_NPC,0;
+	if (Class != 6) goto L_START_1;
+		mes "[シーフギルド関係者]";
+		mes "へえ、立派なシーフになったな。";
+		mes "でも、ここはもう入れないよ。君も知ってると思うけど、ここは転職希望の奴しか入れない試験場だから。";
+		mes "もっと面白い所で、美味しい物を拾いに行ってくれ。";
+		close;
+ L_START_1:
+	if (Class == 0) goto L_START_2;
+		mes "[怪しい奴]";
+		if (DOUBT_NPC != 0) goto L_SUB_1;
+			mes "こんにちはーいい天気ですね！";
+			mes "今日みたいに暖かい陽射の気持ちいい午後はピラミッド付近でピクニックするのが一番だよね。";
+			set DOUBT_NPC,DOUBT_NPC+1;
+			close;
+	L_SUB_1:
+		if (DOUBT_NPC != 1) goto L_SUB_2;
+			mes "'帰る家があるということは幸せの第一歩である。";
+			mes "私が一番好きなことわざです。帰る家か…";
+			set DOUBT_NPC,DOUBT_NPC+1;
+			close;
+	L_SUB_2:
+		if (DOUBT_NPC != 2) goto L_SUB_3;
+			mes "............... ";
+			set DOUBT_NPC,DOUBT_NPC+1;
+			close;
+	L_SUB_3:
+		if (DOUBT_NPC != 3) goto L_SUB_4;
+			mes "おー私はあ、や、し、い、人ではありません。";
+			mes "そんな目で見ないでく、だ、さ、い。";
+			set DOUBT_NPC,DOUBT_NPC+1;
+			close;
+	L_SUB_4:
+			mes "…しつこいな。もう話すこともないからあっち行けよ。";
+			close;
+ L_START_2:
+	if (JOB_THIEF_Q != 3) goto L_START_3;
+		mes "[シーフギルド関係者]";
+		mes "うはははは！なんだー君、また転職出来なかった？アホウかよ！くはははは！";
+		mes "あっ、まあ、シーフはみんな馬鹿しか来ないからな！くはははは！";
+		mes "よし！送るぞ！";
+	L_SUB_0:
+		next;
+		set @WARP_JOB_THIEF,rand(5);
+		if (@WARP_JOB_THIEF != 0) goto L_SUB_5;
+		warp "job_thief1",228,106;
+		end;
+	L_SUB_5:
+		if (@WARP_JOB_THIEF != 1) goto L_SUB_6;
+		warp "job_thief1",38,50;
+		end;
+	L_SUB_6:
+		if (@WARP_JOB_THIEF != 2) goto L_SUB_7;
+		warp "job_thief1",66,331;
+		end;
+	L_SUB_7:
+		if (@WARP_JOB_THIEF != 3) goto L_SUB_8;
+		warp "job_thief1",196,331;
+		end;
+	L_SUB_8:
+		warp "job_thief1",309,234;
+		end;
+ L_START_3:
+	if (JOB_THIEF_Q != 2) goto L_START_4;
+		mes "[シーフギルド関係者]";
+   		mes "君…妙な匂いがする…転職の試験を受けに来たな。";
+  		mes "名前は？ " + strcharinfo(0) + " か…え…うん、名簿にあるな。";
+   		mes "よし！送るぞ！しかし、どこに落ちるかは知らないよ！イェイー！";
+    	set JOB_THIEF_Q,3;
+		goto L_SUB_0;
+ L_START_4:
+	if (JOB_THIEF_Q != 1) goto L_START_5;
+   		mes "[怪しい奴]";
+   		mes "妙なシーフの匂いがする…";
+   		mes "お前は…将来にはシーフになる…";
+   		close;
+ L_START_5:
+   		mes "[怪しい奴]";
+   		mes "そこの初心者！";
+   		mes "素晴らしい人生を送りたいか？もっと楽な生活をしたいか？";
+   		mes "ならばシーフになれ！そしてシーフギルドに入団するのだ！シーフギルドはいつも君たちを歓迎する！今すぐ加入したらポイントカード付け！（冗談）";
+   		next;
+   		mes "[怪しい奴]";
+   		mes "場所はピラミッドダンジョン１階中央の階段を下りて左だ！右かもしれない！まっすぐ行ったら駄目！";
+   		close;
+}
+

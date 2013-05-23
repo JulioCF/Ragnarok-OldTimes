@@ -1,0 +1,58 @@
+//===== Cronus Script ========================================
+//= Quest Chapéu de Lontra
+//===== Por: =================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest do Chapéu de Lontra
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text [Lupus]
+//= 1.3 Fixed possible exploit [Lupus]
+//= 1.4 Fixed required item Lazy Racoon Hat -> Racoon Hat,
+//=     thanks to frugal [DracoRPG]
+//= 1.5 Traduzido para o Cronus [Amandinha].
+//= 1.5 Adaptado para o Cronus [socramjunio].
+//============================================================
+
+xmas,184,267,4	script	Querida Rency	818,{
+ show "[Querida Rency]";
+ show "Uau! já ouviu falar sobre o Chapéu de Lontra?";
+ next;
+ show "[Querida Rency]";
+ show "O que eu preciso para faze-lo é bem simples:";
+ show "1 Chapéu de Fumacento e";
+ show "1 Tiara de Folha.";
+ next;
+ show "[Querida Rency]";
+ show "Você tem esses item?";
+ next;
+ menu "Sim.",-,"Não.",M_EXIT;
+
+ if(countitem(5033) < 1 || countitem(5064) < 1) GOTO L_NOITEM;//Items: Raccoon Hat, Transformation Leaf,
+ delitem 5033,1;//Items: Raccoon Hat,
+ delitem 5064,1;//Items: Transformation Leaf,
+ show "[Querida Rency]";
+ show "Parabéns!";
+ next;
+ show "[Querida Rency]";
+ show "Obrigado pelo seus items! agora farei o seu!";
+ next;
+ additem 5078,1;//Items: Sea Otter Hat,
+ show "[Querida Rency]";
+ show "Obrigado! Adeus!";
+ close;
+
+L_NOITEM:
+ show "[Querida Rency]";
+ show "Desculpa, você não tem item suficientes.";
+ close;
+
+M_EXIT:
+ show "[Querida Rency]";
+ show "Adeus! tenha uma bom dia no mundo de Ragnarök!";
+ close;
+}

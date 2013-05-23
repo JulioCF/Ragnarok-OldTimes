@@ -1,0 +1,115 @@
+//===== Cronus Script ======================================== 
+//= Guias de Geffen
+//===== Por: ================================================= 
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.2b
+//===== Compatível Com: ====================================== 
+//= eAthena  0.5.2 +, Cronus 477 +
+//===== Descrição: =========================================== 
+//=
+//===== Comentários Atuais: =================================== 
+//= 1.2b Traduzido e Adaptado para o Cronus [Pudim]
+//============================================================
+
+
+// Norte --------------------------------------------
+geffen.gat,123,202,5	script	Guia#1::Gef_Guide	705,{
+	cutin "gef_soldier",2;
+	show "[Soldado de Geffen]";
+	show "Bem vindo à Geffen, a Cidade da Magia.";
+	next;
+	show "[Soldado de Geffen]";
+	show "Nós estamos aqui para ajudá-lo a achar seu caminho.  Por favor fique a vontade para vir falar conosco quando precisar de ajuda.";
+M_Menu:
+	next;
+	menu "Ver Contruções",-, "Cancelar",M_End;
+
+		show "[Soldado de Geffen]";
+		show "Você deseja deixar as informações no mini-mapa?";
+		next;
+		menu "Não Obrigado",-,"Sim Por Favor",sM_1b;
+		
+			set @COMPASS_CHECK,0;
+			goto L_Cont;
+
+		sM_1b:
+			set @COMPASS_CHECK,1;
+
+		L_Cont:
+		show "[Soldado de Geffen]";
+		show "Por favor escolha a construção para ver.";
+		next;
+	sM_Menu:
+		menu "^FF0000Academia de Magia^000000",-, "^00A500Oficina dos "+callfunc("classname",10,1,1)+"^000000",M_1_2, "^4444FFTorre de Geffen^000000",M_1_3,
+			"Loja de Armas",M_1_4, "Loja de Ferramentas",M_1_5, "Bar",M_1_6, "Estalagem",M_1_7, "Limpar todas as indicações do mini-mapa",M_1_8, "Cancelar", M_End;
+
+			show "[Soldado de Geffen]";
+			show "'A 'Academia de Magia' é a casa dos teóricos mágicos, e o lugar para se tornar "+callfunc("classname",2,1,1)+".";
+			viewpoint 1,61,180,1,0xFF5555;
+			goto sL_Wipe;
+		M_1_2:
+			show "[Soldado de Geffen]";
+			show "A 'Oficina dos "+callfunc("classname",10,1,1)+"' está ao sudeste da Torre de Geffen.  É onde "+callfunc("classname",5,1,1)+" trainam para se tornar "+callfunc("classname",10,1,1)+".";
+			show "Você também pode aprimorar suas armas e equipamentos lá.";
+			viewpoint 1,182,59,2,0x44FF44;
+			goto sL_Wipe;
+		M_1_3:
+			show "[Soldado de Geffen]";
+			show "Os andares inferiores da 'Torre de Geffen' são uma área cheia de monstros.  Pessoas vão treinar lá.";
+			show "O andar superior da Torre é a casa da ^0000FF'Guilda dos "+callfunc("classname",9,1,1)+"'^000000. Onde "+callfunc("classname",2,1,1)+" podem se tornar "+callfunc("classname",9,1,1)+".";
+			viewpoint 1,120,120,3,0x5555FF;
+			goto sL_Wipe;
+		M_1_4:
+			show "[Soldado de Geffen]";
+			show "Vá para 'Loja de Armas' se equipar com uma boa variedade de armas e equipamentos.";
+			viewpoint 1,99,140,4,0xFF00FF;
+			goto sL_Wipe;
+		M_1_5:
+			show "[Soldado de Geffen]";
+			show "A 'Loja de Equipamentos' é o lugar para ir quando se precisa se reabastecer de itens como poções ou asas de mosca.";
+			viewpoint 1,44,86,5,0xFF00FF;
+			goto sL_Wipe;
+		M_1_6:
+			show "[Soldado de Geffen]";
+			show "O 'Bar' é um ótimo lugar para conhecer pessoas e se divertir.";
+			viewpoint 1,138,138,6,0xF0C40F;
+			goto sL_Wipe;
+		M_1_7:
+			show "[Soldado de Geffen]";
+			show "A 'Estalagem' é um bom lugar para descasar e recuperar seu hp e sp.";
+			viewpoint 1,172,174,7,0xFF8000;
+			goto sL_Wipe;
+		M_1_8:
+			set @COMPASS_CHECK, 2;
+
+		sL_Wipe:
+			if(@COMPASS_CHECK != 2) next;
+			if(@COMPASS_CHECK == 1) goto sM_Menu;
+			viewpoint 2,61,180,1,0xFF5555;
+			viewpoint 2,182,59,2,0x44FF44;
+			viewpoint 2,120,120,3,0x5555FF;
+			viewpoint 2,99,140,4,0xFF00FF;
+			viewpoint 2,44,86,5,0xFF00FF;
+			viewpoint 2,138,138,6,0xF0C40F;
+			viewpoint 2,172,174,7,0xFF8000;
+			if (@COMPASS_CHECK == 0) goto sM_Menu;
+			show "[Soldado de Geffen]";
+			show "Todas as indicações foram apagadas";
+			cutin "gef_soldier",255;
+			close;
+
+
+	M_End:
+		show "[Soldado de Geffen]";
+		show "Tenha um bom dia.";
+		cutin "gef_soldier",255;
+		close;
+}
+
+// Sul -----------------------------------------------
+geffen.gat,118,62,0	duplicate(Gef_Guide)	Guia#2	705
+// Leste ---------------------------------------------
+geffen.gat,203,116,2	duplicate(Gef_Guide)	Guia#3	705
+// Oeste ---------------------------------------------
+geffen.gat,37,123,5	duplicate(Gef_Guide)	Guia#4	705

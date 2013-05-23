@@ -1,0 +1,109 @@
+//===== Cronus Script ======================================= 
+//= Guia de Morroc
+//===== By: ================================================== 
+//= kobra_k88
+//===== Versão Atual: ===================================== 
+//= 1.2
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Mehah
+//============================================================
+
+// Norte ------------------------------------------------
+morocc.gat,153,286,6	script	Guia#1::Mor_Guide	707,{
+	cutin "moc_soldier",2;
+	show "[Soldado de Morroc]";
+	show "Bem-vindo a Morroc, a fronteira do deserto!";
+	next;
+	show "[Soldado de Morroc]";
+	show "Nós estamos aqui para lhe ajudar. Por favor, sinta-se livre para falar a qualquer hora que você precise de ajuda.";
+M_Menu:
+	next;
+	menu "Ver construções",-, "Notificação",M_2, "Cancelar",M_End;
+
+		show "[Soldado de Morroc]";
+		show "Você quer que eu deixe indicações no Míni-mapa?";
+		next;
+		menu "Não, obrigado",-,"Sim, por favor",sM_1b;
+		
+			set @COMPASS_CHECK,0;
+			goto L_Cont;
+
+		sM_1b:
+			set @COMPASS_CHECK,1;
+
+		L_Cont:
+		show "[Soldado de Morroc]";
+		show "Por favor, escolha uma construção que deseja ver.";
+		next;
+	sM_Menu:
+		menu "^FF0000Guild dos "+callfunc("classname",6,"P","M")+"^000000",-, "Arsenal",M_1_2, "Hospedaria",M_1_3, "Bar",M_1_4, "Guild do "+callfunc("classname",12,"S","M")+"",M_1_5,
+			"Apagar todas as indicações do míni-mapa.",M_1_6, "Cancelar",M_End;
+
+			show "[Morocc Soldier]";
+			show "A 'Guild do "+callfunc("classname",6,"S","M")+"'.... É o lugar para se torna um "+callfunc("classname",6,"S","M")+".....";
+			viewpoint 1,24,297,1,0xFF0000;
+			goto sL_Wipe;
+		M_1_2:
+			show "[Morocc Soldier]";
+			show "'Arsenal' é o lugar aonde você deseja se equipar com uma variedade de armas e armadura.";
+			viewpoint 1,253,56,2,0xFF00FF;
+			goto sL_Wipe;
+		M_1_3:
+			show "[Morocc Soldier]";
+			show "Em Morroc há 2 'Hospedaria's' localizado no Sul e nas partes Nordestes da cidade.";
+			viewpoint 1,274,269,3,0xFF00FF;
+			viewpoint 1,197,66,4,0xFF00FF;
+			goto sL_Wipe;
+		M_1_4:
+			show "[Morocc Soldier]";
+			show "O 'Bar' é localizado ao Noroeste da cidade.";
+			viewpoint 1,52,259,5,0xFF00FF;
+			goto sL_Wipe;
+		M_1_5:
+			show "[Morocc Soldier]";
+			show "A 'Guild dos "+callfunc("classname",12,"S","M")+"' está no canto Oriental da cidade.";
+			viewpoint 1,284,171,6,0x00FF00;
+			goto sL_Wipe;
+		M_1_6:
+			set @COMPASS_CHECK, 2;
+
+		sL_Wipe:
+			if(@COMPASS_CHECK != 2) next;
+			if(@COMPASS_CHECK == 1) goto sM_Menu;
+			viewpoint 2,24,297,1,0xFF0000;
+			viewpoint 2,253,56,2,0xFF00FF;
+			viewpoint 2,274,269,3,0xFF00FF;
+			viewpoint 2,197,66,4,0xFF00FF;
+			viewpoint 2,52,259,5,0xFF00FF;
+			viewpoint 2,284,171,6,0x00FF00;
+			if (@COMPASS_CHECK == 0) goto sM_Menu;
+			show "[Soldado de Morroc]";
+			show "Todas as indicações foram removidas";
+			cutin "moc_soldier",255;
+			close;
+
+	M_2:
+		show "[Soldado de Morroc]";
+		show "Nós atualizamos a Guia Local ao Estilo Digital mais Novo. Nós esperamos você como este sistema novo .";
+		next;
+		show "[Soldado de Morroc]";
+		show "Não esqueça de recorrer ao Míni-mapa no canto Superior-direito de sua tela.";
+		next;
+		show "[Soldado de Morroc]";
+		show "Se você não pode ver o Míni-mapa, clique ^0000ff'ctrl+tab'^000000 ou Clica no ^0000ff'botão do mapa'^000000 na Janela de Informação Básica";
+		show "Se lembre de usar os^ff0000+,-^000000 botões para ajustar o mapa a sua preferência.";
+		goto M_Menu;
+
+	M_End:
+		show "[Morocc Soldier]";
+		show "Bom por te parado.";
+		cutin "moc_soldier",255;
+		close;
+}
+
+// Sul --------------------------------------------
+morocc.gat,162,97,6	duplicate(Mor_Guide)	Guia#2	707
+// Oeste --------------------------------------------
+morocc.gat,28,161,6	duplicate(Mor_Guide)	Guia#3	707
+// Leste  --------------------------------------------
+morocc.gat,294,203,9	duplicate(Mor_Guide)	Guia#4	707

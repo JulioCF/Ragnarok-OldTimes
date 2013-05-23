@@ -1,0 +1,79 @@
+//===== Cronus Script ========================================
+//= Script de Invasão
+//===== By: ==================================================
+//= Kamper
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Comentarios Adicionais: ==============================
+//= 1.0 Criado o script [Kamper]
+//============================================================
+
+prontera.gat,0,0,0	script	InvasionScript	-1,{
+end;
+OnInit:
+// ================= Configurações =============================
+set $@chance, 1;	//Chances de invasão. 1 = 0,01% 1/1000
+
+// ================= Monstros ==================================
+// Para adicionar mais monstros siga o exemplo:
+// set $@mob_(número), (id do monstro);
+// Conforme a ordem, e no mobmax sete o número final de monstros
+set $@mobmax, 6; // Quantidade máxima dos monstros a serem sorteados
+set $@mob_0, 1002;	// Poring
+set $@mob_1, 1016;	// Esqueleto Arqueiro
+set $@mob_2, 1036;	// Carniçal
+set $@mob_3, 1071;	// Esqueleto Pirata
+set $@mob_4, 1102;	// Bathory
+set $@mob_5, 1175;	// Tarou
+
+// ================= Cidades ===================================
+// Para adicionar mais cidades siga o exemplo:
+// set $@city_(número)$, "(mapa da cidade)";
+// Conforme a ordem, e no citymax sete o número final de cidades
+set $@citymax, 6; // Quantidade máxima das cidades a serem sorteadas
+set $@city_0$, "geffen.gat";	// Geffen
+set $@city_1$, "izlude.gat";	// Izlude
+set $@city_2$, "alberta.gat";	// Alberta
+set $@city_3$, "morocc.gat";	// Morroc
+set $@city_4$, "prontera.gat";	// Prontera
+set $@city_5$, "payon.gat";	// Payon
+
+// ================= Nomes das Cidades =========================
+// Para adicionar mais nomes de cidades siga o exemplo:
+// set $@cityn_(número)$, "(nome da cidade)";
+// Siga a ordem e as cidades acima
+set $@cityn_0$, "Geffen";	// Geffen
+set $@cityn_1$, "Izlude";	// Izlude
+set $@cityn_2$, "Alberta";	// Alberta
+set $@cityn_3$, "Morroc";	// Morroc
+set $@cityn_4$, "Prontera";	// Prontera
+set $@cityn_5$, "Payon";	// Payon
+
+// ================= Script ====================================
+Init:
+if(rand(1,10000) <= $@chance){
+	set $@mob, rand($@mobmax);
+	set $@mob, getd("$@mob_"+$@mob); 
+	set $@mobn$, strmobinfo(1,$@mob);
+	set $@city, rand($@citymax);
+	set $@city$, getd("$@city_"+$@city+"$"); 
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	monster $@city$,0,0,$@mobn$,$@mob,20;
+	announce "Venham nos ajudar!",0;
+	announce getd("$@cityn_"+$@city+"$")+" acaba de ser invadida por um grupo de monstros!",0;
+}
+initnpctimer;
+end;
+
+OnTimer600000:
+goto Init;
+
+}

@@ -1,0 +1,80 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Caçador
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0b (eA 1.3d)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//============================================================
+
+
+//============================================================
+// HUNTER SKILL - PHANTASMIC ARROW
+//============================================================
+payon_in02,54,13,7	script	Albest	55,{
+	show "[Albest]";
+	if(BaseJob!=Job_Hunter) goto L_hunterno;
+	if(getskilllv(1009)) goto L_alreadyhave;
+	if(JobLevel<40) goto L_nojob;
+
+	show "Eu posso lhe ensinar uma técnica";
+	show "secreta passada de gerações para gerações";
+	show "por minha família. A mesma guardou";
+	show "guardou este segredo durante anos,";
+	show "mas eu poderia lhe ensinar isto";
+	show "por alguns materiais.";
+	next;
+	show "[Albest]";
+	show "Estou correndo devagar em algumas";
+	show "coisas. Aqui está minha lista:";
+	show "5 Rubis Amaldiçoados";
+	show "5 Penas de Harpia";
+	show "30 Rações para Bichinhos";
+	next;
+	
+	show "[Albest]";
+	show "Deixe-me conferir seus itens.";
+	next;
+	
+	if(countitem(724)<5 || countitem(7115)<5 || countitem(537)<30) goto L_noitems;//Items: Rubi_Amaldiçoado, Pena_de_Harpia, Ração_para_Bichinho,
+	delitem 724, 5;//Items: Rubi_Amaldiçoado,
+	delitem 7115, 5;//Items: Pena_de_Harpia,
+	delitem 537, 30;//Items: Ração_para_Bichinho,
+	
+	show "[Albest]";
+	show "Eu vejo que você tem todos os itens,";
+	show "assim eu lhe ensinarei meu talento.";
+	skill 1009,1,0;
+	close;
+
+L_noitems:
+	show "[Albest]";
+	show "Você não tem todos os itens.";
+	show "Volte quando você tiver tudo";
+	show "que lhe pedi.";
+	close;
+		
+L_nojob:
+	show "Volte quando você aprender";
+	show "mais sobre ser um Caçador.";
+	show "Você precisa ter pelo menos";
+	show "40 léveis de classe de Caçador.";
+	close;
+
+L_alreadyhave:
+	show "Ahh, meu aprendiz, você";
+	show "veio me visitar...";
+	close;
+	
+L_hunterno:
+	show "Tem algo em que eu posso";
+	show "lhe ajudar? Eu acredito";
+	show "que você veio ao homem errado.";
+	close;
+}

@@ -1,0 +1,509 @@
+//Thief Quest for Athena by BeerNuts
+
+// Monster Spawns
+
+job_thief1.gat,0,0,0,0	monster	Orange Mushroom	1182,180,0,0,0
+job_thief1.gat,0,0,0,0	monster	Fabre	1184,50,0,0,0
+job_thief1.gat,0,0,0,0	monster	Chonchon	1183,50,0,0,0
+job_thief1.gat,0,0,0,0	monster	Spore	1014,30,0,0,0
+
+
+// Quest NPCs
+
+moc_ruins.gat,141,125,3	script	Bogus Man	83,{
+	set @TEMP,0;
+	set @s_flag,0;
+	if(Class==6) goto L00;
+	if((Class !=0) && (Class !=6)) goto L01;
+	if(job_thief_q==3) goto L02;
+	if(job_thief_q==2) goto L03;
+	if(job_thief_q==1) goto L04;
+	mes "[Bogus Man]";
+	mes "Hey!! Novice!";
+	mes "Want to live in Bed of Roses? Want to be Stronger and more Powerful!?";
+	mes "If so, Join the Thief Guild! You are always welcomed! Join now!";
+	next;
+	mes "[Bogus Man]";
+	mes "You can get more information at the Underground Room in the Pyramid 1 BF!";
+	close;
+
+	L00:
+		mes "[Thief Guide]";
+		mes "Yoo Hoo~ Look at you~you become a Cool Thief.";
+		mes "However, You can't go in there.This place is only for newbies who wanna be thieves.";
+		mes "Why don't you go outside this town and make yourself stronger?";
+		close;
+	L01:
+		if(@s_flag==0) goto L01a;
+		if(@s_flag==1) goto L01b;
+		if(@s_flag==2) goto L01c;
+		if(@s_flag==3) goto L01d;
+		if(@s_flag==4) goto L01e;
+
+		L01a:
+			mes "[Bogus Man]";
+			mes "Howdy~ Howdy. What a Wonderful day today,isn't it?";
+			mes "I feel like I am going to go on a Picnic with fellas of mine to the Pyramids Field today.";
+			close;
+			set @s_flag,@s_flag+1;
+		L01b:
+			mes "[Bogus Man]";
+			mes "'Lalalala,Home sweet Home.'";
+			mes "I like this Saying. Home Sweet Home....";
+			close;
+			set @s_flag,@s_flag+2;
+		L01c:
+			mes "[Bogus Man]";
+			mes "............... ";
+			close;
+			set @s_flag,@s_flag+3;
+		L01d:
+			mes "[Bogus Man]";
+			mes "Oh~ Boy!! I~ am~N.O.T~ a ~S.T.R.A.N.G.E~M.A.N.";
+			mes "D.O.N.O.T. L.O.O.K. A.T. M.E. Like that.";
+			close;
+			set @s_flag,@s_flag+4;
+		L01e:
+			mes "[Bogus Man]";
+			mes "....Hey, Dude. I have nothing to say with you, Mind your own business.";
+			close;
+	L02:
+		mes "[Thief Guide]";
+		mes "Muhahahaha~~ Whattt~~ Haven't you passed the Test yet? Are you a sort of an Idiot!! Kakakaka!!";
+		mes "Ah, Right!! Only Stupid guys want to be Thieves!! Muhahahaha!!";
+		mes "Alright! You may go in!";
+		next;
+		set @TEMP,rand(5);
+		if(@TEMP != 0) goto warpL02a;
+		warp "job_thief1.gat",228,106;
+		close;
+		warpL02a:
+			if(@TEMP != 1) goto warpL02b;
+			warp "job_thief1.gat",38,50;
+			close;
+		warpL02b:
+			if(@TEMP != 2) goto warpL02c;
+			warp "job_thief1.gat",66,331;
+			close;
+		warpL02c:
+			if(@TEMP != 3) goto warpL02d;
+			warp "job_thief1.gat",196,331;
+			close;
+		warpL02d:
+			warp "job_thief1.gat",309,234;
+			close;
+	L03:
+		mes "[Thief Guide]";
+   		mes "You..... I can feel you.... You come to take a test,don't you?";
+		mes "Name? " + strcharinfo(0) + " ... eh.... on the List!";
+		mes "Ok! You may go in! But I can't guarantee your safety!! Yahoo!";
+		next;
+		set @TEMP,rand(5);
+		set job_thief_q,job_thief_q+1;
+		if(@TEMP != 0) goto warpL03a;
+	  		warp "job_thief1.gat",228,106;
+			close;
+		warpL03a:
+			if(@TEMP != 1) goto warpL03b;
+			warp "job_thief1.gat",38,50;
+			close;
+		warpL03b:
+			if(@TEMP != 2) goto warpL03c;
+			warp "job_thief1.gat",66,331;
+			close;
+		warpL03c:
+			if(@TEMP != 3) goto warpL03d;
+			warp "job_thief1.gat",196,331;
+			close;
+		warpL03d:
+			warp "job_thief1.gat",309,234;
+			close;
+	L04:
+   		mes "[Bogus Man]";
+   		mes ".... Something smelling weird from you.....";
+		mes "You..... Theif of the Future...?";
+   		close;
+}
+
+moc_prydb1.gat,39,129,5	script	Thief Guide	69,{
+	if(Class==6) goto ImThief;
+	if((Class !=0) && (Class !=6)) goto ImOther;
+	if((job_thief_q==3) && ((countitem(1069)>0) || (countitem(1070)>0))) goto L00;
+	if(job_thief_q==3) goto L01;
+	if(job_thief_q==2) goto L02;
+	if(job_thief_q==0) goto L03;
+
+	L00:
+		mes "[Thief Guide]";
+		mes "Uhh....? I just lied to tease you... Did you really gather mushrooms?";
+		mes "You, You are an absolute idiot, aren't you? You shouldn't have trust me~ Hahaha.";
+		next;
+		mes "[Thief Guide]";
+		mes ".... Yeah, alright. Stop fooling around.";
+		mes "This is the place for poopoo heads who wanna be Thieves. If you're the one of Poopoo heads, ask another guy beside me.";
+		close;
+	L01:
+		mes "[Thief Guide]";
+		mes "So how was it? The Mushroom Farm. Have much Fun?";
+		next;
+		menu "Yeah, kinda Cool.",L01a,"It was horrible.",L01b;
+
+		L01a:
+			mes "[Thief Guide]";
+			mes "Wow! I like you,Man! Fabulous!";
+			mes "Everyone before you was `S@#$ Bloody As#$%^&s'.";
+			mes "...... You won't take my place, will you? If you have any ambition like that, I will kick your ass out of your butt!";
+			close;
+		L01b:
+			mes "[Thief Guide]";
+			mes "Yeah... Right... I am the one who went through that horrible place. I can understand you.";
+			close;
+	L02:
+		mes "[Thief Guide]";
+		mes "....? What are you doing here..? You are supposed to gather Mushrooms now?";
+		mes "Or don't you have any ideas about the Requirements for Thief? Do you want me to explain?";
+		next;
+		menu "Yes.",L02a,"That's fine,you don't have to.",L02b;
+
+		L02a:
+			mes "[Thief Guide]";
+			mes "Darn~~There is the one always being late than others.Sigh.";
+			mes "This is the last chance you can get, OK? Listen Carefully.";
+			next;
+			mes "[Thief Guide]";
+			mes "The Official Thief Test forms newly this time,you don't know yet,do ya? What you have to do for passing the Test is Robebring Mushrooms from a Farm.";
+			mes "`Shibu' the Most visious Merchant in Morroc owns the Farm. You can easily imagine how tough it will be.";
+			mes "You have to gather 2 kinds of Mushrooms as ^0000FFOrange Net Mushroom^000000 and ^0000FFOrange Gooey Mushroom^000000.";
+			next;
+			mes "[Thief Guide]";
+			mes "Do you know there are Monsters which keep Mushrooms from the robbery?";
+			mes "Please get yourself out of the Fairy Tales and Brace up your nerves.That will be the toughest experience to you.";
+			next;
+			mes "[Thief Guide]";
+			mes "When you come back here after gathering Mushrooms, we will rate your examination. We will mark 3 grades on 1 Orange Net Mushroom,1 grade on 1 Orange Gooey Mushroom. When it comes to at least 25, we will grant you a Thief.";
+			next;
+			mes "[Thief Guide]";
+			mes "Go outside and keep going ahead toward the Eatern Field of Pyramids.Then you can see our comrade between two columns.";
+			mes "When you speak to that Fella ,he will lead you to the Farm using a Backdoor.";
+			mes "I think I know the Coordinates..  '^FF0000141, 125^000000'.";
+			mes "Hmm if you want to check your present Location, just Type '/Where' in the Right side of chat box.";
+			close;
+		L02b:
+			mes "[Thief Guide]";
+			mes "..... Then.. Whattt..? Because You have something to tell me, you spoke to me, didn't you? If you not, wanna piece of me, then??? Huh?";
+			close;
+	L03:
+		if(Sex == 0) goto L030;
+		mes "[Thief Guide]";
+		mes "Heheheh... You look like a rich Boy, What are you doing down in this Dirty and Stinky Place?";
+		mes "Don't tell me you what to join the thief guild! Don't make me laugh...";
+		next;
+		goto L031;
+	L030:
+		mes "[Thief Guide]";
+		mes "Heheheh... You look like a rich Girl, What are you doing down in this Dirty and Stinky Place?";
+		mes "Don't tell me you what to join the thief guild! Don't make me laugh...";
+		next;
+		goto L031;
+	
+     		L031:
+     			menu "Yes, I want to be a Thief.",L031a,"Thief? No thanks.",L031b;
+     		
+     		L031a:
+					mes "[Thief Guide]";
+					mes "Alright, Let's See Here....";					
+					next;
+					goto L0TEST;
+		L0TEST:
+					if(JobLevel < 10) goto L031a0Neg;	
+					else(job_thief_q==0) goto L031a0;
+
+
+				L031a0:
+
+						mes "[Thief Guide]";
+					mes "Your name is..... Umm..... Where is it....";
+					mes "Ah. I got it, Here it is " + strcharinfo(0) + ".";
+					mes "L~ e~ e~t~'s See.";
+						set job_thief_q,1;
+						next;
+						mes "[Thief Guide]";
+					mes "Alright.... Refering to your Felony Record from our Inquiry agency, you have a very interesting history. And I think you are capable to Stealing.... Okay.";
+					mes "You " + strcharinfo(0) + " hereby pass the personal Interview!";
+					set job_thief_q,job_thief_q+1;
+					next;
+					mes "[Thief Guide]";
+					mes "From now on, Shal we examine your ability for becoming a Thief?";
+					mes "Do you have an idea about the Test..?";
+					next;
+					menu "I have.",L031a01a,"Sorry,I don't.",L031a01b;
+
+					L031a01a:
+						mes "[Thief Guide]";
+						mes "Oh yeah? Things will be easier then.";
+						next;
+						goto L031a010;
+
+					L031a01b:
+						mes "[Thief Guide]";
+						mes "Ehhhh? ....I will inform you then.";
+						next;
+						mes "[Thief Guide]";
+						mes "Sneak out to Shibu's Farm,and steal some Mushrrom in there.That is the main subject of Thief Test.Ah,And `Shibu' is the worst merchant in Morroc.";
+						mes "There are 2 kinds of Mushrooms, ^0000FFOrange Net Mushroom^000000 and ^0000FFOrange Gooey Mushroom^000000.";
+						next;
+						mes "[Thief Guide]";
+						mes "When you come back here after gathering Mushrooms, we will rate your examination. We will mark 3 grades on 1 Orange Net Mushroom,1 grade on 1 Orange Gooey Mushroom. When it comes to at least 25, we will grant you a Thief.";
+						next;
+						mes "[Thief Guide]";
+						mes "Go outside and keep going ahead toward the Eatern Field of Pyramids. Then you can see our comrade between two columns.";
+						mes "When you speak to that Fella,he will lead you to the Farm using a Backdoor.";
+						mes "I think I know the Coordinates..  '^FF0000141, 125^000000'.";
+						mes "Hmm if you want to check your present Location,just Type '/Where' in the Right side of chat box.";
+						next;
+						goto L031a010;
+
+					L031a0Neg:
+						mes "[Thief Guide]";
+						mes "Err I can see how ambitious you are......";
+						mes "But we can't hand a gun to a baby only for that? Come back when you learn all Basic Skills.";
+						close;
+						
+						L031a010:
+							mes "[Thief Guide]";
+							mes "Let's talk about Two conditions left behind.";
+							next;
+							mes "[Thief Guide]";
+							mes "Do you know there are Monsters which keep Mushrooms from the robbery?";
+							mes "Please get yourself out of the Fairy Tales and Brace up your nerves. That will be the toughest experience to you.";
+							next;
+							mes "[Thief Guide]";
+							mes "So, I will give you one tip. Elaborate the Strategy before you going inside the Farm.";
+							next;
+							mes "[Thief Guide]";
+							mes "Umm and this is about Mushroom stuff..you know. Make your movement quick as you can.";
+							mes "You cannot be a dead meat by such Monsters even before changing a job,right?";
+							mes "And I feel gulty about this test in a way.... you are not a thief yet but we force you to steal...Sigh.";
+							next;
+							mes "[Thief Guide]";
+							mes "No more Question. Let's Move~";
+							close;
+		L031b:
+			mes "[Thief Guide]";
+			mes "Alright but if you change your mind come back anytime~";
+			close;
+
+	ImThief:
+		mes "[Thief Guide]";
+		mes "Your already a thief..what do you want from me.. go away!";
+		close;
+
+	ImOther:
+		if(Class==4) goto ImAcolyte;
+		if(Class==3) goto ImArcher;
+		if(Class==2) goto ImMage;
+		if(Class==5) goto ImMerchant;
+		if(Class==1) goto ImSwordman;
+
+		ImAcolyte:
+			mes "[Thief Guide]";
+			mes "What the heck...?";
+			mes "Ohhhhhh~GOD-POING's worshipper, Acolyte...? So, Why don't you have a sit and chant her in Santuary, rather than wandering about here, huh?";
+			next;
+			if(Sex == 0) goto ImAco0;
+			mes "[Thief Guide]";
+			mes "Hey, Dude.";
+			mes "What brought you here? Go~ Home, Baby.";
+			close;
+
+			ImAco0:
+				mes "[Thief Guide]";
+				mes "Hey, Lady.";
+				mes "What brought you here? Go~ Home, Baby.";
+				close;
+		ImArcher:
+			mes "[Thief Guide]";
+			mes "What the heck...?";
+			mes "Muhahahaha~are you a Kill Stealing Archer...?";
+			next;
+			if(Sex == 0) goto ImArc0;
+			mes "[Thief Guide]";
+			mes "Hey, Dude.";
+			mes "What brought you here? Go~ Home, Baby.";
+			close;
+
+			ImArc0:
+				mes "[Thief Guide]";
+				mes "Hey, Lady.";
+				mes "What brought you here? Go~ Home, Baby.";
+				close;
+		ImMage:
+			mes "[Thief Guide]";
+			mes "What the heck...?";
+			mes "Ehhh??? Circus Sideshow? Make a fire without a Matchstick, will ya?";
+			next;
+			if(Sex == 0) goto ImMag0;
+			mes "[Thief Guide]";
+			mes "Hey, Dude.";
+			mes "What brought you here? Go~ Home, Baby.";
+			close;
+
+			ImMag0:
+				mes "[Thief Guide]";
+				mes "Hey, Lady.";
+				mes "What brought you here? Go~ Home, Baby.";
+				close;
+		ImMerchant:
+			mes "[Thief Guide]";
+			mes "What the heck...?";
+			mes "Eeeeeek~Merchant Scammer here...!!!! I am gonna report you to the GM!!!";
+			next;
+			if(Sex == 0) goto ImMer0;
+			mes "[Thief Guide]";
+			mes "Hey, Dude.";
+			mes "What brought you here? Go~ Home, Baby.";
+			close;
+
+			ImMer0:
+				mes "[Thief Guide]";
+				mes "Hey, Lady.";
+				mes "What brought you here? Go~ Home, Baby.";
+				close;
+		ImSwordman:
+			mes "[Thief Guide]";
+			mes "What the heck...?";
+			mes "Boo~Here's another Machoman...";
+			next;
+			if(Sex == 0) goto ImSwo0;
+			mes "[Thief Guide]";
+			mes "Hey, Dude.";
+			mes "What brought you here? Go~ Home, Baby.";
+			close;
+
+			ImSwo0:
+				mes "[Thief Guide]";
+				mes "Hey, Lady.";
+				mes "What brought you here? Go~ Home, Baby.";
+				close;
+}
+
+moc_prydb1.gat,42,133,2	script	Comrade	118,{
+	if(Class==6) goto L00;
+	if((Class !=0) && (Class !=6)) goto L01;
+	if((job_thief_q==0) || (job_thief_q==1)) goto L0100;
+	if(job_thief_q==2) goto L0101;
+	if(job_thief_q==3) goto L0102;
+
+	L0100:
+		mes "[Thief Guide]";
+		mes "Errr? What's matter, Newbie?";
+		mes "If you want to be a theif, Speak to the girl beside me.";
+		close;
+	L0101:
+		mes "[Thief Guide]";
+		mes "Heheh. Did you pass the interview?";
+		mes "Then you have to gather mushrooms now. Good Luck.";
+		close;
+	L0102:
+		mes "[Thief Guide]";
+		mes "Uhh..? ";
+		mes "Ah, You there, Good. So, Let me check mushrooms first?";
+		next;
+		
+		set Mushroom1,countitem(1069);
+		set Mushroom2,countitem(1070);
+
+		set thief_item1,Mushroom1*3;
+		set thief_item2,Mushroom2;
+
+		set Total_Mushroom,thief_item1+ thief_item2;
+
+		set money_thief,((thief_item1 * 5) + (thief_item2 * 2)) + 200;
+
+		mes "[Thief Guide]";
+		if ( Mushroom1==0) goto MH2;
+			mes "You brought Orange Net Mushroom "+ Mushroom1+" ea ."; 
+			mes " ";
+			goto MH2;
+		MH2:
+		if (Mushroom2==0) goto NoMushroom;
+			mes "You brought Orange Gooey Mushroom "+ Mushroom2+" ea.";
+			mes " ";
+			goto TotalMH;
+			
+			TotalMH:
+				if (Total_Mushroom>25) goto HightMH;
+				if (Total_Mushroom==25) goto MediamMH;
+					mes "Total grades are... err..  ^FF0000"+Total_Mushroom+"^000000 degrees.";
+					next;
+					mes "[Thief Guide]";
+					mes "oh C'mon! Go get more!";
+					close;
+				HightMH:
+					mes "Total grades are... err..  ^0000FF"+Total_Mushroom+"^000000 degrees.";
+					next;
+					mes "[Thief Guide]";
+					mes "Ohho. Above 25, cool. Fine. You pass the Test!";
+					goto Final;
+				MediamMH:
+					mes "Total grades are... err..  ^0000FF"+Total_Mushroom+"^000000 degrees.";
+					next;
+					mes "[Thief Guide]";
+					mes "Fine. You pass the Test.";
+					goto Final;	
+		
+	Final:
+		mes "Fine Fine! We are going to start the Ceremony!";
+		next;
+		if(Sex == 0) goto L0102z;
+		mes "[Brad]";
+		mes "'Gentleman, " + strcharinfo(0) + ".'";
+		next;
+		goto L01020z;
+		
+		L0102z:
+			mes "[Brad]";
+			mes "'Lady, " + strcharinfo(0) + ".'";
+			next;
+			goto L01020z;
+		
+		L01020z:
+		mes "'You passed the official Thief Test'";
+		set Mushroom1,0;
+		set Mushroom2,0;
+		set thief_item1,0;
+		set thief_item2,0;
+		set Total_Mushroom,0;
+		delitem	1069,99;
+		delitem	1070,99;
+
+		releaseall;
+		JobChange 6;
+		next;
+		mes "[Brad]";
+		mes "It is a small Subsidy for a Newbie like you. But spend it wherever you want.";
+		set Zeny,Zeny+money_thief;
+		next;
+		mes "[Brad]";
+		mes "'Also I Sincerely Congrate you to be a Thief.'";
+		mes "'From now on, Behave yourself as a Theif,our Comrade.'";
+		mes "'If you bring disgrace on our Guild, you will be terminated in no time.'";
+		mes "'By all means, I expect your activities as a Great Thief.Dismiss.'";
+		set money_thief,0;
+		close;
+
+		NoMushroom:
+			mes "Hey Bugger. Are you trying to piss me off? Huh?!";
+			mes "......Huh! What the Heck !? Where's the mushrooms?! Go!! Go get any mushrooms now!!";
+			mes "Don't ever think of coming back without mushrooms again. I won't grant you as a Thief.";
+			close;
+	L00:
+		mes "[Brad]";
+		mes "We don't have any Special event yet. Come next time when we break the news, Alright?";
+		close;
+	L01:
+		mes "[Brad]";
+		mes "Hey~ Hey~ What's up! You don't look like a Thief.";
+		mes "What the heck? Who told the you can pee on my territory~ Go~ before you get lynched~";
+		close;
+}

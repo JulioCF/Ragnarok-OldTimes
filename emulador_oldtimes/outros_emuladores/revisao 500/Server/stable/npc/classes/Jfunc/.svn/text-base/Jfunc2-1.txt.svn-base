@@ -1,0 +1,380 @@
+//===== Cronus Script ======================================== 
+//= Função Global das Classes
+//===== Por: =================================================
+//= massdriller
+//===== Versão Atual: ======================================== 
+//= 1.6
+//===== Descrição: =========================================== 
+//= Checa as classes
+//===== Changelog: =========================================== 
+//= 1.5 Traduzido [Trevor]
+//= 1.6 Corrigidos uns noshow de uns npcs [Kamper]
+//============================================================
+
+//Assasin Check
+function	script	Ass_check	{
+
+	if(BaseJob==Job_Assassin) goto L_JobSin;
+	show "[Angry looking man]";
+	if(callfunc("Is_Sword_Class")) goto L_JobSwo;
+	if(callfunc("Is_Magic_Class")) goto L_JobMag;
+	if(callfunc("Is_Bow_Class")) goto L_JobArch;
+	if(callfunc("Is_Holy_Class")) goto L_JobAco;
+	if(callfunc("Is_Merc_Class")) goto L_JobMerc;
+	if(callfunc("Is_Thief_Class")) goto L_JobOther;
+
+L_JobNov:
+	show "....HEI! "+callfunc("classname",0,"S","M")+"!!! Some daqui, agora!! Eu não vo ser responsável por qualquer coisa de ruim que aconteça com você.......";
+	emotion 0;
+	close;
+L_JobSwo:
+	show "....O que você está fazendo aqui? Tá perdido??";
+	emotion 1;
+	next;
+	show "[Ele te olha com um olhar agressivo]";
+	show "Fazendo o que você foi mandado fazer, né?........ Vocês não são nada alem de cachorrinhos que fazem tudu que os seus donos mandam.............";
+	emotion 32;
+	close;
+L_JobMag:
+	show "...O que um "+callfunc("classname",2,"S","M")+" como você está fazendo aqui? Você deveria prestar mais atenção no seu treino.....";
+	emotion 20;
+	close;
+L_JobArch:
+	show "hUmmh.... você é um desses que usa arco, né? Me desculpe mas aqui não tem bichinhos fofinho pra você roubar... (KS).......";
+	emotion 4;
+	next;
+	show "[Ele te olha com um olhar agressivo]";
+	show "Espere...... Você não está aqui para criar problemas, está!!? ....SOME DAQUII!!";
+	emotion 0;
+	close;
+L_JobAco:
+	show "...Oh! Um ajudante de Deus..... O que você está fazendo aqui, num lugar tão pecaminoso como esse?";
+	show "Confie em mim, você não vai acha nenhuma salvação aqui... nem ninguêm pra salvar..... Por que você não vai embora, ok?........";
+	emotion 20;
+	close;
+L_JobMerc:
+	show ".... OQUE??? Você tem ideia de quem é você??...... PORCOS CHUVINISTAS como você não são bem vindos aqui!!!";
+	emotion 29;
+	close;
+L_JobOther:
+	show ".... Humm.... já que você não é um "+callfunc("classname",12,"S","M")+" ou "+callfunc("classname",6,"S","M")+"... Eu acho melhor você se contentar com aquilo que você é.";
+close;
+L_JobSin:
+	show "[Assassino Huey]";
+	show "Oohh! É você. Você é o...." + strcharinfo(0) + ", certo?";
+	next;
+	show "[Assassino Huey]";
+	show "Que pena que você naum tem nada pra fazer aqui. agora. Por que você naum treina mais um pouco. Até.";
+	close;
+
+}
+
+//Blacksmith Check
+function	script	Bla_check	{
+
+	if (BaseJob == 0) goto L_Nov;
+	if (callfunc("Is_Sword_Class")) goto L_Sword;
+	if (callfunc("Is_Holy_Class")) goto L_Aco;
+	if (callfunc("Is_Thief_Class")) goto L_Thief;
+	if (callfunc("Is_Magic_Class")) goto L_Wiz;
+	if (callfunc("Is_Bow_Class")) goto L_Arc;
+	if (BaseJob == 10) goto L_Black;
+	show "Só "+callfunc("classname",5,"P","M")+" podem se tornar "+callfunc("classname",10,"P","M")+".";
+	close;
+
+L_Nov:
+	if(sex==0) show "...Olá senhorita! Se você deseja se tornar uma "+callfunc("classname",10,"S","F")+", deve ser uma "+callfunc("classname",5,"S","F")+" primeiro";
+	if(sex==1) show "Hmmm, vejo no seu olhar a vontade de ser um "+callfunc("classname",10,"S","M")+"! Desculpe, mas só "+callfunc("classname",5,"P","M")+" podem se tornar "+callfunc("classname",10,"P","M")+"!.";
+	close;
+L_Sword:	
+	show "Eae! Veio forjar uma espada? Desculpe, mas estou muito ocupado, peça a outra pessoa.";
+	close;
+L_Arc:
+	show "Hmmm, desculpa, mas nós não estamos empregando qualquer um para "+callfunc("classname",5,"S","M")+".";
+	close;	
+L_Wiz:
+	show "Interessado no teste? Nossa guilda não pode passar testes para "+callfunc("classname",2,"P","M")+" e outros.";
+	close;
+L_Aco:
+	show "Oh! Um religioso, Abençoe meu trabalho com os novatos por favor..! ";
+	close;
+L_Thief:	
+	show "Cara, nós não forjamos facas, estou ocupado, até...";
+	close;
+L_Black:
+	show "Oi, eu sentia o meu martelo enferrujando com todo esse trabalho de escritório, mas tudo bem...";
+	close;
+
+}
+
+//Hunter Check
+function	script	Hun_check	{
+
+	if(BaseJob==Job_Hunter) goto L_Hunt;
+	if(callfunc("Is_Bow_Class")) goto L_Other;
+	if(callfunc("Is_Sword_Class")) goto L_Swo;
+	if(callfunc("Is_Magic_Class")) goto L_Mage;
+	if(callfunc("Is_Thief_Class")) goto L_Thf;
+	if(callfunc("Is_Holy_Class")) goto L_Aco;
+	if(callfunc("Is_Merc_Class")) goto L_Merc;
+
+L_Nov:
+	show "[Caçadora Sharon]";
+	show "O que um novato como você está fazendo aqui? Vá embora, não temos nada para você aqui.";
+	emotion 1;
+	close;
+L_Swo:
+	show "[Caçadora Sharon]";
+	show "Ahh, um adorador de lâminas, ohh! Não temos nada para você aqui, intaum tchau!!.";
+	close;
+L_Mage:
+	show "[Caçadora Sharon]";
+	show "Olá "+callfunc("classname",2,"S","M")+". Já que não veio a negócios, por favor saia,";
+	close;
+L_Aco:
+	show "[Caçadora Sharon]";
+	show "Bom dia, religioso! Mas não tem nada pra você aqui, volte para sua igreja e reze por todos nós.";
+	close;
+L_Merc:
+	show "[Caçadora Sharon]";
+	show "Heii, "+callfunc("classname",5,"S","M")+" eu não quero comprar nada ok? Beleza, até mais.";
+	close;
+L_Thf:
+	show "[Caçadora Sharon]";
+	show "Eeep! Não a nada para roubar aqui!! Deixe nos em paz..... e vá roubar uma velha senhora ou qualquer outra pessoa......";
+	emotion 23;
+	close;
+L_Hunt:
+	show "[Caçadora Sharon]";
+	show "Uhh! "+strcharinfo(0)+" Por quê você voltou? A procura de um falcão? hehe.";
+	emotion 18;
+	close;
+L_Other:
+	show "[Caçadora Sharon]";
+	show "O quê VOCÊ está fazendo aqui? Veio fazer uma canção e dançar... he.. hehe....kekekeHahahahhaha!!!";
+	emotion 18;
+	close;
+
+}
+
+//Knight Check
+
+function	script	Kni_check	{
+
+		if(BaseJob != Job_Swordman) goto L_NotSwo;
+		show "Bem, primeiro, por favor preencha essa ficha....";
+		next;
+		show "...(Você preenche a ficha e a entrega de volta)...";
+		next;
+		show "[Chefe dos Cavaleiros]";
+		if(JobLevel < 40) goto L_NotLvl;
+		show "Impressionante. Você tem as qualidades para se tornar um "+callfunc("classname",7,"S","M")+"..., porém, precisará muito mais que isso para realmente se tornar um.";
+		next;
+		return;
+
+		L_NotLvl:
+			show "Humm...aparentemente você ainda não alcançou o nivél 40. Poderia fazer a gentileza de retornar quando isso ocorrer.  Eu estarei esperando, bem aqui.";
+			close;
+		L_NotSwo:
+			if(BaseJob == Job_Knight) goto sL_JobKni;
+			if(BaseJob == Job_Novice) goto sL_JobNov;
+
+			sL_JobOther:
+				show "Me perdoe mas, somente "+callfunc("classname",1,"S","M")+" podem se tornar "+callfunc("classname",7,"P","M")+". Tenha um bom dia!";
+				close;
+
+			sL_JobKni:
+				show "...(sighs)...O que você ainda está fazendo aqui?? Não perca mais tempo!! E continue proteguendo Rune Midgard, meu jovem "+callfunc("classname",7,"S","M")+".";
+				emotion 32;
+				close;
+
+			sL_JobNov:
+				show "Hahahaha!! Meu jovem, você não tem ainda experiência o suficiente para erguer uma espada quanto mais para se vir aqui perguntar se você pode ser um "+callfunc("classname",7,"S","M")+". Hahahaha!!";
+				emotion 18;
+				next;
+				show "[Chefe dos Cavaleiros]";
+				show "Meu jovem, você primeiro deve ser tornam um "+callfunc("classname",1,"S","M")+" de fibra para vir se tornar um "+callfunc("classname",7,"S","M")+". Agora, treine bastante meu pequeno novice. Que um dia você consegue!";
+				close;
+
+
+}
+
+//Priest Check
+
+function	script	Pri_check	{
+
+	if (BaseJob == Job_Novice) goto L_Novice;
+	if (BaseJob == Job_Priest) goto L_Priest;
+	show "Que Deus te abençoe, meu filho.";
+	next;
+	show "[Padre Thomas]";
+	show "Por favor, sinta-se à vontade para descançar, a igreja é o lugar mais seguro deste mundo.";
+	next;
+	show "[Padre Thomas]";
+	show "Eu espero que Deus te abençoe.";
+	return;
+
+L_Novice:
+	show "Que Deus te abençoe, meu filho. Está é a Igreja de Prontera. O que você desejar?";
+	next;
+	menu "Eu quero me tornar um "+callfunc("classname",4,"S","M")+".",M_0a, "Eu quero me tornar um ^5533FF"+callfunc("classname",8,"S","M")+"^000000.",M_0b, "Eu só estou de passagem.",M_0End;
+
+	M_0a:
+		show "[Padre Thomas]";
+		show "Haha.. então você quer se tornar um "+callfunc("classname",4,"S","M")+", neh? Para isso, você precisa ir para a sala oposta à esta.";
+		close;
+	M_0b:
+		show "[Padre Thomas]";
+		show "Haha...antes de você ser um "+callfunc("classname",8,"S","M")+" você precisa ser primeiro um "+callfunc("classname",4,"S","M")+". Para isso, você precisa ir para a sala oposta à esta.";
+		close;
+	M_0End:
+		show "[Padre Thomas]";
+		show "Por favor, sinta-se à vontade para descançar, a igreja é um santuário para todos aqueles que querem escapar do mundo.";
+		next;
+		show "[Padre Thomas]";
+		show "Que Deus esteja com você e com os seus desejos e orações.";
+		close;
+
+L_Priest:
+	show "Que Deus te abençoe, meu filho. Você está aqui de novo por que você ouviu a voz de Deus.";
+	next;
+	show "[Padre Thomas]";
+	show "eu naum sei se os filhos e filhas de Deus estão seguindo o caminho da luz ou o caminho das trevas... eu só posso rezar pelo melhor.";
+	next;
+	show "[Padre Thomas]";
+	show "Então. por que você está aqui?";
+	next;
+	menu "Só passei por aqui para ver você.",M_1a, "Eu estou aqui para ajudar os "+callfunc("classname",4,"P","M")+".",M_1b, "A vida está dificiu... Eu estava pensando se você podia ajudar.",M_1End;
+
+	M_1a:
+		show "[Padre Thomas]";
+		show "Oh! Bem, eu estou bem. Obrigado. Por favor, mande minhas estimas a todos os outros Frades, e "+callfunc("classname",8,"P","M")+".";
+		next;
+		show "[Padre Thomas]";
+		show "Nós, aqueles que vivemos no caminho divino, estamos aqui por uma razãO.... para obedecer os designios de Deus.";
+		show "Se você veio aqui com a intenção de ajudar alguem, por favor lembre-se de faze-lo da melhor forma possível...";
+		close;
+		
+	M_1b:
+		show "[Padre Thomas]";
+		show "Oh!... está é uma grande idéia! Como você é um "+callfunc("classname",8,"S","M")+", você não pode esquecer que você deve ajudar os "+callfunc("classname",4,"P","M")+" quando eles precisarem de ajuda.";
+		emotion 5;
+		next;
+		show "[Padre Thomas]";
+		show "Mesmo assim, você precisa lembrar de não fazer tudu por eles. É importante que eles ganhem suas próprias experiências atravez de treino.";
+		next;
+		show "[Padre Thomas]";
+		show "Para poder ajudar você eu precisarei de um ^5533FFROSÁRIO^000000.";
+		show "Aqui terão 3 provas que o "+callfunc("classname",4,"S","M")+" precisa enfrentar, somente em 2 deles você poderá ajuda-los.";
+		next;
+		show "[Padre Thomas]";
+		show "Você está preparado para ajudar?";
+		next;
+		menu "Sim, Eu vou ajudar-los com todas as minhas forças.",sM_1a, "Eu voltarei depois.",sM_1End;
+
+		sM_1a:
+			if (countitem(2608) < 1) goto sL_NoRosary;
+			show "[Padre Thomas]";
+			show "Muito bem então. Eu mandarei você a um "+callfunc("classname",4,"S","M")+" em alguns momentos.";
+			next;
+			show "[Padre Thomas]";
+			show "Eu espero que você tambêm veja isso como uma oportunidade de encina-lo a ser um bom "+callfunc("classname",8,"S","M")+".";
+			next;
+			if((getareausers("job_prist.gat", 8, 34, 39,109)) == 1) warp "job_prist.gat", 24, 44;
+			if((getareausers("job_prist.gat", 160, 14, 175, 178)) == 1) warp "job_prist.gat", 98, 40;
+			if((getareausers("job_prist.gat", 90, 34, 105,105)) == 1) warp "job_prist.gat", 168, 17;
+			show "[Father Thomas]";
+			show "Huumm........ Espere um minuto..... Deixe eu checar a minha lista.... Não tem nimguem fazendo o teste agora, ou já tem um "+callfunc("classname",8,"S","M")+" ajudando.";
+			show "Neste caso, por favor volte aqui e fale comigo em outra oportunidade.";
+			close;
+
+			sL_NoRosary:
+				show "[Padre Thomas]";
+				show "Huumm... Ao que me parece você não tem um ^5533FFROSÁRIO^000000 com você.";
+				next;
+				show "[Padre Thomas]";
+				show "Se você quizer ajudar os "+callfunc("classname",4,"P","M")+", você primeiro precisa ter ^5533FFROSÁRIO^000000.";
+				show "Por favor, volte aqui quando você tiver um, sim.";
+				close;
+		sM_1End:
+			show "[Padre Thomas]";
+			show "Oh! Sim. E lembre-se de trazer um ^5533FFFROSÁRIO^000000 quando você voltar.";
+			close;
+
+	M_1End:
+		show "[Padre Thomas]";
+		show "Continue com o seu bom trabalho. Eu pedirei para Deus ser misericordioso com a sua dor.";
+		next;
+		show "[Padre Thomas]";
+		show "Deus, uma de nossas crianças está sofrendo. Por favor, use seus poderes para curas as feridas de seu corpo.....";
+		next;
+		show "[Padre Thomas]";
+		show "Por favor, olhe por todos nós, para que sob qualquer condição nós possamos pensar claramente e manter a nossa fé.";
+		percentheal 100,100;
+		next;
+		show "[Padre Thomas]";
+		show "Você deve estar se sentindo melhor agora. Por favor, continue no caminho da verdade e que Deus te abençoe.";
+		close;
+
+}
+
+//Wizard Checker 1
+
+function	script	Wiz1_check	{
+
+	if(callfunc("Is_Magic_Class")) goto L_Magic;
+	if(callfunc("Is_Holy_Class")) goto L_Holy;
+L_Other:
+	show "[Cachorro]";
+	show "Sheesh....... Por que iria alguém que nem mesmo tem talento para fazer um único feitiço vem praqui para cima???";
+	next;
+	show "[Cachorro]";
+	show "Se você está chateado, como uma palavra de consolo você pode subir e descer as escadarias do prédio, com isso você faria bastente aeróbica....";
+	emotion 32;
+	next;
+	show "[Cachorro]";
+	show "~WOOF~ Vai embora! Eu não gosto do seu tipo aqui!!";
+	emotion 27;
+	close;
+L_Holy:
+	show "[Cachorro]";
+	show "Eeek! O que um santinho como você está fazendo aqui em cima? Eu sei que o seu tipo não gosta de mágica....";
+	show "Os tipos religiosos sempre chamam isso de 'artes negras'......... ooooh! Assustador!!!...... ~grrr!~WOOF!~";
+	close;
+L_Magic:
+	show "[Cachorro]";
+	show "Ah! "+callfunc("classname",2,"P","M")+" de um alto nivel, bem-vindo. É sempre bom ver pessoas de alto nível por aqui.";
+	show "Na verdade, é bom ve-los em qualquer lugar! ~Woof!~";
+	close;
+
+}
+
+function	script	Wiz2_check	{
+
+	if(BaseJob == Job_Wizard) goto L_Wizard;
+	if(BaseJob == Job_Novice) goto L_Novice;
+
+L_Other:
+	show "Huumm? O que traz você aqui em cima? Se não há nada para você aqui, por favor saía.";
+	show "Este lugar é somente para "+callfunc("classname",9,"P","M")+". =P";
+	next;
+	show "[Catherine Medichi]";
+	show "Tente não cair no seu caminho de volta....";
+	close;
+L_Novice:
+	show "Awwww, um pequeno "+callfunc("classname",0,"S","M")+"! Que bonitinho! Mas este lugar é somente para "+callfunc("classname",9,"P","M")+", tá.";
+	emotion 14;
+	next;
+	show "[Catherine Medichi]";
+	show "Se você está enteressado em mágica, a ^0000FFGuilda de "+callfunc("classname",2,"P","M")+"^000000 é um lugar para você.";
+	close;
+L_Wizard:
+	show "O que você veio fazer aqui "+callfunc("classname",9,"S","M")+"? Se nada, por favor vá...";
+	next;
+	show "[Catherine Medichi]";
+	if(sex==1) show "... Bem, é claro, se você veio aqui para me perguntar algo... (*fica envergonhado*)....";
+	if(sex==0) show "Se você tiver um namorado, sinta-se livre para traze-lo aqui um dia. XD";
+	emotion 3;
+	close;
+
+}

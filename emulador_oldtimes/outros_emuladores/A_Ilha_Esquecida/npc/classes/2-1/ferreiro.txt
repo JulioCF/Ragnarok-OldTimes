@@ -1,0 +1,1498 @@
+//===== Cronus Script ======================================== 
+//= Script Ferreiro
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 2.3
+//===== Descrição: =========================================== 
+//= Muda a classe para Ferreiro
+//===== Changelog: =========================================== 
+//= Traduzido [AerilKsurk]
+//= Quest Atualizada [Mehah]
+//= Adaptado Classname Na Função F_BlockHigh [Mehah]
+//= Fixes nas falas [FrozenCirius]
+//= 2.2a Erros de português corrigido por @Coja ImortalRO Staff
+//= 2.3 corrigido nomes. [Hildds]
+//============================================================
+
+//<==================================================== Blacksmith Altiregen (Job changer)==================================================>\\
+ein_in01,18,28,4	script	Ferreiro Altiregen	731,{
+	callfunc "F_BlockHigh",Job_Merchant_High,"Mercador T.",Job_Whitesmith,"Mestre-Ferreiro","Ferreiro Altiregen";
+
+	if (BaseJob == Job_Merchant) goto L_Merc;
+	show "[Ferreiro Altiregen]";
+	show "Bem vindo! Nós somos os mestres do metal, Ferreiros!";
+	show "Nossas habilidades em criar armas, de um jeito, é como uma forma de arte!.";
+	next;
+	show "[Ferreiro Altiregen]";
+	show "Essas armas, heh, podem ser vendindas por um bom preço.";
+	next;
+	show "[Ferreiro Altiregen]";
+	
+	if (BaseJob == Job_Novice){
+		if(sex){
+			show "Hmmm, vejo no seu olhar a vontade de ser um Ferreiro! Desculpe, mas só Mercadores podem se tornar Ferreiros!.";
+		} else {
+			show "...Olá senhorita! Se você deseja se tornar uma Ferreira, deve ser uma Mercadora primeiro";
+		}
+		close;
+	}
+	if (baseClass == Job_Swordman){
+		show "Olá! Veio forjar uma espada? Desculpe, mas estou muito ocupado, peça a outra pessoa.";
+		close;
+	}
+	if (baseClass == Job_Acolyte){
+		show "Oh! Um religioso, Abençoe meu trabalho com os novatos por favor..! ";
+		close;
+	}
+	if (baseClass == Job_Thief){
+		show "Cara, nós não forjamos facas, estou ocupado, até...";
+		close;
+	}
+	if (baseClass == Job_Mage){
+		show "Interessado no teste? Nossa guilda não pode passar testes para Magos e outros.";
+		close;
+	}
+	if (baseClass == Job_Archer){
+		show "Hmmm, desculpa, mas nós não estamos empregando qualquer um para Mercador.";
+		close;
+	}
+	if (BaseJob == Job_Blacksmith){
+		show "Oi, eu sentia o meu martelo enferrujando com todo esse trabalho de escritório, mas tudo bem...";
+		close;
+	}
+	show "Só Mercadores podem se tornar Ferreiros.";
+	close;
+
+L_Merc:
+	show "[Ferreiro Altiregen]";
+	if (BSMITH_Q == 1) goto L_Test1;
+	if (BSMITH_Q == 2 || BSMITH_Q == 3) goto L_Test2and3;
+	if (BSMITH_Q == 4) goto L_Test4;
+	if (BSMITH_Q == 5) goto L_Change;
+	show "Olá companheiro Mercador! Você está aqui para fazer o teste?";
+	show "Escreva seu nome e seu Job Level em um pedaço de papel.";
+	next;
+	menu "Fazer o teste",M_App,"O que é requerido?",M_Req,"Agora não...",M_NtNow;
+
+	M_App:
+		if(JobLevel < 40) goto sL_Lowlvl;
+		if(JobLevel == 50) goto sL_HighLvl;
+		show "[Ferreiro Altiregen]";
+		show "Hmmm...";
+		show "Seu Job Level é satisfatório.";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Bom, mas nós não aceitamos qualquer um.";
+		show "Nós precisaremos testar suas habilidades de Mercador e sua determinação.";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Rustle Rustle";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Hmmm, o homem da guilda ^5533FFGeshupenschte em Einbroch^000000, diz ele, que está precisando de ajuda.";
+		show "Vá ajudá-lo, esse é o primeiro teste.";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Tenha uma boa viagem!";
+		set BSMITH_Q,1;
+		set JBLVL, 40;
+		close;
+
+		sL_Lowlvl:
+			show "[Ferreiro Altiregen]";
+			show "Você precisa de mais treino como um Mercador.  Nós só aceitamos Job Level 40+";
+			show "Tão quanto quero aceitar você, mas nós temos regras.  Desculpe, mas volte depois.";
+			close;
+		sL_HighLvl:
+			show "[Ferreiro Altiregen]";
+			show "Uau! Estou impressionado! Pelo jeito você treinou muito.  Você sabe o que eles dizem, com muito trabalho, se consegue grandes recompensas.";
+			emotion e_what;
+			next;
+			show "[Ferreiro Altiregen]";
+			show "Bom, primeiras coisas..... O homem da guilda ^5533FFGeshupenschte em Einbroch^000000, diz ele que precisa de ajuda.";
+			show "Vá ajudá-lo, esse é o primeiro teste.";
+			next;
+			show "[Ferreiro Altiregen]";
+			show "Tenha uma boa viagem!";
+			set BSMITH_Q,1;
+			set JBLVL, 50;
+			close;
+	M_Req:
+		show "[Ferreiro Altiregen]";
+		show "O que é requerido?";
+		show "Primeiramente, ter Nível de Classe no mínimo 40.";
+		show "E passar nos testes.";
+		show "É isso. O teste é um pouco complicado, mas dá para passar.";
+		show "O teste envolve entregar um item e sendo cuidadoso com items especiais de certas regiões e então é só depois o teste sobre o conhecimento dos Ferreiros.";
+		close;
+	M_NtNow:
+		show "[Ferreiro Altiregen]";
+		show "Ok, te vejo depois.";
+		close;
+
+
+L_Test1:
+	show "Você não saiu ainda? Eu te fale para ir ver Geshupenschte em Einbroch. Te vejo depois então.";
+	emotion e_what;
+	close;
+
+L_Test2and3:
+	show "Como era o trabalho que Geshupenschte lhe deu? Ele pode ser duro algumas vezes.";
+	close;
+L_Test4:
+	if (BSMITH_Q2 == 1) goto L_NotDone;
+	show "Parabéns! Você passou nos testes de Geshupenschte!";
+	next;
+	show "[Ferreiro Altiregen]";
+	show "Hmm? Heh, tem mais 1 teste ainda você sabe.";
+	show "Fale com ^5533FFMitmayer^000000 na sala ao lado para fazer o último teste.";
+	next;
+	menu "Crueldade, mas eu farei.",-,"......Eu não posso passar sem o teste? T_T",M_dontgo;
+
+		set BSMITH_Q2, 1;
+		show "[Ferreiro Altiregen]";
+		show "Eu sei que está cansado, mas não está em meu poder. De qualquer jeito, você tem um bom conhecimento, certo?";
+		show "Eu espero que você passe, porque a guilda dos Ferreiros não gosta de ser rebaixada por completos idiotas!";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Se uma coisa dessas acontecesse, eu posso ver a guilda caindo agora, T_T";
+		show "Bom..... Vá fazer o último teste!";
+		close;
+	M_dontgo:
+		show "[Ferreiro Altiregen]";
+		show "O que!? Você está desistindo!?!.........";
+		emotion e_what;
+		next;
+		show "[Ferreiro Altiregen]";
+		show "COMO VOCÊ PODE INSULTAR NOSSA GUILDA DESSE JEITO!";
+		show "Saia agora! NEM SONHE em se tornar um Ferreiro!";
+		emotion e_omg;
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Você não pode aguentar NADA não é!? Como você planeja em se tornar um Ferreiro se você nem pode completar esses simples testes!?";
+		emotion e_an;
+		close;
+
+	L_NotDone:
+		show "Hmmm? Você não disse que estava indo fazer o teste?";
+		show "Desculpe, mas será passado o com ela.";
+		close;
+
+L_Change:
+	if(countitem(1005) < 1) goto L_NoHam;
+	if(SkillPoint > 0) show "Você precisa usar todos os seus pontos de habilidade antes que eu possa fazer de você um Ferreiro.";
+	if(SkillPoint > 0) close;
+	show "Nossa, eu posso ver o fogo em seus olhos! Você passou!!";
+	show "E eu lhe garantirei o poder para trabalhar com metais!";
+	next;
+	delitem 1005,1;
+	callfunc "Job_Change",Job_Blacksmith;
+	show "[Ferreiro Altiregen]";
+	show "Não se esqueça! Nós somos artistas que colocamos beleza nos metais! Você que não se esqueça disso!";
+	next;
+	show "[Ferreiro Altiregen]";
+	show "Aqui está um presente! Parabéns por ter passado!";
+	if(JBLVL != 50) additem 999,5;
+	if(JBLVL == 50) additem 999,10;
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+	emotion e_no1;
+	close;
+
+	L_NoHam:
+		show "Você esqueceu alguma coisa? Você precisa me mostrar o ^5533FFMartelo de Ferreiro^000000 para provar que você passou em todos os testes.";
+		next;
+		show "[Ferreiro Altiregen]";
+		show "Você TEM ele..... Não é???";
+		next;
+		menu "Oh essa coisa... deixe-me só pegar do banco...",-, "Pra falar a verdade eu vendi ele por pots..... agora o que faço?",sM_What;
+
+			show "[Ferreiro Altiregen]";
+			show "....... grrrrrrr.......";
+			emotion e_ag;
+			close;
+		sM_What:
+			show "[Ferreiro Altiregen]";
+			show ".......... Eu te falo o seguinte.............";
+			next;
+			show "[Ferreiro Altiregen]";
+			show "VOCÊ COMEÇARÁ TUDO DENOVO!!!!";
+			set BSMITH_Q, 0;
+			set BSMITH_Q2, 0;
+			emotion e_pif;
+		close;
+}
+
+
+//<=============================================== Geshupenschte: 1st, 2nd, 3rd Test ===================================================>\\
+ein_in01,201,27,4	script	Geshupenschte	63,{
+
+	if(BaseJob == Job_Merchant) goto L_merchant;
+	show "[Geshupenschte]";
+	show "Olá senhor! Eu sou o Ferreiro. Geshupenschte! Prazer em te conhecer!";
+	next;
+	show "[Geshupenschte]";
+	show "Ferreiro é uma ótima profissão!! Você não acha? Hahahahahahah!";
+	emotion e_heh;
+	close;
+
+L_merchant:
+	show "[Geshupenschte]";
+	if (BSMITH_Q == 1) goto L_Test1;
+	if (BSMITH_Q == 2) goto L_Test2;
+	if (BSMITH_Q == 3) goto L_Test3;
+	if (BSMITH_Q == 4) goto L_Done;
+	if (BSMITH_Q == 5) goto L_GoChange;
+	show "Hoho!! Um Mercador! Excelente! Eu estava precisando de um pouco de ajuda!!";
+	next;
+	show "[Geshupenschte]";
+	show "É claro.... Eu não iria querer perturbar alguém que está ocupado.  Vá no seu jeito se precisar!....";
+	next;
+	show "[Geshupenschte]";
+	show "~Dum dee dum dee dum~.....Eu sou o melhor.... Eu sou um Ferreiro....(cantando)";
+	next;
+	show "[Geshupenschte]";
+	show "O que? Por que você ainda está aqui?";
+	emotion e_what;
+	close;
+
+// Test 1-----------------------------------------------------------------
+L_Test1:
+	if (BSMITH_Q2 == 1) goto L_ReTest1;
+	show "Você é o cara mandado pela guilda, certo?";
+	show "Nossa, o povo nos trás tantos items >_> Nós não temos pessoas suficientes para entregar todos.";
+	next;
+	show "[Geshupenschte]";
+	show "Bom, você É o cara mandado pela guilda, certo?";
+	show "Ah bem, eu espero >_>";
+	next;
+	show "[Geshupenschte]";
+	show "Vê, essa criança a alguns dias atrás,";
+	show "Ele gastou TANTO do nosso dinheiro.";
+	show "Só porque eu mandei ele numa semi-complicada errante >_>";
+	show "Agora, deixe-me te fazer algumas perguntas!";
+	next;
+	menu "Ok",M_Rdy,"Espere, deixe me ir me preparar",-;
+
+		show "[Geshupenschte]";
+		show "Ok, retorne depois que você estiver pronto.";
+		show "Estarei esperando aqui.";
+		close;
+	M_Rdy:
+		set @score, 0;
+		set @temp, rand(2);
+		if (@temp == 1) goto L_setq2;
+
+	L_setq1:
+		show "[Geshupenschte]";
+		show "1. Qual cidade e item local não combinam?";
+		next;
+		menu "Morroc - Traje de Ladrão",q1,"Alberta - Martelo de 2 Mãos",q1,"Comodo - Poção da Fúria Selvagem",q1,"Alberta - Maça Espada",-;
+
+			set @score,@score+10;
+		q1:
+
+		show "[Geshupenschte]";
+		show "2. O que a técnica Martelo-Extremo faz?";
+		next;
+		menu "Atordoa",-,"Cega",q2,"Envenena",q2,"Faz Dormir",q2;
+
+			set @score,@score+10;
+		q2:
+
+		show "[Geshupenschte]";
+		show "3. Em que o Mercador não é bom?";
+		next;
+		menu "Abrir mercados",q3,"Comprar items",q3,"Vender caro",q3,"Correr rápido",-;
+
+			set @score,@score+10;
+
+		q3:
+
+		show "[Geshupenschte]";
+		show "4. Aonde você compra Gemas Azuis?";
+		next;
+		menu "Alberta",q4,"Morroc",q4,"Geffen",-,"Prontera",q4;
+
+			set @score,@score+10;
+
+		q4:
+
+		show "[Geshupenschte]";
+		show "5. Aonde é a Loja de Ferramentas da Cidade de Geffen";
+		next;
+		menu "8 o'clock",-,"11 o'clock",q5,"6 o'clock",q5,"5 o'clock",q5;
+
+			set @score,@score+10;
+
+		q5:
+
+		show "[Geshupenschte]";
+		show "6. Que armas não podem ser usadas por Mercadores?";
+		next;
+		menu "Stiletto",q6,"Demolidor",q6,"Mangual Pesado",q6,"Bíblia",-;
+
+			set @score,@score+10;
+
+		q6:
+
+		show "[Geshupenschte]";
+		show "7. Qual item tem a maior defesa?";
+		next;
+		menu "Roupa de Baixo",q7,"Casaco de Pele",-,"Armadura de Madeira",q7,"Manto de Seda",q7;
+
+			set @score,@score+10;
+
+		q7:
+
+		show "[Geshupenschte]";
+		show "8. Quantas vezes você pode refinar uma arma de lvl 3 seguramente?";
+		next;
+		menu "+3 ",q8,"+4 ",q8,"+5 ",-,"+6 ",q8;
+
+			set @score,@score+10;
+		q8:
+
+		show "[Geshupenschte]";
+		show "9. O que você pode fazer com Troncos?";
+		next;
+		menu "Chapéu Chinês",-,"Faixa Fantasma",q9,"Chifres Majestosos",q9,"Chifre de Alce",q9;
+
+			set @score,@score+10;
+		q9:
+
+		show "[Geshupenschte]";
+		show "10. O que é mais importante para os Mercadores!?";
+		next;
+		menu "Ajuda",-,"Honra",-,"Dinheiro",-,"Honestidade",-;
+
+			set @score,@score+10;
+
+		if (BSMITH_Q2 == 1) goto L_result2;
+		goto L_result;
+
+	L_setq2:
+		show "[Geshupenschte]";
+		show "1. Qual cidade e item local não combinam?";
+		next;
+		menu "Aldebaran - Folha de Yggdrasil",q10,"Alberta - Marreta",q10,"Comodo - Poção da Fúria Selvagem",q10,"Aldebaran - Marreta",-;
+
+			set @score,@score+10;
+		q10:
+
+		show "[Geshupenschte]";
+		show "2. Por quanto se vende um Jellopy?";
+		next;
+		menu "1z",q11,"2z",q11,"3z",-,"4z",q11;
+
+			set @score,@score+10;
+		q11:
+
+		show "[Geshupenschte]";
+		show "3. O que é necessário para fazer um mercado?";
+		next;
+		menu "Precisa ter carrinho",-,"Item para vender",q12,"Ter uma arma equipada",q12,"Usar armadura",q12;
+
+			set @score,@score+10;
+		q12:
+
+		show "[Geshupenschte]";
+		show "4. Aonde fica a Guilda dos Mercadores?";
+		next;
+		menu "Alberta",-,"Morroc",q13,"Geffen",q13,"Prontera",q13;
+
+			set @score,@score+10;
+		q13:
+
+		show "[Geshupenschte]";
+		show "5. Aonde é a Loja de Armas de Morroc vindo do centro?";
+		next;
+		menu "7 o'clock",q14,"11 o'clock",q14,"6 o'clock",q14,"5 o'clock",-;
+
+			set @score,@score+10;
+		q14:
+
+		show "[Geshupenschte]";
+		show "6. O que um Mercador não pode usar?";
+		next;
+		menu "Main Gauche",q15,"Claymore",-,"Mangual Pesado",q15,"Martelo de 2 Mãos",q15;
+
+			set @score,@score+10;
+		q15:
+
+		show "[Geshupenschte]";
+		show "7. Qual item tem a maior defesa?";
+		next;
+		menu "Roupa de Baixo",q16,"Casaco de Pele",-,"Armadura de Madeira",q16,"Manto de Seda",q16;
+
+			set @score,@score+10;
+		q16:
+
+		show "[Geshupenschte]";
+		show "8. Quantas vezes você pode refinar uma arma de lvl 4 seguramente?";
+		next;
+		menu "+3 ",q17,"+4",-,"+5",q17,"+6",q17;
+
+			set @score,@score+10;
+		q17:
+
+		show "[Geshupenschte]";
+		show "9. Qual monstro não dropa Minério de Ferro?";
+		next;
+		menu "Chonchon",q18,"Chonchon de Aço",q18,"Zerom",q18,"Anolian",-;
+
+			set @score,@score+10;
+		q18:
+
+		show "[Geshupenschte]";
+		show "10. O que é mais importante para os Mercadores?!";
+		next;
+		menu "Honestidade",-,"Ajuda",-,"Dinheiro",-,"Postura",-;
+
+			set @score,@score+10;
+
+		if (BSMITH_Q2 == 1) goto L_result2;
+		goto L_result;
+
+L_result:
+	show "[Geshupenschte]";
+	show "Bom!";
+	next;
+	show "[Geshupenschte]";
+	show "Vamos ver....sua pontuação é ^5533FF"+@score+".^000000";
+	if (@score == 100) goto L_perfect;
+	show ".............";
+	next;
+	show "[Geshupenschte]";
+	show "Desculpe amigo, Eu não quero lhe dar a Classe.";
+	show "Você precisa de um pouco mais de conhecimento. Vá estudar mais um pouco";
+	set BSMITH_Q2, 1;
+	close;
+
+	L_perfect:
+		set BSMITH_Q,2;
+		set BSMITH_Q2, 0;
+		show "Perfeito!";
+		next;
+		show "[Geshupenschte]";
+		show "Então você definitivamente pode fazer o errante!";
+		show "Você está preparado?";
+		close;
+L_result2:
+	show "[Geshupenschte]";
+	show "´Ótimo!";
+	next;
+	show "[Geshupenschte]";
+	show "Vamos ver....sua pontuação é ^5533FF"+@score+".^000000";
+	if (@score > 80) goto L_pass;
+	show ".............";
+	next;
+	show "[Geshupenschte]";
+	show "Você falhou denovo!";
+	show "Se você continuar falhando, eu não posso te dar a Classe. Vá estudar mais.";
+	set BSMITH_Q2, 1;
+	close;
+
+	L_pass:
+		set BSMITH_Q,2;
+		set BSMITH_Q2, 0;
+		show "Você passou!";
+		next;
+		show "[Geshupenschte]";
+		show "Eu irei deixar você ter a Classe";
+		show "Você está preparado?";
+		close;
+L_ReTest1:
+	show "Ah, vejo que você estudou mais.  Não erre nenhuma pergunta! Aqui está!";
+	next;
+	goto M_Rdy;
+
+
+// Test 2-----------------------------------------------------------------
+L_Test2:
+	if(BSMITH_Q2 > 0) goto L_CheckTest2;
+	show "Vamos ver... ordens....";
+	next;
+	show "[Geshupenschte]";
+	show "Ah, aqui está!";
+	show "Aqui está a grande encomenda.";
+	show "Hmmm";
+	next;
+	show "[Geshupenschte]";
+	show "Eu preciso que você me arranje....";
+	next;
+	set BSMITH_Q2,rand(1,5);
+	if (BSMITH_Q2 == 2) goto R_item2;
+	if (BSMITH_Q2 == 3) goto R_item3;
+	if (BSMITH_Q2 == 4) goto R_item4;
+	if (BSMITH_Q2 == 5) goto R_item5;
+
+	R_item1:
+		show "[Geshupenschte]";
+		show "^5533FF2 Aço";
+		show "1 Bandagem Estragada";
+		show "2 Gema Azul^000000";
+		show "e ^5533FF1 Vara Mestra^000000 da loja.";
+		next;
+		show "[Geshupenschte]";
+		show "Ei, nós não vamos fazer você trazer esses porque nós sómos duros! É um teste!";
+		next;
+		show "[Geshupenschte]";
+		show "^5533FF2 Aço";
+		show "1 Bandagem Estragada";
+		show "2 Gema Azul^000000";
+		show "e ^5533FF1 Cetro^000000 da loja.";
+		next;
+		goto L_finalword;
+	R_item2:
+		show "[Geshupenschte]";
+		show "^5533FF2 Poeira Estelar";
+		show "2 Osso";
+		show "1 Zargônio^000000";
+		show "e ^5533FF1 Gladius^000000 das lojas.";
+		next;
+		show "[Geshupenschte]";
+		show "Ei! Nós não estamos sendo duros, isso é um teste!";
+		next;
+		show "[Geshupenschte]";
+		show "Eu listarei eles denovo";
+		show "^5533FF2 Poeira Estelar";
+		show "2 Osso";
+		show "1 Zargônio^000000";
+		show "e ^5533FF1 Gladius^000000 das lojas.";
+		next;
+		goto L_finalword;
+	R_item3:
+		show "[Geshupenschte]";
+		show "^5533FF2 Carvão";
+		show "2 Casca";
+		show "2 Sangue Escarlate^000000";
+		show "e ^5533FF1 Tsurugi^000000 das lojas.";
+		next;
+		show "[Geshupenschte]";
+		show "Ei, nós não vamos fazer você trazer esses porque nós sómos duros! É um teste!";
+		next;
+		show "[Geshupenschte]";
+		show "Eu listarei eles denovo";
+		show "^5533FF2 Carvão";
+		show "2 Casca^000000";
+		show "2 Sangue Escarlate";
+		show "e ^5533FF1 Tsurugi^000000 das lojas.";
+		next;
+		goto L_finalword;
+	R_item4:
+		show "[Geshupenschte]";
+		show "^5533FF8 Minério de Ferro";
+		show "1 Tronco";
+		show "2 Gema Azul^000000";
+		show "e um ^5533FFArbaleste^000000 das lojas.";
+		next;
+		show "[Geshupenschte]";
+		show "E! Nós não estamos sendo duros!";
+		next;
+		show "[Geshupenschte]";
+		show "Eu listarei eles denovo.";
+		show "^5533FF8 Minério de Ferro";
+		show "1 Tronco";
+		show "2 Gema Azul^000000";
+		show "e um ^5533FFArbaleste^000000 das lojas.";
+		next;
+		goto L_finalword;
+	R_item5:
+		show "[Geshupenschte]";
+		show "^5533FF8 Minério de Ferro";
+		show "20 Erva Verde";
+		show "2 Couro de Animal^000000";
+		show "e ^5533FF1 Maça de Guerra^000000 das lojas.";
+		next;
+		show "[Geshupenschte]";
+		show "Ei, nós não vamos fazer você trazer esses porque nós sómos duros! É um teste!";
+		next;
+		show "[Geshupenschte]";
+		show "Eu listarei eles denovo.";
+		show "^5533FF8 Minério de Ferro";
+		show "20 Erva Verde";
+		show "2 Couro de Animal^000000";
+		show "e ^5533FF1 Maça de Fuerra^000000 das lojas.";
+		next;
+	L_finalword:
+		show "[Geshupenschte]";
+		show "Boa sorte!";
+		close;
+
+L_CheckTest2:
+	show "Hmm? Você trouxe todos os itens?";
+	next;
+	if (BSMITH_Q2 == 2) goto L_2b;
+	if (BSMITH_Q2 == 3) goto L_2c;
+	if (BSMITH_Q2 == 4) goto L_2d;
+	if (BSMITH_Q2 == 5) goto L_2e;
+
+	L_2a:
+		if(countitem(999) < 2 || countitem(930) < 1 || countitem(717) < 2 || countitem(1610) < 1) goto sL_NtEnuf1;
+		show "[Geshupenschte]";
+		show "Eu não pedi 3 Aços?";
+		next;
+		show "[Geshupenschte]";
+		show "Ah é! Eu pedi 2.";
+		show "Me dê um segundo.";
+		delitem 999,2;
+		delitem 930,1;
+		delitem 717,2;
+		delitem 1610,1;
+		callsub sF_Make;
+		show "Entregue isso ao Baisulist de Geffen e traga devolta o recibo.";
+		additem 1610,1;
+		next;
+		show "[Geshupenschte]";
+		show "O QUE!? Nada parece diferente?";
+		show "Olhe atenciosamente aonde minha mão está.";
+		show "É O SUPER Vara Mestra Geshupenschte MK II!!!!! XDDDDD";
+		next;
+		show "[Geshupenschte]";
+		show "Sinta a diferença! Ela é muito melhor";
+		next;
+		show "[Geshupenschte]";
+		show "Agora vá entregar ao Baisulitst!";
+		close;
+
+		sL_NtEnuf1:
+			show "[Geshupenschte]";
+			show "Você não trouxe todos os items!";
+			next;
+			goto R_item1;
+	L_2b:
+		if(countitem(1001) < 2 || countitem(932) < 1 || countitem(912) < 1 || countitem(1219) < 1) goto sL_NtEnuf2;
+		show "[Geshupenschte]";
+		show "Eu não pedi 3 Poeira Estelar?";
+		next;
+		show "[Geshupenschte]";
+		show "Ah sim, 2, isso mesmo.";
+		show "Ok, me de um segundo.";
+		delitem 1001,2;
+		delitem 932,1;
+		delitem 912,1;
+		delitem 1219,1;
+		callsub sF_Make;
+		show "Agora, leve isso ao Wickebine de Morroc";
+		additem 1219,1;
+		next;
+		show "[Geshupenschte]";
+		show "O QUE!? ISSO NÃO PARECE DIFERENTE!?";
+		show "Olha atenciosamente a lâmina!";
+		show "VOCÊ NÃO PODE VER AS MARCAS BONITAS?!";
+		show "ULTRA GLADIUS Geshupenschte Mk II!!";
+		next;
+		show "[Geshupenschte]";
+		show "Ela não é linda ^_^?";
+		next;
+		show "[Geshupenschte]";
+		show "Bom, vá para Morroc e de isso para o  Wickebine e traga o recibo devolta.";
+		close;
+
+		sL_NtEnuf2:
+			show "[Geshupenschte]";
+			show "Você não trouxe todos os items!";
+			next;
+			goto R_item2;
+	L_2c:
+		if(countitem(1003) < 2 || countitem(935) < 2 || countitem(990) < 1 || countitem(1119) < 1) goto sL_NtEnuf3;
+		show "[Geshupenschte]";
+		show "Eu não pedi 3 carvões??";
+		next;
+		show "[Geshupenschte]";
+		show "Está certo, 2 carvões";
+		show "Ok, só um segundo.";
+		delitem 1003,2;
+		delitem 935,2;
+		delitem 990,1;
+		delitem 1119,1;
+		callsub sF_Make;
+		show "Dê isso ao Gromgast de Izlude e traga devolta o recibo.";
+		additem 1119,1;
+		next;
+		show "[Geshupenschte]";
+		show "O QUE!? NADA PARECE DIFERENTE!?";
+		show "Olhe atenciosamente a lâmina!";
+		show "Olhe as marcas bonitas!";
+		show "ULTRA Geshupenschte TSURUGI Mk II!!!";
+		next;
+		show "[Geshupenschte]";
+		show "Ela não é linda ^_^?";
+		next;
+		show "[Geshupenschte]";
+		show "De qualquer jeito, Gromgast de Izlude! Vá!";
+		close;
+
+		sL_NtEnuf3:
+			show "[Geshupenschte]";
+			show "Você não trouxe todos os items!";
+			next;
+			goto R_item3;
+
+	L_2d:
+		if(countitem(1002) < 8 || countitem(1019) < 1 || countitem(717) < 2 || countitem(1713) < 1) goto sL_NtEnuf4;
+		show "[Geshupenschte]";
+		show "Eu não pedi 30 minérios de ferro?";
+		next;
+		show "[Geshupenschte]";
+		show "Espere, 8 está certo >_>";
+		show "Hmmm, espere um segundo então.";
+		delitem 1002,8;
+		delitem 1019,1;
+		delitem 717,2;
+		delitem 1713,1;
+		callsub sF_Make;
+		show "Entregue isso ao Tilpitz de Payon";
+		additem 1713,1;
+		next;
+		show "[Geshupenschte]";
+		show "O QUE!? NADA PARECE DIFERENTE!?";
+		show "OLHE OS SULCOS AONDE AS FLECHAS VÃO!!";
+		show "OLHA COMO ESTA ORIGINAL!!!!!";
+		show "MESTRE ARQUEIRO Geshupenschte ARBALESTE Mk II!!!";
+		next;
+		show "[Geshupenschte]";
+		show "Olha o tanto que foi construido bem o arco!";
+		next;
+		show "[Geshupenschte]";
+		show "Bom, Tilpitz em Payon, E traga de volta o recibo.";
+		close;
+
+		sL_NtEnuf4:
+			show "[Geshupenschte]";
+			show "Você não trouxe todos os items!";
+			next;
+			goto R_item4;
+
+	L_2e:
+		if(countitem(1002) < 8 || countitem(511) < 20 || countitem(919) < 2 || countitem(1513) < 1) goto sL_NtEnuf5;
+		show "[Geshupenschte]";
+		show "Ok, espere um segundo!";
+		delitem 1002,8;
+		delitem 511,20;
+		delitem 919,2;
+		delitem 1513,1;
+		callsub sF_Make;
+		show "Entregue isso ao Bismarck em Comodo e traga-me devolta o recibo.";
+		additem 1513,1;
+		next;
+		show "[Geshupenschte]";
+		show "O QUE!? NADA PARECE DIFERENTE!?";
+		show "Olhe atenciosamente nos pontos das pontas!!";
+		show "As ervas verde antídoto pra veneno foi misturado nelas!";
+		show "ANTI VENENO Geshupenschte MAÇA DE GUERRA MK II!!!!!";
+		next;
+		show "[Geshupenschte]";
+		show "Você não entende!? Quando você está envenenado, você se alto cura com ela!";
+		show "A ferida.....provavelmente vai ficar maior! Mas o veneno sairá!";
+		next;
+		show "[Geshupenschte]";
+		show "Bom, entregue isso ao Bismarck de Comodo!";
+		close;
+
+		sL_NtEnuf5:
+			show "[Geshupenschte]";
+			show "Você não trouxe todos os items!";
+			next;
+			goto R_item5;
+
+	sF_Make:
+		set BSMITH_Q, 3;
+		next;
+		show "[Geshupenschte]";
+		show "Grunhido.......";
+		next;
+		show "~clank~clonk~clank~";
+		next;
+		show "[Geshupenschte]";
+		show "Ergh......";
+		next;
+		show "~bonk~bang~bonk~";
+		next;
+		show "[Geshupenschte]";
+		show "Hmmm. Aqui está!";
+		return;
+
+
+// Test 3-----------------------------------------------------------------
+L_Test3:
+	if (BSMITH_Q3 == 1) goto L_CheckTest3;
+	show "Vá entregar!";
+	show "........você não esqueceu.......certo?";
+	next;
+	show "[Geshupenschte]";
+	if (BSMITH_Q2 == 2) goto L_3b;
+	if (BSMITH_Q2 == 3) goto L_3c;
+	if (BSMITH_Q2 == 4) goto L_3d;
+	if (BSMITH_Q2 == 5) goto L_3e;
+
+	L_3a:
+		if (countitem(1610) < 1) goto L_LostItem;
+		show "Baisulitst deve estar as 11 horas de Geffen ";
+		close;
+	L_3b:
+		if (countitem(1210) < 1) goto L_LostItem;
+		show "Entregue isso ao Wickebine perto do negociador de Maça Espada em Morroc.";
+		close;
+	L_3c:
+		if (countitem(1119) < 1) goto L_LostItem;
+		show "Gromgast sairá às 11 horas de Izlude.";
+		close;
+	L_3d:
+		if (countitem(1713) < 1) goto L_LostItem;
+		show "Tilpitz sairá às 5 horas de Payon";
+		close;
+	L_3e:
+		if (countitem(1513) < 1) goto L_LostItem;
+		show "Bismarck está às 12 horas na área de Comodo.";
+		close;
+
+	L_LostItem:
+		show "O QUE!!! VOCÊ PERDEU O ITEM QUE EU LHE DEI PARA ENTREGAR!!!!";
+		emotion e_omg;
+		next;
+		show "[Geshupenschte]";
+		show "........... bom então.... Eu acho que você precisará.....";
+		next;
+		show "[Geshupenschte]";
+		show "COMEÇAR TUDO DENOVO!! Agora saia do meu alcançe!!";
+		set BSMITH_Q, 0;
+		set BSMITH_Q2, 0;
+		emotion e_ag;
+		close;
+
+L_CheckTest3:
+	show "Você entregou?";
+	show "Vamos ver o recibo então!";
+	next;
+	menu "Aqui está",-,"Espere um segundo.",M_Wait;
+
+		if(countitem(1073) < 1) goto sL_noreceipt;
+		show "[Geshupenschte]";
+		show "Ótimo! Muito bom! Você é definitivamente um Mercador honesto! Vá ver o Altigeren devolta em Geffen!";
+		show "Eu sei que você passará no teste definitivamente!!!";
+		set BSMITH_Q, 4;
+		set BSMITH_Q2, 0;
+		set BSMITH_Q3, 0;
+		delitem 1073,1;
+		close;
+
+		sL_noreceipt:
+			show "[Geshupenschte]";
+			show "........Você não sabe aonde você deixou o recibo.........";
+			next;
+			show "[Geshupenschte]";
+			show "O QUE É ISSO?! VOCÊ PERDEU!? VOCÊ VENDEU ou alguma coisa!?";
+			emotion e_omg;
+			next;
+			show "[Geshupenschte]";
+			show "O recibo é a alma dos Mercadores! A linha da vida dos Ferreiros!";
+			show "Adivinha? Você irá..... COMEÇAR TUDO DENOVO!!";
+			set BSMITH_Q, 0;
+			set BSMITH_Q2, 0;
+			set BSMITH_Q3, 0;
+			emotion e_pif;
+			close;
+	M_Wait:
+		show "[Geshupenschte]";
+		show "Bom, me avise se você achar o recibo. EU ESPERO que você tenha um.";
+		close;
+
+L_Done:
+	show "Obrigado por ter trabalhado pra mim! Agora vá ver Altiregen!";
+	close;
+
+L_GoChange:
+	show "Agora não deve ter nada que você queira.........";
+	show "Talvez você esteja pensando de Morroc ou Geffen?";
+	close;
+}
+
+
+// Delivery Recipients ==================================================>\\
+// Baisulitst -----------------------------------------------------------
+geffen,46,164,4	script	Baisulitst	69,{
+	if (BSMITH_Q==3) goto L_Start;
+
+	show "[Baisulitst]";
+	show "Agora que eu pensei sobre isso, faz um tempo desde que eu estive em Alberta.  Eu estou um pouco com raiva com o serviço que eu tenho feito, especialmente as últimas entregas......";
+	next;
+	show "[Baisulitst]";
+	show "Eu encomendei alguma coisa da Guilda dos Ferreiros de Geffen mas a encomenda foi transferida para um Ferreiro em Eibech.....";
+	next;
+	show "[Baisulitst]";
+	show "Hmmm....., Eu queria que eu recebesse minha encomenda especial ^5555FFVara Mestral^000000.....";
+	emotion e_hmm;
+	close;
+
+L_Start:
+	if(BSMITH_Q2 != 1) goto L_Wrong;
+	if(countitem(1073) == 1) goto L_Done;
+	if(countitem(1610) < 1) goto L_NoItem;
+	show "[Baisulitst]";
+	show "Uau! Está finalmente aqui?!";
+	show "Muito obrigado! Eu estava esperando para sempre!";
+	delitem 1610,1;
+	set BSMITH_Q3, 1;
+	next;
+	show "[Baisulitst]";
+	show "Eu encomendei isso da Guilda dos Ferreiros de Geffen, Mas eles entregaram ao Ferreiro de Eibech!";
+	next;
+	show "[Baisulitst]";
+	show "Obrigado por ter vindo de tão longe!";
+	show "Também, esteja certo de dar um tapinha no Geshupenschte por mim! Como pôde ter sido tão atrasado >_>";
+	next;
+	show "[Baisulitst]";
+	show "Aqui está o recibo!";
+	next;
+	show "~Scribble, Scribble~ Rip ~";
+	next;
+	additem 1073,1;
+	show "[Baisulitst]";
+	show "Aqui está! Até logo! Obrigado pela entrega!";
+	close;
+
+	L_NoItem:
+		show "[Baisulitst]";
+		show "..... Hmm?.... O que é isso?..... Você está aqui para me entregar algo mas você não tem o item atual??";
+		emotion e_pif;
+	L_Wrong:
+		show "[Baisulitst]";
+		show "..... Hmm?.... O que é isso?..... Isso não é o que eu encomendei.....";
+		emotion e_pif;
+	L_Done:
+		show "[Baisulitst]";
+		show "Obrigado novamente pela entrega.  Eu simplismente apreciei muito isso!";
+		close;
+}
+
+// Wickebine --------------------------------------------------------------------
+morocc,27,112,4	script	Wickebine	725,{
+	if (BSMITH_Q == 3) goto L_Start;
+
+	show "[Wickebine]";
+	show "..........";
+	show ".....Quando minha encomenda estará aqui?";
+	emotion e_hmm;
+	next;
+	show "[Wickebine]";
+	show "A Guilda dos Ferreiros de Geffen e Geshupenschte estão os dois EXTREMAMENTE ATRASADOS!";
+	emotion e_pif;
+	next;
+	show "[Wickebine]";
+	show "Isso é muito irritante......";
+	close;
+L_Start:
+	if(BSMITH_Q2 != 2) goto L_Wrong;
+	if(countitem(1073) == 1) goto L_Done;
+	if(countitem(1219) < 1) goto L_NoItem;
+	show "[Wickebine]";
+	show "Está aqui finalmente!?!";
+	show "Me dê isso!!!!";
+	delitem 1219,1;
+	set BSMITH_Q3, 1;
+	next;
+	show "[Wickebine]";
+	show "Diga a Guilda dos Ferreiros de Geffen";
+	show "e seu professor Geshupenschte!";
+	next;
+	show "[Wickebine]";
+	show "Você está ATRASADO";
+	show "E eu estava ESPERANDO.";
+	next;
+	show "[Wickebine]";
+	show "Mas o item parece ser de uma ótima qualidade.";
+	next;
+	show "(escrevendo alguma coisa)";
+	next;
+	additem 1073,1;
+	show "[Wickebine]";
+	show "Aqui está o recibo e muito obrigado pela entrega.";
+	close;
+
+	L_NoItem:
+		show "[Wickebine]";
+		show "Ung! Você andou todo esse caminho para me entregar meu item e você o perdeu??!!";
+		emotion e_an;
+		close;
+	L_Wrong:
+		show "[Wickebine]";
+		show "Eu acho que você esteve designado a entregar isso em outro lugar.....";
+		emotion e_swt;
+		close;
+	L_Done:
+		show "[Wickebine]";
+		show "Muito obrigado";
+		close;
+}
+
+// Gromgast ---------------------------------------------------------------------
+izlude,69,181,4	script	Gromgast	734,{
+	if (BSMITH_Q == 3) goto L_Start;
+
+	show "[Gromgast]";
+	show "..........";
+	show ".....Quando essa espada chegará >_>";
+	next;
+	show "[Gromgast]";
+	show "Eu preciso de minha espada para treinar!";
+	show "Nãooo.....Eu não posso ficar irritado!";
+	next;
+	show "[Gromgast]";
+	show "Nãoooooo T_T......";
+	close;
+
+L_Start:
+	if(BSMITH_Q2 != 3) goto L_Wrong;
+	if(countitem(1073) == 1) goto L_Done;
+	if(countitem(1119) < 1) goto L_NoItem;
+	show "[Gromgast]";
+	show "Ahhh, está finalmente aqui";
+	show "Deixe me ver isso.";
+	delitem 1119,1;
+	set BSMITH_Q3, 1;
+	next;
+	show "[Gromgast]";
+	show "Legal.....";
+	show "Está bem melhor do que eu esperava.";
+	next;
+	show "[Gromgast]";
+	show "Eu acho que a espada é exatamente como eu pensei!!";
+	show "Eu amei ela!";
+	next;
+	show "[Gromgast]";
+	show "Aqui está.";
+	next;
+	show "~scribble~rip~";
+	next;
+	additem 1073,1;
+	show "[Gromgast]";
+	show "Aqui está o recibo! Muito obrigado.";
+	close;
+
+	L_NoItem:
+		show "[Gromgast]";
+		show "Hmm... Eu não entendo.... aonde está o item que eu encomendei???....";
+		emotion e_hmm;
+	L_Wrong:
+		show "[Gromgast]";
+		show "Desculpe, mas você achou a pessoa errada.";
+		close;
+	L_Done:
+		show "[Gromgast]";
+		show "Obrigado pela entrega!";
+		close;
+}
+
+// Tilpitz --------------------------------------------------------------------
+payon,214,79,4	script	Tilpitz	59,{
+	if (BSMITH_Q == 3) goto L_Start;
+
+	show "[Tilpitz]";
+	show "Quando esse arco chegará..........";
+	show "Quanto tempo faz que eu encomendei essa porcaria >_>";
+	next;
+	show "[Tilpitz]";
+	show "Não tem ninguém que aceite 'ele'.........";
+	show "mas, QUANDO CHEGARÁ >_>";
+	next;
+	show "[Tilpitz]";
+	show " T_T ";
+	close;
+L_Start:
+	if(BSMITH_Q2 != 4) goto L_Wrong;
+	if(countitem(1073) == 1) goto L_Done;
+	if(countitem(1713) < 1) goto L_NoItem;
+	show "[Tilpitz]";
+	show ".......Ahhh! Está finalmente aqui!!!";
+	show "Deixe-me ver!";
+	delitem 1713,1;
+	set BSMITH_Q3, 1;
+	next;
+	show "[Tilpitz]";
+	show "Uau....";
+	show "Nada mal......Nada mal mesmo!!";
+	next;
+	show "[Tilpitz]";
+	show "Olha essa curva!! É linda!!";
+	show "Ah, eu amo isso";
+	next;
+	show "[Tilpitz]";
+	show "Muito obrigado!!!";
+	next;
+	show "scribble scribble rip";
+	next;
+	additem 1073,1;
+	show "[Tilpitz]";
+	show "Aqui está o recibo! Muito obrigado denovo!!!!!";
+	close;
+
+	L_NoItem:
+		show "[Tilpitz]";
+		show "Aaah! A entrega está aqui? O que?..... Você não tem nada???.....";
+		emotion e_what;
+		next;
+		show "[Tilpitz]";
+		show "Não faça brincadeiras más com as pessoas!";
+		emotion e_ag;
+		close;
+	L_Wrong:
+		show "[Tilpitz]";
+		show "O que é isso? Você tem a entrega.... para outra pessoa..... Então por que a entrega não está com a pessoa???........";
+		emotion e_swt;
+		close;
+	L_Done:
+		show "[Tilpitz]";
+		show "Quanto mais eu olho isso, mais bonito isso fica!!! ";
+		close;
+}
+
+// Bismarck ---------------------------------------------------------------------------
+comodo,158,342,4	script	Bismarck	118,{
+	if (BSMITH_Q == 3) goto L_Start;
+
+	show "[Bismarck]";
+	show "......Ugh?...";
+	show ".....Quando essa entregá virá......";
+	next;
+	show "[Bismarck]";
+	show "....o.....v...veneno...... >_>....";
+	show "Ack.....";
+	next;
+	show "[Bismarck]";
+	show "....Parece que... Eu estou....morrendo.";
+	close;
+
+L_Start:
+	if(BSMITH_Q2 != 5) goto L_Wrong;
+	if(countitem(1073) == 1) goto L_Done;
+	if(countitem(1513) < 1) goto L_NoItem;
+	show "[Bismarck]";
+	show "Ugh.........finalmente...........";
+	show "Vamos vamos..........me dê isso~";
+	delitem 1513,1;
+	set BSMITH_Q3, 1;
+	next;
+	show "[Bismarck]";
+	show "Ugh....";
+	show "A erva verde está nele........certo?";
+	next;
+	show "[Bismarck]";
+	show "Eu........não posso mover.........me ajude";
+	show "....grunt.....";
+	next;
+	show "- STAB! -";
+	next;
+	show "[Bismarck]";
+	show "UIAAAAAAAAAAAAAAA!!!";
+	next;
+	show "[Bismarck]";
+	show "bom, ele funciona direitinho..";
+	next;
+	additem 1073,1;
+	show "[Bismarck]";
+	show "Hmmm.... Aqui está o recibo..... obrigado pela entrega! Eu acho que viverei mais......";
+	close;
+
+	L_NoItem:
+		show "[Bismarck]";
+		show "VOCÊ ESTÁ TENTANDO BRINCAR COMIGO!!?? Como.... ~cough~... pode....~ung~.... você....~ack~.....";
+		emotion e_omg;
+		close;
+	L_Wrong:
+		show "[Bismarck]";
+		show "EU PRECISO DE UM ANTIDOTO!! Não essa coisa ~ack~........";
+		emotion e_omg;
+		close;
+	L_Done:
+		show "[Bismarck]";
+		show "Bom, obrigado.";
+		close;
+}
+
+
+
+//<===================================================== Mitehmaeeuh: Last Test ===================================================>\\
+ein_in01,24,41,4	script	Mitmayer	726,{
+	if (BSMITH_Q == 4) goto L_Start;
+	if (BSMITH_Q == 5) goto L_Done;
+	show "[Mitmayer]";
+	show "Bom.... o sol em Morroc é muito forte.... Por isso resolvi ficar aqui agora ... Ah bom......";
+	emotion e_swt2;
+	next;
+	show "[Mitmayer]";
+	show "Depois de tudo, nós Ferreiros somos preparados para enfrentar grandes temperaturas pois trabalhamos com fogo!";
+	next;
+	show "[Mitmayer]";
+	show "Acabamos ficando bronzeados e é bom..... Eu acho que dá uma imagem de saudável de atleta à nós.";
+	close;
+L_Done:
+	show "[Mitmayer]";
+	show "Eu falei que você passou.";
+	next;
+	show "[Mitmayer]";
+	show "Retorne para a Altiregen";
+	next;
+	show "[Mitmayer]";
+	show "E também, não perca o Materlo de Ferreiro!!";
+	next;
+	show "[Mitmayer]";
+	show "Não se esqueça de usar os pontos de habilidade também!";
+	close;
+L_Start:
+	show "[Mitmayer]";
+	show "Bem vindo! Você quer ser um Ferreiro?";
+	show "Ok, mas saiba que não é todo mundo que passa.";
+	next;
+	show "[Mitmayer]";
+	show "É um quiz que mostra o quanto você sabe de metal e da classe Ferreiro.";
+	show "Eu tenho um pouco para te perguntar, então vamos começar.";
+	next;
+	menu "Ok",M_Test,"Agora não",-;
+
+		show "[Mitmayer]";
+		show "Ok, Eu te verei então.";
+		close;
+	M_Test:
+		show "[Mitmayer]";
+		show "Ok, vamos começar, se você falhar ai você terá poucas chances de passar no teste .";
+		next;
+		show "[Mitmayer]";
+		show "5 perguntas";
+		show "Eu não irei lhe falar o que é certo e o que é errado.";
+		next;
+		set @score, 0;
+		set @temp, rand(3);
+		if (@temp == 1) goto R_Set2;
+		if (@temp == 2) goto R_Set3;
+
+	R_Set1:
+		show "[Mitmayer]";
+		show "1. Que skill é necessário para se pegar Desconto?";
+		next;
+		menu "Usar Carrinho Lv 3",sM_1a,"Identificar Item",sM_1a,"Mammonita Lv 10",sM_1a,"Aumentar Capacida de Carga Lv 3",-;
+
+			set @score,@score+20;
+		sM_1a:
+
+		show "[Mittmayer]";
+		show "2. Que efeito o Martelo de Thor tem?";
+		next;
+		menu "Atordoamento",-,"Cegueira",sM_1b,"Confusão",sM_1b,"Veneno",sM_1b;
+
+			set @score,@score+20;
+		sM_1b:
+
+		show "[Mitmayer]";
+		show "3. Quanto de zeny é pego quando você usa Mammonita Lv 10?";
+		next;
+		menu "900z",sM_1c,"1,000z",-,"2,000z",sM_1c,"1,000,000z",sM_1c;
+
+			set @score,@score+20;
+		sM_1c:
+
+		show "[Mitmayer]";
+		show "4. Quanto dinheiro é economizado com o Desconto Lv 10??";
+		next;
+		menu "21 % ",sM_1d,"22 % ",sM_1d,"23 % ",sM_1d,"24 % ",-;
+
+			set @score,@score+20;
+		sM_1d:
+
+		show "[Mitmayer]";
+		show "5. Quanto você pode ganhar com o Superfaturar Lv 10?";
+		next;
+		menu "21 % ",sM_1e,"22 % ",sM_1e,"23 % ",sM_1e,"24 % ",-;
+
+			set @score,@score+20;
+		sM_1e:
+		goto L_Result;
+
+	R_Set2:
+		show "[Mittmayer]";
+		show "1. Qual monstro dropa aço?";
+		next;
+		menu "Zerom",sM_2a,"Chonchon de Aço",sM_2a,"Esqueleto Operário",-,"Requiem",sM_2a;
+
+			set @score,@score+20;
+		sM_2a:
+
+		show "[Mitmayer]";
+		show "2. O que você pode fazer com Sangue Escarlate?";
+		next;
+		menu "Coração Flamejante",-,"Vento Bruto",sM_2b,"Natureza Grandiosa",sM_2b,"Gelo Místico",sM_2b;
+
+			set @score,@score+20;
+		sM_2b:
+
+		show "[Mitmayer]";
+		show "3. Qual minério você tem mais no banco?";
+		next;
+		menu "WoV",sM_2c,"Sangue Escarlate",-,"Vida Verdejante",-,"Cristal Azul",-;
+
+			set @score,@score+20;
+		sM_2c:
+
+		show "[Mitmayer]";
+		show "4. Que tipo de monstro é fraco contra a propriedade Vento?";
+		next;
+		menu "Fogo",sM_2d,"Água",-,"Terra",sM_2d,"Vento",sM_2d;
+
+			set @score,@score+20;
+		sM_2d:
+
+		show "[Mitmayer]";
+		show "5. Quantos ferros são necessários para fazer um aço?";
+		next;
+		menu "5",-,"4",sM_2e,"3",sM_2e,"6",sM_2e;
+
+			set @score,@score+20;
+		sM_2e:
+		goto L_Result;
+
+	R_Set3:
+		show "[Mitmayer]";
+		show "1. O que você faz quando encontra uma pessoa estressada?";
+		next;
+		menu "Pergunto o que precisa",-,"Converso por um tempo",-,"Ignoro",sM_3a,"Dropo um item e saio",sM_3a;
+
+			set @score,@score+20;
+		sM_3a:
+
+		show "[Mitmayer]";
+		show "2. Aonde você aprende a Personalizar Carrinho?";
+		next;
+		menu "Aldebaran",sM_3b,"Alberta",-,"Morroc",sM_3b,"Izlude",sM_3b;
+
+			set @score,@score+20;
+		sM_3b:
+
+		show "[Mitmayer]";
+		show "3. Cidade de Geffen é no centro, aonde fica a Guilda dos Ferreiros?";
+		next;
+		menu "11oclock",sM_3c,"5oclock",-,"7oclock",sM_3c,"12oclock",sM_3c;
+
+			set @score,@score+20;
+		sM_3c:
+
+		show "[Mitmayer]";
+		show "4. Qual cidade tem mais Ferreiros";
+		next;
+		menu "Prontera",sM_3d,"Morroc",sM_3d,"Alberta",sM_3d,"Geffen",-;
+
+			set @score,@score+20;
+		sM_3d:
+
+		show "[Mitmayer]";
+		show "5. Qual atributo afeta em forja?";
+		next;
+		menu "FOR",sM_3e,"DEX ",-,"AGI",sM_3e,"VIT",sM_3e;
+
+			set @score,@score+20;
+		sM_3e:
+
+L_Result:
+	show "[Mitmayer]";
+	show "Ótimo trabalho!";
+	next;
+	show "[Mitmayer]";
+	show "Vamos ver... sua contagem foi ^5533FF"+@score+"^000000 pontos!";
+	next;
+	show "[Mitmayer]";
+	if (@score > 70) goto L_Pass;
+
+		show "Falhou, vá estudar mais!!";
+		next;
+		show "[Mitmayer]";
+		show "Só não é o suficiente.....";
+		show "Por favor retorne depois de ter estudado mais.";
+		close;
+
+	L_Pass:
+		show "Ótimo! Parabéns! Você passou!";
+		emotion e_no1;
+		next;
+		show "[Mitmayer]";
+		show "Você precisará voltar a Altiregen. Aqui está a prova de que você passou no teste.... o ^5533FFMartelo de Ferreiro^000000.";
+		additem 1005,1;
+		set BSMITH_Q, 5;
+		set BSMITH_Q2, 0;
+		next;
+		show "[Mitmayer]";
+		show "NÃO PERCA ISSO!!";
+		emotion e_gasp;
+		next;
+		show "[Mitmayer]";
+		show "Bom, boa sorte!!!!";
+		close;
+}
+
+//=========================== NPC that tells you, that the Guild moved
+//=========================== She's there on kRO, but the current text is custom ^^
+geffen_in,110,169,4	script	Guia#111	726,{
+	show "[Guia de Ferreiro]";
+	show "Bem-vindo! Nós somos os mestres do metal, os ferreiros!";
+	show "Nossas habilidades de criar armas, são de certa maneira, quase que uma forma de arte!";
+	next;
+	show "[Guia de Ferreiro]";
+	show "Nossa Guilda foi recentemente movida para um grande prédio em Einbroch a cidade do aço.";
+	show "Se você está aqui para fazer seu treinamento, por favor va para lá";
+	next;
+	menu "Que? Onde? Como?",-,"OK, obrigado!",M_ok;
+
+	show "[Guia de Ferreiro]";
+	show "Ah. Desculpe. Você deve estar desfamiliarizado com o novo e maravilhoso Sistema de Aeroplano!";
+	next;
+	menu "Aero...que?",-,"Ah, isso!",M_know;
+
+	show "[Guia de Ferreiro]";
+	show "O Sistema de Aeroplano!";
+	show "É realmente uma coisa maravilhosa. É a mais novas resposta para a estupida magias dos teleportes.";
+	show "O aeroplano é uma grande máquina voadora isso te levará em pouco tempo ao seu destino.";
+	next;
+	show "[Guia de Ferreiro]";
+	show "Lembro apenas nele. O céu azul e as nuvens brancas. O vento batendo em seu cabelo.";
+	show "Como eu posso sentir isso!";
+	next;
+	menu "Um.. sobre essa guilda...",-,"Isso é besteira! Corra!",M_run;
+
+	show "[Guia de Ferreiro]";
+	show "An? Ah correto. Eu consegui carregar em outros tempos...";
+	next;
+	show "[Guia de Ferreiro]";
+	show "Há dois Aeroplanos. Um voa de Izlude para Juno, e o outro voa por toda a República de Shwarzwald.";
+	show "São Juno, Hugel, Lighthalzen e Einbroch.";
+	next;
+M_know:
+	show "[Guia de Ferreiro]";
+	show "Para você chegar a Einbroch é muito simples pegue o Aeroplano em Izlude, desenbarque em Juno e pegue o segundo Aeroplano para chegar em Einbroch.";
+	show "Quando você chegar ao seu destino fale com um dos Guias para a Guilda dos Ferreiros.";
+	next;
+	show "[Guia de Ferreiro]";
+	show "Agora eu sei que isto pode te confundir um pouco. Isso é por que nossa guilda em associação com a Corporação Kafra está teletransportando grátis para Izlude!";
+	show "Você gostaria de usar nossos serviços?";
+	next;
+	menu "Sim, por favor.",-,"Não, obrigado.",M_no;
+
+	show "[Guia de Ferreiro]";
+	show "Tenha um ótimo passeio!!";
+	close2;
+	warp "izlude.gat",145,39;
+	end;
+
+M_ok:
+	show "[Guia de Ferreiro]";
+	show "Sempre ao seu serviço!";
+	close;
+
+M_run:
+	show "[Guia de Ferreiro]";
+	show "An? Ei! Onde você está indo?!";
+	close;
+
+M_no:
+	show "[Guia de Ferreiro]";
+	show "Não? Não me diga que você está com medo de voar...";
+	close;
+}

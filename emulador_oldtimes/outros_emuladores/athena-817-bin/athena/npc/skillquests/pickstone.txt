@@ -1,0 +1,59 @@
+//Pick Stone
+morocc.gat,165,124,4    script	Rocko-san	82,{
+
+		if (getskilllv(151)>0) goto LstartTwice;
+		if (((countitem(912)>=1) && (countitem(948)>=1) && (countitem(908)>=5))) goto L3;
+		if ((Class == Job_Thief) && (JobLevel < 20)) goto LStartLowlv;
+		if (!((Class == Job_Theif) || (Class == Job_Rouge) || (Class == Job_Assassin))) goto LStartOther;
+Lstart:
+	mes "[Rocko-san]";
+	mes "Hi punk! wanna learn to";
+	mes "to throw some stone?";
+	mes "Well newbie you have to pick up";
+	mes "the friggin stone before you";
+	mes "can throw it!";
+	next;
+	mes "[Rocko-san]";
+	mes "I won't do it for free though.";
+	mes "Get me these items and I'll see";
+	mes "if I'm in a good mood:";
+	mes "- 1 ^FF0000Zargon^000000";
+	mes "- 1 ^FF0000Bear foots^000000";
+	mes "- 5 ^FF0000Spawns^000000";
+	mes "Go now!";
+	close;
+
+L3:
+	mes "[Rocko-san]";
+	mes "Oh the newbie is back!";
+	mes "And with the items. Oh my god!";
+	mes "Well my little sisters made me some";
+	mes "fresh baked cookies with poring juice";
+	mes "this morning so I guess I'm in a good mood";
+	next;
+	mes "[Rocko-san]";
+	mes "Here's the skill use it well, punk!";
+	delitem 912,1;
+	delitem 948,1;
+	delitem 908,5;
+	skill 151,1,0;
+	mes "Well don't just stand here. Go!";
+	close;
+
+LstartTwice:
+		mes "[Rocko-san]";
+		mes "You have already learned this";
+		mes "don't come back here anymore!";
+		close;
+LStartOther:
+	mes "[Rocko-san]";
+	mes "I am an Theif master and I can teach other Theives how to use the Pickstone.";
+	mes "This skill can only be used by Theives.";
+	mes "Unfortunately you ain't an Theives.";
+	close;
+
+LStartLowlv:
+	mes "[Rocko-san]";
+	mes "Hello friendly Theives. You have to raise your level a little more before using the Pickstone.";
+	mes "YOu need to be atleast joblevel 20.";
+	close;

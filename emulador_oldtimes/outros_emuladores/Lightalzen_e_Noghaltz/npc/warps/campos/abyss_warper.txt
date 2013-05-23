@@ -1,0 +1,75 @@
+//===== Cronus Script ========================================
+//= Warps do Lago do Abismo
+//===== Por: =================================================
+//= Page
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Compatível Com: ======================================
+//= Episódio RO 1.3+
+//===== Comentários Adicionais: ==============================
+//= Feito inicialmente no eAthena por Nexon
+//===== Changelog: ===========================================
+//= 1.0 Puxado do eAthena, traduzido e adaptado [Page]
+//============================================================
+
+hu_fild05.gat,168,303,0	script	Pilar#01	111,{
+	show "[Voz Antiga]";
+	show "Então, você gostaria de acessar a Caverna do Abismo?";
+	show "Você precisa me dar 1 "+getitemname(1035)+", 1 "+getitemname(1036)+" e 1 "+getitemname(1037)+",";
+	show "para poder garantir seu acesso na ilha";
+	next;
+	show "[Voz Antiga]";
+	show "Então, você vai?";
+	next;
+	menu "Sim.",L_Check,"Não.",-;
+	show "Então retorne quando você estiver pronto.";
+	close;
+
+L_Check:
+	show "[Voz Antiga]";
+	show "Ótimo, deixe-me checar seus itens, primeiramente...";
+	next;
+	show "[Voz Antiga]";
+	if ((countitem(1035) == 0) || (countitem(1036) == 0) || (countitem(1037) == 0)) goto L_No_Items;
+	show "Bom, eu irei lhe conceder o acesso.";
+	show "E por favor, tenha pressa. A entrada não permanecerá aberta por muito tempo.";
+	close2;
+	delitem 1035,1;
+	delitem 1036,1;
+	delitem 1037,1;
+	enablenpc "warpabyss";
+	initnpctimer;
+	warp "hu_fild05",181,197;
+	end;
+
+L_No_Items:
+	show "Você ainda não tem os itens necessários.";
+	close;
+
+OnTimer10000:
+	disablenpc "warpabyss";
+	stopnpctimer;
+	setnpctimer 0;
+	end;
+
+OnInit:
+	disablenpc "warpabyss";
+	end;
+}
+
+
+hu_fild05.gat,171,212,0	script	Pilar#02	111,{
+	show "[Voz Antiga]";
+	show "Sair da ilha?";
+	next;
+	menu "Sim.",-,"Não.",L_close;
+	warp "hu_fild05.gat",168,301;
+	end;
+
+L_close:
+	show "[Voz Antiga]";
+	show "Retorne então quando estiver pronto.";
+	close;
+}
+
+hu_fild05.gat,197,210,0	warp	warpabyss	2,3,abyss_01.gat,264,271

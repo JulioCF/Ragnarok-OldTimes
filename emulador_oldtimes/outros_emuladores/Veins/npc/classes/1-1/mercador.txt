@@ -1,0 +1,962 @@
+//===== Cronus Script ======================================== 
+//= Script Mercador
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.5/1.6
+//===== Descrição: =========================================== 
+//= Muda a classe para Mercador
+//===== Changelog: =========================================== 
+//= Traduzido [DarkAngel]
+//= Quest Atualizada [Mehah]
+//= Adaptado Classname Na Função F_ToHigh [Mehah]
+//============================================================
+
+// == Guild NPCs == 
+// -- Mahnsoo --
+alberta_in,53,43,6	script	Chefe Mansur	86,{
+	callfunc "F_ToHigh",Job_Merchant_High,"Mercador T.",Job_Whitesmith,"Chefe Mansur";
+	show "[Chefe Mansur]";
+	if(BaseJob == Job_Novice && job_merchant_q3 == 4) goto L_MakeMerc;
+	if(BaseJob == Job_Novice && job_merchant_q3 == 3) goto L_GiveRecpt;
+	if(BaseJob == Job_Novice && job_merchant_q3 == 5) goto L_Failed;
+	if(BaseJob == Job_Novice && job_merchant_q2 > 0) goto L_Back;
+
+	show "O que o traz aqui? Algo em sua mente?";
+M_Menu:
+	next;
+	menu "Eu quero ser um Mercador.",M_0,"O que é exatamente um Mercador?",M_1,"De-me os Requirementos.",M_2,"End.",M_End;
+
+     	M_0:
+     		if(BaseJob==5){
+    			show "[Chefe Mahnsoo]";
+    			show "Huh? O que você falou? Seu bobinho! Enfie isso na sua mente.  Você JÁ É UM MERCADOR!...!";
+    			emotion 1;
+    			emotion 0;
+			close;
+		}else
+		if(BaseJob != 0){
+			show "[Chefe Mahnsoo]";
+			show "Nós Mercadores realmente não gostamos dos povos que trabalham durante o dia, nós saímos como loucos a noite, assim não tem ninguém e vem dinheiro mais fácil.";
+			next;
+			show "[Chefe Mahnsoo]";
+			show "Bem, você já tem uma profissão, não há nada pra você aqui mesmo que tenha se arrependido com seu trabalho.";
+			close;
+		}else
+		if(JobLevel < 10){
+			show "[Chefe Mahnsoo]";
+			show "Desculpe mas você deve ter 9 pontos em suas 'Hábilidades Básicas'.";
+			close;
+		}
+		show "[Chief Mahnsoo]";
+		show "Um Mercador? Você falou?? Bom...";
+		next;
+		show "[Chefe Mahnsoo]";
+		show "Bom.  Você deve pagar 1000 Zeny.";
+		show "Se você não tiver todo o dinheiro agora, você pode pagar 500 Zeny agora e então mais tarde pagar o resto.";
+		next;
+		show "[Chefe Mahnsoo]";
+		show "Você esta interessado ainda?";
+		next;
+		menu "Por que não.Não precisa de faculdade mesmo.",sM_0a,"Talvez, mais tarde...",sM_0b;
+
+		sM_0a:
+			show "[Chefe Mansur]";
+			show "Eu estou alegre de ouvir isso. Assim como você deseja pagar a Taxa de Sociedade?";
+		sM_Menu:
+			next;
+			menu "Pagar 1000 Zeny agora.",m_0a,"2 pagamentos de 500 Zeny.",m_0b,"Nunca.",m_0End;
+
+			m_0a:
+				show "[Chefe Mansur]";
+				if(Zeny < 1000) goto sl_Short1k;
+				set Zeny,Zeny-1000;
+				set job_merchant_q,1;
+				show "Vejamos... 1000 Zeny.... Bom.";
+				goto L_Cont0;
+
+				sl_Short1k:	
+					show "Veja como é apenas uma pequena quantia de zeny. Por que não faz um pagamento mínimo de 500 Zeny primeiro?";
+					show "Você pode preocupar depois sobre o resto.";
+					emotion 4;
+					goto sM_Menu;
+					close;
+
+			m_0b:
+				show "[Chefe Mansur]";
+				if(Zeny < 500) goto sl_Short500z;
+				set Zeny,Zeny-500;
+				set job_merchant_q,2;
+				show "Vejamos.. 500 Zeny.... Bem, o bastante para começar... entretanto eu penso que pagar não é um habito bom para qualquer Mercador.";
+				goto L_Cont0;
+				
+				sl_Short500z:
+					show "Você tem muito pouco dinheiro. Volte quando tiver o suficiente.";
+					emotion 4;
+					close;
+
+			m_0End:
+				show "[Chefe Mansur]";
+				show "Você não tem nenhum dinheiro agora? Ok, Sem Problema.?";
+				close;
+
+		sM_0b:
+			show "[Chefe Mansur]";
+			show "Sinta-se livre para devolver a qualquer hora quando você estiver pronto, Certo?.";
+			close;
+
+
+		L_Cont0:
+		next;
+		show "[Chefe Mansur]";
+		show "Agora que é decidido, me deixe falar com você sobre o Teste de Licença Mercantil. Será dado à você uma tarefa simples.";
+		show "Dependendo da sua performance, definirá se você será ou não um bom Mercador.";
+		next;
+		show "[Chefe Mansur]";
+		show "Oh, mas antes de nós fôssemos começando eu tenho que dizer uma coisa.....";
+		next;
+		show "[Chefe Mansur]";
+		show "Há algumas pessoas bobas e gananciosas lá fora que não sabem o que pretende ser um Mercador.";
+		show "Eu espero sinceramente que você não se mostrará para estar como eles.  Você não vai... ou vái??..... (olhares fixos a você atentamente)";
+		next;
+		show "[Chefe Mansur]";
+		show "Aqui é sua tarefa.  Você precisará....";
+		next;
+		show "[Chefe Mansur]";
+
+		set @TEMP,rand(4);
+		if(@TEMP == 1) goto R_1;
+		if(@TEMP == 2) goto R_2;
+		if(@TEMP == 3) goto R_3;
+
+		R_0:	
+			show "Retire um ^ff0000produto^000000 da ^0000ffWharehouse^000000 e leve para a ^00aa00Funcionária do Kafra antes da Associação dos Espadachins em Prontera^000000.";
+			if(job_merchant_q2 == 1) goto sR_0a;
+			if(job_merchant_q2 == 2) goto sR_0b;
+			set @TEMP,rand(2);
+			if(@TEMP !=0) goto sR_0b;
+
+			sR_0a:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00002485741^000000.";
+				set job_merchant_q2, 1;
+				next;
+				goto L_Cont1;
+			sR_0b:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00002328137^000000.";
+				set job_merchant_q2, 2;
+				next;
+				goto L_Cont1;
+
+		R_1:
+			show "Retire um ^ff0000produto^000000 da ^0000ffWharehouse^000000 e entregue isto a um sócio da ^00aa00Academia de Mágica em Geffen^000000.";
+			next;
+			show "[Chefe Mansur]";
+			if(job_merchant_q2 == 3) goto sR_1a;
+			if(job_merchant_q2 == 4) goto sR_1b;
+			set @TEMP,rand(2);
+			if(@TEMP !=0) goto sR_1b;
+
+			sR_1a:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00002989396^000000.";
+				set job_merchant_q2, 3;
+				next;
+				goto L_Cont1;
+			sR_1b:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00002191737^000000.";
+				set job_merchant_q2, 4;
+				next;
+				goto L_Cont1;
+
+		R_2:
+			show "Retire um ^ff0000produto^000000 da ^0000ffWharehouse^000000 e entregue para ^00aa00Java Dullihan, o Tintureiro em Morroc^000000.";
+			next;
+			show "[Chefe Mansur]";
+			if(job_merchant_q2 == 5) goto sR_2a;
+			if(job_merchant_q2 == 6) goto sR_2b;
+			set @TEMP,rand(2);
+			if(@TEMP !=0) goto sR_2b;
+
+			sR_2a:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00003012685^000000.";
+				set job_merchant_q2,5;
+				next;
+				goto L_Cont1;
+			sR_2b:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00003487372^000000.";
+				set job_merchant_q2,6;
+				next;
+				goto L_Cont1;
+
+		R_3:
+			show "Retire um ^ff0000produto^000000 da ^0000ffWharehouse^000000 e entregue isto para ^00aa00Funcionária Kafra na Ilha de Byalan^000000.";
+			next;
+			show "[Chefe Mansur]";
+			if(job_merchant_q2 == 7) goto sR_3a;
+			if(job_merchant_q2 == 8) goto sR_3b;
+			set @TEMP,rand(2);
+			if(@TEMP !=0) goto sR_3b;
+
+			sR_3a:
+
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00003318702^000000.";
+				set job_merchant_q2,7;
+				goto M00R3;
+			sR_3b:
+				show "O ^0000ff'Número Serial'^000000 do produto é ^ff00003543625^000000.";
+				set job_merchant_q2,8;
+				goto M00R3;
+
+			M00R3:
+				next;
+				show "[Chefe Mansur]";
+				show "Umm e... este é meu pedido pessoal.  Por favor inclua esta mensagem em sua entrega ~";
+				if(countitem(1072)==0) additem 1072,1;//Items: Delivery_Message,
+				next;
+				goto L_Cont1;
+
+
+		L_Cont1:
+		show "[Chefe Mansur]";
+		show "Mantenha o ^ff0000'Número Serial'^000000 e o ^ff0000'Destinatário'^000000 do produto.";
+		show "O Gerente de Wharehouse precisará que eles o ajudem adquirir o produto certo.";
+		next;
+		show "[Chefe Mansur]";
+		show "A própria Wharehouse é localizado a minha direita.";
+		next;
+		show "[Chefe Mansur]";
+		show "Depois que você terminar a fabricação da entrega volte aqui e dê o Recibo ao Gerente de Wharehouse.  Então venha me ver.  Está claro?";
+		next;
+		show "[Chefe Mansur]";
+		show "Tudo certo, boa sorte!";
+      		close;
+
+	M_1:
+		show "[Chefe Mansur]";
+		show "Espadachins são pessoas que estão no negócio de compar e vender itens. Nós focalizamos em achar artigos raros e os vender a esses que desejam ou precisam deles.";
+		show "Nós não somos particularmente bons em lutar nem temos qualquer habilidade 'boa'. O que nós os Mercadores podemos fazer é comprar a mais baixos preços como também a venda a preços altos";
+		next;
+		show "[Chefe Mansur]";
+		show "Até onde que armas vão, nós podemos usar a maioria deles. Arcos, Cajados, e Espadas de duas-mãos são os únicos tipos de armas que nós não podemos usar.";
+		show "A habilidade Mammonita, nos deixa usar zeny como uma arma..";  
+		next;
+		show "[Chefe Mansur]";
+		show "Qualquer pessoa pode falar sobre nós, enquanto ganhando dinheiro o importante é ser um Mercador vivo.";
+		goto M_Menu;
+		close;
+
+	M_2:
+		show "[Chefe Mansur]";
+		show "Há três condições para ser qualificado se você quiser ser um Mercador.";
+		next;
+		show "[Chefe Mansur]";
+		show "Antes de tudo, Você tem que ser um Novato nível classe 10 com todas as habilidades.";
+		next;
+		show "[Chefe Mansur]";
+		show "Depois, Você tem que pagar 1000 Zeny para ser um membro. Eu acredito que um Candidato Mercantil poderá ganhar 1000 Zeny à vontade. Oh sim~";
+		next;
+		show "[Chefe Mansur]";
+		show "Finalmente, Há um Teste de Licença para examinar sua Força Física básica e um Senso de Direção. Você deve Levar os itens para a pessoa Específica na Cidade Específica.";
+		goto M_Menu;
+		close;
+
+	M_End:
+		close;
+
+L_GiveRecpt:
+	show "Ah, " + strcharinfo(0) + ". Você está de volta. Como foram as coisas? Vou lhe dar isso que, você vai levar o Recibo para o Dono de loja e então se apressa em voltar aqui ok?";
+
+L_Back:
+	show "O que fazendo novamente aqui?";
+	emotion 1;
+	next;
+	show "[Chefe Mansur]";
+	show "Você ainda não partiu?";
+	next;
+	show "[Chefe Mansur]";
+	show "Suponho que você está a caminho agora.  Não me fale que você esqueceu do número de produto e destino?";
+	next;
+	show "[Chefe Mansur]";
+	show "Certo cabeça-oca, você quer que eu repita isto a você uma mais vez?";
+	next;
+	menu "Sim, por favor", M_Yes,"Não....",M_No;
+
+	M_Yes:
+		show "[Chefe Mansur]";
+		if((job_merchant_q2 == 1) || (job_merchant_q2 == 2)) goto R_0;
+		if((job_merchant_q2 == 3) || (job_merchant_q2 == 4)) goto R_1;
+		if((job_merchant_q2 == 5) || (job_merchant_q2 == 6)) goto R_2;
+		if((job_merchant_q2 == 7) || (job_merchant_q2 == 8)) goto R_3;
+		close;
+
+	M_No:
+		close;
+
+L_MakeMerc:
+	if(Sex == 1) show "Senhor. ^0000cc" + strcharinfo(0) + "^000000.....";
+	if(Sex == 0) show "Senhorita. ^0000cc" + strcharinfo(0) + "^000000.......";
+	next;
+	show "[Chefe Mansur]";
+	if(SkillPoint > 0) show "Você precisa usar todos seus pontos de habilidades antes de se tornar um Mercador.";
+	if(SkillPoint > 0) close;
+
+	show "Muito bem! Muito bem mesmo!! Eu há pouco li a avaliação de Gerente Kays de seu desempenho para Wharehouse, e eu fiquei muito impressionado.  Eu tenho grandes notícias para você!";
+	next;
+	if(job_merchant_q == 2) goto L_MemFee;
+
+	show "[Chefe Mansur]";
+	show "Por causa de seu trabalho DURO, O Grêmio Mercantil como decidiu O ACEITAR como um de seus sócios!";
+	next;
+	callfunc "Job_Change",Job_Merchant;
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+
+	show "[Chefe Mansur]";
+	show "Parabéns! Você é agora um de nós, UM ORGULHOSO MERCADOR !!";
+	emotion 21;
+	next;
+	show "[Chefe Mansur]";
+	show "Eu estou muito contente que você decidiu unir-se ao Grêmio Mercantil e eu espero que você faça um papel ativo na economia de Rune Midgards!  Ou melhor, boa sorte para você!!!";
+	if((job_merchant_q2 == 7) || (job_merchant_q2 == 8)) goto L_Favor;
+	close;
+
+	L_Favor:
+		next;
+		show "[Chefe Mansur]";
+		show "(Oh, aqui está a  mesnsagem para entregar.  Muito Obrigado )";
+		set Zeny,Zeny+100;
+		close;
+
+	L_MemFee:
+		show "[Chefe Mansur]";
+		show "Um... antes de eu fosse... havia o pequeno assunto da Taxa de Sociedade se você recorda.  Eu precisarei do resto disto antes de eu pudesse proceder com sua iniciação";
+		emotion 20;
+		next;		           			
+		menu "Pagar os 500 Zeny",sM_1a,"...(Sair fora!)...",sM_1b;
+
+		sM_1a:
+			if(Zeny < 500) goto sL_NotEnough;
+			set Zeny,Zeny-500;
+			set job_merchant_q,1;
+
+			show "[Chefe Mansur]";
+			show "Muito bom! Agora eu posso continuar.  Agora onde eu estava?..... oh sim, eu me lembro.....";
+			goto L_MakeMerc;
+
+			sL_NotEnough:
+				show "[Chefe Mansur]";
+				show "É... você parece ser um pequeno menino.  Agora que você veio de longe, não deixe uma pequena taxa impedir seu progresso.  Vá adiante e faça algo sobre isto!";
+				emotion 4;
+				close;
+
+		sM_1b:
+			show "[Chefe Mansur]";
+			show "O QUE??? Ei volte aqui! VOCÊ AINDA TEM QUE PAGAR A TAXA!!!!!";
+			emotion 19;
+			close;
+
+L_Failed:
+	set job_merchant_q2,0;
+	set job_merchant_q3,0;
+
+	show "Eu há pouco terminei leitura do parecer do Gerente Kays de seu trabalho......";
+	next;
+	show "[Chefe Mansur]";
+	show "Isso é uma vergonha, isso é uma vergonha! COMO você poderia estar assim revoltado??!! Eu aseguro que o Gerente Kay já lhe deu um puxão de orelha, assim eu não irei me incomadar mais.";
+	emotion 32;
+	next;
+	show "[Chefe Mansur]";
+	show "^ff0000"+strcharinfo(0) + "^000000, você não conseguiu passar no teste de Mercador!  Porém...... se você VERDADEIRAMENTE interessou-se em tornar-se um Mercador,  trabalhe DURO para ser um....";
+	next;
+	show "[Chefe Mansur]";
+	show "... Eu lhe permitirei retomar o teste.  O que você me diz?";
+	next;
+	menu "Muito obrigado por esta oportunidade!",M_Thanks,"Quem sabe outra hora",M_NoThanks;
+	
+	M_Thanks:
+		set job_merchant_q2,0;
+		set job_merchant_q3,0;
+		goto L_Cont0;
+
+	M_NoThanks:
+		show "[Chefe Mansur]";
+		show "Lembre dessas palavras: Em sua vida, fracasso não é uma opção!!!";
+		emotion 0;
+		set job_merchant_q,0;
+		set job_merchant_q2,0;
+		set job_merchant_q3,0;
+		close;
+
+}
+
+
+// -- Wharehouse Manager Kay --
+alberta_in,28,29,2	script	Gerente Kay	83,{
+	if(BaseJob == Job_Novice && job_merchant_q3 > 0) goto L_Check;
+
+	show "[Wharehouse - Gerente Kay]";
+	show "Ei  - O que o traz aqui?";
+	next;
+	menu "Eu vim aqui para o Teste de Mercador.",M_0,"Eu vim aqui para um trabalho de Meio período.",M_1,"Não, nada.",M_End;
+
+	M_0:
+		show "[Wharehouse - Gerente Kay]";
+		if(BaseJob != 0) goto L_NotNov;
+		if(job_merchant_q == 0) goto L_NotRdy;
+		show "Você é o ^0000cc"+ strcharinfo(0) +"^000000, certo?  Ok Eu lhe darei um produto para entregar.  Primeiro eu precisarei do destino";
+		next;
+		menu "Prontera.",sM_0,"Geffen.",sM_1,"Morroc.",sM_2,"Ilha de Byalan(Izlude).",sM_3;
+
+		sM_0:
+			set @s_flag,1;
+			goto L_Cont0;
+		sM_1:
+			set @s_flag,2;
+			goto L_Cont0;
+		sM_2:
+			set @s_flag,3;
+			goto L_Cont0;
+		sM_3:
+			set @s_flag,4;
+
+		L_Cont0:
+		show "[Wharehouse - Gerente Kay]";
+		show "Agora, eu precisarei do Número de série do produto.  Coloque na caixa. Se você quiser Cancelar,  digite '0' na caixa, certo?";
+		next;
+		digit @input;
+		if(@input ==0 ) goto sL_Cancel; 
+		if((@input < 1000000) || (@input > 5000000)) goto sL_Error;
+
+		show "[Wharehouse - Gerente Kay]";
+		if(@s_flag==1) show "O destino é Prontera. O número serial é  "+@input+"  .  ^ff0000Correto^000000?";
+		if(@s_flag==2) show "O destino é Geffen.  O número serial é "+@input+" . ^ff0000Correto^000000?";
+		if(@s_flag==3) show "O destino é Morroc.  O número serial é "+@input+" . ^ff0000Correto^000000?";
+		if(@s_flag==4) show "O destino é Byalan.  O número serial é "+@input+" .  ^ff0000Correto^000000?";
+		next;
+		menu "Positivo.",sM_Pos,"Negativo.",sM_Neg;
+
+		sM_Pos:
+			if(@s_flag == 1 && @input == 2485741 && job_merchant_q2 == 1) goto ssL_Prod1;
+			if(@s_flag == 2 && @input == 2989396 && job_merchant_q2 == 3) goto ssL_Prod1;
+			if(@s_flag == 3 && @input == 3012685 && job_merchant_q2 == 5) goto ssL_Prod1;
+			if(@s_flag == 4 && @input == 3318702 && job_merchant_q2 == 7) goto ssL_Prod1;
+			if(@s_flag == 1 && @input == 2328137 && job_merchant_q2 == 2) goto ssL_Prod2;
+			if(@s_flag == 2 && @input == 2191737 && job_merchant_q2 == 4) goto ssL_Prod2;
+			if(@s_flag == 3 && @input == 3487372 && job_merchant_q2 == 6) goto ssL_Prod2;
+			if(@s_flag == 4 && @input == 3543625 && job_merchant_q2 == 8) goto ssL_Prod2;
+			additem 1083,1;//Items: Delivery_Box__,
+			goto L_Cont1;
+
+			ssL_Prod1:
+				additem 1081,1;//Items: Delivery_Box,
+				goto L_Cont1;
+
+			ssL_Prod2:
+				additem 1082,1;//Items: Delivery_Box_,
+				goto L_Cont1;
+
+		sM_Neg:
+			close;
+
+		sL_Cancel:
+			show "[Wharehouse - Gerente Kay]";
+			show "Você está certo de que quer cancelar?";
+			next;
+			menu "sim.",m_yes,"não.",m_no;
+
+			m_yes:
+				show "[Wharehouse - Gerente Kay]";
+				show "Como você quiser. Eu vou cancelar";
+				close;
+			m_no:
+				next;    						
+				goto L_Cont0;
+
+		sL_Error:
+			show "[Wharehouse - Gerente Kay]";
+			show "Ow Ow Ow. Esse número não é o verdadeiro número.  Um número de série válido deveria ser entre 1000000 e 5000000.";
+			next;
+			goto L_Cont0;
+
+
+		L_Cont1:
+		show "[Wharehouse - Gerente Kay]";
+		show "Seja mesmo cuidadoso com este produto e tenha certeza que você não irá soltar isto.  Não pode ser substituído.";
+		next;
+		show "[Wharehouse - Gerente Kay]";
+		show "Depois que fizer a entrega, pegue o recibo.  Boa Sorte!";
+		set job_merchant_q3, 1;
+		close;
+
+		L_NotRdy:
+			show "Fale com o chefe sobre isso";
+			close;
+
+		L_NotNov:
+			show "Eu sinto muito mas são permitidos só novatos fazerem a Prova de Mercador.";
+			close;
+
+	M_1:
+		show "[Wharehouse - Gerente Kay]";
+		show "Trabalho de Meio período? Neste momento não temos nada disponível.  Nós estamos atualmente em uma crise de orçamento e não podemos contratar qualquer empregado novo.";
+		close;
+	M_End:
+		show "[Wharehouse - Gerente Kay]";
+		show "...? Hum..? Hum..? O que..?";
+		close;
+
+L_Check:
+	if( job_merchant_q3 == 4) goto L_Done;
+	show "[Wharehouse - Gerente Kay]";
+	if(job_merchant_q3 == 1) goto L_Back;
+	if(job_merchant_q3 == 5) goto L_Failed;
+	if((job_merchant_q3 == 2) && (countitem(1083) ==1)) goto L_WrongProd;//Items: Delivery_Box__,
+
+	show "Vejo q você voltou ^0000cc"+ strcharinfo(0) +"^000000.  Eu esperava que coisas fossem bem.  Deixa eu ver.... o suposto era que você entregasse um produto para ....";
+	next;
+	show "[Wharehouse - Gerente Kay]";
+	if((countitem(1073) == 1) || (countitem(1074) == 1)) goto L_0;//Items: Voucher, Voucher_,
+	if((countitem(1075) == 1) || (countitem(1076) == 1)) goto L_1;//Items: Voucher__, Voucher___,
+	if((countitem(1077) == 1) || (countitem(1078) == 1)) goto L_2;//Items: Voucher____, Voucher_____,
+	if((countitem(1079) == 1) || (countitem(1080) == 1)) goto L_3;//Items: Voucher______, Voucher_______,
+	goto L_LostRecpt;
+
+	L_0:
+		show "...Funcionária Kafra em Prontera.  E realmente verifique se o recibo que a entregou está certo.";
+		if(countitem(1073) == 1) delitem 1073,1;//Items: Voucher,
+		if(countitem(1074) == 1) delitem 1074,1;//Items: Voucher_,
+		next;
+		goto L_Done;
+
+	L_1:
+		show "...membro da Academia de Mágica de Geffen.  E realmente verifique se o recibo que o entregou está certo.";
+		if(countitem(1075) == 1) delitem 1075,1;//Items: Voucher__,
+		if(countitem(1076) == 1) delitem 1076,1;//Items: Voucher___,
+		next;
+		goto L_Done;
+
+	L_2:
+		show "...Tintureiro em Morroc.  E realmente verifique se o recibo que o entregou está certo.";
+		if(countitem(1077) == 1) delitem 1077,1;//Items: Voucher____,
+		if(countitem(1078) == 1) delitem 1078,1;//Items: Voucher_____,
+		next;
+		goto L_Done;
+
+    	L_3:
+		show "...Kafra em Byalan.   E realmente verifique se o recibo que a entregou está certo.";
+		if(countitem(1079) == 1) delitem 1079,1;//Items: Voucher______,
+		if(countitem(1080) == 1) delitem 1080,1;//Items: Voucher_______,
+		next;
+
+	L_Done:
+		show "[Wharehouse - Gerente Kay]";
+		show "Grande! Tudo perfeito! Eu enviarei minha avaliação de seu desempenho para o Chefe Mansur imediatamente.";
+		show " Vá e fale com o Chefe Mansur de forma que ele possa finalizar o processo para lhe fazer um Mercador.";
+		emotion 21;
+		set job_merchant_q3,4;
+		close;
+	L_LostRecpt:
+		show "Vamos ver aqui...... você diz que entregou o produto correto para a pessoa certa...... mas você não tem o recibo.....";
+		next;
+		show "[Wharehouse - Gerente Kay]";
+		show "VOCÊ NÃO TEM O RECIBO?????";
+		emotion 23;
+		next;
+		show "[Wharehouse - Gerente Kay]";
+		show "COMO eu vou saber que você entregou isto então? Isto é um FRACASSO ABSOLUTO!!";
+		show "Sua avaliação não vai parecer boa.  Eu sugiro que você ache algumas desculpas boas até que você fale com Chefe Mansur";
+		emotion 32;
+		set job_merchant_q3,5;
+		close;
+	L_WrongProd:
+		show "Você entregou o PRODUTO ERRADO??? Sabe quanto TEMPO VOCÊ DESPERDIÇOU???? UGH! Isto é um fracasso total!";
+		emotion 6;
+		next;
+		show "[Wharehouse - Gerente Kay]";
+		show "Sua avaliação não vai parecer boa.  Eu sugiro que você ache algumas desculpas boas quando você for falar com Chefe Mansur.";
+		delitem 1083, 1;//Items: Delivery_Box__,
+		set job_merchant_q3,5;
+		close;
+	L_Failed:
+		show "Vá falar ao Chefe sobre seu fracasso........";
+		close;
+
+L_Back:
+	if((countitem(1081) != 1) && (countitem(1082) != 1) && (countitem(1083) != 1)) goto L_LostProd;//Items: Delivery_Box, Delivery_Box_, Delivery_Box__,
+	show "Huh? Voltou tão rápido? Não me fale você já teve problemas....";
+	emotion 20;
+	next;
+	menu "Por favor Troque o Produto.",M_Exch,"Não, não foi nada.",M_Nvmnd;
+
+	M_Exch:
+		show "[Wharehouse - Gerente Kay]";
+		show " (Suspiros)... este não é um modo bom para começar seu teste que você sabe.  Tenha certeza você adquire o Produto CERTO todo este tempo!   ";
+		emotion 32;
+		if(countitem(1081) ==1) delitem 1081,1;//Items: Delivery_Box,
+		if(countitem(1082) ==1) delitem 1082,1;//Items: Delivery_Box_,
+		if(countitem(1083) ==1) delitem 1083,1;//Items: Delivery_Box__,
+		set job_merchant_q3,0;
+		next;
+		goto M_0;
+
+	M_Nvmnd:
+		close;
+
+	L_LostProd:
+		show "Huh? Como foi a viagem?";
+		next;
+		show "[Wharehouse - Gerente Kay";
+		show "COMO???";
+		emotion 1;
+		next;
+		show "[Wharehouse - Gerente Kay";
+		show "Santo Deus!! VOCÊ PERDEU o produto??!!O que você fez seu tolo!!!";
+		emotion 23;
+		next;
+		show "[Wharehouse - Gerente Kay]";
+		show "Sua avaliação não vai parecer boa.  Eu sugiro que você ache algumas desculpas boas quando você for falar com o Chefe Mansur.";
+		emotion 7;
+		set job_merchant_q3,5;
+		close;
+
+}
+
+
+
+// == Customers ==
+// -- Kafra(Byalan) --
+function	script	F_MercKafra	{
+
+	if (job_merchant_q3 == 3) goto L_3;
+
+	show "[Kafra]";
+	if(job_merchant_q3 == 2) goto L_WrongProd;
+	show "Uma entrega do Grêmio Mercantil?? Oh, Direito! Sim! Eu quase esqueci.";
+       	next;
+       	show "[Kafra]";
+       	show "Deixe-me ver, o número serial do produto deveria ser.......";
+	next;
+	show "[Kafra]";
+	if((countitem(1081) == 0) && (countitem(1082) == 0) && (countitem(1083) == 0)) goto L_NoProd;//Items: Delivery_Box, Delivery_Box_, Delivery_Box__,
+	if((job_merchant_q2 != 7) && (job_merchant_q2 != 8)) goto L_WrongDest;
+	if(countitem(1083) == 1) goto L_WrongProd;//Items: Delivery_Box__,
+
+	show "Oh, aqui está ele. Sim! Este é o que nós ordenamos.  Muito obrigado.  Aqui está seu recibo.";
+	next;
+
+	set job_merchant_q3, 3;
+	if(countitem(1081) == 1) goto L_0;//Items: Delivery_Box,
+	if(countitem(1082) == 1) goto L_1;//Items: Delivery_Box_,
+
+	L_0:
+		additem 1079,1;//Items: Voucher______,
+		delitem 1081,1;//Items: Delivery_Box,
+		goto L_3;
+
+	L_1:
+		additem 1080,1;//Items: Voucher_______,
+		delitem 1082,1;//Items: Delivery_Box_,
+		goto L_3;
+	
+	L_3:
+		if(countitem(1072) == 1) goto L_Msg;//Items: Delivery_Message,
+		show "[Kafra]";
+		show "Obrigado por trazer tudo isso para mim.  Tome cuidado agora.  Adeus";
+		emotion 15;
+		cutin "kafra_03",255;
+		close;
+
+		L_Msg:
+			show "[Kafra]";
+     			show "Oh, Meu Bom Deus! Sr. Mahnsoo me escreveu uma Carta? Obrigada, obrigada";
+     			show "Entretanto ele enviaria uma, um destes dias, mas eu nunca esperei .....";
+			emotion 1;
+			next;
+			show "[Kafra]";
+			show "Eu realmente aprecio o que você fez para mim.  Isso é um presente pequeno que lhe darei. Muito obrigada..";
+			emotion 15;
+			delitem 1072,1;//Items: Delivery_Message,
+			set @TEMP,rand(2);
+			if(@TEMP !=0) goto R1;
+
+			R0:
+
+				additem 513,3;//Items: Banana,
+				cutin "kafra_03",255;
+				close;
+			R1:
+				additem 512,3;//Items: Apple,
+				cutin "kafra_03",255;
+				close;
+
+L_NoProd:
+	show ".... eu pensei que o que nós ordenamos era ENORME e PESADO.... mas.... você parece ter trazido isto sem qualquer dificuldade.........";
+	emotion 1;
+	cutin "kafra_03",255;
+	close;
+
+L_WrongProd:
+	show "......? com licença! Eu penso que você me deu o artigo errado.  Nossa ordem deveria ter o número de série 3318702 ou 3543625....";
+	emotion 4;
+	set job_merchant_q3,2;
+	cutin "kafra_03",255;
+	close;
+
+L_WrongDest:
+	show ".....? com licença.... eu penso que você está com a pessoa errada.... nossa ordem deveria ter o número de série 3318702 ou 3543625...";
+	emotion 4;
+	cutin "kafra_03",255;
+	close;
+}
+
+// -- Kafra(Prontera) --
+prontera,248,42,8	script	Kafra#01	115,{
+	cutin "kafra_03",2;
+	if(BaseJob == Job_Novice && job_merchant_q3 > 0) goto L_Start;
+L_Other:
+	show "[Kafra]";
+	show "Oi. eu sou um Agente Kafra.  Como você pode ver, a ^3355FFAssociação dos Espadachins^000000 se mudou para Izlude.";
+	show "Porém eu posso teleportar você para lá por uma taxa pequena de 900 zeny.";
+	next;
+	menu "Teleporte",M_Warp, "cancelar",M_End;
+
+	M_Warp:
+		if(Zeny < 600) goto sL_NdZeny;
+		set Zeny, Zeny - 600;
+		set RESRVPTS, RESRVPTS + 37;
+		warp "izlude",91,105;
+		cutin "kafra_03",255;
+		end;
+
+		sL_NdZeny:
+			show "[Kafra]";
+			show "Me desculpe mas você não tem zeny.";
+			cutin "kafra_03",255;
+			close;
+
+	M_Pass:
+		if(countitem(1084)<1) goto sL_NdPass;//Items: Kafra_Pass,
+		show "[Kafra]";
+		show "Você está usando uma passagem Kafra agora.";
+		delitem 1084,1;//Items: Kafra_Pass,
+		cutin "kafra_03",255;
+		close;
+
+		sL_NdPass:
+			show "[Kafra]";
+			show "Desculpe mas você não tem a passagem";
+			cutin "kafra_03",255;
+			close;
+	M_End:
+		show "[Kafra]";
+		show "Obrigado por usar um serviço da Corp. Kafra.  Nós estaremos com você onde quer que você vá.";
+		emotion 15;
+		cutin "kafra_03",255;
+		close;
+
+
+L_Start:
+	if(job_merchant_q3 == 3) goto L_3;
+	show "[Kafra]";
+	if(job_merchant_q3 == 2) goto L_WrongProd;
+
+	show "Oh, você é do Grêmio Mercantil e você tem uma entrega para mim?";
+	show "Eu realmente o aprecio tudo isso que você fez para chegar até aqui.........";
+	next;
+	show "[Kafra]";
+
+	if((countitem(1081) == 0) && (countitem(1082) == 0) && (countitem(1083) == 0)) goto L_NoProd;//Items: Delivery_Box, Delivery_Box_, Delivery_Box__,
+	if((job_merchant_q2 != 1) && (job_merchant_q2 != 2)) goto L_WrongDest;
+	if(countitem(1083) == 1) goto L_WrongProd;//Items: Delivery_Box__,
+
+	show "Sim! Este é o Produto que nós ordenamos.  Obrigado.  Aqui, me deixe lhe dar um Recibo.";
+	next;
+
+	set job_merchant_q3,3;
+	if(countitem(1081) == 1) goto L_0;//Items: Delivery_Box,
+	if(countitem(1082) == 1) goto L_1;//Items: Delivery_Box_,
+
+	L_0:
+		additem 1073,1;//Items: Voucher,
+		delitem 1081,1;//Items: Delivery_Box,
+		goto L_3;
+
+	L_1:
+		additem 1074,1;//Items: Voucher_,
+		delitem 1082,1;//Items: Delivery_Box_,
+		goto L_3;
+
+	L_3:
+		show "[Kafra]";
+		show "Obrigado novamente pela entrega.";
+		emotion 15;
+		cutin "kafra_03",255;
+		close;
+
+L_NoProd:
+	show "Umm......... com licença... mas onde está o Produto que deveria me entregar";
+	emotion 20;
+	cutin "kafra_03",255;
+	close;
+
+L_WrongProd:
+	show "Oh, Querido... isto não fui eu que ordenei.  Deveria ter um número de série de qualquer um ^ ff00002485741 ou 2328137^000000.";
+	show "Pareceque houve uma confusão na wharehouse e você adquiriu o produto errado.  Eu apreciaria isto se você pudesse jogar isto fora.";
+	emotion 4;
+	set job_merchant_q3,2;
+	cutin "kafra_03",255;
+	close;
+
+L_WrongDest:
+	show "Oh, Querido... isto não fui eu que ordenei.  Deveria ter um número de série de qualquer um ^ ff00002485741 ou 2328137^000000.";
+	emotion 4;
+	cutin "kafra_03",255;
+	close;
+}
+
+
+// == Other Npcs ==
+// -- Guild Staff --
+geffen_in,155,122,4	script	Membro do Grêmio	47,{
+
+	if(BaseJob == Job_Novice && job_merchant_q3 > 0) goto L_Start;
+L_Other:
+	show "[Membro do Grêmio]";
+	show "Deveria estar chegando qualquer hora agora...... parece ser recente.... Hmm...";
+	close;
+
+L_Start:
+	if(job_merchant_q3 == 3) goto L_3;
+	show "[Membro do Grêmio]";
+	if(job_merchant_q3 == 2) goto L_WrongProd;
+
+	show "Oh ei você aí.  Você é do Grêmio Mercantil ? Isso significa.........";
+	next;
+	show "[Membro do Grêmio]";
+	show "WOW! Está AQUI! ESTÁ AQUI! ENVIARAM FINALMENTE A cAIXA!...... ";
+	next;
+	show "[Membro do Grêmio]";
+	show "Oh com licença, eu sinto muito muito.  Você deve estar muito cansado de ter que viajar em tal tempo quente.  Meu obrigado por seu esforço";
+	next;
+	show "[Membro do Grêmio]";
+	show "Certo, me deixe só checar o Número de série para ter certeza.........";
+	next;
+	show "[Membro do Grêmio]";
+	if((countitem(1081) != 1) && (countitem(1082) != 1) && (countitem(1083) != 1)) goto L_NoProd;//Items: Delivery_Box, Delivery_Box_, Delivery_Box__,
+	if((job_merchant_q2 != 3) && (job_merchant_q2 != 4)) goto L_WrongDest;
+	if(countitem(1083) == 1) goto L_WrongProd;//Items: Delivery_Box__,
+
+	show "SIM! Este é isto! Aqui, me deixe lhe dar um Recibo.";
+	next;
+	set job_merchant_q3,3;
+	if(countitem(1081) == 1) goto L_0;//Items: Delivery_Box,
+	if(countitem(1082) == 1) goto L_1;//Items: Delivery_Box_,
+	
+	L_0:
+		additem 1075,1;//Items: Voucher__,
+		delitem 1081,1;//Items: Delivery_Box,
+		goto L_3;
+
+	L_1:
+		additem 1076,1;//Items: Voucher___,
+		delitem 1082,1;//Items: Delivery_Box_,
+		goto L_3;
+	
+	L_3:
+		show "[Guild Staff]";
+		show "Heheh. Obrigado, Bye Bye.";
+		emotion 15;
+		close;
+L_NoProd:
+	show "Huh? Onde? Onde está a caixa?";
+	emotion 1;
+	close;
+
+L_WrongDest:
+	show "Ei espere um Minuto! Isto não é o que nós ordenamos! O Número de série ou deveria ser 2989396 ou 2191737.";
+	show "Parece que é endereçado a outra pessoa.  Eu penso que você adquiriu o destino de entrega errado.";
+	emotion 19;
+	close;
+
+L_WrongProd:
+	show "Ei espere um Minuto! Isto não é o que nós ordenamos! O Número de série ou deveria ser 2989396 ou 2191737.";
+	show "Eu não sei como você poderia cometer este erro mas por favor poderia corrigir isto.  Eu realmente preciso deste Produto.";
+	emotion 19;
+	set job_merchant_q3,2;
+	close;
+}
+
+
+// -- Dyer's Student --
+morocc_in,140,102,4	script	Estudante de Tinturaria	86,{
+	if(BaseJob == Job_Novice && job_merchant_q3 > 0) goto L_Start;
+
+L_Other:
+	show "[Estudante de Tinturaria]";
+	show "Sr. JavaDullihan tem só um ano no continente de Midgard e já é o melhor.";
+	show "Eeeeeee eu sou seu melhor estudante!! Como sou orgulhoso de mim mesmo!!!!";
+	next;
+	show "[Estudante de Tinturaria]";
+	show ".....O que estou dizendo..";
+	close;
+
+L_Start:
+	if(job_merchant_q3 == 3) goto L_3;
+	show "[Estudante de Tinturaria]";
+	if(job_merchant_q3 == 2) goto L_WrongProd;
+
+	show "Você é do Grêmio Mercantil...? Ah, Sim! Eu tenho o esperado.";
+	next;
+	show "[Estudante de Tinturaria]";
+	show "Me deixe só conferir o Número de série do Produto para ter certeza.......";
+	next;
+	show "[Estudante de Tinturaria]";
+	if((countitem(1081) != 1) && (countitem(1082) != 1) && (countitem(1083) != 1)) goto L_NoProd;//Items: Delivery_Box, Delivery_Box_, Delivery_Box__,
+	if((job_merchant_q2 != 5) && (job_merchant_q2 != 6)) goto L_WrongDest;
+	if(countitem(1083) == 1) goto L_WrongProd;//Items: Delivery_Box__,
+
+	show "Grande! Isto é o que nós ordenamos.  Aqui, me deixe lhe dar um Recibo.";	
+	set job_merchant_q3,3;
+	if(countitem(1081) == 1) goto L_0;//Items: Delivery_Box,
+	if(countitem(1082) == 1) goto L_1;//Items: Delivery_Box_,
+	
+	L_0:
+		additem 1077,1;//Items: Voucher____,
+		delitem 1081,1;//Items: Delivery_Box,
+		goto L_3;
+
+	L_1:
+		additem 1078,1;//Items: Voucher_____,
+		delitem 1082,1;//Items: Delivery_Box_,
+		goto L_3;
+	
+	L_3:
+		show "[Estudante de Tinturaria]";
+		show "Obrigado, vejo você outra hora~";
+		emotion 15;
+		close;
+
+L_NoProd:
+	show "Mas onde está o produto?";
+	emotion 20;
+	close;
+
+L_WrongProd:
+	show "Um..... com licença? Eu acho que isto não somos nós que ordenamos? O Número de série ou deveria ser 3012685 ou 3487372.";
+	emotion 20;
+	next;
+	show "[Estudante de Tinturaria]";
+	show "Eu vejo.  Havia uma confusão na wharehouse e você adquiriu o produto errado.";
+	next;
+	show "[Estudante de Tinturaria]";
+	show "Bem isto e.....  Por favor volte com o produto correto.";
+	emotion 32;
+	set job_merchant_q3,2;
+	close;	
+
+L_WrongDest:
+	show "Um.... com licença? Eu Eu acho que isto não somos nós que ordenamos? O Número de série ou deveria ser 3012685 ou 3487372.";
+	show "Eu acho que você tem o destino de entrega errado.  Talvez você deveria tentar outra pessoa.";
+	emotion 20;
+	close;
+
+
+}

@@ -1,0 +1,306 @@
+//===== Cronus Script ========================================
+//= Evento da Copa do Mundo
+//===== By: ================================================== 
+//= Kamper
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Changelog: =========================================== 
+//= 1.0 Criado o Npc [Kamper]
+//===== Comentarios Adicionais: ==============================
+//= Um pouco parecido com o do bRO.
+//= Perguntas da Copa por Hillds
+//= Script Reestruturado [Mehah]
+//============================================================
+
+izlude,127,113,4	script	Fanático pela Seleção	913,{
+	if(BaseLevel >= 30){
+		show "[Felipe]";
+		show "Brasillll!!!";
+		show "Viva ao Hexa!!";
+		next;
+		show "[Felipe]";
+		show "Estou precisando de 3 Poções Brancas, vou me cansar de tanto torcer pro Brasil!";
+		show "Em troca lhe dou uma Caixa de Presente.";
+		show "Aceita?";
+		next;
+		switch(select("Eu vou me cansar também!","Sim..")){
+		case 1:
+			show "[Felipe]";
+			show "Eta, você é que nem eu!";
+			show "Brasil!! Brasil!!";
+			next;
+			show "[Felipe]";
+			show "Se você conseguir pra nois dois, volte aqui!";
+			close;
+	
+		case 2:
+			if(countitem(504) < 3){
+				show "[Felipe]";
+				show "Ué! VOcê aceita mas não tem as poções. Volte quando tiver cara!";
+				close;
+			}
+			show "[Felipe]";
+			show "Aleluia!! Até que enfim alguém pra me ajudar!";
+			show "Obrigado mesmo cara! Agora vou torcer com tudo pro Brasil...";
+			next;
+			show "[Felipe]";
+			show "Vou lhe fazer umas perguntas sobre a Copa do Mundo.";
+			show "Se você acertar todas eu aceito suas poções e você ganha meu prêmio.";
+			show "O que acha?";
+			next;
+			switch(select("Tudo bem...","Não...")){
+			case 1:
+				show "[Felipe]";
+				show "Ok, vou começar então... Você não será avisado de quando errou.";
+				next;
+				show "[Felipe]";
+				show "Qual foi o único país que o Brasil enfrentou 2 vezes na Copa de 2002?";
+				next;
+				switch(select("Holanda","Turquia","Inglaterra","Alemanha")){
+				case 2: set @point, @point + 1;
+				default:
+					show "[Felipe]";
+					show "Qual foi o artilheiro da Copa de 2002? E quantos gols?";
+					next;
+					switch(select("Zidane(5)","Figo(6)","Ronaldinho Gaúcho(9)","Ronaldo(7)")){
+					case 4: set @point, @point + 1;
+					
+					default:			
+						show "[Felipe]";
+						show "O Brasil na copa de 94 enfrentou uma seleção na final, qual foi ela?";
+						next;
+						switch(select("Inglaterra","Alemanha","Itália","Argentina")){
+						menu "Inglaterra",pq4,"Alemanha",pq4,"Itália",-,"Argentina",pq4;
+						case 3: set @point, @point + 1;
+						
+						default:			
+							show "[Felipe]";
+							show "Quem vai ser o primeiro rival do Brasil na copa de 2006?";
+							next;
+							switch(select("Croácia",-,"Austrália",pq5,"Japão",pq5,"Paraguai")){
+							case 1: set @point, @point + 1;
+							default:			
+								show "[Felipe]";
+								show "Qual a seleção que Zico esta comandando nesta Copa de 2006?";
+								next;
+								switch(select("Portugal","Japão","Paraguai","China")){
+								case 2: set @point, @point + 1;
+								default:
+									if(@point < 5){
+										show "[Felipe]";
+										show "Xiii, você errou algumas dessas perguntas...";
+										show "Pesquise mais e então venha aqui.";
+										show "Você tem que saber da Copa, pra não ficar fora da sociedade hehe.";
+										close;
+									}
+									show "[Felipe]";
+									show "Muito bem! Você acertou todas! Realmente vejo que você é fanático por Futebol.";
+									delitem 504,3;
+									next;
+									switch(rand(2)){
+										case 0: additem 7550,1; break;
+										case 1: additem 7551,1; break;
+										case 2: additem 7552,1;
+									}
+									additem 644,1;
+									set copa_q1, 1;
+									show "[Felipe]";
+									show "Sua Caixa de Presente, hehe...";
+									show "E uma Nota da Copa do Mundo, pra te manter informado hehe...";
+									show "Torça também pro Brasil heim!!";
+									close;
+								}
+							}
+						}
+					}
+				}
+				
+			case 2:
+				show "[Felipe]";
+				show "Por que simplismente não? Aceita cara vai ser divertido hehe.";
+				show "Você deve estar fugindo porque não sabe nada da Copa, tudo bem, eu deixo você ir pesquisar...";
+				show "... depois da pesquisa você vai voltar mesmo, tenho certeza.";
+				close;
+			}
+		}
+	}else
+	if(copa_q1 != 0){
+		show "[Felipe]";
+		show "Ahh... você de novo?";
+		show "Como vai a torcida pelo Brasil?";
+		show "Continue torcendo que com certeza vamos chegar ao Hexa!";
+		close;
+	}
+	show "[Felipe]";
+	show "Eu já posso escutar a torcida!";
+	show "Torcendo e gritando!!! BRASIL BRASIL BRASIL !!!";
+	close;
+}
+
+alberta,179,139,4	script	Vendedor Torcedor	912,{
+	if(copa_q2 == 1){
+		if(countitem(919) > 49 && countitem(1024) > 4 && countitem(1058) > 1 && countitem(963) > 0){
+			show "[Pedro]";
+			show "Hmmm, você trouxe todos os itens. Bom trabalho.";
+			show "Vou começar a preparar seus artigos para a torcida!";
+			next;
+			show "~shock~ ~tuk~ ~shock~";
+			next;
+			show "[Pedro]";
+			show "Eita, nunca caprichei tanto em itens como esse. Vai te dar uma bela força pra torcer hehe.";
+			delitem 919,50;
+			delitem 1024,5;
+			delitem 1058,2;
+			delitem 963,1;
+			additem 7547,1;
+			additem 7548,1;
+			additem 7549,1;
+			set copa_q2, 2;
+			show "Ficaram realmente ótimos... ^^";
+			close;
+		}
+		show "[Pedro]";
+		show "O que foi companheiro? Esqueceu os itens que precisa?";
+		show "Realmente, sua memória é fraca...";
+		next;
+		show "[Pedro]";
+		show "Você precisa de:";
+		show "^5533FF50 Couros de Animais";
+		show "5 Tintas de Polvo";
+		show "2 Traças";
+		show "1 Escama Aquática^000000";
+		close;
+	}
+	if(copa_q2 >= 2){
+		show "[Pedro]";
+		show "E ai curtindo muito os itens?";
+		show "E você nem pra agradecer, huahuahua.....";
+		close;
+	}
+	if(BaseLevel >= 30){
+		show "[Pedro]";
+		show "Ahh... Vejo que Brasileiro é fanático por futebol mesmo.";
+		show "É futebol o dia todo...";
+		next;
+		show "[Pedro]";
+		show "Eu estou fazendo Bandeiras, Bolas de Futebol e Chuteiras para torcedores fanáticos.";
+		show "Com isso você pode entrar em clubes, deseja?";
+		next;
+		switch(select("Sim! O que preciso?","Não, nem quero essas coisas...")){
+		case 1:
+			show "[Pedro]";
+			show "Você precisa de:";
+			show "^5533FF50 Couros de Animais";
+			show "5 Tintas de Polvo";
+			show "2 Traças";
+			show "1 Escama Aquática^000000";
+			next;
+			show "[Pedro]";
+			show "Coletando estes itens eu farei uma Bandeira, uma Bola de Futebol e uma Chuteira pra você.";
+			show "A mão de obra é de graça, haha!";
+			show "Então quando tiver esses itens volte aqui.";
+			set copa_q2, 1;
+			close;
+		
+		case 2:
+			show "[Pedro]";
+			show "Brasileiro negando itens de Futebol??";
+			show "Você não deve ser brasileiro com certeza, ou é menina...";
+			close;
+		}
+	}
+	show "[Pedro]";
+	show "Uff... A vida é tão difícil...";
+	close;
+}
+
+prontera,161,249,4	script	Torcedora Fanática	911,{
+	if(BaseLevel >=30 && copa_q3 >=1){
+		show "[Ana]";
+		show "Olê, Olê, Olê, Olê, Braaaasil...";
+		close;
+	}else
+	if(BaseLevel >= 30 && copa_q1 >= 1 && copa_q2 < 2){
+		show "[Ana]";
+		show "Você precisa dos itens necessários para se juntar a torcida pelo Brasil!!";
+		show "Para tê-los você apenas precisa fazer o que o Vendedor Torcedor lhe pedir, ele se encontra em Alberta próximo ao barco.";
+		close;
+	}else
+	if(BaseLevel >= 30 && copa_q2 >= 2 && copa_q1 < 1){
+		show "[Ana]";
+		show "Você precisa falar com o Felipe, o Fanático pela Seleção. Ele se encontra em Izlude.";
+		show "Ele é realmente fanático, sabe tudo. Tudo mesmo, quando você for falar com ele tome cuidado, porque ele pode perguntar algumas coisinhas.";
+		close;
+	}
+	show "[Ana]";
+	show "Vai! Vai! Vai!";
+	show "B R A S I L!!!";
+	show "Olê, Olê, Olê, Olê, Braaaasil...";
+	next;
+	show "[Ana]";
+	show "Eu procuro por Torcedores Brasileiros!";
+	show "Vamos todos torcer pelo nosso Brasil!!!";
+	next;
+	switch(select("Eu gostaria de me juntar à torcida.","Não estou interessado.")){
+	
+	case 1:
+		show "[Ana]";
+		show "Iuuuuupi! Você também ama futebol, né?";
+		show "Isso é ótimo!";
+		show "Porém, nem todo mundo pode entrar pra torcida.";
+		show "Para ser um torcedor de verdade comigo, você precisa de itens diferentes.";
+		next;
+		show "[Ana]";
+		show "Se você ama futebol, antes de mais nada, você precisa de uma Bola de Futebol, certo? e Chuteiras!!!";
+		show "Por fim, o mais importante, uma Bandeira Nacional!!!";
+		show "Aquele que tiver esses itens pode ser um torcedor do Brasil.";
+		next;
+		show "[Ana]";
+		show "huhu... Não é difícil.";
+		show "O Sr.Pedro próximo ao barco em Alberta ele está vendendo esses itens.";
+		show "Comprei os meus dele também.";
+		show "Vamos todos torcer pelo Brasil.";
+		next;
+		show "[Ana]";
+		show "Se você doar uma Bola de Futebol, uma Chuteira e uma Bandeira Nacional, eu também lhe darei o Chapéu do Torcedor!";
+		if(copa_q1 >= 1 && copa_q2 >= 2){
+			show "[Ana]";
+			show "Você ja falo com meus dois colegas?";
+			show "Sim? Então você quer mesmo entrar pra torcida e receber um Chapéu do Torcedor?";
+			show "Claro que sim né, ta na moda hehe.";
+			next;
+			switch(select("Se enganou, não quero.","Claro! VIVA Brasil!")){
+			case 1:
+				show "[Ana]";
+				show "Eita, desanimado pra Copa heim?";
+				show "Sai de perto de mim que isso pega! Ui!";
+				close;
+			
+			case 2:
+				if(countitem(7547) == 0 && countitem(7548) == 0 && countitem(7549) == 0){
+					show "[Ana]";
+					show "Está faltando algum item, traga todos que eu lhe darei o Chapéu de Torcedor!";
+					close;
+				}
+				delitem 7547,1;
+				delitem 7548,1;
+				delitem 7549,1;
+				additem 5150,1;
+				set copa_q3, 1;
+				show "[Ana]";
+				show "Haha! Prontinho!";
+				show "Agora você já faz parte da torcida!";
+				show "Olê, Olê, Olê, Olê, Braaaasil...";
+			}
+		}
+		close;
+	
+	case 2:
+		show "[Ana]";
+		show "Vai! Vai! Vai!";
+		show "B R A S I L!!!";
+		show "Olê, Olê, Olê, Olê, Braaaasil...";
+		close;
+		
+	}
+}

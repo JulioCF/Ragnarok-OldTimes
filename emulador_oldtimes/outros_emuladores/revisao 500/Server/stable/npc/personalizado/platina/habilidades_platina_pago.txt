@@ -1,0 +1,81 @@
+//===== Cronus Script ========================================
+//= Habilidades de Platina Pago
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ========================================
+//= 1.1
+//===== Descrição: ===========================================
+//= Da as habilidades de Platina por um preço
+//===== Comentários Adicionais: ==============================
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.1 Corrigido o erro de TAB [Kamper] 
+//============================================================
+
+function	script	p_skill	{
+	if(BaseJob != getarg(0)) goto L_Nom;
+	skill getarg(1),1,0;
+	skill getarg(2),1,0;
+	skill getarg(3),1,0;
+	skill getarg(4),1,0;
+	skill getarg(5),1,0;
+	show "[Habilidades de Platina]";
+	show "Muito bem, você recebeu suas habilidades.";
+	close;
+
+	L_Nom:
+	show "[Habilidades de Platina]";
+	show "Você não pode receber essas habilidades.";
+	show "Sinto muito!";
+	close;
+}
+
+prontera.gat,128,200,6	script	Habilidades de Platina	94,{
+	show "[Habilidades de Platina]";
+	show "Deseja receber as habilidades de platina?";
+	show "Custa apenas 5000 Zenys!";
+	next;
+	menu "Sim",L_Sim,"Não",L_Nao;
+
+	L_Sim:
+		if (Zeny < 1000) goto Sem_Zeny;
+		if (BaseClass==Job_Novice) goto L_Apr;
+		if (BaseClass==Job_Swordman) goto L_Esp;
+		if (BaseClass==Job_Mage) goto L_Mag;
+		if (BaseClass==Job_Archer) goto L_Arc;
+		if (BaseClass==Job_Acolyte) goto L_Nov;
+		if (BaseClass==Job_Merchant) goto L_Mer;
+		if (BaseClass==Job_Thief) goto L_Gat;
+
+		L_Apr:
+			callfunc "p_skill",0,142,143,0,0,0;
+
+		L_Esp:
+			callfunc "p_skill",1,142,144,145,146,0;
+
+		L_Mag:
+			callfunc "p_skill",2,142,157,0,0,0;
+
+		L_Arc:
+			callfunc "p_skill",3,142,147,148,0,0;
+
+		L_Nov:
+			callfunc "p_skill",4,142,156,0,0,0;
+
+		L_Mer:
+			callfunc "p_skill",5,142,153,154,155,0;
+
+		L_Gat:
+			callfunc "p_skill",6,142,149,150,151,152;
+
+	L_Nao:
+		show "[Habilidades de Platina]";
+		show "Ahhh, você não deve estar bem...";
+		show "Volte quando estiver com juízo.";
+		close;
+
+	Sem_Zeny:
+		show "[Habilidades de Platina]";
+		show "Ahhh, você não tem 1000 Zeny.";
+		show "Volte quando tiver!";
+		close;	
+}

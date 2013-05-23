@@ -1,0 +1,98 @@
+//===== Cronus Script ======================================== 
+//= Resetador 
+//===== Por: ================================================= 
+//= Kamper 
+//===== Versão Atual: ======================================== 
+//= 2.2 
+//===== Descrição: =========================================== 
+//= Npc que reseta Atributos, Habilidades e Personagem
+//= (Em inglês; Reset Boy)
+//===== Changelog: =========================================== 
+//= v1.0 Npc Criado [Kamper] 
+//= v1.1 Corrigido erro do Skill [Kamper] 
+//= v2.0 Editado e passado para inglês [old7] 
+//= v2.1 Passado novamente para o português [Kamper] 
+//= v2.2 Adicionado opção de escolher a Classe de Reset [Kamper] 
+//= v2.3 Corrigido o erro no job e @ResJobIn [Kamper]
+//= Script Reestruturado [Mehah]
+//============================================================ 
+prontera,150,193,4	script	Resetador	48,{
+	function checkZeny;
+	set @Cost, (RS_CCost * (QuestReset * RS_ResetChar)) + RS_ResetChar;
+	show "[Resetador]";
+	show "Eu sou o Resetador!";
+	show "Resetar Atributos: "+ RS_ResetStats +"z";
+	show "Resetar Habilidades: "+ RS_ResetSkills +"z";
+	show "Resetar Ambos: "+ RS_ResetBoth +"z";
+	show "Resetar Personagem: "+ @Cost +"z";
+	next;
+	show "[Resetador]";
+	show "Por favor, selecione o serviço que deseja.";
+	next;
+	switch( select("Resetar Atributos","Resetar Habilidades","Resetar Ambos","Resetar Personagem","Quantos resets tenho?","Cancelar") ){
+		case 1:
+			checkZeny(RS_ResetStats);
+			show "Bom, não fará efeito até você logar novamente!";
+			set Zeny,Zeny - RS_ResetStats;
+			ResetStatus;
+			set statuspoint, statuspoint + 53 + (RS_ResetBonus*QuestReset);
+			close;
+
+		case 2:
+			show "[Resetador]";
+			checkZeny(RS_ResetSkills);
+			show "Bom, não fará efeito até você logar novamente!";
+			set Zeny,Zeny - RS_ResetSkills;
+			ResetSkill;
+			close;
+
+		case 3:
+			show "[Resetador]";
+			checkZeny(RS_ResetBoth);
+			show "Bom, não fará efeito até você logar novamente!";
+			set Zeny,zeny - RS_ResetBoth;
+			ResetSkill;
+			ResetStatus;
+			set statuspoint, statuspoint + 53 + (RS_ResetBonus*QuestReset);
+			close;
+
+		case 4: 
+			if ((BaseLevel < RS_ResBaseLvl) || (JobLevel < RS_ResJobLvl) || (class < RS_ResetBonus)){
+				show "[Resetador]";
+				show "Para precisar resetar:";
+				show "Nível de Base "+ RS_ResBaseLvl +".";
+				show "Nível de Classe "+ RS_ResJobLvl +".";
+				show "Classe Avançada";
+				show "e "+ @Cost + "Zeny.";
+				close;
+			}
+			checkZeny(RS_ResetChar);
+			set Zeny,Zeny - RS_ResetChar;
+			setjob 0;
+			resetlvl(1);
+			set QuestReset, QuestReset + 1;
+			set statuspoint, statuspoint + (RS_ResetBonus*QuestReset);
+			show "[Resetador]";
+			show "Agora, você está de volta ao ínicio.";
+			show "Volte novamente!";
+			close;
+
+		case 5:
+			show "[Resetador]";
+			show "Você tem "+ QuestReset +" Resets.";
+			close;
+		 
+		case 6:
+			show "Até mais!!.";
+			close;
+	}
+	
+	function	checkZeny	{
+		if (Zeny < getarg(0)){
+			show "[Resetador]";
+			show "Desculpe, mas você não tem os Zenys necessários.";
+			close;
+		}
+		return;
+	}
+}

@@ -1,0 +1,83 @@
+// Change cart
+
+alberta.gat,119,221,6	script	Charlron	107,{
+	if ((Class == Job_Merchant) && (JobLevel < 30)) goto LStartLowlv;
+	if (!((Class == Job_Merchant) || (Class == Job_Blacksmith) || (Class == Job_Alchem))) goto LStartOther;
+	if (getskilllv(154)>0) goto LStartTwice;
+	if ((countitem(1019)>=50) && (countitem(998)>=10) && (countitem(919)>=20)) goto L3;
+Lstart:
+	mes "[Charlron]";
+	mes "Hello.";
+	mes "Would you like to know what I can offer you?";
+	mes "If you want please select yes";
+	menu "yes",L1_1,"No",L1_2;
+L1_1:
+	mes "[Charlron]";
+	mes "As you probably already have found out I am the master of the skill called: ^0033FFChange Cart^000000";
+	mes "With this skill you can get more advanced carts.";
+	mes "Unfortunately I lost my shop and I don't have the right ingerdients to make it.";
+	next;
+	mes "[Charlron]";
+	mes "If you want this skill anyway you will have to find them for yourself.";
+	mes "It is not so difficult for you I think.";
+	mes "So what do you say, you want me to tell you the ingredients?";
+	menu "Yes",L2_1,"No",L2_2;
+
+L2_1:
+	mes "[Charlron]";
+	mes "Okay, For this skillquest you will need:";
+	mes "";
+	mes "50 ^FF0000Trunks";
+	mes "20 ^FF0000Animal Skin";
+	mes "10 ^FF0000Iron";
+	mes "";
+	mes "Come back later when you have all these stuff.";
+	mes "Good luck with your quest.";
+	close;
+L2_2:
+	
+L3:
+ 	mes "[Charlron]";
+ 	mes "Great you have found all the ingredients.";
+ 	mes "Now it is just for me to put them togheter.";
+ 	mes "If you still want me to do it ofcourse?";
+	menu "Yes",L3_1,"No",L3_2;
+
+L3_1:
+	mes "[Charlron]";
+	mes "Congratulations, now you are just one click away from getting this skill.";
+	next;
+	delitem 1019,50;
+	delitem 998,10;
+	delitem 919,20;
+	skill 154,1,0;
+	mes "[Charlron]";
+	mes "Now you have it.";
+	mes "Good luck, see you around";
+	close;
+L3_2:
+	mes "[Charlron]";
+	mes "Well that was sad to here.";
+	mes "Good luck and feel free to change your mind and come back.";
+	mes "I will be around these neighbourhood";
+	close;
+
+LStartOther:
+	mes "[Charlron]";
+	mes "I am an merchant and I can teach other merchants how to make carts better.";
+	mes "This skill can only be used by merchants.";
+	mes "Unfortunately you ain't a merchant.";
+	close;
+
+LStartLowlv:
+
+	mes "[Charlron]";
+	mes "Hello friendly merchant. You have to raise your level a little more before using Change Cart.";
+	mes "YOu need to be atleast joblevel 35.";
+	close;
+
+LStartTwice:
+	mes "[Charlron]";
+	mes "YOu already have this skill implemented in your skilltree.";
+	close;
+}

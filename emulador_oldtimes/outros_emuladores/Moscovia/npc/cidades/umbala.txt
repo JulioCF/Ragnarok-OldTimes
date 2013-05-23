@@ -1,0 +1,1657 @@
+//===== Cronus Script ======================================== 
+//= Umbala Npcs
+//===== Por: =================================================
+//= ImortalRo Dev Team ;)
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Npcs da cidade Umbala
+//===== Changelog: =========================================== 
+//= Traduzido [Roberto]
+//= Atualização e Revisão por [Olivete]
+//= Traduzido os nomes e itens [Kamper]
+//============================================================
+
+
+//========================================================
+// == NPCs on the road to Umbala ==
+//========================================================
+//Note that On_Emotion is NOT an npc command but just an trigger for DoNpcEvent!!
+comodo,170,137,7	script	Reid	84,{
+       close;
+On_Emotion20:
+       emotion 20;
+       end;
+On_Emotion29:
+       emotion 29;
+       end;
+}
+
+//========================================================
+comodo,171,137,1	script	Heath#umb	92,{
+       show "[Reid]";
+       show "Existe um enooooorme tesouro escondido";
+       show "em algum lugar aqui!";
+       next;
+       show "[Heath]";
+       show "Se nós conseguissemos colocar nossas mãos nesse";
+       show "tesouro as pessoas que nos chamam de 'dueto de bobo'";
+       show "com certeza vão ter que engolir suas palavras!!";
+       next;
+       show "[Reid]";
+       show "Nós vamos continuar procurando leve o tempo que levar!";
+       next;
+       donpcevent "Reid::On_Emotion29";
+       emotion 29;
+       show "[Heath]";
+       show "Hey, Reid, bora!";
+       next;
+       show "[Reid]";
+       show "............";
+       next;
+       donpcevent "Reid::On_Emotion29";
+       emotion 20;
+       show "[Reid]";
+       show "Okay, okay...eu estou indo..";
+       next;
+       menu "Ei, espere! Tesouro?",Lwhat_1;
+
+       Lwhat_1:
+               show "[Reid]";
+               show "Você quer dizer que nunca ouviu falar dele?";
+               next;
+               emotion 29;
+               show "[Heath]";
+               show "Oh, você quer ouvir a história";
+               show "do tesouro hein? Bo, o quanto ela é realmente";
+               show "importante pra você, sério?";
+               next;
+               show "[Reid and Heath]";
+               donpcevent "Reid::On_Emotion29";
+               emotion 29;
+               show "Importante o suficiente pra você";
+               show "pagar 1000z?!";
+               next;
+               menu "Ta certo. Eu serei um trouxa hoja.",Lzeny_1,"Vai sonhando dueto bobo!",Lzeny_2;
+
+               Lzeny_1:
+                       if(Zeny < 1000) goto Lzeny_no;
+                       set Zeny,Zeny-1000;
+                       show "[Heath]";
+                       show "Beleza meu 'amigo'. Preste atenção.";
+                       next;
+                       show "[Reid]";
+                       show "Um famoso aventureiro chamado Niles";
+                       show "retornou a este vilarejo de suas";
+                       show "aventuras distantes.";
+                       show "Ele estava arrastando...";
+                       next;
+                       show "[Heath]";
+                       show "...(cochicha cochicha cochicha)";
+                       show "uma caixa realmente enorme atrás dele!!!";
+                       next;
+                       show "[Reid]";
+                       show "Ele voltou na calada da noite,";
+                       show "na esperança de ninguém ver sua carga.";
+                       next;
+                       show "[Heath]";
+                       show "Tem que haver alguma";
+                       show "coisa de valor naquela caixa!";
+                       show "Não existe outra explicação!";
+                       next;
+                       show "[Reid]";
+                       show "Eu estou em busca daquela caixa!";
+                       show "E eu a acharei!";
+                       next;
+                       emotion 20;
+                       show "[Heath]";
+                       show "Só tem um probleminha.";
+                       show "Nós não fazemos a menor idéia";
+                       show "de onde o Niles colocou o tesouro.";
+                       next;
+                       show "[Reid]";
+                       show "Niles está nos fazendo de bobo!";
+                       next;
+                       menu "Aonde está Niles agora?",Lwhere_1;
+
+                       Lwhere_1:
+                               show "[Reid]";
+                               show "Ele está do lado norte da vila.";
+                               next;
+                               show "[Heath]";
+                               show "Eu espero que esta informação";
+                               show "tenha valido a pena.";
+                               next;
+                               show "[Reid and Heath]";
+                               show "Certamente ela valeu a pena pra nós!";
+                               show "Heh heh heh!";
+                               close;
+
+                       Lzeny_no:
+                               show "[Reid]";
+                               show "Hey, volte quando você não estiver mais quebrado!";
+                               show "É preciso gastar dinheiro para fazer dinheiro, certo?";
+                               close;
+
+               Lzeny_2:
+                       donpcevent "Reid::On_Emotion20";
+                       emotion 20;
+                       show "[Heath]";
+                       show "O queee?! Eu juro que nossas deixas";
+                       show "não são tão ingênuas como costumavam ser.";
+                       show "Como é que nós vamos ganhar um zeny honesto?!";
+                       close;
+}
+
+//========================================================
+cmd_in01,175,120,3	script	Iria#umb	69,{
+       show "[Iria]";
+       show "Aquele cara na mesa mais distante";
+       show "no canto é o aventureiro";
+       show "Niles. Parece que ele tem uma riqueza";
+       show "enorme de histórias sobre suas muitas aventuras.";
+       next;
+       show "[Iria]";
+       show "Ele é sempre todo grosso, dizendo coisas";
+       show "do tipo 'A sua jornada te levará a fama,";
+       show "ou para morte certa?!' ";
+       next;
+       show "[Iria]";
+       show "Mesmo assim, quem quer que converse com Niles";
+       show "por algum tempo parece invariavelmente";
+       show "inspirado por sua paixão.";
+       close;
+}
+
+//========================================================
+cmd_in01,164,115,1	script	Niles#umb	731,{
+       show "[Niles]";
+       show "Oh?";
+       show "Outro mané veio me perguntar";
+       show "sobre os boatos idiotas circulando";
+       show "pela cidade?";
+       next;
+       show "[Niles]";
+       show "A história sobre eu ter achado um grande";
+       show "tesouro é um grande mal entendido.";
+       show "Na verdade, é somente minha coleção";
+       show "de achados modestos.";
+       next;
+       show "[Niles]";
+       show "Tendo esclarecido isto, Eu acho que tenho uma pista";
+       show "sobre um item potencialmente lucrativo";
+       show "simplesmente esperando para ser descoberto.";
+       next;
+       show "[Niles]";
+       show "Você não acha aquela caverna";
+       show "perto da vila de Comodo interessante?";
+       next;
+       show "[Niles]";
+       show "Eu acho que uma grande jóia po estar";
+       show "escondida nos seus confins.";
+       next;
+       show "[Niles]";
+       show "Até recentemente, nós não sabiamos como chegar";
+       show "até a caverna.";
+       next;
+       show "[Niles]";
+       show ".............";
+       next;
+       show "[Niles]";
+       show ".......Hm?";
+       next;
+       show "[Niles]";
+       show "Você está com intenção de ir até lá?";
+       show "Você consegue imaginar o que você encontrará?!";
+       next;
+       show "[Niles]";
+       show "Simplesmente o ato de falar sobre isso";
+       show "não te faz querer sair numa aventura?!!!";
+       next;
+       show "[Niles]";
+       show "Simplesmente destrua qualquer barreira em seu caminho";
+       show "e confie em seus instintos";
+       show "para te guiar até seu objetivo!";
+       next;
+       show "[Niles]";
+       show "Vá! Rápido!";
+       next;
+       show "[Niles]";
+       show "Você encontrará o caminho para a fama em sua jornada";
+       show "ou o caminho para a morte certa?";
+       show "Hahahaha!!!!";
+       close;
+}
+
+
+//==================================================================
+//      Umbala NPCs and Quests
+//==================================================================
+
+//==================================================================
+//Trade money for meat
+umbala,70,106,3	script	Criança Utan#umb1	781,{
+if(event_umbala < 3) goto LumWord;
+       show "[???]";
+       show "Olá, eu sou um membro";
+       show "da tribo de Utan.";
+       next;
+       show "[???]";
+       show "Meu nome é Hatan! Prazer";
+       show "em conhecê-lo.";
+       emotion 18;
+       next;
+       show "[Hatan]";
+       show "...Eu não posso brincar agora porque";
+       show "uma tempestade recente fez com";
+       show "que o teto de nossa casa ficasse";
+       show "rachado...";
+       emotion 28;
+       next;
+       show "[Hatan]";
+       show "...!";
+       next;
+       show "[Hatan]";
+       show "Hey! Vocês parecem estar muito bem de vida.";
+       show "Você acha que poderia";
+       show "nos dar um pouquinho de zeny";
+       show "ppra gente consertar o teto rachado?";
+       show "por favor!";
+       emotion 28;
+       next;
+       menu "Balança a cabeça",-,"Vira a cabeça",Lend2;
+
+               if(Zeny < 1000) goto LError2;
+               show "[Hatan]";
+               show "Yay!!";
+               show "Você é o melhor!!!";
+               set Zeny,Zeny-1000;
+               additem 517,1;//Items: Meat,
+               emotion 19;
+               next;
+               show "[Hatan]";
+               show "Por favor aceite isto como um sinal de minha gratidão.";
+               emotion 18;
+               close;
+
+               LError2:
+                       show "[Hatan]";
+                       show "Bom, talvez eu tenha subestimado";
+                       show "sua riqueza, mas você não deveria mentir...";
+                       emotion 32;
+                       close;
+       Lend2:
+               show "[Hatan]";
+               show "...Awwwww.";
+               emotion 28;
+               close;
+
+LumWord:
+       show "[???]";
+       show "Umba!";
+       show "Umbaluwababawamuba.";
+       next;
+       show "[???]";
+       show "Umba!  Umbaumba!";
+       show "Umbabama Hatan baba.";
+       emotion 18;
+       next;
+       show "[Hatan]";
+       show "...Umba, Umbaumbaumba.";
+       show "Umbaumbaumbababa.";
+       show "Umbabawaumbaumbaba.";
+       show "Umbaumba.";
+       show "...Umbaumbamabababumba.";
+       emotion 28;
+       next;
+       show "[Hatan]";
+       show "...!";
+       next;
+       show "[Hatan]";
+       show "Umba!";
+       show "Umbaumbaumbababa.";
+       show "Umbababaumbawabaumba!";
+       show "Umbaumbaumbababa.";
+       show "wamfuba!  Umba!";
+       emotion 28;
+       next;
+       menu "Balança a cabeça",-,"Vira a cabeça",Lend;
+
+               if(Zeny < 1000) goto LError;
+               show "[Hatan]";
+               show "Umbaumba!!";
+               show "Um!-babaumba-baumba-.";
+               show "Umba-umba-Umbabawamamaba!";
+               set Zeny,Zeny-1000;
+               additem 517,1;//Items: Meat,
+               emotion 19;
+               next;
+               show "[Hatan]";
+               show "Umbaumba....";
+               emotion 18;
+               close;
+
+               LError:
+                       show "[Hatan]";
+                       show "Umba-Umbana!";
+                       emotion 32;
+                       close;
+       Lend:
+               show "[Hatan]";
+               show "....Umba....";
+               emotion 28;
+               close;
+}
+
+//==================================================================
+//Trade Meat for Clover, ???, and Soft Fur
+umbala,59,243,5	script	Criança Utan#umb4	787,{
+if(event_umbala < 3) goto LumWord;
+       show "[Kotan]";
+       show ".....";
+       show ".....";
+       show "...Eu quero carne.";
+       show "...Me dê carne.";
+       next;
+       menu "Claro",-,"Sai fora!",L2;
+       if(countitem(517) < 1) goto LError;//Items: Meat,
+               show "[Kotan]";
+               show "Ei, obrigado!";
+               show "Tome isto!";
+               emotion 10;
+               delitem 517,1;//Items: Meat,
+               additem 909,2;//Items: Jellopy,
+               additem 914,2;//Items: Fluff,
+               additem 705,2;//Items: Clover,
+               close;
+       L2:
+               show "[Kotan]";
+               show "......";
+               show "...Eu estou com fome!";
+               show "...Me dê carne!";
+               emotion 28;
+               close;
+LError:
+       show "[Kotan]";
+       show "Ei! Você disse que tinha";
+       show "carne! Então você estava mentindo?";
+       show "Eu te odeio!";
+       emotion 6;
+       close;
+LumWord:
+       show "[???]";
+       show "....";
+       show "....";
+       show "...Umbaba!";
+       show "...Famba!";
+       emotion 11;
+       next;
+       menu "Umba",-,"Umbabu",Lu2;
+       if(countitem(517) < 1) goto LuError;//Items: Meat,
+               show "[???]";
+               show "Umbaumbaumbababa.";
+               show "Umbababauma.";
+               emotion 10;
+               delitem 517,1;//Items: Meat,
+               additem 909,2;//Items: Jellopy,
+               additem 914,2;//Items: Fluff,
+               additem 705,2;//Items: Clover,
+               close;
+       Lu2:
+               show "[???]";
+               show "....";
+               show "......Unguba!";
+               show "....Umbababa.";
+               emotion 28;
+               close;
+LuError:
+       show "[???]";
+       show "Umbawamufumabababa!";
+       show "Umbabababaumbaumbu!";
+       emotion 6;
+       close;
+}
+
+//==============================================================================
+//Skeletal Gate
+//==============================================================================
+umbala,221,193,1	script	#Portão Esqueletal	111,{
+       if(event_umbala==7) goto LwarpNoText;
+       set @ryumon,0;
+       show "^3355FFO portão tem o formato de um esqueleto";
+       show "Você não pode ir além deste ponto pois o portão está";
+       show "trancado. Você ouve sons vindo do lado";
+       show "de dentro.^000000";
+       next;
+       menu "Examinar o esqueleto",-,"Nada",Lend;
+               show "^3355FFQuando você examina o portão";
+               show "cuidadosamente, você percebe que ele";
+               show "possui um buraco quase do tamanho de uma gema";
+               show "no lado esquerdo do portão bem no lugar";
+               show "onde o olho esquerdo do esqueleto deveria estar. Existe um";
+               show "buraco igual do outro lado.^000000";
+               next;
+               show "^3355FFO que você gostaria de fazer";
+               show "com o buraco da esquerda?^000000";
+               next;
+               menu "Nada",-,"Inserir uma gema azul",L1_2,"Inserir uma gema amarela",L1_3,"Inserir uma gema vermelha",L1_4;
+                       show "^3355FFNada foi colocado no buraco esquerdo.^000000";
+                       next;
+                       goto LRight;
+               L1_2:
+                       //Blue
+                       if(countitem(717) < 1) goto L1_2_e;//Items: Blue Gemstone,
+                               show "^3355FFVocê colocou uma gema azul";
+                               show "no buraco esquerdo.^000000";
+                               next;
+                               delitem 717,1;//Items: Blue Gemstone,
+                               additem 717,1;//Items: Blue Gemstone,
+                               set @ryumon,1;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema azul sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto LRight;
+               L1_3:
+                       //Yellow
+                       if(countitem(715) < 1) goto L1_3_e;//Items: Yellow Gemstone,
+                               show "^3355FFVocê coloca uma gema amarela no buraco da";
+                               show "esquerda.^000000";
+                               next;
+                               delitem 715,1;//Items: Yellow Gemstone,
+                               additem 715,1;//Items: Yellow Gemstone,
+                               set @ryumon,2;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema amarela sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto LRight;
+               L1_4:
+                       //Red
+                       if(countitem(716) < 1) goto L1_4_e;//Items: Red Gemstone,
+                               show "^3355FFVocê coloca uma gema vermelha no buraco da";
+                               show "esquerda.^000000";
+                               next;
+                               delitem 716,1;//Items: Red Gemstone,
+                               additem 716,1;//Items: Red Gemstone,
+                               set @ryumon,3;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema vermelha sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto LRight;
+                       L1_2_e:
+                               show "^3355FFVocê não tem uma gema azul.";
+                               goto L1_e;
+                       L1_3_e:
+                               show "^3355FFvocê não tem uma gema amarela.";
+                               goto L1_e;
+                       L1_4_e:
+                               show "^3355FFVocê não tem uma gema vermelha.";
+                       L1_e:
+                               show "Portanto, nada foi colocado";
+                               show "no buraco da esquerda.^000000";
+                               next;
+       LRight:
+               show "^3355FFMas e o buraco";
+               show "da direita?^000000";
+               next;
+               menu "Nada",-,"Inserir uma gema azul",L2_2,"Inserir uma gema amarela",L2_3,"Inserir uma gema vermelha",L2_4;
+                       show "^3355FFNada foi colocado no buraco da direita.^000000";
+                       next;
+                       goto Lfin;
+               L2_2:
+                       //Blue
+                       if(countitem(717) < 1) goto L2_2_e;//Items: Blue Gemstone,
+                               show "^3355FFvocê colocou uma gema azul";
+                               show "no buraco da direita.^000000";
+                               next;
+                               delitem 717,1;//Items: Blue Gemstone,
+                               additem 717,1;//Items: Blue Gemstone,
+                               set @ryumon,@ryumon+10;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto Lfin;
+               L2_3:
+                       //Yellow
+                       if(countitem(715) < 1) goto L2_3_e;//Items: Yellow Gemstone,
+                               show "^3355FFvocê colocou uma gema amarela";
+                               show "no buraco da direita.^000000";
+                               next;
+                               delitem 715,1;//Items: Yellow Gemstone,
+                               additem 715,1;//Items: Yellow Gemstone,
+                               set @ryumon,@ryumon+20;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto Lfin;
+               L2_4:
+                       //Red
+                       if(countitem(716) < 1) goto L2_4_e;//Items: Red Gemstone,
+                               show "^3355FFvocê colocou uma gema vermelha";
+                               show "no buraco da direita.^000000";
+                               next;
+                               delitem 716,1;//Items: Red Gemstone,
+                               additem 716,1;//Items: Red Gemstone,
+                               set @ryumon,@ryumon+30;
+                               show "^3355FFUm barulho de coisa rolando é ouvido, e";
+                               show "a gema sai rolando pela boca do                                 esqueleto.^000000";
+                               next;
+                               goto Lfin;
+                       L2_2_e:
+                               show "^3355FFVocê não tem uma gema azul.";
+                               goto L2_e;
+                       L2_3_e:
+                               show "^3355FFVocê não tem uma gema amarela.";
+                               goto L2_e;
+                       L2_4_e:
+                               show "^3355FFVocê não tem uma gema amarela.";
+                       L2_e:
+                               show "Portanto nada foi colocado no buraco";
+                               show "da direita.^000000";
+                               next;
+                       Lfin:
+                               show "^3355FF..........^000000";
+                               next;
+                               show "^3355FF...................";
+                               show ".....................^000000";
+                               next;
+                               show "^3355FF.......................";
+                               show ".........................";
+                               show ".........................^000000";
+                               next;
+                               if(event_umbala < 6) goto LSecondCheck;
+                                       if(@ryumon == 33) goto Lwarp;
+                               LSecondCheck:
+                               if(event_umbala >= 6) goto LLNewEnd;
+                                       if(@ryumon == 13) goto Lwarp;
+                                       LNewEnd:
+                                               show "^3355FFNada aconteceu.";
+                                               show "Você ouve ouve uma risada baixinha, mas";
+                                               show "decide que está tudo vindo";
+                                               show "da sua cabeça.^000000";
+                                               close;
+                               Lwarp:
+                                       show "^3355FFUm barulho continuo pode";
+                                       show "ser ouvido enquanto os portões se abrem.";
+                                       show "Quando você passa pela soleira";
+                                       show "você sente como se estivesse caminhando";
+                                       show "em direção aos braços da morte.^000000";
+                                       next;
+                               LwarpNoText:
+                                       warp "um_in",32,71;
+                                       close;
+Lend:
+       show "^3355FFDepois de bater algumas vezes no portão";
+       show "sem nenhum resultado você decide";
+       show "desistir.^000000";
+       close;
+}
+
+//==============================================================================
+//Umbala Event
+//==============================================================================
+um_in,39,122,5	script	Sábio Utan Tribal#umb	784,{
+       if(event_umbala == 1) goto LStart2;
+       if(event_umbala == 2) goto LStart3;
+       if(event_umbala == 3) goto LStart4;
+       if(event_umbala == 4) goto LStart5;
+       if(event_umbala == 5) goto LStart6;
+       if(event_umbala == 6) goto LStart4;
+       if(event_umbala == 7) goto LStart4;
+       show "[Karukatan]";
+       show "Aha, você é novo na pequena familia";
+       show "da vila de Utan, não é?";
+       show "Eu me lembraria de você se tivessemos";
+       show "nos encontrado antes.";
+       next;
+       show "[Karukatan]";
+       show "Nós sabemos que existe um grande mundo a nossa";
+       show "volta, mas existe muito a ser apreciado";
+       show "na vida simples que nós";
+       show "levamos por aqui.";
+       next;
+       show "[Karukatan]";
+       show "Todas as decisões da vila são tomadas por mim";
+       show "ou por minha influência.";
+       next;
+       show "[Karukatan]";
+       show "Você gostaria de saber como eu falo";
+       show "a sua lingua quando ninguém mais";
+       show "no vilarejo fala? É uma pergunta justa.";
+       show "Eu aprendi sua lingua com os";
+       show "aventureiros que algumas vezes passam";
+       show "por nossa vila.";
+       next;
+       show "[Karukatan]";
+       show "Alguns estrangeiros também foram se instalando por perto daqui";
+       show "com o tempo. Em troca de informação";
+       show "sobre seus costumes e cultura, Eu";
+       show "os ensinei a lingua e os costumes";
+       show "da tribo de Utan.";
+       next;
+       show "[Karukatan]";
+       show "Se você quiser aprender nossa lingua,";
+       show "você deve se imergir em";
+       show "nossos costumes e tradições culturais.";
+       show "Você também deve tentar se parecer o máximo";
+       show "conosco, que você puder.";
+       next;
+       show "[Karukatan]";
+       show "Eu espero que você seja digno de minha confiança.";
+       show "Alguns membros da tripo expressaram";
+       show "o sentimento de que dar boas vindas a estrangeiros";
+       show "é perigoso para o vilarejo.";
+       next;
+       show "[Karukatan]";
+       show "Quando você quiser começar a aprender";
+       show "a lingua, venha me visitar. Não";
+       show "se esqueça de se parecer o máximo que puder";
+       show "conosco.";
+       set event_umbala,1;
+       close;
+LStart2:
+       show "[Karukatan]";
+       show "Ahhh, você já deu uma olhada na vila?";
+       show "As outras pessoas da tribo";
+       show "correram e se esconderam de você";
+       show "quando te viram? Não se preocupe. Eles";
+       show "só estavam surpresos em ver um rosto novo.";
+       next;
+       show "[Karukatan]";
+       show "Hmm?  Você precisa de alguma coisa de mim?";
+       show "Como eu posso tornar sua estada na vila";
+       show "mais prazerosa?";
+       next;
+       menu "Eu quero aprender as linguas tribais",-,"Umbaumbaba?",L2,"Esqueça",L3;
+               if ((getequipisequiped(9)>0) && (getequipisequiped(10)>0)) goto L1_mask;
+               show "[Karukatan]";
+               show "Bem, para que você entenda nossa lingua";
+               show "você também precisa assimilar";
+               show "nossos valores culturais. Tentar";
+               show "compreender uma lingua num contexto de";
+               show "uma cultura estrangeira é meio bobo, não acha?";
+               next;
+               show "[Karukatan]";
+               show "Além do mais, as pessoas da tribo";
+               show "tem medo de você, como você fára";
+               show "com que eles falem com você?";
+               show "Você deve se fazer parecer";
+               show "mais com a gente para ser mais";
+               show "aceito.";
+               close;
+       L1_mask:
+               show "[Karukatan]";
+               show "Mas que bela máscara. A tripo de Utan";
+               show "aprecia a suas máscaras tradicionais";
+               show "porque as vezes escondendo sua face";
+               show "você pode expressar sentimentos mais";
+               show "genuinos.";
+       //Activate Sphinx Mask Quest (optional)
+               set mask_q,1;
+               next;
+               show "[Karukatan]";
+               show "com o tempo, a máscara própriamente dita";
+               show "passou a simbolizar confiança";
+               show "entre os membros da tribo de Utan.";
+               next;
+               show "[Karukatan]";
+               show "Agora que você está preparado";
+               show "eu começarei a te ensinar a lingua de Utan";
+               show "como prometido. Primeiro,";
+               show "você precisa fazer alguns";
+               show "preparativos...";
+               next;
+               show "[Karukatan]";
+               show "Primeiro, eu precisarei de algum papel. Com papel";
+               show "eu poderei escrever as palavras";
+               show "que eu pretendo ensinar.";
+               next;
+               show "[Karukatan]";
+               show "Eu preciso de ^3377FF10 Papéis Amarelados^000000, e ^3377FF5 Pedaços de Papel^000000.";
+               show "E é claro que eu também precisarei de algo para";
+               show "escrever.";
+               show "Para isto, ^3377FF1 Tinta de Polvo^000000 and ^3377FF1 Plumas de Ave^000000";
+               show "vai funcionar muito bem.";
+               next;
+               show "[Karukatan]";
+               show "Uma vez que você consiga os itens,";
+               show "eu posso começar a te ensinar a lingua.";
+               set event_umbala,2;
+               close;
+       L2:
+               show "[Karukatan]";
+               show "Haha.  simplesmente imitar o som";
+               show "das palavras é inútil. Por mais";
+               show "que soe aleatório, é preciso";
+               show "uma maneira especifica para combinar as ";
+               show "palavras.";
+               next;
+               show "[Karukatan]";
+               show "E também, nossa lingua depende";
+               show "muito das emoções para expressar";
+               show "seu sentido. Estrangeiros não conseguem";
+               show "perceber as sutilezas de imediato, mesmo nós";
+               show "sendo de uma mesma raça.";
+               next;
+               show "[Karukatan]";
+               show "Me parece que você tem um grande interesse";
+               show "em aprender a lingua da";
+               show "tribo de Utan. Se este for o caso,";
+               show "venha me visitar que eu te ensinarei.";
+               next;
+               show "[Karukatan]";
+               show "dai, você não parecerá tão bobo.";
+               close;
+       L3:
+               show "[Karukatan]";
+               show "Ah. Se você deseja continuar sua viajem";
+               show "por favor guarde esta vila";
+               show "em suas memórias.";
+               close;
+LStart3:
+       if ((countitem(7151)>=10) && (countitem(7111)>=5) && (countitem(1024)>=1) && (countitem(916)>=1)) goto Lchkok;//Items: Oiled Paper, String Paper, Squid Ink, Feather of Birds,
+       show "[Karukatan]";
+       show "Parece que você ainda não preparou";
+       show "os itens necessários. Você se esqueceu do que";
+       show "você precisa coletar para que eu possa";
+       show "te ensinar a lingua? Você precisa coletar";
+       next;
+       show "[Karukatan]";
+       show "^3377FF10 Papéis Amarelados^000000,";
+       show "^3377FF5 Pedaços de Papel^000000,";
+       show "^3377FF1 Tinta de Polvo^000000, and";
+       show "^3377FF1 Plumas de Ave^000000.";
+       show "Uma vez que você tenha coletado os itens, eu posso";
+       show "te ensinar a lingua tribal de Utan.";
+       close;
+Lchkok:
+       show "[Karukatan]";
+       show "Ótimo, você preparou todos os";
+       show "materiais necessários. Agora eu";
+       show "posso começar a te ensinar a lingua tribal";
+       show "de Utan.";
+       next;
+       show "[Karukatan]";
+       show "............";
+       next;
+       show "[Karukatan]";
+       show "............";
+       show "............";
+       next;
+       show "[Karukatan]";
+       show "............";
+       show "............";
+       show "............";
+       next;
+       show "[Karukatan]";
+       show "você se sente mais esclarecido agora?";
+       show "Tente falar com os outros na tribo de";
+       show "Utan. Eles te acolherão rapidamente";
+       show "agora que você sabe falar a lingua deles.";
+       delitem 7151,10;//Items: Oiled Paper,
+       delitem 7111,5;//Items: String Paper,
+       delitem 1024,1;//Items: Squid Ink,
+       delitem 916,1;//Items: Feather of Birds,
+       set event_umbala,3;
+       next;
+       show "[Karukatan]";
+       show "Se você precisar de algo enquanto";
+       show "estiver aqui, não hesite em me visitar.";
+       close;
+LStart4:
+//fin
+       show "[Karukatan]";
+       show "você precisa de algo?";
+       show "Se você precisa de alguém para te guiar";
+       show "pela vila, você deve pedir a outra pessoa.";
+       show "Eu não posso sair daqui agora.";
+       next;
+       show "[Karukatan]";
+       show "A melhor maneira de aproveitar";
+       show "nossa vila é simplesmente dar uma volta";
+       show "e ver as paisagens. Fazendo isso";
+       show "você pode formar uma conexão pessoal";
+       show "com a vila.";
+       close;
+LStart5:
+       show "[Karukatan]";
+       show "Oh, parece que você está aproveitando aqui.";
+       show "Você precisa de mais alguma coisa?";
+       next;
+       show "[Karukatan]";
+       show "Parece que você quer perguntar alguma coisa";
+       show "ao shaman Putsuchiratan e você";
+       show "está querendo minha permissão";
+       show "para fazê-lo.";
+       next;
+       show "[Karukatan]";
+       show "Bem...Tem uma máscara";
+       show "estrangeira que eu e o Putsuchiratan";
+       show "sempre desejamos. Putsuchiratan";
+       show "ouviu falar dela a algum tempo atrás.";
+       next;
+       show "[Karukatan]";
+       show "Se eu pudesse ter uma ^3377FFSmile Mask^000000,";
+       show "seria uma grande honra, mas";
+       show "eu prometi que a daria para";
+       show "o Putsuchiratan como um presente se eu";
+       show "conseguisse uma. Se você puder me trazer uma Smile mask,";
+       show "eu te darei permissão para conversar com ela.";
+       set event_umbala,5;
+       close;
+LStart6:
+       if(countitem(2278) > 0) goto Lsmileok;//Items: Mr. Smile,
+       show "[Karukatan]";
+       show "Você já achou a ^3377FFMáscara Feliz^000000 ?";
+       show "Para que eu te deixe ver a shaman,";
+       show "você precisa coletar uma.";
+       show "Um presente também ira fazer Putsuchiritan";
+       show "ficar de bom humor também.";
+       close;
+Lsmileok:
+       show "[Karukatan]";
+       show "Ahh! É uma Máscara Feliz!";
+       show "eu gostaria muito te colocá-la";
+       show "somente uma vez, mas eu prometi";
+       show "dar isto para Putsuchiritan de";
+       show "presente.";
+       delitem 2278,1;//Items: Mr. Smile,
+       set event_umbala,6;
+       next;
+       show "[Karukatan]";
+       show "Eu direi Putsuchiritan para permitir";
+       show "que você se encontre com ela. eu tenho certeza que você";
+       show "vai achar os seus talentos de muita";
+       show "ajuda para sua jornada.";
+       close;
+}
+
+//=====================================================================
+um_in,44,71,2	script	Utan Tribe Shaman#umb	782,{
+       if(event_umbala < 3) goto LumWord;
+       if(event_umbala == 4) goto LStart2;
+       if(event_umbala == 5) goto LStart2;
+       if(event_umbala == 6) goto LStart3;
+       if(event_umbala == 7) goto LStart4;
+       show "[Putsuchiritan]";
+       show "Eu não receberei estrangeiros que";
+       show "não são da tribo de Utan.";
+       show "...Existem muitas coisas";
+       show "sobre a natureza de nossa sociedade";
+       show "que você ainda não compreende.";
+       next;
+       show "[Putsuchiritan]";
+       show "Outros de seu tipo farão de tudo";
+       show "para pisar em solos que são sagrados";
+       show "para a tribo de Utan. Nós tememos que";
+       show "revelando nossos segredos revelando nossos segredos irános irá";
+       show "nos expor ao perigo.";
+       next;
+       show "[Putsuchiritan]";
+       show "E o pior, eu acho que os estrangeiros";
+       show "não compreendem nosso desejo";
+       show "em preservar nossa cultura tribal.";
+       next;
+       show "[Putsuchiritan]";
+       show "Como os meus talentos são para";
+       show "o uso da tribo de Utan, você";
+       show "primeiro deve pedir permissão para o ancião";
+       show "se quiser minha assistência.";
+       show "E também, não cause problemas";
+       show "entre as pessoas da tribo.";
+       set event_umbala,4;
+       close;
+LStart2:
+       show "[Putsuchiritan]";
+       show "Você não me ouviu? Você precisa";
+       show "da autorização do ancião para";
+       show "que eu possa te ajudar.";
+       close;
+LStart3:
+       show "[Putsuchiritan]";
+       show "Parece que você conseguiu permissão do";
+       show "ancião. Bom.,Eu te ajudarei, apesar ";
+       show "de não estar com a mínima vontade.";
+       next;
+       show "[Putsuchiritan]";
+       show "Eu posso fazer aflorar talentos";
+       show "escondidos fundo na sua psique";
+       show "e liberar o poder oculto das rochas";
+       show "elementais.";
+       next;
+       show "[Putsuchiritan]";
+       show "Eu preciso preparar meus rituais.";
+       show "Quando você estiver pronto para prosseguir, por favor";
+       show "fale comigo novamente.";
+       set event_umbala,7;
+       close;
+LStart4:
+       set @umchange[1],0;
+       set @umchange[2],0;
+       set @umchange[3],0;
+       set @umchange[4],0;
+       show "[Putsuchiritan]";
+       show "Eu não sei se meus talentos";
+       show "serão úteis a você, mas eu";
+       show "te ajudarei mesmo assim.";
+       next;
+       show "[Putsuchiritan]";
+       show "Eu posso criar essências elementais de objetos naturais,";
+       show "ou, desmembrar rochas elementais em seus componentes essenciais.";
+       show "O que você gostaria de fazer?";
+       next;
+       menu "Criar essência.",L1,"Desmontar uma rocha elemental.",L2,"Nada.",-;
+               show "[Putsuchiritan]";
+               show "Se você não deseja a minha ajuda no momento,";
+               show "tudo bem. Quando você precisar, por favor";
+               show "volte novamente.";
+               close;
+L1:
+       show "[Putsuchiritan]";
+       show "Que essência elemental você gostaria de";
+       show "criar? Eu posso criar terra, água";
+       show "fogo e vento.";
+       next;
+       menu "Terra",L1_1,"Água",L1_2,"Fogo",L1_3,"Vento.",L1_4;
+       L1_1:
+               if (countitem(947)<15) goto L1_1e;//Items: Horn,
+               set @umchange[1],947;
+               set @umchange[2],15;
+               set @umchange[3],993;
+               goto L1_ketugou;
+       L1_2:
+               if (countitem(946)<20) goto L1_2e;//Items: Snails Shell,
+               set @umchange[1],946;
+               set @umchange[2],20;
+               set @umchange[3],991;
+               goto L1_ketugou;
+       L1_3:
+               if (countitem(904)<20) goto L1_3e;//Items: Scorpion Tail,
+               set @umchange[1],904;
+               set @umchange[2],20;
+               set @umchange[3],990;
+               goto L1_ketugou;
+       L1_4:
+               if (countitem(1013)<25) goto L1_4e;//Items: Rainbow Shell,
+               set @umchange[1],1013;
+               set @umchange[2],25;
+               set @umchange[3],992;
+               goto L1_ketugou;
+       L1_ketugou:
+               show "[Putsuchiritan]";
+               show "Agora, eu tentarei libertar a fonte";
+               show "de poder oculto que existe em você.";
+               show "Escolha um número entre 1 e 9.";
+               show "Se você não quiser criar a essência";
+               show "escolha 0.";
+               next;
+       L1_input:
+               digit @umchange[4];
+               if (@umchange[4]==0) goto L1_cancel;
+               if (@umchange[4]>9) goto L1_numError;
+               show "[Putsuchiritan]";
+               if (@umchange[1]==947) show "O Chifre começa a vibrar.";
+               if (@umchange[1]==904) show "A cauda começa a vibrar.";
+               if ((@umchange[1]==1013) && (@umchange[1]==946)) show "A casca começa a vibrar.";
+//End Possible Conversion
+               show "Eu agora canto um mantra sagrado.";
+               show "Imagine o número em sua mente";
+               show "e imagine o poder irradiando";
+               show "de seu corpo.";
+               next;
+               show "[Putsuchiritan]";
+               show "Amba Omba Sanba!  Unba Chi!";
+               show "Wanbatauma Eurukaba!  Unba!  Ba!";
+               show "Jyur!  Fumuba  Rurara!  Wamba!  Ra!";
+               show "Damtsuha Ombabaraka! Unba! Shi!";
+               show "Sukatamba Aburumba! Umba! Shi!";
+               next;
+               delitem @umchange[1],@umchange[2];
+               additem @umchange[3],@umchange[4];
+               show "[Putsuchiritan]";
+               show "Pronto. Seu poder interior converteu";
+               show "estes objetos da natureza em";
+               show "sua essência elemental. Ponha os";
+               show "para bom uso.";
+               close;
+L1_cancel:
+       show "[Putsuchiritan]";
+       show "Se você não deseja minha ajuda no momento,";
+       show "tudo bem. Quando precisar, por favor";
+       show "volte novamente.";
+       close;
+L1_numError:
+       show "[Putsuchiritan]";
+       show "Você deve escolher um número entre";
+       show "1 e 9. É muito importante que você escolha um número";
+       show "que seja muito importante";
+       show "para você.";
+       next;
+       goto L1_input;
+L1_1e:
+       show "[Putsuchiritan]";
+       show "Terra...Você precisa do";
+       show "que é amigo da terra. Explore";
+       show "a floresta verdejante e encontre";
+       show "^3377FF15 Chifres^000000para o ritual.";
+       goto L1_empty;
+L1_2e:
+       show "[Putsuchiritan]";
+       show "Água...Você precisa do que é";
+       show "saturado com água. Explore a área";
+       show "aqui em volta e ache";
+       show "^3377FF20 Cascas de Caramujo^000000 para o ritual.";
+       goto L1_empty;
+L1_3e:
+       show "[Putsuchiritan]";
+       show "Fogo...Você precisa de algo";
+       show "que possa aguentar o calor";
+       show "de uma chama eterna. Explore";
+       show "o deserto e encontre ^3377FF20 Caudas de Escorpião^000000";
+       show "para o ritual.";
+       goto L1_empty;
+L1_4e:
+       show "[Putsuchiritan]";
+       show "Vento...Você precisa de algo";
+       show "que tenha uma camaradagem fácil";
+       show "com o próprio céu.";
+       show "Você precisa de ^3377FF25 Cascos Arco-Íris^000000";
+       show "para completar o ritual.";
+L1_empty:
+       next;
+       show "[Putsuchiritan]";
+       show "Uma vez que você tenha preparado os itens";
+       show "da natureza, por favor volte aqui";
+       show "para que possamos completar o ritual.";
+       close;
+//----------------------------------------------------------
+L2:
+       show "[Putsuchiritan]";
+       show "Que tipo de rocha você gostaria de";
+       show "desmembrar? Por favor escolha terra, água, ";
+       show "fogo ou vento.";
+       next;
+       menu "Terra",L2_1,"Água",L2_2,"Fogo",L2_3,"Vento",L2_4;
+       L2_1:
+       if (countitem(997)<1) goto L2_1e;//Items: Great Nature,
+               set @umchange[1],997;
+               set @umchange[2],1;
+               set @umchange[3],993;
+               goto L2_bunkai;
+       L2_2:
+       if (countitem(995)<1) goto L2_2e;//Items: Mystic Frozen,
+               set @umchange[1],995;
+               set @umchange[2],1;
+               set @umchange[3],991;
+               goto L2_bunkai;
+       L2_3:
+       if (countitem(994)<1) goto L2_3e;//Items: Flame Heart,
+               set @umchange[1],994;
+               set @umchange[2],1;
+               set @umchange[3],990;
+               goto L2_bunkai;
+       L2_4:
+       if (countitem(996)<1) goto L2_4e;//Items: Rough Wind,
+               set @umchange[1],996;
+               set @umchange[2],1;
+               set @umchange[3],992;
+               goto L2_bunkai;
+       L2_bunkai:
+               show "[Putsuchiritan]";
+               if (@umchange[1]==997) show "Eu irei desmembrar seu cristal da terra.";
+               if (@umchange[1]==995) show "Eu irei desmembrar seu cristal congelado.";
+               if (@umchange[1]==994) show "Eu irei desmembrar seu coração em chamas.";
+               if (@umchange[1]==996) show "Eu irei desmembrar sua rocha de Rough Wind.";
+               show "nos seus componentes essênciais.";
+               show "Escolha um número entre 1 e 9.";
+               show "Se você não quiser desmembrar a rocha.";
+               show "escolha 0.";
+               next;
+       L2_input:
+               digit @umchange[4];
+               if (@umchange[4]==0) goto L2_cancel;
+               if (@umchange[4]>9) goto L2_numError;
+//Calculating number of essences
+               set @umchange[4],rand(5)+@umchange[4];
+               set @umchange,@umchange + @rand;
+               if (@umchange[4]>10) set @umchange[4],@umchange[4]-10;
+               if (@umchange[4]<5) set @umchange[4],@umchange[4]+5;
+               show "[Putsuchiritan]";
+               show "Por favor, coloque a rocha elemental";
+               show "dentro deste circulo sagrado. Eu irei cantar";
+               show "um mantra. Eu não sei se poderei";
+               show "desmontar a rocha completamente, ";
+               show "mas lá vai...";
+               next;
+               show "[Putsuchiritan]";
+               show "Unba Unba Karama!  Unba!  Ta!";
+               show "Rukara!  Ukarere!  Un!  Unba!  Ka!";
+               show "Anburaka Taburaka Taburakan!  Unba Ra!";
+               show "Onbaruzu Zan Kata!  Unba Ka!";
+               show "Kan Tsun Rakarakan!  Unba!  Ha!";
+               next;
+               delitem @umchange[1],@umchange[2];
+               additem @umchange[3],@umchange[4];
+               show "[Putsuchiritan]";
+               show "A rocha elemental foi";
+               show "desmembrada em suas essências";
+               show "naturais. Por favor ponha-as";
+               show "para bom uso.";
+               close;
+L2_cancel:
+       show "[Putsuchiritan]";
+       show "Se você não precisa de minha ajuda no momento,";
+       show "tudo bem. Me procure";
+       show "quando precisar.";
+       close;
+L2_numError:
+       show "[Putsuchiritan]";
+       show "Você deve escolher um número entre";
+       show "1 e 9. É muito importante que você";
+       show "escolha um número que seja";
+       show "importante para você.";
+       next;
+       goto L2_input;
+L2_1e:  show "[Putsuchiritan]";
+       show "Você precisa ter uma";
+       show "^3377FF1 Natureza Grandiosa^000000";
+       show "para desmembrá-la";
+       show "em seus componentes essênciais.";
+       goto L2_empty;
+L2_2e:
+       show "[Putsuchiritan]";
+       show "Você precisa de";
+       show "^3377FF1 Gelo Místico^000000";
+       show "para desmembrá-la";
+       show "em seus componentes essênciais.";
+       goto L2_empty;
+L2_3e:
+       show "[Putsuchiritan]";
+       show "Você precisa de";
+       show "^3377FF1 Coração Flamejante^000000";
+       show "para desmembrá-la";
+       show "em seus componentes essênciais.";
+       goto L2_empty;
+L2_4e:
+       show "[Putsuchiritan]";
+       show "Você precisa de";
+       show "^3377FF1 Vento Bruto^000000";
+       show "para desmembrá-la";
+       show "em seus componentes essênciais.";
+L2_empty:
+       next;
+       show "[Putsuchiritan]";
+       show "Uma vez que você tenha a rocha necessária, ";
+       show "por favor venha me ver";
+       show "para que o ritual seja completado.";
+       close;
+LumWord:
+       show "[?????]";
+       show "Umbaumbaumbaba Utan Umbaba";
+       show "Umbaumbaumbafumbabauma...";
+       show "Umbabaumbaumbabaumbabaumba";
+       show "Umbabaumbabaumbaumbabaumba";
+       show "Fumbaumba.";
+       next;
+       warp "umbala",217,186;
+       close;
+}
+
+//=====================================================================
+umbala,177,153,3	script	Bast#umb	97,{
+       if (event_umbala>=3) emotion 0;
+       show "[Bast]";
+       show "Oh! Outra pessoa de fora. É";
+       show "ótimo encontrar outros nesta";
+       show "vila! Meu nome é";
+       show "Bast.";
+       next;
+       show "[Bast]";
+       show "Por conta de o vilarejo de Umbala";
+       show "ser isolado, dentro da floresta, sua cultura";
+       show "não é afetada pelo avanço continuo";
+       show "do progresso.";
+       next;
+       show "[Bast]";
+       show "Não só isso mas a lingua e a cor da pele";
+       show "dos nativos também é diferente.";
+       show "Você não está confuso com";
+       show "os gestos e expressões diferentes?";
+       next;
+       show "[Bast]";
+       show "Mesmo as coisas que você";
+       show "acha que iriam além da barreira cultural";
+       show "tem um significado diferente em Umbala.";
+       next;
+       show "[Bast]";
+       show "Só porque a face de uma pessoa da tribo";
+       show "sorri, não significa necessáriamente";
+       show "que seu coração também esteja. Compreende?";
+       next;
+       emotion 28;
+       show "[Bast]";
+       show "Por conta disto, as pessoas da tribo que conhecem nossa língua";
+       show "podem ter problemas!!!";
+       close;
+}
+
+//=====================================================================
+umbala,80,146,4	script	Yuki#umb	753,{
+       show "[Yuki]";
+       show "Umbaubaugau...Oh!";
+       show "Você não é daqui? Isto é";
+       show "maravilhoso! Eu não pensei";
+       show "que fosse encontrar alguém de fora daqui.";
+       show "Hahaha.";
+       next;
+       show "[Yuki]";
+       show "Eu vim aqui atrás";
+       show "de companheiros fortes, mas eu era incapaz";
+       show "de entender a lingua.";
+       show "Eu tive que ouvir a lingua sendo falada";
+       show "por um tempo antes que eu pudesse compreênde-la.";
+       show "Hahaha.";
+       next;
+       show "[Yuki]";
+       show "As pessoas daqui querem";
+       show "preservar sua cultura nativa";
+       show "enquanto escapam das armadilhas da vida moderna.";
+       show "As pessoas da tribo estão sempre propensas";
+       show "a travessuras.";
+       next;
+       show "[Yuki]";
+       show "A atmosfera primitiva daqui é realmente";
+       show "refrescante. E as leis tribais são bem relaxadas e";
+       show "não interferem com o aproveitamento de uma";
+       show "pessoa na vila. É realmente maravilhoso.";
+       close;
+}
+
+//=====================================================================
+um_in,101,73,3	script	Yunatan#umb	783,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Yunatan]";
+       show "Eu estou aqui fora pois eu não";
+       show "suporto olhar para aquele";
+       show "exibido do Wambokoriotan.";
+       show "Eu o odeio!";
+       close;
+LumWord:
+       show "[Yunatan]";
+       show "Umbaba!  Umbaumbaugaga";
+       show "Ugugumubaugaumuumu.";
+       show "Umbabababababababa.";
+       close;
+}
+
+//=====================================================================
+um_in,94,123,5	script	Bartsutan#umb	783,{
+       if(event_umbala < 30) goto LumWord;
+       show "[Bartsutan]";
+       show "Eu gostaria de ver o Wambokoriotan";
+       show "se transformar num inseto para";
+       show "que eu tenha a satisfação de esmagar";
+       show "seu crânio!! Eu odeio o cara";
+       show "e as suas investidas! Eu queria só que ele ficasse";
+       show "longe de mim.";
+       close;
+LumWord:
+       show "[Bartsutan]";
+       show "Umbarugumbarumbauma!";
+       show "Umuguugumubarumba.";
+       show "Umba...uumu.";
+       close;
+}
+
+//=====================================================================
+umbala,140,157,6	script	Adulto da Tribo#umb1	785,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Seirutan]";
+       show "Bungy jumping é extremamente perigoso..";
+       show "E como tal, fazer um salto";
+       show "bem sucedido é um prerequisito para";
+       show "ser reconhecido como adulto na tribo de Utan.";
+       close;
+LumWord:
+       show "[?????]";
+       show "Umbaumbafumba.";
+       show "Uwambaunbaumbabaufumba";
+       show "Umbababaumbaumba.";
+       close;
+}
+
+//=====================================================================
+umbala,146,157,4	script	Adulto da Tribo#umb2	786,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Arotan]";
+       show "Fazer um bungy jump seguro é";
+       show "muito importante. Quando uma pessoa faz";
+       show "o seu primeiro salto com segurança, muitas";
+       show "pessoas se juntam para um grande banquete.";
+       close;
+LumWord:
+       show "[????]";
+       show "Umbaumbaumbabaumbaba.";
+       show "Umbaumbabaumbababaumufumuba.";
+       close;
+}
+
+//=====================================================================
+umbala,149,165,4	script	Adulta da Tribo#umb3	781,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Kryubatan]";
+       show "Eu tenho muito medo de altura, ";
+       show "portanto eu não estou nem um pouco afim de saltar,";
+       show "mas eu tenho, para ser";
+       show "reconhecido como um membro";
+       show "corajoso da tribo de Utan.";
+       close;
+LumWord:
+       show "[??????]";
+       show "Umbaumbaumbababa.";
+       show "Umbaumbaumumbabaumfumuba.";
+       show "Umbaumbaumumubafumba.";
+       close;
+}
+
+//=====================================================================
+umbala,92,159,4	script	Hartan#umb	785,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Hartan]";
+       show "Você quer saber porque nossa";
+       show "pelé é tão negra?";
+       show "......";
+       next;
+       show "[Hartan]";
+       show "Bem...";
+       show "Toda noite antes de dormirmos, ";
+       show "nós comemos muito chocolate!";
+       next;
+       show "[Hartan]";
+       show "Mmmmmmm...Chocolate...";
+       close;
+LumWord:
+       show "[????]";
+       show "Umbaumbaumba";
+       show "Umbaumbaumba";
+       show "Umbaumbaumba";
+       next;
+       show "[????]";
+       show "Umbaumbabaungaha.";
+       emotion 28;
+       close;
+}
+
+//=====================================================================
+umbala,194,104,4	script	Pirralho da Tribo#umb2	787,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Burkatan]";
+       show "Você é de fora?";
+       show "Você está aqui para tentar bungy jumping?";
+       next;
+       menu "Você acertou",-,"Bem...",L2;
+               show "[Burkatan]";
+               show "Que coragem!";
+               show "A tribo de Utan da boas vindas para";
+               show "aqueles com um coração corajoso.";
+               close;
+       L2:
+               show "[Burkatan]";
+               show "Os adultos não querem nem que eu";
+               show "chegue perto da area de bungee jump.";
+               show "Nesta tribo, Bungee jump é um ritual";
+               show "de passagem. Se eu puder mostrar-lhes";
+               show "que eu já sou grande o bastante para encarar o bungee jump, ";
+               show "eles vão ter que me reconhecer como um adulto!";
+               close;
+LumWord:
+       show "[???]";
+       show "Umbaumbababaumfumuba.";
+       show "Umbababaumbabaumbaumba.";
+       next;
+       menu "Um...sim?",-,"Não...",Lu2;
+               show "[???]";
+               show "Umbaumbaumbababa.";
+               show "Umbaumbaumubaba.";
+               close;
+       Lu2:
+               show "[???]";
+               show "Umbaumbaumuam.";
+               show "Umbaumbaumbaba.";
+               show "Umbaumfumababaumu.";
+               close;
+}
+
+//=====================================================================
+umbala,193,208,6	script	Guerreiro da Tribo#umb3	789,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Fuitan]";
+       show "Quando eu era mais jovem, eu fui saltar";
+       show "de bungee jump mesmo sendo extremamente";
+       show "perigoso. Eu saltei mesmo assim, e meu peito";
+       show "se encheu com um sentimento de conquista.";
+       show "A tradição encouraja um comportamento valente, mas";
+       show "oas crianças sempre serão crianças, você não acha?";
+       close;
+LumWord:
+       show "[????]";
+       show "Umbaumbababa.";
+       show "Umbamubafumabaumumbabamua";
+       show "Umumbababaumbafuma.";
+       close;
+}
+
+//=====================================================================
+umbala,139,205,4	script	Adulto da Tribo#umb5	785,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Tsunitan]";
+       show "Massa! Faz tempo que eu não vejo uma pessoa de fora!";
+       show "Você está prestes a assistir";
+       show "os jovens de toda a vila saltarem de Bungee jump";
+       show "para provarem sua coragem!";
+       next;
+       show "[Tsunitan]";
+       show "Depois que você saltar, você pode usar a corda";
+       show "para subir de volta. E também se você procurar";
+       show "debaixo d´água você será capaz de achar";
+       show "uma caverna submersa. E claro, já teve";
+       show "algumas almas sem sorte que já morreram...";
+       next;
+       show "[Tsunitan]";
+       show "Você também pode se sentir enjoado";
+       show "quando o fundo for chegando perto, por conta";
+       show "das siluetas dos monstros aquáticos";
+       show "se mexendo lentamente sob a súperfície da água.";
+       show "Se você der bobeira dentro d´água, você poderá morrer...";
+       close;
+LumWord:
+       show "[????]";
+       show "Umbaumba!";
+       show "Umbaumbabababaumumba.";
+       show "Babaum Utan Umbaumbaba";
+       show "Umbababafumu.";
+       show "Umfumubabaumbaumbaumbaba.";
+       next;
+       show "[????]";
+       show "Umbafumumababaumba.";
+       show "Umbabatanumbaumba.";
+       show "Umumu.  Umbaumbaumbaum.";
+       show "Umbabaumbaumbaumubaamum.";
+       show "Umbaumbaumbafumu.";
+       close;
+}
+
+//=====================================================================
+um_in,158,71,3	script	Homem da Tribo Utan#umb	787,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Mutakutan]";
+       show "Umbala tem muitas árvores interessantes";
+       show "que estudá-las nunca fica cansativo.";
+       next;
+       show "[Mutakutan]";
+       show "Minha arvore favorita perto de Umbala é Enorme!";
+       show "Ela cresce em direção ao céu";
+       show "até aonde a vista alcança!";
+       show "É para ser a árvore mais alta do mundo!";
+       emotion 33;
+       next;
+       show "[Mutakutan]";
+       show "Ela é tão velha e grande";
+       show "que o topo não pode ser nunca visto!";
+       next;
+       show "[Mutakutan]";
+       show "Mesmo após escalar a árvore";
+       show "a uma altura considerável, o topo não";
+       show "estava a vista. Eu me considero um";
+       show "expert em subir árvores, portanto";
+       show "isso foi bem angustiante.";
+       next;
+       show "[Mutakutan]";
+       show "Dito isto, o fruto que eu consegui";
+       show "arrancar de alguns dos galhos mais altos";
+       show "é delicioso!";
+       emotion 21;
+       next;
+       show "[Mutakutan]";
+       show "Ele tem um gostinho levemente azedo. Comê-lo";
+       show "me faz sentir tinindo por dentro!!";
+       emotion 21;
+       next;
+       show "[Mutakutan]";
+       show "E no mesmo tempo, uma doença terrivel";
+       show "estava devastando a vila de Umbala.";
+       next;
+       show "[Mutakutan]";
+       show "A saúde do ancião estava piorando,";
+       show "e ele estava em risco de morte, mas quando";
+       show "eu dei pra ele um pedaço daquela fruta";
+       show "sua saude melhorou";
+       show "dramaticamente num curto periodo de tempo. Certamente";
+       show "este fruto foi um presente da floresta!";
+       emotion 28;
+       next;
+       show "[Mutakutan]";
+       show "A árvore fica ao norte do vilarejo. Porque";
+       show "você não a visita se estiver indo naquela direção?";
+       close;
+LumWord:
+       show "[????]";
+       show "Umbaumbaumbabaumba!";
+       show "Umbaumbaumbababaumba";
+       show "Umbaumbaumba";
+       show "Umbabaumbaumbaba.";
+       close;
+}
+
+//=====================================================================
+umbala,145,217,3	script	Chibibatan#umb	783,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Chibibatan]";
+       show "Eu quero me divertir um pouco com";
+       show "Wambokoriotan,mas depois de ver";
+       show "como a esposa dele pode ficar, Eu não sei se";
+       show "eu quero ficar mal com ela.";
+       close;
+LumWord:
+       show "[Chibibatan]";
+       show "Umbaba.";
+       show "Ugaugumbarumbaruuuu!";
+       show "Ugugauwubaruguagumbagua.";
+       close;
+}
+
+//=====================================================================
+um_in,139,48,5	script	Purenotan#umb	783,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Purenotan]";
+       show "Vê aquele mané ali?";
+       show "Eu to ligado nele. Ele não";
+       show "esconde exatamente o seu desejo secreto de";
+       show "ter dois ou três casos.";
+       show "Ele precisa é de uma porrada firme no saco";
+       close;
+LumWord:
+       show "[Purenotan]";
+       show "Umbaumbaugaga!";
+       show "Umbaumbabababa!";
+       show "Umbaumba!";
+       emotion 6;
+       next;
+       show "[Purenotan]";
+       show "Umbaumabaumbaumbaba!";
+       show "Umbababababaugau!";
+       show "Uguugaumbabaumbagumba!";
+       emotion 24;
+       next;
+       emotion 27;
+       close;
+On_emo:
+emotion 6;
+end;
+}
+
+//=====================================================================
+um_in,144,45,5	script	Wambokoriotan#umb	789,{
+       if(event_umbala < 3) goto LumWord;
+       show "[Wambokoriotan]";
+       show "Ahhh...Minha esposa é muito";
+       show "cabeça quente.  Ouch...ouch.";
+       next;
+       show "[Wambokoriotan]";
+       show "Yunatan, Bartsutan, Chibibatan...";
+       show "Eu quero as gatinhas de Umbala";
+       show "tanto quanto elas me querem...Ouch...ouch!";
+       close;
+LumWord:
+       show "[Wambokoriotan]";
+       show "Umbaumbaba.....";
+       show "Umbaugua!";
+       show "Umbagumumbabagumbagaga!";
+       emotion 18;
+       next;
+       donpcevent "Purenotan::On_emo";
+       close;
+}
+
+//==============================================================================
+//Bungee jumping!
+//==============================================================================
+umbala,140,197,0	script	#Shibonochikka	139,0,1,{
+set @jumprand,rand(4);
+if (@jumprand == 1) goto L1;
+if (@jumprand == 2) goto L2;
+if (@jumprand == 3) goto L3;
+if (@jumprand == 4) goto L4;
+mapannounce "umbala","Área de Bungee Jump:" + strcharinfo(0) + " : Iyahaaaaahh!",8;
+end;
+
+L1:
+//Dead
+	mapannounce "umbala","Área de Bungee Jump: " + strcharinfo(0) + " : Ukiyaaaaaaaaaa!",8;
+	percentheal -100,0;
+end;
+
+L2:
+//HP50% Damage
+	mapannounce "umbala","Área de Bungee Jump: " + strcharinfo(0) + " : Kyaaaaaaaaaaa!",8;
+	percentheal -50,0;
+end;
+
+L3:
+//HP99%‚Ì Damage
+	mapannounce "umbala","Área de Bungee Jump: " + strcharinfo(0) + " : Waaaaaaaaaah!",8;
+	percentheal -99,0;
+end;
+
+L4:
+//1 HP left, warp to Niflheim
+	mapannounce "umbala","Área de Bungee Jump: " + strcharinfo(0) + " : No-o!",8;
+	heal -HP+1,0;
+	warp "nif_in",69,15;
+	end;
+}
+
+//=====================================================================
+umbala,136,195,0	script	#Warp Point	139,1,1,{
+       warp "umbala",145,166;
+       end;
+}

@@ -1,0 +1,54 @@
+//Habilidades Platina by Mehah v:0.1b
+
+prontera.gat,128,200,6	script	Habilidades de Platina	94,{
+//==================================
+	set @custo,0;
+//==================================
+	function addskill;
+	show "[Habilidades de Platina]";
+	show "Olá, você desejar receber suas habilidades extras?";
+	if(@custo) show "Irá custa "+@custo+" Zeny.";
+	next;
+	switch(select("Sim","Não")){
+		case 1:
+			if (Zeny >= @custo){
+				switch(BaseClass){
+					case Job_Novice: addskill 2,142,143;
+					case Job_Swordman: addskill 3,144,145,146;
+					case Job_Mage: addskill 1,157;
+					case Job_Archer: addskill 2,147,148;
+					case Job_Acolyte: addskill 1,156;
+					case Job_Merchant: addskill 3,153,154,155;
+					case Job_Thief: addskill 4,149,150,151,152;
+				}
+				
+			}else{
+				show "[Habilidades de Platina]";
+				show "Desculpe, mas você não possui zeny suficiente.";
+				close;
+			}
+				
+		
+		case 2:
+			show "[Habilidades de Platina]";
+			show "Quando Você precisar dos meus serviços é só volta.";
+			close;		
+	}
+	
+//[Funçao para adicionar skill]
+//addskill(quantidade de skill,id das skills)
+function	addskill	{
+	show "[Habilidades de Platina]";
+	for(set @i,1; @i <= getarg(0); set @i,@i+1){
+		if(getskilllv(getarg(@i))<1){
+			skill getarg(@i),1,0;
+		}else{
+			show "Não é possivel adquirir as skills.";
+			close;
+		}
+	}
+	show "Parabens,acabou de receber suas skills.";
+	close;
+}
+}
+

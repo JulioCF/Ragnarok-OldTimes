@@ -1,0 +1,666 @@
+////////// コモドカプラ職員 //////////
+
+comodo.gat,195,150,4	script	カプラ職員	721,{
+	cutin "kafra_07",2;
+	mes "[カプラ職員]";
+	mes "いらっしゃいませ";
+	mes "カプラサービスは";
+	mes "いつも皆様のそばにいます。";
+	mes "当、カプラサービス西部支部は";
+	mes "サービスプログラム改良により";
+	mes "より高品質のサービスをお約束します。";
+	next;
+	mes "[カプラ職員]";
+	mes "何をお手伝いいたしましょう？";
+	next;
+	menu "位置セーブサービス",Lsave,
+	     "倉庫サービス",Lstore,
+	     "空間移動サービス",Lwarp,
+	     "カートサービス",Lcart,
+	     "終了",Lexit;
+Lsave:
+	savepoint "comodo.gat",209,143;
+	mes "[カプラ職員]";
+	mes "セーブしました。";
+	mes "ご利用ありがとうございます。";
+	goto Lclose;
+Lstore:
+	if(Zeny >= 30) goto Lstore1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lstore1:
+	set Zeny,Zeny-30;
+	openstorage;
+	goto Lclose;
+Lwarp:
+	mes "[カプラ職員]";
+	mes "目的地をお選び下さい。";
+	next;
+	menu "コモドファロス燈台 -> 800 z",Lwarp1,
+	     "モロク -> 1500 z",Lwarp2,
+	     "取り消し",Lcancel;
+Lwarp1:
+	if (Zeny >= 800) goto Lwarp1_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp1_1:
+	set Zeny,Zeny-800;
+	warp "cmd_fild07",127,134;
+	end;
+Lwarp2:
+	if (Zeny >= 1500) goto Lwarp2_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp2_1:
+	set Zeny,Zeny-1500;
+	warp "morocc",156,46;
+	end;
+Lcart:
+	mes "[カプラ職員]";
+	mes	"ごめんなさいっ、まだこの機能はご利用できません…";
+	goto Lclose;
+Lcancel:
+	mes "[カプラ職員]";
+	mes "ありがとうございました。";
+	mes "またご利用くださいませ。";
+	goto Lclose;
+Lexit:
+	mes "[カプラ職員]";
+	mes "我々カプラサービスは、より完璧な";
+	mes "サービスと管理業務を目指し";
+	mes "お客様が安心してご利用いただけるよう";
+	mes "いつも最善を尽くしています。";
+	mes "（株）カプラサービスをご利用いただき";
+	mes "ありがとうございました。";
+Lclose:
+	cutin "kafra_07",255;
+	close;
+}
+
+cmd_in02.gat,146,180,4	script	カプラ職員	721,{
+	cutin "kafra_07",2;
+	mes "[カプラ職員]";
+	mes "いらっしゃいませ";
+	mes "カプラサービスは";
+	mes "いつも皆様のそばにいます。";
+	mes "当、カプラサービス西部支部は";
+	mes "サービスプログラム改良により";
+	mes "より高品質のサービスをお約束します。";
+	next;
+	mes "[カプラ職員]";
+	mes "何をお手伝いいたしましょう？";
+	next;
+	menu "位置セーブサービス",Lsave,
+	     "倉庫サービス",Lstore,
+	     "空間移動サービス",Lwarp,
+	     "カートサービス",Lcart,
+	     "終了",Lexit;
+Lsave:
+	savepoint "comodo.gat",209,143;
+	mes "[カプラ職員]";
+	mes "セーブしました。";
+	mes "ご利用ありがとうございます。";
+	goto Lclose;
+Lstore:
+	if(Zeny >= 30) goto Lstore1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lstore1:
+	set Zeny,Zeny-30;
+	openstorage;
+	goto Lclose;
+Lwarp:
+	mes "[カプラ職員]";
+	mes "目的地をお選び下さい。";
+	next;
+	menu "コモドファロス燈台 -> 800 z",Lwarp1,
+	     "モロク -> 2000 z",Lwarp2,
+	     "取り消し",Lcancel;
+Lwarp1:
+	if (Zeny >= 800) goto Lwarp1_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp1_1:
+	set Zeny,Zeny-800;
+	warp "cmd_fild07",127,134;
+	end;
+Lwarp2:
+	if (Zeny >= 2000) goto Lwarp2_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp2_1:
+	set Zeny,Zeny-2000;
+	warp "morocc",156,46;
+	end;
+Lcart:
+	mes "[カプラ職員]";
+	mes	"ごめんなさいっ、まだこの機能はご利用できません…";
+	goto Lclose;
+Lcancel:
+	mes "[カプラ職員]";
+	mes "ありがとうございました。";
+	mes "またご利用くださいませ。";
+	goto Lclose;
+Lexit:
+	mes "[カプラ職員]";
+	mes "我々カプラサービスは、より完璧な";
+	mes "サービスと管理業務を目指し";
+	mes "お客様が安心してご利用いただけるよう";
+	mes "いつも最善を尽くしています。";
+	mes "（株）カプラサービスをご利用いただき";
+	mes "ありがとうございました。";
+Lclose:
+	cutin "kafra_07",255;
+	close;
+}
+
+cmd_fild07.gat,136,134,4	script	カプラ職員	721,{
+	cutin "kafra_07",2;
+	mes "[カプラ職員]";
+	mes "いらっしゃいませ";
+	mes "カプラサービスは";
+	mes "いつも皆様のそばにいます。";
+	mes "当、カプラサービス西部支部は";
+	mes "サービスプログラム改良により";
+	mes "より高品質のサービスをお約束します。";
+	next;
+	mes "[カプラ職員]";
+	mes "何をお手伝いいたしましょう？";
+	next;
+	menu "位置セーブサービス",Lsave,
+	     "倉庫サービス",Lstore,
+	     "空間移動サービス",Lwarp,
+	     "カートサービス",Lcart,
+	     "終了",Lexit;
+Lsave:
+	savepoint "comodo.gat",209,143;
+	mes "[カプラ職員]";
+	mes "セーブしました。";
+	mes "ご利用ありがとうございます。";
+	goto Lclose;
+Lstore:
+	if(Zeny >= 30) goto Lstore1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lstore1:
+	set Zeny,Zeny-30;
+	openstorage;
+	goto Lclose;
+Lwarp:
+	mes "[カプラ職員]";
+	mes "目的地をお選び下さい。";
+	next;
+	menu "コモド -> 500 z",Lwarp1,
+	     "モロク -> 2500 z",Lwarp2,
+	     "取り消し",Lcancel;
+Lwarp1:
+	if (Zeny >= 500) goto Lwarp1_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp1_1:
+	set Zeny,Zeny-500;
+	warp "comodo",209,143;
+	end;
+Lwarp2:
+	if (Zeny >= 2500) goto Lwarp2_1;
+		mes "[カプラ職員]";
+		mes "お客様、お金が足りません。";
+		mes "所持金をお確かめください。";
+		goto Lclose;
+Lwarp2_1:
+	set Zeny,Zeny-2500;
+	warp "morocc",156,46;
+	end;
+Lcart:
+	mes "[カプラ職員]";
+	mes	"ごめんなさいっ、まだこの機能はご利用できません…";
+	goto Lclose;
+Lcancel:
+	mes "[カプラ職員]";
+	mes "ありがとうございました。";
+	mes "またご利用くださいませ。";
+	goto Lclose;
+Lexit:
+	mes "[カプラ職員]";
+	mes "我々カプラサービスは、より完璧な";
+	mes "サービスと管理業務を目指し";
+	mes "お客様が安心してご利用いただけるよう";
+	mes "いつも最善を尽くしています。";
+	mes "（株）カプラサービスをご利用いただき";
+	mes "ありがとうございました。";
+Lclose:
+	cutin "kafra_07",255;
+	close;
+}
+
+////////// コモド案内員 //////////
+
+comodo.gat,322,178,4	script	コモドガイド	700,{
+	mes "[原住民ココモ]";
+ 	mes "歓楽の夜が24時間続く";
+	mes "夢と幻想の村コモドへようこそ！";
+	mes "私がご案内してさしあげます。";
+	mes "位置情報を知りたかったら";
+	mes "いつでも聞いてくださいね。";
+	next;
+	menu "カジノ",Lmenu1,
+	     "フラダンスステージ ^3355FF(ダンサー転職所)^000000",Lmenu2,
+	     "武器店",Lmenu3,
+	     "道具店",Lmenu4,
+	     "特産物品店",Lmenu5,
+	     "カプラサービス西部支部",Lmenu6,
+	     "村長の家",Lmenu7,
+	     "酒場 (PUB)",Lmenu8,
+	     "キャンプ村",Lmenu9,
+	     "会話をやめる",Lmenu10;
+Lmenu1:
+	viewpoint 1,140,98,1,0xFF6633;
+	mes "^FF6633+^000000 -> カジノ";
+	mes "コモドをもっとコモドらしく !";
+	mes "旅人たちの疲れを癒す安息所…";
+	mes "しかしスリリングな勝負の場。";
+	mes "それが「カジノ」！";
+	close;
+Lmenu2:
+	viewpoint 1,188,168,2,0x0000FF;
+	mes "^0000FF+^000000 -> フラダンスステージ";
+	mes "フラフラ～ フラフラ～";
+	mes "舞台に慣れたらダンサーへの転職も";
+	mes "考えてみてはいかがでしょう。";
+	mes "「フラダンスステージ」";
+	mes "^3355FF(ダンサー転職所)^000000";
+	close;
+Lmenu3:
+	viewpoint 1,266,70,3,0x00FFFF;
+	mes "^00FFFF+^000000 -> 武器店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド武器店」";
+	close;
+Lmenu4:
+	viewpoint 1,86,128,4,0x515151;
+	mes "^515151+^000000 -> 道具店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド道具店」";
+	close;
+Lmenu5:
+	viewpoint 1,298,124,5,0x3355FF;
+	mes "^3355FF+^000000 -> 特産物品店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります";
+	mes "「コモド特産物品店」";
+	close;
+Lmenu6:
+	viewpoint 1,136,202,6,0xFF5555;
+	mes "^FF5555+^000000 -> カプラサービス西部支部センター";
+	mes "ミッドガルド大陸西部を担当する";
+	mes "「カプラサービス西部支部センター」";
+	mes "がコモドにあります。";
+	close;
+Lmenu7:
+	viewpoint 1,114,294,7,0xFF5555;
+	mes "^FF5555+^000000 -> 村長の家";
+	mes "コモド村長様がいらっしゃる所です。";
+	mes "もしあなたがコモドに深い興味を";
+	mes "お持ちでしたら、是非村長様と";
+	mes "お会いしてみてはいかがでしょう。";
+	close;
+Lmenu8:
+	viewpoint 1,166,298,8,0xFF5555;
+	mes "^FF5555+^000000 -> 酒場 (PUB)";
+	mes "世界各地の旅人たちが情報と";
+	mes "意見を交換する酒場です。";
+	mes "コモドの民俗パブは、";
+	mes "格別の雰囲気を醸し出していますよ。";
+	close;
+Lmenu9:
+	viewpoint 1,210,308,9,0xFF5555;
+	mes "^FF5555+^000000 -> キャンプ村";
+	mes "時には家族同士…時には恋人同士…";
+	mes "楽しいひとときを創り上げる";
+	mes "バーベキューキャンプ村。";
+	mes "コモド民俗料理「野生猪バーベキュー」";
+	mes "を味わうことができる唯一の場所 !";
+	close;
+Lmenu10:
+	mes "[原住民ココモ]";
+	mes "コモドは洞窟の中に存在していて";
+	mes "日差しが入らないので、";
+	mes "24時間、1日中暗いんです。";
+	mes "コモドの住民たちはこのような特性を";
+	mes "利用した観光商品で商売して";
+	mes "生活しているんです。";
+	close;
+}
+
+comodo.gat,176,350,4	script	コモドガイド	700,{
+	mes "[原住民ノッココ]";
+ 	mes "歓楽の夜が24時間続く";
+	mes "夢と幻想の村コモドへようこそ！";
+	mes "私がご案内してさしあげます。";
+	mes "位置情報を知りたかったら";
+	mes "いつでも聞いてくださいね。";
+	next;
+	menu "カジノ",Lmenu1,
+	     "フラダンスステージ ^3355FF(ダンサー転職所)^000000",Lmenu2,
+	     "武器店",Lmenu3,
+	     "道具店",Lmenu4,
+	     "特産物品店",Lmenu5,
+	     "カプラサービス西部支部",Lmenu6,
+	     "村長の家",Lmenu7,
+	     "酒場 (PUB)",Lmenu8,
+	     "キャンプ村",Lmenu9,
+	     "会話をやめる",Lmenu10;
+Lmenu1:
+	viewpoint 1,140,98,1,0xFF6633;
+	mes "^FF6633+^000000 -> カジノ";
+	mes "コモドをもっとコモドらしく !";
+	mes "旅人たちの疲れを癒す安息所…";
+	mes "しかしスリリングな勝負の場。";
+	mes "それが「カジノ」！";
+	close;
+Lmenu2:
+	viewpoint 1,188,168,2,0x0000FF;
+	mes "^0000FF+^000000 -> フラダンスステージ";
+	mes "フラフラ～ フラフラ～";
+	mes "舞台に慣れたらダンサーへの転職も";
+	mes "考えてみてはいかがでしょう。";
+	mes "「フラダンスステージ」";
+	mes "^3355FF(ダンサー転職所)^000000";
+	close;
+Lmenu3:
+	viewpoint 1,266,70,3,0x00FFFF;
+	mes "^00FFFF+^000000 -> 武器店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド武器店」";
+	close;
+Lmenu4:
+	viewpoint 1,86,128,4,0x515151;
+	mes "^515151+^000000 -> 道具店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド道具店」";
+	close;
+Lmenu5:
+	viewpoint 1,298,124,5,0x3355FF;
+	mes "^3355FF+^000000 -> 特産物品店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります";
+	mes "「コモド特産物品店」";
+	close;
+Lmenu6:
+	viewpoint 1,136,202,6,0xFF5555;
+	mes "^FF5555+^000000 -> カプラサービス西部支部センター";
+	mes "ミッドガルド大陸西部を担当する";
+	mes "「カプラサービス西部支部センター」";
+	mes "がコモドにあります。";
+	close;
+Lmenu7:
+	viewpoint 1,114,294,7,0xFF5555;
+	mes "^FF5555+^000000 -> 村長の家";
+	mes "コモド村長様がいらっしゃる所です。";
+	mes "もしあなたがコモドに深い興味を";
+	mes "お持ちでしたら、是非村長様と";
+	mes "お会いしてみてはいかがでしょう。";
+	close;
+Lmenu8:
+	viewpoint 1,166,298,8,0xFF5555;
+	mes "^FF5555+^000000 -> 酒場 (PUB)";
+	mes "世界各地の旅人たちが情報と";
+	mes "意見を交換する酒場です。";
+	mes "コモドの民俗パブは、";
+	mes "格別の雰囲気を醸し出していますよ。";
+	close;
+Lmenu9:
+	viewpoint 1,210,308,9,0xFF5555;
+	mes "^FF5555+^000000 -> キャンプ村";
+	mes "時には家族同士…時には恋人同士…";
+	mes "楽しいひとときを創り上げる";
+	mes "バーベキューキャンプ村。";
+	mes "コモド民俗料理「野生猪バーベキュー」";
+	mes "を味わうことができる唯一の場所 !";
+	close;
+Lmenu10:
+	mes "[原住民ノッココ]";
+	mes "コモドは洞窟の中に存在していて";
+	mes "日差しが入らないので、";
+	mes "24時間、1日中暗いんです。";
+	mes "コモドの住民たちはこのような特性を";
+	mes "利用した観光商品で商売して";
+	mes "生活しているんです。";
+	close;
+}
+
+comodo.gat,37,219,4	script	コモドガイド	700,{
+	mes "[原住民パパヤ]";
+ 	mes "歓楽の夜が24時間続く";
+	mes "夢と幻想の村コモドへようこそ！";
+	mes "私がご案内してさしあげます。";
+	mes "位置情報を知りたかったら";
+	mes "いつでも聞いてくださいね。";
+	next;
+	menu "カジノ",Lmenu1,
+	     "フラダンスステージ ^3355FF(ダンサー転職所)^000000",Lmenu2,
+	     "武器店",Lmenu3,
+	     "道具店",Lmenu4,
+	     "特産物品店",Lmenu5,
+	     "カプラサービス西部支部",Lmenu6,
+	     "村長の家",Lmenu7,
+	     "酒場 (PUB)",Lmenu8,
+	     "キャンプ村",Lmenu9,
+	     "会話をやめる",Lmenu10;
+Lmenu1:
+	viewpoint 1,140,98,1,0xFF6633;
+	mes "^FF6633+^000000 -> カジノ";
+	mes "コモドをもっとコモドらしく !";
+	mes "旅人たちの疲れを癒す安息所…";
+	mes "しかしスリリングな勝負の場。";
+	mes "それが「カジノ」！";
+	close;
+Lmenu2:
+	viewpoint 1,188,168,2,0x0000FF;
+	mes "^0000FF+^000000 -> フラダンスステージ";
+	mes "フラフラ～ フラフラ～";
+	mes "舞台に慣れたらダンサーへの転職も";
+	mes "考えてみてはいかがでしょう。";
+	mes "「フラダンスステージ」";
+	mes "^3355FF(ダンサー転職所)^000000";
+	close;
+Lmenu3:
+	viewpoint 1,266,70,3,0x00FFFF;
+	mes "^00FFFF+^000000 -> 武器店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド武器店」";
+	close;
+Lmenu4:
+	viewpoint 1,86,128,4,0x515151;
+	mes "^515151+^000000 -> 道具店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります。";
+	mes "「コモド道具店」";
+	close;
+Lmenu5:
+	viewpoint 1,298,124,5,0x3355FF;
+	mes "^3355FF+^000000 -> 特産物品店";
+	mes "コモドにはコモドだけの";
+	mes "アイテムがあります";
+	mes "「コモド特産物品店」";
+	close;
+Lmenu6:
+	viewpoint 1,136,202,6,0xFF5555;
+	mes "^FF5555+^000000 -> カプラサービス西部支部センター";
+	mes "ミッドガルド大陸西部を担当する";
+	mes "「カプラサービス西部支部センター」";
+	mes "がコモドにあります。";
+	close;
+Lmenu7:
+	viewpoint 1,114,294,7,0xFF5555;
+	mes "^FF5555+^000000 -> 村長の家";
+	mes "コモド村長様がいらっしゃる所です。";
+	mes "もしあなたがコモドに深い興味を";
+	mes "お持ちでしたら、是非村長様と";
+	mes "お会いしてみてはいかがでしょう。";
+	close;
+Lmenu8:
+	viewpoint 1,166,298,8,0xFF5555;
+	mes "^FF5555+^000000 -> 酒場 (PUB)";
+	mes "世界各地の旅人たちが情報と";
+	mes "意見を交換する酒場です。";
+	mes "コモドの民俗パブは、";
+	mes "格別の雰囲気を醸し出していますよ。";
+	close;
+Lmenu9:
+	viewpoint 1,210,308,9,0xFF5555;
+	mes "^FF5555+^000000 -> キャンプ村";
+	mes "時には家族同士…時には恋人同士…";
+	mes "楽しいひとときを創り上げる";
+	mes "バーベキューキャンプ村。";
+	mes "コモド民俗料理「野生猪バーベキュー」";
+	mes "を味わうことができる唯一の場所 !";
+	close;
+Lmenu10:
+	mes "[原住民パパヤ]";
+	mes "コモドは洞窟の中に存在していて";
+	mes "日差しが入らないので、";
+	mes "24時間、1日中暗いんです。";
+	mes "コモドの住民たちはこのような特性を";
+	mes "利用した観光商品で商売して";
+	mes "生活しているんです。";
+	close;
+}
+
+
+
+
+
+comodo.gat,88,97,4	script	チーズマニア	109,{ close; }
+comodo.gat,164,291,4	script	コモド住民	73,{ close; }
+comodo.gat,169,284,4	script	コモド住民	98,{ close; }
+comodo.gat,163,280,4	script	酔っ払い客	55,{ close; }
+comodo.gat,187,153,4	script	フラおばさん	701,{ close; }
+comodo.gat,232,87,4	script	渡り者剣士	106,{ close; }
+
+comodo.gat,206,310,4	script	キャンプ族青年	704,{ close; }
+comodo.gat,204,310,4	script	キャンプ族青年	65,{ close; }
+comodo.gat,209,305,4	script	キャンプ族お嬢さん	71,{ close; }
+comodo.gat,209,314,4	script	キャンプ族少年	706,{ close; }
+comodo.gat,221,310,4	script	バーベキュー恋人	86,{ close; }
+comodo.gat,218,309,4	script	バーベキュー恋人	90,{ close; }
+comodo.gat,216,310,4	script	バーベキューお父さん	50,{ close; }
+comodo.gat,215,307,4	script	バーベキューお母さん	74,{ close; }
+comodo.gat,213,310,4	script	バーベキューちびっこ	706,{ close; }
+
+cmd_in02.gat,32,140,4	script	村長	49,{ close; }
+cmd_in02.gat,73,81,4	script	マーティン	48,{ close; }
+cmd_in02.gat,48,55,4	script	スコールサジ	51,{ close; }
+cmd_in02.gat,64,43,4	script	ロベルト	709,{ close; }
+cmd_in02.gat,89,72,4	script	デニローズ	89,{ close; }
+cmd_in02.gat,178,92,4	script	シャローン	101,{ close; }
+cmd_in02.gat,178,86,4	script	ストナエ	98,{ close; }
+cmd_in02.gat,172,105,4	script	ジー・ジェイ	86,{ close; }
+cmd_in02.gat,174,126,4	script	ローヤー	81,{ close; }
+cmd_in02.gat,57,62,4	script	ムー	109,{ close; }
+cmd_in02.gat,189,99,4	script	カジノ師	85,{ close; }
+
+cmd_fild04.gat,188,74,4	script	海女さん	93,{ close; }
+cmd_fild04.gat,248,86,4	script	漁夫	709,{ close; }
+cmd_fild04.gat,267,137,4	script	海辺子供	703,{ close; }
+cmd_fild07.gat,192,58,4	script	燈台ガイド	100,{ close; }
+cmd_fild07.gat,52,280,4	script	燈台ガイド	100,{ close; }
+cmd_fild07.gat,299,83,4	script	快速船員	100,{ close; }
+cmd_fild07.gat,94,134,4	script	快速船員	100,{ close; }
+
+beach_dun3.gat,30,220,4	script	修練中の魔術師	704,{ close; }
+aldebaran.gat,44,53,4	script	修行中の魔術師	64,{ close; }
+morocc.gat,201,30,4	script	モロク遊牧民	99,{ close; }
+
+moc_fild12.gat,35,303,4	script	サンダルマン要塞ガイド	59,{
+	mes	"[セルテロ]";
+	mes "サンダルマン要塞へ";
+	mes "通じる道を守っている、";
+	mes "「セルテロ」という番人";
+	mes "ですが、あなたは心から";
+	mes "サンダルマンへ行きたいと";
+	mes "思っているのですか？";
+	next;
+	menu "サンダルマン要塞へ行く",Lwarp,
+	     "サンダルマンについて",Labout,
+	     "会話をやめる",Lquit;
+Lwarp:	mes	"[セルテロ]";
+	mes	"サンダルマン要塞へ";
+	mes	"いらっしゃるのですね？";
+	mes	"良い旅になることを";
+	mes	"心よりお祈りします。";
+	mes	"…";
+	next;
+	warp	"cmd_fild08.gat",331,319;
+	close;
+Labout:	mes "[セルテロ]";
+	mes "サンダルマンは古くから異民族の";
+	mes "侵入が絶えなかったこの地方の";
+	mes "周辺渓谷に建設された";
+	mes "天然の要塞として、ここから最南端";
+	mes "に位置するファロス灯台から";
+	mes "敵侵入時の狼煙信号を確認し、";
+	next;
+	mes "[セルテロ]";
+	mes "防衛準備と同時に各都市に";
+	mes "急報を伝達する役割を果たしてきました。";
+	mes "そのスケールは都心を彷彿させる";
+	mes "ほど巨大だったので";
+	mes "「要塞都市サンダルマン」とも";
+	mes "呼ばれたんです。";
+	next;
+	mes "[セルテロ]";
+	mes "しかし、王国が統一されて";
+	mes "西域地方「コモド」と呼ばれる";
+	mes "地域まで勢力が広まると";
+	mes "徐々にこちらに対する関心が消え、";
+	mes "現在は忘れられたまま廃墟だけが";
+	mes "残りました…";
+	next;
+	mes "[セルテロ]";
+	mes "つい最近までは";
+	mes "文化財管理局によって";
+	mes "管理されていたんですが";
+	mes "モンスターたちがこちらを占領して、";
+	mes "誰もこの近くに足を踏みこもうと";
+	mes "しなくなったんですよ。";
+	next;
+	mes "[セルテロ]";
+	mes "もし、ファロス灯台島を";
+	mes "探していらっしゃるのなら";
+	mes "ここから南西へ歩いていくと";
+	mes "見つかるでしょう。";
+	close;
+Lquit:
+	mes "[セルテロ]";
+	mes "旅に疲れたら";
+	mes "近くの「コモド村」で";
+	mes "休息を取るのも良いでしょう。";
+	mes "ふふ、大丈夫ですよ。";
+	mes "コモドは世界的に有名な";
+	mes "療養地です。";
+	close;
+}
+
+/// EOF ///

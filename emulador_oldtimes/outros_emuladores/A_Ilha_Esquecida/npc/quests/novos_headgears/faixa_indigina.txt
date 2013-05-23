@@ -1,0 +1,60 @@
+//===== Cronus Script ========================================
+//= Chapéu Índigina
+//===== Por: =================================================
+//= Halca 1.0
+//= Mass Zero 1.1
+//===== Versão Atual: ========================================
+//= 1.5
+//===== Compatível Com: ======================================
+//= Cronus [777+]; BRO [Episódio: 10]
+//===== Descrição: ===========================================
+//= Npc que faz a quest do Chapéu Índigina
+//===== Comentários Adicionais: ==============================
+//= 1.2 Fixed wrong labels, added missing text, fixed
+//=     items count [Lupus]
+//= 1.3 Fixed ingredients according to kRO [Lupus]
+//= 1.4 Fixed ingredients again. [Kayla]
+//= 1.5 Traduzido para o Cronus [Amandinha]
+//= 1.5 Adaptado para o Cronus [socramjunio]
+//============================================================
+
+comodo,238,217,5	script	Merunte	832,{
+ show "[Merunte]";
+ show "Bem umbaga umbumbaga.";
+ show "Eu gosto de fazer esse tipo de coisas!";
+ show "E eu amo Faixa Indígena também!";
+ next;
+ menu "Faça-me uma Faixa Indígena!",-,"Adeus!",M_EXIT;
+
+ show "[Merunte]";
+ show "Ok. traga-me:";
+ show "1 Penacho,";
+ show "1 Faixa Listrada,";
+ show "10 Pena de Grand Peco";
+ show "e 10,000 de Zeny.";
+ next;
+ show "[Merunte]";
+ show "Você trouxe esses items?";
+ next;
+ menu "Sim!",-,"Não!",M_EXIT;
+
+ if(countitem(7101) < 10 || countitem(5049) < 1 || countitem(5010) < 1 || Zeny < 10000) GOTO L_NOITEM;//Items: Peco Feather, Striped Bandana, Hair Band,
+ delitem 5010,1;//Items: Penacho,
+ delitem 5049,1;//Items: Faixa Listrada,
+ delitem 7101,10;//Items: Pena de Grand Peco,
+ set Zeny,Zeny-10000;
+ additem 5071,1;//Items: Faixa Indígena,
+ show "[Merunte]";
+ show "Obrigado! Adeus";
+ close;
+
+L_NOITEM:
+ show "[Merunte]";
+ show "Opa, acho que você perdeu zeny ou item.";
+ close;
+
+M_EXIT:
+ show "[Merunte]";
+ show "Buga Buga!! Homem branco é assim, diz que não mais logo se arrepende.";
+ close;
+}

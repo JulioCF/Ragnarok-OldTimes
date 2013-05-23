@@ -1,0 +1,492 @@
+//----------------------------------------------------------------------
+// スクリプト : Job_2nd v1.0
+//----------------------------------------------------------------------
+
+prt_in.gat,88,101,4	script	騎士団員	56,{
+		mes "[プロンテラ騎士団員]";
+		mes "こんにちは、";
+		mes "プロンテラ騎士団です。";
+		next;
+		menu "ナイトに 転職する",-,"クルセイダーに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+			mes "[プロンテラ騎士団員]";
+			if (Class != 7) goto L_START_1_1;
+				mes "あなたはもう ナイトです。";
+				close;
+	L_START_1_1:
+			if (Class == 1) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず「剣士」になって下さい。";
+				close;
+	L_START_1_2:
+				mes "現在の職業が";
+				mes "「剣士」である方以外は";
+				mes "「ナイト」に転職できません。";
+				close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "ナイトに転職しました。";
+				jobchange 7;
+				close;
+	L_MENU_1:
+			mes "[プロンテラ騎士団員]";
+			if (Class != 14) goto L_START_2_1;
+				mes "あなたはもう クルセイダーです。";
+				close;
+	L_START_2_1:
+			if (Class == 1) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず「剣士」になって下さい。";
+				close;
+	L_START_2_2:
+				mes "現在の職業が";
+				mes "「剣士」である方以外は";
+				mes "「クルセイダー」に転職できません。";
+				close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "クルセイダーに転職しました。";
+				jobchange 14;
+				close;
+	L_MENU_2:
+			mes "[プロンテラ騎士団員]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[プロンテラ騎士団員]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+prt_church.gat,16,41,4	script	神父	60,{
+		mes "[神父]";
+		mes "こんにちは、";
+		mes "プロンテラ教会です。";
+		next;
+		menu "プリーストに 転職する",-,"モンクに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+			mes "[神父]";
+			if (Class != 8) goto L_START_1_1;
+				mes "あなたはもうプリーストです。";
+				close;
+	L_START_1_1:
+			if (Class == 4) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず 「アコライト」になって下さい。";
+				close;
+	L_START_1_2:
+			mes "現在の職業が";
+			mes "「アコライト」である方以外は";
+			mes "「プリースト」に転職できません。";
+			close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "プリーストに転職しました。";
+				jobchange 8;
+				close;
+	L_MENU_1:
+			mes "[神父]";
+			if (Class != 15) goto L_START_2_1;
+				mes "あなたはもうモンクです。";
+				close;
+	L_START_2_1:
+			if (Class == 4) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず 「アコライト」になって下さい。";
+				close;
+	L_START_2_2:
+			mes "現在の職業が";
+			mes "「アコライト」である方以外は";
+			mes "「モンク」に転職できません。";
+			close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "モンクに転職しました。";
+				jobchange 15;
+				close;
+	L_MENU_2:
+			mes "[神父]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[神父]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+in_hunter.gat,100,99,4	script	ギルド関係者	98,{
+		mes "[ハンターギルド関係者]";
+		mes "こんにちは、";
+		mes "ハンターギルドです。";
+		next;
+		if (Sex != 1) goto L_START_0_1;
+			menu "ハンターに 転職する",L_START_0_2,"バードに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+	L_START_0_1:
+			menu "ハンターに 転職する",L_START_0_2,"ダンサーに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+	L_START_0_2:
+			mes "[ハンターギルド関係者]";
+			if (Class != 11) goto L_START_1_1;
+				mes "あなたはもうハンターです";
+				close;
+	L_START_1_1:
+			if (Class == 3) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず「アーチャー」になって下さい.";
+				close;
+	L_START_1_2:
+				mes "現在の職業が";
+				mes "「アーチャー」である方以外は";
+				mes "「ハンター」に転職できません。";
+				close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "ハンターに転職しました。";
+				jobchange 11;
+				close;
+	L_MENU_1:
+			mes "[ハンターギルド関係者]";
+			if (Sex != 1) goto L_SUB_2_1;
+				if (Class != 19) goto L_START_2_1;
+					mes "あなたはもうバードです";
+					close;
+	L_SUB_2_1:
+				if (Class != 20) goto L_START_2_1;
+					mes "あなたはもうダンサーです";
+					close;
+	L_START_2_1:
+			if (Class == 3) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず「アーチャー」になって下さい.";
+				close;
+	L_START_2_2:
+				mes "現在の職業が";
+				mes "「アーチャー」である方以外は";
+				mes "「ハンター」に転職できません。";
+				close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				if (Sex != 1) goto L_SUB_2_2;
+					mes "バードに転職しました。";
+					jobchange 19;
+					close;
+	L_SUB_2_2:
+					mes "ダンサーに転職しました。";
+					jobchange 20;
+					close;
+	L_MENU_2:
+			mes "[ハンターギルド関係者]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[ハンターギルド関係者]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+geffen_in.gat,110,170,0	script	ギルド関係者	63,{
+		mes "[鍛冶屋ギルド関係者]";
+		mes "こんにちは、";
+		mes "鍛冶屋ギルドです。";
+		next;
+		menu "ブラックスミスに 転職する",-,"アルケミストに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+			mes "[鍛冶屋ギルド関係者]";
+			if (Class != 10) goto L_START_1_1;
+				mes "あなたはもうブラックスミスです。";
+				close;
+	L_START_1_1:
+			if (Class == 5) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず「商人」になって下さい。";
+				close;
+	L_START_1_2:
+			mes "現在の職業が";
+			mes "「商人」である方以外は";
+			mes "「ブラックスミス」に転職できません。";
+			close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "ブラックスミスに転職しました。";
+				jobchange 10;
+				close; 
+	L_MENU_1:
+			mes "[鍛冶屋ギルド関係者]";
+			if (Class != 18) goto L_START_2_1;
+				mes "あなたはもうアルケミストです。";
+				close;
+	L_START_2_1:
+			if (Class == 5) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず「商人」になって下さい。";
+				close;
+	L_START_2_2:
+			mes "現在の職業が";
+			mes "「商人」である方以外は";
+			mes "「アルケミスト」に転職できません。";
+			close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "アルケミストに転職しました。";
+				jobchange 18;
+				close; 
+	L_MENU_2:
+			mes "[鍛冶屋ギルド関係者]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[鍛冶屋ギルド関係者]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+in_moc_16.gat,71,88,4	script	ギルド関係者	99,{
+		mes "[アサシンギルド関係者]";
+		mes "こんにちは、";
+		mes "アサシンギルドです。";
+		next;
+		menu "アサシンに 転職する",-,"ローグに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+			mes "[アサシンギルド関係者]";
+			if (Class != 12) goto L_START_1_1;
+				mes "あなたはもうアサシンです。";
+				close;
+	L_START_1_1:
+			if (Class == 6) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず「シーフ」になって下さい。";
+				close;
+	L_START_1_2:
+			mes "現在の職業が";
+			mes "「シーフ」である方以外は";
+			mes "「アサシン」に転職できません。";
+			close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "アサシンに転職しました。";
+				jobchange 12;
+				close;
+	L_MENU_1:
+			mes "[アサシンギルド関係者]";
+			if (Class != 17) goto L_START_2_1;
+				mes "あなたはもうローグです。";
+				close;
+	L_START_2_1:
+			if (Class == 6) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず「シーフ」になって下さい。";
+				close;
+	L_START_2_2:
+			mes "現在の職業が";
+			mes "「シーフ」である方以外は";
+			mes "「ローグ」に転職できません。";
+			close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "ローグに転職しました。";
+				jobchange 17;
+				close;
+	L_MENU_2:
+			mes "[アサシンギルド関係者]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[アサシンギルド関係者]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+gef_tower.gat,111,37,4	script	ギルド関係者	70,{
+		mes "[魔術師ギルド関係者]";
+		mes "こんにちは、";
+		mes "魔術師ギルドです。";
+		next;
+		menu "ウィザードに 転職する",-,"セージに 転職する",L_MENU_1,"転職条件について聞く",L_MENU_2,"やめる",L_MENU_3;
+			mes "[魔術師ギルド 関係者]";
+			if (Class != 9) goto L_START_1_1;
+				mes "あなたはもうウィザードです。";
+				close;
+	L_START_1_1:
+			if (Class == 2) goto L_START_1_3;
+			if (Class != 0) goto L_START_1_2;
+				mes "まず「マジシャン」になって下さい。";
+				close;
+	L_START_1_2:
+				mes "現在の職業が";
+				mes "「マジシャン」である方以外は";
+				mes "「ウィザード」に転職できません。";
+				close;
+	L_START_1_3:
+			if (JobLevel >= 40) goto L_START_1_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_1_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "ウィザードに転職しました。";
+				jobchange 9;
+				close;
+	L_MENU_1:
+			mes "[魔術師ギルド 関係者]";
+			if (Class != 16) goto L_START_2_1;
+				mes "あなたはもうセージです。";
+				close;
+	L_START_2_1:
+			if (Class == 2) goto L_START_2_3;
+			if (Class != 0) goto L_START_2_2;
+				mes "まず「マジシャン」になって下さい。";
+				close;
+	L_START_2_2:
+				mes "現在の職業が";
+				mes "「マジシャン」である方以外は";
+				mes "「セージ」に転職できません。";
+				close;
+	L_START_2_3:
+			if (JobLevel >= 40) goto L_START_2_4;
+				mes "ジョブレベルを40以上に";
+				mes "上げて来てください。";
+				close;
+	L_START_2_4:
+			mes "２次転職すると、残っている";
+			mes "スキルポイントが全て消えて";
+			mes "しまいます。それでも構いませんか？";
+			menu "はい",-,"いいえ",L_MENU_3;
+				mes "セージに転職しました。";
+				jobchange 16;
+				close;
+	L_MENU_2:
+			mes "[魔術師ギルド関係者]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを40以上に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[魔術師ギルド関係者]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_3:
+			close;
+}
+
+pay_fild10.gat,148,252,4	script	ギルド関係者	98,{
+	warp "in_hunter",100,18;
+	end;
+	close;
+}
+

@@ -1,0 +1,320 @@
+//===== Cronus Script ======================================== 
+//= Script Noviço
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.5
+//===== Descrição: =========================================== 
+//= Muda a classe para Noviço
+//===== Changelog: =========================================== 
+//= Traduzido [DarkAngel]
+//= Quest Atualizada [Mehah]
+//= Adaptado Classname Na Função F_ToHigh [Mehah]
+//============================================================
+
+// -- Father Mareusis --
+prt_church.gat,184,41,4	script	Bispo Tomas Cerbantes	60,{
+	if(sex ==1) {
+		callfunc "F_ToHigh",Job_Acolyte_High,""+callfunc("classname",4005,"S","M")+"",Job_High_Priest,""+callfunc("classname",4009,"S","M")+"",156,0,0,0,"Bispo Tomas Cerbantes";
+	}else{
+		callfunc "F_ToHigh",Job_Acolyte_High,""+callfunc("classname",4005,"S","F")+"",Job_High_Priest,""+callfunc("classname",4009,"S","F")+"",156,0,0,0,"Bispo Tomas Cerbantes";
+	}
+	show "[Bispo Tomas Cerbantes]";
+	if(BaseJob==Job_Novice && job_acolyte_q > 0) goto L_Check;
+	show "O que você está procurando?";
+	next;
+	menu "Padre, eu quero ser "+callfunc("classname",4,"S","M")+".",M_0,"Os requerimentos.",M_1,"Eu apenas estava andando por aí, e é isso...",M_End;
+	close;
+
+	M_0:
+		show "[Bispo Tomas Cerbantes]";
+		callfunc "Aco_check";
+		show "Você realmente quer se tornar um servo de Deus?";
+		next;
+		menu "Sim, Padre, Eu quero.",sM_0,"Não.",sM_1;
+		close;
+
+		sM_0:
+			show "[Bispo Tomas Cerbantes]";
+			show "Bom. Eu aceito seu pedido para tornar-se um "+callfunc("classname",4,"S","M")+".";
+			show "Você sabe que tem que se confessar antes de se tornar um servo de Deus, não?";
+			next;
+			show "[Bispo Tomas Cerbantes]";
+			show "Bem, aqui está a missão divina.....";
+			next;
+			show "[Bispo Tomas Cerbantes]";
+			set job_acolyte_q, rand(1,3);
+			if(job_acolyte_q == 2) goto sR_2;
+			if(job_acolyte_q == 3) goto sR_3;
+
+			sR_1:
+				show "Por favor fale com o ^0000ffIrmão Simão^000000, um membro da paróquia de Prontera, e volte aqui.";
+				show "Ele foi pregar a palavra de Deus perto de ^0000ffSt. Capitolina Abbey, 1 mapa ao Note, e 2 mapas ao Leste da cidade de Prontera.^000000.";
+				goto sL_End;
+
+			sR_2:
+				show "Por favor fale com a ^0000ffIrmã Matilda^000000 e volte aqui.";
+				show "Ela foi pregar a palavra de Deus no ^0000ffDeserto Sograt, 1 mapa ao norte da cidade de Morroc^000000.";
+				goto sL_End;
+
+			sR_3:
+				show "Por favor fale com o ^0000ffIrmão Bartolomeu^000000 e volte aqui.";
+				show "Ele foi pregar a palavra de Deus em ^0000ffuma pequena ilha 1 mapa ao Oeste, e 1 mapa ao Norte, da cidade de Prontera.^000000.";
+
+			sL_End:
+				next;
+				show "[Bispo Tomas Cerbantes]";
+				show "Que Deus ilumine seu caminho.";
+				close;
+
+		sM_1:
+			show "[Bispo Tomas Cerbantes]";
+			show "Mentir é pecado criança";
+			show "Por favor volte quando estiver pronto";
+			emotion 19;
+			close;
+
+	M_1:
+		show "[Bispo Tomas Cerbantes]";
+		if(BaseJob == Job_Acolyte) goto M1b;
+		if(BaseJob != Job_Novice) goto M1a;
+		
+		show "Você deseja tornar se um "+callfunc("classname",4,"S","M")+"?";
+		show "Aqui estão os requerimentos que você deve completar em ordem.";
+		next;
+		show "[Bispo Tomas Cerbantes]";
+		show "Antes de tudo, você tem que alcançar ^0000ffNível de Classe 10^000000 e ter as ^0000ffHabilidades Básicas^000000 cheia.";
+		next;
+		show "[Bispo Tomas Cerbantes]";
+		show "Depois você ter que fazer uma missão divina!!";
+		next;
+		show "[Bispo Tomas Cerbantes]";
+		show "Você tornará-se um "+callfunc("classname",4,"S","M")+" se, do fundo do seu coração, você realmente querer se tornar um servo de Deus.";
+		close;
+
+		M1a:
+			show "Você já dedica sua vida à outra profissão";
+			close;
+		M1b:
+			show "Você já está dedicando sua vida ao Senhor. Por favor vá com Deus que te abençoe.";
+			close;
+
+	M_End:	
+		show "[Bispo Tomas Cerbantes]";
+		show "Entendo.  Vou rezar por sua salvação.";
+		close;
+
+L_Check:
+	show "Oh, Você voltou. Deixe-me ver se você está pronto para servir à Deus... Vejamos...";
+	next;
+	show "[Bispo Tomas Cerbantes]";
+	if(job_acolyte_q < 4) goto sL_NotRdy;
+	if(SkillPoint > 0) goto sL_Skpoint;
+	show "Suas preces foram ouvidas. Tudo que foi confiado a você, foi realizado!!.";
+	next;
+	show "[Bispo Tomas Cerbantes]";
+	show "Com as forças em mim investidas eu faço de você, ^0000ff"+strcharinfo(0)+"^000000, um "+callfunc("classname",4,"S","M")+"!!!";
+	next;
+	show "(Rezando à Deus...)";
+	next;
+	callfunc "Job_Change",Job_Acolyte;
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+	show "[Bispo Tomas Cerbantes]";
+	show "Lembre-se de agradecer à Deus, que está sempre cuidando de nós.";  
+	show "Você tem uma chance inigualável de servir à Deus...você deveria sentir-se muito realizado e em paz consigo mesmo."; 
+	next;
+	show "[Bispo Tomas Cerbantes]";
+	show "De agora em diante e ACABE com os DEMÔNIOS do mundo. Você tem a minha benção e de toda a igreja.";
+	close;
+
+	sL_NotRdy:
+		show "Hmm... parece que você nao completou a missão divina.";
+		next;
+		show "[Bispo Tomas Cerbantes]";
+		if(job_acolyte_q == 1) goto sR_1;
+		if(job_acolyte_q == 2) goto sR_2;
+		if(job_acolyte_q == 3) goto sR_3;
+		close;
+
+	sL_Skpoint:
+		show "Antes de tornar-se um "+callfunc("classname",4,"S","M")+", por favor use seus pontos de habilidades.";
+		close;
+}
+
+
+// == Devine Quest ==
+// -- Father Rubalkabara --
+prt_fild03.gat,365,259,2	script	Irmão Simão	110,{
+	show "[Irmão Simão]";
+	if(BaseJob==Job_Acolyte || BaseJob==Job_Priest) callfunc "F_FatherRub";
+	if(BaseJob==Job_Novice) goto L_Novice;
+
+L_Other:
+	show "Oh.. Você tinha que vim exatamente aqui para treinar ou você é apenas um viajante.?";
+	next;
+	show "[Irmão Simão]";
+	show "Seja quem for, por favor cuide-se. Apesar dos monstros aqui terem uma aparência frágil, são extremamente fortes.";
+	close;
+
+L_Novice:
+	if(job_acolyte_q==4) goto QuestOver;
+	if(job_acolyte_q > 0) goto L_Start;
+	show "Huh..? o que o traz aqui? Este é um lugar Muito perigoso. Por favor Volte depressa.";
+	emotion 0;
+	close;
+
+L_Start:
+	show "Oh... Você é o jovem que quer tornar-se um "+callfunc("classname",4,"S","M")+"...? Eu já recebi as notícias de sua paróquia.";
+	next;
+	show "[Irmão Simão]";
+	show "Deixe-me só conferir minha lista de candidatos aqui para ter certeza que você está no lugar certo......";
+	next;
+	show "[Irmão Simão]";
+	if(job_acolyte_q != 1) goto Goback;
+	show "Você é ^0000ff"+strcharinfo(0)+"^000000, certo?";
+	next;
+	show "[Irmão Simão]";
+	show "Eu acredito que você já esteja informado sobre "+callfunc("classname",4,"P","M")+" do Bispo Tomas Cerbantes. Assim não vou interferir no futuro.";
+	next;
+	show "[Irmão Simão]";
+	show "Além de, eu sei que sua geração não gosta ser questionada por homens "+callfunc("classname",16,"P","M")+" como eu. Hahaha...";
+	emotion 18;
+	next;
+	show "[Irmão Simão]";
+	show "Mas você poderá ter que aprender suportar o que seus anciões dizem, porque Deus ama ensinar os filhos dele. Você verá.";
+	next;
+	show "[Irmão Simão]";
+	show "Eu enviarei uma mensagem ao Bispo Tomas Cerbantes dizendo que você cumpriu sua missão santa.";
+	next;
+	show "[Irmão Simão]";
+	show "Agora você pode voltar para Prontera. Adeus e que Deus o abençoe.";
+	set job_acolyte_q,4;
+	close;
+
+	QuestOver:
+		show "Sua missão santa foi completada. Você pode continuar sua caminhada servindo a Deus.";
+		close;
+
+	Goback:
+		show "Hmmm... Seu nome não está na minha lista de candidatos.";
+		emotion 20;
+		next;
+		show "[Father Rubalkabara]";
+		show "...... Por que você não volta à paróquia e checa novamente sua inscrição?.";
+		close;
+}
+
+// -- Mother Marthilda --
+moc_fild07.gat,36,354,4	script	Irmã Matilda	79,{
+	show "[Irmã Matilda]";
+	if(BaseJob == Job_Acolyte || BaseJob==Job_Priest) callfunc "F_MotherMart";
+	if(BaseJob == Job_Novice) goto L_Novice;
+
+L_Other:
+	show "Olá e bem vindo.  Eu sou a Irmã Matilda.  Você é um viajante cansado ou um guerreiro poderoso?";
+	show "Quem você é por favor tenha fé para seguir à Deus.";
+	close;
+
+L_Novice:
+	if(job_acolyte_q == 5) goto QuestOver;
+	if(job_acolyte_q > 0) goto L_Start;
+	show "Meu Deus!! Você não é pequeno demais para estar longe da cidade?  Uma pessoa como você pode se machucar.";
+	emotion 0;
+	close;
+L_Start:
+	show "Ah, Você é um dos registrados para "+callfunc("classname",4,"P","M")+". Eu o dou boas-vindas.";
+	next;
+	show "[Irmã Matilda]";
+	show "Deixe-me checar minha lista de candidatos para ver se você está no lugar certo......";
+	next;
+	if(job_acolyte_q != 2) goto Goback;
+	show "[Irmã Matilda]";
+	show ".... ^0000ff"+strcharinfo(0)+"^000000, Sim! Aqui está você";
+	next;
+	show "[Irmã Matilda]";
+	show "Eu enviarei uma mensagem para 'Bispo Tomas Cerbantes' dizendo que você terminou sua missão santa.";
+	next;
+	show "[Irmã Matilda]";
+	show "Obrigado por me visitar.  Estou até mesmo mais feliz que você escolheu seguir seu coração e dedicar sua vida à divindade.";
+	show "Deus é todo poderoso e sabe o que fazemos. Relembre disso.";
+	next;
+	show "[Irmã Matilda]";
+	show "Agora você pode voltar para prontera.";
+	show "Que Deus te abençoe.";
+	set job_acolyte_q,5;
+	close;
+
+	Goback:
+		show "[Irmã Matilda]";
+		show "Hmm.... deixe-me ver....";
+		show "..Bem... Eu não achei seu nome na lista ....";
+		emotion 20;
+		next;
+		show "[Irmã Matilda]";
+		show "Eu recomendo que você volte ao santuário e confira novamente.";
+		close;
+
+	QuestOver:
+		show "Sua missão santa foi completada. Você pode continuar sua caminhada servindo a Deus.";
+		close;
+}
+
+// -- Father Yosuke --
+prt_fild00.gat,208,218,6	script	Irmão Bartolomeu	120,{
+	show "[Irmão Bartolomeu]";
+	if(BaseJob == Job_Acolyte || BaseJob==Job_Priest) callfunc "F_FatherYos";
+	if(BaseJob == Job_Novice) goto L_Novice;
+
+L_Other:
+	show "O que o traz para este lugar. Tente não me aborrecer ok.";
+	close;
+
+L_Novice:
+	if(job_acolyte_q == 6) goto QuestOver;
+	if(job_acolyte_q > 0) goto L_Start;
+	show "Você, "+callfunc("classname",0,"S","M")+"... quer me contar algo?";
+	show "Se não volte.";
+	close;
+
+L_Start:
+	show "Hey!! Você aí.";
+	next;
+	show "[Irmão Bartolomeu]";
+	show "Você se parece um dos registrados para "+callfunc("classname",4,"S","M")+"... eu tenho razão?";
+	next;
+	show "[Irmão Bartolomeu]";
+	show "Deixe-me checar minha lista de candidatos para ver se você está no lugar certo......";
+	next;
+	if(job_acolyte_q != 3) goto Goback;
+	show "[Irmão Bartolomeu]";
+	show "Nós estamos aqui,  ^0000ff"+strcharinfo(0)+"^000000, correto? Não está mal. Você resistiu a viagem longa para chegar bem bem aqui.";
+	next;
+	show "[Irmão Bartolomeu]";
+	show "Eu enviarei uma mensagem para 'Bispo Tomas Cerbantes' dizendo que você terminou sua missão santa.";
+	next;
+	show "[Irmão Bartolomeu]";
+	show "Agora volte para o Santuário e não esqueça de levar os ensinamentos de Deus com você onde já for!";
+	emotion 27;
+	set job_acolyte_q,6;
+	close;
+
+	Goback:
+		show "[Irmão Bartolomeu]";
+		show "Interessante... Eu não achei você na minha lista...";
+		emotion 20;
+		next;
+		show "[Irmão Bartolomeu]";
+		show "Eu acho que você se enganou vindo aqui";
+		show "Volte ao santuário e cheque com o Bispo Tomas Cerbantes.";
+		close;
+
+	QuestOver:
+		show "O que? Você tem mais a falar?";
+		emotion 1;
+		next;
+		show "[Irmão Bartolomeu]";
+		show "Sua missão santa terminou. Volte agora para o santuário!";
+		emotion 27;
+		close;
+}
+

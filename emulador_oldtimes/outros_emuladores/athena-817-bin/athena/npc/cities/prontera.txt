@@ -1,0 +1,674 @@
+//Prontera City for Athena by Script&DB Team 
+prontera.gat,54,240,5	script	Tono	97,{
+	mes "[Tono]";
+	mes "Did you know? The larva of Creamy is Fabre.";
+	mes "The pupa stage of Fabre is simply called Pupa.";
+	mes "As you can imagine, there is another monster metamorphic out in the desert.";
+	next;
+	mes "[Tono]";
+	mes "That's it! It is Peco Peco.";
+	mes "The infant of Peco Peco is called Picky";
+	mes "Unlike colourfull Peco Peco, Picky is very cute, isn't it?";
+	close;
+}
+
+prontera.gat,73,140,7	script	Milk Merchant	86,{
+	mes "[Milk Merchant]";
+	mes "If you bring me an empty bottle and 15 zeny, I will exchange them for 1 bottle of milk!";
+	next;
+	menu "Exchange all empty bottles",M0,"Cancel",MEnd;
+
+	M0:
+		set l0,713;
+		set l1,519;
+		if(countitem(713) < 1) goto NoBottle;
+		if(Zeny < 15) goto NoZeny;
+		set l2,0;
+		CalcMilk:
+			if((countitem(713) < 1) || (Zeny < 15)) goto getMilk;
+			delitem l0,1;
+			set Zeny,zeny-15;
+			set l2,l2 + 1;
+			goto CalcMilk;
+
+			getMilk:
+				if(l2 == 0) goto ErrMilk;
+				getitem l1,l2;
+				close;
+
+		NoBottle:
+			mes "[Milk Merchant]";
+			mes "Ok, empty bottle please! Empty Bottle!!";
+			mes "... Aww.. you don't have any...?";
+			close;
+		NoZeny:
+			mes "[Milk Merchant]";
+			mes "You need money!";
+			close;
+		ErrMilk:
+			mes "^FF0000***ERROR***^000000";
+			close;
+	MEnd:
+		close;
+}
+
+prontera.gat,78,150,3	script	Dairenne	90,{
+	mes "[Towngirl Dairenne]";
+	mes "Cough Cough... Nowadays Streets are crowded too much. Cough Cough...";
+	mes "Oh? Dust? So dirty here... Now I think the Capital City doesn't make all good.";
+	mes "Hmm... Anyway what is the matter?";
+	next;
+	menu "Talk",L0,"Cancel",LEnd;
+	
+	L0:
+		mes "[Towngirl Dairenne]";
+		mes "I am not sure you like party or Girlie Dress Stuff. Hohoho.";
+		mes "Thesedays, the most interesting topic among us is the Beautiful Dress Dyed in Multiple Colour.";
+		next;
+		mes "[Towngirl Dairenne]";
+		mes "To enchance Clothings with those Dazzling Colour, you must use Dyestuff made in Morroc, the Frontier... By hearsay they will cost you alot of money.";
+		mes "Ah... I wish I could wear that Dress even once in my lifetime...";
+		close;
+	LEnd:
+		mes "[Towngirl Dairenne]";
+		mes "What a Strange Guy you are.";
+		close;
+}
+
+prontera.gat,149,202,2	script	YuNa	700,{
+	mes "[YuNa]";
+	mes "Odin is the god of wisdom and war.";
+	mes "He decisively adandon his one eye in order to acquire wisdom. The statue in the middle of the water fountain over there is sculptured after the god himself.";
+	next;
+	mes "[YuNa]";
+	mes "But it is realy sorrowful and such a shame because, I don't know who the sculptor was, he did it all wrong.";
+	mes "The statue is just totally different from Odin we all know...";
+	mes "He insisted that it was his artistic view or something....";
+	next;
+	mes "[YuNa]";
+	mes "Look~ He doesn't have a broad brimmed hat. Not only that he's not even riding Sleipnir. This is just totally unacceptable~!";
+	close;
+}
+
+prontera.gat,160,133,2	script	YuPi	102,{
+	mes "[YuPi]";
+	mes "Among monsters of the same form, there are some more ferocious than others";
+	mes "If you ever even touch them by mistakes, you'd better prepare yourself for what you've done.";
+	next;
+	mes "[YuPi]";
+	mes "You can tell differences them by their body color.";
+	mes "The more aggressive characteristic monster is, the dangerous color it has.";
+	close;
+}
+
+prontera.gat,197,188,4	script	Veeyop	50,{
+	mes "[Veeyop]";
+	mes "Have you ever heard of a doomed sword, Mysteltainn? It's named after ^00F0F0a legendary Young Twig^000000 which had been used to murder Balder the God of Light...";
+	mes "According to the legend, it was a very little weak twig, I have no idea about it anymore than that.";
+	next;
+	mes "[Veeyop]";
+	mes "Whatever the legend, people say there is a way to construct the legendary sword.";
+	mes "The only way a blacksmith who used to live in Prontera knows the method by hearsay, unfortunately he's been gone to nowhere";
+	close;
+}
+
+prt_church.gat,27,24,2	script	Nun	79,{
+	mes "[Nun]";
+	mes "We ministers are austerely prohibited to use weapons with blades. The most important mission of us is not to annihilate monsters but to enlighten thier poor souls.";
+	close;
+}
+
+prt_church.gat,103,71,2	script	Henson	120,{
+	mes "[Henson]";
+	mes "Not only helping others but also purifying poor souls turned into the Undead is our duty as well.";
+	mes "In order to successfully accomplish our duty, we have to learn skills and practice them very hard. Well What was it you wanted to ask me about?";
+	next;
+	qMenu:
+	menu "About Divine Protection",L0,"About Demon Bane",L1,"About Decrease AGI",L2,"About Signum Crusis",L3,"About Pneuma",L4,"About Ruwach",L5,"About Teleport",L6,"End conversation.",LEnd;
+
+	L0:
+		mes "[Henson]";
+		mes "If you want to improve your Defense against Undead, it is a good idea to learn this skill called 'Divine Protection'.";
+		mes "It is the most basic skill you'll need, and it doesn't even have time limit or anything, anyway.";
+		next;
+		mes "[Henson]";
+		mes "If you bring it up to level 3, then a skill called 'Deamon Bane' will be available for you. By the way, 'Deamon Bane' increases your attack against the Undead.";
+		mes "With 'Divine Protection' on foundation, several high class skills such as 'Angelus' and 'Blessing' will be available for you.";
+		next;
+		goto qMenu;
+		close;
+	L1:
+		mes "[Henson]";
+		mes "'Deamon Bane' is for improving you attack against the Undead.";
+		mes "Well, you have to know 'Devine Protection just a little, and like for 'Devine Protection' you don't have to worry about something like time limit for 'Deamon Bane'.";
+		next;
+		mes "[Henson]";
+		mes "Also you have to achieve level 3 'Demon Bane' to use a skill called 'Signum Crusis' which lowers the Defense of the Undead and monsters of Dark property.";
+		next;
+		goto qMenu;
+		close;
+	L2:
+		mes "[Henson]";
+		mes "Once you use this skill, you can slow the movement of the monster dows as well as its attack and evade speed.";
+		mes "If you want to use this skill, you have to learn 'Increase AGI' first.";
+		next;
+		goto qMenu;
+		close;
+	L3:
+		mes "[Henson]";
+		mes "You can lower the defense of the Undead and Dark property monster with this, and the range is wiry wide.";
+		mes "The successful rate, however, is pretty low since it is a very difficult skill. Do not be disappointed even if you don't successfully use this skill all the time. But don't forget!";
+		mes "[Henson]";
+		mes "You need level 3 'Demon Bane' to acquire this skill.";
+		next;
+		goto qMenu;
+		close;
+	L4:
+		mes "[Henson]";
+		mes "Once you master 'Warp Portal', you can learn this skill.";
+		mes "It generates some sot of barrier around a certain range where you'll be perfectly safe from all long-range attacks. Basically you will be in risk-free zone from the monsters who attack from a distance.";
+		next;
+		goto qMenu;
+		close;
+	L5:
+		mes "[Henson]";
+		mes "You can see invisible or hidden monsters with this skill.";
+		mes "'Teleport' is only available when you first learn this skill.";
+		next;
+		goto qMenu;
+		close;
+	L6:
+		mes "[Henson]";
+		mes "'Teleport' requires the skill called 'Ruwach' before it can be available.";
+		mes "You can neither choose nor know where you'll end up, but if it's mastered, you can 'Teleport' to the position where you saved with Kafra employee";
+		next;
+		mes "[Henson]";
+		mes "When you learn 'Warp Portal' that can teleport other people to any place you remember.";
+		goto qMenu;
+		close;
+	LEnd:
+		mes "[Henson]";
+		mes "If you're still not certain, you are always welcome!";
+		close;
+}
+
+prt_church.gat,103,76,2	script	Garnet	67,{
+	mes "[Garnet]";
+	mes "Oh~ you want to find pleasure in helping other people? But you don't know how to do so?";
+	mes "Fortunately we have the abilities to help and support other people.";
+	next;
+	mes "[Garnet]";
+	mes "We can heal people of exhausted condition or awake thier potentials hidden deep inside.";
+	mes "Ahem... Fell free to ask me anything. The priest scolds me for being lousy pretty much everyday, BUT I KNOW everything about theories";
+	next;
+	qMenu:
+	menu "About Heal",L0,"About Cure",L1,"About Increase AGI",L2,"About Angelus",L3,"Abour Blessing",L4,"About Warp Portal",L5,"End conversation",LEnd;
+	
+	L0:
+		mes "[Garnet]";
+		mes "You can recover either you or someone else's HP with 'Heal'.";
+		mes "Once you reach level 2 'Heal', you'll be able to learn 'Cure', which can treat abnormal status.";
+		mes "If you've used 'Heal' while you were Acolyte, then as priest you can create 'Sanctuary' the HP recovering area.";
+		next;
+		mes "[Garnet]";
+		mes "Between you and me... if you use Cure skill on Undead monsters, it will actually inflict damage, not recovery, on them.";
+		mes "Ah~ Don't forget to hold 'Shift' key when you use it though... Ahem~ Shhhhh~~!";
+		next;
+		goto qMenu;
+		close;
+	L1:
+		mes "[Garnet]";
+		mes "Cure can bring you back to normal from any abnormal status.";
+		mes "You've gotta have level 2 'Heal' in order to learn Cure, though.";
+		next;
+		goto qMenu;
+		close;
+	L2:
+		mes "[Garnet]";
+		mes "Your Agility goes up, once casted.";
+		mes "It makes you to attack faster and evade attacks from monsters quickly.";
+		mes "By the way, level 3 'Heal' is required to learn 'Increase AGI'";
+		next;
+		goto qMenu;
+		close;
+	L3:
+		mes "[Garnet]";
+		mes "You can use 'Angelus' in order to increase Defense of either other party members or yourself.";
+		mes "Now remember. You can only use it on members in your party.";
+		next;
+		mes "[Garnet]";
+		mes "First, in order to acquire 'Angelus', Level 3 'Divine Protection' is mandatory.";
+		mes "And if you practice 'Angelus' you'll be able to 'Kyrie Eleison' which makes you evade initial automatically";
+		next;
+		goto qMenu;
+		close;
+	L4:
+		mes "[Garnet]";
+		mes "'Blessing' increases STR, DEX and INT temporarily.";
+		mes "I am sure this skill will be a great advantage for your friends.";
+		next;
+		mes "[Garnet]";
+		mes "'Blessing' like 'Angelus', also require you know 'Divine Protection'. But you'll need to have two more level.";
+		mes "That is, Level 5 'Divine Protection' for 'Blessing'";
+		next;
+		goto qMenu;
+		close;
+	L5:
+		mes "[Garnet]";
+		mes "In order to open a 'Warp Portal' you should first know how to 'Teleport'.";
+		mes "And 'Buwach' has to be learned first to learn 'Teleport'.";
+		mes "'Buwach' can spot invisible monsters";
+		next;
+		mes "[Garnet]";
+		mes "Once you can open 'Warp Portal', depending on your skill level, you can remember up to 4 different places.";
+		mes "But at least one place must be saved with Kafra employee.";
+		next;
+		mes "[Garnet]";
+		mes "Well... it's a bit of a hassle, but you ahve to be physically at the place you want to warp to and save the position first.";
+		mes "This can be very dangerous in some areas so be quick~. Go in, save, and 'Teleport' out!";
+		mes "Also 'Warp Portal' skill consumes such a huge amount of energy,";
+		next;
+		mes "[Garnet]";
+		mes "so you MUST use 'Blue Gemstones' as a Catalyst.";
+		mes "One more thing, you cannot Warp to the inside of dungeons so don't even waste your time and effort to go into one to save the position.";
+		next;
+		goto qMenu;
+		close;
+	LEnd:
+		mes "[Garnet]";
+		mes "Hehehe, did I just show off too much in front of the expert? Hehe.";
+		mes "Be Happy whatever you do~~!";
+		close;
+}	
+
+prt_in.gat,47,173,2	script	Morrison	97,{
+	if(morison_meat > 10) goto LeaveMe;
+	if(morison_meat==10) goto GetCandy;
+	mes "[Little Morrison]";
+	mes "Wahhhhh!!! Wahh... No I won't";
+	mes "I won't... eat Stupid gumballhead";
+	mes "Fruit things!!";
+	next;
+	if(countitem(517) < 1) goto NoMeat;
+	menu "Talk",YMTalk,"Show him meat",ShowMeat,"Cancel",Cancel;
+
+	YMTalk:
+		goto NMTalk;
+		close;
+	ShowMeat:
+		mes "[Little Morrison]";
+		mes "Oh! Meat... Meat!!!";
+		mes "Umm... Hungry... I am getting hungry again... this smell";
+		mes "Hmmmm... Umm... excuse me, could you give me some of those meat, Please?";
+		next;
+		menu "Give him",Give,"Ignore him",Ignore;
+		
+		Give:
+			delitem 517,1;
+			set morison_meat,1;
+			mes "[Little Morrison]";
+			mes "Whoah~!!! It's real Meat, Meat!";
+			mes "Wahhh It makes my mouth water.";
+			mes "Oh thank you. Now I feel safe. Yum Yum...";
+			close;
+		Ignore:
+			mes "[Little Morrison]";
+			mes "Boo...";
+			mes "Boo... Fine... Alright, Alright~!!! What a Great Adulthood you have!";
+			close;
+	NoMeat:
+		menu "Talk",NMTalk,"Cancel",Cancel;
+
+		NMTalk:
+			mes "[Little Morrison]";
+			mes "Ahhhh!! It's enough!!! I can't eat Fruit Stuff any more!";
+			mes "And... They are... so sour on my taste, and have to peel before Eating... it is really annoying. Even felling bad they are sticky with water inside!!!";
+			mes "I hate them... Furthermore thye can't satisfy my tummy as full as I want.";
+			mes "Give me some more edible, I want Meat~";
+			close;
+		Cancel:
+			mes "[Little Morrison]";
+			mes "Wahhhhh!!! No matter how I try,I can't eat Vegetable and Fruit! They are disgusting!!";
+			close;
+	LeaveMe:
+		mes "[Little Morrison]";
+		mes "Poof... Leave me alone. Don't care about me. I am gonna die because of there stupid Veggies so Mind your own business";
+		close;
+	GetCandy:
+		mes "[Little Morrison]";
+		mes "Ah..I am full now.";
+		mes "You don't have to feed me any more. I think I am gonna burst up if i keep eating more.";
+		next;
+		mes "[Little Morrison]";
+		mes "And... um... Take this.";
+		mes "It is my Candies, I hide them for a secret to Mom. But you gave me some Meat, I will give you these." ;
+		getitem 529,3;
+		getitem 530,1;
+		close;
+}
+
+prt_in.gat,49,172,2	script	Marianne	53,{
+	if(mother_marienu==1) goto FruitLiquid;
+	if(morison_meat==1) goto DontFeedSon;
+	mes "[Housewife Marianne]";
+	mes "Morrison!! Please eat some fruit will ya? Fruit~!";
+	mes "*Sob*~!! Like father like son...";
+	next;
+	menu "Talk",Talk,"Cancel",Cancel;
+	
+	Talk:
+		mes "[Housewife Marianne]";
+		mes "Sigh... This is Morrison... My one and only son.";
+		mes "The stage thing is this kid doesn't want to eat Fruit for thesedays. Look at his face, it turns into bad...";
+		mes "All he wants to eat is Nothing but Meat... Gasp... I should feed himsome vegetable or fruit for Vitamin ingestion...";
+		close;
+	Cancel:
+		mes "[Housewife Marianne]";
+		mes "Morrison!! I will get mad at you if you keep doing this!";
+		close;
+	
+	DontFeedSon:
+		set mother_marienu,1;
+		mes "[Housewife Marianne]";
+		mes "Oh my god!!... Oh my god...";
+		mes "Look what you've done!! Don't feed up my son strange things!";
+		mes "Arrrgh~~!! Get Lost right now!";
+		close;
+
+	FruitLiquid:
+		mes "[Housewife Marianne]";
+		mes "This kid doesn't want to eatanything except Meat...";
+		mes "What if I could make Fruits into Liquid... for example... Squashed one... Would my kid like it?";
+		next;
+		if(morison_meat==1) goto Recall;
+		close;
+		
+		Recall:
+			mes "[Housewife Marianne]";
+			mes "Ah! Now I recall a Town Towners eat fruits as Squashed ones.";
+			mes "... Was is... Payon... or Morroc...?";
+			close;
+}
+
+prt_in.gat,61,141,5	script	Ahlma	94,{
+	mes "[Ahlma]";
+	mes "Welcome to the Healing House. How may I help you?";
+	next;
+	menu "Save",M0,"Quit",MEnd;
+
+	M0:
+		mes "[Ahlma]";
+		mes "Ok, Saved. Thank you ~ See you soon~";
+		save "prt_in.gat",64,136;
+		close;
+	MEnd:
+		close;
+}
+
+
+prt_in.gat,173,24,2	script	Shevild	85,{
+	mes "[Shevild]";
+	mes "Hey~Hey~ Come on over and have a drink, man. I'll tell you exciting stories.";
+	mes "Do not judge me from how I look I've been everywhere you can imagine around Prontera.";
+	mes "I've been to places packed with monsters, but they also have the greatest view.";
+	next;
+	menu "Where can I find those places?",L0,"Never mind",LEnd;
+	
+	L0:
+		mes "[Shevild]";
+		mes "In spite of how I look, I'm a all around-player~~!!!";
+		mes "When people go on hunting, I carry waepons and stuff... or I deliver this and that...";
+		mes "Well... Some people say 'isn't that a job for an errand boy?'";
+		next;
+		mes "[Shevild]";
+		mes "but personally I am very proud of myself and what i'm doing. You should know how harsh the world can be to you, right?";
+		mes "But for me, nothing stands on my way to accomplish my job ~Ahem!";
+		next;
+		mes "[Shevild]";
+		mes "Anyways, thanks to my carrer, I've been able to visit many interesting places where nobody has ever visited before...";
+		mes "Oh~ that's the true charm of my job...";
+		mes "Hm... Now... that mysterious dungeon and the dangerous forrest come to my mind";
+		next;
+		goto qMenu;
+		qMenu:
+		menu "The mysterious Dungeon?",L00,"The dangerous forrest?",L01,"End conversation",L00End;
+		
+		L00:
+			mes "[Shevild]";
+			mes "Hm... yeah... yeah... a while ago I followed the hunters to the very mysterious dungeon to the north of Prontera.";
+			next;
+			mes "[Shevild]";
+			mes "The rumor says, monsters are very tough there, but you could get as valuable goods as the high risk.";
+			mes "So I followed highly professional hunters there. But as soon as we stepped into the dungeon, the maze is confusinf as hell...";
+			mes "[Shevild]";
+			mes "No matter which direction you moved forward, it seemed like you wer ending up at the same position where you started.";
+			mes "So we just came back out with empty-handed. I really want to challenge the dungeon again sometime.";
+			next;
+			menu "How can I get there?",L00a,"End conversation",L00aEnd;
+			
+			L00a:
+				mes "[Shevild]";
+				mes "Huh? What? haven't you even wandered around just outside of Prontera yet, man?";
+				mes "Alright, alright. I'll tell you. If you go north from the castle of Prontera, the dungeon is at the edge ot the north-west side of the forrest.";			
+				next;
+				goto qMenu;
+			L00aEnd:
+				mes "[Shevild]";
+				mes "Okey... Anyways watch out while you're traveling outhere ~ pal!!";
+				close;
+		L01:
+			mes "[Shevild]";
+			mes "There is a spendid ruin to the north-east of Prontera. I went there a while ago to deliver something to a priest there.";
+			mes "Before the ruin, there located a forrest full of monkeys and raccoons";
+			next;
+			mes "You have to be very cauntiuos. As soom as you drop something on the ground, a monkey jumps out of nowhere and snatches it.";
+			next;
+			menu "How can I get there?",L01a,"End conversation",L01aEnd;
+			
+			L01a:
+				mes "[Shevild]";
+				mes "The direction might sound a little confusing, but it really isn't, actually. Go out to the north and keep going to the east. Then you will find it.";
+				next;
+				goto qMenu;
+			L01aEnd:
+				mes "[Shevild]";
+				mes "Okey... Anyways watch out while you're traveling outhere ~ pal!!";
+				close;
+		L00End:
+			mes "[Shevild]";
+			mes "Okey... Anyways watch out while you're traveling outhere ~ pal!!";
+			close;
+	LEnd:
+		mes "[Shevild]";
+		mes "Sure... if you wanna hear more, come back here anytime. No problem~~";
+		close;
+}
+
+
+prt_in.gat,175,50,2	script	Library Girl	71,{
+	mes "[Library Girl Ellen]";
+	mes "Welcome. You can look up books of monsters organized by thier properties. Also there are books about some skills of Merchant and Blacksmith.";
+	mes "Ah~! The next library also has many interesting reading materials so please visit theres too.";
+	close;
+}
+
+prt_in.gat,177,18,2	script	Marvin	80,{
+	mes "[Marvin]";
+	mes "Usually you can bring your skill level up to 10. So some people get nervous about selecting which one they should learn.";
+	next;
+	mes "[Marvin]";
+	mes "'Hm... if I learn this, I worn't be able to learn that...' or 'Uh-Huh? With that skill, will I have enough points to master this skill?' Like this...";
+	mes "BUT every rule has an EXCEPTION~~.";
+	mes "Not all skills have to level 10 to mastered. Ta-da~~... Ahem...";
+	next;
+	mes "[Marvin]";
+	mes "you can master some skills when they are level 5. Even better, some skills only requieres 1 or 2.";
+	mes "How pitiful would it be if you don't learn a tremensously useful skill only beacuse you are nervous.";
+	next;
+	mes "[Marvin]";
+	mes "Therefore, don't just go aheard and learn anything either. Collect some information about skills and plan aheard.";
+	mes "That way, you can use you valuable skill points very wisely without wasting any.";
+	close;
+}
+
+prt_in.gat,177,20,2	script	TenSue	97,{
+	mes "[TenSue]";
+	mes "What? You are sick and tired of killing monsters on fields and dungeons?";
+	mes "Hahaha, it seems like you are very confident in your training.I you think so...";
+	mes "Why don't you visit Izlude, the satelitte of Prontera.";
+	next;
+	mes "[TenSue]";
+	mes "Cool Event Corp. or something has opened up the arenas called Time Limit Fight and Battle Ordeal, filling young poeple's thirst for more excitement...";
+	mes "Well... Of course you will have to pay a little.";
+	next;
+	mes "[TenSue]";
+	mes "Are you gonna give it a shot?";
+	close;
+}
+
+prt_in.gat,178,92,2	script	Curator of Library	57,{
+	mes "[Curator Guiss]";
+	mes "Our library keeps records of monsters in various dungeons scattered around Rune-Midgard Kingdom.";
+	mes "And categorized according to each dungeon where the specific monster resides. Needless to say, every record is very easily accessible.";
+	mes "There are must-read books for adventures pilled up high. Please take your time and read those.";
+	next;
+	mes "[Curator Guiss]";
+	mes "The next library has organized records of monsters according to thier properties.";
+	mes "If you are interested, you could stop by there, too.";
+	close;
+}
+
+prt_in.gat,180,20,2	script	Bartender	61,{
+	mes "[Bartender]";
+	mes "Phew~ more and more people a crawling in these days.";
+	mes "I am getting tired and tired everyday, though business has never been better...";
+	mes "To tell the truth, it's getting hard to get ingredients.";
+	next;
+	mes "[Bartender]";
+	mes "As you probably know, wandering out of towns, there are so much more monsters recently. I dare to step outside of this town, budy.";
+	mes "Think about it. How can I possibly make my Ultra Nice Special Super menus with just regular stuff?";
+	next;
+	mes "[Bartender]";
+	mes "I don't just use any ingredients on the market. I use those directly from Super heavy level hunters I personally hired.";
+	mes "Extreme FRESH, if I might add.";
+	mes "But it's getting very hard to get enough of what I need even from them";
+	next;
+	mes "[Bartender]";
+	mes "If thing's don't change... my special menu 'Sour Crunches' and 'Tasty Yum-Yum' will disappear from people's memory, sob... sob...";
+	next;
+	qMenu:
+	menu "'Sour Crunches'?",L0,"'Tasty Yum-Yum?'",L1,"Who care.",LEnd;
+	
+	L0:
+		mes "[Bartender]";
+		mes "Special Ant is the essential ingredient for it. It can be found in this Ant Hell on the way to the desert city Morro.";
+		mes "Well... the problem is that the number of ants grows unimaginably and they also get very brutal. Mos of hunters don't even think about going near there.";
+		next;
+		mes "[Bartender]";
+		mes "I can see soon-to-be-finished fate of my pub... Phew~~";
+		next;
+		goto qMenu;
+	L1:
+		mes "[Bartender]";
+		mes "Is is a very tasty dish preparred with Grasshoppers that can be caught around the area past the forrest to the west. THE BEST dish we have!";
+		mes "Those grasshoppers became very brutal and, moreover, the enormous number of bees appeared out of nowhere. It's almost impossible to get it.";
+		next;
+		mes "[Bartender]";
+		mes "I can see soon-to-be-finished fate of my pub... Phew~~";
+		next;
+		goto qMenu;
+	L2:
+		mes "[Bartender]";
+		mes "Anyways, be careful and take care of yourself~.";
+		close;
+}
+
+prt_in.gat,244,135,5	script	Inn Maid	53,{
+	mes "[Sammy]";
+        mes "Welcome to Nenkaras. How may I help you?";
+        next;
+        menu "Save",M0,"Quit",MEnd;
+
+	M0:
+		mes "[Sammy]";
+		mes "Ok, Saved. I think we could meet again soon.";
+		save "prt_in.gat",238,130;
+		close;
+	MEnd:
+		close;
+}
+
+prt_in.gat,88,105,2	script	Recruiter	105,{
+	if (sewer_prt == 1) goto L0a;
+	mes "[Recruiter]";
+	mes "Let me inform the Notice from the Capital Defense Headquarter of Rune-Midgard Kingdom";
+	mes "We decided to recruit the punitive force throughthis incident.";
+	next;
+	menu "Volunteer.",L0,"Incident...?",L1,"Quit",LEnd;
+	
+	L0:
+		mes "[Recruiter]";
+		mes "Your Registration confirmed. We will try to maintain peace and order in Rune-Midgard Kingdom. And I appreciate you speaking for Capital Defense Headquarter.";
+		mes "These are subsidies. 3 Red Potions, 1 Milk.";
+		mes "And 1 Orange Potion for Emergency.";
+		set sewer_prt,1;
+		getitem 501,3;
+		getitem 519,1;
+		getitem 502,1;
+		next;
+		goto L0a;
+
+		L0a:
+			mes "[Recruiter]";
+			mes "Are you ready? I will warp you to the Culvert.";
+			next;
+			warp "prt_fild05.gat",274,208;
+			close;
+	L1:
+		mes "[Recruiter]";
+		mes "Didn't you hear yet?";
+		mes "The Culvert is infested with noxious insects. We found out sewages and moggots there. What a huge disturbance at that time... Never hear that?";
+		next;
+		mes "[Recruiter]";
+		mes "Since the incident occurred,it has been forbidden the people to use water supply by the Quaratine.";
+		mes "Needless to say, the people has suffered in extreme water disturbance.In time, it would cause distrust in Protera Kingdome.";
+		mes "The situation has become critical. Restlessness prevails among the people¡¦¡¦.";
+		next;
+		mes "[Recruiter]";
+		mes "Alrighty,Warriors!!!!The People needs you!!";
+		mes "Let's expel those craps from our land!!!";
+		mes "Anyone want to fight for????";
+		next;
+		menu "Volunteer.",L1a,"Quit.",L1aEnd;
+		
+		L1a:
+			goto L0;
+			close;
+		L1aEnd:
+			mes "[Recruiter]";
+         		mes "..............";
+         		close;
+	LEnd:
+		close;
+}
+
+prt_fild05.gat,270,212,5	script	Culvert Gaurdian	105,{
+	if (sewer_prt == 1) goto L0;
+	mes "[Culvert Guardian]";
+	mes "Sorry, Only Volunteers for the Culvert Campaign can go inside.";
+	mes "You can check this issue in the ^000077Culvert Registrar's Office^000000. It is located at the North-West, direction of 11 O'clock.";
+	close;
+
+	L0:
+		mes "[Culvert Guardian]";
+		mes "Here you are. The entrance of the Culvert. Are you sure you want to Go inside?";
+		next;
+		menu "Sure.",L0a,"Quit.",L1a;
+
+		L0a:
+			warp "prt_sewb1.gat",131,247;
+			close;
+		L1a:
+			close;
+}
+

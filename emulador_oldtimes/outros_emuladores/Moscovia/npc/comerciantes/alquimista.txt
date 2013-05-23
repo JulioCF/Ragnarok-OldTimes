@@ -1,0 +1,139 @@
+//===== Cronus Script ===================================
+//= Loja do Alquimista
+//===== Por: ============================================
+//= eAthena Team [totalmente revisado por JuliosS]
+//===== Versão Atual: ===================================
+//= 2.0a
+//===== Descrição: ======================================
+//= Vender Materiais e Manuais de Alquimista
+//===== Comentarios Adicionais: =========================
+//= Realisado a tradução por Mehah
+//= Revisão 29/10/2006 - Corrigido Erros por Olivete
+//= Revisão 02/02/2007 - Deixando o NPC mais bonito para a 
+//  expanção Lighthalzen.
+//= 2.0a Erros de português corrigido por @Coja ImortalRO Staff
+//=======================================================
+
+
+alde_alche,24,188,3	script	Gever Ai Sharp	740,{
+	
+	show "[^BA8F2CGever AI Sharp^000000]";
+	show "Olá "+strcharinfo(0)+",";
+	show "Bem Vindo à união do ^2B4395Alquimista^000000.";
+	show "O que gostaria de fazer?";
+	next;
+	
+	switch ( select("Comprar Vazilha de Mistura","Comprar Manuais de produção.")){
+	
+	
+	case 1:
+		
+				show "[^BA8F2CGever AI Sharp^000000]";
+				show "Vai preparar boas poções eim!";
+				show "Quantas Vazilhas você vai querer?";
+				
+				while(TRUE){
+				next;
+				digit @potn;
+					if(@potn < 0){
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "Hmm... Não tenho esse número de vazilhas, escolha outro.";
+						continue;
+					}
+					if (checkweight(7134,@potn) == 0) {
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "O que é isso! Você não vai aguentar tantas Vazilhas assim!.";
+						show "Diminua a quantidade de vazilhas por favor.";
+						continue;
+					}
+					if(Zeny < (@potn*8)){
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "Há! Parece que você se esqueceu de um detalhe: ";
+						show "^ff0000Você não tem Zeny suficiente!^000000";
+						show "A quantidade máxima de vazilhas que você pode pegar é ^2433BB"+Zeny/8+"^000000.";
+						continue;												
+					}else{
+						set Zeny, Zeny-(@potn*8);
+						additem 7134, @potn;
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "Pronto! Espero que você faça bom proveito destas vazilhas!";
+						show "Volte aqui sempre que precisar!";
+						close;
+					}			
+				}
+					
+						
+	case 2:
+	
+		show "[^BA8F2CGever AI Sharp^000000]";
+		show "Tenho vários manuais... ";
+		show "A maioria custa ^FF8000Z$100.000.^000000";
+		show "Com exceção de um manual especial."; //Mudar para dois caso os manuais elementais sejam liberados! [JuliosS]
+		next;
+		
+		if(Zeny < 100000){
+			show "[^BA8F2CGever AI Sharp^000000]";
+			show "Você não tem dinheiro para comprar Manuais!";
+			show "Volte quando seus negócios derem certo.";
+			close;
+		}
+		
+		
+		set @m, select(	"Vol. 1 Poções Comuns",
+				"Vol. 2 Álcool",
+				"Vol. 3 Fogo Grego",
+				"Vol. 4 Ácidos",
+				"Vol. 5 Plantas",
+				"Vol. 6 Explosivos",
+				"Vol. 7 Revestimentos",
+				"Vol. 8 Poções Compactas",
+			//  	"Vol. 9 Elementais",
+				"Cancelar" );
+			
+					if(@m == 8 || @m == 9){ 
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "Este manual custa ^FF8000Z$240.000.^000000";
+						next;
+						if(Zeny < 240000){
+							show "[^BA8F2CGever AI Sharp^000000]";
+							show "Você não tem o dinheiro necessário.";
+							show "Volte quando tiver!";
+							close;
+						}else{
+							set Zeny, Zeny-240000;
+							if(@m == 8) additem 7133,1;
+							if(@m == 9) additem 7434,1;
+						}
+					}
+					
+					if(@m > 0 || @m < 8){
+						show "[^BA8F2CGever AI Sharp^000000]";
+						show "Este manual custa ^FF8000Z$100.000.^000000";
+						next;
+					
+						set Zeny,Zeny-100000;
+					
+						if(@m == 1)	additem 7144,1;
+						if(@m == 2)	additem 7127,1;
+						if(@m == 3)	additem 7128,1;
+						if(@m == 4)	additem 7129,1;
+						if(@m == 5) 	additem 7130,1;
+						if(@m == 6)	additem 7131,1;
+						if(@m == 7)	additem 7132,1;					
+					}
+					
+					show "[^BA8F2CGever AI Sharp^000000]";
+					show "Aqui está!";
+					show "Até logo!";
+					close;	
+					
+			if(@m == 10){
+				show "[^BA8F2CGever AI Sharp^000000]";
+				show "Bem, Já que você não quer nada...";
+				show "Até logo.";
+				close; 
+			}
+					
+	}
+						
+}

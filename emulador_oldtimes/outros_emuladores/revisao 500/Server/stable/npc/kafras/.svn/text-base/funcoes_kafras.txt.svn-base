@@ -1,0 +1,375 @@
+//===== Cronus Script ======================================== 
+//= Funções da Kafra
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.5
+//===== Descrição: =========================================== 
+//= Todas as funções da Kafra
+//===== Changelog: =========================================== 
+//= 1.1 Iniciado o Npc [Kamper]
+//= 1.2 Adicionado a leitura dos Vales [Kamper]
+//= 1.3 Modificado a leitura dos vales [Kamper]
+//= 1.4 Traduzido 'Orc Dungeon' para 'Vila dos Orcs' [Kamper]
+//= 1.5 Corrigido erros de português [Kamper]
+//============================================================
+
+// Função Principal ========================================================
+//=   arg(0): Used to determine which welcome message to show.
+//=   arg(1): Used to determine which menu to display.
+//=   arg(2): Used to determine if the info menu is shown in F_KafInfo.
+//==========================================================================
+function	script	F_Kafra	{
+	set @kafPass, 0;
+	show "[Funcionária Kafra]";
+	if(getarg(0)==0) show "Bem-vindo à Corporação Kafra, nós sempre estamos ao seu lado.";
+	if(getarg(0)==0) show "Em que posso ajudá-lo?";
+	if(getarg(0)==1) show "Bem-vindo... Serviços Kafra.... Nós sempre estamos ao seu lado, mesmo se você morrer.....";
+	if(getarg(0)==1) show "Em que posso ajudá-lo?";
+	if(getarg(0)==2) show "Bem-vindo, membro do(a) ^5533FF" + GetGuildName(@GID) + "^000000. Nós sempre estamos ao seu lado.";
+	if(getarg(0)==2) show "Em que posso ajudá-lo?";
+	next;
+
+	M_Menu:
+	if(getarg(0)==2) menu "Usar Armazém",M_FStorage, "Usar Armazém do Clã",M_GStorage, "Alugar um carrinho",M_Cart, "Usar Teleporte",M_Teleport, "Cancelar",M_End;
+	if(getarg(1)==1) menu "Salvar",M_Save,"Usar Armazém",M_Storage, "Cancelar",M_End;
+	if(getarg(1)==2) menu "Usar Armazém",M_Storage, "Cancelar",M_End;
+	if(getarg(1)==3) menu	"Salvar",M_Save, "Usar Armazém",M_Storage, "Alugar um carrinho",M_Cart, "Bilhete Kafra",M_Pass, 
+		"Ver outras informações",M_Info, "Cancelar",M_End;
+	if(getarg(1)==4) menu	"Salvar",M_Save, "Usar Armazém",M_Storage, "Usar Teleporte",M_NoTeleport, "Alugar um carrinho",M_Cart, "Bilhete Kafra",M_Pass, 
+		"Ver outras informações",M_Info, "Cancelar",M_End;
+	menu	"Salvar",M_Save, "Usar Armazém",M_Storage, "Usar Teleporte",M_Teleport, "Alugar um carrinho",M_Cart, "Bilhete Kafra",M_Pass, 
+		"Ver outras informações",M_Info, "Cancelar",M_End;
+
+	M_Save:
+		return;
+	M_Storage:
+		callfunc "F_KafStor",0;
+		next;
+		goto M_Menu;
+	M_GStorage:
+		callfunc "F_KafStor",1;
+		next;
+		goto M_Menu;
+	M_FStorage:
+		callfunc "F_KafStor",2;
+		next;
+		goto M_Menu;
+	M_Teleport:
+		callfunc "F_KafTele",getarg(0);
+		goto M_Menu;
+	M_Cart:
+		if(callfunc("F_KafCart",getarg(0)) == 1) next;
+		goto M_Menu;
+	M_Pass:
+		if(callfunc("F_KafPass") == 1) next;
+		goto M_Menu;
+	M_Info:
+		callfunc "F_KafInfo",getarg(2);
+		goto M_Menu;
+	M_End:
+		callfunc "F_KafEnd",getarg(0),0;
+		end;
+	M_NoTeleport:
+		show "[Funcionária Kafra]";
+		show "Because of the ^FF0000Limited Transport Agreement^000000, the Kafra Corporation cannot provide Teleport Services in the Shwaltzvalt Republic.";
+		next;
+		show "[Funcionária Kafra]";
+		show "We ask that you please";
+		show "use the Airship Service";
+		show "instead. Thank you for your";
+		show "understanding and cooperation.";
+		next;
+		goto M_Menu;
+}
+
+
+// Função do Armazém =======================================================
+function	script	F_KafStor	{
+	if(getarg(0) == 1) goto L_Guild;
+	if((BaseJob ==Job_Novice) && (JobLevel<6)) goto sL_JbLvl;
+	if(BaseJob == Job_Novice) set @fee, 30;
+	if(BaseJob != Job_Novice) set @fee, 60;
+	if(countitem(7059) > 0) set @fee, 0;
+	if(countitem(7059) > 0) delitem 7059,1;
+	if(@kafPass==1 || getarg(0) == 2) set @fee, 0;
+	if(Zeny<@fee) goto sL_Zeny;
+	set Zeny, Zeny-@fee;
+	set RESRVPTS, RESRVPTS + (@fee/5);
+	
+	Storage:
+	show "[Funcionária Kafra]";
+	show "Eu vou abrir seu armazém.";
+	show "Obrigada por utilizar nossos serviços.";
+	close2;
+	openstorage;
+	cutin "", 255;
+	close;
+	end;
+
+	sL_JbLvl:
+		show "[Funcionária Kafra]";
+		show "Me desculpe, mas você precisar ser um Aprendiz com nível de classe igual ou maior que 6.";
+		return;
+	sL_Zeny:
+		show "[Funcionária Kafra]";
+		show "Que pena, mos você não tem o dinheiro necessário. O preço do armazém é "+@fee+" Zeny.";
+		return;
+L_Guild:
+	if(guildopenstorage(0) == 1) goto L_InUse;
+	cutin "", 255;
+	close;
+
+	L_InUse:
+		show "[Funcionária Kafra]";
+		show "Me desculpe, mas outro membro do Clã esta usando o Armazém.";
+		show "Bem, por favor. Espere o membro terminar de usar nossos serviços.";
+		close2;
+		cutin "", 255;
+		close;
+		end;
+
+}
+
+
+// Função de Teleporte ==================================================
+function	script	F_KafTele	{
+	show "[Funcionária Kafra]";
+	if (@kafPass==1) show "Desde que você esteja usando um Bilhete Kafra, todos os teleportes estarão gratuitos.";
+	show "Por favor, selecione seu destino.";
+	next;
+
+	menu 	@wrpC$[0],M_Wrp0, @wrpC$[1],M_Wrp1, @wrpC$[2],M_Wrp2, @wrpC$[3],M_Wrp3, 
+		@wrpC$[4],M_Wrp4, @wrpC$[5],M_Wrp5, @wrpC$[6],M_Wrp6;
+
+	M_Wrp0:
+		set @num, 0;
+		goto L_Warp;
+	M_Wrp1:
+		set @num, 1;
+		goto L_Warp;
+	M_Wrp2:
+		set @num, 2;
+		goto L_Warp;
+	M_Wrp3:
+		set @num, 3;
+		goto L_Warp;
+	M_Wrp4:
+		set @num, 4;
+		goto L_Warp;
+	M_Wrp5:
+		set @num, 5;
+		goto L_Warp;
+	M_Wrp6:
+		set @num, 6;
+
+	L_Warp:
+		if (@wrpC$[@num] == "Cancel") return;
+		if(countitem(7060) > 0) delitem 7060,1;
+		if(countitem(7060) > 0) goto Warps;
+		if (@kafPass==1) set @wrpP[@num], 0;
+		if (Zeny<@wrpP[@num]) goto sL_CantTele;
+		set Zeny, Zeny-@wrpP[@num];
+		if (@kafPass==0) set RESRVPTS, RESRVPTS + (@wrpP[@num]/16);
+
+	Warps:
+		if (@wrpD$[@num] == "Alberta") warp "alberta.gat", 117, 56;
+		if (@wrpD$[@num] == "Al De Baran") warp "aldebaran.gat",143,110;
+		if (@wrpD$[@num] == "Comodo") warp "comodo.gat", 207, 144;
+		if (@wrpD$[@num] == "Izlude") warp "izlude.gat", 91, 105;
+		if (@wrpD$[@num] == "Geffen") warp "geffen.gat", 120, 39;
+		if (@wrpD$[@num] == "Morroc") warp "morocc.gat", 156, 46;
+		if (@wrpD$[@num] == "Payon") warp "payon.gat", 168, 103;
+		if (@wrpD$[@num] == "Prontera") warp "prontera.gat", 116, 72;
+		if (@wrpD$[@num] == "Coal Mine(Dead Pit)") warp "mjolnir_02.gat", 82, 347;
+		if (@wrpD$[@num] == "Ilha do Farol, Pharos") warp "cmd_fild07.gat", 127, 134;
+		if (@wrpD$[@num] == "Vila dos Orcs") warp "gef_fild10.gat", 52, 326;
+		if (@wrpD$[@num] == "Umbala") warp "umbala.gat", 130, 130;
+		if (@wrpD$[@num] == "Juno") warp "yuno.gat", 157, 123;
+		close2;		// this part safegaurds against errors/typos
+		set zeny, zeny + @wrpP[@num];
+		cutin "", 255;
+		close;
+		end;
+
+			
+		sL_CantTele:
+			if(countitem(7060) > 0) delitem 7060,1;
+			if(countitem(7060) > 0) goto Teleport;
+			show "[Funcionária Kafra]";
+			show "Desculpe, mas você não tem o dinheiro necessário. Por favor cheque seus fundos novamente.";
+			close2;
+			cutin "", 255;
+			close;
+			end;
+}
+
+
+// Função do Carrinho ========================================================
+function	script	F_KafCart	{
+	if(baseClass != Job_Merchant) goto sL_CantRent;
+	if(getskilllv(39)==0) goto sL_NeedSkill;
+	if(checkcart(0) == 1) goto sL_GotCart;
+	if(getarg(0) == 2) goto L_Guild;
+	show "[Funcionária Kafra]";
+	if(countitem(7061) > 0) show "O preço do carrinho é um Vale-Carrinho. Deseja alugar um Carrinho?";
+	if(@kafPass==0) show "O preço do carrinho é 800 Zeny. Deseja alugar um Carrinho?";
+	if(@kafPass==1) show "Desde que você esteja usando um Bilhete Kafra, você pode alugar um carrinho gratuitamente!";
+	next;
+
+	menu "Alugar um carrinho.",-, "Cancelar.",M_End;
+
+		if(Zeny<800 && kafPass==0 && countitem(7061)==0) goto sL_CartFee;
+		if(countitem(7061) > 0) delitem 7061,1;
+		if(countitem(7061) > 0) set RESRVPTS, RESRVPTS + 48;
+		if(@kafPass==0) set Zeny,Zeny-800;
+		if(@kafPass==0) set RESRVPTS, RESRVPTS + 48;
+	L_Guild:
+		setcart;
+		show "[Funcionária Kafra]";
+		show "Aqui está seu carrinho.";
+		return 1;
+
+	sL_CantRent:
+		show "[Funcionária Kafra]";
+		show "Sinto muito senhor. Os carrinhos são apenas disponíveis à Mercadores e Ferreiros.";
+		return 1;
+	sL_NeedSkill:
+		show "[Funcionária Kafra]";
+		show "Me desculpe, mas você precisa da habilidade ^0000FF'Usar Carrinho'^000000 para alugar um carrinho.";
+		return 1;
+	sL_GotCart:
+		show "[Funcionária Kafra]";
+		show "Licença... mas você já tem um carrinho....";
+		emotion 4;
+		return 1;
+	sL_CartFee:
+		show "[Funcionária Kafra]";
+		show "Você não tem todo o dinheiro necessário. Voce precisa de 800 Zeny.";
+		return 1;
+	M_End:
+		return 0;
+}
+
+
+// Função do Bilhete ===============================================================
+function	script	F_KafPass	{
+
+	sM_Menu:
+	menu "Usar um Bilhete Kafra.",-, "O que é um Bilhete Kafra?",sM_PassInfo, "Cancelar",sM_End;
+
+		show "[Funcionária Kafra]";
+		show "Deixe-me checar seu bilhete.....";
+		next;
+		if(usedKafPass==0 && countitem(1084)<1) goto sL_NeedPass;
+		set @kafPass,1;
+		set usedKafPass, usedKafPass + 1;
+		if(usedKafPass>=3) goto sL_PassExpire;
+		if(usedKafPass > 1) goto L_Cont; //fixed Lupus
+		delitem 1084,1;
+		show "(você passa seu bilhete)";
+		next;
+		show "[Funcionária Kafra]";
+		show "Ótimo! Tudo parece estar em ordem. Agora que seu Bilhete Kafra está ativado, você pode alugar um carro ou usar os serviços de teleporte de graça."; 
+		show "Seu número do Bilhete Kafra foi incorporado em nosso banco de dados assim você não a nenhuma necessidade mais longa dele."; 
+		next;
+
+		L_Cont:
+		show "[Funcionária Kafra]";
+		show "Você poderá usar o aluguel de carrinho e teleporte livremente com os seviços de carga ^5533FF"+(3 - usedKafPass)+"^000000 mais épocas com algum agente do que com o serviço da Kafra você escolheu.";
+		return 1;
+
+		sL_NeedPass:
+			show "[Funcionária Kafra]";
+			show "Sinto muito, mas você não tem o Bilhete Kafra para usar....";
+			next;
+			goto sM_Menu;
+		sL_PassExpire:
+			show "[Funcionária Kafra]";
+			show "Essa vai ser a terceira e ultima vez que você usa esse bilhete, consequentemente ela esta expirada agora..";
+			next;
+			set usedKafPass,0;
+			show "[Funcionária Kafra]";
+			show "Você agora pode usar os serviços aluguel de carrinho e teleporte grátis.";
+			return 1;
+	sM_PassInfo:
+		show "[Funcionária Kafra]";
+		show "O ^5533FFBilhete Kafra^000000 é um comprovante que o deixa usar serviços Kafra livremente!";
+		show "Os serviços Kafra que você pode usar livrementes são: ^FF3355Teleporte^000000 e o serviço ^FF3355Alugar Carrinho^000000.";
+		next;
+		show "[Funcionária Kafra]";
+		show "O Bilhete Kafra pode ser comprado no escritório principal da Kafra Corp. em Al De Baran.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Para usar um Bilhete Kafra, simplismente escolha a opção 'Usar um Bilhete Kafra', ao falar com um agente Kafra.";
+		show "Seu número do Bilhete Kafra será incorporado em nosso banco de dados, e você poderá então usar livremente o teleporte, e serviços de aluguel da Kafra como carrinho de carga.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Uma vez que você terminou de usar os serviços desejados, e parou a interação com a Kafra, sua 'sessão do uso livre' terminará.";
+		show "Você terá um total de ^5533FF 3 seções de 'uso livre'^000000 disponível em cima da ativação de seu Bilhete Kafra.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Para começar um outro 'uso livre' dos serviços, selecione simplesmente a opção 'Usar um Bilhete Kafra' ao falar com um agente da Kafra.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Acredite em mim quando eu digo que o Bilhete Kafra é um grande negócio!!";
+		show "Com o Bilhete Kafra, nós esperamos dar aos jogadores algum incentivo para usar nossos grandes serviços.";
+		next;
+		goto sM_Menu;
+
+	sM_End:
+		return 0;
+}
+
+// Função dos Pontos de Reserva ===========================================
+function	script	F_KafInfo	{
+
+	sM_Menu:
+	if(getarg(0) == 0) menu "Verificar Pontos Reservados",sM_ResChk, "Locações Kafra",sM_KafLoc, "Cancelar",sM_End;
+
+	sM_ResChk:
+		show "[Funcionária Kafra]";
+		show "Está aqui sua quantidade atual de pontos reservados:"; 
+		show "^0000ff"+RESRVPTS+"^000000.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Lembre-se de continuar usando os serviços de Kafra tanto como depósito e como teletransporte, para receber mais pontos de reserva especial.";
+		next;
+		show "[Funcionária Kafra]";
+		show "Você pode trocá-los na Central da Kafra em Al De Baran por items úteis e prêmios legais.";
+		next;
+		if(getarg(0) == 1) return;
+		goto sM_Menu;
+	sM_KafLoc:
+		show "[Funcionária Kafra]";
+		show "As indicações em seu mini-mapa aponta para as posições de todas as Funcionárias Kafra nessa cidade.";
+		viewpoint 1,@viewpX[0],@viewpY[0],1,0xFF00FF;
+		viewpoint 1,@viewpX[1],@viewpY[1],2,0xFF00FF;
+		viewpoint 1,@viewpX[2],@viewpY[2],3,0xFF00FF;
+		viewpoint 1,@viewpX[3],@viewpY[3],4,0xFF00FF;
+		next;
+		viewpoint 2,@viewpX[0],@viewpY[0],1,0xFF00FF;
+		viewpoint 2,@viewpX[1],@viewpY[1],2,0xFF00FF;
+		viewpoint 2,@viewpX[2],@viewpY[2],3,0xFF00FF;
+		viewpoint 2,@viewpX[3],@viewpY[3],4,0xFF00FF;
+		goto sM_Menu;
+	sM_End:
+		return;
+}
+
+
+// Função Final =====================================================
+//  arg(0): used to determine what message to display.
+//  arg(1): used to determine if save message is displayed.
+//===================================================================
+function	script	F_KafEnd	{
+	show "[Funcionária Kafra]";
+	if(getarg(1)==1) show "O seu ponto foi salvo.";
+	if(getarg(0)!=1) show "Obrigado por usar os Serviços Kafra. Nós esperamos ver você denovo.";
+	if(getarg(0)==1) show "Nós, Corporação Kafra....Estaremos com você....sempre....sempre sempre por favor, não se esqueça de nós....";
+	close2;
+	cutin "", 255;
+	emotion 15;
+	close;
+	end;
+}

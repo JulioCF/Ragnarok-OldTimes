@@ -1,0 +1,57 @@
+//===== Cronus Script ======================================== 
+//= Mercenário Skill Quest
+//===== Por: =================================================
+//= Lupus, Reddozen
+//= Mehah [Traduziu para PT(br)]
+//===== Versão Atual: ======================================== 
+//= 1.3a
+//===== Comentários Adicionais: ==============================
+//= Skill ainda não existe no bRo e nem o Item Tropical Sograt
+//============================================================
+
+
+//============================================================
+// Mercenário - SONIC ACCELERATION + THROW VENOM KNIFE
+//============================================================
+in_moc_16,14,21,3	script	Kiltin	884,{
+	show "[Kiltin]";
+	if(BaseJob!=Job_Assassin) goto L_nosin;
+	if(getskilllv(1003) && getskilllv(1004)) goto L_alreadyhave;
+
+	show "Eu posso ensinar tudo que eu sei,";
+	show "mas você precisa roubar algumas coisas para mim:";
+	show "3 Safiras";
+	show "1 Rubi";
+	next;
+	
+	show "[Kiltin]";
+	show "Me deixe conferir.";
+	next;
+	
+	if(countitem(726)<3 || countitem(723)<1) goto L_noitems;//Items: Safira, Rubi,
+	delitem 726, 3;//Items: Safira
+	delitem 723, 1;//Items: Rubi,
+
+	show "[Kiltin]";
+	show "Bem, to vendo que você trouxe o meu item, então vou ensina minha técnica.";
+	skill 1003,1,0;
+	skill 1004,1,0;
+	close;
+	
+L_noitems:
+	show "[Kiltin]";
+	show "Você não possui os items que eu preciso.";
+	show "Volte quando tiver todos os items exigidos.";
+	close;
+		
+L_nosin:
+	show "Desculpe, mas eu estou em serviço do Shadowmen.";
+	emotion e_gasp;
+	close;
+
+L_alreadyhave:
+	show "Eu já o ensinei";
+	show "tudo que eu sei...";
+	close;
+}
+

@@ -1,0 +1,779 @@
+//===== Cronus Script ================================================= 
+//= Payon Npcs
+//===== Por: ==========================================================
+//= Kamper
+//===== Versão Atual: ================================================= 
+//= 1.9
+//===== Descrição: ==================================================== 
+//= Npcs da cidade de Payon
+//===== Changelog: ==================================================== 
+//= 1.1 Iniciado o Npc [Kamper]
+//= 1.2 Fixado o bug o { [Kamper]
+//= 1.3 Fixado o bug do unequip [Kamper]
+//= 1.4 Traduzido o Chefe [Kamper]
+//= 1.5 Adicionado Guarda de fora do Palácio [Pudim]
+//= 1.6 Corrigido o Chefe (sem rand, ele fala com todos nv31+) [Pudim]
+//= 1.7 Corrigido a direção do Guarda [Kamper]
+//= 1.8 Traduzido o Marxhansen [Kamper]
+//= 1.9 Corrigido o { } do Guarda [Kamper]
+//=====================================================================
+pay_arche.gat,77,131,8	script	Guilhermino	59,{
+	show "[Guilhermino]";
+	show "Payon! Mas que cidade maravilhosa!";
+	show "Arcos íncríveis! "+callfunc("classname",3,"P","M")+" habilidosos!";
+	show "Ei, você! Conhece a fama da nossa cidade?";
+	next;
+	menu "Claro que sim!",L0,"Que fama?",L1,"......",L2;
+
+	L0:
+		show "[Guilhermino]";
+		show "Rá! Então você é um dos meus!";
+		show ""+callfunc("classname",3,"P","M")+" de Payon! Cuidado com a gente, cara!";
+		show "Nós nunca erramos um alvo! Podemos acertar um fio de cabelo com nossas flechas! E temos estilo!";
+		next;
+		menu "Você gosta mesmo aqui, hein?",L00,"Haha...",L01;
+
+		L00:
+			show "[Guilhermino]";
+			show "SIM! Eu amo esta cidade! É por isso que eu sei tudo sobre ela!";
+			show "Se você tiver qualquer pergunta pra me fazer, vá em frente, pergunte!!";
+			next;
+			menu "O pessoal daqui usa umas roupas bem estranhas.",L00a,"Que construção estranha é aquela no meio da cidade?",L00b,"Quem é aquele cara bebendo no bar lá da cidade?",L00c," Agente se fala depois.",L00d;
+
+			L00a:
+				show "[Guilhermino]";
+				show "Sim, é verdade!";
+				show "Você deve saber que até algum tempo atrás, Payon era completamente isolada do resto do reino de Midgard. Por isso as pessoas daqui criaram um cultura própria, diferente das de outras cidades.";
+				show "Por isso essas roupas estranhas, elas são um costume local! Aliás se quiser experimentar, vá em frente, são muito confortáveis!";
+				close;
+			L00b:
+				show "[Guilhermino]";
+				show "É o palácio de Payon. Estrangeiros não são muito bem-vindos por lá. Eu mesmo nunca entrei lá.";
+				show "Dizem que a Realeza local, seus amigos e empregados moram lá dentro.";
+				show "Eu gostaria de visitar o palácio algum dia. Parece um lugar muito misterioso e interessante.";
+				close;
+			L00c:
+				show "[Guilhermino]";
+				show "Ah! O Bêbado? Ele é famoso na cidade! Não lhe pague bebidas pra não jogar seu dinheiro fora!";
+				close;
+			L00d:
+				show "[Guilhermino]";
+				show "Ok! Te vejo por aí! Até mais!";
+				close;
+		L01:
+			close;
+	L1:
+		show "[Guilhermino]";
+		show "Não é possível que você não saiba nada dos "+callfunc("classname",3,"P","M")+" de Payon!";
+		show "Quando você aprender alguma coisa sobre Payon, venha falar comigo.Eu adoro falar sobre essa cidade.";
+		show "Payon é o máximo!";
+		close;
+	L2:
+		show "[Guilhermino]";
+		show "Que foi? Gato comeu sua língua?";
+		show "Ei, não precisa ter vergonha de mim! Eu sou o Guilhermino, todo o mundo me conhece por aqui!";
+		close;
+}
+
+
+
+payon_in01.gat,69,90,4	script	Chefe da Guarda	105,{
+	OnTouch:
+	show "[Chefe da Guarda]";
+	show "O que traz aqui?";
+	next;
+	show "[Chefe da Guarda]";
+	show "Seu lugar não é aqui. Sugiro que comporte-se com respeito dentro do palácio.";
+	next;
+	show "[Chefe da Guarda]";
+	show "Você será desarmado agora em nome da segurança deste lugar. Por favor, coopere.";
+	unequip 0;
+	close;
+}
+payon.gat,93,162,4	script	Guarda	105,{
+	OnTouch:
+	show "[Guarda]";
+	show "Este é o Palácio de Payon.";
+	show "Mesmo sendo este um lugar aberto à visitas do público, exigimos que os visitantes sejam respeitosos e não causem transtornos.";
+	next;
+	show "[Guarda]";
+	show "Portanto é necessário que você, ao entrar no palácio, desarme-se de seus equipamentos. Obrigado por sua cooperação";
+	unequip 0;
+	close;
+}
+payon_in01.gat,95,179,5	script	Vikram, o Arqueiro	88,{
+	show "[Vikram, o Arqueiro]";
+	show "Cara, vou te dizer. Eu tenho um amigo que só sabe falar besteira.";
+	show "Quer dizer, ele é um expert em "+callfunc("classname",3,"P","M")+" e tudo mais, mas eu me encho do falatório dele...";
+	show "Até nosso Chefe já se encheu dele, o cara é mesmo um mala!";
+	next;
+	menu "Hã... quem é esse cara?",M0,"Que Chefe é esse?",M1,"Como assim 'fala besteira'?",M2;
+
+	M0:
+		show "[Vikram, o Arqueiro]";
+		show "Ah, claro, que besteira a minha. É um sujeito que mora no andar superior desse bar, ele tem a mesma roupa que eu.";
+		show "Ele ensina "+callfunc("classname",3,"P","M")+" novatos os conceitos básicos da nossa classe.";
+		show "Bem... Se tiver interesse, vá falar com ele.";
+		close;
+	M1:
+		show "[Vikram, o Arqueiro]";
+		show "O Chefe da Cidade vive no Palácio de Payon, lá no centro. Ele é o líder espiritual daqui.";
+		show "Ele costumava a caçar pela floresta com seu arco lendário, a Gakkung.";
+		show "Eu me lembro de vê-lo em ação quando era criança. Nunca vi flechas disparadas com tamanha rapidez.";
+		show "Ele pode parecer apenas um velho agora... Mas está nos seus olhos...";
+		show "São olhos capazes de mirar um pássaro em movimento... Realmente, ele foi o melhor "+callfunc("classname",3,"S","M")+" desta cidade.";
+		next;
+		show "[Vikram, o Arqueiro]";
+		show "Eu admiro como o herói que ele é e sempre será.";
+		close;
+	M2:
+		show "[Vikram, o Arqueiro]";
+		show "Fala besteira, oras! Sabe daquelas pessoas que não param de falar e acham que sabem tudo?";
+		show "Ele é uma delas. Tem vezes que, eu admito, mesmo sendo amigo dele dá vontade de mandar ele calar a boca.";
+		show "Ele é famoso na cidade por falar tanto. Cara, ele pode ser muito irritante às vezes... Achando que sabe tudo e bancando o genial...";
+		show "Mas certamente, pelo menos em matéria de falação, ele é o número um.";
+		next;
+		show "[Vikram, o Arqueiro]";
+		show "Payon é uma cidade muito quieta, então gente como ele não é muito comum por aqui.";
+		show "A maioria das pessoas por aqui fala pouco, sabe? Ninguém acha que falar resolve nada. Somos pessoas de ação.";
+		show "Pelo jeito, você deve ter amigos assim, não é? Eu acho que a verdadeira bravura está nas ações, concorda?";
+		show "Pessoas de poucas palavras...";
+		next;
+		show "[Vikram, o Arqueiro]";
+		show "Enfim, meu amigo Markiv? Como eu disse, ele mora no segundo andar da estalagem, é só subir as escadas no outro quarto.";
+		show "Acho que ele deve estar por lá, agora. Por que você não vai visitá-lo pra ver do que eu estou falando? O cara é um chato.";
+		close;
+}
+
+payon_in01.gat,95,181,1	script	Bêbado	120,{
+	show "[Bêbado]";
+	if(class ==Job_Archer) show "Ei, um "+callfunc("classname",3,"S","M")+"... Anda matando muito monstro?! Haha... Você não deve nem matar uma barata... Quáquáquá!";
+	if(class !=Job_Archer) show "Ei!... Ei! Sabe nu quiqueeu tava pensando? Se um desses "+callfunc("classname",3,"P","M")+" idiotas consegue mirar depois de beber uma cachaça!? Quáquáquá!";
+	show "Ei... Hã... Você pode me pagar uma rodada?";	
+		next;
+		menu "Só se você não beber demais.",M0," Não obrigado, amigão.",M1,"Nem pensar, cara!",M2;
+
+	M0:
+		set Zeny,zeny-100;
+		show "[Bêbado]";
+		show "Opa! valeu, amigão! O Pessoal daqui já não é mais legal assim comigo ...sniff... Esses arqueirinhos aí, tudo mão de vaca, sacumé?!";
+		show "Quáquáquá! ...Olha, eu não era assim na minha época, não!";
+		show "Ra-paz! Eu era o terros das menininhas! Tem uma vovó daqui da cidade que era uma gatona, meu irmão! Eu e ela, ó! A gente era assim, assim! Quáquáquá!";
+		show "Ela ainda acha que é novinha e tudo mais... Fica passando produto de pele e num sei que lá na cara, sabe? Essa gente que não sabe envelhecer com dignidade!";
+		next;
+		show "[Bêbado]";
+		show "Glug, Glug... Rapaz! Essa bebida tá Ótchima! Valeu, culega! Brigadão, hein? Quáquáquá!";
+		close;
+	M1:
+		show "[Bêbado]";
+		show "BÁ! Essa mulecada não tem respeito pelos mais velhos!";
+		show "Então tá, cara! Não vou ficar implorando também, tá legal?!...";
+		show "(Droga).";
+		close;
+	M2:
+		show "[Bêbado]";
+		show "Hmmm, Tchudo bem, então. Eu não queria mesmo...";
+		close;
+}
+
+payon_in01.gat,104,182,2	script	Garçonete	90,{
+	show "[Moça do bar]";
+	show "As pessoas por aqui estão sempre indo e vindo. Tornam-se "+callfunc("classname",3,"P","M")+", saem pelo mundo... E eu continuo aqui nesse barzinho sem graça...";
+	show "Não consigo deixar de me sentir solitária... ou mesmo deprimida às vezes.";
+ 	next;
+	show "[Moça do bar]";
+	show "Todo santo dia, fazendo a mesma sopa de macarrão nojenta... E o cheiro disso não sai, fica impregnado no cabelo, nas roupas.";
+	show "Entre isso e todo o serviço de limpeza e arrumação que eu tenho que fazer, pode apostar que eu já estou farta desse trabalho...";
+	next;
+	show "[Moça do bar]";
+	show "Onde, meu Deus? Onde está um homem bonitão e rico pra me levar embora desse lugar?";
+	show "(pisca um olho)";
+	next;
+	show "[Moça do bar]";
+	show "Minha avó, que é uma cartomante, me disse que eu me daria muito bem na vida, que eu ia ter uma sorte incrível!";
+	show "Mas olhe pra mim, qual é o problema comigo afinal? Viver essa vidinha medíocre não vai me levar a lugar nenhum...";
+	show "Ah droga... Que pessoa mas sem graça que eu sou.";
+	next;
+	show "[Moça do bar]";
+	show "Mas, me desculpe, eu não devia ficar te incomodando com isso. Não vai resolver nada ficar reclamando.";
+	show "Acho que eu só precisava desabafar um pouco, não é?";
+	next;
+	show "[Moça do bar]";
+	show "Mas então, o que eu posso fazer por você?";
+	menu "Você já ouviu falar de zumbis?",L0,"Eu gostaria que sua vó lesse minha sorte.",L1,"Queo uma cerveja!",LEnd;
+
+	L0:
+		show "[Moça do bar]";
+		show "Bem, Zumbis são os mortos-vivos, criaturas Malditas que não fizeram a passagem para o outro mundo. Ouvi dizer que existem alguns aqui em Payon, na parte norte da Vila.";
+		show "Ao que parece, que eles temem ataques Sagrados como magias dos Padres e flechas de prata. Portanto é bom lembrar disso se você tiver de enfrentar mortos-vivos.";
+		next;
+		show "[Moça do bar]";
+		show "Uma lenda diz que o líder da aldeia matou seus próprios filhos com flechas de prata após terem se transforados em zumbis. Assim ele salvou suas almas e deixou que descansassem em paz.";
+		show "É uma história forte eu sei... Mas é justo que os mortos-vivos possam descnsar afinal... Mesmo que seja dessa maneira.";
+		next;
+		show "[Moça do bar]";
+		show "As nossas tradições sempre rezaram pelo respeito aos mortos... A falta de cuidado que tivemos por nossos cerimoniais mortuários no passado causou tudo isso...";
+		next;
+		show "[Moça do bar]";
+		show "Os Zumbis pagam o preço pela negligência que tivemos com nossas tradições, fadados a caminhar nessa semi-morte... É muito triste...";
+		goto qMes;
+	L1:
+		show "[Moça do bar]";
+		show "Ah! A vovó é mesmo uma pessoa extraordinária! Ela ia gostar de te conhecer. Infelizmente, ela não tem andado muito por aqui...";
+		next;
+		show "[Moça do bar]";
+		show "Antes ela ficava por aqui e lia a sorte dos visitantes e clientes. Só que depois que o chefe da cidade reconheceu o talento dela pra previsões ela fica no palácio no centro da cidade.";
+		show "Se quiser, procure ela por lá.";
+		goto qMes;
+	L2:
+		show "[Moça do bar]";
+		show "Hehehehe. Me desculpe mas não temos mais cerveja, e ultimamente está difícil fazer bebidas alcóolicas por aqui.";
+		show "Estamos com escassez de ingredientes deviado aos monstros agressivos em volta da cidade.";
+		next;
+		show "[Moça do bar]";
+		show "Então passe aqui um outro dia e quem sabe estaremos melhor estabelecidos.";
+		next;
+		show "[Moça do bar]";
+		show "Desculpe pelo incoveniente.";
+		goto qMes;
+
+		qMes:
+			next;
+			show "[Moça do bar]";
+			show "Tenha um bom dia.";
+			show "... Aah... Eu preciso mudar de vida...";
+			close;
+}
+
+payon_in01.gat,129,140,4	script	Guarda	105,{
+	if(baselevel>30) goto Lvl30;
+	show "[Guarda]";
+	show "Eieieiei! Você não pode entrar!";
+	show "Já pra fora";
+	close;
+	
+	Lvl30:
+		show "[Guarda]";
+		show "Desculpe, mas sua entrada não é permitida.";
+		show "Por favor, vá embora.";
+		close;
+}
+
+payon_in01.gat,136,147,2	script	Chefe	120,{
+	OnTouch:
+	if(baselevel>30) goto OkLvl;
+	show "[Guarda]";
+	show "Eieieiei! Mostre seu respeito ao Chefe!";
+	close;
+
+
+		OkLvl:
+			show "[Guarda]";
+			show " Ei! Eu disse...";
+			next;
+			show "[Chefe]";
+			show "Tudo bem, não precisa fazer alarde guarda. Faz muito tempo desde que eu não converso com um desses jovens. Está tudo bem.";
+			next;
+			menu "Por favor, conte-me sobre Payon.",Payon,"De onde vêm estes guardas?",Guards,"Por favor, conte-me sobre a caverna.",Cave,"Gostaria de saber mais sobre os "+callfunc("classname",3,"P","M")+".",Archer,"Gostaria de saber mais sobre os "+callfunc("classname",11,"P","M")+".",Hunter;
+		
+			Payon:
+				show "[Chefe]";
+				show "Payon é a cidade dos "+callfunc("classname",3,"P","M")+", e pela bravura e determinação de nosso povo, somos auto-suficientes e independentes de outras cidades.";
+				show "Embora nossos ancestrais não levassem o intercâmbio cultural com outras cidades tão a sério, e nem aproveitassem os benefícios que isso poderia trazer, eles aprenderam a viver em independência econômica.";
+				show "A força de nosso povo nos ensionou a viver com uma relação direta com a natureza, tirando dela apenas o necessário para viver e criar nossos filhos.";
+				show "Nós somos um povo de homens e mulheres que aprenderam a caçar por necessidade. Os "+callfunc("classname",3,"P","M")+" são a força dessa cidade, pois são a personificação dessa luta e vontade de sobreviver.";
+				next;
+				show "[Chefe]";
+				show "Eu ouço jovens como você dizer que temem os campos ao redor da aldeia, ou as cavernas, por causa dos monstros que habitam esses lugares.";
+				show "Para nós, combater essas criaturas é parte de nossas vidas e o que nos faz um povo unido e forte.";
+				show "Penso que o nosso papel no reino de Midgard seja passar estes ensinamentos aos outros povos daqui. Ajudar a treinar fileiras de lutadores contra as criaturas que ameaçam nossa existência.";
+				show "Nosso espírito de perseverança é algo que todos os homens deveriam entender e compartilhar.";
+				next;
+				goto Cansa;
+			Guard:
+				show "[Chefe]";
+				show "Nos meus tempos de juventude, Prontera começou a mandar para cá diferentes oficiais e funcionários do reino de forma a estreitar as relações entre nós e o resto de Midgard";
+				show "Tropas reais, moças da companhia Kafra, Guardas e oficiais... De início houve controvérsias e desentedimentos devido aos costushow diferentes e às exigências da metrópole.";
+				show "No entando, é inegável que esse relacionamento ajudou muito no comércio com outras cidades e estimulou um grande crescimento em Payon. A vila tornou-se uma cidade de verdade.";
+				next;
+				show "[Chefe]";
+				show "E agora vemos jovens vindos de fora encontrar seu lar aqui em Payon e abraçar nossos costushow e tradições... Nunca imaginei que isso pudesse acontecer. Hehe...";
+				show "É algo que me deixa muito feliz...";
+				show "Que pessoas de fora possam amar nossa pequena cidade assim como nós.";
+				next;
+				goto Cansa;
+			Cave:
+				show "[Chefe]";
+				show "A caverna ao Norte foi um dos lugares onde passei minha juventude. Eu passava semanas lá dentro, treinando e treinando, disposto a me fortalecer e me tornar um grande herói.";
+				show "Era um lugar mais ameaçador antigamente, na verdade. As criaturas eram mais ferozes e atacavam sem descanso.";
+				show "Os monstros hoje são... diferentes daqueles de antigamente.";
+				next;
+				show "[Chefe]";
+				show "Você já ouviu? Lamentos de rancor saindo de dentro da caverna... dos mortos em batalha... pessoas que entraram lá pra proteger a cidade e não saíram.";
+				next;
+				show "[Chefe]";
+				show "Os mortos-vivos ainda fazem vítimas lá dentro... Mesmo crianças como você... ah... Estou velho demais para suportar essa dor... Velho demais...";
+				next;
+				show "[Chefe]";
+				show "Eu jurei que faria de tudo para deter os mortos... Tudo...";
+				next;
+				goto Cansa;
+			Archer:
+				show "[Chefe]";
+				show "Das florestas em torno da cidade, podemos extrair bastante madeira.";
+				show "Evidentemente, é um benefício natural à nossa classe de "+callfunc("classname",3,"P","M")+", tanto na fabricação de armas quanto no treinamento deles.";
+				next;
+				show "[Chefe]";
+				show "A floresta ajuda o "+callfunc("classname",3,"S","M")+" a se esconder e se camuflar, e a atacar o alvo sem ser visto e sem se aproximar dele.";
+				show "Os "+callfunc("classname",3,"P","M")+" são fortes em Destreza, de forma a atacar seus inimigos incautos de uma longa distância e com força total.";
+				next;
+				show "[Chefe]";
+				show "Aém disso, existe um benefício de caçar estes monstros da floresta... a maioria deles costuma deixar cair flechas quando mortos, que usamos contra eles próprios. Quando jovem, isso me salvou muitas vezes!";
+				show "Hahahahaha!";
+				next;
+				goto Cansa;
+			Hunter:
+				show "[Chefe]";
+				show "Com a abertura de Payon, para as outras culturas, nosso estilo de batalha sofreu algumas mudanças.";
+				show "Certas tecnologias, como explosivos e outros mecanismos, foram introduzidas e adaptadas pelos mais jovens às técnicas de arco e flecha tradicionais, tornando-as mais letais e estratégicas.";
+				next;
+				show "[Chefe]";
+				show "Armadilhas e outras habilidades, como o treinamento de falcões de ataque, facilitavam muito a caça dos monstros. Por isso, o antigo Chefe determinou a criação de uma nova classe para quem as utilizasse: os "+callfunc("classname",11,"P","M")+".";
+				show "Por serem habilidades difíceis de serem aprendidas e também perigosas, espera-se que os jovens alcancem um certo n;ivel de habilidade antes de tornarem-se "+callfunc("classname",11,"P","M")+".";
+				next;
+				show "[Chefe]";
+				show "A classe dos "+callfunc("classname",11,"P","M")+" é a nata de nossos guerreiros e exigimos muito dos que desejam tornar-se um deles.";
+				next;
+				goto Cansa;
+			Cansa:
+				show "[Chefe]";
+				show "Me desculpe... Estou cansado... É melhor que eu descanse um pouco.";
+				show "Desejo o melhor para você.";
+				close;
+}
+
+payon_in01.gat,164,165,2	script	Lucien	98,{
+	show "[Lucien]";
+	show "Prazer em conhecê-lo, eu me chamo Lucien e sou o Organizador de Pesquisas de Monstros de Midgard.";
+	show "Você gostaria de alguma informação?";
+	next;
+	menu "Sobre Payon.",L0,"Sobre Monstros Malditos.",L1,"Sobre Pesquisas de Monstros.",L2;
+
+	L0:
+		show "[Lucien]";
+		show "Payon se encontra circundada por florestas, fazendo com que se torne isolada do mundo exterior.";
+		show "Isso pode dificultar muito a chegada da ajuda externa, no caso de um ataque a cidade.";
+		next;
+		show "[Lucien]";
+		show "Mas a cidade tem uma própria ameaça interna, que é a sua ao norte.";
+		show "Nesta caverna existem vários tipos de monstros, todos muito interessantes para nós pesquisadores.";
+		close;
+	L1:
+		show "[Lucien]";
+		show "Os monstros do tipo Maldito são extremamente interessantes.";
+		show "A maior parte dos que se encontram nesta cidade já foram algum dia habitantes da mesma.";
+		show "De alguma maneira trágica, eles perderam suas vidas, e não conseguem encontrar o caminho para o Além.";
+		next;
+		show "[Lucien]";
+		show "Exatamente por terem sido pessoas vivas eles despertam tanto interesse em nosso Rei.";
+		show "Não é incrível que ele tenha um cuidado até mesmo com os súditos mortos?";
+		show "Mas esse é o nosso Rei, sempre preocupado com o seu povo.";
+		next;
+		show "[Lucien]";
+		show "É claro que estamos tentando descobrir como 'eliminar' estes mortos-vivos.";
+		show "E poe 'eliminar' eu quero dizer, ajudá-los e encontrar o caminho para o Além.";
+		next;
+		show "[Lucien]";
+		show "Eu espero algum dia descobrir como...";
+		close;
+	L2:
+		show "[Lucien]";
+		show "A Organização de Pesquisa de Monstros foi formada para descobrir um meio de nós livrarmos deles.";
+		show "Mentes brilhantes de todo o reino foram reunidas para este fim.";
+		next;
+		show "[Lucien]";
+		show "Não é tão fácil quanto parece, apesar de dedicarmos nossas vidas aos estudos, ainda não achamos uma solução.";
+		next;
+		show "[Lucien]";
+		show "Mas nunca nós damos por vencidos, pessoas demais já morreram por  causa desses monstros.";
+		show "Não podemos permitir que isso continue!";
+		next;
+		show "[Lucien";
+		show "Oh, desculpe se levantei a minha voz...";
+		show "Este assunto me emociona muito, me deixo levar facilmente.";
+		show "Todos nós precisamos fazer algo pelo bem de nosso mundo.";
+		close;
+}
+
+payon_in01.gat,174,113,2	script	Marxhansen	86,{
+	if(MARIANNE==1) goto FJL0;
+	show "[Marxhansen, o Mercador]";
+	show "bem-vindo.";
+	next;
+	menu "Conversar.",L0,"Cancelar.",L1;
+		
+	L0:
+		show "[Marxhansen, o Mercador]";
+		show "Quando os humanos ainda eram nômades, eles dependiam das frutas que achavam.";
+		show "E com o tempo eles aprenderam a fazer sucos com elas, para mante-las por mais tempo.";
+		next;
+		show "[Marxhansen, o Mercador]";
+		show "Agora, temos garndes hortas, e podemos ter todas as frutas que gostaríamos.";
+		show "Mas os sucos continuam a ser muito importantes, por conterem apenas o que é bom da fruta.";
+		show "Nos sucos, você pode aproveitar um sabor muito mais concentrado.";
+		close;
+	L1:
+		show "[Marxhansen, o Mercador]";
+		show "Você veio até aqui por nada?";
+		close;
+
+	FJL0:
+		show "[Marxhansen, o Mercador]";
+		show "Bem vindo à minha loja. Você veio aqui preparar suco de frutas?";
+		next;
+		menu "Sim.",FJL00,"Por favor, diga-me os requerimentos.",FJL01,"Não, eu não.",FJL02;
+		
+		FJL00:
+			show "[Marxhansen, o Mercador]";
+			show "Qual tipo de suco de fruta deseja preparar?";
+			next;
+			menu "Suco de Maçã",L00,"Suco de Banana",L01,"Suco de Cenoura",L02,"Suco de Uva",L03,"Nenhum, obrigado.",LEnd;
+
+			L00:
+				set @fruit,512;
+				set @juice,531;
+				goto L00z;
+			L01:
+				set @fruit,513;
+				set @juice,532;
+				goto L00z;
+			L02:
+				set @fruit,515;
+				set @juice,534;
+				goto L00z;
+			L03:
+				set @fruit,514;
+				set @juice,533;
+				goto L00z;
+
+			L00z:
+				if((countitem(@fruit)>0) || (countitem(713)>0) || (Zeny>2)) goto L000z;
+					if (@fruit == 512) goto noL00;
+					if (@fruit == 513) goto noL01;
+					if (@fruit == 514) goto noL03;
+					if (@fruit == 515) goto noL02;
+					close;
+
+							noL00:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Maçã você precisa de 1 Maçã e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Maçã.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL01:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Banana você precisa de 1 Banana e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Banana.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL02:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Cenoura você precisa de 1 Cenoura e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Cenoura.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+							noL03:
+								show "[Marxhansen, o Mercador]";
+								show "Ahh, como póde?! Você não tem todos os itens necessários...";
+								show "Para fazer um Suco de Uva você precisa de 1 Uva e 1 Garrafa Vazia!";
+								show "Não esqueça dos meus 3 zeny, o preço para um copo de Suco de Uva.";
+								show "Quando você tiver os ingredientes necessários, irei atende-lo melhor.";
+								close;
+				L000z:
+				show "[Marxhansen, o Mercador]";
+				show "Quantos? Você precisa...";
+				next;
+				menu "Hmm, deixe-me colocar a quantidade",Lget,"Argh, esqueça!",L00c;
+				Lget:
+					digit @input;
+					if(@input > 0) goto Linp;
+					show "[Marxhansen, o Mercador]";
+					show "Deal canceled.";
+					close;
+
+					Linp:
+						if((countitem(@fruit)<@input) || (countitem(713)<@input) || (Zeny<3*@input)) goto Ltomuch;
+						delitem @fruit,@input;
+						delitem 713,@input;
+						set Zeny,zeny-3*@input;
+						additem @juice,@input;
+						goto GotMsg;
+						
+
+						Ltomuch:
+							show "[Marxhansen, o Mercador]";
+							show "Você não tem as garrafas necessárias ou as frutas para fazer o suco.";
+							close;
+						GotMsg:
+							show "[Marxhansen, o Mercador]";
+							show "Prontinho, hehehe.";
+							show "Tome isto!";
+							close;
+				L00c:
+					close;
+			LEnd:
+				show "[Marxhansen, o Mercador]";
+				show "Ohh! Mas porque isso rapaz?";
+				show "Sucos são ótimos! Fazem um bem danado.";
+				show "Mas não vou obrigá-lo a tomar, vejo você quando tiver juízo...";
+				close;
+		FJL01:
+			show "[Marxhansen, o Mercador]";
+			show "Quando os humanos ainda eram nômades, eles dependiam das frutas que achavam.";
+			show "E com o tempo eles aprenderam a fazer sucos com elas, para mante-las por mais tempo.";
+			next;
+			show "[Marxhansen, o Mercador]";
+			show "Agora, temos garndes hortas, e podemos ter todas as frutas que gostaríamos.";
+			show "Mas os sucos continuam a ser muito importantes, por conterem apenas o que é bom da fruta.";
+			show "Nos sucos, você pode aproveitar um sabor muito mais concentrado.";
+			next;
+			show "# Informações para fazer um Suco de Fruta #";
+			show "Suco de Maçã - Maçã x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Banana - Banana x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Cenoura - Cenoura x 1, Garrafa Vazia x 1, 3 zeny.";
+			show "Suco de Uva - Uva x 1, Garrafa Vazia x 1, 3 zeny.";
+			close;
+		FJL02:
+			close;
+}
+
+payon_in01.gat,176,176,2	script	Markiv, o Arqueiro	88,{
+	show "[Markiv, o Arqueiro]";
+	show "Um "+callfunc("classname",3,"S","M")+" deve sempre praticar, praticar e praticar! É a única maneira de se tornar um campeão!";
+	show "Você é novo por aqui? Olá!";
+	next;
+	show "[Markiv, o Arqueiro]";
+	show "Eu sou Markiv, o "+callfunc("classname",3,"S","M")+". Pode me chamar só de Markiv.";
+	show "Eu sei que é uma pergunta meio nada a ver, mas você é preguiçoso?";
+	next;
+	menu "Claro que não.",L0,"Acho que sim.",L1;
+
+	L0:
+		show "[Markiv, o Arqueiro]";
+		show "Hmm... Não? Então você nasceu para ser um "+callfunc("classname",3,"S","M")+".";
+		show "Nós "+callfunc("classname",3,"P","M")+" não devemos nunca ser preguiçosos e deixar de praticar.";
+		show "Por isso, costumamos não gostar de gente que não se esforça na vida.";
+		next;
+		show "[Markiv, o Arqueiro]";
+		show "Como nós treinamos? Bem, por aqui não ficamos praticando com bonecos ou outras frescuras. Não senhor!";
+		show "'Treinar' aqui em Payon significa lutar! Batalhas reais! Arco e flecha na mão e mãos à obra!";
+		show "É assim que é aqui, cara!";
+		next;
+		menu "Você deve precisar de um bom arco pra isso.",L00,"Bem, eu não sou muito de praticar...",L01;
+
+		L00:
+			show "[Markiv, o Arqueiro]";
+			show "Claro que sim! O arco é a essência de nossa classe, oras!";
+			show "Os arcos de Payon são os melhores do reino! Leves e esguios, feitos das melhores madeiras desta floresta!";
+			show "Evidentemente, a qualidade da madeira determina a qualidade do arco. Essa belezinha aqui é feita de mandeira de castanheira, feita pra durar por anos a fio, sem perder a força ou a tensão da corda.";
+			show "Além disso é decorado em ébano, dando aquele estilo que faz a diferença!";
+			next;
+			show "[Markiv, o Arqueiro]";
+			show "A floresta de Payon é famosa pela qualidade de suas madeiras. Mesmo agora que algumas árvores transformaram-se em monstros horríveis...";
+			show "...Árvores que costumavam ser tão bela e imponentes...";
+			show "... Mesmo agora, nesta forma amaldiçoada, elas ainda nos dão madeira de ótima qualidade! Dos itens que caem delas, podemos fazer ótimos arcos!";
+			next;
+			menu "Então as coisas vão bem por aqui, heim?",L000,"",L001;
+
+			L000:
+				show "[Markiv, o Arqueiro]";
+				show "Não exatamente, porque não é só nas florestas que existem monstros. Ou você não sabe que dentro da cidade temos monstros também?";
+				show "Indo para o Norte, você encontrará uma caverna. Dentro dela, existem monstros assustadores que aparecem do chão, sem avisos! Zumbis e todo o tipo de criaturas Amaldiçoadas!";
+				show "Estamos aqui em nome da vila e de nosso Chefe, protegendo nosso território destes demônios.";
+				next;
+				menu "Ca-caverna?!",L000a,"Chefe?",L000b,"Cara, eu odeio esta cidade...",L000c;
+
+				L000a:
+					show "[Markiv, o Arqueiro]";
+					show "Indo para o Norte até o próximo mapa você verá a caverna de que falei.";
+					show "Lá dentro existem monstros de todo o tipo, Morcegos, Zumbis e até Esqueletos "+callfunc("classname",3,"P","M")+"!";
+					show "Se ninguém os enfrentar e deixá-los à solta, eles logo invadirão a cidade. Por isso freqüentemente, aventureiros vão à caverna 'controlar' o número de monstros.";
+					show "Hehehe.";
+					next;
+					show "[Markiv, o Arqueiro]";
+					show "Ainda assim, eles se reproduzem sem para, como que saídos do chão!";
+					show "Parece uma pedra de tempo e talvez seja, mas precisamos impedir que nossa cidade seja prejudicada.";
+					show "Bom, já chega, vamos parar de falar besteira. Até eu não aguento mais falar!";
+					show "Até mais, tenho mais o que fazer.";
+					close;
+
+				L000b:
+					show "[Markiv, o Arqueiro]";
+					show "O Chefe da Cidade? Ah, ele é um cara extraordinário. Bem, é verdade que ele me enche o saco por eu 'falar demais' e não sei mais o quê, mas...";
+					show "Ele sempre leva em conta o bem-estar de nosso povo, muito embora hoje ele raramente saia de seu palácio.";
+					show "É reconfortante saber que um grande homem como ele zela por nosso bem-estar.";
+					next;
+					show "[Markiv, o Arqueiro]";
+					show "Heheheh. Eu vou me encrencar se ele souber que eu disse isso a um estranho...";
+					show "Como agora eu já falei, tanto faz não é mesmo?!";
+					show "Hmmm... Eu e minha boca grande...";
+					show "Bem, até mais, cara!";
+					close;
+				
+				L000c:
+					close;
+
+			L001:
+				show "[Markiv, o Arqueiro]";
+				show "Hmmm... Não? Você deveria, viu?";
+				show "Nós, "+callfunc("classname",3,"P","M")+", temos orgulho de sempre praticar e praticar.";
+				show "Por isso, não gostamos de gente que não se esforça.";
+				next;
+				show "[Markiv, o Arqueiro]";
+				show "Aposto que você já se cansou de me ouvir repetir isso, né?";
+				show "Confie em mim, praticar é tudo!";
+				show "É a vida de um "+callfunc("classname",3,"S","M")+"!";
+				close;
+		L01:
+			show "[Markiv, o Arqueiro]";
+			show "Hmmm... às vezes é bom descansar um pouco, eu acho.";
+			show "Se divertir é sempre bom, não é mesmo?";
+			next;
+			menu "Como assim, 'é bom descancar'?",L010,"Mas e o treinamento?",L011,"...Ah, a gente se vê por aí...",L012;
+
+			L010:
+				show "[Markiv, o Arqueiro]";
+				show "Ei, peraí! É bom se você não deixar de praticar, entendeu? Nosso Chefe te diria a mesma coisa, ele passava semanas matando monstros sem parar... Afinal, sem treino você vai acabar virando um cara como o Bêbado lá embaixo!. Hahaha!";
+				next;
+				menu "Chefe?",L010a,"Bêbado?",L010b,"Não tem graça.",L010c;
+			
+				L010a:
+					show "[Markiv, o Arqueiro]";
+					show "O Chefe da Cidade? Ah, ele é um cara extraordinário. Bem, é verdade que ele me enche o saco por eu 'falar demais' e não sei mais o quê, mas...";
+					show "Ele sempre leva em conta o bem-estar de nosso povo, muito embora hoje ele raramente saia de seu palácio.";
+					show "É reconfortante saber que um grande homem como ele zela por nosso bem-estar.";
+					next;
+					show "[Markiv, o Arqueiro]";
+					show "Heheheh. Eu vou me encrencar se ele souber que eu disse isso a um estranho...";
+					show "Como agora eu já falei, tanto faz não é mesmo?!";
+					show "Hmmm... Eu e minha boca grande...";
+					show "Bem, até mais, cara!";
+					close;
+				L010b:
+					show "[Markiv, o Arqueiro]";
+					show "Você sabe, aquele cara no bar alí embaixo. Quando eu tenho uma grana sobrando eu compro algo pra ele beber, embora eu me preocupe com o problema de bebida dele.";
+					show "Afinal, ele é um dos meus vizinhos da aldeia, não gostaria de vê-lo morrer de cirrose, certo?";
+					show "Hmm... Isso me lembra uma cervejinha...";
+					show "Acho que vou descer até o bar! Até mais, cara!";
+					close;
+				L010c:
+					show "[Markiv, o Arqueiro]";
+					show "Ah, você não tem mesmo senso de humor.";
+					close;
+
+			L011:
+				show "[Markiv, o Arqueiro]";
+				show "Treinar é o que é mais importante na vida, cara!";
+				show "Nós, "+callfunc("classname",3,"P","M")+", temos orgulho de sempre praticar e praticar.";
+				show "Por isso nao gostamos de pessoas que não se esforçam.";
+				next;
+				show "[Markiv, o Arqueiro]";
+				show "É impressionante que até um cara folgado como eu possa se motivar e ser um "+callfunc("classname",3,"S","M")+"!";
+				show "A vida é demais mesmo, não é?";
+				show "Então aproveite-a ao máximo, cara!";			
+				close;
+			
+			L012:
+				close;
+	L1:
+		close;
+}
+
+payon.gat,29,116,8	script	Um Jovem	88,{
+	show "[Um Jovem]";
+	show "Eu ainda lembro da história que meu avô, que os Deuses o tenham.";
+	show "Ele dizia que existe um amuleto com o poder de dar vida nova aos mortos";
+	show "Se é verdade ou não, isso eu não posso lhe dizer. Mas eu gostaria de saber o que aconteceria se eu o usasse para tirar meu avô do mundo dos mortos...";
+	close;
+}
+
+payon.gat,163,139,8	script	Mocinha	90,{
+	show "[Mocinha]";
+	emotion 0;
+	show "A muito tempo atrás, quando essa cidade foi fundada, foi muito dificil de se estabelecer aqui.";
+	show "Por isso nossos ancestrais não tinham recursos para enterrar os mortos de acordo com os rituais sagrados ou fazer-lhes oferendas na morte."; 
+	show "As pessoas jogavam os corpos de seus familiares na caverna que atualmente fica perto da vila.";
+	show "Não sei se foi o desrespeito aos mortos e aos rituais sagrados ou alguma maldição daquelas cavernas, mas hoje estes mortos que não acharam seu caminho para Nifl-heim continuam caminhando lá dentro...";
+	next;
+	show "[Mocinha]";
+	show "Zumbis comedores de carne humana...";
+	show "Assustador, não é?";
+	close;
+}
+
+payon.gat,163,142,5	script	Mulher	66,{
+	show "[Mãe do João]";
+	show "Ai meu Deus... Não dê ouvidos a ela, ok? Essa aí é fofoqueira de mão cheia, viu?";
+	show "E por favor, não pense que todo mundo na vila é que nem ela, tá?";
+	show "Quer dizer, seria uma péssima impressão da nossa cidade achar que todo mundo é tonto e acredita em cartomantes, né?";
+	show "mas olha só pra você, acho que nunca te vi por aqui antes, hein?";
+	next;
+	show "[Mãe do João]";
+	show "Oh, mas você tem ou não os ombros mais largos que eu já vi, rapaz?";
+	show "Hohoho! Quer sair comigo?";
+	show "Aposto que você me deixaria te pagar um belo jantar, hein?";
+	next;
+	menu "Que Cartomantes?",L0,"...Hã...Tchau.",L1;
+
+	L0:
+		show "[Mãe do João]";
+		show "Cartomantes, ué? Nunca ouviu falar?";
+		show "Tem uma íncrivel no palácio da cidade, sabe?";
+		show "Quanto mais você pagar pra ela, mais precisa vai ser a previsão";
+		next;
+		show "[Mãe do João]";
+		show "Olha, ela me disse que eu ia encontrar um rapagão lindo de fora da cidade, sabe?... Que tal, hein?";
+		show "Hohohohoho!";
+		close;
+	L1:
+		show "[Mãe do João]";
+		show "Hmmm. Porque você não fica mais um pouco e joga conversa fora comigo, hein?";
+		close;
+}
+
+
+payon.gat,166,140,3	script	Mulher	66,{
+	show "[Mulher]";
+	show "Bem-vindo à Payon. acho que deve ter sido difícil cruzar a floresta para chegar aqui, hein? Como foi sua viagem?";
+	show "O número de visitantes diminui a cada ano, por cauda dos monstros que andam pelas florestas. A cidade vai ficando cada vez mais queta e vazia com o tempo.";
+	show "Logo não tem muito o que fazer por aqui, a gente acaba passando o dia jogando conversa fora. Hehehe.";
+	next;
+	show "[Mulher]";
+	show "Mas pra falar a verdade, esse negócio dos monstros não é brincadeira...";
+	if(sex==1) show "Moço, você parece forte como um Roqueiro! Quantos monstros você já matou?";
+	if(sex==0) show "Senhorita, você é linda e parece ter muita garra! Quantos monstros você ja matou?";	
+	show "Quer uma dica de um bom lugar para caçar?";
+	next;
+	menu "Não sei, parece perigoso.",L0,"Acho que é bom eu me preparar melhor.",L1,"Dona, que bela roupa essa sua!",L2;
+
+	L0:
+		show "[Mulher]";
+		show "Ah, seu covardão! É só uma caverna idiota cheia de monstros comuns!";
+		show "É tão segura que até construímos uma vila em volta! Hohohoho!";
+		close;
+	L1:
+		show "[Mulher]";
+		show "Não ouviu o que eu disse? Não precisa se preocupar em levar coisas, tem uma loja de ferramentas por ali, dá pra comprar de tudo lá";
+		show "Na verdade, o dono é meu marido...";
+		show "Então compre bastante que eu agradeço! Hohohoho!";
+		close;
+	L2:
+		show "[Mulher]";
+		show "Hohohoho! Você reparou? É a última moda em Prontera, viu?";
+		show "As mulheres dessa cidade não sabem NADA de moda! Meu marido gastou os olhos da cara nessa roupa, mas é claro que eu não ia me contentar com qualquer trapo, né?";
+		show "Hohohoho...";
+		close;
+}

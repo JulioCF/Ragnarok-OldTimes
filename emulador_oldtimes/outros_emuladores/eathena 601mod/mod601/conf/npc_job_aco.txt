@@ -1,0 +1,138 @@
+//----------------------------------------------------------------------
+// スクリプト : Job_Aco v1.1
+// 会話文は適当です…^_^;
+//----------------------------------------------------------------------
+
+prt_church.gat,184,41,4	script	聖堂神父	60,{
+			if(JOB_ACOLYTE_Q2 !=  1) goto L_START_1_1;
+			mes "[マルシス神父]";
+			mes "お、兄弟よ。また来ましたよね。さすが";
+			mes "天の意志を修行する準備になっているのが現れている。";
+			next;
+			mes "ふん、修行レベルも達成し、修行完遂者リストにも上がったようなので良いでしょう。";
+			mes "兄弟の意志を受け取って、服事の資格を与えます。";
+			jobchange 4;
+			set JOB_ACOLYTE_Q,0;
+			set JOB_ACOLYTE_Q2,0;
+			set JOB_ACOLYTE_Q3,0;
+			close;
+	L_START_1_1:
+			if(JOB_ACOLYTE_Q3 ==  1) goto L_ROOT_1_1;
+			mes "[マルシス神父]";
+			mes "何のご用で訪ねていらしたんですか？";
+			next;
+			menu "アコライトに 転職する",L_MENU_1_0,"転職条件について聞く",L_MENU_1_1,"やめる",L_MENU_1_2;
+	L_MENU_1_0:
+			mes "[マルシス神父]";
+			if(Class != 4) goto L_START_1_2;
+				mes "あなたはもう アコライトです。";
+				close;
+	L_START_1_2:
+			if(Class != 0) goto L_START_1_3;
+			if(JobLevel < 10) goto L_START_1_4;
+			if(SkillPoint != 0) goto L_START_1_4;
+		L_SUB_1_1:
+			mes "兄弟よ、心から神様の僕になりたいんですか？";
+			next;
+			menu "はい",L_MENU_1_3,"いいえ",L_MENU_1_2;
+
+	L_START_1_3:
+			mes "現在の職業が";
+			mes "「ノービス」である方以外は";
+			mes "転職できません。";
+			close;
+	L_START_1_4:
+			mes "初心者スキルを9にしてください。";
+			close;
+	L_START_1_5:
+			mes "[マルシス神父]";
+			mes "?";
+			close;
+	L_MENU_1_1:
+			mes "[マルシス神父]";
+			mes "より円滑なプレイのために、";
+			mes "ジョブレベルを10に";
+			mes "上げて来たらすぐに転職させて";
+			mes "あげます。";
+			next;
+			mes "[アコライトギルド関係者]";
+			mes "今後のアップデートにより、";
+			mes "特定の条件を満たした時だけ";
+			mes "転職ができるようになります。";
+			mes "この点をご留意下さい。";
+			close;
+	L_MENU_1_2:
+			close;
+	L_MENU_1_3:
+		set JOB_ACOLYTE_Q,rand(3);
+		set JOB_ACOLYTE_Q3,1;
+		mes "[マルシス神父]";
+		mes "修行者完遂者のリストに、まだ兄弟の名前は出てないですね。";
+		L_ROOT_1_1:
+			if(JOB_ACOLYTE_Q != 0) goto L_ROOT_1_2;
+			mes "プロンテラ北東東どこかの遺跡から修行中にいるプロンテラ教区のゴンザロルラルカパバラ神父がお待ちしておりますので、それでは行ってらっしゃい";		
+			close;
+		L_ROOT_1_2:
+			if(JOB_ACOLYTE_Q != 1) goto L_ROOT_1_3;
+			mes "モロク北MAP (moc_fild07)";
+			mes "にいるシスターに会って下さい。";
+			close;
+		L_ROOT_1_3:
+			mes "プロンテラ北西西 (prt_fild00)";
+			mes "にいる神父に会って下さい。";
+			close;
+}
+
+prt_fild03.gat,365,255,4	script	修行中の神父	89,{
+	if (JOB_ACOLYTE_Q3 == 1) goto L_START_1;
+   		mes "[ルバルカバラ神父]";
+   		mes "...";
+		close;
+	L_START_1:
+		if (JOB_ACOLYTE_Q == 0) goto L_SUB_1_1;
+		mes "[ルバルカバラ神父]";
+   		mes "ここじゃないです";
+   		close;
+		L_SUB_1_1:
+			mes "[ルバルカバラ神父]";
+			mes "お疲れ様～。";
+			savepoint "prt_fild03.gat",365,255;
+			set JOB_ACOLYTE_Q2,1;
+			close;
+}
+
+moc_fild07.gat,41,355,4	script	修行中のシスター	95,{
+	if (JOB_ACOLYTE_Q3 == 1) goto L_START_1;
+   		mes "[シスターマチルダ]";
+   		mes "...";
+		close;
+	L_START_1:
+		if (JOB_ACOLYTE_Q == 1) goto L_SUB_1_1;
+		mes "[シスターマチルダ]";
+   		mes "ここじゃないです";
+   		close;
+		L_SUB_1_1:
+			mes "[シスターマチルダ]";
+			mes "お疲れ様～。";
+			savepoint "moc_fild07.gat",41,355;
+			set JOB_ACOLYTE_Q2,1;
+			close;
+}
+
+prt_fild00.gat,208,255,4	script	修行中の神父	98,{
+	if (JOB_ACOLYTE_Q3 == 1) goto L_START_1;
+   		mes "[洋介神父]";
+   		mes "...";
+		close;
+	L_START_1:
+		if (JOB_ACOLYTE_Q == 2) goto L_SUB_1_1;
+		mes "[洋介神父]";
+   		mes "ここじゃないです";
+   		close;
+		L_SUB_1_1:
+			mes "[洋介神父]";
+			mes "お疲れ様～。";
+			savepoint "prt_fild00.gat",208,255;
+			set JOB_ACOLYTE_Q2,1;
+			close;
+}

@@ -1,0 +1,260 @@
+//===== Cronus Script ========================================
+//= Quests de Comodo
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão: ========================================
+//= 1.1
+//===== Descrição: ===========================================
+//= Quests da cidade de Comodo
+//===== Changelog: ===========================================
+//= 1.1 Traduzido [Jahfn]
+//============================================================
+
+// Hair Ornament Girl 
+comodo.gat,227,158,4	script	Menina dos Enfeites	700,{
+	show "[Menina das Faixas]";
+	if(sex==1)show "Oh, olá.  Você precisa comprar um presente para uma amiga, mãe, ou alguma namorada? Então dê à ela um enfeite para o Cabelo! É o melhor presente que você pode dar.";
+	if(sex==0)show "Oh, olá.  Você precisa comprar um presente para uma amiga, mãe, ou para você mesma? Então compre um enfeite para o Cabelo! É o melhor presente que pode dar, ou ganhar.";
+	next;
+	show "[Menina dos Enfeites]";
+	show "Somente me traga alguns itens simples, e eu poço fazê-la para você!  Aqui, olhe esses...";
+M_Menu:
+	next;
+	menu "-Cruz",M_Cross, "-Lâmpada",M_Bulb, "-Faixa Listrada",M_Striped, "-Faixa Azul",M_Blue, "-Terminar Conversa",M_End;
+
+	M_Cross:
+		set @BAND$, "Cruz";
+		set @ITEMS$, " ^5555FF1 Rosário^000000 and ^5555FF500 Armaduras Destruídas^000000.";
+		if (countitem(2608)>=1 && countitem(7069)>=500) set @GETBAND, 1;
+		goto sL_0;
+
+	M_Bulb:
+		set @BAND$, "Lâmpada";
+		set @ITEMS$, "^5555FF1 Tiara [1]^000000 e ^5555FF20 Bolinhas de Gude^000000.";
+		if (countitem(2233)>=1 && countitem(746)>=20) set @GETBAND, 2;
+		goto sL_0;
+
+	M_Striped:
+		set @BAND$, "Faixa Listrada";
+		set @ITEMS$, "^5555FF1500 Uniformes Velhos de Presidiário^000000.";
+		if (countitem(1099)>=1500) set @GETBAND, 3;
+		goto sL_0;
+
+	M_Blue:
+		set @BAND$, "Faixa Azul";
+		set @ITEMS$, "^5555FF1 Bandana^000000, ^5555FF1 Tintura Azul^000000, e ^5555FF300 Peles de Anolian^000000.";
+		if (countitem(2211)>=1 && countitem(978)>=1 && countitem(7003)>=300) set @GETBAND, 4;
+
+		sL_0:
+			show "[Menina dos Enfeites]";
+			show "Então está interessado na  "+@BAND$+" huh? Esses são os itens que precisa para fazer a "+@BAND$+":";
+			show @ITEMS$;
+			next;
+			if (@GETBAND > 0) goto sL_GetBand;
+
+			show "[Menina dos Enfeites]";
+			show "Traga-me esses itens e eu poderei fazer a "+@BAND$+".";
+			goto M_Menu;
+
+		sL_GetBand:
+			show "[Menina dos Enfeites]";
+			show "Pronto, você tem os itens necessários para a  "+@BAND$+".  Quer que eu faça uma?";
+			next;
+			menu "Sim, claro.",sM_Yes, "Não obrigado.",M_End;
+
+			sM_Yes:
+				if (@GETBAND == 1) goto ssL_Cross;
+				if (@GETBAND == 2) goto ssL_Bulb;
+				if (@GETBAND == 3) goto ssL_Striped;
+				if (@GETBAND == 4) goto ssL_Blue;
+
+				ssL_Cross:
+					delitem 2608,1;
+					delitem 7069,500;
+					additem  5036,1;
+					goto ssL_End;
+				ssL_Bulb:
+					delitem 2233,1;
+					delitem 746,20;
+					additem 5034,1;
+					goto ssL_End;
+				ssL_Striped:
+					delitem 1099,1500;
+					additem 5049,1;
+					goto ssL_End;
+				ssL_Blue:
+					delitem 2211,1;
+					delitem 978,1;
+					delitem 7003,300;
+					additem 5052,1;
+				ssL_End:
+					show "[Menina dos Enfeites]";
+					show "Aqui esta a "+@BAND$+".  Obrigado.";
+					set @GETBAND, 0;
+					close;
+
+	M_End:
+		show "[Menina dos Enfeites]";
+		show "Espero vê-lo em breve.";
+		close;
+
+}
+
+// Mari Isac
+comodo.gat,274,137,5	script	Mari Isac	702,{
+	show "[Mari Isac]";
+	show "Eu viajo pelo mundo todo e ouço muitas histórias das pessoas que conheço.";
+	show "Algumas vezes, aprendi como fazer itens especiais";
+	next;
+	show "[Mari Isac]";
+	show "Está interessado nos itens especiais que aprendi à fazer?";
+M_Menu:
+	next;
+	menu "Fale-me sobre eles.",M_0, "Faça-me um.",M_1;
+
+	M_0:
+		menu "-Capacete de Mineiro",sM_Mine, "-Trouxinha",sM_Parcel, "-Avareza",sM_Money, "-Mascara da Ópera",sM_Phantom;
+
+		sM_Mine:
+			show "[Mari Isac]";
+			show "Eu aprendi como fazer o Capacete de Mineiro durante uma viagem as minas de Carvão de Geffen.";
+			next;
+			show "[Mari Isac]";
+			show "As coisas mais importantes para os mineiros são luz e proteção para a cabeça.";
+			show "Um inventor-mineiro foi capaz de unir as duas em um só.";
+			next;
+			show "[Mari Isac]";
+			show "Ele uniu a luz ao seu capacete, e o chamou de Capacete de Mineiro.";
+			show "Assim não precisam se preocupar em carregar lampadas, e podem trabalhar melhor assim.";
+			next;
+			show "[Mari Isac]";
+			show "Enfim, os itens de que precisa me trazer para que eu o faça um Capacete de Mineiro é:";
+			show "^5555FF1 Capacete de Segurança^000000,";
+			show "^5555FF1 Vela^000000,";
+			show "^5555FF1 Espelho de Cristal^000000,";
+			show "^5555FF25 Aços^000000.";
+			next;
+			goto M_0;
+		sM_Parcel:
+			show "[Mari Isac]";
+			show "Eu aprendi como fazer o chapéu 'Trouxinha' em Alberta. Eles tem essa maneira unica de transportar correspondencias e outras coisas.";
+			next;
+			show "[Mari Isac]";
+			show "Invés de usar sacolas, ele usam esse tipo diferente de chapéu, chamado de Trouxinha.";
+			show "Ele permite levar coisas pessoais e em grande numero sobre sua cabeça É claro que você precisa de equilibrio para usa-la.";
+			next;
+			show "[Mari Isac]";
+			show "Enfim, os itens de que precisa me trazer para que eu o faça uma Trouxinha é:";
+			show "^5555FF150 Tecidos^000000,";
+			show "^5555FF100 Resinas^000000,";
+			show "^5555FF1 Tintura Azul^000000.";
+			next;
+			goto M_0;
+		sM_Money:
+			show "[Mari Isac]";
+			show "Eu aprendi como fazer o chapéu Avareza nas minhas viajens por Morroc.";
+			next;
+			show "[Mari Isac]";
+			show "A muito tempo, um honesto mercado entrou em conflito com um clã.";
+			show "Para ira do clã, o mercador não trapaceava nem superfaturava sobre as pessoas.";
+			next;
+			show "[Mari Isac]";
+			show "Por causa disso, o clã assaltou a loja dele, e levou tudo que ele tinha de bom.";
+			next;
+			show "[Mari Isac]";
+			show "O mercador ficou arrasado com a perda de sua loja.";
+			show "Na sua insanidade, ele fez com o que sobrou no seu estoque um novo item.";
+			next;
+			show "[Mari Isac]";
+			show "Ele criou a Avareza, um simbolo de sua grande loucura. Quando o povo o vê, não ajuda, mas são simpáticos ao equipamento.";
+			next;
+			show "[Mari Isac]";
+			show "Muitos mercadores usam para atrairem mais compradores. É claro, é bom lembrar que só mercadores loucos dizem isso.";
+			next;
+			show "[Mari Isac]";
+			show "Enfim, os itens de que precisa me trazer para que eu o faça uma Avareza é:";
+			show "^5555FF1 Turbante [1]^000000,";
+			show "^5555FF1 Ouro^000000,";
+			show "^5555FF20 Aços^000000,";
+			show "^5555FF80 Plumas^000000,";
+			show "^5555FF800 Mucos Pegajosos^000000.";
+			next;
+			goto M_0;
+		sM_Phantom:
+			show "[Mari Isac]";
+			show "Eu aprendi a fazer a Mascara de Ópera por uma das minhas viagens por Al De Baran.";
+			show "A história por traz desse item é sobre o amor puro de um homem........";
+			next;
+			show "[Mari Isac]";
+			show "Uma vez um homem se apaixonou por uma cantora de ópera.";	
+			show "Infelizmente, o seu rosto era desfigurado, forçando-o a usar uma máscara.";
+			next;
+			show "[Mari Isac]";
+			show "Com esse problema ele nunca criou coragem para chegar até a cantora.";
+			show "O homem contudo, a assistia a distância, admirando cada nuance de sua beleza e graça.";
+			next;
+			show "[Mari Isac]";
+			show "Com isso, ele sempre ia à casa de ópera ouvir aquela musica de amor insana.";
+			show "Muitas pessoas dizem e acreditam que à um fantasma na casa de ópera.";
+			next;
+			show "[Mari Isac]";
+			show "Ele sempre ouve a musica, e com isso ele é capaz de sentir sua dor e amor por ela.";
+			show "Os dois eventualmente se encontraram, e quando isso aconteceu ela, vendo ele como realmente era, o aceitou.";
+			next;
+			show "[Mari Isac]";
+			show "Desse dia em diante, a lenda do Fantasma Mascarado foi romanticada.";
+			next;
+			show "[Mari Isac]";
+			show "Enfim, os itens de que precisa me trazer para que eu o faça uma Mascara de Ópera é:";
+			show "^5555FF1 Máscara do Fantasma^000000,";
+			show "^5555FF50 Cabelos Horrendos^000000.";
+			goto M_0;
+
+	M_1:
+		menu "-Capacete de Mineiro",sM_MakeMine, "-Trouxinha",sM_MakePar, "-Avareza",sM_MakeMon, "-Mascara da Ópera",sM_MakePhan;
+
+		sM_MakeMine:
+			if (countitem(5009)<1 || countitem(5028)<1 || countitem(747)<1 || countitem(999)<25) goto ssL_NoItems;
+			show "[Mari Isac]";
+			show "Aqui está. Aproveite o seu Capacete de Mineiro!";
+			delitem 5009, 1;
+			delitem 5028, 1;
+			delitem 747, 1;
+			delitem 999, 25;
+			additem 5031,1;
+			close;
+		sM_MakePar:
+			if (countitem(1059)<150 || countitem(907)<100 || countitem(978)<1) goto ssL_NoItems;
+			show "[Mari Isac]";
+			show "Aqui está. Aproveite a sua Trouxinha!";
+			delitem 1059, 150;
+			delitem 907, 100;
+			delitem 978, 1;
+			additem 5023,1;
+			close;
+		sM_MakeMon:
+			if (countitem(2233)<1 || countitem(969)<1 || countitem(999)<20 || countitem(949)<80 || countitem(938)<800) goto ssL_NoItems;
+			show "[Mari Isac]";
+			show "Aqui está. Aproveite a sua Avareza!";
+			delitem 2233, 1;
+			delitem 969, 1;
+			delitem 999, 20;
+			delitem 949, 80;
+			delitem 938, 800;
+			additem 5021,1;
+			close;
+		sM_MakePhan:
+			if (countitem(2281)<1 || countitem(1048)<50) goto ssL_NoItems; 
+			show "[Mari Isac]";
+			show "Aqui está. Aproveite a sua Mascara da Ópera!";
+			delitem 2281,1;
+			delitem 1048, 50;
+			additem 5043, 1;
+			close;
+
+			ssL_NoItems:
+				show "[Mari Isac]";
+				show "Infelizmente, você não tem os itens de que necessito. Volte mais tarde.";
+				close;
+
+}

@@ -1,0 +1,596 @@
+//===== Cronus Script ========================================
+//= Domadores de Monstros
+//===== Por: =================================================
+//= kobra_k88, Darkchild, x[tsk]
+//===== Versão Atual: ========================================
+//= 1.0/1.3
+//===== Descrição: ===========================================
+//= Quest de Acesssórios e Domesticadores
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido [FrozenCirius]
+//= 1.1 Organizado e adicionado Flor selvagem no npc YuU [Kamper]
+//============================================================
+
+
+//<================================================= Alberta ===============================================>\\
+alberta_in,173,77,3	script	Domador de Monstros#01	125,{
+	show "[Domador de Monstros Iwado]";
+	show "Domesticar monstros nunca foi tão popular quanto agora! Porque não se juntar a toda essa emoção?....";
+M_Menu:
+	next;
+	menu 	"^5555FFItens de Domesticação?^000000",M_0,
+		"^5555FF'Suco de Monstro'^000000",M_1,
+		"^5555FF'Flor Cantante'^000000",M_2,
+		"Por Favor, faça um para mim",M_Make,
+		"Cancelar",M_End;
+	M_0:
+		show "[Domador de Monstros Iwado]";
+		show "Domesticar monstros é o jeito que os aventureiros encontraram para ter seus próprios bichos de estimação.";
+		show "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro que se tornará seu bicho de estimação.";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Esses itens de domesticação são muito raros de se conseguir, mas os membros do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitas dificuldades.";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Eis os itens de captura que ofereço:";
+		show "^5555FF'Suco de Monstro'^000000";
+		show "^5555FF'Flor Cantante'^000000";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Esses são itens fantásticos! Você realmente deveria tentar!";
+		goto M_Menu;
+	M_1:
+		show "[Domador de Monstros Iwado]";
+		show "Isso é uma bebida feita de sangue animal. Não é algo que uma pessoa normal queira beber, mas para a '^FF5555'Mosca Caçadora'^000000, é uma delícia.";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Eu posso te dar um ^5555FF'Suco de Monstro'^000000 em troca de:";
+		show "-^FF5555'1 Couro de Animal'";
+		show "-'2 Maçãs'^000000";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Quando você me trouxer esses itens eu lhe darei o suco com o maior orgulho!";
+		goto M_Menu;
+	M_2:
+		show "[Domador de Monstros Iwado]";
+		show "A flor de uma Planta da Melodia. É um item muito raro e atrai os ^FF5555'Rockers'^000000.";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Eu posso te dar uma ^5555FF'Flor Cantante'^000000 em troca de:";
+		show "-^FF5555'1 Planta da Melodia'^000000";
+		next;
+		show "[Domador de Monstros Iwado]";
+		show "Quando você me trouxer esse item eu lhe darei a flor com o maior orgulho!";
+		goto M_Menu;
+	M_Make:
+		show "[Domador de Monstros Iwado]";
+		show "Qual Item de Domesticação você deseja?";
+		next;
+		menu "^5555FF'Suco de Monstro'^000000",sM_1, "^5555FF'Flor Cantante'^000000",sM_2, "Nenhum",M_End;
+
+		sM_1:
+			if(countitem(702)<1 || countitem(512)<2) goto sL_NoItems;
+			delitem 702,1;
+			delitem 512,2;
+			show "[Domador de Monstros Iwado]";
+			show "Tudo bem, só um minuto enquanto eu preparo o item de caça...";
+			next;
+			show "[Domador de Monstros Iwado]";
+			show "Aqui está~! Um Suco de Monstro! Aproveite e sinta-se livre para voltar a qualquer momento.";
+			additem 626,1;
+			close;
+		sM_2:
+			if(countitem(707)<1) goto sL_NoItems;
+			delitem 707,1;
+			show "[Domador de Monstros Iwado]";
+			show "Tudo bem, só um minuto enquanto eu preparo o item de caça...";
+			next;
+			show "[Domador de Monstros Iwado]";
+			show "Aqui está~! Uma Flor Cantante! Aproveite e sinta-se livre para voltar a qualquer momento.";
+			additem 629,1;
+			close;
+
+			sL_NoItems:
+				show "[Domador de Monstros Iwado]";
+				show "Parece que você não tem os itens suficientes para trocar comigo pelo Item de Domesticação. Por Favor, volte quando você conseguir todos os itens que necessita.";
+				close;
+	M_End:
+		show "[Domador de Monstros Iwado]";
+		show "Oh... Eu vejo. Você provavelmente não escolheu de qual monstro quer cuidar como bicho de estimação. É uma decisão muito importante, então por favor, volte quando decidir.";
+		close;
+
+}
+
+
+//<================================================= Al De Baran ===============================================>\\
+aldeba_in,167,177,3	script	Domador de Monstros#02	125,{
+	show "[Domador de Monstros YuU]";
+	show "Você deve estar procurando alguns Acessório para Bichinhos de Estimação.... Quando o assunto é esse, não há ninguém melhor que eu em Rune-Midgard.";
+M_Menu:
+	next;
+	menu 	"^5555FF'Acessórios para Bichinhos de Estimação?'^000000",M_0,
+		"^5555FF'Elmo de Crânio'^000000",M_1,
+		"^5555FF'Máscara de Oxigênio para Bichinhos'^000000",M_2,
+		"^5555FF'Laço de Seda'^000000",M_3,
+		"^5555FF'Ornato Estelar'^000000",M_4,
+		"^5555FF'Casca de Ovo Minúscula'^000000",M_5,
+		"^5555FF'Óculos de Rocker'^000000",M_6,
+		"^5555FF'Flor Selvagem'^000000",M_7,
+		"Faça um pra mim, por favor.",M_Make,
+		"Cancelar",M_End;
+	M_0:
+		show "[Domador de Monstros YuU]";
+		show "Domesticar Monstros é o jeito que os aventureiros encontraram de ter seus bichos de estimação.";
+		show "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro para ser seu bicho de estimação.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você tem um bichinho, deve demonstrar cuidado e afeto a ele...essa é a parte mais importante de cuidar de um monstro.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "O melhor jeito de fazer isso é dando a ele um 'Acessório' para fazê-lo se destacar dentre os outros monstros de Rune-Midgard.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Esses ^5555FF'Acessórios bonitinhos de bichinhos de estimação'^000000 são muito difíceis de conseguir, mas um membro do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitos problemas.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Aqui estão os itens que ofereço:";
+		show "^5555FF'Elmo de Crânio'";
+		show "'Máscara de Oxigênio para Bichinho'";
+		show "'Laço de Seda'";
+		show "'Ornato Estelar'";
+		show "'Casca de Ovo Minúscula'";
+		show "'Óculos de Rocker'";
+		show "'Flor Selvagem'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Esses são itens fantásticos! Você deveria ter um!";
+		goto M_Menu;
+	M_1:
+		show "[Domador de Monstros YuU]";
+		show "Pode parecer nojento, mas isto tem o poder de fazer o seu usuário ficar louco!";
+		show "Esse item ficará ótimo em seu '^FF5555'Bafomé Jr.'^000000.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar um ^5555FF'Elmo de Crânio'^000000 Em troca de:";
+		show "-^FF5555'1 Elmo de Osso'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_2:
+		show "[Domador de Monstros YuU]";
+		show "Esse item torna difícil para os outros saber se o usuário é um monstro ou um humano.";
+		show "Um ótimo presente para seu ^FF5555'ChonChon', 'Choncon de Aço', ou 'Mosca Caçadora'^000000.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar uma ^5555FF'Máscara de Oxigênio para Bichinhos'^000000 em troca de:";
+		show "-^FF5555'1 Máscara de Oxigênio'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_3:
+		show "[Domador de Monstros YuU]";
+		show "É um laço de muita qualidade feito com a mais pura seda. Vai fazer seu ^FF5555'Lunático'^000000 ficar muito bonito!.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar ^5555FF'Laço de Seda'^000000 em troca de:";
+		show "-^FF5555'1 Laço (Sem slots)'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_4:
+		show "[Domador de Monstros YuU]";
+		show "É estremamente afiado e tem o estranho poder de fazer todos os monstros quererem usá-lo.";
+		show "Seu ^FF5555'Petite Terrestre'^000000 vai amar usar isto!";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar um ^5555FF'Ornato Estelar'^000000 em troca de:";
+		show "-^FF5555'1 Presilha de Estrela'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_5:
+		show "[Domador de Monstros YuU]";
+		show "Isso parece ter um odor peculiar e um incrível brilho! Pode ser usado como armadura pelo seu ^FF5555'Picky'^000000.";
+		show "Posso te dar uma ^5555FF'Casca de Ovo Minúscula'^000000 em troca de:";
+		show "-^FF5555'1 Capelo'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esse item eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_6:
+		show "[Domador de Monstros YuU]";
+		show "Um misterioso par de óculos que faz seu usuário paracer um nerd. É perfeito para seu ^FF5555Rocker^000000.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar um par de ^5555FF'Óculos de Rocker'^000000 em troca de:";
+		show "-^FF5555'1 Laço (Sem slots)'";
+		show "-'2 Zargônios'";
+		show "-'400 Zeny'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esses itens eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_7:
+		show "[Domador de Monstros YuU]";
+		show "Essa flor cresce naturalmente aqui em Rune-Midgard. É perfeita para seu ^FF5555Guerreiro Orc^000000.";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Eu posso te dar uma ^5555FF'Flor Selvagem'^000000 em troca de:";
+		show "-^FF5555'1 Florzinha'";
+		show "-'1 Trevo'^000000";
+		next;
+		show "[Domador de Monstros YuU]";
+		show "Quando você me trouxer esses itens eu lhe darei o acessório com o maior orgulho!";
+		goto M_Menu;
+	M_Make:
+		show "[Domador de Monstros YuU]";
+		show "Qual Acessório você deseja?";
+		next;
+		menu 	"^5555FF'Elmo de Crânio'^000000",sM_1,
+			"^5555FF'Máscara de Oxigênio para Bichinhos'^000000",sM_2,
+			"^5555FF'Laço de Seda'^000000",sM_3,
+			"^5555FF'Ornato Estelar'^000000",sM_4,
+			"^5555FF'Casca de Ovo Minúscula'^000000",sM_5,
+			"^5555FF'Óculos de Rocker'^000000",sM_6,
+			"^5555FF'Flor Selvagem'^000000",sM_7,
+			"Nenhum",M_End;
+
+		sM_1:
+			if(countitem(5017)<1) goto sL_NoItems;
+			delitem 5017,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Um Elmo de Crânio! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10001,1;
+			close;
+		sM_2:
+			if(countitem(5004)<1) goto sL_NoItems;
+			delitem 5004,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Uma Máscara de Oxigênio para Bichinhos! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10002,1;
+			close;
+		sM_3:
+			if(countitem(2208)<1) goto sL_NoItems;
+			delitem 2208,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Um Laço de Seda! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10007,1;
+			close;
+		sM_4:
+			if(countitem(2294)<1) goto sL_NoItems;
+			delitem 2294,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Um Ornato Estelar! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10011,1;
+			close;
+		sM_5:
+			if(countitem(5015)<1) goto sL_NoItems;
+			delitem 5015,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Uma Casca de Ovo Minúscula! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10012,1;
+			close;
+		sM_6:
+			if(countitem(2208)<1 || countitem(912)<2 || Zeny<400) goto sL_NoItems;
+			delitem 2208,1;
+			delitem 912,2;
+			set Zeny, Zeny-400;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Um par de Óculos de Rocker! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10014,1;
+			close;
+		sM_7:
+			if(countitem(2207)<1 || countitem(705)<1) goto sL_NoItems;
+			delitem 2207,1;
+			delitem 705,1;
+			show "[Domador de Monstros YuU]";
+			show "Tudo bem, só um minutinho enquanto eu preparo seu acessório...";
+			next;
+			show "[Domador de Monstros YuU]";
+			show "Aqui está! Uma Flor Selvagem! Aproveite e sinta-se livre para voltar a qualquer hora.";
+			additem 10009,1;
+			close;
+
+			sL_NoItems:
+				show "[Domador de Monstros YuU]";
+				show "Parece que você não possui os itens necessários para a troca. Volte quando tiver tais itens.";
+				close;
+	M_End:
+		show "[Domador de Monstros YuU]";
+		show "Oh... Eu vejo. Você provavelmente não escolheu qual monstro quer como bicho de estimação. É uma decisão muito importante, então por favor, volte quando decidir.";
+		close;
+
+}
+
+
+//<================================================= Izlude ===============================================>\\
+izlude_in,128,64,3	script	Domador de Monstros#03	125,{
+	show "[Domador de Monstros Shogo]";
+	show "Você está super ocupado atrás de itens para domesticar um monstro? Quer uma folga? Deixe que eu arrumo tais itens para você.";
+M_Menu:
+	next;
+	menu	 "^5555FFItens de Domesticar Monstros?^000000",M_0,
+		"^5555FF'Livro do Diabo'^000000",M_1,
+		"^5555FF'Sem Destinatário'^000000",M_2,
+		"^5555FF'Horror da Tribo'^000000",M_3,
+		"Por Favor faça um para mim",M_Make,
+		"Cancelar",M_End;
+	M_0:
+		show "[Domador de Monstros Shogo]";
+		show "Domesticar Monstros é o jeito que os aventureiros encontraram de ter seus bichos de estimação.";
+		show "Usando um ^5555FF'Item de Domesticação'^000000 um aventureiro pode fisgar um monstro para ser seu bicho de estimação.";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Esses Itens de Domesticação são muito raros de se conseguir, mas os membros do Clã de Domadores de Monstros, como eu, podem conseguí-los sem muitas dificuldades.";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Esses são os itens que ofereço:";
+		show "^5555FF'Livro do Diabo'^000000,";
+		show "^5555FF'Sem Destinatário'^000000,";
+		show "^5555FF'Horror da Tribo'^000000.";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Esses itens são fantásticos! Você deveria tentar usar um!";
+		goto M_Menu;
+	M_1:
+		show "[Domador de Monstros Shogo]";
+		show "Esse livro é poderoso demais para que qualquer mero mortal tente ler, e comtém o método secreto de invocar feras!";
+		show "Use-o para fisgar um ^FF5555'Bafomé Jr.'^000000.";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Eu posso te dar um  ^5555FF'Livro do Diabo'^000000 em troca de:";
+		show "-^FF5555'1 Grimório Antigo'";
+		show "-'2 Mandíbulas Horrendas'^000000";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Quando você me trouxer esses itens eu lhe darei o livro com o maior orgulho!";
+		goto M_Menu;
+	M_2:
+		show "[Domador de Monstros Shogo]";
+		show "Uma velha carta que não foi entregue porque havia um destinatário desconhecido.";
+		show "Não tem significado algum para qualquer ser humano, mas as ^FF5555'Munaks'^000000 parecem apreciar muito este item.";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Eu posso te dar um ^5555FF'Sem Destinatário'^000000 em troca de:";
+		show "-^FF5555'1 Retrato Velho'^000000";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Quando você me trouxer esses itens eu lhe darei a carta com o maior orgulho!";
+		goto M_Menu;
+	M_3:
+		show "[Domador de Monstros Shogo]";
+		show "Esse troféu é um dos itens favoritos dos ^FF5555'Guerreiros Orc'^000000.";
+		show "Eu posso te dar um ^5555FF'Horror da Tribo'^000000 em troca de:";
+		show "-^FF5555'1 Insígnia da Cavalaria'";
+		show "-'1 Cauda de Escorpião'^000000";
+		next;
+		show "[Domador de Monstros Shogo]";
+		show "Quando você me trouxer esses itens eu lhe darei o troféu com o maior orgulho!";
+		goto M_Menu;
+	M_Make:
+		show "[Domador de Monstros Shogo]";
+		show "Qual Item de Domesticação você deseja?";
+		next;
+		menu "^5555FF'Livro do Diabo'^000000",sM_1, "^5555FF'Sem Destinatário'^000000",sM_2, "^5555FF'Horror da Tribo'^000000",sM_3, "Nenhum",M_End;
+
+		sM_1:
+			if(countitem(1006)<1 || countitem(958)<2) goto sL_NoItems;
+			delitem 1006,1;
+			delitem 958,2;
+			show "[Domador de Monstros Shogo]";
+			show "Tudo bem, um minutinho enquanto eu preparo o item...";
+			next;
+			show "[Domador de Monstros Shogo]";
+			show "Aqui está! Um Livro do Diabo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+			additem 642,1;
+			close;
+		sM_2:
+			if(countitem(7014)<1) goto sL_NoItems;
+			delitem 7014,1;
+			show "[Domador de Monstros Shogo]";
+			show "Tudo bem, um minutinho enquanto eu preparo o item...";
+			next;
+			show "[Domador de Monstros Shogo]";
+			show "Aqui está! Um Sem Destinatário! Aproveite e sinta-se livre para voltar a qualquer momento.";
+			additem 636,1;
+			close;
+		sM_3:
+			if(countitem(1004)<1 || countitem(904)<1) goto sL_NoItems;
+			delitem 1004,1;
+			delitem 904,1;
+			show "[Domador de Monstros Shogo]";
+			show "Tudo bem, um minutinho enquanto eu preparo o item....";
+			next;
+			show "[Domador de Monstros Shogo]";
+			show "Aqui está! Um Horror da Tribo! Aproveite e sinta-se livre para voltar a qualquer momento.";
+			additem 635,1;
+			close;
+
+			sL_NoItems:
+				show "[Domador de Monstros Shogo]";
+				show "Parace que você não tem os itens suficientes para trocar comigo. Por Favor, volte quando conseguir.";
+				close;
+	M_End:
+		show "[Domador de Monstros Shogo]";
+		show "Oh... Eu vejo. Você provavelmente não decidiu qual monstro quer como bicho de estimação. É uma decisão muito importante, então volte quando conseguir.";
+		close;
+}
+
+//Quest para item de BonGun - Coração Apaixonado
+
+comodo,112,182,0	script	Vó da Munak	103,{
+	if (countitem(1558) > 0) {
+		show "[Vó da Munak]";
+		show "Oh...";
+		show "Você viu minha neta,";
+		if (Sex == 1) {
+			show "garoto? Minha pobre neta.";
+		}
+		else {
+			show "jovem dama? Minha pobre neta.";
+		}
+		show "ela está desaparecida...";
+		next;
+		show "[Vó da Munak]";
+		show "Não consigo me lembrar exatamente quando";
+		show "foi, mas quando eu vivia em Payon, eu";
+		show "tinha uma netinha muito fofa. Ela";
+		show "era realmente feliz quando eu penteava seu";
+		show "cabelo como uma ^000077Trança^000000...";
+		next;
+		show "[Vó da Munak]";
+		show "Ela estava sempre trabalahndo com o";
+		show "Chefe da Vila... Ela era apenas uma";
+		show "garota doce, e sempre estava com o";
+		show "filho do Chefe...";
+		next;
+		show "[Vó da Munak]";
+		show "Mas um dia nossa divindade ficou zangada";
+		show "e lançou uma maldição no filho do chefe, o garoto ficou com";
+		show "uma terrível doença! A vila teve de oferecer";
+		show "minha neta a ele como";
+		show "companheira, para que a maldição tivesse fim...";
+		next;
+		show "[Vó da Munak]";
+		show "O filho do Chefe teve sua saúde";
+		show "de volta, mas perdeu minha";
+		show "neta! Eu não consigo olhar pra ele";
+		show "e não pensar nela, então eu tentei";
+		show "deixar minha miséria para trás de vim morar ";
+		show "aqui em Comodo...";
+		next;
+
+		switch(select("Vamos lá, levante-se!:Erm, isso é um diário...?")) {
+
+		case 1:
+			show "[Vó da Munak]";
+			show "Parece que minha neta assombra meus";
+			show "sonhos toda noite. Eu acredito que";
+			show "tentei me animar durante anos";
+			show "agora...";
+			close;
+
+		case 2:
+			if (countitem(901) > 0) {
+				show "[Vó da Munak]";
+				show "Oh Deus!";
+				show "É o diário da minha neta!";
+				show "Ess- Essa é a letra dela! Oh meu Deus...!";
+				next;
+				show "[Vó da Munak]";
+				if (Sex == 1) {
+					show "Jovem rapaz... Eu vou ler isto para você se";
+				}
+				else {
+					show "Jovem dama... Eu vou ler isto para você se";
+				}
+				show "você me trouxer isso junto com uma Trança,";
+				show "por favor. Eu nunca mais tive nada";
+				show "que fosse dela desde então...";
+				next;
+
+				switch(select("Esqueça.:Ok, eu trarei.")) {
+
+				case 1:
+					show "[Vó da Munak]";
+					show "Oh...?";
+					if (Sex == 1) {
+						show "Tudo bem, jovem rapaz.";
+						show "Obrigado de qualquer jeito.";
+					}
+					else {
+						show "Obrigado de qualquer jeito,";
+						show "jovem dama.";
+					}
+					next;
+					show "[Vó da Munak]";
+					show "Está tudo bem...";
+					show "Eu só posso esperar que a divindade esteja";
+					show "tomando conta dela muito bem!";
+					close;
+
+				case 2:
+					delitem 1558,1;
+					delitem 901,1;
+					show "[Vó da Munak]";
+					if (Sex == 1) {
+						show "Oh!";
+						show "Obrigado,";
+						show "meu jovem~!";
+					}
+					else {
+						show "Que bom!";
+						show "Obrigado,";
+						show "moça...";
+					}
+					next;
+					show "[Vó da Munak]";
+					show "Tudo bem...";
+					show "Eu vou ler isto.";
+					show "Deixe-me ver...";
+					next;
+					show "[Vó da Munak]";
+					show "Parece que minha neta era";
+					show "tratada pelo Chefe como se fosse sua própria";
+					show "filha! Há tantas memórias";
+					show "felizes neste livro!";
+					next;
+					additem 659,1;
+					show "[Vó da Munak]";
+					show "Oh, obrigado, agora eu tenho muitas";
+					show "lembranças de minha neta. Obrigado!";
+					show "Que Deus te";
+					show "abençõe!";
+					close;
+
+				}
+
+			}
+
+			else {
+				show "[Vó da Munak]";
+				show "O que? Um diário? Que diário...?";
+				show "Eu não... Eu não me lembro...";
+				next;
+				show "[Vó da Munak]";
+				show "Eu realmente gostaria de fazer";
+				show "uma ^000077Trança^000000 em seus cabelos de novo. Eu realmente";
+				show "gostaria... Oh, oh minha netinha...";
+				close;
+			}
+
+
+		}
+
+	}
+
+	else {
+		show "[Vó da Munak]";
+		show "Minha netinha...";
+		show "Porque ela teve de ir embora...?";
+		close;
+	}
+
+}

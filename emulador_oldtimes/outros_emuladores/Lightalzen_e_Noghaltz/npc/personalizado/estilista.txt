@@ -1,0 +1,129 @@
+//===== Cronus Script ======================================== 
+//= Estilista
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.5.1
+//===== Descrição: =========================================== 
+//= Tingi Cabelo, Trocar Estilo de Cabelo e Mudar a cor da Roupa
+//===== Changelog: =========================================== 
+//= 1.5 Script Simplificado [Mehah]
+//=	- Retirado configurações para custom paleta, agora detecta automaticamente
+//=	- Otimizado e resumido
+//= 1.5.1 Script reestruturado [Mehah] 
+//=	  - Adicionado checagem para ignora valores de cores(roupa) a cima de 1 para a classe Taekwon
+//=	  - Adicionado suporte para muda o limite de estilo de cabelo
+//============================================================
+
+prontera.gat,170,180,1	script	Estilista	122,{
+function check;
+//== Configurações =================================================================
+	set @corroupa,4; //(Limite de cores para roupa) [Oficial: 4]
+	set @corcabelo,8; //(Limite de cores para cabelo) [Oficial: 8]
+	set @estilocabelo,23; //(Limite de estilo para cabelo) [Oficial: 23]
+//==================================================================================	
+// [Script]
+//==================================================================================	
+	show "[^FF8000Estilista^000000]";
+	show "Bem vindo, meu caro ^853D85Aventureiro^000000.";
+	show "Eu posso tingi e trocar seu estilo de cabelo e mudar a cor da sua roupa.";
+	show "O que você deseja?";
+	next;
+	do{
+		switch(select("Tingi o Cabelo","Trocar Estilo de Cabelo","Mudar a Cor da sua Roupa","Sair")){
+
+			case 1:
+				show "[^FF8000Estilista^000000]";
+				show "Escolha que cor deseja ter no seu Cabelo.";
+				show "As cores vão de ^571BED0^000000 à ^571BED"+@corcabelo+"^000000.";
+				next;
+				if (@corcabelo <= 8)
+					menu "Mudar a cor",-,"Ver as cores que cada numeração oferece",L_vercores;
+				L_cabelo:
+				check(1);
+				setlook 6,@estilo;
+				specialeffect2 54;
+				break;
+				
+			L_vercores:
+				show "[^FF8000Estilista^000000]";
+				show "0 é a cor Padrão";
+				show "1 é Loiro";
+				show "2 é Lavanda";
+				show "3 é Marrom";
+				show "4 é Verde";
+				show "5 é Azul";
+				show "6 é Branco";
+				show "7 é Preto";
+				show "8 é Vermelho";
+				next;
+				show "[^FF8000Estilista^000000]";
+				show "Agora você deseja trocar as cores do seu cabelo?";
+				next;
+				switch(select("Sim","Não")){
+					case 1: goto L_cabelo;
+					case 2: goto L_sair;
+				}
+					
+			case 2:
+				show "[^FF8000Estilista^000000]";
+				show "Bem, escolha entre ^571BED0^000000 à ^571BED"+@estilocabelo+"^000000.";
+				next;
+				check(2);
+				setlook 1,@estilo;
+				specialeffect2 55;
+				break;
+			
+			case 3:
+				show "[^FF8000Estilista^000000]";
+				if ((Class == 12 || Class == 17) && @corroupa <= 4)
+					show "Bem, vamos então trocar sua roupa escolha entre ^571BED0^000000 à ^571BED1^000000.";
+				else
+					show "Bem, vamos então trocar sua roupa escolha entre ^571BED0^000000 à ^571BED"+@corroupa+"^000000.";
+				next;
+				check(3);
+				setlook 7,@estilo;
+				specialeffect2 56;
+				break;
+				
+			case 4:
+				L_sair:
+				show "[^FF8000Estilista^000000]";
+				show "Volte quando quiser meus serviços.";
+				close;	
+		}
+		next;
+		show "[^FF8000Estilista^000000]";
+		show "E agora, o que você deseja?";
+		next;
+	}while(1);
+	
+function	check	{
+	L_back:
+	digit @estilo;
+	if(getarg(0) == 1 && @estilo>@corcabelo){
+		show "Por Favor, escolha entre ^571BED0^000000 à ^571BED"+@corcabelo+"^000000.";
+		next;
+		goto L_back;
+	}else	
+	if(getarg(0) == 2 && @estilo>@estilocabelo){
+		show "Por Favor, escolha entre ^571BED0^000000 à ^571BED"+@estilocabelo+"^000000.";
+		next;
+		goto L_back;
+	}else
+	if(getarg(0) == 3){
+		if ((Class >= Job_Taekwon && Class <= Job_Soul_Linker && @estilo > 1) || ((Class == Job_Assassin || Class == Job_Rogue) && @corroupa <= 4 && @estilo > 1)){
+			show "Me desculpe, mas esta classe só pode usar a cor da roupa 0 e 1.";
+			next;
+			goto L_back;
+		}else if(@estilo>@corroupa){
+			show "Por Favor, escolha entre ^571BED0^000000 à ^571BED"+@corroupa+"^000000.";
+			next;
+			goto L_back;
+		}
+	}
+	return;
+	
+}
+}
+

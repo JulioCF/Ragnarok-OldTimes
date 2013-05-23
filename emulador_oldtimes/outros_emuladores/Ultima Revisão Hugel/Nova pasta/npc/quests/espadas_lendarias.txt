@@ -1,0 +1,661 @@
+//===== Cronus Script ======================================== 
+//= Quest das Espadas Amaldiçoadas
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.3b/1.3
+//===== Descrição: ===========================================
+//= Quest para as Espadas Amaldiçoadas, (1237)=>Adaga Sinistra,
+//= (1138)=>Mysteltainn, (1169)=>Executora.
+//= Partes 1 e 2 desta quest pode ser encontradas em
+//= cities\comodo.txt.
+//===== Comentários Adicionais: ==============================
+//= 1.3b Tradução baseada na versão 1.3 do eAthena [Denis]
+//============================================================
+
+//=============================================================================
+//			Espadas Amaldiçoadas (Lemdárias) Parte 3
+//=============================================================================
+// Mortengard: Tábua de Milinile
+aldebaran,44,53,4	script	Mortengard	64,{
+	if(dmdswrd_Q == 15) goto L_1;
+	if(dmdswrd_Q == 16) goto L_2;
+	if(dmdswrd_Q == 17) goto L_3;
+	if(dmdswrd_Q == 18) goto L_4;
+	show "[Mortengard]";
+	show "Você sabia que algumas pessoas assinam um contrato sombrio com o Senhor das Trevas usando a";
+	show "^3355FF'Tábua de Milinile'^000000?!";
+	next;
+	show "[Mortengard]";
+	show "Como resultado, da ganância deles por poder, houve desastres para o mundo inteiro.";
+	show "Então por favor, seja feliz com aquilo que já tem e não entre para o lado negro.";
+	close;
+
+L_1:
+	show "[Mortengard]";
+	show "Acredito que você seja possuidor da 'Pedra do Despertar' e também aquele que busca a 'Tábua de Milinile'.";
+	next;
+	show "[Mortengard]";
+	show "Muito bem então, eu lhe ajudarei a fazer a 'Tábua de Milinile'.";
+	show "No entanto, não é uma tarefa fácil, eu preciso de um número de materiais de forma a conseguir fazê-la.";
+	next;
+	show "[Mortengard]";
+	show "Eu precisarei destas pedras, gemas e minérios nas seguintes quantidades.";
+	show "^3355FF'1 Gema Azul'^000000";	//717
+	show "^3355FF'1 Safra'^000000";	//726
+	show "^3355FF'1 Aquarmarina'^000000";	//720
+	show "^3355FF'1 Pedra Brilhante'^000000";	//640
+	show "e ^3355FF'1 Minério de Elunium'^000000";	//757
+	next;
+	show "[Mortengard]";
+	show "Em outras palavras, a 'Tábua de Milinile' é muito valiosa, e pode levar algum tempo para que você obtenha os itens para fazê-la.";
+	set dmdswrd_Q,16;
+	close;
+L_2:
+	if((countitem(717) < 1) || (countitem(726) < 1) || (countitem(720) < 1) || (countitem(640) < 1) || (countitem(757) < 1)) goto L_1; 
+	show "[Mortengard]";
+	show ". . . . . ! !";
+	show "Não acredito que você tenha conseguido juntar todos os recursos para a criação da 'Tábua de Milinile'";
+	show "Por ter trabalhado tão duro, deixe-me fazer a tábua agora.";
+	next;
+	delitem 717,1;
+	delitem 726,1;
+	delitem 720,1;
+	delitem 640,1;
+	delitem 757,1;
+	show "^3355FF- Você dá a ele todos os itens -^000000";
+	set dmdswrd_Q,17;
+	next;
+	show "[Mortengard]";
+	show "Agora, eu preciso apenas que você pegue uns poucos ingredientes para o toque final na construção da tábua.";
+	next;
+	show "[Mortengard]";
+	show "Preciso de apenas uma ^3355FF'Teia de Aranha'^000000";
+	show "Você pode obtê-la facilmente dos argos no Monte Mjolnir";
+	next;
+	show "^3355FF- Mortengard está -^000000";
+	show "^3355FF- trabalhando duro na tábua -^000000";
+	close;
+L_3:
+	if(countitem(1025) > 0) goto sL_3;
+	show "[Mortengard]";
+	show "A tábua estará pronta quando eu terminar!";
+	show "Por favor não me interrompa agora, eu preciso concentrar-me.";
+	next;
+	show "[Mortengard]";
+	show "Enquanto isso, por favor vá encontrar a teia de aranha para que eu possa providenciar o acabamento da tábua, obrigado.";
+	close;
+
+	sL_3:
+		show "[Mortengard]";
+		show "Ah, muito bem, você conseguiu uma teia de aranha, por favor deixe-a por ali.";
+		next;
+		show "^3355FF- Você dá a ele a teia de aranha -^000000";
+		delitem 1025,1;
+		next;
+		show "[Mortengard]";
+		show "Tudo bem, aqui vamos nós!!";
+		next;
+		show "^3355FF- Clang ! Clang ! Clunk ! -^000000";
+		show "^3355FF- Boom ! ! -^000000";
+		next;
+		show "^3355FF- 'A Tábua de Milinile'-^000000";
+		show "^3355FF- é forjada -^000000";
+		next;
+		show "^3355FF- Você recebe a 'Tábua de Milinile'-^000000";
+		set dmdswrd_Q,18;
+		next;
+		show "[Mortengard]";
+		show "showmo que você possua a 'Tábua de Milinile' agora, a tábua não é efetiva sem o ^3355FF'Livro dos Inocentes'^000000??";
+		next;
+		show "[Mortengard]";
+		show "O ^3355FF'Livro dos Inocentes'^000000 foi originalmente criado por demônios localizados no deserto e agora a habilidade de criação deste item foi passada para uns poucos andarilhos próximo à Morroc.";
+		next;
+		show "[Mortengard]";
+		show "Então se você deseja obter o 'Livro dos Inocentes', Morroc seria o local para se começar a procurar.";
+		close;
+L_4:
+	show "[Mortengard]";
+	show "Então direcione-se à Morroc! Há alguém lá que lhe dirá a respeito do";
+	show "'Livro dos Inocentes'. Não me lembro do nome dele, mas";
+	show "agora que você tem a 'Tábua de Milinile', tenho certeza que irá encontrá-lo.";
+	close;
+}
+
+
+//=============================================================================
+//			Doomed Swords Part 4
+//=============================================================================
+// Zaka: Book of Tiresome Sheep
+morocc,202,33,4	script	Zaka	99,{
+	if(dmdswrd_Q == 18) goto L_1;
+	if(dmdswrd_Q == 19) goto L_2;
+	if(dmdswrd_Q == 20) goto L_3;
+	if(dmdswrd_Q == 21) goto L_4;
+	if(dmdswrd_Q == 22) goto L_5;
+	if(dmdswrd_Q == 23) goto L_6;
+
+	show "[Zaka]";
+	show "...... O pôr do sol termina outro dia. A lua sobe para ocupar seu lugar noturno.";
+	show "Enquanto a escuridão se arrasta sobre o deserto, o povo de Morroc se juntam.";
+	show "A fonte eterna é o sangue vital dos nômades errantes..... Esta é Morroc....";
+	next;
+	show "[Zaka]";
+	show "Er hein... Diga-me... Você já escutou algo sobre as ^FF4444Espadas Amaldiçoadas^000000, ou ^5555FFEspadas Lendárias^000000?";
+	show "Acredita-se que estas espadas são tão poderosas que aquele que as possuir poderia dominar o mundo!";
+	next;
+	show "[Zaka]";
+	show "As três espadas de que falo são as ^5555FFMysteltainn, Adaga Sinistra e Executora^000000.";
+	next;
+	show "[Zaka]";
+	show "Estas espadas estão escondidas em algum lugar deste mundo.... você já viu alguma?";
+	close;
+
+L_1:
+	show "[Zaka]";
+	show ". . . . .";
+	next;
+	show "[Zaka]";
+	show "! ! ! ! ! ! !";
+	next;
+	show "[Zaka]";
+	show "Não é aquilo?! A tábua?!";
+	show "^3355FF'Tábua de Milinile'^000000";
+	show "Certo?! Aah ! !";
+	next;
+	show "[Zaka]";
+	show "Quem é você? Por que você possui a 'Tábua de Milinile'?";
+	show "Aah, deixa pra lá, não importa quem você seja.";
+	show "Aquele que possui a 'Tábua de Milinile' é um líder nato.";
+	next;
+	show "[Zaka]";
+	show "Bem, sou um dos andarilhos de Morroc.";
+	show "É nossa tradição e trabalho fazer ao possuidor da ^3355FF'Tábua de Milinile'^000000";
+	show "o ^3355FF'Livro dos Inocentes'^000000";
+	next;
+	show "[Zaka]";
+	show "Eu irei fazer o 'Livro dos Inocentes', apenas para uso pessoal.";
+	show "Como você poderia esperar, eu precisarei de ingredientes para fazer-lhe o livro.";
+	next;
+	show "[Zaka]";
+	show "A primeira coisa que necessitarei são duas ^3355FF'Escamas de Cobra'^000000 , por favor, traga-as para mim.";
+	set dmdswrd_Q,19;
+	close;
+L_2:
+	if(countitem(926) > 1) goto sL_2;
+	show "[Zaka]";
+	show "Se você quiser o 'Livro dos Inocentes', Eu precisarei de ^3355FF 2 'Escamas de Cobra'^000000.";
+	close;
+
+	sL_2:		
+		show "Dar a Zaka duas ^3355FF'Escamas de Cobra'^000000.";
+		delitem 926,2;
+		set dmdswrd_Q,20;
+		next;
+		show "[Zaka]";
+		show "Agora posso construir a forma básica do livro com as escamas de cobra, mas eu preciso a agora um pedaço de";
+		show "^3355FF'Casca Escamada'^000000 de forma a bloquear apenas energias negativas do livro.";
+		close;
+L_3:
+	if(countitem(936) > 0) goto sL_3;
+	show "[Zaka]";
+	show "Por favor traga-me o próximo ingrediente necessário para a construção do 'Livro dos Inocentes', eu preciso de apenas uma";
+	show "^3355FF'Casca Escamada'^000000 ??";
+	show ". . . . .";
+	close;
+
+	sL_3:
+		show "Dar a Zaka a ^3355FF'Casca Escamada^000000.";
+		delitem 936,1;
+		set dmdswrd_Q,21;
+		next;
+		show "[Zaka]";
+		show "Certo, muito bem.";
+		show "A seguir, eu preciso de um peça de ^3355FF'Escama Brilhante'^000000 de forma a distribuir igualmente o poder mágico através do livro.";
+		next;
+		show "[Zaka]";
+		show "Enquanto você obtem a escama, eu continuarei a próxima fase da feitura, boa sorte.";
+		close;
+L_4:
+	if(countitem(954) > 0) goto sL_4;
+	show "[Zaka]";
+	show "De forma a finalizar a feitura do 'Livro dos Inocentes', eu preciso que você me traga um pedaço de ^3355FF'Escama Brilhante'^000000, ok?";
+	close;
+
+	sL_4:
+		show "Dar a Zaka a ^3355FF'Escama Brilhante'^000000.";
+		delitem 954,1;
+		set dmdswrd_Q,22;
+		next;
+		show "[Zaka]";
+		show "Ótimo trabalho!";
+		show "Finalmente, o último ingrediente que preciso é uma^3355FF'Escama Fétida'^000000 para completar o livro, por favor traga-a para mim.";
+		close;
+L_5:
+	if(countitem(959) > 0) goto sL_5;
+	show "[Zaka]";
+	show "Agora, tudo que preciso para confeccionar o 'Livro dos Inocentes' é um pedaço de ^3355FF'Escama Fétida'^000000, por favor traga-a para mim.";
+	close;
+
+	sL_5:
+		show "Dar a Zaka a ^3355FF'Escama Fétida'^000000.";
+		delitem 959,1;
+		next;
+		show "[Zaka]";
+		show "Ooo. isto é tudo que eu preciso para terminar o livro, obrigado.";
+		next;
+		show "^3355FF- Zaka está labutando na -^000000";
+		show "^3355FF- finalização do livro. -^000000";
+		next;
+		show "^3355FF- Você recebe de Zaka o -^000000";
+		show "^3355FF- Livro dos Inocentes -^000000";
+		set dmdswrd_Q,23;
+		next;
+		show "[Zaka]";
+		show "Aqui, esté é seu..";
+		show "Eu acredito que você tenha os itens necessários para invocar e usar as Espadas Amaldiçoadas.";
+		show "Mas se realmente pretende usar as Espadas Amaldiçoadas por favor vá falar com ^5533FFWong^000000, um espadachim errante, ele pode ter algum aviso importante.";
+		next;
+		show "[Zaka]";
+		show "Reza a lenda que a habilidade de luta com espadas de Wong já está em níveis divinos, e também que ele é uma das dez pessoas mais influentes no mundo.";
+		next;
+		show "[Zaka]";
+		show "Exatamente agora, ele deve estar treinando dentro da Cidade de Comodo, então você poderá encontrá-lo lá.";
+		close;
+L_6:
+	show "[Zaka]";
+	show "O espdachim errante ^3355FF'Wong'^000000";
+	show "deve estar treinando em algum lugar de Comodo, procure-o muito cuidadosamente.";
+	close;
+}
+
+
+//=============================================================================
+//			Doomed Swords Part 5
+//=============================================================================
+// Won: Voucher of Power
+comodo,232,87,4	script	Wong	106,{
+	if(dmdswrd_Q == 23) goto L_1;
+	if(dmdswrd_Q == 24) goto L_2;
+	if(dmdswrd_Q == 25) goto L_3;
+
+	show "[Wong]";
+	show "Meu nome é ^3355FF'Wong'^000000. Tenho procurado arduamente, através de oceanos e montanhas, para encontrar alguém que é digno.......";
+	next;
+	show "[Wong]";
+	show "Já se passou muitos anos desde que a Bruxa Maligna foi derrotada na batalha lendária..... Agora isto faz parte do passado.......";
+	show "Ainda, a busca deve continuar! Este é o destino que os céus desejaram para mim.....";
+	next;
+	show "[Wong]";
+	show "Eu devo permanecer aqui em Comodo..... É meu destino.... Eu devo ficar aqui e aguardar.........";
+	show ". . . . . . . . . . . . . . . . . . . .";
+	show ". . . . . . . . . . . . . . .";
+	show ". . . . . . . . . .";
+	show ". . . . .";
+	close;
+		
+L_1:
+	show "^3355FF- O espadachim o examina -^000000";
+	show "^3355FF- por alguns segundos -^000000";
+	next;
+	show "[Espadachim]";
+	show "Heh, você é um camarada normal.";
+	show "Eu sou ^3355FF'Wong'^000000, um espadachim errante.";
+	next;
+	show "[Wong]";
+	show "O que? Você diz que vai invocar as Espadas Amaldiçoadas?";
+	show "Pst, não ligo para o que diz, eu serei o juiz do que você é ou não digno.";
+	show "Deixe-me explicar...";
+	next;
+	show "[Wong]";
+	show "showmo que você tenha todos os materiais necessários para invocar as Espadas Amaldiçoadas isso não significa que você possa suportar a energia drenada durante uma invocação.";
+	next;
+	show "[Wong]";
+	show "Sem o controle cuidadoso da transferência de energia do mundo normal para o Mundo Negro, muitos desastres podem surgir sobre este mundo com conseqüências imprevistas.";
+	next;
+	show "[Wong]";
+	show "Tenho certeza que ouviu que as três diferentes Espadas Amaldiçoadas são:";
+	show "^3355FF' Mysteltainn '^000000";
+	show "^3355FF' Adaga Sinistra '^000000";
+	show "e ^3355FF' Executora '^000000.";
+	show "Cada uma delas com suas especialidades muito distintas.";
+	next;
+	show "[Wong]";
+	show "Agora que você compreende isto, vamos iniciar a invocação dela.";
+	next;
+	show "- 'Wong'-";
+	show "- desembainha sua espada -";
+	show "- e começa a manejá-la -";
+	next;
+	show "- Você nota algo como -";
+	show "- uma luz azul descendo -";
+	show "- do céu -";
+	next;
+	show "^3355FF- Você obtem o-^000000";
+	show "^3355FF- Amuleto do Poder -^000000";
+	set dmdswrd_Q,24;
+	next;
+	show "[Wong]";
+	show ". . . . .";
+	next;
+L_2:
+	show "[Wong]";
+	show "Hmm, parece que o Mundo Negro ainda não está preparado para dar-lhe as Espadas Amaldiçoadas..... mesmo tendo o que precisa para ser um mestre das espadas.";
+	next;
+	show "[Wong]";
+	show "No entanto, quando o dia é tão longo quanto a noite, quando a luz do sol é tão brilhante quanto a espada solar.";
+	show "Apenas durante este instante, você terá a oportunidade de receber as Espadas Amaldiçoadas.";
+	next;
+	show "[Wong]";
+	show "Vá para Morroc e procure por um homem com o nome de ^5533FFCetsu^000000. Ele tem informações sobre uma das espadas.";
+//	show "When that time coshow, visit the East for a quiet city name Payon, and you shall find yourself in a new journey for the Doomed Swords.";
+	close;
+L_3:
+	show ".................";
+	close;
+}
+
+
+//==============================================================================
+//			Doomed Swords Part 6
+//==============================================================================
+
+// Cetsu --------------------------------------------
+morocc,281,178,8	script	Cetsu	97,{
+	if(dmdswrd_Q == 25) goto M_Yes;
+	if(dmdswrd_Q > 25) goto L_1;
+
+	show "[Cetsu]";
+	show "Há rumores que uma vez havia uma adaga feita de dente de ogro. Isto fez a adaga muito mais resistente que aquelas feitas de aço.";
+	next;
+	show "[Cetsu]";
+	show "Ela se tornou conhecida como ^ff0000Adaga Sinistra^000000. O que fez a Adaga Sinistra realmente especial foi o fato dela possuir um encantamento mágico.";
+	next;
+	show "[Cetsu]";
+	show "Muitos tentaram recriá-la mas falharam. Apenas um ferreiro, que morou em Prontera, sabe como fazê-la.";
+	next;
+	show "[Cetsu]";
+	show "Infelizmente ele deixou Prontera a muito tempo e não foi visto desde então...";
+	if(dmdswrd_Q == 24) goto L_0;
+	close;
+
+L_0:
+	next;
+	show"[Cetsu]";
+	show "Diga,.... você está reaalmente interessado nesta adaga?";
+	next;
+	menu "Sim.",M_Yes,"Não, obrigado.",M_No;
+	
+	M_Yes:
+		show "[Cetsu]";
+		show "Logo, você deveria falar com ^5533FFVeeyop^000000. Ele parece saber bastante sobre o ^00aa00Ferreiro Lendário^000000.";
+		show "Você pode encontrá-lo em Prontera. Com a ajuda dele, você poderá até ser capaz de encontrar o Ferreiro Lendário. Boa Sorte.";
+		set dmdswrd_Q, 25;
+		close;
+	M_No:
+		show "[Cetsu]";
+		show "Oh, entendo.";
+		close;
+
+L_1:
+	show "[Cetsu]";
+	show "Uau! Então você tentará recriar a lendária e amaldiçoada Adaga Sinistra? Tenha muito cuidado, esta é uma adaga muito poderosa.";
+	close;
+}
+
+// Veeyop --------------------------------------------------
+prontera,197,188,4	script	Veeyop	50,{
+	if(dmdswrd_Q == 26) goto M_Yes;
+	if(dmdswrd_Q > 26) goto L_1;
+
+	show "[Veeyop]";
+	show "Você já ouviu falar de uma espada amaldiçoada, ^ff0000Mysteltainn^000000? Foi chamada assim por causa do ^0000bblegendário Ramo de Visco^000000 que foi usado para assassinar Balder, o Deus da Luz...";
+	next;
+	show "[Veeyop]";
+	show "De acordo com a lenda, o visco era uma planta fraca, inofensiva. Nada mais eu sei a respeito desta espada.";
+	next;
+	show "[Veeyop]";
+	show "Não importa o que a lenda possa ser, as pessoas dizem que há uma forma de reconstruir esta espada lendária.";
+	show "Eu soube que uma havia um Ferreiro que possuia o conhecimento para recriar a espada lendária morando aqui em Prontera.";
+	next;
+	show "[Veeyop]";
+	show "Infelizmente ele desapareceu desta cidade. É o que todos dizem.";
+	if(dmdswrd_Q == 25) goto L_0;
+	close;
+
+L_0:
+	next;
+	show"[Veeyop]";
+	show "Diga,.... você está realmente interessado nesta espada?";
+	next;
+	menu "Sim.",M_Yes,"Não, obrigdo.",M_No;
+	
+	M_Yes:
+		show "[Veeyop]";
+		show "Logo, você deveria falar com ^FF5533Nain^000000. Ela parece saber bastante sobre o ^00aa00Ferreiro Lendário^000000.";
+		show "Você pode encontrá-la em Izlude. Com a ajuda dela, você poderá até ser capaz de encontrar o Ferreiro Lendário. Boa Sorte.";
+		set dmdswrd_Q, 26;
+		close;
+	M_No:
+		show "[Veeyop]";
+		show "Oh, entendo.";
+		close;
+
+L_1:
+	show "[Veeyop]";
+	show "Uau! Então você tentará recriar a lendária e amaldiçoada Mysteltainn? Tenha muito cuidado, esta é uma espada muito poderosa.";
+	close;
+}
+
+// Nain  -------------------------------------------------------------
+izlude_in,173,88,2	script	Nain	102,{
+	if(dmdswrd_Q == 27) goto M_Yes;
+	if(dmdswrd_Q > 27) goto L_1;
+
+	show "[Nain]";
+	show "Foi-me contado uma vez sobre uma lenda de uma espada poderosa que era usada apenas para execuções.";
+	next;
+	show "[Nain]";
+	show "Por anos e anos, esta espada foi utilizada para decapitar crinimosos hediondos, mas também tirou a vida de muitos grandes guerreiros.";
+	show "É dito que, durante o período que o governo tornou-se corrupto, vidas inocentes tornaram-se vítimas desta espada.";
+	next;
+	show "[Nain]";
+	show "Isto fez com que a espada se tornasse corrompida com um imenso poder maligno que a tornou praticamente impossível de controlar.";
+	show "Aqueles que tentaram controlá-la tornaram-se possuídos por uma aura negra que os forçaram a se tornarem sanguinários.";
+	next;
+	show "[Nain]";
+	show "Esta civilização antiga eventualmente colapsou e sumiu. Esta espada poderosa também sumiu.";
+	show "Esta espada seria posteriormente chamada de ^ff0000Executora^000000. Um nome apropriado, considerando sua história.";
+	next;
+	show "[Nain]";
+	show "Recentemente houve rumores de um Ferreiro Lendário que tinha a habilidade de recriar esta espada perdida.";
+	next;
+	show "[Nain]";
+	show "Apenas de pensar nisto já sinto tremores ao longo da espinha.";
+	show "Não importa qual poderosa a espada é, só em pensar que ela é possuída por milhares e milhares de fantasmas...";
+	show "Seria melhor ver esta Espada Amaldiçoada permanecer perdida na história.";
+	if(dmdswrd_Q == 26) goto L_0;
+	close;
+
+L_0:
+	next;
+	show"[Nain]";
+	show "Diga,.... você está realmente interessado nesta espada?";
+	next;
+	menu "Sim.",M_Yes,"Não, obrigado.",M_No;
+
+	M_Yes:
+		show "[Nain]";
+		show "Lo 169go, você deveria falar com ^aa00aaRupeto^000000. Ele parece saber bastante sobre o ^00aa00Ferreiro Lendário^000000.";
+		show "Você pode encontrá-la dentro do Pub em Prontera. Com a ajuda dele, você poderá até ser capaz de encontrar o Ferreiro Lendário. Boa Sorte.";
+		set dmdswrd_Q, 27;
+		close;
+
+	M_No:
+		show "[Nain]";
+		show "Oh, entendo.";
+		close;
+
+L_1:
+	show "[Nain]";
+	show "Uau! Então você tentará recriar a lendária e amaldiçoada Executora? Tenha muito cuidado, esta é uma espada muito poderosa.";
+	close;
+}
+
+// Rupeto ---------------------------------------------------------
+prt_in,169,16,3	script	Rupeto	86,{
+	if(dmdswrd_Q == 27) goto L_0;
+	show "[Rupeto]";
+	show "Olá.";
+	close;
+
+L_0:
+	show "[Rupeto]";
+	show "Procurando pelo Ferreiro Lendário? Procure-o pelos campos de Payon à oeste da cidade.";
+	show "Dizem que este campo parece-se muito com um Salgueiro Ancião.";
+	close;
+}
+
+
+//=============================================================================
+//		Doomed Swords Final Part
+//=============================================================================
+
+// Legendary Blacksmith ----------------------------------------------
+pay_fild08,217,273,4	script	Ferreiro	63,{
+
+	if(dmdswrd_Q == 27) goto L_Start;
+	if(dmdswrd_Q == 28) goto L_Forge;
+	show "[Ferreiro Lendário]";
+	show "Eu imagino o que se passa em ^ff0000Prontera^000000? Já faz muito tempo desde que eu estive lá.";
+	close;
+
+L_Start:
+	show "[Ferreiro Lendário]";
+	show "Hmm... o que é isso? Espadas Amaldiçoadas? Não faço a menor idéia do que você está falando.";
+
+	next;
+	show "[Ferreiro Lendário]";
+	show "..... Entendo... então você conversou com todos que estiveram envolvidos com a guerra com a bruxa... você também conseguiu todos os itens de poder....";
+	next;
+	show "[Ferreiro Lendário]";
+	show "Nunca imaginei que viria o dia que eu teria que fazer uma destas espadas horrendas novamente... mas você passou por provações logo eu não posso declinar.";
+	next;
+	L_Forge:
+	show "[Ferreiro Lendário]";
+	show "Qual espada você quer que eu forje?";
+	set dmdswrd_Q, 28;
+	next;
+	menu "Executora",M_Exec, "Adaga Sinistra",M_Grim, "Mysteltainn",M_Myst;
+
+	M_Exec:	//1169
+		if(countitem(7017)>=2 && countitem(7024)>=10 && countitem(1008)>=3 && countitem(609)>=50 && countitem(714)>=1) goto L_GetExec;
+		show "[Ferreiro Lendário]";
+		show "Então você está interessado em fazer a lendária Espada Executora não é?.....";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Já faz muito tempo que deixei de forjar qualquer arma, mas desde que seu pedido é um desafio especial para mim...";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Eu a farei! Recriarei a Espada Executora! Mas devo avisá-lo, esta espada é muito poderosa e perigosa. Tenha cuidado.";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Para a Espada Executora eu precisarei dos seguintes itens:"; 
+		show "- ^0000ff2 Luvas do Carrasco^000000";		//7017
+		show "- ^0000ff10 Lâminas Ensanguentadas^000000";		//7024
+		show "- ^0000ff3 Colares do Oblívio^000000";		//1008
+		show "- ^0000ff50 Amuletos^000000";			//609
+		show "- and ^0000ff1 Emperium^000000";		//714
+		close;
+
+		L_GetExec:
+			delitem 7017,2;
+			delitem 7024,10;
+			delitem 1008,3;
+			delitem 609,50;
+			delitem 714,1;
+			show "[Ferreiro Lendário]";
+			show "Bom! Você trouxe-me todos os itens necessários.";
+			show "Por favor aguarde um momento enquanto eu forjo a Espada Executora.";
+			next;
+			show "(cling-clang!~ klonk!~ klank!~ cling-clang!)";
+			next;
+			show "[Ferreiro Lendário]";
+			show "Ufa! Mais uma vez uma espada perfeita! Hahaha! Aqui está meu amigo, aproveite-a.";
+			additem 1169,1;
+			close;
+
+	M_Grim:	//1237
+		if(countitem(7023)>=10 && countitem(724)>=5 && countitem(7002)>=100 && countitem(7022)>=1 && countitem(714)>=1) goto L_GetGrim;
+		show "[Ferreiro Lendário]";
+		show "Então você está interessado em fazer a lendária Adaga Sinistra não é?.....";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Já faz muito tempo que deixei de forjar qualquer arma, mas desde que seu pedido é um desafio especial....";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Eu a farei! Recriarei a Adaga Sinistra! Mas devo avisá-lo, esta adaga é muito poderosa e perigosa. Tenha cuidado.";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Para a Adaga Sinistra eu precisarei dos seguintes itens:";
+		show "- ^0000ff10 Lâmina Perdida nas Trevas^000000";		//7023
+		show "- ^0000ff5 Rubis Amaldiçoados^000000";		//724
+		show "- ^0000ff100 Dentes de Ogro^000000";		//7002
+		show "- ^0000ff1 Bainha Velha^000000";		//7022
+		show "- and ^0000ff1 Emperium^000000";		//714
+		close;
+
+		L_GetGrim:
+			delitem 7023,10;
+			delitem 724,5;
+			delitem 7002,100;
+			delitem 7022,1;
+			delitem 714,1;
+			show "[Ferreiro Lendário]";
+			show "Bom! Você trouxe-me todos os itens necessários.";
+			show "Por favor aguarde um momento enquanto eu forjo a Adaga Sinistra.";
+			next;
+			show "(cling-clang!~ klonk!~ klank!~ cling-clang!)";
+			next;
+			show "[Ferreiro Lendário]";
+			show "Ufa! Mais uma vez uma adaga perfeita! Hahaha! Aqui está meu amigo, aproveite-a.";
+			additem 1237,1;
+			close;
+
+	M_Myst:	//1138
+		if(countitem(7021)>=1 && countitem(7019)>=1 && countitem(7020)>=1 && countitem(7018)>=1 && countitem(714)>=1) goto L_GetMyst;
+		show "[Ferreiro Lendário]";
+		show "Então você está interessado em fazer a lendária Espada Mysteltainn não é?.....";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Já faz muito tempo que deixei de forjar qualquer arma, mas desde que seu pedido é um desafio especial....";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Eu a farei! Recriarei a Mysteltainn! Mas devo avisá-lo, esta espada é muito poderosa e perigosa. Tenha cuidado.";
+		next;
+		show "[Ferreiro Lendário]";
+		show "Para a Espada Executora eu precisarei dos seguintes itens:";
+		show "- ^0000ff1 Tolice do Cego^000000";		//7021
+		show "- ^0000ff1 Sussuro de Loki^000000";		//7019
+		show "- ^0000ff1 Pesadelo Maternal^000000";		//7020
+		show "- ^0000ff1 Graveto de Visco^000000";		//7018
+		show "- e ^0000ff1 Emperium^000000";		//714
+		close;
+	
+		L_GetMyst:
+			delitem 7021,1;
+			delitem 7019,1;
+			delitem 7020,1;
+			delitem 7018,1;
+			delitem 714,1;
+			show "[Ferreiro Lendário]";
+			show "Bom! Você trouxe-me todos os itens necessários.";
+			show "Por favor aguarde um momento enquanto eu forjo a Adaga Sinistra.";
+			next;
+			show "(cling-clang!~ klonk!~ klank!~ cling-clang!)";
+			next;
+			show "[Ferreiro Lendário]";
+			show "Ufa! Mais uma vez uma adaga perfeita! Hahaha! Aqui está meu amigo, aproveite-a.";
+			additem 1138,1;
+			close;
+}

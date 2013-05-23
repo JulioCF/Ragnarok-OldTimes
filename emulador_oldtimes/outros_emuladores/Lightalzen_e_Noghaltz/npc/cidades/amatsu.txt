@@ -1,0 +1,1469 @@
+//===== Cronus Script ======================================== 
+//= Amatsu Npcs
+//===== Por: =================================================
+//= eAthena dev team
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Npcs da cidade Amatsu
+//===== Changelog: =========================================== 
+//= Traduzido [Roberto]
+//= Atualização e Revisão por [Olivete]
+//============================================================
+
+alberta.gat,245,93,4	script	Capitão	709,{
+       show "[Carter Moores]";
+       show "Você sabia que no outro lado do oceano";
+       show "vive uma cultura misteriosa,";
+       show "com histórias que jamais foram contadas neste país";
+       show "Você ja ouviu falar dela antes?";
+       next;
+       menu "Eu quero aprender mais sobre amatsu",L1,"Ir para Amatsu",L2,"Terminar a conversa",-;
+               show "[Carter Moores]";
+               show "Se você é realmente um aventureiro de coração,";
+               show "Você deveria tentar sair deste continente.";
+               show "Nada é mais excitante do que aprender sobre novas culturas...";
+               show "Entretanto, você é quem deve decidir.";
+               close;
+       L1:
+               show "[Carter Moores]";
+               show "A lenda conta, que um marinheiro se perdeu no mar,";
+               show "enquanto ele estava vagando no mar,";
+               show "ele a descobriu...";
+               show "Sem dúvida o barco estava perdido";
+               show "na grande tempestade e na névoa";
+               next;
+               show "[Carter Moores]";
+               show "Após o barco ter afundado";
+               show "ele chegou até um vilarejo.";
+               show "Que agora é chamado de Amatsu,";
+               show "O marinheiro foi então resgatado pela população local.";
+               show "Enquanto ele trabalhava duro por lá,";
+               show "Eu descobri que ele havia terminado um mapa.";
+               next;
+               show "[Carter Moores]";
+               show "Ele morreu logo após retornar,";
+               show "mas o mapa de fato foi passado para Tristian Terceiro.";
+               show "Mais tarde, coroado rei";
+               show "que qualquer um capaz de abrir uma rota,";
+               show "que leve até Amatsu, irá receber uma recompensa do rei.";
+               show "Ele deu a todos uma cópia do mapa";
+               next;
+               show "[Carter Moores]";
+               show "O que as pessoas querem não é a recompensa,";
+               show "mas sim a oportunidade de comércio com outros paises.";
+               show "Os beneficios disto são inimaginaveis.";
+               show "Entretanto, muitos aventureiros e capitães destemidos";
+               show "pegaram o mapa,";
+               show "E forampara o oceano...";
+               next;
+               show "[Carter Moores]";
+               show "Mas todos eles falharam!";
+               show "Para enfrentar as gigantescas correntes marinhas e o clima imprevisivel,";
+               show "era necessário que se estivesse familiarizado com o oceano e seus mistérios.";
+               show "Contudo, todos eles estavam cegos pela recompensa e o desejo de obter os direitos pelas rotas comerciais,";
+               show "que falharam em fazer os preparativos necessários.";
+               next;
+               show "[Carter Moores]";
+               show "A esta altura, alguém ja deve ter achado,";
+               show "a rota completa para Amatsu....";
+               show "E esta pessoa sou eu, Senhor Carter Moores,";
+               show "a primeira pessoa a negociar com Amatsu!";
+               show "Hahaha! E é isso.";
+               next;
+               show "[Carter Moores]";
+               show "Eu consegui ganhar uma razoavel quantia de zeny com meus negócios,";
+               show "e agora estou tentando abrir uma industria de turismo.";
+               show "Faça um pequeno investimento.";
+               show "Se você quiser ir para amatsu,";
+               show "é só me avisar...!";
+               close;
+       L2:
+               show "[Carter Moores]";
+               show "Sim, Amatsu é um ótimo lugar!";
+               show "Porque cruzar aquele oceano traiçoeiro";
+               show "não é uma coisa fácil de se fazer.";
+               show "Eu espero que você ache o preço da passagem razoavel.";
+               next;
+               show "[Carter Moores]";
+               show "A viagem toda custa 10,000 Zeny.";
+               show "Nossos barcos comerciais são bem resistentes";
+               show "E os aposentos dos passageiros são especialmente feitos também.";
+               next;
+               show "[Carter Moores]";
+               show "Então, você decidiu partir?";
+               show "Você tem zeny suficiente para a viagem?";
+               next;
+               menu "Sim",Lgo,"Não",-;
+                       show "[Carter Moores]";
+                       show "Não se sente atraido por este novo continente?";
+                       show "As pessoas nunca gostam";
+                       show "de sair em direção a outra costa do outro lado.";
+                       close;
+               Lgo:
+                       if (Zeny < 10000) goto Lzeny;
+                       set Zeny, Zeny-10000;
+                       show "[Carter Moores]";
+                       show "Todos a bordo!";
+                       next;
+                       warp "amatsu",197,83;
+                       end;
+               Lzeny:
+                       show "[Carter Moores]";
+                       show "Você se esqueceu do que eu disse?";
+                       show "10,000 zeny. Se você não consegue juntar tanto zeny,";
+                       show "vá caçar ao redor do barco afundado,";
+                       show "e reze para ter alguma sorte caçando os tesouros...";
+                       show "e então consiga algum zeny";
+                       close;
+}
+//=====================================================================
+amatsu.gat,194,79,4	script	Capitão	709,{
+       show "[Carter Moores]";
+       show "Pronto para partir?";
+       show "Provavelmente se divertiu muito no tour de Amatsu!";
+       show "Você esta mesmo pronto para partir?";
+       menu "Hora de ir para casa!",L1,"Eu vou ficar um pouco mais",-;
+               show "[Carter Moores]";
+               show "Tudo bem! Entendido.";
+               show "O barco para o retorno sempre estará pronto.";
+               show "Tenha uma boa viagem.";
+               close;
+       L1:
+               show "[Carter Moores]";
+               show "Vamos ao mar.";
+               show "Não sei se você esta trazendo alguma";
+               show "lembrancinha.";
+               next;
+               warp "alberta",243,91;
+               end;
+}
+//=====================================================================
+// Amatsu Citizen
+//=====================================================================
+amatsu.gat,179,107,4	script	John	86,{
+       show "[John]";
+       show "Ei.";
+       show "Você se parece comigo,";
+       show "não é um nativo de Amatsu";
+       next;
+       show "[John]";
+       show "Eu ja estou aqui";
+       show "a negócios por quase 5 anos";
+       next;
+       show "Mesmo quando o reino de Rune-Midgard";
+       show "negociou pela primeira vez";
+       show "com Amatsu.";
+       show "Eu pensei no 'Malandro de Sorte'!";
+       next;
+       show "[John]";
+       show "Eu quero começar um negócio único";
+       show "que ninguém mais fará.";
+       next;
+       show "[John]";
+       show "Então eu decidi";
+       show "vir para Amatsu";
+       show "e aprender como fazer a comida daqui,";
+       show "para então retornar para meu país";
+       show "para que todos possam desfrutar desta comida exótica.";
+       next;
+       show "[John]";
+       show "Mas no final das contas";
+       show "Eu fiquei muito apegado a este local.";
+       show "E mesmo depois de 5 anos";
+       show "Eu ainda estou por aqui";
+       next;
+       show "[John]";
+       show "De qualquer forma, desde então eu simplesmente tenho ficado por aqui.";
+       show "Simplesmente coverso e fofoco com os moradores,";
+       show "e relaxo.";
+       next;
+       show "[John]";
+       show "A algum tempo atrás um famoso chef de sushi";
+       show "morou do outro lado da rua, e desde então";
+       show "eu tenho visto muitas moscas aqui pelo meu lado.";
+       next;
+       show "[John]";
+       show "Eu encontrei minha alegria na vida";
+       show "aqui nest lugar";
+       show "Mas agora parece que isto esta para acabar.";
+       close;
+}
+//=====================================================================
+amatsu.gat,185,116,4	script	Homem Bêbado	765,{
+       show "[Ralph]";
+       show "Cof Cof. Eu estou velho e imprestavel.";
+       show "Somente a força bruta. Cof";
+       show "Desta vez COF eu não vou mesmo para casa. COF COF";
+       next;
+       menu "Por favor pare de beber e vá para casa",L1,"ÉÉÉÉ, vamos encher a cara!",L2;
+L2:
+       show "[Ralph]";
+       show "Hahaha! Um bom jovem.";
+       show "COF COF, mas mas, COF";
+       show "Eu não posso te dar a minha bebida, COF.";
+       next;
+       show "[Ralph]";
+       show "Eu vou pensar no caso, se você quiser me comprar uma bebida.";
+       show "Haha! Cof.";
+       close;
+L1:
+       show "[Ralph]";
+       show "O que!?";
+       show "Você quer que eu seja como minha esposa, e que apanhe de punhos de aço?";
+       show "Cof. Você não saberá até que você o veja";
+       show "Quando ela era jovem,";
+       show "Ela lutava e capturava tigres.";
+       next;
+       show "[Ralph]";
+       show "Eu estava em Co..Comudo seja lá que cidade era.";
+       show "Eu só perdi um pouquinho, e ele";
+       show "me deu uma surra daquelas. COF.";
+       next;
+       show "[Ralph]";
+       show "Falta de vida";
+       show "Que diabos é zeny??";
+       show "COFF.. COFF..";
+       show "...........................";
+       show "........cof..............";
+       close;
+}
+//=====================================================================
+amatsu.gat,217,179,0	script	Mulher Idosa	760,{
+       show "[Hashey]";
+       show "Meu marido é viciado em apostas, ele me deixa morta de preocupação.";
+       show "Foi para aquela cidade que é muito longe, e perdeu muitos zenys de novo.";
+       show "Volte..";
+       next;
+       show "[Hahsey]";
+       show "Porque eu fiquei com raiva, Eu perdi o controle novamente.";
+       show "Não sei se ele esta bebendo lá em casa de novo.";
+       show "Mas que avarento...'suspira'";
+       close;
+}
+//=====================================================================
+ama_in01.gat,162,17,0	script	Mestre Ferro	765,{
+       if (ama_sushi == 1) goto LStart2;
+       show "[ShabuShabu]";
+       show "*Suspira* Isto esta piorando..";
+       show "Mais clientes aparecem,";
+       show "mas eu nunca consigo";
+       show "material suficiente, mesmo hoje em dia.";
+       show "Com certeza muitos clientes ficarão com fome?";
+       next;
+       show "[ShabuShabu]";
+       show "*Suspira*, um cliente, Bem Vindo.";
+       show "Como sempre, meu sashimi caseiro";
+       show "se baseia no frescor. Do que você precisa?";
+       next;
+       menu "Eu quero comprar sushi de camarão",L1,"Eu quero comprar sashimi",L2,"Precisa de ajuda!",L3,"Continue com o bom trabalho",-;
+               show "[ShabuShabu]";
+               show "Ok, meu sashimi";
+               show "é famoso pelo mundo inteiro! O gosto deles é garantido pelo frescor, e ninguém mais pode fazê-los.";
+               show "Se você tiver a oportunidade, venha experimentar meu sashimi!";
+               close;
+       L1:
+               show "[ShabuShabu]";
+               show "Ok! Quantos você vai querer?";
+               show "O preço unitário é de 700 zeny, mas se você quiser só uma provinha,";
+               show "Eu te darei um desconto de 74 zeny,";
+               show "se você gostar do sabor, volte aqui mais tarde.";
+               next;
+               menu "eu quero o de 700 zeny!",L1_1,"Eu quero a amostra de 74 zeny!",L1_2,"Eu virei comê-los mais tarde",-;
+                       show "[ShabuShabu]";
+                       show "Beleza! meu sushi de camarão";
+                       show "é famoso pelo munto afora! O seu sabor consiste no frescor do material usado, e ninguém mais sabe como fazê-los.";
+                       show "se você tiver a oportunidade, venha provar um pouco de sashimi!";
+                       close;
+               L1_1:
+                       if (Zeny < 700) goto Lzeny;
+                       set Zeny,Zeny-700;
+                       additem 551,10;
+                       show "[If you have a chance, come try a little sashimi!]";
+                       show "Muito Obrigado";
+                       close;
+               L1_2:
+                       if (Zeny < 74) goto Lzeny;
+                       set Zeny,Zeny-74;
+                       additem 551,1;
+                       show "[If you have a chance, come try a little sashimi!]";
+                       show "Muito Obrigado";
+                       close;
+       L2:
+               show "[ShabuShabu]";
+               show "Muito bem! Quantos você quer?";
+               show "O preço unitario é de 350 zeny, mas se você só quiser experimentar,";
+               show "eu te darei um desconto para 37 zeny.";
+               show "Se você gostar do sabor pode me procurar mais tarde";
+               next;
+               menu "Eu quero o de 350 zeny!",L2_1,"Eu quero a amostra de 37 zeny",L2_2,"Eu voltarei para comê-los mais tarde",-;
+                       show "[ShabuShabu]";
+                       show "Muito Bem!, meu sashimi";
+                       show "eles são famosos pelo mundo afora! O seu segredo está no frescor do material, e ninguém mais sabe como fazê-los.";
+                       show "[If you have a chance, come try a little sashimi!]";
+                       close;
+               L2_1:
+                       if (Zeny < 350) goto Lzeny;
+                       set Zeny,Zeny-350;
+                       additem 544,10;
+                       show "[ShabuShabu]";
+                       show "Muito Obrigado";
+                       close;
+               L2_2:
+                       if (Zeny < 37) goto Lzeny;
+                       set Zeny,Zeny-37;
+                       additem 544,1;
+                       show "[ShabuShabu]";
+                       show "Muito Obrigado";
+                       close;
+               Lzeny:
+                       show "[ShabuShabu]";
+                       show "Você não tem zeny suficiente com você";
+                       close;
+L3:
+               show "[ShabuShabu]";
+               show "Oh, qualquer ajuda é bem vinda!!!";
+               show "Ainda agora eu estava me preocupando por não ter material suficiente todos os dias.";
+               show "Você quer ouvir meu pedido?";
+               show "Claro que eu vou te pagar para me ajudar.";
+               next;
+
+               set ama_sushi,1;
+               show "[ShabuShabu]";
+               show "Casco de Caranguejo.";
+               show "Eles estão em falta. Eu preciso deles agora mesmo. ";
+               show "Portanto me ache ^0000FF10Cascos de caranguejo^000000.";
+               show "Eu nunca consigo encontrá-los quando eu preciso.";
+               show "eu estou contando com você.";
+               next;
+               show "[ShabuShabu]";
+               show "Então por favor se apresse! Eu estarei aqui";
+               show "esperando por você, por favor não se esqueça de meu pedido!";
+               close;
+LStart2:
+       if (countitem(964)>=10) goto Lok;
+       show "[ShabuShabu]";
+       show "Cara, você ainda não tem meus materiais?";
+       show "Ah não, você não se esqueceu né?";
+       next;
+       show "[ShabuShabu]";
+       show "^0000FF10Cascos de caranguejo^000000";
+       show "Não se esqueça de novo.";
+       show "Você tem que me ajudar a achá-los!";
+       close;
+Lok:
+       show "[ShabuShabu]";
+       show "Hmm! Muito obrigado mesmo";
+       next;
+       delitem 964,10;
+       additem 551,20;
+       show "[ShabuShabu]";
+       show "Aqui está meu agradecimento, tome!";
+       set ama_sushi,0;
+       close;
+
+}
+//=====================================================================
+amatsu.gat,189,166,4	script	Kouji	764,{
+       show "[Kuruchi]";
+       show "Lalala Lalala Lalalalalala..";
+       show "Lalala Lalala Lalalalalala..";
+       next;
+       if (event_amatsu == 2) goto L1;
+       if ((event_amatsu == 3) || (event_amatsu == 4)) goto L2;
+       if (event_amatsu == 5) goto L3;
+       if (event_amatsu == 6) goto L4;
+L0:
+       show "[Kuruchi]";
+       show "Sentado sob o teto azul do céu azul";
+       show "brilhando no reflexo azul de uma parede num lago azul";
+       show "coração azulado contendo um desejo azul";
+       show "azul, azul tudo é azul";
+       next;
+       goto LEnd;
+L1:
+       show "[Kuruchi]";
+       show "Monge, Monge a raposa está me seguindo";
+       show "porque eu tenho sua comida favorita";
+       show "Miojo, minha comida favorita também";
+       show "Eu consigo comê-lo três vezes por dia";
+       set event_amatsu,3;
+       goto LEnd;
+L2:
+       show "[Kuruchi]";
+       show "Monge, Monge, A raposa esta me seguindo";
+       show "Grite para espantá-la";
+       show "Voz é muito fraca, portanto ela não fugiu";
+       show "Seguiu todo o caminho até o santuario do lado norte";
+       set event_amatsu,4;
+       goto LEnd;
+L3:
+       show "[Kuruchi]";
+       show "Monge, Monge, A raposa está me seguindo";
+       show "Miojo meu favorito";
+       show "Mas agora eu não tenho mais medo?";
+       show "Eu gritei bem alto para assustá-la!";
+       goto LEnd;
+L4:
+       show "[Kuruchi]";
+       show "a doca da cidade tem um barco abandonado!";
+       show "Todo mundo esquece que dentro do barco";
+       show "esta cheio de tesouros e ouro";
+       show "Um barco que é temido por todos";
+       goto LEnd;
+
+LEnd:
+       next;
+       show "[Kuruchi]";
+       show "Lalala Lalala Lalalalalala..";
+       show "Lalala Lalala Lalalalalala..";
+       close;
+}
+
+//=====================================================================
+amatsu.gat,205,163,4	script	Mimi	759,{
+       show "[Mimi]";
+       show "Ufa..";
+       show "Você viu a Miss Amatsu do lado das docas?";
+       show "Muito bonite né?";
+       next;
+       show "[Mimi]";
+       show "Quando eu crescer eu também quero participar da competição.";
+       next;
+       show "[Mimi]";
+       show "Apesar de minha aparencia, eu ainda sou a mulher mais bonita da cidade..";
+       show "A mulher precisa cuidar sempre de sua aparência, Whoohoohoohooo.";
+       close;
+}
+//=====================================================================
+amatsu.gat,230,160,4	script	Dama	757,{
+       show "[Yorukoc]";
+       show "Mesmo eu vindo pegar água do poço todos os dias,";
+       show "se estiver enevoado ou chuvendo,";
+       show "eu não venho aqui.";
+       next;
+       show "[Yoruko]";
+       show "Parece que lá no fundo do poço,";
+       show "tem alguma pessoa tentando";
+       show "subir pelas paredes do poço.";
+       show "Isso me da arrepios.";
+       close;
+}
+//=====================================================================
+amatsu.gat,171,174,4	script	Soldado	767,{
+       if ((event_amatsu == 0) || (event_amatsu == 1)) goto L0;
+       if (event_amatsu == 6) goto L1;
+       if (event_amatsu == 7) goto L2;
+       show "[Soldado]";
+       show "Esta é a area";
+       show "onde a mãe do mestre";
+       show "esta fazendo o seu tratamento.";
+       next;
+       show "[Soldado]";
+       show "Apesar de não ser lá um bom assunto para conversar...";
+       show "Ela tem estado doente aqui já por alguns meses";
+       show "e decidiu morar por aqui mesmo";
+       close;
+L0:
+       show "[Soldado]";
+       show "Aqui é onde a mãe do mestre fica.";
+       show "Por favor faça silêncio, nós ficamos,";
+       show "muito preocupados com esta situação todo o dia.";
+       next;
+       show "[Soldado]";
+       show "Porque isto esta acontecendo";
+       show "com o nosso sábio e bondoso mestre..";
+       show "Eu não compreendo, *lamenta*...";
+       close;
+L1:
+       show "[Soldado]";
+       show "O que? Parece que alguma coisa";
+       show "passou voando... Você não viu? Oh..";
+       show "e eu ouvi um barulho alto... Quase morri de susto";
+       close;
+L2:
+       show "[Soldado]";
+       show "Nosso mestre deve estar melhor agora";
+       show "Nós também estamos muito aliviado.";
+       show "Você não faz ideia da nossa preocupação...phew.";
+       close;
+}
+//=====================================================================
+amatsu.gat,164,174,4	script	Soldado	767,{
+       if (event_amatsu == 0) goto LOnce;
+       if ((event_amatsu >= 2) && (event_amatsu <= 5)) goto L2;
+       if (event_amatsu == 6) goto L3;
+       if (event_amatsu == 7) goto L4;
+       show "[Soldado]";
+       show "Espero que ela volte com saude logo...";
+       show "O Mestre gastou muito tempo";
+       show "cuidando e se preocupando com ela.";
+       close;
+LOnce:
+       show "[Soldado]";
+       show "Não entre aqui.";
+       show "Aqui é onde a mãe do mestre";
+       show "esta se recuperando.";
+       next;
+       show "[Soldado]";
+       show "Apesar disso não ser um bom assunto.";
+       show "Ela tem estado aqui doente por meses";
+       show "e decidiu morar aqui.";
+       set event_amatsu,1;
+       close;
+L2:
+       show "[Soldado]";
+       show "Se você for convidado pelo Mestre..";
+       show "Por favor entre.";
+       show "Até hoje, muitos médicos vieram para diagnosticá-la mas";
+       show "todos os seus esforços foram inúteis.";
+       close;
+L3:
+       show "[Soldado]";
+       show "Hey!";
+       show "Que som é esse!?";
+       show "De onde você saiu!?";
+       close;
+L4:
+       show "[Soldado]";
+       show "A mãe do mestre";
+       show "hasn't fully recovered..ainda não se recuperou totalmente.. ";
+       show "Mas parece, que ela melhorou um pouco.";
+       show "Mas mesmo assim..";
+       close;
+}
+//=====================================================================
+amatsu.gat,119,164,4	script	Soldado	767,{
+       show "[Soldado]";
+       show "Você é de Rune-Midgard?";
+       show "Bem vindo a cidade de Amatsu.";
+       show "Após adentrar a cidade,";
+       show "por favor visite o Mestre de Amatsu";
+       show "antes de partir!";
+       next;
+       show "[Soldado]";
+       show "Ele é uma ótima pessoa.";
+       show "Ele fem muitos investimentos na cidade";
+       show "vindo de todos os continentes.";
+       show "Ele cuida de todos os tipos de coisas.";
+       close;
+}
+//=====================================================================
+amatsu.gat,112,164,4	script	Soldado	767,{
+       show "[Soldado]";
+       show "Este é o melhor castelo em Amatsu,";
+       show "é chamado de Castelo do Lago leste.";
+       show "Normalmente as pessoas não são permitidas";
+       show "a entrar e sair.";
+       next;
+       show "[Soldado]";
+       show "Pelas suas roupas, parece que você é de outro continente.";
+       show "No passado, o Mestre permitia";
+       show "especificamente que viajantes entrassem e saissem.";
+       show "Agora você pode entrar.";
+       close;
+}
+
+//=====================================================================
+ama_in01.gat,22,111,0	script	Dama Idosa	761,{
+       if (event_amatsu == 5) goto LStart2;
+       if (event_amatsu == 6) goto LStart3;
+       if (event_amatsu == 7) goto LStart4;
+       show "[...]";
+       show "^FF6060Clang Clannng! Clang Clannng!  Humanos estupidos de novo!";
+       show "Clang Clannng, Clang Clannng. Quem é? Você é humano!?";
+       show "Do que você precisa aqui! Ande logo";
+       show "SAIA... Clang Clannng! Clang Clannng!^000000";
+       next;
+       show "[...]";
+       show "^FF6060I decidiu morar aqui até que";
+       show "a linhagem familiar dos Ishida termine!";
+       show "Pare de me atasanar e Saia! Clang Clannng!^000000";
+       next;
+       warp "amatsu",167,197;
+       end;
+LStart2:
+       show "[...]";
+       show "^FF0066Clang Clannng! Clang Clannng! Ai vem mais um!";
+       show "Humanos estúpidos!O que você quer agora";
+       show "Me expulsar daqui!?^000000";
+       next;
+       show "[...]";
+       show "^FF0066Parece que você aprendeu algo em algum lugar,,";
+       show "Isto é o maximo que você pode fazer";
+       show "Você não pode fazer nada comigo!! Clang Clannng!^000000";
+       next;
+       menu "HAAAA!!",-;
+       set @which,rand(2);
+       if (@which == 1) goto Lfail;
+       show "[...]";
+       show "^FF0066Clang Clannng! Clang Clannng! Clang Clannng! Esse mané!";
+       show "ele simplesmente me expulsou!";
+       show "Droga! Não é justo!!^000000";
+       next;
+       show "[...]";
+       show "^FF0066Aquele maldito Ishida que me reduziu a isto.";
+       show "Eu o amaldiçoo pela eternidade! ETERNIDADE!";
+       show "Humano,é melhor você também tomar cuidado!^000000";
+       next;
+       monster "ama_in01.gat",22,112,"Fox",1180,1;
+       killmonsterall "ama_in01.gat";
+       additem 1022,1;
+       show "[...]";
+       show "^FF0066EA mesma coisa que aquele Paul Shinaku fez";
+       show "Vai cedo ou tarde";
+       show "trazer minha derrocada...^000000";
+       show "^CC3300Clangggggggggggg!!^000000";
+       set event_amatsu,6;
+       close;
+Lfail:
+       show "[...]";
+       show "^FF0066Clang Clannng! Haha! Clang Clannng! Hahahaha!";
+       show "Como ousa, querendo me expulsar!";
+       show "Saia daqui!! Clang Clannng!^000000";
+       next;
+       warp "amatsu",167,197;
+       end;
+LStart3:
+       show "[Ishida Sauk]";
+       show "...*Suspira* De onde és meu jovem...?";
+       show "Você se livrou da raposa?";
+       show "Eu me sinto tão cansado, *Suspira*...";
+       next;
+       show "[Ishida Sauk]";
+       show "Muito obrigado. Vindo de outro lugar";
+       show "e ainda tendo que aguentar isso.";
+       show "Sinto muito.... Mesmo...";
+       next;
+       show "[Ishida Sauk]";
+       show "Eu preciso achar meu filho.";
+       show "Diga a ele que eu me livrei da raposa...";
+       show "Muito obrigado.";
+       next;
+       show "[Ishida Sauk]";
+       show "Agora eu estou ficando muito cansado.";
+       show "Meu jovem, agora eu preciso descansar...";
+       show "Vá achar meu filho...";
+       close;
+LStart4:
+       show "[Ishida Sauk]";
+       show "Oh, você é o jovem que";
+       show "se livrou da raposa... Bem Vindo.";
+       show "Sente se aqui um pouco se você puder...";
+       next;
+       show "[Ishida Sauk]";
+       show "Ser possuido por aquela raposa...";
+       show "É simplesmente pura culpa minha....";
+       show "Eu não eduquei meus filhos propriamente....*Suspira*";
+       show "ele era uma boa criança quando pequeno.";
+       show "Isto é tudo porque eu não fui ridida o bastante...";
+       next;
+       show "[Ishida Sauk]";
+       show "Originalmente esta cidade era pequena.";
+       show "Sem um castelo desse tamanho também.";
+       show "Mas meu filho conseguiu algum zeny de alguma maneira";
+       show "e começou a trazê-lo para mim.";
+       show "Não sei o que ele fez para conseguir aquele zeny.";
+       show "Para ter que esconder a verdade até de mim....";
+       next;
+       show "[Ishida Sauk]";
+       show "Então ele começou a construir o castelo e a cidade,";
+       show "e a tratar as pessoas da cidade com justiça e bondade...";
+       show "Se isto fosse tudo, então não teria problema algum.";
+       show "O problema foi quando ele fez umas coisas estranhas...";
+       next;
+       show "[Ishida Sauk]";
+       show "Sim, ele irritou os deuses";
+       show "aprendendo umas magias estranhas em algum lugar.";
+       show "E começou a fazer experimentos,";
+       show "Capturando e fazendo mal";
+       show "aos monstros...";
+       next;
+       show "[Ishida Sauk]";
+       show "E agora os monstros";
+       show "começaram a viver em Amatsu...";
+       show "Os deuses ficaram tão enfurecidos";
+       show "que nem os monges do templo";
+       show "sabem mais o que fazer....";
+       next;
+       show "[Ishida Sauk]";
+       show "eles também me puniram...";
+       show "e mandaram uma raposa aqui";
+       show "na esperança de me dar um aviso,";
+       show "mas meu filho não parou.";
+       next;
+       show "[Ishida Sauk]";
+       show "Se possivel por favor pare meu filho.";
+       show "Eu estou velha já com o pé na cova.";
+       show "Eu também ja não sei mais o que fazer...";
+       show "Por favor proteja esta pacifica cidade.";
+       show "Eu não sei o que meu filho anda fumando";
+       show "para fazer essas coisas...";
+       close;
+}
+
+//=====================================================================
+ama_in02.gat,207,40,6	script	Soldado	767,{
+       show "[Soldado]";
+       show "Bem Vindo,";
+       show "O Mestre permitiu especificamente";
+       show "que os hospedes de outro continente entrassem e saissem.";
+       next;
+       show "[Soldado]";
+       show "Quando você tiver visitado todos os lugares, por favor descanse aqui";
+       show "antes de sair.";
+       close;
+}
+//=====================================================================
+ama_in02.gat,207,49,6	script	Soldado	767,{
+       show "[Soldado]";
+       show "O Mestre realmente é uma boa pessoa.";
+       show "Quem poderia imaginar que uma pessoa pudesse";
+       show "transformar esta pequena cidade no que ela é hoje em dia?";
+       next;
+       show "[Soldado]";
+       show "Ele até aceitou inúteis como eu.";
+       show "Eu sou muito grato.";
+       show "Mas eu não sei o que tem acontecido ultimamente.";
+       show "Suas expressões";
+       show "parecem diferente de antes.";
+       close;
+}
+//=====================================================================
+ama_in02.gat,187,57,2	script	Soldado	767,{
+       show "[Ichiro]";
+       show "Bem vindo, nosso Mestre";
+       show "já preparou um lugar";
+       show "para os hóspedes ficarem.";
+       next;
+       show "[Ichiro]";
+       show "Se você precisar de algo";
+       show "por favor nos avise, e";
+       show "simplesmente agradeça ao nosso Mestre mais tarde.";
+       show "Todos estes preparativos";
+       show "foram ordenados pelo Mestre.";
+       close;
+}
+//=====================================================================
+ama_in02.gat,170,62,4	script	Soldado	767,{
+       show "[Kyro]";
+       show "Meu nome é Kyro. Nesta cidade";
+       show "eu cuido de todo o trabalho administrativo.";
+       show "Que tipo de serviço você esta precisando?";
+       next;
+       menu "Por favor me de um passe",-,"Eu quero morar aqui",L2,"Nada",L3;
+
+       if (event_amatsu == 7) goto L1_1;
+               show "[Kyro]";
+               show "O mestre disse que hospedes de outro continente";
+               show "podem se movimentar livremente";
+               show "Sem qualquer ";
+               show "passe ou permissão.";
+               close;
+L1_1:
+       if (countitem(7160) == 0) goto L1_2;
+               show "[Kyro]";
+               show "Mas eu já te dei um passe.";
+               close;
+L1_2:
+               show "[Kyro]";
+               show "Você perdeu o passe?";
+               show "Se você quiser outro passe";
+               show "você precisa pagar 10,000 zeny para as taxas de registro.";
+               next;
+               menu "Ok Pegue o passe",L1_2_1,"Talvez uma outra hora",-;
+                       show "Sem problema!";
+                       show "Se você precisar de algo por favor venha conversar comigo denovo!";
+                       close;
+L1_2_1:
+               if (Zeny < 10000) goto LError;
+               set Zeny,Zeny-10000;
+               additem 7160,1;
+               show "[Kyro]";
+               show "Venha, aqui está.";
+               show "Por favor seja cuidadoso e não o perca de novo.";
+               close;
+LError:
+               show "[Kyro]";
+               show "Você não tem zeny o suficiente!";
+               close;
+L2:
+               show "[Kyro]";
+               show "Isto será um pouco dificil, você pode";
+               show "se movimentar livremente, mas o Mestre";
+               show "não disse nada sobre imigrar.";
+               show "Mas, você pode ficar o tempo que quiser.";
+               close;
+L3:
+               show "[Kyro]";
+               show "Então isto é tudo por agora...";
+               show "Se tiver mais alguma coisa é só me dizer.";
+               close;
+
+}
+//=====================================================================
+ama_in02.gat,37,157,4	script	Soldado	767,{
+       show "[Sbarro]";
+       show "Este é o campo de treinamento";
+       show "de nossos soldados.";
+       show "Sinta se a vontade para dar uma olhada...";
+       next;
+       show "[Sbarro]";
+       show "Mas recentemente o clima anda meio pesado.";
+       show "Os soldados não estão mais ativos como antes.";
+       show "como descrever? Também parecem deprimidos.";
+       show "E alguns soldados também desapareceram....";
+       show "Talvez tenham se mudado para outro continente.";
+       next;
+       show "[Sbarro]";
+       show "E eu frequentemente tenho visto gente estranaha.";
+       show "Eu ouvi dizer que os clientes do andar de cima";
+       show "são de muito longe, mas por conta";
+       show "de seus comportamentos suspeitos. Eu ja mandei os soldados";
+       show "monitorarem seus movimentos...";
+       next;
+       show "[Sbarro]";
+       show "Mas claro, o mestre deve ter seus próprios pensamentos";
+       show "e deve basear suas decisões neles.";
+       show "Haha, parece que já falei demais.";
+       show "Te vejo mais tarde.";
+       close;
+}
+//=====================================================================
+ama_in02.gat,32,51,6	script	Shiro	767,{
+       show "[Shiro]";
+       show "Cough cough, cough cough, Que... me deixe em paz";
+       show "Vá visitar algum outro lugar...";
+       show "Cough cough, cough cough... Ahhh, minha garganta";
+       next;
+       show "[Shiro]";
+       show "Aquele remedio de araque daquele médico";
+       show "não fez efeito algum!";
+       show "Eu não deveria confiar nesse povo do continente...";
+       show "Cough cough, cough cough...";
+       next;
+       show "[Shiro]";
+       show "Mas que diabos!?!? Meu corpo esta ficando cada vez mais fraco....";
+       show "Sem energia alguma....";
+       show "Um resfriado é assim tão mal?";
+       show "Cough cough... cough cough...";
+       close;
+}
+//=====================================================================
+ama_in02.gat,40,167,3	script	Soldado	767,{
+       show "[Kuro]";
+       show "Shh... cliente, por favor fique quieto.";
+       show "eu vou te contar uma história";
+       next;
+       show "[Kuro]";
+       show "Em Amatsu tem esse rumor.";
+       show "A verdade é que o Mestre atual";
+       show "não é o verdadeiro Mestre da cidade...shhhh, fique quieto!";
+       show "Não entre em pânico, e por favor continue a me escutar.";
+       next;
+       show "[Kuro]";
+       show "Por trás deste Mestre bonzinho,";
+       show "existe um Mestre de verdade,";
+       show "armando todo tipo de tramóia,";
+       show "usando o mestre atual como um fantoche,";
+       show "escondido em algum canto";
+       show "controlando tudo o que acontece na cidade.";
+       next;
+       show "[KurO]";
+       show "Você dúvida?";
+       show "É verdade! eu vi";
+       show "o rosto do outro mestre";
+       show "observando a cidade do outro";
+       show "lado do rio com um sorriso maligno!!!!";
+       show "Mas o que eu te contei hoje";
+       show "é um segredo, ok?";
+       close;
+}
+//=====================================================================
+ama_in02.gat,32,167,5	script	Kukuro	767,{
+       show "[Kukuro]";
+       show "Aquele outro cara esta sempre";
+       show "falando besteira, dizendo que nosso mestre";
+       show "pode ser uma farsa";
+       show "Não tem graça alguma";
+       next;
+       show "[Kukuro]";
+       show "apesar de ser verdade";
+       show "que alguns eventos";
+       show "estranhos aconteceram recentemente,";
+       show "neste momento o interior";
+       show "do castelo ainda esta fora de nosso limite....";
+       next;
+       show "[Kukuro]";
+       show "Ocasionalmente você também pode ouvir";
+       show "um som muito assustador. Eu não sei";
+       show "o que a mãe dele tem de errado,";
+       show "muitos médicos ja a visitaram.";
+       show "Mas parece que não existe muita esperança no caso...";
+       close;
+}
+//=====================================================================
+ama_in02.gat,42,34,2	script	Soldado	767,{
+       show "[Hakiro]";
+       show "Descanse um pouco antes de partir,";
+       show "o mestre ja preparou";
+       show "alguns quartos vazios para os visitantes.";
+       next;
+       show "[Hakiro]";
+       show "se você tiver alguma pergunta";
+       show "me procure a qualquer hora.";
+       show "E por favor, não perturbe";
+       show "os outros visitantes...";
+       next;
+       show "[Hakiro]";
+       show "Então, Bom dia pra você";
+       close;
+}
+
+//=====================================================================
+ama_in02.gat,203,156,4	script	Soldado	767,{
+       show "[Hakiro]";
+       show "O mestre esta ai dentro.";
+       show "Se você quiser cumprimentá-lo,";
+       show "ande silenciosamente até ele e fale com ele";
+       next;
+       show "[Hakiro]";
+       show "O mestre não esta de bom humor no momento.";
+       show "Não faça nem diga nada que o insulte.";
+       show "Normalmente, ele estará feliz em receber visitantes.";
+       show "Não sei o que aconteceu hoje...";
+       close;
+}
+
+//=====================================================================
+ama_in02.gat,195,156,4	script	Soldado	767,{
+       show "[Kuro]";
+       show "Caramba, talves o mestre";
+       show "não esteja bem no momento.";
+       show "Geralmente ele é um cara legal...";
+       next;
+       show "[Kuro]";
+       show "existem boatos estranhos rolando.";
+       show "mas eu ainda confio no meu mestre,";
+       show "porque foi ele quem transformou nossa cidade";
+       show "Portanto eu me tornei";
+       show "um soldado para servi-lo";
+       close;
+}
+
+//=====================================================================
+ama_in02.gat,115,177,7	script	Juro	767,{
+       show "[Juro]";
+       show "Por que você está aqui?";
+       show "Aqui não tem muita coisa.";
+       next;
+       menu "É mesmo?",-,"Por favor abra a porta para mim.",L2;
+
+               show "[Juro]";
+               show "a cidade tem muito mais coisas";
+               show "Tenha uma boas estada...";
+               close;
+L2:
+       if (event_amatsu != 7) goto Lnoflag;
+       if (countitem(7160) < 1) goto Llost;
+               show "[Juro]";
+               show "Você ta tem o passe...";
+               show "Você quer entrar direto? Ou";
+               show "Você quer que eu explique antes...?";
+               next;
+               menu "Entrar direto",-,"Escutar a explicação",L2_2;
+
+                       show "[Juro]";
+                       show "Então eu vou abrir a porta para você.";
+                       show "Te cuida...";
+                       next;
+                       warp "ama_dun01.gat",229,10;
+                       end;
+L2_2:
+                       show "[Juro]";
+                       show "A camara interior parece que esta";
+                       show "protegida por magicas especiais.";
+                       show "Os que entram descuidados,";
+                       show "se perdem e são agredidos";
+                       show "misteriosamente e morrem.";
+                       next;
+                       show "[Juro]";
+                       show "Eu não posso te contar";
+                       show "muita coisa.";
+                       show "Eu mesmo ainda não entrei ai.";
+                       show "é um lugar misterioso, sua única prova de existência";
+                       show "vem dos";
+                       show "sobreviventes que ai entraram";
+                       next;
+                       show "[Juro]";
+                       show "Primeiro...";
+                       show "Não acredite no que você esta vendo.";
+                       next;
+                       show "[Juro]";
+                       show "Segundo....";
+                       show "Sobre as magias, elas tem suas próprias regras.";
+                       show "tudo tem um propósito,";
+                       show "incluindo as magias.";
+                       show "Você vai encontrar algumas";
+                       show "respostas?";
+                       next;
+                       show "[Juro]";
+                       show "Então, eu abrirei a porta para você.";
+                       show "Por favor tenha cuidado...";
+                       next;
+                       warp "ama_dun01.gat",229,10;
+                       end;
+Llost:
+               show "[Juro]";
+               show "Você não tem o passe";
+               show "portanto eu não posso abrir os portões para você.";
+               show "Por favor compreenda.";
+               close;
+Lnoflag:
+               show "[Juro]";
+               show "você ta falando de que porta?";
+               show "em um lugar como este não existe";
+               show "nenhuma porta que eu saiba.";
+               show "você pode estar errado.";
+               next;
+               show "[Juro]";
+               show "Tem mais coisa para ser vista na cidade.";
+               show "Eu espero que você desfrute...";
+               close;
+}
+ama_dun01.gat,229,7,0	script	Soldier	767,{
+       show "[Juro]";
+       show "Pronto para partir?";
+       next;
+       menu "Partir",-,"Espere um momento",L1;
+               show "[Juro]";
+               show "Vai Vai!!!";
+               next;
+               warp "ama_in02.gat",119,181;
+               end;
+L1:
+               show "[Juro]";
+               show "Tome cuidado!!";
+               close;
+}
+
+//=====================================================================
+ama_in02.gat,200,176,4	script	Dono do Castelo	768,{
+       if (event_amatsu == 1) goto LStart2;
+       if ((event_amatsu >= 2) && (event_amatsu <=5)) goto LStart3;
+       if (event_amatsu == 6) goto LStart4;
+       if (event_amatsu == 7) goto LStart5;
+       show "[Ishida Yoshinake]";
+       show "O que! Um estrangeiro?";
+       show "Pra que você precisa de mim?? Se não for nada importante";
+       show "Falo com você mais tarde...!";
+       next;
+       show "[Ishida Yoshinake]";
+       show "Por favor saia! Não importa quem você seja!!";
+       show "Neste momento eu estou de MUITO mal humor!";
+       close;
+LStart2:
+       show "[Ishida Yoshinaku]";
+       show "O que! Um visitante...? Ahh, desculpa";
+       show "Mas é que hoje eu não estou no clima";
+       show "para receber visitantes!";
+       next;
+       menu "Eu ouvi dizer que sua mãe está doente...",L1,"Mas que belo castelo",L2,"Quem é você?",L3;
+L1:
+       show "[Ishida Yoshinaku]";
+       show "Oh.... você é um especialista em patologias?";
+       show "Ah sim, se você é um especialista de fora";
+       show "eu acho que posso confiar em você...";
+       show "Eu acho...";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Bem Vindo, como você ja deve saber";
+       show "eu sou o proprietario do castelo do lago leste";
+       show "Meu nome é Ishida Yoshinaku,";
+       show "Prazer em conhecê-lo.";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Para simplificar: minha mãe";
+       show "não esta muito saudável,";
+       show "mas claro que você esta aqui por conta disso.";
+       show "Você pode curar minha mãe moribunda??";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Muitos médicos famosos e talentosos";
+       show "ja a visitaram,";
+       show "mas não somente eles não a curaram!!";
+       show "Eles pioraram suas condições!!";
+       show "por isso fico me sentindo desapontado.";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Você, sendo um especialista de fora,";
+       show "pode curar a doença de minha mãe!";
+       show "se o fizer, eu te darei muitos zenys e recompensas...";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Por favor a ajude,";
+       show "minha mãe mora na mansão fora do castelo,";
+       show "Depois que você a curar";
+       show "Venha me ver novamente.";
+       set event_amatsu,2;
+       close;
+L2:
+       show "[Ishida Yoshinaku]";
+       show "Sim! Bonito mesmo! Mas então";
+       show "o que você quer fazer! Ir embora quando você ficar";
+       show "enjoado dela! Caraca!";
+       next;
+       show "[Ishida Yoshinaku]";
+       show "Em tempos dificeis como este...*chora*...";
+       show "Vá quando você estiver satisfeito ou entediado!";
+       close;
+L3:
+       show "[Ishida Yoshinaku]";
+       show "...Falando de mim? Você não sabe? Eh?";
+       show "Eu sou o mestre deste castelo!";
+       show "Vá e pergunte aos guardas ai fora";
+       show "se você não tiver certeza!";
+       next;
+       show "[if you are not sure]";
+       show "Em tempos como este...*chora*";
+       show "Vá quando estiver satisfeito ou entediado!";
+       close;
+LStart3:
+       show "[Ishida Yushinaku]";
+       show "Como esta a minha mãe?";
+       show "Se você souber o nome da doença...";
+       show "Por favor me diga imediatamente...";
+       show "Argh...Tão preocupado!";
+       show "Eu não consigo mais dormir de noite!";
+       next;
+       show "[Ishida Yushinaku]";
+       show "Você é dos outros continentes,";
+       show "então você deve saber...";
+       show "que agora você é o único que eu posso confiar.";
+       close;
+LStart4:
+       show "[Ishida Yushinaku]";
+       show "Uau, você é ótimo, eu ouvi dizer";
+       show "que minha mãe já esta melhorando,";
+       show "De qualqer forma, qual era a doença?";
+       next;
+       show "[Ishida Yushinaku]";
+       show "Raposa? A raposa é a causa? Co...";
+       show "Então não é uma doença apesar de tudo...!!";
+       show "Porque eu não pensei nisso antes!!!";
+       next;
+       show "[Ishida Yushinaku]";
+       show "Diabo de raposa, depois que ela fugiu,";
+       show "eu tentei me vingar assim...";
+       show "Mas agora não tem nenhum outro jeito";
+       show "hahaha! Hahahaha!";
+       next;
+       show "[Ishida Yushinaku]";
+       show "Um, hmm, umm...";
+       next;
+       show "[Ishida Yushinaku]";
+       show "De qualquer forma, obrigado por sua ajuda!";
+       show "Eu acho que agora minha mãe vai voltar ao normal...";
+       show "eu quero te mostrar minha gratidão...";
+       show "O que fazer...";
+       next;
+       show "[Ishida Yushinaku]";
+       show "Ok, eu vou te dar este passe.";
+       show "Enquanto você estiver com este passe,";
+       show "voce poderá entrar em QUALQUER lugar";
+       show "nesta cidade";
+       next;
+       set event_amatsu,7;
+       additem 7160,1;
+       show "[Ishida Yushinaku]";
+       show "Apesar de não ser lá um bom presente, eu";
+       show "acredito que você achará um uso para ele algum dia...";
+       show "Fale com 'Juro' para os detalhes";
+       close;
+LStart5:
+       show "[Ishida Yushinaku]";
+       show "Ei... Eu espero que você tenha";
+       show "uma boa estada aqui em Amatsu...";
+       show "Nós sempre damos Boas Vindas para estrangeiros!";
+       close;
+}
+
+ama_in01.gat,180,173,2	script	Máscara de Raposa	762,{
+       if (event_amatsu == 4) goto LStart2;
+       if (event_amatsu == 5) goto LStart3;
+       show "[Takikuwi]";
+       show "Oieee, estrangeiro, este";
+       show "templo foi deixado por um monge a muito tempo atrás.";
+       show "Algumas vezes eu venho aqui para brincar";
+       show "com meu amigo Tokari";
+       next;
+       show "[Takikuwi]";
+       show "Se você estiver aqui para fugir dos monstros,";
+       show "por favor entre, nenhum monstro";
+       show "jamais pode entrar aqui!";
+       show "Você sempre pode descansar um pouco aqui!";
+       close;
+LStart2:
+       show "[Takikuwi]";
+       show "Oiee, estrangeiro, esta aqui a minha procura?";
+       show "Por causa da raposa que esta te atormentando?";
+       show "Pela sua expressão parece que";
+       show "você tem tido um pouco de trabalho";
+       next;
+       show "[Takikuwi]";
+       show "Apesar de geralmente o monge chefe";
+       show "vir aqui se ajudar, este templo";
+       show "esta deserto por muito tempo";
+       next;
+       show "[Takikuwi]";
+       show "É muito dificil se livrar de uma raposa no corpo de uma pessoa";
+       show "Se tiver álcool e miojo";
+       show "pode ser um pouco mais fácil,";
+       show "mas eles são muito difíceis de se achar!";
+       next;
+       show "[Takikuwi]";
+       show "Ainda bem que eu sei um pouco";
+       show "sobe a raposa, eu te darei";
+       show "alguns conselhos, apesar das raposas serem muito";
+       show "astutas, e apesar delas gostarem de";
+       show "zombar de humanos...";
+       show "é muito dificil para uma raposa ter ódio!";
+       next;
+       show "[Takikuwi]";
+       show "Em outras palavras, se tiver ódio";
+       show "o humano fez algo de errado!!";
+       show "Que ira se prejudicar";
+       show "e algumas vezes coisas azarentas podem acontecer";
+       show "a amigos e a familiares da pessoa também!";
+       next;
+       show "[Takikuwi]";
+       show "Bom, eu ouvi que quando";
+       show "se tem um animal forte, a raposa será perseguida";
+       show "para fora do humano.";
+       show "Portanto se esforce, e tente invocar o espirito animal!";
+       next;
+       menu "Haaaa!!",-;
+       show "[Takikuwi]";
+       show "Muito bem! simplesmente repetindo isto";
+       show "irá mostrar a raposa um espirito forte,";
+       show "que dará resultado, mas a melhor coisa a ser feita";
+       show "é descobrir porque a raposa invadiu";
+       show "o corpo da pessoa, se você fizer isto";
+       show "deve ajudar mais ou menos";
+       set event_amatsu,5;
+       close;
+LStart3:
+       show "[Takikuwi]";
+       show "Não se esqueça, quando você estiver tentando invocar";
+       show "você deve pensar";
+       show "em um monstro mais forte que uma raposa";
+       show "ou simplesmente será um esforço inútil";
+       show "Lembre-se..........Mais forte que uma raposa..........";
+       close;
+}
+
+ama_in01.gat,169,173,0	script	Miko	769,{
+       show "[Tokari]";
+       show "Eu não sou uma mulher do templo.";
+       show "meu amigo, Takikuwi me pediu para";
+       show "esperimentar esta roupa.....e me trouxe";
+       show "para este templo";
+       next;
+       show "[Tokari]";
+       show "Apesar dele me pedir para fazer cada coisa";
+       show "ele é um bom amigo!";
+       show "Muitas vezes eu não sei o que ele está pensando";
+       show "mas ele ainda é um bom amigo";
+       next;
+       show "[Tokari]";
+       show "Se você tiver alguma pergunta";
+       show "vá falar com Takihuwi primeiro";
+       show "mesmo as coisas que ninguém sabe";
+       show "não importando o quanto ela é estranha ou bizarra";
+       show "ele sabe.... Ele sempre sabe!";
+       close;
+}
+
+amatsu.gat,269,221,1	script	Garota da Lenda	758,{
+       show "[Hutari Sioko]";
+       show "Prazer em conhecê-lo";
+       show "meu nome é Hutari Sioko,";
+       show "meu hobby é ouvir música";
+       show "e eu geralmente ecuto música clássica";
+       next;
+       show "[Hutari Sioko]";
+       show "Tem uma lenda";
+       show "sobre o grande monte em nossa cidade";
+       show "você sabe alguma coisa sobre a lenda?";
+       next;
+       show "[Hutari Sioko]";
+       show "De acordo com a lenda, se você pedir a sua amada";
+       show "em casamento debaixo daquela arvore";
+       show "o casal será feliz para sempre";
+       next;
+       show "[Hutari Sioko]";
+       show "mas o pedido não pode ser a qualquer hora";
+       show "tem que ser feito numa noite de sábado.";
+       show "ou então a lenda não será verdade";
+       next;
+       show "[Hutari Sioko]";
+       show "e ainda mais, o pedido tem que ser respondido";
+       show "antes da noite do domingo seguinte";
+       next;
+       emotion 3;
+       show "[Hutari Sioko]";
+       show "Se você tiver um admirador secreto...";
+       show "porque não se encontrar debaixo daquela árvore";
+       show "e se declarar?";
+       show "eu aposto que alguma coisa boa irá acontecer";
+       close;
+}
+
+amatsu.gat,287,266,3	script	Jyaburo	766,{
+       show "[Jyaburo]";
+       show "Este é um lugar especial";
+       show "para minha esposa e eu";
+       next;
+       show "[Jyaburo]";
+       show "..Quando eu a estava pedindo em casamento";
+       show "debaixo desta árvore..";
+       show "Eu não sabia se ela";
+       show "também sentia o mesmo por mim";
+       next;
+       show "[Jyaburo]";
+       show "Depois disso, nós conversamos muito debaixo desta árvore";
+       show "este é o local ideal";
+       show "por causa de sua harmonia e tranquilidade";
+       show "um momento duradouro de alegria";
+       next;
+       show "[Jyaburo]";
+       show "Mesmo agora, quando eu fecho meus olhos, eu posso me lembrar claramente";
+       show "das doces memórias do passado";
+       show "como se elas tivessem acontecido ontem...";
+       next;
+       show "[Jyaburo]";
+       show "Mesmo ela tendo falecido a algum tempo atrás";
+       show "eu sempre venho aqui sozinho";
+       show "e toda vez que estou aqui é como se minha esposa estivesse aqui do meu lado";
+       show "e meu coração deprimido e despedaçado melhora";
+       next;
+       show "[Jyaburo]";
+       show "depois de ouvir minha baboseira";
+       show "você consegue pensar em alguém?";
+       show "Se puder, não hesite e não demore";
+       show "para amá-la com todo o seu coração";
+       next;
+       show "[Jyakuro]";
+       show "O que significa ser humano?";
+       show "Sorria, e viva sua vida ao máximo";
+       show "mesmo que a vida pareça dura";
+       show "se esqueça das preocupações e dores";
+       show "e tente viver uma vida feliz";
+       close;
+}
+
+amatsu.gat,274,178,0	script	Vet	735,{
+       show "[Sakura Seiichi]";
+       show "Oww... Eu não sou um cara suspeito,";
+       show "por favor não se assuste, eu sou somente";
+       show "um veterano";
+       show "tentando ganhar a vida";
+       show "mas curando animais doentes";
+       next;
+       show "[Sakura Seiichi]";
+       show "Mas... você sabia";
+       show "sobre a cerejeira no monte";
+       show "e suas história.... Talvez seja a primeira vez";
+       show "que você a tenha ouvido!?";
+       next;
+       show "[Sakura Seiichi]";
+       show "A razão pela qual aquela árvore consegue manter";
+       show "sua beleza e juventude duradoura";
+       show "esta em seu segredo.....";
+       show "Isto é... Porque debaixo da árvore";
+       show "pessoas mortas estão enterradas...";
+       next;
+       menu "As pessoas enterradas conseguem sentir a dor?",-,"Em se falando de besteira...",L2;
+
+       show "[Sakura Seiichi]";
+       show "...Talvez...";
+       show "De qualquer forma, você acredita em mim ou não";
+       show "quer fazer uma aposta...?";
+       next;
+       emotion 9;
+       show "[Sakura Seiichi]";
+       show "E se eu...";
+       show "............";
+       show "............";
+       next;
+       show "^6633FFSua risada graduamente desaparece^000000";
+       show "^6633FFno vento,^000000";
+       show "^6633FFAté que nada mais possa ser ouvido,^000000";
+       show "^6633FFNão consigo nem lembrar^000000";
+       show "^6633FFo que ele estava para dizer...^000000";
+       close;
+L2:
+       show "[Sakura Seiichi]";
+       show "Tão concentrado, eu acho que você esta bem...";
+       show "tenha cuidado, pois algum dia este tipo de coisa";
+       show "irá acontecer com você também..";
+       next;
+       Emotion 9;
+       show "[Sakura Seiichi]";
+       show "Hahaha... Hahahaha.....";
+       show "...............";
+       show "...........";
+       next;
+       show "^6633FFSua risada gradualmente desaparece^000000";
+       show "^6633FFno vento,^000000";
+       show "^6633FFate que nada mais possa ser ouvido,^000000";
+       show "^6633FFEu não compreendo porque ela me contou ^000000";
+       show "^6633FFaquilo....^000000";
+       close;
+}
+
+amatsu.gat,283,203,1	script	PokePoke	738,{
+       Emotion 19;
+       show "[Pokepoke]";
+       show "A arvore neste monte";
+       show "Ja existe por muito tempo, uma arvore com raiz profunda";
+       show "e sempre florida rei das cerejeiras";
+       next;
+       Emotion 19;
+       show "[Pokepoke]";
+       show "E eu sou muito grato a esta arvore";
+       show "pois sempre que eu sinto alguma tristeza ou arrependimento";
+       show "eu sempre venho sentar debaixo da árvore";
+       next;
+       Emotion 19;
+       show "[Pokepoke]";
+       show "Desta maneira eu sempre posso esquecer o que aconteceu";
+       show "não importando o que aconteceu....";
+       show "esta árvore irá nos consolar";
+       show "e fazer com que esqueçamos das coisas tristes";
+       show "uma árvore mágica";
+       next;
+       Emotion 19;
+       show "[Pokepoke]";
+       show "Se você sentir alguma tristeza ou arrependimento";
+       show "você pode se sentar debaixo desta árvore";
+       show "uma árvore mágica e grata....";
+       close;
+}
+
+amatsu.gat,261,197,4	script	Lendária Árvore Sakura	111,{
+       show "^0000FFBem como ela disse";
+       show "esta árvore é famosa porque";
+       show "muitos casais confessaram seu amor aqui";
+       show "Algumas vezes você ainda pode ver algumas pessoas";
+       show "desenhando um coração com o nome dos amantes";
+       show "dentro dele.^000000";
+       next;
+       show "^0000FFEles não estão só aqui pelas confissões de amor,";
+       show "algumas vezes eles se encontrarão aqui para";
+       show "falar sobre assuntos importantes,";
+       show "em um lugar tão bonito";
+       show "não importa o que eles estejam discutindo";
+       show "que eles sempre chegarão a um acordo^000000";
+       close;
+}

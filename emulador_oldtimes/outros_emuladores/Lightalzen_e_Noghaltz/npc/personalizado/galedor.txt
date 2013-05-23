@@ -1,0 +1,255 @@
+//===== Cronus Script ======================================== 
+//= Galedor
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.0
+//===== Descrição: =========================================== 
+//= Comprar e vender items
+//============================================================
+
+prontera.gat,153,186,5	script	Galêdor	770,{
+	//buyitem (de),(ate),(ignora),(tipo)
+	//sellitem (de),(ate),(ignora)
+	//(de)= Inicio da ID
+	//(ate)= Fim da ID
+	//(ignora)= Ignora o preco desejado
+	//(tipo)= Tipo de Item (0=Item usavel,1=equipável)
+	//Mude o valor da linha check_gotocount em script_athena.conf ponha o valor 3600
+
+//== Configurações ================================
+setarray @ignoreItemBuy[0],0,0,0,0,0;	// Ignora a compra de items conf[>=](lvl de uso,slot,atk,def,peso)
+setarray @ignoreItemSell[0],0,0,0,0,0;	// Ignora a venda de items conf[>=](lvl de uso,slot,atk,def,peso)
+setarray @ignoreChar[0],0,0,0;		// Ignora a utilização do npc conf[<](lvl de gm[vip],base,job)
+//=================================================
+
+	function buyitem;
+	function sellitem;
+	
+if(@ignoreChar[0] && getgmlevel() < @ignoreChar[0]){
+	show "Você não é vip.";
+	close;
+}
+if(@ignoreChar[1] && baselevel < @ignoreChar[1]){
+	show "Você não tem lvl de base para utiliza este npc.";
+	close;
+}
+if(@ignoreChar[2] && JobLevel < @ignoreChar[2]){
+	show "Você não tem lvl de classe para utiliza este npc.";
+	close;
+}
+	switch(select("Comprar","Vender")){
+	case 1:	
+	do{
+	show "Escolha uma Opção.";
+	show "1- Items Curáveis";
+	show "2- Itens Usáveis";
+	show "3- Espadas";
+	show "4- Adagas";
+	show "5- Katars";
+	show "6- Machados";
+	show "7- Lanças";
+	show "8- Cajados";
+	show "9- Maças";
+	show "10- Livros";
+	show "11- Arcos";
+	show "12- Flechas";
+	show "13- Knuckles";
+	show "14- Instrumentos";
+	show "15- Chicotes";
+	show "16- Escudos";
+	show "17- Equipamentos para Cabeça";
+	show "18- Armaduras";
+	show "19- Calçados";
+	show "20- Garments";
+	show "21- Acessórios";
+	next;
+	digit @menu;
+	switch(@menu){
+
+	case 1:	buyitem 501,574,0,0;
+	
+	case 2:	buyitem 601,700,0,0;
+		
+	case 3:	buyitem 1101,1170,20,1;
+		
+	case 4:	buyitem 1201,1243,20,1;
+
+	case 5:	buyitem 1250,1261,20,1;
+
+	case 6:	buyitem 1301,1369,20,1;
+		
+	case 7:	buyitem 1401,1471,20,1;
+		
+	case 8:	buyitem 1601,1615,20,1;
+		
+	case 9:	buyitem 1501,1531,20,1;
+		
+	case 10:buyitem 1550,1599,20,1;
+	
+	case 11:buyitem 1701,1722,20,1;
+		
+	case 12:buyitem 1750,1770,0,1;
+		
+	case 13:buyitem 1801,1814,20,1;
+
+	case 14:buyitem 1901,1913,20,1;
+
+	case 15:buyitem 1950,1964,20,1;
+		
+	case 16:buyitem 2101,2199,20,1;
+		
+	case 17:buyitem 2201,2299,20,1;
+		
+	case 18:buyitem 2301,2352,20,1;
+
+	case 19:buyitem 2401,2414,20,1;
+	
+	case 20:buyitem 2501,2510,20,1;
+		
+	case 21:buyitem 2601,2637,20,1;
+
+	default: show "Essa Opção não existe";
+	}next;
+	}while(1);
+	
+	case 2:
+		do{
+		show "1- Itens Usáveis";
+		show "2- Armas"; 
+		show "3- Equipamentos";
+		show "4- Acessórios";
+		next;
+		digit @menu;
+		switch(@menu){
+		case 1:	sellitem 501,700,0;break;
+		case 2: sellitem 1101,1964,0;break;
+		case 3: sellitem 2101,2510,0;break;
+		case 4: sellitem 2601,2637,0;break;
+		default: show "Essa Opção não existe";
+		}next;
+		}while(1);
+	}
+//Função para comprar item buyitem(int,int,int,int)
+function	buyitem	{
+	goback:
+	for(set @i, getarg(0); @i <= getarg(1); set @i, @i + 1)
+		if((getitemname(@i) != "null" && getiteminfo(@i,0) != getarg(2)) && 
+		(!@ignoreItemBuy[0] || @ignoreItemBuy[0] && getiteminfo(@i,12) < @ignoreItemBuy[0]) &&
+		(!@ignoreItemBuy[1] || @ignoreItemBuy[1] && getiteminfo(@i,10) < @ignoreItemBuy[1]) &&
+		(!@ignoreItemBuy[2] || @ignoreItemBuy[2] && getiteminfo(@i,5) < @ignoreItemBuy[2]) &&		
+		(!@ignoreItemBuy[3] || @ignoreItemBuy[3] && getiteminfo(@i,7) < @ignoreItemBuy[3]) &&
+		(!@ignoreItemBuy[4] || @ignoreItemBuy[4] && getiteminfo(@i,12) < @ignoreItemBuy[4])){
+			show "[^0000FF"+@i+"^000000]"+getitemname(@i)+" (^FF0000Preço: "+getiteminfo(@i,0)+"z^000000)";
+			if(!@prmid){set @prmid,@i;}
+			set @ultid,@i;
+		}
+	do{
+		next;
+		show "Digite o ^FF0000ID^000000 do item que você deseja comprar e a Quantidade (OBS: Digite 0 para sair):";
+		digit @id;
+		if((@id && @id >= getarg(0) && @id <= getarg(1)) &&
+		(!@ignoreItemBuy[0] || @ignoreItemBuy[0] && getiteminfo(@id,12) < @ignoreItemBuy[0]) &&
+		(!@ignoreItemBuy[1] || @ignoreItemBuy[1] && getiteminfo(@id,10) < @ignoreItemBuy[1]) &&
+		(!@ignoreItemBuy[2] || @ignoreItemBuy[2] && getiteminfo(@id,5) < @ignoreItemBuy[2]) &&
+		(!@ignoreItemBuy[3] || @ignoreItemBuy[3] && getiteminfo(@id,7) < @ignoreItemBuy[3]) &&
+		(!@ignoreItemBuy[4] || @ignoreItemBuy[4] && getiteminfo(@id,12) < @ignoreItemBuy[4])){
+			do{
+			digit @quant;
+			next;
+				if(@quant){
+				show "Nome: ^0000FF"+getitemname(@id)+"^000000";
+				if(@quant==1)
+					show "Preço: ^0000FF"+getiteminfo(@id,0)+"z^000000";
+				else
+					show "Preço: ^0000FF"+getiteminfo(@id,0)+"z x "+@quant+"q = "+getiteminfo(@id,0)*@quant+"z^000000";
+					show "Peso: ^0000FF"+(getiteminfo(@id,6)/10)*@quant+"^000000";
+				if(getarg(3)){
+					if(!getiteminfo(@id,7))
+						show "Atk: ^0000FFSem Atk^000000";
+					else
+						show "Atk: ^0000FF"+getiteminfo(@id,7)+"^000000";
+					if(!getiteminfo(@id,8))
+						show "Def: ^0000FFSem Defesa^000000";
+					else
+						show "Def: ^0000FF"+getiteminfo(@id,8)+"^000000";
+					if(!getiteminfo(@id,12))
+						show "Level para utilizar: ^0000FFNenhum^000000";
+					else
+						show "Level para utilizar: ^0000FF"+getiteminfo(@id,12)+"^000000";
+					if(!getiteminfo(@id,10))				
+						show "Slot: ^0000FFSem Slot^000000";
+					else
+						show "Slot: ^0000FF"+getiteminfo(@id,10)+"^000000";
+				}
+				show "^FF0000Deseja comprar?^000000";
+				next;
+				switch(select("Sim","Não")){
+				case 1: if(checkweight(@id,@quant)){					
+					if(zeny >= (getiteminfo(@id,0)*@quant)){
+						set zeny,zeny-(getiteminfo(@id,0)*@quant);
+						additem @id,@quant;
+					}else show "Você Não tem dinheiro suficiente para comprar este item.";
+					}else show "Você Não tem capacidade suficiente para carrega este item, por favor, libera mais peso.";
+				}next;
+				goto goback;
+				}else{show "Por favor, digite a quantidade a cima de 0.";next;}
+			}while(!@quant);
+		}else{if(@id)show "Digite entre "+@prmid+" a "+@ultid+" ou verifique se o id esta na tabela.";}
+	}while(@id);
+	close;
+}
+
+//Função para vender item sellitem(int,int,int)
+function	sellitem	{
+	do{
+	set @itemOn,0;
+	for(set @i, getarg(0); @i <= getarg(1); set @i, @i + 1)
+		if((countitem(@i) && getitemname(@i) != "null" && getiteminfo(@i,1) != getarg(2)) &&
+		(!@ignoreItemSell[0] || @ignoreItemSell[0] && getiteminfo(@i,12) < @ignoreItemSell[0]) &&
+		(!@ignoreItemSell[1] || @ignoreItemSell[1] && getiteminfo(@i,10) < @ignoreItemSell[1]) &&
+		(!@ignoreItemSell[2] || @ignoreItemSell[2] && getiteminfo(@i,5) < @ignoreItemSell[2]) &&		
+		(!@ignoreItemSell[3] || @ignoreItemSell[3] && getiteminfo(@i,7) < @ignoreItemSell[3]) &&
+		(!@ignoreItemSell[4] || @ignoreItemSell[4] && getiteminfo(@i,12) < @ignoreItemSell[4])){
+			show "[^0000FF"+@i+"^000000]"+getitemname(@i)+"(^FF0000Preço: "+getiteminfo(@i,1)+"z^000000)";
+			set @itemOn,1;
+			if(!@prmid){set @prmid,@i;}
+			set @ultid,@i;
+		}
+	if(!@itemOn){show "Você não possui nenhum item nesta classificação.";return;}
+	next;
+	show "Digite o ^FF0000ID^000000 do item que você deseja vender e a Quantidade (OBS: Digite 0 para sair):";
+	digit @id;
+	if(
+	(@id && @id >= getarg(0) && @id <= getarg(1)) &&
+	(!@ignoreItemSell[0] || @ignoreItemSell[0] && getiteminfo(@id,12) < @ignoreItemSell[0]) &&
+	(!@ignoreItemSell[1] || @ignoreItemSell[1] && getiteminfo(@id,10) < @ignoreItemSell[1]) &&
+	(!@ignoreItemSell[2] || @ignoreItemSell[2] && getiteminfo(@id,5) < @ignoreItemSell[2]) &&		
+	(!@ignoreItemSell[3] || @ignoreItemSell[3] && getiteminfo(@id,7) < @ignoreItemSell[3]) &&
+	(!@ignoreItemSell[4] || @ignoreItemSell[4] && getiteminfo(@id,12) < @ignoreItemSell[4])){
+		next;
+		if(!countitem(@id)) show "Você não tem o item ou não possui a quantidade surgerida.";
+		else{
+			show "Nome: ^0000FF"+getitemname(@id)+"^000000";
+			show "Quantidade: ^0000FF"+countitem(@id)+"^000000";
+			show "^FF0000Digite a quantidade desejada^000000";
+			digit @quant;
+			next;
+			if(@quant){
+				show "Você ganhará ^0000FF"+getiteminfo(@id,1)*@quant+"z^000000";
+				show "Tem certeza que deseja vender esse item?";
+				next;
+				switch(select("Sim","Não")){
+					case 1:
+						set zeny,zeny+getiteminfo(@id,1)*@quant;
+						delitem @id,@quant;
+						show "Seu item foi vendido com sucesso";
+				}
+			}
+		}next;
+	}else if(@id){show "Digite entre "+@prmid+" a "+@ultid+".";next;}
+	}while(@id);
+	close;
+}
+
+}

@@ -1,0 +1,357 @@
+//===== Cronus Script ===========================================
+//= Guia de Lighthalzen
+//===== Por: ====================================================
+//= Minverva
+//===== Versão Atual: =========================================== 
+//= 1.4
+//===== Changelog: ============================================== 
+//= 1.3 Traduzido [Minverva]
+//= 1.4 Revisado [Page]
+//===============================================================
+
+lighthalzen,220,311,3	script	Guia::LhzSlum	852,{
+
+	show "[Guia de Lighthalzen]";
+	show "Bem-vindo à Lighthalzen,";
+	show "uma corporação cidade-estado.";
+	show "Se você precisar de orientação";
+	show "pela cidade, sinta-se a vontade";
+	show "para me perguntar e eu farei meu";
+	show "melhor para ajuda-lo.";
+	next;
+loopback:
+	menu "Guia da cidade",s_Guide,"Remover marcações do mini-mapa",s_Remove,"Localizar.",s_Notice,"Cancelar",-;
+
+	show "[Guia de Lighthalzen]";
+	show "Lighthalzen é divido em";
+	show "Distritos do Leste e Oeste.";
+	show "cortados por uma ferrovia";
+	show "que passa pelo meio.";
+	show "Temos sempre guardas para";
+	show "assegurar a paz no local.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Por favor, não hesite";
+	show "em reportar atividades";
+	show "ou pessoas suspeitas a nós.";
+	show "Esperamos que aproveite";
+	show "nossa cidade justa, aventureiro.";
+	close;
+
+s_Guide:
+	show "[Guia de Lighthalzen]";
+	show "Por favor fique avisado que eu";
+	show "estou no comando de promover";
+	show "informações sobre o Distrito do Leste,";
+	show "mais conhecido como";
+	show "favelas. Selecione o local que";
+	show "deseja saber mais sobre.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Mas antes disso,";
+	show "você gostaria que eu";
+	show "marcasse as localizações";
+	show "no seu mini-mapa?";
+	next;
+	Menu "Sim",s_Yes,"Não",-;
+
+	goto s_Cont;
+s_Yes:
+	set @tempguide,1;
+s_Cont:
+	menu "Loja de Ferramentas",s_Tool,"Moinho",s_Mill,"Bar",s_Pub,"Cancelar",-;
+
+	show "[Guia de Lighthalzen]";
+	show "Por favor,me peça para \"remover";
+	show "as marcas no seu mini-mapa\"se você";
+	show "não deseja mais ter as";
+	show "localizações marcadas";
+	show "no mesmo.";
+	next;
+	goto loopback;
+
+s_Tool:
+	show "[Guia de Lighthalzen]";
+	show "A loja de ferramentas está";
+	show "localizada na direção de";
+	show "11 horas do centro";
+	show "do Destrito leste.";
+	if(@tempguide)viewpoint 1,324,301,1,0xFF0000;
+	next;
+	goto s_Cont;
+
+s_Mill:
+	show "[Guia de Lighthalzen]";
+	show "No seu Mini-mapa,";
+	show "o Moinho pode ser achado";
+	show "na posição 1 hora";
+	show "do Destrito Leste.";
+	if(@tempguide)viewpoint 1,365,301,2,0xFF00FF;
+	next;
+	goto s_Cont;
+
+s_Pub:
+	show "[Guia de Lighthalzen]";
+	show "O bar está localizado";
+	show "na parte sul";
+	show "do Destrito Leste.";
+	if(@tempguide)viewpoint 1,346,232,3,0xCCFFFF;
+	next;
+	goto s_Cont;
+
+s_Remove:
+	viewpoint 2,324,301,1,0xFF0000;
+	viewpoint 2,365,301,2,0xFF00FF;
+	viewpoint 2,346,232,3,0xCCFFFF;
+	show "[Guia de Lighthalzen]";
+	show "Tudo bem, as marcações foram removidas do seu Mini-mapa.";
+	show "Se você precisar de qualquer orientação em Lighthalzen, por favor me informe, ou a outro Guia de Lighthalzen.";
+	next;
+	goto loopback;
+
+s_Notice:
+	show "[Guia de Lighthalzen]";
+	show "Avanços em magia e";
+	show "tecnologia nos permite";
+	show "modernizar nosso sistema de";
+	show "informação, permitindo que marquemos";
+	show "as localizações no seu Mini-Mapa";
+	show "para uma orientação mais fácil.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Seu Mini-Mapa esta localizado";
+	show "na parte superior direita";
+	show "da tela. Se você não consegue";
+	show "vê-la, pressione Ctrl + Tab";
+	show "ou clique no botão \"Mapa\"";
+	show "Na sua janela de informação básica.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "No seu Mini-Mapa,";
+	show "clique nos símbolos";
+	show " \"+\" e \"-\" para aproximar";
+	show "e afastar a visão no Mini-Mapa.";
+	show "Esperamos que aproveite suas viagens";
+	show "aqui em Lighthalzen.";
+	next;
+	goto loopback;
+
+}
+
+lighthalzen,207,311,3	script	Guia::LhzWest	852,{
+
+	show "[Guia de Lighthalzen]";
+	show "Bem vindo à Lighthalzen,";
+	show "uma corporação cidade-estado.";
+	show "Se você precisar de orientação";
+	show "pela cidade, sinta-se a vontade.";
+	show "para me perguntar, e eu farei";
+	show "meu melhor para ajudá-lo.";
+	next;
+loopback:
+	menu "Guia da cidade",s_Guide,"Remover marcações do mini-mapa",s_Remove,"Localizar.",s_Notice,"Cancelar",-;
+
+	show "[Guia de Lighthalzen]";
+	show "Lighthalzen é divido em";
+	show "Distritos do Leste e Oeste,";
+	show "cortados por uma ferrovia";
+	show "que passa pelo meio.";
+	show "Temos sempre guardas para";
+	show "assegurar a paz no local.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Por favor não hesite";
+	show "em reportar atividades";
+	show "ou pessoas suspeiatas a nós.";
+	show "Esperamos que aproveite";
+	show "nossa cidade justa, aventureiro.";
+	close;
+
+s_Guide:
+	show "[Guia de Lighthalzen]";
+	show "Por favor fique avisado que eu";
+	show "estou no comando de promover";
+	show "informações sobre o Distrito do Leste,";
+	show "mais conhecido como";
+	show "favelas. Selecione o local que ";
+	show "deseja saber mais sobre.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Mas antes disso,";
+	show "você gostaria que eu ";
+	show "marcasse as localizações";
+	show "no seu mini-mapa?";
+	next;
+	Menu "Sim",s_Yes,"Não",-;
+
+	goto s_Cont;
+s_Yes:
+	set @tempguide,1;
+s_Cont:
+	menu "^FF0000Corporação Rekenber",s_Rekenber,"^000000Estação de Trem",s_Train,"Destrito Policial",s_Police,"Banco",s_Bank,"Hotel",s_Hotel,"Aeroporto",s_Airport,"Clã dos Mercadores",s_Merchant,"Loja de Joias",s_Jewel,"Loja de Armas",s_Weap,"Loja de Departamento",s_Store,"Cancelar",-;
+
+	show "[Guia de Lighthalzen]";
+	show "Por favor,me peça para \"Remover";
+	show "as marcas no seu mini-mapa\" se você";
+	show "não deseja mais ter as";
+	show "localizações marcadas";
+	show "no seu Mini-Mapa.";
+	next;
+	goto loopback;
+
+s_Rekenber:
+	show "[Guia de Lighthalzen]";
+	show "Corporação Rekenber,";
+	show "a maior compania na";
+	show "Republica Schwartzwald,";
+	show "está localizada na parte Noroeste";
+	show "de Lighthalzen. Você não pode perder";
+	show "o prédio do Quartel General .";
+	if(@tempguide)viewpoint 1,103,244,1,0xFF0000;
+	next;
+	goto s_Cont;
+
+s_Train:
+	show "[Guia de Lighthalzen]";
+	show "A estação de trem fica";
+	show "localizada no centro da";
+	show "da cidade,onde temos";
+	show "uma ferrovia direto à Einbroch.";
+	if(@tempguide)viewpoint 1,240,163,2,0xFF00FF;
+	next;
+	goto s_Cont;
+
+s_Police:
+	show "[Guia de Lighthalzen]";
+	show "Nosso Departamento de Polícia fica";
+	show "no norte do centro da cidade.";
+	show "Por favor, não hesite em reportar";
+	show "qualquer atividade ou pessoa";
+	show "suspeita, ou se tiver";
+	show "algum problema.";
+	if(@tempguide)viewpoint 1,236,276,3,0xCCFFFF;
+	next;
+	goto s_Cont;
+
+s_Bank:
+	show "[Guia de Lighthalzen]";
+	show "O Banco esta localizado";
+	show "exatamente oposto a";
+	show "Estação de Polícia de Lighthalzen,";
+	show "o que é uma ótima idéia";
+	show "quando eu penso nisso, na verdade.";
+	if(@tempguide)viewpoint 1,199,257,4,0x0000FF;
+	next;
+	goto s_Cont;
+
+s_Hotel:
+	show "[Guia de Lighthalzen]";
+	show "Nosso Hotel está localizado";
+	show "No centro-sul de nossa praça.";
+	show "Com seus serviços exelentes e";
+	show "luxuosas acomodações, esse";
+	show "hotel é extremamente popular.";
+	if(@tempguide)viewpoint 1,159,133,5,0x0FFF00;
+	next;
+	goto s_Cont;
+
+s_Airport:
+	show "[Guia de Lighthalzen]";
+	show "O aeroporto fica em nosso extremo";
+	show "oeste da Central de Passeios";
+	show "Você pode viajar para qualquer lugar na";
+	show "República Schwartzwald em uma";
+	show "de nossas aeronaves.";
+	if(@tempguide)viewpoint 1,266,76,6,0x00FF00;
+	next;
+	goto s_Cont;
+
+s_Merchant:
+	show "[Guia de Lighthalzen]";
+	show "O Clã dos mercadores pode ser";
+	show "encontrado na parte sudoeste";
+	show "de Lighthalzen.";
+	if(@tempguide)viewpoint 1,74,52,7,0xEFAEBD;
+	next;
+	goto s_Cont;
+
+s_Jewel:
+	show "[Guia de Lighthalzen]";
+	show "A loja de Jóias está";
+	show "localizada bem no oeste";
+	show "da praça sul.";
+	if(@tempguide)viewpoint 1,92,110,8,0xFF9500;
+	next;
+	goto s_Cont;
+
+s_Weap:
+	show "[Guia de Lighthalzen]";
+	show "A loja de armas";
+	show "está localizada no fim da";
+	show "Central de Passeios.";
+	show "Vale a pena dar uma olhada";
+	show "se você quer ter uma";
+	show "aventura por aqui.";
+	if(@tempguide)viewpoint 1,196,46,9,0x330033;
+	next;
+	goto s_Cont;
+
+s_Store:
+	show "[Guia de Lighthalzen]";
+	show "A loja de Departamento";
+	show "está localizada no meio de";
+	show "Lighthalzen e é o maior";
+	show "e mais conveniente lugar para";
+	show "comprar praticamente tudo.";
+	if(@tempguide)viewpoint 1,199,163,10,0xFFFF00;
+	next;
+	goto s_Cont;
+
+s_Remove:
+	viewpoint 2,103,244,1,0xFF0000;
+	viewpoint 2,240,163,2,0xFF00FF;
+	viewpoint 2,236,276,3,0xCCFFFF;
+	viewpoint 2,199,257,4,0x0000FF;
+	viewpoint 2,159,133,5,0x0FFF00;
+	viewpoint 2,266,76,6,0x00FF00;
+	viewpoint 2,74,52,7,0xEFAEBD;
+	viewpoint 2,92,110,8,0xFF9500;
+	viewpoint 2,196,46,9,0x330033;
+	viewpoint 2,199,163,10,0xFFFF00;
+	show "[Guia de Lighthalzen]";
+	show "Tudo bem, as marcas no seu Mini-Mapa foram removidas.";
+	show "Se você precisar de alguma orientação em Lighthazen, me informe, ou a outro Guia de Lighthalzen.";
+	next;
+	goto loopback;
+
+s_Notice:
+	show "[Guia de Lighthalzen]";
+	show "Avanços em magia e";
+	show "tecnologia nos permite";
+	show "modernizar nosso sistema de";
+	show "informação, permitindo que marquemos";
+	show "as localizações no seu Mini-Mapa";
+	show "para uma orientação mais fácil.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "Seu Mini-Mapa está localizado";
+	show "na parte superior direita";
+	show "da tela. Se você não consegue";
+	show "vê-la, pressione Ctrl + Tab";
+	show "ou clique no botão \"Mapa\"";
+	show "Na sua janela de informação básica.";
+	next;
+	show "[Guia de Lighthalzen]";
+	show "No seu Mini-Mapa,";
+	show "clique nos simbolos";
+	show " \"+\" e \"-\" para aproximar";
+	show "e afastar a visão no Mini-Mapa.";
+	show "Esperamos que aproveite suas viagens";
+	show "aqui em Lighthalzen.";
+	next;
+	goto loopback;
+
+}
+
+lighthalzen,154,100,5	duplicate(LhzWest)	Guia#lhz1	852
+lighthalzen,319,243,5	duplicate(LhzSlum)	Guia#lhz2	852

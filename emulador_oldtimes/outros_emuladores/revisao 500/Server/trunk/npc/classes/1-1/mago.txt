@@ -1,0 +1,463 @@
+//===== Cronus Script ======================================== 
+//= Script Mago
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.5
+//===== Descrição: =========================================== 
+//= Muda a classe para Mago
+//===== Changelog: =========================================== 
+//= 1.5 Traduzido [DarkAngel]
+//============================================================
+
+// -- Expert Mage -- 
+geffen_in.gat,164,124,4	script	Maga Guardiã	123,{
+	callfunc "F_ToHigh",26,"High Mage",33,"High Wizard",157,0,0,0,"Maga Guardiã";
+	if(BaseJob==Job_Novice && job_magician_q >= 1) goto L_BeMage;
+
+	show "[Maga Guardiã]";
+	show "Oi oi!  Como posso ajuda-lo?";
+M_Menu:
+	next;
+	menu "Sou um apaixonado por magias, quero ser um "+callfunc("classname",2,"S","M")+"!",M_0,"Fale-me os Requirimentos.",M_1,"Nada, Obrigado.",M_End;
+
+	M_0:
+		show "[Maga Guardiã]";
+		show "Você quer ser um "+callfunc("classname",2,"S","M")+"? Hmmm.....";
+		next;
+		show "[Maga Guardiã]";
+		callfunc "Mag_check";
+		show "A única coisa que precisa é passar no teste dos "+callfunc("classname",2,"P","M")+" de Geffen. Deixe-me ver uma coisinha...";
+		next;
+		set job_magician_q, rand(1,4);
+
+		L_Explain:
+		show "[Maga Guardiã]";
+		if(job_magician_q == 1) show "Seu teste é fazer a ^0000ff'Solução Mista No.1'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 2) show "Seu teste é fazer a ^00aa00'Solução Mista No.2'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 3) show "Seu teste é fazer a ^ff0000'Solução Mista No.3'^000000 e trazer de volta para mim.";
+		if(job_magician_q == 4) show "Seu teste é fazer a ^ffbb00'Solução Mista No.4'^000000 e trazer de volta para mim.";
+
+		next;
+		if(countitem(1092) == 0) additem 1092,1;//Items: Empty_Test_Tube,
+		show "[Maga Guardiã]";
+		show "Você pode adquirir os ingredientes necessários no ^5533FF'Livro de Guia'^000000 nesta sala.";
+		show "Recorrem a isto para ver a lista dos ingredientes necessários para a solução.";
+		next;
+		show "[Maga Guardiã]";
+		show "Quando você estiver pronto para misturar isto, use a ^ff0000'Máquina Misturadora'^000000 no centro para misturar a solução.";
+		next;
+		show "[Maga Guardiã]";
+		show "Boa Sorte!  Eu estarei esperando.";
+		close;
+
+	M_1:
+		show "[Maga Guardiã]";
+		show "Antes de tudo, tem de conseguir nível 10 de classe de "+callfunc("classname",0,"S","M")+" e todas as habilidades básicas.";
+		show "Depois, você tem que passar no teste dos "+callfunc("classname",2,"P","M")+".";
+		goto M_Menu;
+	M_End:
+		show "[Maga Guardiã]";
+		show "Ok.  Tchau!.";
+		close;
+
+L_BeMage:
+	show "[Maga Guardiã]";
+	show "Oh, você voltou.  Deixa eu ver....";
+	next;
+	show "[Maga Guardiã]";
+	if(countitem(1090) >= 1) goto L_Retry;//Items: Unknown_Test_Tube,
+	if((countitem(1071)<1) && (countitem(1085)<1) && (countitem(1086)<1) && (countitem(1087)<1)) goto L_NoSol;//Items: Unknown_Test_Tube, Unknown_Test_Tube, Unknown_Test_Tube, Unknown_Test_Tube,
+
+	if(SkillPoint > 0) show "Você precisa gastar todos os seus pontos de habilidade antes que eu possa lhe tornar um "+callfunc("classname",2,"S","M")+".";
+	if(SkillPoint > 0) close;
+
+	show ".....As cores não estão muito certas.... percebe-se uma pequena diferença..... hmmm......";
+	next;
+	show "[Maga Guardiã]";
+	show "Bem, não está perfeito mas parece que você trabalhou muito duro nisto assim...... certo! Eu o deixarei passar!  Você esta agora ofcialmente qualificado para se tornar um "+callfunc("classname",2,"S","M")+"!";
+	emotion 21;
+	next;
+	show "[Maga Guardiã]";
+	show "Abrakadabra, transforme esse jovem "+callfunc("classname",0,"S","M")+" em um ^00aa00MAGO^000000!!";
+	next;
+	callfunc "Job_Change",Job_Mage;
+
+	set Zeny,Zeny+500;
+	if(job_magician_q == 1) delitem 1071,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 2) delitem 1085,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 3) delitem 1086,1;//Items: Unknown_Test_Tube,
+	if(job_magician_q == 4) delitem 1087,1;//Items: Unknown_Test_Tube,
+
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+	show "[Maga Guardiã]";
+	show "'Bem-vindo a Meu Mundo' ~ hehe .  Eu sempre quis dizer isso.  De qualquer maneira, parabéns!. Você é agora um de nós, então que  sejamos os amigos!";
+	emotion 18;
+	next;
+	show "[Maga Guardiã]";
+	show "Booa sorte com os itens que você terá que pegar!";
+	close;
+
+	L_Retry:
+		show "Eu sinto muito mas a solução que você tem não é boa.  Eu acho que você não passou no teste.  Entretanto você pode tentar novamente.";
+		show "Deixe-me explicar novamente o teste para você";
+		emotion 4;
+		next;
+		delitem 1090,1;//Items: Unknown_Test_Tube,
+		goto L_Explain;
+
+	L_NoSol:
+		show "Onde a solução é que eu pedi?  Eu sinto muito mas eu não posso conferir a solução se você não tive-la. Deixe-me lembrar de que solução você precisa.";
+		emotion 1;
+		next;
+		goto L_Explain;
+
+}
+
+// -- Solutions Guide Book --
+geffen_in.gat,177,112,1	script	Livro de Guia	111,{
+	show "[Livro de Guia de Soluções]";
+	show "Eu pertenço a Academia de Mágica de Geffen.  Por favor use-me com cuidado.";
+	next;
+	menu "Solução Nº. 1.",Sol1,"Solução Nº. 2.",Sol2,"Solução Nº. 3.",Sol3,"Solução Nº. 4.",Sol4,"Sair.",Cancel;
+
+	Sol1:
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 1]";
+		show "* Lista de Ingredientes *";
+		show " - 2 Jellopy";
+		show " - 3 Felpas";
+		show " - 1 Leite";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 1]";
+		show "* Solvente *";
+		show " - Solução de Payon ";
+		show "   Onde achar: em uma pequna fonte na";
+		show "   Vila dos "+callfunc("classname",3,"S","M")+"s, Payon.";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 1]";
+		show "* Número Mágico *";
+		show " - 8472";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 1]";
+		show "* Pedra de Catalisador *";
+		show " - Gema Amarela";
+		show "   (Maquina de Mistura irá providenciar";
+		show "   este item.)";
+		close;
+	Sol2:
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 2]";
+		show "* Lista de Ingredientes *";
+		show " - 3 Jellopy";
+		show " - 1 Felpa";
+		show " - 1 Leite";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 2]";
+		show "* Solvente *";
+		show " - Nenhum.";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 2]";
+		show "* Número Mágico *";
+		show " - 3735";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 2]";
+		show "* Pedra de Catalisador *";
+		show " - Gema Vermelha";
+		show "   (Maquina de Mistura irá providenciar";
+		show "   este item.)";
+		close;
+	Sol3:
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 3]";
+		show "* Lista de Ingredientes *";
+		show " - 6 Jellopy";
+		show " - 1 Felpa";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 3]";
+		show "* Solvent Agent *";
+		show " - Solução de Payon ";
+		show "   Onde achar: em uma pequna fonte na";
+		show "   Vila dos "+callfunc("classname",3,"S","M")+"s, Payon.";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 3]";
+		show "* Número Mágico *";
+		show " - 2750";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 3]";
+		show "* Pedra de Catalisador *";
+		show " - Gema Azul";
+		show "   (Maquina de Mistura irá providenciar";
+		show "   este item.)";
+		close;
+	Sol4:
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 4]";
+		show "* Lista de Ingredientes **";
+		show " - 2 Jellopy";
+		show " - 3 Felpas";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 4]";
+		show "* Solvent Agent *";
+		show " - Solução de Morroc ";
+		show "   Onde achar: em uma pequena fonte";
+		show "   Perto da entrada da Pirâmede";
+		show "   em Morroc.";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 4]";
+		show "* Número Mágico *";
+		show " - 5429";
+		next;
+		show "[Teste de "+callfunc("classname",2,"S","M")+" - Solução No. 4]";
+		show "* Pedra de Catalisador *";
+		show " - 1 Diamante";
+		show "   (Maquina de Mistura irá providenciar";
+		show "   este item.)";
+		close;
+	Cancel:
+		close;
+}
+
+// -- Mixing Machine --
+geffen_in.gat,164,112,1	script	Maquina de Mistura	111,{
+	show "[Maquina de Mistura]";
+	show "Esta é a Máquina de Mistura. Sem igual, projetada só para fazer soluções mágicas.  Isto é propriedade da Academia Mágica de Geffen.";
+	next;
+	show "[Maquina de Mistura]";
+	show "Você gostaria de usar esta máquina?";
+	next;
+	menu "Sim.",M_Start, "Não.",M_End;
+
+	M_Start:
+		show "[Maquina de Mistura]";
+		show "Por favor especifique os ingredientes que você estará usando.";
+		next;
+		sM_Menu:
+		menu "Jellopy",sM_0, "Felpa",sM_1, "Leite",sM_2, "Ir para o próximo passo",sM_3;
+
+		sM_0:
+			digit @JELLOPY;
+			if (@JELLOPY<0 || @JELLOPY>100) set @JELLOPY,0; //set 0 if wrong input
+			goto sM_Menu;
+		sM_1:
+			digit @FLUFF;
+			if (@FLUFF<0 || @FLUFF>100) set @FLUFF,0; //set 0 if wrong input
+			goto sM_Menu;
+		sM_2:
+			digit @MILK;
+			if (@MILK<0 || @MILK>100) set @MILK,0; //set 0 if wrong input
+			goto sM_Menu;
+		sM_3:
+			show "[Maquina de Mistura]";
+			show "Por favor especifique uma solução.";
+			next;
+			menu "Solução de Payon.",ssM_0, "Solução de Morroc",ssM_1, "Nenhuma solução.",ssM_2;
+
+			ssM_0:
+				set @SOLVENT, 1089;
+				set @SOLVENT$, "Payon";
+				goto L_Cont;
+			ssM_1:
+				set @SOLVENT, 1088;
+				set @SOLVENT$, "Morroc";
+				goto L_Cont;
+			ssM_2:
+				set @SOLVENT, 0;
+				set @SOLVENT$, "Lugar Nenhum";
+
+			L_Cont:
+			show "[Maquina de Mistura]";
+			show "Aqui esta sua atual lista de ingredientes:";
+			show "^4444FF"+@JELLOPY+"^000000 Jellopy,";
+			show "^4444FF"+@FLUFF+"^000000 Fluff,";
+			show "^4444FF"+@MILK+"^000000 Milk,";
+			show "e Solução de ^4444FF"+@SOLVENT$+"^000000.";
+			show "esta correto?";
+			next;
+			menu "Sim.",-, "Não.",M_Start;
+
+			show "[Maquina de Mistura]";
+			show "Por favor ponha todos os artigos no recipiente.  Agora entre no número mágico.";
+			next;
+
+			L_Input:
+			digit @INPUT;
+			show "[Maquina de Mistura]";
+			show "Você colocou o número ^5555FF"+@INPUT+".  Está correto?";
+			next;
+			menu "Sim.",-, "Não.",L_Input;
+
+			show "[Maquina de Mistura]";
+			show "Por o último, escolha uma pedra de catalisador.";
+			next;
+			menu "Gema Amarela.",ssM_Yell, "Gema Vermelha.",ssM_Red, "Gema Azul.",ssM_Blue, "1 Diamante.",ssM_Diamd;
+
+			ssM_Yell:
+				if(countitem(909)<@JELLOPY || countitem(914)<@FLUFF || countitem(519)<@MILK) goto sL_NotEnuf;//Items: Jellopy, Fluff, Milk,
+				if(@SOLVENT$!=("No") && countitem(@SOLVENT)<1) goto sL_NotEnuf;
+				show "[Maquina de Mistura]";
+				show "Tudo no lugar.  Iniciando o processo de misturanção.  Por favor espere.";
+				next;
+				show "[Maquina de Mistura]";
+				show "~rumble~rumble~rumble~";
+				next;
+				show "[Maquina de Mistura]";
+				if(job_magician_q != 1 || @INPUT != 8472 || @JELLOPY!=2 || @FLUFF!=3 || @MILK!=1 || @SOLVENT!=1089) goto sL_FAIL;
+				delitem 909,2;//Items: Jellopy,
+				delitem 914,3;//Items: Fluff,
+				delitem 519,1;//Items: Milk,
+				delitem 1089,1;//Items: Payon_Solution,
+				delitem 1092,1;//Items: Empty_Test_Tube,
+				show "Mistura completa.";
+				additem 1071,1;//Items: Unknown_Test_Tube,
+				close;
+
+			ssM_Red:
+				if(countitem(909)<@JELLOPY || countitem(914)<@FLUFF || countitem(519)<@MILK) goto sL_NotEnuf;//Items: Jellopy, Fluff, Milk,
+				show "[Maquina de Mistura]";
+				show "Tudo no lugar.  Iniciando o processo de misturanção.  Por favor espere.";
+				next;
+				show "[Maquina de Mistura]";
+				show "~rumble~rumble~rumble~";
+				next;
+				show "[Maquina de Mistura]";
+				if(job_magician_q != 2 || @INPUT != 3735 || @JELLOPY!=3 || @FLUFF!=1 || @MILK!=1 || @SOLVENT!=0) goto sL_FAIL;
+				delitem 909,3;//Items: Jellopy,
+				delitem 914,1;//Items: Fluff,
+				delitem 519,1;//Items: Milk,
+				delitem 1092,1;//Items: Empty_Test_Tube,
+				show "Mistura completa.";
+				additem 1085,1;//Items: Unknown_Test_Tube,
+				close;
+
+			ssM_Blue:
+				if(countitem(909)<@JELLOPY || countitem(914)<@FLUFF) goto sL_NotEnuf;//Items: Jellopy, Fluff,
+				if(@SOLVENT$!=("No") && countitem(@SOLVENT)<1) goto sL_NotEnuf;
+				show "[Maquina de Mistura]";
+				show "Tudo no lugar.  Iniciando o processo de misturanção.  Por favor espere.";
+				next;
+				show "[Maquina de Mistura]";
+				show "~rumble~rumble~rumble~";
+				next;
+				show "[Mixing Machine]";
+				if(job_magician_q != 3 || @INPUT != 2750 || @JELLOPY!=6 || @FLUFF!=1 || @MILK!=0 || @SOLVENT!=1089) goto sL_FAIL;
+				delitem 909,6;//Items: Jellopy,
+				delitem 914,1;//Items: Fluff,
+				delitem 1089,1;//Items: Payon_Solution,
+				delitem 1092,1;//Items: Empty_Test_Tube,
+				show "Mistura completa.";
+				additem 1086,1;//Items: Unknown_Test_Tube,
+				close;
+
+			ssM_Diamd:
+				if(countitem(909)<@JELLOPY || countitem(914)<@FLUFF) goto sL_NotEnuf;//Items: Jellopy, Fluff,
+				if(@SOLVENT$!=("No") && countitem(@SOLVENT)<1) goto sL_NotEnuf;
+				show "[Maquina de Mistura]";
+				show "Tudo no lugar.  Iniciando o processo de misturanção.  Por favor espere.";
+				next;
+				show "[Maquina de Mistura]";
+				show "~rumble~rumble~rumble~";
+				next;
+				show "[Maquina de Mistura]";
+				if(job_magician_q != 4 || @INPUT != 5429 || @JELLOPY!=2 || @FLUFF!=3 || @MILK!=0 || @SOLVENT!=1088) goto sL_FAIL;
+				delitem 909,2;//Items: Jellopy,
+				delitem 914,3;//Items: Fluff,
+				delitem 1088,1;//Items: Morroc_Solution,
+				delitem 1092,1;//Items: Empty_Test_Tube,
+				show "Mistura completa.";
+				additem 1087,1;//Items: Unknown_Test_Tube,
+				close;
+
+			sL_FAIL:
+				delitem 909, @JELLOPY;//Items: Jellopy,
+				delitem 914, @FLUFF;//Items: Fluff,
+				delitem 519, @MILK;//Items: Milk,
+				delitem @SOLVENT,1;
+				show "Mistura completa.";
+				additem 1090,1;//Items: Unknown_Test_Tube,
+				close;
+
+			sL_NotEnuf:
+				show "[Maquina de Mistura]";
+				show "Você não tem bastante ingredientes para misturar em uma solução.";
+				close;
+	M_End:
+		close;
+
+}
+
+
+// -- Morroc Solution --
+moc_ruins.gat,91,150,5	script	Ponka-Hontas	93,{
+	show "[Ponka-Hontas]";
+	show "Você quer a Solução? Então me dê 50 Zeny e pelo menos 1 Tubo de teste vazio.";
+	next;
+	menu "Tudo bem, vou dar",L0,"Nah, esqueça.",L1;
+
+	L0:
+		if(countitem(1092)<1) goto L0NoT;//Items: Empty_Test_Tube,
+		if(Zeny<50) goto L0NoZ;
+		show "[Ponka-Hontas]";
+		show "Ok, você tem dinheiro e um tubo de testes vazio, isso é bom!";
+		delitem 1092,1;//Items: Empty_Test_Tube,
+		set Zeny,Zeny-50;
+		next;
+		show "[Ponka-Hontas]";
+		additem 1088,1;//Items: Morroc_Solution,
+		show "Obrigado. E acho que você será um grande "+callfunc("classname",2,"S","M")+", és muito generoso";
+		show "Eu espero o ver novamente aqui";
+		emotion 21;
+		close;
+
+		L0NoT:
+			show "[Ponka-Hontas]";
+			show "Você não pode continuar sem uma garrafa, você está seguro você quer se tornar um "+callfunc("classname",2,"S","M")+"?";
+			show "Traga um Tubo de testes vazio";
+			close;
+
+		L0NoZ:
+			show "[Ponka-Hontas]";
+			show "Pfff, Você é muito pobre para para comprar nossa Solução nobre!";
+			show "Traga 50 Zeny. Vá para o mercado e venda algo, não será muito duro, eu espero.";
+			close;
+	L1:
+		show "[Ponka-Hontas]";
+		show "Ok, até mais.";
+		close;
+}
+
+
+// -- Payon Solution --
+pay_arche.gat,122,100,5	script	Dollshoi	88,{
+	show "[Dollshoi]";
+	show "Você quer a Solução? Então me dê 50 Zeny e pelo menos 1 Tubo de teste vazio.";
+	next;
+	menu "Tudo bem, vou dar",L0,"Nah, esqueça.",L1;
+
+	L0:
+		if(countitem(1092)<1) goto L0NoT;//Items: Empty_Test_Tube,
+		if(Zeny<50) goto L0NoZ;
+		show "[Dollshoi]";
+		show "Ok, você tem dinheiro e um tubo de testes vazio, isso é bom!";
+		delitem 1092,1;//Items: Empty_Test_Tube,
+		set Zeny,Zeny-50;
+		next;
+		show "[Dollshoi]";
+		additem 1089,1;//Items: Payon_Solution,
+		show "Obrigado. E acho que você será um grande "+callfunc("classname",2,"S","M")+", és muito generoso";
+		show "Eu espero o ver novamente aqui";
+		emotion 21;
+		close;
+
+		L0NoT:
+			show "[Dollshoi]";
+			show "Você não pode continuar sem uma garrafa, você está seguro você quer se tornar um "+callfunc("classname",2,"S","M")+"?";
+			show "Traga um Tubo de testes vazio";
+			close;
+
+		L0NoZ:
+			show "[Dollshoi]";
+			show "Pfff, Você é muito pobre para para comprar nossa Solução nobre!";
+			show "Traga 50 Zeny. Vá para o mercado e venda algo, não será muito duro, eu espero.";
+			close;
+	L1:
+		show "[Dollshoi]";
+		close;
+}
+

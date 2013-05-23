@@ -1,0 +1,326 @@
+//===== Cronus Script ========================================
+//= Quest de Itens em Umbala
+//===== Por: =================================================
+//= sabernet09 & eAthena Team
+//===== Versão: ========================================
+//= 1.6
+//===== Descrição: ===========================================
+//= Quest de Língua de Umbala
+//===== Changelog: ===========================================
+//= 1.6 NPC Traduzido [math]
+//============================================================
+
+// this quest is related to Umbalian Chief
+morocc,140,156,5	script	Ladrão de Turbante	58,{
+	if(mask_q == 0) goto AWAY;
+	if(mask_q == 2) goto NoBus;
+	show "[Ladrão de Turbante]";
+	show "Olá meu amigo, você se enteressaria por uma máscara rara?  Seu valor eu asseguro-o que é real meu amigo.";
+	next;
+	show "[Ladrão de Turbante]";
+	show "O que? Ho ho ho, Então você sabe que eu roubei isso daqueles selvagens, não é?  Bom,eu não irei devolve-la de graça, mas sim por um preço... o que me diz?";
+	menu "Pagar 1,000,000z",MonA,"Ofertar",NoGo;
+	MonA:
+		next;
+		if(Zeny < 1000000) goto NotEnough;
+		show "[Ladrão de Turbante]";
+		show "Ho ho, negócio fechado!";
+		set zeny,zeny-1000000;
+		additem 7114,1;//Items: Sphinx Mask,
+		set mask_q,2;
+		close;
+	NoGo:
+		next;
+		show "[Ladrão de Turbante]";
+		show "Ahh você é um negociador, não é?  Então, que tal...";
+		menu "Pagar 750,000",MonB,"Pedir menos",NoGoB;
+		MonB:
+			next;
+			if(Zeny < 750000) goto NotEnough;
+			show "[Ladrão de Turbante]";
+			show "Negócio fechado, aqui está a máscara!";
+			set zeny,zeny-750000;
+			additem 7114,1;//Items: Sphinx Mask,
+			set mask_q,2;
+			close;
+		NoGoB:
+			show "[Ladrão de Turbante]";
+			show "Hmmm... que tipo de negociador é você? Tudo bem... minha oferta final...";
+			menu "Pagar 500,000",MonC,"Isso pode ser ainda mais barato.",NoGoC;
+			MonC:
+				next;
+				if(Zeny < 500000) goto NotEnough;
+				show "[Ladrão de Turbante]";
+				show "Tudo pronto, aqui está...";
+				set zeny,zeny-500000;
+				additem 7114,1;//Items: Sphinx Mask,
+				set mask_q,2;
+				close;
+			NoGoC:
+				next;
+				show "[Ladrão de Turbante]";
+				show "Ack!  Esqueça!  Eu posso conseguir mais em outro lugar!";
+				close;
+	NoBus:
+		show "[Ladrão de Turbante]";
+		show "Não temos mais nada a conversar, vá embora!";
+		close;
+	AWAY:
+		show "[Ladrão de Turbante]";
+		show "O que você quer comigo?  A gente se vê por aí!";
+		close;
+	NotEnough:
+		show "[Ladrão de Turbante]";
+		show "Está brincando comigo?  Você não tem mais dinheiro!";
+		close;
+}
+		
+// Umbala Language Quest (optional)
+prontera,145,290,5	script	Mason	742,{
+	show "[Mason]";
+	if(umb_lang==0) goto L_NOT_GOT_QUEST;
+	if(umb_lang==2 || umb_mason==1) goto L_AGAIN;
+
+	show "Ei você, eu vim aqui em Prontera, à procura de uma velha senhora, no qual pode remover cartas dos slots. Você sabe onde posso encontrá-la?";
+	menu "Sim",-, "Não",M_NO;
+
+	show "Oooo, pode me dizer aonde ela está? Eu adoraria saber.";
+	menu "Associação dos Espadachins",-, "Santuário",M_Boo1,"Cavalaria de Prontera",M_Boo2,"Torre do Relógio",M_Boo3,"Farmácia",M_Boo4,"Pousada",M_Boo5,"Arsenal",M_DONE,"Livrária",M_Boo6,"Agência de Trabalho",M_Boo7,"Castelo de Prontera",M_Boo8,"Prefeitura",M_Boo9;
+
+	next;
+	show "[Mason]";
+	show "Hmm... Eu não sei o que ela estaria fazendo lá... acho que irei dar uma olhada.";
+	close;
+M_Boo1:
+	next;
+	show "[Mason]";
+	show "Nossa! Eu nunca soube que ela era uma pessoa religiosa... Eu vo lá ver, obrigado.";
+	close;
+M_Boo2:
+	next;
+	show "[Mason]";
+	show "Hmm.... você tem, certeza?";
+	close;
+M_Boo3:
+	next;
+	show "[Mason]";
+	show "Porque ela estária indo lá? Acho que você cometeu algum engano.";
+	close;
+M_Boo4:
+	next;
+	show "[Mason]";
+	show "A única coisa que ela precisaria lá é uma kit de remédios para o seu reumatismo. Ela provavelmente está lá só de passagem.";
+	close;
+M_Boo5:
+	next;
+	show "[Mason]";
+	show "Eu não penso que ela precise ir lá, ela MORA aqui em Prontera.";
+	close;
+M_Boo6:
+	next;
+	show "[Mason]";
+	show "Ah sim, se ela estiver estudando eu não gostaria de perturba-la agora. Obrigado assim mesmo.";
+	close; 
+M_Boo7:
+	next;
+	show "[Mason]";
+	show "Agência de Trabalho?  Eu acho que não. Ela ja é uma professora.";
+	close;
+M_Boo8:
+	next;
+	show "[Mason]";
+	show "Castelo é? eu não gostaria de ficar lá... aquele lugar não faz o meu tipo. Eu não quero ser como aqueles chiques que se sentem importantes ou algo assim.";
+	close;
+M_Boo9:
+	next;
+	show "[Mason]";
+	show "Nossa, ela se tornou uma pessoa importante em Prontera? Acho que ela está muito ocupada para a minha visita agora. Vou tentar mais tarde.";
+	close;
+M_DONE:
+	next;
+	show "[Mason]";
+	show "Ah, eu ouvi que a sua classe fica em algum lugar lá... muito obrigado! Aqui está alguma coisa pela sua ajuda.";
+	additem 7117,1;//Items: Torn Spell Book,
+	set umb_mason,1;
+	close;
+
+L_AGAIN:
+	emotion 15;
+	show "Obrigado, eu a encontrei! Muito obrigado pela sua ajuda!";
+	close;
+
+L_NOT_GOT_QUEST:
+	show "Oi! eu vim aqui em prontera, à procura de uma velha senhora... mas...";
+	close;
+M_NO:
+	show "Tudo bem... Obrigado assim mesmo.";
+	close;
+}
+
+aldebaran,153,212,1	script	Mojo	740,{
+	show "[Mojo]";
+	if(umb_lang!=1) goto L_NOT_GOT_QUEST;
+	show "Oh não! Eu perdi o ^FF0000Grimório Antigo^000000 do meu professor!";
+	show "O que eu farei agora... aqueles Bathorys idiotas...";
+	if(umb_lang==1) set umb_mojo,1;
+	close;
+L_NOT_GOT_QUEST:
+	emotion 1;
+	show "Eu perdi o livro do meu professor! O que farei agora...";
+	close;
+}
+
+amatsu,267,189,4	script	Marie	744,{
+	show "[Marie]";
+	if(umb_lang==0) goto L_NOT_GOT_QUEST;
+	if(umb_lang==2 || umb_marie==1) goto L_AGAIN;
+	if(countitem(9001)>0 && countitem(643)>0) goto L_DONE;//Items: Poring Egg, Pet Incubator,
+	show "Olá, precisa de algo?";
+	menu "Não, nada por enquanto.",M_NO,"Seu professor me mandou aqui.",-;
+
+	show "O que ele quer de mim?";
+	emotion 1;
+	next;
+	show "[Marie]";
+	show "Ei espere, eu vejo... ele quer seu Pergaminho Gasto de volta não é mesmo? Bom, Eu não estou usando mas... Eu lhe darei se você me dar um ovo de poring e uma incubadora. Aquelas coisas são tão lindinhas!";
+	close;
+
+L_NOT_GOT_QUEST:
+	emotion 1;
+	show "Oi! O que você quer comigo?";
+	close;
+M_NO:
+	show "Hmm tudo bem? então tchau..";
+	close;
+L_DONE:
+	show "Eiii você, você tem um Ovo de Poring e uma Incubadora com você! Eles são para mim?";
+	menu "Sim!",-, "Desculpe, não.",M_DOH;
+
+	show "Yahoo!  Aqui está algo de recompensa.";
+	additem 7118,1;//Items: Torn Scroll,
+	delitem 9001,1;//Items: Poring Egg,
+	delitem 643,1;//Items: Pet Incubator,
+	set umb_marie,1; //got Torn Scroll
+	close;
+M_DOH:
+	show "O pooo... sigh...";
+	close;
+L_AGAIN:
+	emotion 15;
+	show "Eu amo porings!";
+	close;
+}
+
+yuno,157,366,2	script	Fabius	743,{
+	show "[Fabius]";
+	if (event_umbala >= 3) set umb_lang,2; //Você ja sabe a lingua umbala aprendida com o Umbala chege. Então esta quest não está habilitada
+	if (umb_lang<2) goto L_QUEST;
+	show "Você fala Umbalian muito bem! então nunca esqueça a lingua dos Umbalians!";
+	close;
+L_QUEST:
+	if((countitem(1006) < 1) || (countitem(7118) < 1) || (countitem(7117) < 1)) goto L_DONE;//Items: Old Magic Book, Torn Scroll, Torn Spell Book,
+	delitem 1006,1;	//Items: Old Magic Book,
+	delitem 7118,1;	//Items: Torn Scroll,
+	delitem 7117,1;//Items: Torn Spell Book,
+	emotion 15;
+	show "Ah, você fez bem me trazendo o que eu pedi. Esses artefatos descrevem ruinas ao redor do mundo, do inferno escaldante que é o Calabouço de Magma, para a estranha floresta escondida que é a Fonte de Hvergelmir.";
+	next;
+	show "[Fabius]";
+	show "Mas chega de conversa, você está ancioso para receber sua recompensa não está?  Bem, não é muita coisa mas minha recompensa para você é conhecimento...";
+	next;
+	show "[Fabius]";
+	show "Atualmente é conhecimento sobre as pessoas de Umbalian. Eles estão conectados a esse mundo de Midgard de um jeito diferente, nós só não podemos confirmar isso ainda. Existe uma teoria no qual diz que eles são como os elfos e protegem a Árvore Anciã de Yggsadril.";
+	next;
+	show "[Fabius]";
+	show "E eu, um homen sábio de Juno, vou ensina-lo sua linguagem!";
+	next;
+	show "^0000FF Aprendeu a linguagem dos Umbalians! ^000000";
+	set umb_lang,2;
+	//clear subquests
+	set umb_marie,0;
+	set umb_mason,0;
+	set umb_mojo,0;
+	//faz você entender pessoas Umbalians
+	//é um meio alternativo de aprender a linguagem Umbalian
+	if(event_umbala < 3) set event_umbala,3;
+	close;
+L_DONE:
+	set umb_lang,1; //got Quest
+	show "Argh! Meus três estudantes são ao contrário de minhas referencias! Ei você! Pode traze-los de volta para mim? Eu irei recompensa-lo.";
+	next;
+	show "[Fabius]";
+	show "Pelo que eu sei, eles estão em cidades diferentes fazendo alguma coisa fora de si.";
+	if (umb_marie==0 && umb_mason==0 && umb_mojo==0) goto L_NOT_MET;
+	if (umb_marie==1) show "Oh... Você encontrou Marie em Amatsu.";
+	if (umb_mojo==1) show "You saw Mojo in Aldebaran?";
+	if (umb_mason==1) show "So... Mason's in Prontera now... Well...";
+	if (umb_marie==0) show "I wonder where is our sea girl Marie?";
+	if (umb_mojo==0) show "Mojo should be somewhere near water...";
+	if (umb_mason==0) show "Where'd Mason go then...";
+	show "Tudo bem, diga a eles que eu mandei você.";
+	close;
+L_NOT_MET:
+	show "Tudo bem, diga a eles que eu mandei você, seus nome são Marie, Mason e Mojo.";
+	close;
+}
+
+// Little Quest NPC to enter the dungeon
+// Fixed by Akaru
+umbala,65,253,4	script	Arvore Guardiã	752,{ 
+	show "[Arvore Guardiã]"; 
+	show "Pare estranho, aqui é a entrada da Árvore Anciã!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Eu não posso deixa-lo entrar, você parece muito fraco!"; 
+	next; 
+L_MENU:
+	menu "Fale sobre a Árvore Anciã",-, "Fale sobre Umbala",M_TALKUMB, "Entrar na caverna",M_DUN, "Sair",M_Leave; 
+
+	show "[Arvore Guardiã]"; 
+	show "A árvore anciã é uma relíquia de nossa cultura!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Mas recentemente alguns monstros invadiram a árvore e estão agora"; 
+	show "vagarosamente matando a árvore...como um veneno...por dentro.."; 
+	next; 
+	goto L_MENU;
+M_TALKUMB: 
+	show "[Arvore Guardiã]"; 
+	show "Nós não temos muitos visitantes na nossa pequena cidade.."; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Muitas pessoas não nos encontram ou estão com medo de nós!"; 
+	next; 
+	show "[Arvore Guardã]"; 
+	show "E agora, nós estamos menos populares, por causa daquele monstro!"; 
+	next; 
+	menu "Que monstro?",- ,"Sair",M_Leave; 
+
+	show "[Arvore Guardiã]"; 
+	show "O Lobisomem é claro!!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Ele está andando pela cidade a noite e matando os soldados!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Ei...se você cuidar daquele mostro para mim!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Deixarei você entrar!"; 
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Agora poderemos viver em paz novamente, muito obrigado!";
+	next; 
+	show "[Arvore Guardiã]"; 
+	show "Você pode entrar na caverna agora!"; 
+	set umbdun,1;
+	close; 
+M_DUN: 
+	show "[Arvore Guardiã]"; 
+	if (umbdun != 1) show "Nós não permitimos pessoas fracas entrar!";
+	if (umbdun != 1) close;
+	show "Venha e entre, bravo guerreiro!"; 
+	warp "um_dun01",42,30; 
+M_Leave:  
+	close; 
+}

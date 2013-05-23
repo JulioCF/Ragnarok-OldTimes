@@ -1,0 +1,83 @@
+//===== Cronus Script ======================================== 
+//= Curandeira Paga
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.0a
+//===== Descrição: =========================================== 
+//= Recupera HP e SP com um preço
+//= Usado as cordenadas do NPC do eAthena
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.0a Npc reestruturado e correções de alguns bugs [Mehah]
+//============================================================
+
+prontera,150,184,5	script	Curandeira#h1-1::Healer	90,{
+	function cura;
+	set @curaHp, MaxHp-Hp;
+	set @curaSp, MaxSp-Sp;
+	show "[Curandeira]";
+	if(@curaHp && @curaSp){
+		show "Hmm, você esta realmente machucado e fraco.";
+		show "Você deseja que eu recupere o seu HP, SP ou Ambos?";
+		next;
+		switch(select("Apenas HP ("+@curaHp+"z)","Apenas SP ("+@curaSp+"z)","Ambos, HP e SP ("+(@curaHp+@curaSp)+"z)","Não, obrigado")){
+			case 1: cura(Hp,@curaHp);
+			case 2: cura(Sp,@curaSp);
+			case 3: cura(Hp+Sp,@curaHp+@curaSp);
+		}
+	}else if(@curaHp){
+		show "Oh, você parece mesmo machucado.";
+		show "Eu posso curar você por: "+ @curaHp +" zeny.";
+		show "Você quer que eu-lhe cure?";
+		next;
+		if(select("Curar","Não, obrigado") == 1)
+			cura(Hp,@curaHp);
+	}else if(@curaSp){
+		show "Oh, você parece mesmo fraco.";
+		show "Eu posso regenerar você por: "+@curaSp+" zeny";
+		next;
+		if(select("Regenerar","Não, obrigado") == 1)
+			cura(Sp,@curaSp);
+	}
+	if(@menu == 2 || @menu == 4) cura(0);
+	show "Ahn?";
+	show "Você não parece esta machucado.";
+	close;
+
+	function	cura	{
+		show "[Curandeira]";
+		if(!getarg(0)){
+			show "Tudo bem. Volte quando você necessitar.";
+			close;	
+		}
+		if (Zeny < getarg(1)){
+			show "Oh, você não tem todo o dinheiro necessário.";
+			show "Desculpe, mas não posso curá-lo.";
+			close;	
+		}else set Zeny, Zeny-getarg(1);
+		if(getarg(0) == Hp+Sp) heal MaxHp,MaxSp; else
+		if(getarg(0) == Hp) heal MaxHp,0; else
+		if(getarg(0) == Sp) heal 0,MaxSp;
+		show "Você está completamente curado!";
+		show "Obrigado e volte sempre que precisar.";
+		close;
+
+	}
+
+}
+morocc.gat,159,96,5	duplicate(Healer)	Curandeira#h2-2	90
+ayothaya.gat,155,111,5	duplicate(Healer)	Curandeira#h2-3	90
+geffen.gat,121,61,5	duplicate(Healer)	Curandeira#h2-4	90
+umbala.gat,94,162,5	duplicate(Healer)	Curandeira#h2-5	90
+payon.gat,180,105,5	duplicate(Healer)	Curandeira#h2-6	90
+alberta.gat,185,144,5	duplicate(Healer)	Curandeira#h2-7	90
+aldebaran.gat,134,123,5	duplicate(Healer)	Curandeira#h2-8	90
+izlude.gat,125,118,5	duplicate(Healer)	Curandeira#h2-9	90
+xmas.gat,149,136,5	duplicate(Healer)	Curandeira#h2-10	90
+comodo.gat,188,162,5	duplicate(Healer)	Curandeira#h2-11	90
+amatsu.gat,200,80,5	duplicate(Healer)	Curandeira#h2-12	90
+gonryun.gat,164,130,5	duplicate(Healer)	Curandeira#h2-13	90
+yuno.gat,152,186,5	duplicate(Healer)	Curandeira#h2-14	90
+niflheim.gat,188,180,5	duplicate(Healer)	Curandeira#h2-15	90
+louyang.gat,225,103,5	duplicate(Healer)	Curandeira#h2-16	90

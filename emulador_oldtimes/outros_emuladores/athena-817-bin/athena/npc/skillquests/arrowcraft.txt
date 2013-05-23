@@ -1,0 +1,54 @@
+// Arrow crafting
+
+morocc.gat,121,109,5	script	Arrow Maker	88,{
+	if ((Class == Job_Archer) && (JobLevel < 35)) goto LStartLowlv;
+	if (!((Class == Job_Archer) || (Class == Job_Hunter) || (Class == Job_Bard) || (Class == Job_Dancer))) goto LStartOther;
+	if (getskilllv(147)>0) goto LStartTwice;
+	if ((countitem(924)>=35) && (countitem(7033)>=7) && (countitem(906)>=41) && (countitem(1019)>=13) && (countitem(501)>=1)) goto L3;
+Lstart:
+	mes "Welcome to me and my tree. I am an Arrow Maker and I can teach archers how to make arrows.";
+	mes "If you want to learn this skill you will have to help me out with a task first.";
+	menu "Ok, tell me",L1,"No, nevermind",L2;
+
+L1:
+	mes "[Arrow Maker]";
+	mes "You see since I can't leave my tree I want you to get me som ingredients for the skill.";
+	mes "Get me 35 ^FF0000Powder of Butterfly^000000, 7 ^FF0000Poison_Spore^000000, ^FF000041 Pointed Scale^000000, 13 ^FF0000Wooden Block and 1 ^FF0000red potion^000000";
+
+L2:
+	mes "[Arrow Maker]";
+	mes "Well I am sorry to hear that.";
+	mes "Good luck";
+
+L3:
+	mes "[Arrow Maker]";
+	mes "Congratulations";
+	next;
+	delitem 907,20;
+	delitem 7033,7;
+	delitem 906, to 41;
+	delitem 1019,13;
+	delitem 501,1;
+	skill 147,1,0;
+	mes "[Arrow Maker]";
+	mes "Hope to see you some other time.";
+	mes "For now good luck with your new skill.";
+	close;
+LStartOther:
+	mes "[Arrow Maker]";
+	mes "I am an Arrow Maker and I can teach archers how to make arrows.";
+	mes "This skill can only be used by a archer.";
+	mes "Unfortunately you ain't a archer.";
+	close;
+
+LStartLowlv:
+	mes "[Arrow Maker]";
+	mes "Hello friendly archer. You have to raise your level a little more before crafting arrows.";
+	mes "YOu need to be atleast joblevel 35.";
+	close;
+
+LStartTwice:
+	mes "[Arrow Maker]";
+	mes "YOu already have this skill implemented in your skilltree.";
+	close;
+}

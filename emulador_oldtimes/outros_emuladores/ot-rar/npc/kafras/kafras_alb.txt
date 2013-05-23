@@ -1,0 +1,49 @@
+//===== Cronus Script ======================================== 
+//= Kafras Alberta
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Kafras da cidade de Alberta
+//===== Changelog: =========================================== 
+//= 1.1 Iniciado o Npc [Kamper]
+//============================================================
+alberta,28,229,8	script	Funcionária Kafra#alb	115,{
+	cutin "kafra_03",2;
+	callfunc "F_KafSetAlb";
+	callfunc "F_Kafra",0,0,0;
+
+	M_Save:
+		menu "Salvar fora da Cidade.",sM_Out, "Salvar dentro da Cidade",sM_In;
+		
+		sM_Out:
+			savepoint "pay_fild03",386,76;
+			callfunc "F_KafEnd",0,1;
+		sM_In:
+			savepoint "alberta",31,231;
+			callfunc "F_KafEnd",0,1;
+}
+/*alberta,113,60,5	script	Funcionária Kafra#alb-2	112,{
+	cutin "kafra_06",2;
+	callfunc "F_KafSetAlb";
+	callfunc "F_Kafra",0,0,0;
+
+	M_Save:
+		savepoint "alberta",117,57;
+		callfunc "F_KafEnd",0,1;
+}*/
+function	script	F_KafSetAlb	{
+	setarray @wrpP[0], 1200, 1800, 1800;
+	setarray @wrpD$[0], "Payon", "Morroc", "Prontera";
+	set @wrpC$[0], @wrpD$[0]+" -> "+@wrpP[0];
+	set @wrpC$[1], @wrpD$[1]+" -> "+@wrpP[1];
+	set @wrpC$[2], @wrpD$[2]+" -> "+@wrpP[2];
+	set @wrpC$[3], "Cancelar";
+	set @wrpC$[4], "";
+	set @wrpC$[5], "";
+	set @wrpC$[6], "";
+	setarray @viewpX[0], 69, 113, 0, 0;
+	setarray @viewpY[0], 99, 60, 0, 0;
+	return;
+}

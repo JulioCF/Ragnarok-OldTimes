@@ -1,0 +1,963 @@
+//===== Cronus Script ======================================== 
+//= Script Odalisca
+//===== Por: =================================================
+//= Kalen - Original jAthena
+//= Fredzilla - Convertido
+//= Mehah [Traduziu para PT(br)] * Beta
+//===== Versão Atual: ======================================== 
+//= 1.7/3.1
+//===== Descrição: =========================================== 
+//= Muda a classe para Odalisca
+//===== Changelog: =========================================== 
+//= Traduzido [Mehah]
+//= Arrumado os erros de interpretação textual [Mehah]
+//= Quest Atualizada [Mehah]
+//= Adaptado Classname Na Função F_BlockHigh [Mehah]
+//= Crash em Guild Corrigido [Mehah]
+//= Corrigido alguns erros [Olivete]
+//= Adicionado novo Bor Robin para permitir a entrada de
+//= qualquer pessoa. [Reploid]
+//============================================================
+
+//= Advertimento para escapar da Quest se for necessário
+job_duncer,69,165,1	script	DQWWarp	45,1,1,{
+	show "[Aviso]";
+	show "Esta é a única maneira para sair, se for sair, isto cancelará sua quest.";
+	next;
+	menu "Sair da Quest",-,"Cancelar",L_Can;
+	Warp "comodo",193,149;
+	end;
+L_Can:
+	close;
+}
+
+//= Warp man, Levará você para o mapa da Quest  (Teatro de Comodo)
+comodo,193,151,4	script	Bor Robin#1	86,{
+	show "[Bor Robin]";
+	show "Aah....";
+	show "Uma belíssima odalisca";
+	show "no centro das atenções!";
+	show "Eu poderei assistí-las virando Odaliscas com meus próprios olhos...!";
+	next;
+	show "[Bor Robin]";
+	show "É ótimo ser um homem";
+	show "nos dias de hoje! Tudo isso graças ao Teatro de Comodo!";
+	next;
+	show "[Bor Robin]";
+	show "Mm?";
+	show "Você também quer";
+	show "ir?";
+	show "É uma boa oportunidade para assistir o Teste de Mudança de Classe para Odaliscas.";
+	next;
+	if (select("Ir para a Área de Troca de Classe:Cancelar") == 1) {
+		show "[Bor Robin]";
+		show "Yaay~~";
+		show "Vamos lá!";
+		close2;
+		warp "job_duncer",70,49;
+		end;
+	}
+	show "[Bor Robin]";
+	show "Huh...";
+	show "Bem, Eu não posso";
+	show "ajudá-lo se você não";
+	show "quer me acompanhar.";
+	close;
+}
+
+//= 1º quest NPC, pede Item e/ou dinheiro e então levará você para o próximo NPC
+job_duncer,43,93,4	script	Aire	724,{
+	show "[Aire]";
+	if (BaseJob == Job_Dancer) {
+		show "Bom vê-lo retornar.";
+		show "Como você esteve recentemente?";
+		show "Você tem trazido muitas alegria para as pessoas?";
+		close;
+	}
+	if (Upper==1) {
+		show "É uma grande honra saudar um enviado de Valhalla.";
+		show "Venha novamente.";
+		emotion e_ho;
+		close;
+	}
+	if(BaseJob != Job_Archer || Sex) {
+		show "Oi "+strcharinfo(0)+", só lhe permitem ficar neste quarto, se for alem disso estará fora dos seus limites.";
+		next;
+		show "[Aire]";
+		show "Nós não podemos deixar qualquer um se transformar em uma Odalisca, não há nenhuma razão diferente destas pessoas estarem aqui.";
+		next;
+		show "[Aire]";
+		show "Você pode permanecer e prestar atenção ao estágio da dança se você quiser.";
+		show "Até logo.";
+		close;
+	}
+
+	switch(DANC_Q){
+	case 0:
+		show "Bem-vindo a nosso Teatro.";
+		show "Aqui é onde são ensinadas várias danças.";
+		next;
+		show "[Aire]";
+		show "Turistas visitam todos lugares, para assistir as Odalisca.";
+		next;
+		show "[Aire]";
+		show "Nós podemos também treinar novas dançarinas, obviamente por um preço, nós não queremos sair do negócio.";
+		next;
+		show "[Aire]";
+		show "Você deve primeiramente preencher o formulário de inscrição.";
+		show "Tudo que você tem que fazer é escrever seus detalhes.";
+		next;
+		show "[Aire]";
+		show "O que você diz?";
+		show "Você está me propondo-o a transforma-se em uma Odalisca? ou estarei partinado muito antes de você.";
+		next;
+		if(select("Preencher o formulário:Sair")!=1){
+			show "[Aire]";
+			show "Se você mudar de idéia, por favor retorne.";
+			show "Até logo.";
+			close;
+		}
+		show "[Aire]";
+		if (JobLevel < 40){
+			show "Huh......";
+			show "Eu sinto muito, mas você não tem o level mínimo para agente poder trabalha.";
+			next;
+			show "[Aire]";
+			show "Você precisar ter no minimo Job 40.";
+			show "Por favor, volte quando você tiver job 40 ou superior.";
+			show "Não fala para ninguém que eu lhe falei isto, se você completa o treinamento com uma Odalisca e a sua Job for lvl 50 você receberá um presente extra.";
+			show "Aproveite o seu dia.";
+			close;
+		}
+		show "Então você está pronto para começar a viagem!";
+		show "Por favor entre com formulário de inscrição.";
+		next;
+		show "......";
+		next;
+		show "......Preenchendo informação......";
+		next;
+		show "......";
+		next;
+		show "[Aire]";
+		show "Seu nome......";
+		show strcharinfo(0)+"......";
+		show "Que nome atraente!";
+		next;
+		show "[Aire]";
+		show "Você vai precisar esperar.";
+		show "O formulário está sendo lido por um professor das escolas de dança.";
+		next;
+		show "[Aire]";
+		show "Quando você tiver tempo para próxima parte, converse comigo novamente sobre a viagem";	
+		set JBLVL, JobLevel; // used to determine what item to get at the end
+		set DANC_Q,1;
+		close;
+
+	case 1:
+		show "Sua proposta foi aceita, mas você necessita ainda trazer alguns items, e zeny para cobrir talvez a conta de nossa escola.";
+		next;
+		show "[Aire]";
+		show "Me deixe ver os items que você irá precisar para cobrir sua conta.";
+		show " ";
+		show "Ok...";
+		next;
+		show "[Aire]";
+		show "O custo para a lição será:";
+		set DANC_Q,rand(2,4);
+		callsub S_SHOWITEMS;
+		show "Quando você tiver tudo, eu poderei preparar a lição.";
+		show "Venha e fale novamente comigo quando você estiver pronta.";
+		close;
+
+	case 2:
+	case 3:
+	case 4:
+		if(DANC_Q==2 && countitem(938) >= 20 && countitem(501) >= 5 && countitem(909) >= 3 && countitem(2403) >= 1 && Zeny >= 10000) {
+			set Zeny,Zeny-10000;
+			delitem 938,20;
+			delitem 501,5;
+			delitem 909,3;
+			delitem 2403,1;
+			goto L_DONE;
+		}
+		if(DANC_Q==3 && countitem(1055) >= 5 && countitem(2405) >= 1 && Zeny >= 10000) {
+			set Zeny,Zeny-10000;
+			delitem 1055,5;
+			delitem 2405,1;
+			goto L_DONE;
+		}
+		if(DANC_Q==4 && countitem(965) >= 2 && countitem(503) >= 5 && countitem(909) >= 20 && countitem(1020) >= 10 && countitem(2401) >= 1) {
+			delitem 965,2;
+			delitem 503,5;
+			delitem 909,20;
+			delitem 1020,10;
+			delitem 2401,1;
+			goto L_DONE;
+		}
+		show "Algo está errado aqui.";
+		show "Parece que você não tem os items,  que nós necessitamos tudo que foi pedido.";
+		show "Eles são todo necessários.";
+		show "No caso se você esqueceu, por favor traga.";
+		next;
+		show "[Aire]";
+		callsub S_SHOWITEMS;
+		show "Não se esqueça de me trazer tudo.";
+		show "O que você está esperando?";
+		show "procure e trague logo";
+		close;
+		
+L_DONE:
+	show "Me deixe ver aqui,oh você trouxe tudo.";
+	show "Eu aceito seu pagamento!";
+	next;
+	show "[Aire]";
+	case 5:
+	case 6:
+		show "Agora o treinamento é diferente, nós precisamos que você participe de uma entrevista, e passaremos um teste pequeno para ver se você é merecedora da classe Odalisca.";
+		next;
+		show "[Aire]";
+		show "Sua entrevista e teste serão executados por ^0000FF'Bijou'^000000.";
+		show "Por favor, vá e a veja quando for possível.";
+		if(DANC_Q < 5) set DANC_Q,5;
+		close;
+	}
+	show "Praticando entusiasticamente, aquela dança atraente.";
+	show "Quando você termina o seu treinamento me mostre!";
+	close;
+
+S_SHOWITEMS:
+	switch(DANC_Q){
+	case 2:
+		show "^0000FF10,000 Zeny^000000";
+		show "Um par de ^0000FFSapatos sem slot^000000";
+		show "^0000FF20 Muco Pegajoso^000000";
+		show "^0000FF5 Poção Vermelha^000000";
+		show "^0000FF3 Jellopy^000000";
+		break;
+	case 3:
+		show "^0000FF10,000 Zeny^000000";
+		show "Um par de ^0000FFBotas sem slot^000000";
+		show "^0000FF5 Peles de Minhoca^000000";
+		break;
+	case 4:
+		show "Um par de ^0000FFSandálias sem slot^000000";
+		show "^0000FF2 Cascos de Ostra^000000";
+		show "^0000FF5 Poção Amarela^000000";
+		show "^0000FF20 Jellopy^000000";
+		show "^0000FF10 Cabelos Morenos^000000";
+		break;
+	}
+	next;
+	show "[Aire]";
+	return;
+}
+
+//= 2ª "Quest" é a escolha da classe depois da 3º Quest
+job_duncer,95,93,4	script	Bijou	101,{
+	show "[Bijou]";
+	if(BaseJob == Job_Dancer){
+		show "O que você está fazendo hoje?";
+		next;
+		show "[Bijou]";
+		show "Vá e traga alegria para todos.";
+		show "Fazendo uma boa impressão a todos.";
+		show "Ajude o proximo com muitas possibilidades.";
+		show "Não esqueca do seu treinamento.";
+		show "Espero te ver outra vez.";
+		close;
+	}
+	if(BaseJob != Job_Archer || Sex){
+		show "Bem-vindo ao nosso Teatro de Dança, há muitos dançarina.";
+		next;
+		show "[Bijou]";
+		show "Eu ja me aposentei de ser uma Odalisca, mas eu fico aqui para treinar as novas Odalisca.";
+		next;
+		show "[Bijou]";
+		show "A parte mais dura de se tornar uma Odalisca é o teste físico de cronometrar o seu tempo ao terminar a fase.";
+		next;
+		show "[Bijou]";
+		show "Então vou chamar o estagiário, para poder seguir ao o pé da letra.";
+		show "Se terminar este teste, você sairá como uma Odalisca.";
+		close;
+	}
+	if(SkillPoint){
+		show "Você parece ainda ter pontos de habilidade.";
+		show "Você precisa utilizar todos os pontos, se não, não poderá trocar de classe.";
+		close;
+	}
+	if(DANC_Q == 5 || DANC_Q == 6) goto L_QUIZ;
+	if(DANC_Q == 7 || DANC_Q == 8) goto L_DANCETEST;
+	if(DANC_Q == 9){
+		show "Você fez ótimo, você passou em todos os testes que nós partimos para você.";
+		next;
+		show "[Bijou]";
+		show "Eu penso que tenha conhecimento suficiente para se torna uma Odalisca!";
+		next;
+		show "[Bijou]";
+		show "Agora...... por favor, relaxe que nos vamos terminar o nosso treinamento.";
+		next;
+		show "[Bijou]";
+		show "Será seu trabalho para trazer alegria a todas as pessoas de Rune Midgard.";
+		next;
+		set @gift,JBLVL;
+		show "[Bijou]";
+		show "Assista cada tempo que você dança de agora em diante.";
+		next;
+		callfunc "Job_Change",Job_Dancer;
+		callfunc "F_ClearJobVar";
+		show "[Bijou]";
+		show "O prazer das pessoas que a assistem. .....";
+		next;
+		show "[Bijou]";
+		show "Este é o meu presente!";
+		if(@gift==50) {
+			additem 1953,1;
+			show "Considerando que você seja muito experiente eu lhe dei uma Linha, em vez de uma Corda, simplesmente as pessoas normais adquiririam.";
+			show "Faça o exame, e seja a melhor Odalisca!";
+		} else {
+			additem 1950,1;
+ 			show "Agora leve esta Corda, e seja a melhor Odalisca!";
+ 		}
+ 		close;
+ 	}
+	show "Você deseja torna-se uma Odalisca, neh?";
+	next;
+	show "[Bijou]";
+	show "Bem, parece que você não pagou.";
+	show "Primeiramente você necessita preencher uma inscrição, e  que seja aceito.";
+	show "Uma vez que aceitado, lhe necessitará encontrar o pagamento, podem ser todos os items, ou alguns items e zeny.";
+	show "A pessoa que você necessita conversa aproximadamente é a ' Aire ' que esta em outro lado do estágio.";
+	show "Se for tudo aprovado volte a mim.";
+	close;
+L_QUIZ:
+	if(DANC_Q == 6)
+		show "Tentar novamente?";
+	else {
+		show "Você quer se tornar uma Odalisca, neh?";
+		next;
+		show "[Bijou]";
+		show "......Bem, eu vejo que você já pagou então poderemos continuar.";
+		next;
+		show "[Bijou]";
+		show "Antes que eu transforme você em uma Odalisca preciso testa a sua atitude mental, isto é feito a traveis de um teste.";
+		show "É escolha múltipla e muito eles são comum, bem comum para alguém que tenha a atitude mental para se tornar uma Odalisca.";
+		next;
+		show "[Bijou]";
+		show "Há um total de 10 perguntas, para cada, se você acerta receberá 10 pontos.";
+		show " ";
+		show "Há algumas respostas que reduzirão sua contagem final, tente e evite erra.";
+		next;
+	}
+	show "Boa sorte, agora deixe o teste começar.";
+	next;
+	set @dcpoint,0;
+	if(rand(2)) goto L_QUIZ2;
+
+//-------
+	show "[Bijou]";
+	show "1. ^00FF00Assunto:^000000 Odalisca + Bardo combinações de habilidade.";
+	show "Qual é o efeito do ^777777'Lamento de Loki'^000000 ?";
+	next;
+	menu "O poder de ataque de arma nível 4 melhora",L1_2,"O Dobro do dano é desfeito",L1_2,"Faz habilidades e magias ficar inutilizável",-,"Eleva a velocidade de ataque",L1_2;
+		set @dcpoint,@dcpoint+10;
+L1_2:
+//I am unsure about the translated meaning on Question 2, I tried to adapt it with my own question, 
+//I will put a asterisk (*) next to all I have done this for, I done this so other people who might understand it better can correct it.
+	show "[Bijou]";
+	show "2. ^00FF00Assunto:^000000 Depois de dançar.";
+	show "Depois que você terminou de usar um conjunto de habilidade com um amigo, o que você nunca deve fazer?";
+	next;
+	menu "Usar palavras de apreciação para o amigo",L1_3,"Elogiada a dança",L1_3,"Convide o amigo para dançar novamente",L1_3,"Você diz ao amigo que fizeram um trabalho mal feito",-;
+		set @dcpoint,@dcpoint+10;
+L1_3:
+// *
+	show "[Bijou]";
+	show "3. ^00FF00Assunto:^000000 Antes de dançar";
+	show "Quando um sócio ativa a dança incorreta o que você deve fazer?";
+	next;
+	menu "Sorria e continue apenas a dançar",L1_4,"Mostre o erro",-,"Cancele a dança e ande afastado",L1_4,"Esconda seu smerk",L1_4;
+		set @dcpoint,@dcpoint+10;
+L1_4:
+	show "[Bijou]";
+	show "4. ^00FF00Assunto:^000000 Conhecimento geral.";
+	show "Qual é o nome da aldeia onde você pode designar a mudança de sua ocupação para Odalisca?";
+	next;
+	menu "Prontera",L1_5,"Morroc",L1_5,"Al De Baran",L1_5,"Comodo",-;
+		set @dcpoint,@dcpoint+10;
+L1_5:
+	show "[Bijou]";
+	show "5. ^00FF00Assunto:^000000 Lugares ao redor de Comodo.";
+	show "Quantas cavernas são conectadas diretamente à vila de Comodo?";
+	next;
+	menu "1",L1_6,"2",L1_6,"3",-,"4",L1_6;
+		set @dcpoint,@dcpoint+10;
+L1_6:
+	show "[Bijou]";
+	show "6. ^00FF00Assunto:^000000 Pet's.";
+	show "Qual do seguinte não pode ser domesticado?";
+	next;
+	menu "Isis",L1_7,"Argiope",-,"Dokebi",L1_7,"Deviruchi",L1_7;
+		set @dcpoint,@dcpoint+10;
+L1_7:
+	show "[Bijou]";
+	show "7. ^00FF00Assunto:^000000 Conhecimento geral.";
+	show "Quem é a melhor Odalisca?";
+	next;
+	menu strcharinfo(0),L1_7a,"Bijou",-,"Isis",L1_8,"Flora",L1_8;
+		set @dcpoint,@dcpoint+10;
+		goto L1_8;
+	L1_7a:
+		set @dcpoint,@dcpoint-100;
+		emotion e_dots;
+		show ".........";
+		next;
+L1_8:
+// *
+	show "[Bijou]";
+	show "8. ^00FF00Assunto:^000000 Lugares ao redor de Comodo.";
+	show "Qual é uma das atrações principais de Comodo?";
+	next;
+	menu "Uma igreja",L1_9,"Lojas excepcionalmente boas",L1_9,"A melhor galinha que você pode adquirir em qualquer lugar",L1_9,"O cassino",-;
+		set @dcpoint,@dcpoint+10;
+L1_9:
+	show "[...]";
+	show "9. ^00FF00Assunto:^000000 Conhecimento geral.";
+	show "Qual é meu nome?";
+	next;
+	menu "Gijou",L1_10,"Bijon",L1_10,"Bijou",-,"Bojou",L1_10;
+		set @dcpoint,@dcpoint+10;
+// *
+L1_10:
+	show "[Bijou]";
+	show "10. ^00FF00Assunto:^000000 Odalisca + Bardo combinações de habilidade.";
+	show "Qual é o efeito da ^777777'Cantiga de Ninar'^000000 ?";
+	next;
+	menu "Faça o inimigo dormir, em uma área de 5x5",L_ENDQ,"Faça o inimigo dormir, em uma área de 9x9",-,"Deita o enimigo, em uma área de 5x5",L_ENDQ,"Deita o enimigo, em uma área de 9x9",L_ENDQ;
+		set @dcpoint,@dcpoint+10;
+		goto L_ENDQ;
+//-------
+L_QUIZ2:
+	show "[Bijou]";
+	show "1. ^00FF00Assunto:^000000 Habilidade de Odalisca.";
+	show "O que é o efeito ^777777'Lições_de_Dança'^000000? ";
+	next;
+	menu "Seu INT é aumentado",L2_2,"Os danos de ataques do chicote são aumentados",-,"Os danos de ataques do Bastão são aumentados",L2_2,"Os danos de ataques variado são aumentados",L2_2;
+		set @dcpoint,@dcpoint+10;
+L2_2:
+	show "[Bijou]";
+	show "2. ^00FF00Assunto:^000000 Tipo de dança.";
+	show "Ao fazer este tipo de dança, você desgasta os sapatas especiais que fazem sons altos";
+	show "Como é chamado esse tipo de dança?";
+	next;
+	menu "Dança da torneira",-,"Concentração",L2_3,"Tango",L2_3,"Salsa",L2_3;
+		set @dcpoint,@dcpoint+10;
+L2_3:
+	show "[Bijou]";
+	show "3. ^00FF00Assunto:^000000 Característica da Odalisca.";
+	show "Escolha o que uma Odalisca não possa fazer.";
+	next;
+	menu "Executar Danças",L2_4,"Atacar em longa distancia",L2_4,"Usar um chicote",L2_4,"Usar Espada de Duas Mãos",-;
+		set @dcpoint,@dcpoint+10;
+L2_4:
+	show "[Bijou]";
+	show "4. ^00FF00Assunto:^000000 Conhecimento geral.";
+	show "Qual é a cidade onde as Odalisca ficam que é a mais bonita?";
+	next;
+	menu "Al De Baran",L2_5,"Juno",L2_5,"Morroc",L2_5,"Comodo",-;
+		set @dcpoint,@dcpoint+10;
+L2_5:
+	show "[Bijou]";
+	show "5. ^00FF00Assunto:^000000 Conhecimento geral.";
+	show "Que pessoa pode por Odalisca mais bonitas?";
+	next;
+	menu strcharinfo(0),L2_5a,"Bijou",-,"Isis",L2_6,"Emralhandas",L2_6;
+		set @dcpoint,@dcpoint+10;
+		goto L2_6;
+	L2_5a:
+		set @dcpoint,@dcpoint-100;
+		emotion e_dots;
+		show ".........";
+		next;
+L2_6:
+	show "[Bijou]";
+	show "6. ^00FF00Assunto:^000000 Característica da Odalisca.";
+	show "Quais sãos as vantagens da Odalisca com outras vocações.";
+	next;
+	menu "Força Física",L2_7,"Performace do poder de Habilidade",L2_7,"Capacidade de Dançar",-,"Capacidade de Mágica",L2_7;
+		set @dcpoint,@dcpoint+10;
+L2_7:
+	show "[Bijou]";
+	show "7. ^00FF00Assunto:^000000 Lugares ao redor de Comodo.";
+	show "Que é o nome dos gerentes do casino?";
+	next;
+	menu "Martine",L2_8,"Roberto",L2_8,"Moo",-,"Deniroz",L2_8;
+		set @dcpoint,@dcpoint+10;
+L2_8:
+	show "[Bijou]";
+	show "8. ^00FF00Assunto:^000000 Característica da Odalisca.";
+	show "Que artigos a Odalisca não pode se equipa?";
+	next;
+	menu "Faixa de cabelo de gato",L2_9,"Espada de Duas Mãos",-,"Sandálias",L2_9,"Brinco",L2_9;
+		set @dcpoint,@dcpoint+10;
+L2_9:
+	show "[Bijou]";
+	show "9. ^00FF00Assunto:^000000 Opinião.";
+	show "^Você pensa que esse teste esta furado?";
+	next;
+	menu "É",L2_10,"Me dê mais perguntas",-;
+		set @dcpoint,@dcpoint+10;
+L2_10:
+	show "[Bijou]";
+	show "10. ^00FF00Assunto:^000000 Lugares ao redor de Comodo.";
+	show "Quantos faróis existem na Ilha de Comodo?";
+	next;
+	menu "1",-,"2",L_ENDQ,"3",L_ENDQ;
+		set @dcpoint,@dcpoint+10;
+//-------
+L_ENDQ:
+	show "[Bijou]";
+	show "Você terminou o teste, deixa ver quantos pontos você adquiriu......";
+	next;
+	show "[Bijou]";
+	show "Você adquiriu um total de "+@dcpoint+" pontos......";
+	if(@dcpoint >= 80 || (@dcpoint >= 70 && DANC_Q == 6)){
+		if(@dcpoint == 100)
+			show "Isso é surpreendente, 100% correto.";
+		else
+			show "Mesmo que você não acerto todas as perguntas, você passou.";
+		next;
+		show "[Bijou]";
+		show "A próxima coisa que você precisa fazer é passar no teste de phyical, de velocidade.";
+		show "Quando você estiver pronto, converse comigo novamente, eu também posso lhe falar mais sobre o teste antes que você o faça.";
+		set DANC_Q,7;
+		close;
+	}
+	show "Eu vou precisar desqualificar você, por causa de não ter conseguido os pontos exigidos.";
+	next;
+	show "[Bijou]";
+	show "Você pode fazer a prova novamente se você quiser, sem nenhum custo extra.";
+	if(DANC_Q==5) show "Da próxima vez você faz a prova e eu darei um anuncio dizendo quantos pontos você vai precisar para passar, fazendo isto ficará mais fácil para você.";
+	show "Boa sorte na próxima vez.";
+	set DANC_Q,6;
+	close;
+
+L_DANCETEST:
+	show "Você está pronto para este teste? ou você quer que eu o fale primeiro sobre isto?";
+	next;
+	menu "Por favor me explique",-,"Me leve para a área de teste",L_WARP;
+		show "[Bijou]";
+		show "Pense mais como uma audição que um teste.";
+		show "Nós lhe damos ^0000FF1 minuto^000000 para nos impressionar";
+		next;
+		show "[Bijou]";
+		show "Só pode haver ^0000FFuma pessoa^000000 dançando na fase.";
+		next;
+		show "[Bijou]";
+		show "Se há que as pessoas na sua frente, você deve ficar dentro do ^0000FFquanto esperando^000000.";
+		next;
+		show "[Bijou]";
+		show "Clique na janela sobre o guia de sala de espera a ser enviado para a fase da dança, se ouver alguem na sala não poderá entrar, você precisará esperar.";
+		next;
+		show "[Bijou]";
+		show "Quando você começa o estágio, comece na ^0000FFposição poderá da uma olhada ao redor da fase^000000.";
+		next;
+		show "[Bijou]";
+		show "Quando você entra na faze o anuncio irá avisa que o tempo começou.";
+		show "Então eu começarei chamar para que você faça seu exame.";
+		next;
+		show "[Bijou]";
+		show "Você precisa seguir direções rapidamente.";
+		show "^FF0000[ < ]^000000 = Mova à esquerda";
+		show "^FF0000[ > ]^000000 = Mova à direita";
+		show "^FF0000[ * ]^000000 = Volte para o centro da fase";
+		show "^FF0000[ \\/ ]^000000 = Se mova para a frente da fase";
+		show "^FF0000[ /\\ ]^000000 = Mova para cima para a parte de trás da fase";
+		next;
+		show "[Bijou]";
+		show "Há algumas outras coisas que você precisará fazer, seja assim apenas vontade, encerra suas habilidades e arco..";
+		next;
+		show "[Bijou]";
+		show "Não se preocupe se você não souber dança.";
+		close;
+	L_WARP:
+		show "[Bijou]";
+		show "Eu a levarei de volta para organiza, assim você pode fazer o teste!";
+		set DANC_Q,8;
+		close2;
+		warp "job_duncer",104,109;
+		end;
+}
+
+//=Começo da 3ª quest que está aqui, complete e volte ao Bijou para trocar de Classe
+job_duncer,32,152,6	script	Guide::dancew	69,{
+	end;
+OnWarp:
+	warpwaitingpc "job_duncer",70,112,1;
+	set $@DQRID,$@warpwaitingpc[0];
+	if( attachrid($@DQRID)==0 ) goto OnInit;
+	disablewaitingroomevent;
+	initnpctimer "jobDq",1;
+	end;
+OnInit:
+	set $@DQRID,0;
+	waitingroom "Sala de espera para a lição de Odalisca",20,"dancew::OnWarp",1;
+	end;
+}
+
+job_duncer,0,0,0	script	jobDq	-1,{
+	end;
+
+OnStart:
+
+OnTimer1000:
+	mapannounce "job_duncer","Bijou: O teste começou, tempo total permitido é de 1 minuto.",8;
+	end;
+OnTimer3000:
+	mapannounce "job_duncer","Bijou: Pise para cima! [ /\\ ]",8;
+	callsub L_SUB1,2000;
+	end;
+OnTimer7000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Para o fundo.  [ \\/ ]",8;
+	callsub L_SUB5,2000;
+	end;
+OnTimer11000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: À esquerda.  [ < ]",8;
+	callsub L_SUB2,2000;
+	end;
+OnTimer15000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Vá à direita. [ > ]",8;
+	callsub L_SUB4,2000;
+	end;
+OnTimer19000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Volte ao meio. [ * ]",8;
+	callsub L_SUB3,3000;
+	end;
+OnTimer21000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Fique imóvel!",8;
+	end;
+OnTimer26000:
+	set $@DQSP,SP;
+	mapannounce "job_duncer","Bijou: Use 'Concentração'!",8;
+	end;
+OnTimer29000:
+	if($@DQSP==SP) goto OnTimer80000;
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: À esquerda.  [ < ]",8;
+	callsub L_SUB2,2000;
+	end;
+OnTimer33000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Para o fundo.  [ \\/ ]",8;
+	end;
+OnTimer35000:
+	mapannounce "job_duncer","Bijou: Diretamente a direita! [ > ]",8;
+	callsub L_SUB4,3000;
+	end;
+OnTimer38000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Fique imóvel!",8;
+	end;
+OnTimer41000:
+	mapannounce "job_duncer","Bijou: A esquerda * centro * direita * topo [ < ] [ * ] [ > ] [ /\\ ]",8;
+	callsub L_SUB1,0;
+	end;
+OnTimer47000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: À direita.  [ > ] ",8;
+	callsub L_SUB4,3000;
+	end;
+OnTimer50000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: A esquerda * centro * abaixo * para cima:   [ < ] [ * ] [ \\/ ] [ /\\ ] ",8;
+	callsub L_SUB1,0;
+	end;
+OnTimer56000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Novamente, a esquerda * centro * abaixo * para cima:  [ < ] [ * ] [ \\/ ] [ /\\ ]",8;
+	callsub L_SUB1,0;
+	end;
+OnTimer62000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Abaixo!  [ \\/ ]",8;
+	callsub L_SUB5,2500;
+	end;
+OnTimer65000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: À esquerda!  [ < ]",8;
+	callsub L_SUB2,2500;
+	end;
+OnTimer68000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Retorne ao meio. [ * ]",8;
+	callsub L_SUB3,2500;
+	end;
+OnTimer71000:
+	donpcevent "::OnDE1";
+	mapannounce "job_duncer","Bijou: Mate o monstro usando Chuva de Flechas!",8;
+	set $@DQSP,SP;
+	monster "job_duncer",69,106,"Poring",1002,1,"jddie::OnDie";
+	end;
+OnTimer76000:
+	killmonsterall "job_duncer";
+	end;
+OnTimer80000:
+	mapannounce "job_duncer","Odalisca: Você era um bocado lento, desculpe mas você falho",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	if(getareausers("job_duncer",68,106,70,114)) areawarp "job_duncer",68,106,70,114,"job_duncer",69,102;
+	if(getareausers("job_duncer",65,109,73,111)) areawarp "job_duncer",65,109,73,111,"job_duncer",69,102;
+	stopnpctimer;
+	enablewaitingroomevent "dancew";
+	end;
+L_SUB1:
+	disablenpc "lefttile";
+	disablenpc "middletile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	setnpctimer getarg(0),"jdt1";
+	startnpctimer "jdt1";
+	return;
+L_SUB2:
+	disablenpc "uppertile";
+	disablenpc "middletile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	setnpctimer getarg(0),"jdt2";
+	startnpctimer "jdt2";
+	return;
+L_SUB3:
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	setnpctimer getarg(0),"jdt3";
+	startnpctimer "jdt3";
+	return;
+L_SUB4:
+	disablenpc "lefttile";
+	disablenpc "middletile";
+	disablenpc "uppertile";
+	disablenpc "lowertile";
+	setnpctimer getarg(0),"jdt4";
+	startnpctimer "jdt4";
+	return;
+L_SUB5:
+	disablenpc "lefttile";
+	disablenpc "middletile";
+	disablenpc "righttile";
+	disablenpc "uppertile";
+	setnpctimer getarg(0),"jdt5";
+	startnpctimer "jdt5";
+	return;
+}
+
+job_duncer,0,0,0	script	jddie	-1,{
+
+OnDie:
+	if($@DQRID && isloggedin($@DQRID)) {
+		attachrid($@DQRID);
+		if($@DQSP==SP)
+			mapannounce "job_duncer","Odalisca: Desculpe "+strcharinfo(0)+" você falho ao usar a Chuva de Flechas para matar o monstro",8;
+		else {
+			mapannounce "job_duncer","Odalisca: Bem feito, você era muito hábil, e passou no teste.",8;
+			set DANC_Q,9;
+		}
+	}
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+
+	stopnpctimer "jobDq";
+	enablewaitingroomevent "dancew";
+
+	if($@DQRID && isloggedin($@DQRID))
+		warp "job_duncer",69,102;
+
+	set $@DQRID,0;
+	set $@DQSP,0;
+	end;
+}
+job_duncer,63,110,4	script	Odalisca de Fundo #1::jdt1	724,{
+	end;
+OnTimer5000:
+	enablenpc "lefttile";
+	enablenpc "middletile";
+	enablenpc "righttile";
+	enablenpc "lowertile";
+	stopnpctimer;
+	end;
+OnDE1:
+	emotion	e_no1;
+	end;
+OnDE2:
+	emotion e_omg;
+	end;
+}
+job_duncer,66,113,4	script	Odalisca de Fundo #2::jdt2	724,{
+	end;
+OnTimer5000:
+	enablenpc "uppertile";
+	enablenpc "middletile";
+	enablenpc "righttile";
+	enablenpc "lowertile";
+	stopnpctimer;
+	end;
+OnDE1:
+	emotion	e_no1;
+	end;
+OnDE2:
+	emotion e_omg;
+	end;
+}
+job_duncer,72,113,4	script	Odalisca de Fundo #3::jdt3	724,{
+	end;
+OnTimer5000:
+	enablenpc "lefttile";
+	enablenpc "uppertile";
+	enablenpc "righttile";
+	enablenpc "lowertile";
+	stopnpctimer;
+	end;
+OnDE1:
+	emotion	e_no1;
+	end;
+OnDE2:
+	emotion e_omg;
+	end;
+}
+job_duncer,75,110,4	script	Odalisca de Fundo #4::jdt4	724,{
+	end;
+OnTimer5000:
+	enablenpc "lefttile";
+	enablenpc "middletile";
+	enablenpc "uppertile";
+	enablenpc "lowertile";
+	stopnpctimer;
+	end;
+OnDE1:
+	emotion	e_no1;
+	end;
+OnDE2:
+	emotion e_omg;
+	end;
+}
+
+job_duncer,75,110,4	script	jdt5	139,{
+	end;
+OnTimer5000:
+	enablenpc "lefttile";
+	enablenpc "middletile";
+	enablenpc "righttile";
+	enablenpc "uppertile";
+	stopnpctimer;
+	end;
+}
+
+job_duncer,69,113,4	script	uppertile	139,1,1,{
+	end;
+OnTouch:
+	mapannounce "job_duncer","Odalisca: Desculpe "+strcharinfo(0)+" você falho.",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	enablewaitingroomevent "dancew";
+	stopnpctimer "jobDq";
+	areawarp "job_duncer",68,112,70,114,"job_duncer",69,102;
+	donpcevent "::OnDE2";
+	end;
+OnDE1:
+OnInit:
+	disablenpc "uppertile";
+	end;
+}
+job_duncer,66,110,4	script	lefttile	139,1,1,{
+	end;
+OnTouch:
+	mapannounce "job_duncer","Odalisca: Desculpe "+strcharinfo(0)+" você falho.",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	enablewaitingroomevent "dancew";
+	stopnpctimer "jobDq";
+	areawarp "job_duncer",65,109,67,111,"job_duncer",69,102;
+	donpcevent "::OnDE2";
+	end;
+OnDE1:
+OnInit:
+	disablenpc "lefttile";
+	end;
+}
+
+job_duncer,69,110,4	script	middletile	139,1,1,{
+	end;
+OnTouch:
+	mapannounce "job_duncer","Odalisca: Desculpe "+strcharinfo(0)+" você falho.",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	enablewaitingroomevent "dancew";
+	stopnpctimer "jobDq";
+	areawarp "job_duncer",68,109,70,111,"job_duncer",69,102;
+	donpcevent "::OnDE2";
+	end;
+OnDE1:
+OnInit:
+	disablenpc "middletile";
+	end;
+}
+
+job_duncer,72,110,4	script	righttile	139,1,1,{
+	end;
+OnTouch:
+	mapannounce "job_duncer","Odalisca: Desculpe "+strcharinfo(0)+" você falho.",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	enablewaitingroomevent "dancew";
+	stopnpctimer "jobDq";
+	areawarp "job_duncer",71,109,73,111,"job_duncer",69,102;
+	donpcevent "::OnDE2";
+	end;
+OnDE1:
+OnInit:
+	disablenpc "righttile";
+	end;
+}
+
+job_duncer,69,107,4	script	lowertile	139,1,1,{
+	end;
+OnTouch:
+	mapannounce "job_duncer","Odalisca: Desculpe  "+strcharinfo(0)+" você falho.",8;
+	disablenpc "uppertile";
+	disablenpc "lefttile";
+	disablenpc "righttile";
+	disablenpc "lowertile";
+	disablenpc "middletile";
+	enablewaitingroomevent "dancew";
+	stopnpctimer "jobDq";
+	areawarp "job_duncer",68,106,70,108,"job_duncer",69,102;
+	donpcevent "::OnDE2";
+	end;
+OnDE1:
+OnInit:
+	disablenpc "lowertile";
+	end;
+}

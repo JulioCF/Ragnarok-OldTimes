@@ -1,0 +1,300 @@
+//===== Cronus Script ======================================== 
+//= Quest de Carnaval (bRO)
+//===== Por: =================================================
+//= Page
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Quest de Carnaval do bRO 2007
+//===== Comentários: =========================================
+//= Favor adicionar as Perucas que são dadas como premiação
+//= na sua item_db, ou poderá causar erros e instabilidade.
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o NPC [Page]
+//= 1.1 Corrigido algumas funções [Page]
+//= 1.2 Adicionado modo de checagem [Page]
+//============================================================
+
+prontera.gat,120,112,0	script	Janette	729,{
+
+	show "[Janette]";
+	if(holiday0207_p1 == 1) {
+	show "Já experimentou";
+	show "a peruca que eu fiz?";
+	show "Hoho";
+	close;
+	}
+	show "O festival do Carnaval está";
+	show "chegando. Quero que vocês todos";
+	show "se divirtam muito usando uma";
+	show "peruca especial durante a festa.";
+	show "E, especialmente nesta época,";
+	show "eu fiz uma linda peruca para você.";
+	next;
+	show "[Janette]";
+	show "Gostaria de participar do evento";
+	show "de carnaval?";
+	next;
+	menu "Sim.",L_CHECKYES,"Não.",L_CHECKNO;
+
+	L_CHECKYES:
+		show "[Janette]";
+		show "Isso é bom!";
+		show "Eu posso fazer 4 tipos de peruca.";
+		show "Você pode escolher uma delas!";
+		show "Mas você precisa me trazer os";
+		show "materiais para eu fazer a sua";
+		show "peruca!";
+		next;
+		show "[Janette]";
+		show "É claro, eu posso fazer uma";
+		show "peruca agora mesmo, se você";
+		show "tiver os materiais.";
+		show "Por favor, escolha a peruca";
+		show "que você quer usar.";
+		next;
+		menu "Peruca Feliz",L_PHAPPY,"Peruca Brilhante",L_PBRILLIANT,"Peruca Maravilhosa",L_PWONDERFUL,"Peruca Fantástica",L_PFANTASTIC;
+
+	L_CHECKNO:
+		show "[Janette]";
+		show "Então, esquece!";
+		close;
+
+	L_PHAPPY:
+		show "[Janette]";
+		if(countitem(511) >= 50 || countitem(507) >= 40 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(717) >= 1) goto L_PHAPPY2;
+		show "Hehe, você escolheu uma boa.";
+		show "Mas você ainda não trouxe os";
+		show "materiais que preciso para";
+		show "fazer a peruca.";
+		show "Não se esqueça, você deve trazer";
+		show "50 Ervas Verdes, 40 Ervas";
+		show "Vermelhas, 30 Ervas Brancas,";
+		show "5 Troncos e 1 Gema Azul.";
+		show "Então, eu farei a peruca para";
+		show "você.";
+		close;
+
+	L_PBRILLIANT:
+		show "[Janette]";
+		if(countitem(508) >= 50 || countitem(509) >= 20 || countitem(1019) >= 5 || countitem(715) >= 1) goto L_PBRILLIANT2;
+		show "Hehe, você escolheu uma boa.";
+		show "Mas você ainda não trouxe os";
+		show "materiais que preciso para";
+		show "fazer a peruca.";
+		show "Não se esqueça, você deve trazer";
+		show "50 Ervas Amarelas, 20 Ervas";
+		show "Brancas, 5 Troncos e 1 Gema";
+		show "Amarela.";
+		show "Então, eu farei a peruca para";
+		show "você.";
+		close;
+
+		L_PWONDERFUL:
+			show "[Janette]";
+			if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(716) >= 1) goto L_PWONDERFUL2;
+			show "Hehe, você escolheu uma boa.";
+			show "Mas você ainda não trouxe os";
+			show "materiais que preciso para";
+			show "fazer a peruca.";
+			show "Não se esqueça, você deve trazer";
+			show "50 Ervas Vermelhas, 30 Ervas";
+			show "Brancas, 5 Troncos e 1 Gema";
+			show "Vermelha.";
+			show "Então, eu farei a peruca para";
+			show "você.";
+			close;
+
+		L_PFANTASTIC:
+			show "[Janette]";
+			if(countitem(507) >= 50 || countitem(509) >= 30 || countitem(1019) >= 5 || countitem(1024) >= 5) goto L_PFANTASTIC2;
+			show "Hehe, você escolheu uma boa.";
+			show "Mas você ainda não trouxe os";
+			show "materiais que preciso para";
+			show "fazer a peruca.";
+			show "Não se esqueça, você deve trazer";
+			show "50 Ervas Vermelhas, 30 Ervas";
+			show "Brancas, 5 Troncos e 5 Tintas";
+			show "de Polvo.";
+			show "Então, eu farei a peruca para";
+			show "você.";
+			close;
+
+			L_PHAPPY2:
+				show "Ah, você trouxe todos os";
+				show "materiais necessários e";
+				show "eu vou usá-los para fazer";
+				show "essa peruca.";
+				show "Você quer que eu faça";
+				show "a peruca agora?";
+				next;
+				menu "Sim, eu quero.",L_PHAPPY3,"Não, eu não quero.",L_CLOSE2;
+
+			L_PBRILLIANT2:
+				show "Ah, você trouxe todos os";
+				show "materiais necessários e";
+				show "eu vou usá-los para fazer";
+				show "essa peruca.";
+				show "Você quer que eu faça";
+				show "a peruca agora?";
+				next;
+				menu "Sim, eu quero.",L_PBRILLIANT3,"Não, eu não quero.",L_CLOSE2;
+
+			L_PWONDERFUL2:
+				show "Ah, você trouxe todos os";
+				show "materiais necessários e";
+				show "eu vou usá-los para fazer";
+				show "essa peruca.";
+				show "Você quer que eu faça";
+				show "a peruca agora?";
+				next;
+				menu "Sim, eu quero.",L_PWONDERFUL3,"Não, eu não quero.",L_CLOSE2;
+
+			L_PFANTASTIC2:
+				show "Ah, você trouxe todos os";
+				show "materiais necessários e";
+				show "eu vou usá-los para fazer";
+				show "essa peruca.";
+				show "Você quer que eu faça";
+				show "a peruca agora?";
+				next;
+				menu "Sim, eu quero.",L_PFANTASTIC3,"Não, eu não quero.",L_CLOSE2;
+
+		L_PHAPPY3:
+			show "[Janette]";
+			show "Boa escolha!";
+			show "Vou fazer uma 'Peruca Feliz' para";
+			show "você.";
+			next;
+			show "Rip";
+			next;
+			show "Rip Tac";
+			next;
+			show "Rip Tac";
+			show "Tic tac";
+			next;
+			show "Rip Rip";
+			show "Tic tac Tic tac";
+			next;
+			show "[Janette]";
+			delitem 511,50;
+			delitem 507,40;
+			delitem 509,30;
+			delitem 1019,5;
+			delitem 717,1;
+			additem 5273,1;
+			set holiday0207_p1,1;
+			show "Certo, está pronta.";
+			show "O quê você acha? Não acha que sou";
+			show "uma boa fabricante de perucas?";
+			show "Eu faço essa peruca de graça, para";
+			show "aproveitarmos o carnaval juntos.";
+			show "Por favor, use-a durante uma";
+			show "festa.";
+			close;
+
+
+		L_PBRILLIANT3:
+			show "[Janette]";
+			show "Boa escolha!";
+			show "Vou fazer uma 'Peruca Brilhante'";
+			show "para você.";
+			next;
+			show "Rip";
+			next;
+			show "Rip Tac";
+			next;
+			show "Rip Tac";
+			show "Tic tac";
+			next;
+			show "Rip Rip";
+			show "Tic tac Tic tac";
+			next;
+			show "[Janette]";
+			delitem 508,50;
+			delitem 509,20;
+			delitem 1019,5;
+			delitem 715,1;
+			additem 5274,1;
+			set holiday0207_p1,1;
+			show "Certo, está pronta.";
+			show "O quê você acha? Não acha que sou";
+			show "uma boa fabricante de perucas?";
+			show "Eu faço essa peruca de graça, para";
+			show "aproveitarmos o carnaval juntos.";
+			show "Por favor, use-a durante uma";
+			show "festa.";
+			close;
+
+	L_PWONDERFUL3:
+		show "[Janette]";
+		show "Boa escolha!";
+		show "Vou fazer uma 'Peruca Maravilhosa'";
+		show "para você.";
+		next;
+		show "Rip";
+		next;
+		show "Rip Tac";
+		next;
+		show "Rip Tac";
+		show "Tic tac";
+		next;
+		show "Rip Rip";
+		show "Tic tac Tic tac";
+		next;
+		show "[Janette]";
+		delitem 507,50;
+		delitem 509,30;
+		delitem 1019,5;
+		delitem 716,1;
+		additem 5275,1;
+		set holiday0207_p1,1;
+		show "Certo, está pronta.";
+		show "O quê você acha? Não acha que sou";
+		show "uma boa fabricante de perucas?";
+		show "Eu faço essa peruca de graça, para";
+		show "aproveitarmos o carnaval juntos.";
+		show "Por favor, use-a durante uma";
+		show "festa.";
+		close;
+
+	L_PFANTASTIC3:
+		show "[Janette]";
+		show "Boa escolha!";
+		show "Vou fazer uma 'Peruca Fantástica'";
+		show "para você.";
+		next;
+		show "Rip";
+		next;
+		show "Rip Tac";
+		next;
+		show "Rip Tac";
+		show "Tic tac";
+		next;
+		show "Rip Rip";
+		show "Tic tac Tic tac";
+		next;
+		show "[Janette]";
+		delitem 507,50;
+		delitem 509,30;
+		delitem 1019,5;
+		delitem 1024,5;
+		additem 5276,1;
+		set holiday0207_p1,1;
+		show "Certo, está pronta.";
+		show "O quê você acha? Não acha que sou";
+		show "uma boa fabricante de perucas?";
+		show "Eu faço essa peruca de graça, para";
+		show "aproveitarmos o carnaval juntos.";
+		show "Por favor, use-a durante uma";
+		show "festa.";
+		close;
+
+
+L_CLOSE2:
+	show "[Janette]";
+	show "Não seja bobo. Muito bem, se mudar";
+	show "de idéia, volte aqui!";
+	close;
+
+}

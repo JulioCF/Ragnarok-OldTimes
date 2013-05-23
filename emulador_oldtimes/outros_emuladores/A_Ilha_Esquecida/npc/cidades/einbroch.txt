@@ -1,0 +1,948 @@
+//===== Cronus Script ======================================== 
+//= Einbroch Npcs
+//===== Por: =================================================
+//= eAthena Dev Team
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Npcs da cidade de Einbroch
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o script [eAthena Dev Team]
+//= 1.1 Iniciada a tradução [vdg007]
+//= 1.2 Terminado a tradução [UpTroni]
+//============================================================
+
+einbroch,220,208,5	script	Quadro de Notícias#ein	858,{
+	show "[Entrada da Loja de Armas]";
+	close;
+}
+
+einbroch,183,174,5	script	Quadro de Avisos#ein	858,{
+	show "Leste - Loja de Armas, Hotel";
+	show "Sul - Fábrica";
+	show "Sudoeste - Loja de Reparos de Dirigíveis,";
+	show "Laboratório";
+	show "Noroeste - Aeroporto";
+	close;
+}
+
+einbroch,244,255,5	script	Quadro de Avisos#ein2	858,{
+	show " ";
+	show " Estração de Trem";
+	close;
+}
+	
+einbroch,68,206,5	script	Quadro de Avisos#ein3	858,{
+	show " ";
+	show "Aeroporto de Dirigíveis";
+	close;
+}
+	
+einbroch,162,256,5	script	Quadro de Avisos#ein04	858,{
+	show "Leste - Estação de Trem";
+	show "Sudeste - Hotel";
+	show "Sul - Loja de Armas, Fábrica";
+	show "Sudoeste - Aeroporto, Loja de Reparos de Dirigível";
+	show "Shopping, Laboratório";
+	close;
+}
+
+einbroch,235,141,5	script	Quadro de Avisos#ein05	858,{
+	show "Sudoeste- Loja de Reparos de Dirigíveis,";
+	show "Laboratório";
+	show "Noroeste- Aeroporto";
+	show "Noroeste- Loja de armas, Hotel, Estação";
+	show "de Trem";
+	close;
+}
+
+//===== NPCs da Cidade ===========================================
+function	script	Ein_Tower	{
+	show "["+ @Tower_Name$ +"]";
+	show "Bom dia~";
+	show "Eu sou " + @Tower_Name$ +", seu";
+	show "guia na exploração";
+	show "da Torre de Einbroch.";
+	next;
+	show "["+ @Tower_Name$ +"]";
+	show "A Torre de Einbroch oferece";
+	show "a melhor visão da nossa cidade";
+	show "e é um otímo lugar para";
+	show "conhecer novos amigos ou para";
+	show "um encontro. Para entrar na Torre de Einbroch";
+	show "você precisa pagar 10 zenys.";
+	next;
+	show "["+ @Tower_Name$ +"]";
+	show "No momento, nós estamos oferecendo";
+	show "uma promoção especial chamada";
+	show "o Kit Especial da Maçã apenas por";
+	show "20 zenys. Esse kit inclui";
+	show "a entrada para a Torre de Einbroch";
+	show "e uma maçã para você comer durante a sua visita.";
+	next;
+	menu "Apenas a entrada para a Torre",s_Tower,"Kit Especial da Maçã",s_Apple,"Cancelar",-;
+
+	show "["+ @Tower_Name$ +"]";
+	show "Bem, ok.";
+	show "Sinta-se a vontade";
+	show "para voltar a qualquer";
+	show "hora. Obrigado.";
+	close2;
+	return;
+	
+s_Tower:
+	if(Zeny < 10)goto s_NEnough;
+	set Zeny,Zeny - 10;
+s_Tower2:
+	show "["+ @Tower_Name$ +"]";
+	show "Obrigado por usar";
+	show "nossos serviços.";
+	show "Deixe me guiar você para";
+	show "a torre agora.";
+	close2;
+	warp "einbroch",174,204;
+	return;
+	
+s_Apple:
+	if(Zeny < 20)goto s_NEnough;
+	set Zeny,Zeny - 20;
+	show "["+ @Tower_Name$ +"]";
+	show "Antes de eu te levar para";
+	show "a torre, deixe me checar";
+	show "sua saúde para garantir";
+	show "sua segurançar antes de te dar";
+	show "o Kit Especial da Maçã.";
+	next;
+	additem 512,1;
+	goto s_Tower2;
+	
+s_NEnough:
+	show "["+ @Tower_Name$ +"]";
+	show "Me desculpe mas você não tem";
+	show "dinheiro suficiente para pagar pelos";
+	show "nossos serviços.";
+	close2;
+	return;
+}
+	
+einbroch,176,172,5	script	Khemko#ein	855,{
+	set @Tower_Name$,"Khemko";
+	callfunc "Ein_Tower";
+	end;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Khemko";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,218,198,5	script	Mark#ein	855,{
+	set @Tower_Name$,"Mark";
+	callfunc "Ein_Tower";
+	end;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Mark";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,174,228,5	script	Oberu#ein	855,{
+	set @Tower_Name$,"Oberu";
+	callfunc "Ein_Tower";
+	end;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Oberu";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,175,196,5	script	Morei#ein	854,{
+	show "[Morei]";
+	show "Bem Vindo,";
+	show "Eu sou Morei,";
+	show "Guia de Assitência";
+	show "da Torre de Einbroch.";
+	next;
+	show "[Morei]";
+	show "Se você quiser voltar";
+	show "para po andar de baixo,";
+	show "apenas me avise.";
+	show "Você gostaria de voltar";
+	show "para o andar de baixo?";
+	next;
+	menu "Sim.",s_Goback,"Não.",-;
+
+	show "[Morei]";
+	show "Entendi.";
+	show "eu espero que você";
+	show "aproveite sua visita";
+	show "a Torre de Einbroch.";
+	close;
+s_Goback:
+	show "[Morei]";
+	show "Entendi.";
+	show "Deixe que eu o leve";
+	show "ao andar de baixo.";
+	show "Muito obrigado por usar";
+	show "os nossos serviços.";
+	close2;
+	switch(rand(3)){
+	case 0:
+		warp "einbroch",218,196;
+		end;
+	case 1:
+		warp "einbroch",178,172;
+		end;
+	case 2:
+		warp "einbroch",172,228;
+		end;
+	}
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Morei";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,208,208,3	script	Kesunboss#ein	850,{
+	show "[Kesunboss]";
+	show "Lady Calla é o";
+	show "resumo de elegância,";
+	show "uma verdadeira deusa";
+	show "de Einbroch";
+	next;
+	show "[Kesunboss]";
+	show "Sua voz suave,";
+	show "aquele sorriso angelical,";
+	show "gentil e cordial";
+	show "com outras pessoas";
+	show "e acima de tudo...";
+	next;
+	show "[Kesunboss]";
+	show "A família de Calla";
+	show "e rica além da imaginação";
+	show "Ela é perfeita!";
+	show "Eu não sei com quem ela irá casar,";
+	show "mas ele seria";
+	show "um cavalheiro de sorte, eu estou certo.";
+	next;
+	show "[Kesunboss]";
+	show "Lady Calla vive em uma magnífica ";
+	show "mansão que faz as outras casas";
+	show "parecerem um barraco em comparação.";
+	show "Vá para o norte e então oeste daqui";
+	show "se você deseja se maravilhar em sua here";
+	show "beleza e elegância.";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Kesunboss";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+
+einbroch,232,255,5	script	Khowropher#ein	847,{
+	show "[Khowropher]";
+	show "^6A6A6A*Cough cough*^000000";
+	show "Jiminy! O ar aqui";
+	show "esta grosso e sujo!";
+	show "Ele é pior para nós pessoas";
+	show "velhas com problemas de respiração!";
+	show "^111111*Haaack*^000000";
+	next;
+	show "[Khowropher]";
+	show "Eu não me importo se mantiverem";
+	show "a construção de mais e mais";
+	show "fábricas neste lugar.";
+	show "Eu gostaria de passar";
+	show "o resto da minha vida em algum lugar";
+	show "tranqüilo e com ar limpo...";
+	next;
+	show "[Khowropher]";
+	show "Mas por outro lado, Einbroch";
+	show " é minha cidade natal e não posso apenas levantar";
+	show "e partir. Eu suponho que é meu";
+	show "destino sofrer por este ar sujo";
+	show "até o dia da minha morte. ^6A6A6A*Sigh...*";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Khowropher";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+
+}
+
+einbroch,259,327,5	script	Leslie#ein	846,{
+	show "[Leslie]";
+	show "^6A6A6A*Cough cough*^000000";
+	show "Vantagens!";
+	next;
+	show "[Leslie]";
+	show "Uma mulher velha me contou";
+	show "que não pode respirar este ar!";
+	show "Como as pessoas vivem com toda essa fumaça?";
+	show "Claro, o ar de Einbech";
+	show "não é puro, mas o ar aqui em";
+	show "Einbroch é muito pior! ^111111*Cough~!*^000000";
+	next;
+	show "[Leslie]";
+	show "Eu odeio vir aqui!";
+	show "O ar é totalmente";
+	show "poluido e esta cidade";
+	show "é cheia de obstáculos!";
+	show "Mas eles vendem coisas aqui";
+	show "eu não consigo comprar novamente...";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Leslie";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+
+einbroch,232,272,3	script	Equipe da Estação#01::EinbrochTrain	852,{
+	show "[Equipe]";
+	show "Bem vindo";
+	show "à Estação de Trem.";
+	show "Os trens para Einbech";
+	show "estão sempre saindo";
+	show "então se você perder um,";
+	show "não tem problema.";
+	next;
+	show "[Equipe]";
+	show "A taxa para poder se embacar";
+	show "no trem que vai de Einbroch";
+	show "para Einbech é de 200 zenys.";
+	show "Você gostaria de comprar um ticket?";
+	next;
+	menu "Sim.",s_Yes,"Não.",-,"Sobre a natureza...",s_Enviroment;
+
+	show "[Equipe]";
+	show "Muito bem, então.";
+	show "Por favor aproveite sua";
+	show "estadia em Einbroch.";
+	close;
+s_Yes:
+	show "[Equipe]";
+	if(Zeny < 200){
+		show "Me desculpe";
+		show "mas você não tem dinheiro";
+		show "suficiente para pagar a taxa.";
+		close;
+	}
+	set Zeny,Zeny - 200;
+	show "Muito Obrigado";
+	show "Tenha um desembarque seguro.";
+	show "^111111*Ahem*^000000 Todos a bordo!";
+	close2;
+	warp "einbech",43,215;
+	end;
+s_Enviroment:
+	show "[Equipe]";
+	show "Einbroch tem má fama pelo";
+	show "seu ar poluído, sem dúvida";
+	show "caudado pelas facilidades";
+	show "industriais que tem aqui.";
+	show "Isso é realmente terrivel...";
+	next;
+	show "[Equipe]";
+	show "Algunas vezes a poluição do ar";
+	show "fica tão ruim que é dificil";
+	show "para respirar. Se você ouvir";
+	show "o Alerta de Poluição de Einbroch,";
+	show "procure um abrigo imediatamente!";
+	close;
+
+OnHide:
+	specialeffect 16;
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,252,301,3	duplicate(EinbrochTrain)	Equipe da Estação#ein	852
+
+einbroch,228,121,5	script	Pequeno Toby#ein	855,{
+	show "[Pequeno Toby]";
+	show "Me desculpe...";
+	show "Mas eu estou perdido!";
+	show "Não consigo achar";
+	show "minha mãe ou meu pai!";
+	next;
+	show "[Pequeno Toby]";
+	show "E-eu no aeroporto?!";
+	show "Meus pais deviam ter vindo";
+	show "me pegar, mas eu ainda";
+	show "não consegui achar eles! Nós acabamos";
+	show "de chegar aqui, então eu não sei";
+	show "onde nada se encontra!";
+	next;
+	show "[Pequeno Toby]";
+	show "E-espere!";
+	show "Aonde você está";
+	show "indo?! Não me deixe";
+	show "aqui, eu estou completamente sozinho...!";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Pequeno Toby";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+	
+einbroch,229,149,3	script	Sleik#ein	854,{
+	show "[Sleik]";
+	show "Surpreendentemente, nós temos";
+	show "uma Estação de Trem que todos";
+	show "tem chamado uma vitória para";
+	show "ciencia. Eu quero dizer, que nós";
+	show "não devemos ficar pasmados com o dirigável";
+	next;
+	show "[Sleik]";
+	show "Agora, se você deseja saber";
+	show "onde o trem realmente vai";
+	show "Eu não poderia contar pra você.";
+	show "Apesar de tudo, eu nunca o peguei.";
+	show "mas ainda, eu suponho que ter nossa propria";
+	show "Estação de Trem é uma coisa boa";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Sleik";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+
+einbroch,236,191,3	script	Tan#ein	855,{
+	show "[Tan]";
+	show "Todas as fábricas";
+	show "aqui em Einbroch estão";
+	show "causando um serio problema";
+	show "de poluição do ar.";
+	next;
+	show "[Tan]";
+	show "Eu sou um engenheiro de dirigível e";
+	show "todo dia, o dia todo, Eu lido";
+	show "com manchas de óleo e todo tipo";
+	show "de poluentes. Eu estou surpreso";
+	show "de nunca tem ficado doente...";
+	next;
+	show "[Tan]";
+	show "Apesar disso, eu tento ter cuidado";
+	show "quando eu posso. Sempre que eu saio";
+	show "na névoa vermelha desta cidade,";
+	show "Eu sempre uso minha Máscara Cirúrgica.";
+	show "Se você for ficar aqui um tempo,";
+	show "deveria levar uma com você.";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Tan";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+
+ein_in01,31,217,3	script	Cendadt#ein	851,{
+
+	show "[Cendadt]";
+	show "Esta fábrica tem muitas";
+	show "coisas que precisam ser consertadas,";
+	show "pronto! Eu estou surpreso que";
+	show "ela ainda esteja em funcionamento!";
+	next;
+	show "[Cendadt]";
+	show "Sorte nossa, eu sei que";
+	show "alguns aventureiros generosos";
+	show "tem doado materiais";
+	show "para ajudar manter estaa fábrica";
+	show "longe da falência... ou pior.";
+	show "Mas são apenas rumores.";
+	next;
+	show "[Cendadt]";
+	show "^6A6A6A*Sigh*^000000";
+	show "Mesmo se for verdade,";
+	show "ninguém pode fazer nada";
+	show "Ninguem tem coragem";
+	show "para desafiar o sistema,";
+	show "você entende?";
+	next;
+	show "[Cendadt]";
+	show "Eu...";
+	show "Melhor eu";
+	show "voltar ao trabalho";
+	show "antes que eu arrume";
+	show "problemas...";
+	close;
+
+}
+
+ein_in01,36,204,3	script	Rombell#ein	851,{
+
+	show "[Rombell]";
+	show "Está claro que a";
+	show "fábrica esta fazendo bons";
+	show "negócios e tendo";
+	show "um bom lucro, ma eu tenho";
+	show "apenas uma grande preocupação.";
+	next;
+	show "[Rombell]";
+	show "A quantidade de poluição";
+	show "que ste lugar esta causando";
+	show "é horrível! Nós temos que";
+	show "parar essas máquinas que soltam";
+	show "gases tóxicos duranto todo dia!";
+	show "O ar não pode ser salvo por muito tempo...";
+	next;
+	show "[Rombell]";
+	show "Quero dizer, o ar que nós";
+	show "respiramos agora é";
+	show "muito sujo e as coisas";
+	show "estão ficando piores";
+	show "Como nós podemos";
+	show "resolver este problema?";
+	close;
+
+}
+
+ein_in01,49,202,3	script	Dorf#ein	851,{
+
+	show "[Dorf]";
+	show "Máquinas são muitooo";
+	show "conveniente. Apenas olhe";
+	show "como este aparelho faz facilmente";
+	show "as tarefas que seria dificil";
+	show "para mim terminar sozinho";
+	next;
+	show "[Dorf]";
+	show "Agora é isso que";
+	show "eu chamo de tecnologia!";
+	show "Claro, exige muito esforço e";
+	show "dinheiro para fazer uma";
+	show "desta, mas o que me importa?";
+	next;
+	show "[Dorf]";
+	show "Eu não tenho nenhum problema,";
+	show "enquanto esta coisa louca";
+	show "se mantém funcionando por um bom tempo";
+	show "Eu quero isso!";
+	close;
+
+}
+
+ein_in01,48,220,3	script	Lowe#ein	851,{
+
+	show "[Lowe]";
+	show "...";
+	next;
+	show "[Lowe]";
+	show "...";
+	show "......";
+	next;
+	show "[Lowe]";
+	show "...";
+	show "......";
+	show ".........";
+	next;
+	show "[Lowe]";
+	show "Ei. Porque você";
+	show "esta olhando para mim";
+	show "assim? Não é permitido";
+	show "conversar no trabalho.";
+	show "Se Canphotii o pegar";
+	show "você, você será punido";
+	next;
+	show "[Lowe]";
+	show "Oh espere...";
+	show "Você não trabalha aqui.";
+	show "Me desculpe, aquele tipo";
+	show "de reação e um velho";
+	show "hábito para mim, aventureiro.";
+	close;
+
+}
+
+ein_in01,43,253,4	script	Canphotii#ein	852,{
+
+	show "[Canphotii]";
+	show "Rápido, Rápido!";
+	show "Venha rápido!";
+	show "Qualquer um trabalhando muito";
+	show "devagar será punido!";
+	next;
+	show "[Canphotii]";
+	show "Você não consegue entender";
+	show "isso?! Agora vá para seu";
+	show "posto e volte a trabalhar!";
+	show "Espere, você é mesmo";
+	show "um empregado? Se não, pare";
+	show "de vagar por aqui!";
+	next;
+	show "[Canphotii]";
+	show "Você não supõem";
+	show "que pode entrar aqui!";
+	show "Eu não posso acreditar que eles te";
+	show "deixaram entrar! Isso exige uma";
+	show "extrema ação disciplinar!";
+	close;
+
+}
+
+ein_in01,68,209,4	script	Khashurantze#ein	852,{
+
+	show "[Khashurantze]";
+	show "Eu sinto muito, mas você precisa ";
+	show "de uma autorização especial para";
+	show "poder entrar aqui. Eu terei que";
+	show "pedir para que saia imediatamente.";
+	if(EinFactory > 0){
+		next;
+		show "[Khashurantze]";
+		show "Anh? Sr. Zelmeto pediu para que você ajudasse?";
+		show "Nesse caso me desculpe.";
+		close;
+	}
+	close2;
+	warp "einbroch",179,63;
+	end;
+
+}
+
+ein_in01,113,211,3	script	Treinz#ein	851,{
+
+	show "[Treinz]";
+	show "Se você me pagar algum dinheiro,";
+	show "Eu serei seu escravo! Não há";
+	show "nada que eu não farei! Qualquer";
+	show "coisa idiota. Inferno, Eu vou ficar";
+	show "pelado se vc me pagar bastante.";
+	next;
+	show "[Treinz]";
+	show "Se você pagar o que eu";
+	show "valho, Eu trabalharei duro";
+	show "para qualquer tarefa que você me der.";
+	show "Claro, minerar é dificil, mas";
+	show "enquanto estiver entrado zeny's,";
+	show "eu fico feliz. Heh heh heh~";
+	close;
+}
+
+ein_in01,84,218,3	script	Tsuen#ein	851,{
+
+	show "[Tsuen]";
+	show "Havia um tempo";
+	show "quando eu sonhava em ser";
+	show "um aventureiro,";
+	show "como você. Mas isso";
+	show "era a muito tempo atrás...";
+	next;
+	show "[Tsuen]";
+	show "Agora, Não sou nada mais";
+	show "que um gerente de fábrica. Tranqüilo,";
+	show "mesmo se meu trabalho não fosse";
+	show "grande, eu ficaria muito satisfeito.";
+	show "Estou certo que as pessoas enjoy";
+	show "os produtos eu inspeciono tudo...";
+	next;
+	show "[Tsuen]";
+	show "Talvez minha vida foi";
+	show "destinada a isso, mesmo se";
+	show "não é como eu planejei. Mas virá";
+	show "o tempo que eu vou partir";
+	show "e viajar pelo mundo";
+	show "vou ter minha chance!";
+	next;
+	show "[Tsuen]";
+	show "Eu espero chegar";
+	show "o dia quando eu poderei sair";
+	show "nesse mundo grande";
+	show "e o cumprimentar";
+	show "como um aventureiro.";
+	close;
+}
+
+ein_in01,85,261,3	script	Zherin#ein	851,{
+
+	show "[Zherin]";
+	show "Eu sou responsável por este";
+	show "fornalha qual";
+	show "contém todo este";
+	show "magma fervente.";
+	next;
+	show "[Zherin]";
+	show "Mesmo que não";
+	show "requeira todo esforço, este";
+	show "trabalho é muito cansativo. Eu tenho";
+	show "que prestar atenção todo o tempo.";
+	show "è muito estressante.";
+	next;
+	show "[Zherin]";
+	show "Apesar disso, eu estou orgulhoso do";
+	show "meu trabalho pois eu tenho a reponsabilidade";
+	show "de garantir a segurança dos funcionários.";
+	show "De qualquer forma, não fique tão perto";
+	show "da fornalha. Se você não quiser";
+	show "se queimar acidentalmente!";
+	close;
+}
+
+ein_in01,64,271,3	script	Vonstein#ein	851,{
+
+	show "[Vonstein]";
+	show "Olhando este metal";
+	show "liquído quente e borbulante";
+	show "me dá uma sensação boa";
+	show "por dentro. É como se isto";
+	show "podesse dereter qualquer coisa!";
+	next;
+	show "[Vonstein]";
+	show "Imagine cobrir uma rua";
+	show "cheia de pessoas com";
+	show "esse material! Bwahah--";
+	show "Oh, me desculpe se eu estiver";
+	show "falando besteira! Es estava brincando~";
+	close;	
+}
+
+ein_in01,33,275,9	script	Pevtatin#ein	848,{
+
+	show "[Pevtatin]";
+	show "Bom Deus!";
+	show "Eu estou tão estressado!";
+	show "Nunca parei desde";
+	show "que eu vim aqui!";
+	next;
+	show "[Pevtatin]";
+	show "O trabalho é duro e";
+	show "agora o chefe me odeia!";
+	show "Eu não vim aqui";
+	show "para isto! Aida que, o pagamento";
+	show "seja decente como eu acho, Eu deveria";
+	show "permanecer apenas por pouco tempo.";
+	next;
+	show "[Pevtatin]";
+	show "Saia daqui...!";
+	show "Yo-heave-ho!";
+	show "Yo-heave-ho~!";
+	close;
+}
+
+ein_in01,87,237,3	script	Dinje#ein	850,{
+
+	show "[Dinje]";
+	show "Você sabe o porquê uma mulher";
+	show "como eu tem que trabalhar nesta";
+	show "fábrica? Eu contarei o porquê...";
+	next;
+	show "[Dinje]";
+	show "Meu marido preguiçoso, Gesin,";
+	show "é apenas um mentiroso nesta terra!";
+	show "Então eu tenho que trabalhar";
+	show "para nos sustentar!";
+	next;
+	show "[Dinje]";
+	show "Nós não podemos descansar";
+	show "nem um segundo, se nós quisermos";
+	show "economixar muito dinheiro para";
+	show "ficarmos ricos e poderosos algum";
+	show "dia. Você não entende?";
+	next;
+	show "[Dinje]";
+	show "Bem, meu marido obviamente";
+	show "não! Como ele não pode entender";
+	show "como o mundo real funciona?!";
+	show "Ei, chute a bunda dele por mim";
+	show "se ele não acordar logo!";
+	close;
+}
+
+ein_in01,103,238,9	script	Gesin#ein	849,{
+
+	show "[Gesin]";
+	show "Arrgh!";
+	show "Isto esta me matando!";
+	show "Por que eu deveria ser rico?!";
+	show "O que tem de errado em viver";
+	show "dentro de nosso meio?";
+	next;
+	show "[Gesin]";
+	show "Eu não tenho nehum problema";
+	show "com meu atual modo de vida";
+	show "of life, mas a bola velha";
+	show "e fechada discorda.";
+	show "Por que ela é tão obcecada";
+	show "com riquezas e poder?";
+	next;
+	show "[Gesin]";
+	show "Bem, em todo caso, eu";
+	show "gostaria de ajuda-la, mas eu não";
+	show "posso me levantar! Eu estou exausto e";
+	show "meu corpo esta sobrecarregado.";
+	show "Eu não tenho nenhuma força.";
+	next;
+	show "[Gesin]";
+	show "Isto é horrível~";
+	show "Eu deveria esta descansando";
+	show "em vez de me preocupar";
+	show "em fazer dinheiro...";
+	close;
+}
+
+einbroch,188,72,3	script	Keneshiotz#ein	855,{
+
+	show "[Keneshiotz]";
+	show "Esta cidade esta cheia";
+	show "de chaminés altas e";
+	show "zumbidos de maquinas.";
+	next;
+	show "[Keneshiotz]";
+	show "Claro, o ár é poluído,";
+	show "mas eu penso que é um preço justo";
+	show "a pagar por prosperidade e uma";
+	show "moderna vida de conforto.";
+	show "Domina o ambiente!";
+	next;
+	show "[Keneshiotz]";
+	show "Eu queria muito melhorar a vida";
+	show "destes que acabaram como";
+	show "vagabundos nesta imunda";
+	show "Einbech. Eles não sabem";
+	show "que o dinherio é que";
+	show "faz o mundo girar?";
+	close;
+
+OnHide:
+	specialeffect 16;
+	disablenpc "Keneshiotz";
+	end;
+
+OnUnhide:
+	misceffect 215;
+	end;
+
+}
+
+ein_in01,206,224,2	script	Empregado do Hotel#ein	855,{
+
+	show "[Empregado do Hotel]";
+	show "Bom dia, bem vindo ao";
+	show "Hotel de Einbroch. Os empregados";
+	show "estão sempre acomodando os";
+	show "nossos hospedes com os melhores";
+	show "padrões de limpeza,";
+	show "servições e conveniência~";
+	next;
+	menu "Salvar Ponto de Retorno",s_Save,"Descansar- 5,000 zeny",s_Rest,"Cancelar",-;
+
+	show "[Empregado do Hotel]";
+	show "Muito obrigado e";
+	show "por favor volte sempre~";
+	close;
+
+s_Save:
+	savepoint "ein_in01",199,224;
+	show "[Empregado do Hotel]";
+	show "Seu Ponto de Retorno";
+	show "foi salvado aqui";
+	show "no Hotel de Einbroch.";
+	show "Muito obrigado, e por favor";
+	show "volte sempre.";
+	next;
+	show "[Empregado do Hotel]";
+	show "Tenha um bom dia!";
+	close;
+
+s_Rest:
+	show "[Empregado do Hotel]";
+	if(Zeny < 5000){
+		show "Me desculpe mas";
+		show "você não parece ter";
+		show "dinheiro suficiente.";
+		close;
+	}
+	show "Muito obrigado.";
+	show "Por favor";
+	show "aproveite a sua estadia~";
+	close2;
+	set zeny,zeny - 5000;
+	warp "ein_in01",272,167;
+	percentheal 100,100;
+	end;
+
+}
+
+ein_in01,21,147,4	script	Megass#ein	853,3,3,{
+	end;
+
+OnTouch:
+	show "[Megass]";
+	show "Como você pode...";
+	show "Um vagabundo como você";
+	show "falando comigo";
+	show "dentro da minha casa!?";
+	show "Inaceitável!";
+	next;
+	show "[Megass]";
+	show "Saia imediatamente";
+	show "antes que eu denuncie você";
+	show "as autoridades";
+	show "por invasão!";
+	close2;
+	warp "einbroch",112,245;
+	end;
+}

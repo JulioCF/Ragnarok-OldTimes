@@ -1,0 +1,533 @@
+//===== Cronus Script ================================================= 
+//= Reino De Valkyrie
+//===== Por: ==========================================================
+//= Nana, reparos por Poki
+//= terminado, otimizado e testado por Lupus
+//===== Versão Atual: ================================================= 
+//= 2.1
+//===== Descrição: ==================================================== 
+//= Npcs de Valkyrie
+//===== Changelog: ==================================================== 
+//= 2.1 Traduzido por Kosonome
+//=====================================================================
+
+// -== É necessário Warp's! ==-
+valkyrie.gat,48,73,0	warp	valk01	1,1,valkyrie.gat,48,64,0
+valkyrie.gat,48,66,0	warp	valk01	1,1,valkyrie.gat,48,75,0
+
+// -== Livro de Ymir (Porta do Paraíso) ==-
+yuno_in02.gat,93,207,0	script	Livro de Ymir	111,{
+	show "[Livro de Ymir]";
+	if( Upper==2 || baseClass == Job_Taekwon ) goto L_BABY; //don't allow Taekwondo classes, Baby Classes
+	if(valkyrie_Q == 1) goto L_FADED;
+	if(valkyrie_Q == 2) goto L_START;
+L_BABY:
+	show ". . . . .";
+	close;
+
+L_FADED:
+	show "[Livro de Ymir]";
+	show "*O livro abre-se enquanto você se aproxima.*";
+	next;
+	show "[Livro de Ymir]";
+	show "Aqueles que procuram os foretress finais neste mundo arriscar-se-ão com os hardships deixando sozinho à humanidade. Arriscando-se com as épocas àsperas, ajudados por amigos que o amaram, após muito trabalho e compromisso irão ver a vista verdadeira do mundo e... ir então alem dele.";
+	next;
+	show "[Livro de Ymir]";
+	show "*Após ter lido as duas primeiras páginas você gira a outra página e presta atenção às palavras desvanece-se afastado enquanto você tenta as ler..";
+	close;
+
+L_START:
+	show "[Livro de Ymir]";
+	show "*O livro abre-se enquanto você se aproxima.*";
+	next;
+	show "[Livro de Ymir]";
+	show "Aqueles que procuram os foretress finais neste mundo arriscar-se-ão com os hardships deixando sozinho à humanidade. Arriscando-se com as épocas àsperas, ajudados por amigos que o amaram, após muito trabalho e compromisso irão ver a vista verdadeira do mundo e... ir então alem dele.";
+	next;
+	show "[Livro de Ymir]";
+	show "*Após ter lido as duas primeiras páginas você vira a outra e continua a ler...*";
+	next;
+	show "[Livro de Ymir]";
+	show "Isso é quando o deus e o goddess deste mundo vêm adiante para você em todo o disfarce, verificando o completamente. Lendo sua mente, os pensamentos e rectificam o sentimento do coração.";
+	show "Se o deus, descido do mundo ao longo do tempo há, de aceitá-lo nos salões de Valkyrie, na luz do deus você será rejuvenescido, e emitido para fora para enfrentar outra vez o mundo.";
+	next;
+	show "[Livro de Ymir]";
+	show "E somente após então, eles aprovem você em obdiência aos mais elevados.. No calor de Valkyrie, você ganhará boas-vindas pelos deuses.";
+	next;
+	show "[Livro de Ymir]";
+	show "*Quando você fecha o livro um raio estranho de luz cerca-o e você sente de repente a luz. Tudo em torno de você desvane-ce afastado e tudo que você pode ver à esquerda é branco antes que você passe para fora.*";
+	warp "valkyrie",48,9;
+	close;
+}
+
+// -== O bibliotecário que presta atenção ao "Livro de Ymir" ==-
+yuno_in02.gat,91,176,5	script	Bibliotecário	754,{
+	show "[Bibliotecário]";
+	if(valkyrie_Q>0) goto L_DONE;
+	if(BaseJob >= 7 && Upper==0) goto L_PAY;
+	show "Olhe ao redor, mas não toque no livro. Somente os escolhidor podem ler suas palavras sábias.";
+	close;
+
+L_PAY:
+	show "Você aparenta ser humano digno.";
+	show "Eu, o septuagésimo oitavo bibliotecário da ordem secreta jurei proteger este livro.";
+	show "Permitirei que você veja este maravilhoso livro, mas você tem que fazer duas coisas para mim.";
+	next;
+	show "[Bibliotecário]";
+	show "Primeiro. Você tem de pagar-me 1,285,000 Zeny. Lembre que você necessita da quantia exata. Nada acima ou abaixa de 1,285,000z.";
+	show "Segundo. Você tem que se arriscar para o interior do castelo de Yuno, no coração de Ymir.";
+	show "Lembre-se que você não pode ver o livro a menos que você fizer o que eu pedi.";
+	show "Vai agora, bravo guerreiro.";
+	menu "Pagar agora",-,"Sair",M_EXIT;
+
+	if(Zeny != 1285000) goto L_WRONGZ;
+	show "[Bibliotecário]";
+	show "Entre agora, no coração de Ymir";
+	show "Lá, você encontrará a última parte da informação antes que você possa abrir o livro.";
+	set valkyrie_Q,1;
+	set Zeny,0;
+	close;
+
+L_WRONGZ:
+	show "[Bibliotecário]";
+	show "Você não trouxe o número exato de zeny que eu lhe pedi. Traga-me apenas 1,285,000 zeny!";
+	show "Nada mais, nada menos.";
+	close;
+
+L_DONE:
+	show "Por que? Você pagou para mim já.";
+	show "Agora vá procurar o Livro de Ymir.";
+M_EXIT:
+	close;
+}
+
+// -== O Coração de Ymir ==-
+yuno_in05.gat,40,44,0	script	Coração de Ymir	111,{
+	show "[Coração de Ymir]";
+	if(valkyrie_Q == 1) goto L_LISTEN;
+	if(valkyrie_Q == 2) goto L_DONE;
+	show "O livro não abrirá.";
+	show "Primeiro você tem que pagar o bibliotecário para abrir este livro!";
+	close;
+
+L_LISTEN:
+	show "Assim em cimas das épocas duras e quando nossa vida está baixa, é então quando nossa fé tem que ser a maior.";
+	show "Para os guardiões secretos do trajeto do paraíso protegeram a porta secreta dos espíritos do mal que incorporam-o.";
+	show "Assim, as ligações tornaram-se para enfraquecer sobre o tempo... Isso é quando a legião de Sages começou a recrutar e fazer novos magos e sábios, bravos e rápidos, ensinando lhes as leis e os propósitos de nosso mundo.";
+	next;
+	show "[Coração de Ymir]";
+	show "Os sábios cresceram mais fortes na mente e na forças, até que tudo foi temido no mundo dos monstros.";
+	show "Agora, após escutar minhas palavras da sabedoria, por favor avance ao livro de Ymir e dê-se na luz do deus.";
+	show "Se seu coração for puro e não tiver nenhuma intenção malvada, as portas do alvorecer abrirão para você e farão exame dentro de você...";
+	set valkyrie_Q,2;
+	close;
+
+L_DONE:
+	show "Eu não mais nada para ensiná-lo, nem dizer.";
+	close;
+}
+
+// -== Investigador do Livro de Ymir ==-
+yuno_in02.gat,90,77,4	script	Investigador	744,{
+	show "[Investigador]";
+	show "Argh, onde é isso!?";
+	show "Disseram que estaria ao redor daqui em algum lugar...";
+	show "Talvez eu tenho que olhar mais profundo neste castelo...";
+	emotion 1;
+	close;
+}
+
+// -== Valhallana ==-
+//	show "Por favor vá, à pessoa que representa sua classe.";
+//	show "Boa Sorte.";
+//	show "Você não pertence aqui ainda.";
+//}
+
+// -== Valhallana ==-
+valkyrie.gat,48,86,6	script	Valkyrie	811,{
+	if(BaseJob == 23) goto L_SN;
+	if( baseClass == Job_Taekwon ) goto L_Y; //sent back any Taekwondo classes
+	if(Upper == 2 ) goto L_BABY;
+	if(Upper > 0 ) goto L_ALREADY;
+	if(BaseLevel >= 99 && JobLevel >= 50 && BaseJob >= 7) goto L_CHANGE;
+	if(BaseJob < 7) goto L_NOTHING;
+
+	show "[Valhallana]";
+	show "Você precisa ter base lvl 99 e job lvl 50.";
+	show "Também você deve começar se livrando de todos seu dinheiro e artigos.";
+	next;
+	goto L_NOTHING;
+
+L_BABY:
+	show "[Valhallana]";
+	show "Um bebê?! Como você começou aqui.";
+	show "Eu estou passando-o para trás a seus pais.";
+	emotion 1;
+	next;
+	goto L_Y;
+
+L_TAEKWON:
+	show "[Valhallana]";
+	show "Como você começou aqui?";
+	emotion 1;
+	next;
+	goto L_Y;
+
+L_SN:
+	show "[Valhallana]";
+	show "Boas Vindas a Valkyrie, "+strcharinfo(0)+".";
+	show "Eu vo ter seguido uma maneira dura de super noviço.";
+	next;
+	show "[Valhallana]";
+	show "Desculpe-me, mas eu não posso ajudar-lhe.";
+	emotion 17;
+	next;
+	goto L_NOTHING;
+
+L_ALREADY:
+	show "[Valhallana]";
+	show "Eu não posso ajudá-lo mais.";
+	if(Class == 4001) show "Você rejuvenesceu já.";
+	if(Class > 4001 && Class < 4008 ) show "Vá perguntar a estes povos no salão.";
+	next;
+//	goto L_NOTHING;
+
+L_NOTHING:
+	show "[Valhallana]";
+	show "Você deseja voltar para o seu mundo?";
+	next;
+	menu "Sim",L_Y,"Não",-;
+
+	show "[Valhallana]";
+	show "Como você deseja...";
+	close;
+
+L_Y:
+	show "[Valhallana]";
+	show "Como você deseja...";
+	next;
+	warp "yuno_in02.gat",93,204;
+	close;
+
+L_CHANGE:
+	show "[Valhallana]";
+	show "Boas Vindas a Valkyrie, "+strcharinfo(0)+". Deste ponto, não há nenhuma parte para voltar.";
+	next;
+	if(Zeny || Weight) goto L_ZENYITEMS;
+	if(checkcart(0)) goto L_CART;
+	if(checkfalcon(0)) goto L_FALCON;
+	if(checkriding(0)) goto L_PECO;
+	if(skillpoint > 0) goto L_SKILLPNTS;
+
+	show "[Valhallana]";
+	show "Vamos começar sua cerimônia de reincarnção...";
+	next;
+
+	set ADVJOB,Class+4001; //memo the target 3rd Job ID
+
+//	callfunc "F_ToHigh",25,"Swordman High",31,"Lord Knight",144,145,146,0;
+//	callfunc "F_ToHigh",28,"Acolyte High",32,"High Priest",156,0,0,0;
+//	callfunc "F_ToHigh",26,"High Mage",33,"High Wizard",157,0,0,0;
+//	callfunc "F_ToHigh",29,"Merchant High",34,"White Smith",153,154,155,0;
+//	callfunc "F_ToHigh",27,"High Archer",35,"Sniper",147,148,0,0;
+//	callfunc "F_ToHigh",30,"Thief High",36,"Assassin Cross",149,150,151,152;
+//	callfunc "F_ToHigh",25,"Swordman High",38,"Paladin",144,145,146,0;
+//	callfunc "F_ToHigh",28,"Acolyte High",39,"Champion",156,0,0,0;
+//	callfunc "F_ToHigh",26,"High Mage",40,"Professor",157,0,0,0;
+//	callfunc "F_ToHigh",30,"Thief High",41,"Stalker",149,150,151,152;
+//	callfunc "F_ToHigh",29,"Merchant High",42,"Creator",153,154,155,0;
+//	callfunc "F_ToHigh",27,"High Archer",43,"Clown",147,148,0,0;
+//	callfunc "F_ToHigh",27,"High Archer",44,"Gypsy",147,148,0,0;
+
+	if( getskilllv(144) || getskilllv(156) || getskilllv(157) || getskilllv(153) || getskilllv(147) || getskilllv(149) ) set QSK1,1;
+	if( getskilllv(145) || getskilllv(154) || getskilllv(148) || getskilllv(150) ) set QSK2,1;
+	if( getskilllv(146) || getskilllv(155) || getskilllv(151) ) set QSK3,1;
+	if( getskilllv(152) ) set QSK4,1;
+	show "[Valhallana]";
+	show "Done...";
+	show "Good luck.";
+	setjob Job_Novice_High; //Novice High
+	resetlvl(1);
+	callfunc "F_ClearJobVar";
+	set RES_SKILL,0; //we reset Reset Skills NPC counter
+	next;
+	if(ADVJOB == Job_Assassin + 4001 || ADVJOB == Job_Rogue + 4001 ) goto L_Mor;
+	if(ADVJOB == Job_Blacksmith + 4001 || ADVJOB == Job_Alchem + 4001 ) goto L_Alb;
+	if(ADVJOB == Job_Hunter + 4001 || ADVJOB == Job_Bard + 4001 || ADVJOB == Job_Dancer + 4001 ) goto L_Pay;
+	if(ADVJOB == Job_Knight + 4001 || ADVJOB == Job_Crusader + 4001 ) goto L_Izl;
+	if(ADVJOB == Job_Priest + 4001 || ADVJOB == Job_Monk + 4001 ) goto L_Pro;
+	if(ADVJOB == Job_Wizard + 4001 || ADVJOB == Job_Sage + 4001 ) goto L_Gef;
+	goto L_Pro;
+
+L_ZENYITEMS:
+	show "[Valhallana]";
+	show "Seu dinheiro e artigos fazem a corda você a sua vida rotineira.";
+	show "You should get rid of them.";
+	close;
+
+L_CART:
+	show "[Valhallana]";
+	show "Por favor, retire seu Carrinho e nós continuaremos.";
+	close;
+
+L_FALCON:
+	show "[Valhallana]";
+	show "Por favor, retire seu Falcão e nós continuaremos.";
+	close;
+
+L_PECO:
+	show "[Valhallana]";
+	show "Por favor, retire seu Pecopeco e nós continuaremos.";
+	close;
+
+L_SKILLPNTS:
+	show "[Valhallana]";
+	show "Você necessitará usar todos os seus skillpoints se você quiser continuar.";
+	close;
+
+L_Mor:
+	savepoint "morocc.gat",160,94;
+	warp "morocc.gat",160,94;
+	close;
+
+L_Alb:
+	savepoint "alberta.gat",116,57;
+	warp "alberta.gat",116,57;
+	close;
+
+L_Pay:
+	savepoint "payon.gat",155,90;
+	warp "payon.gat",155,90;
+	close;
+
+L_Izl:
+	savepoint "izlude.gat",94,103;
+	warp "izlude.gat",94,103;
+	close;
+
+L_Pro:
+	savepoint "prontera.gat",273,354;
+	warp "prontera.gat",273,354;
+	close;
+
+L_Gef:
+	savepoint "geffen.gat",120,100;
+	warp "geffen.gat",120,100;
+	close;
+}
+
+// function HIGH NOVICE -> HIGH 1
+//getarg(0) - High Job ID
+//getarg(1) - High Job Name
+//getarg(2) - 3rd Job ID
+//getarg(3) - 3rd Job Name
+//getarg(4) - Quest Skill N? You can pass 0, if there's no Quest Skill
+//getarg(5) - Quest Skill N?
+//getarg(6) - Quest Skill N?
+//getarg(7) - Quest Skill N?
+//getarg(8) - current NPC's name
+
+function	script	F_ToHigh	{
+	if(Upper == 2) return; //Baby Class - skip it
+	set @fjob,ADVJOB; //alternative classes should pass, too
+	if(@fjob == Job_Rogue + 4001 ) set @fjob,Job_Assassin+4001;
+	if(@fjob == Job_Alchem + 4001 ) set @fjob,Job_Blacksmith+4001;
+	if(@fjob == Job_Bard + 4001 || @fjob == Job_Dancer + 4001 ) set @fjob,Job_Hunter+4001;
+	if(@fjob == Job_Crusader + 4001 ) set @fjob,Job_Knight+4001;
+	if(@fjob == Job_Monk + 4001 ) set @fjob,Job_Priest+4001;
+	if(@fjob == Job_Sage + 4001 ) set @fjob,Job_Wizard+4001;
+
+	if(Class == 3977+getarg(0) ) goto L_WELCOME; //3rd Job
+	if(Class >= 4008) goto L_ALREADY; //already advanced class
+	if(Class == 4001 && @fjob == 3977+getarg(2) ) goto L_GETHIGH; //High Novice -> High XXXX
+	if(Class == 4001) show "Olá, Novice High! Se você estiver indo se tornar "+getarg(1)+", então visite a Job Teacher.";
+	if(Class == 4001) close;
+	return; //this char doesn't want to get HIGH class
+
+L_GETHIGH:
+	show "["+getarg(8)+"]";
+	if(JobLevel < 10) goto L_NOTREADY;
+	if(checkcart(0)) goto L_CART;
+	if(checkfalcon(0)) goto L_FALCON;
+	if(checkriding(0)) goto L_PECO;
+	if(skillpoint > 0) goto L_SKILLPNTS;
+
+	show "Olá, "+strcharinfo(0)+"!";
+	show "Você fez uma brava escolha na vinda aqui para ser rejuvenescido e em pisar adiante nos Ranks avançados.";
+	show "Agora... Feche seus olhos.";
+	next;
+	show "["+getarg(8)+"]";
+	show "Abra seus olhos.";
+	show "Você será tornado a "+getarg(1)+".";
+	setjob getarg(0); //High Class
+	next;
+	if (!(QSK1 || QSK2 || QSK3 || QSK4)) goto L_NO_QSKILL;
+	show "["+getarg(8)+"]";
+	show "Deixe-me apenas adcionar as habilidades de quest que você perdeu rejuvenescendo, "+strcharinfo(0)+".";
+	next;
+//return learnt quest skills
+	if (getarg(4)) skill getarg(4),QSK1,0;
+	set SQK1,0;
+	if (getarg(5)) skill getarg(5),QSK2,0;
+	set SQK2,0;
+	if (getarg(6)) skill getarg(6),QSK3,0;
+	set SQK3,0;
+	if (getarg(7)) skill getarg(7),QSK4,0;
+	set SQK4,0;
+
+L_NO_QSKILL:
+	show "["+getarg(8)+"]";
+	show "Eu desejo-lhe uma boa fortuna no futuro próximo!";
+	emotion 46;
+	close;
+
+L_NOTREADY:
+	show "Você não está pronto para tornar-se "+getarg(1)+".";
+	show "Você precisar aumentar seu nível de Classe até 10.";
+	emotion 0;
+	close;
+
+L_SKILLPNTS:
+	show "Você necessitará usar todos os seus skillpoints se você quiser continuar.";
+	emotion 20;
+	close;
+
+L_CART:
+	show "Por favor, retire seu Carrinho e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_FALCON:
+	show "Por favor, retire seu Falcão e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_PECO:
+	show "Por favor, retire seu Pecopeco e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_WELCOME:
+	show "["+getarg(8)+"]";
+	show "Você é bem vindo, "+strcharinfo(0)+"!";
+	show "Nós sempre estamos contente de vê-lo "+getarg(1)+" aqui!";
+	close;
+
+L_ALREADY:
+	show "["+getarg(8)+"]";
+	show "É uma honra tão grande receber aprendizes de Valhalla.";
+	show "Venha outra vez.";
+	emotion 2;
+	close;
+}
+
+// function GET 3rd JOB
+//getarg(0) - High Job ID
+//getarg(1) - High Job Name
+//getarg(2) - 3rd Job ID
+//getarg(3) - 3rd Job Name
+function	script	F_Rebirth	{
+	show "["+getarg(3)+"]";
+	if(Upper == 2) goto L_BABY; //Baby Class - skip it
+	if(Class >= 4008) goto L_ALREADY; //already advanced class
+	if(Class == (3977+getarg(0)) && ADVJOB == (3977+getarg(2))) goto L_GET3RD; //Hight XXXX -> 3rd Job
+	show "Vá conversar com Valhallana ou a um de meus colegas...";
+	emotion 17;
+	close;
+
+L_GET3RD:
+	if(JobLevel < 45) goto L_NOTREADY;
+	if(checkcart(0)) goto L_CART;
+	if(checkfalcon(0)) goto L_FALCON;
+	if(checkriding(0)) goto L_PECO;
+	if(skillpoint > 0) goto L_SKILLPNTS;
+
+	show "Parabéns!";
+	show "Você treino bem. Dê uma volta aqui "+getarg(3)+"!";
+	setjob getarg(2); //Rebirth Class
+	set ADVJOB,0;
+	close;
+
+L_NOTREADY:
+	show "Você foi longe daqui. Mais eu sou rígido, você não está pronto para tornar-se "+getarg(3)+".";
+	show "Você precisar ter 45 job lvl ou mais ou mais.";
+	emotion 0;
+	close;
+
+L_SKILLPNTS:
+	show "Você necessitará usar todos os seus skillpoints se você quiser continuar.";
+	emotion 20;
+	close;
+
+L_CART:
+	show "Por favor, retire seu Carrinho e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_FALCON:
+	show "Por favor, retire seu Falcão e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_PECO:
+	show "Por favor, retire seu Pecopeco e nós continuaremos.";
+	emotion 20;
+	close;
+
+L_ALREADY:
+	show "Bem, Olá! Você não rejuvenesceu uma vez, não há nenhuma segunda possibilidade.";
+	emotion 2;
+	close;
+
+L_BABY:
+	show "Que bebê vívido!";
+	show "Como você começou aqui? Và à tia da Valhallana e peça que leve para sua casa.";
+	emotion 41;
+	close;
+
+}
+
+// function GUIDE player to Valhalla for getting 3rd JOB
+// this function prevents passing 2nd JOB QUESTS by advanced classes also
+//getarg(0) - High Job ID
+//getarg(1) - High Job Name
+//getarg(2) - 3rd Job ID
+//getarg(3) - 3rd Job Name
+//getarg(4) - NPC Name
+function	script	F_BlockHigh	{
+	if(Upper != 1) return; //This func should interact with Advanced classes only
+	show "["+getarg(4)+"]";
+	if(Class == (3977+getarg(0)) && ADVJOB == (3977+getarg(2))) goto L_RIGHTHIGH;
+	if(Class == (3977+getarg(2))) goto L_RIGHT3RD;
+	if(Class >= 4008) goto L_ALREADY3RD; //already advanced class, but from wrong guild
+//this player is a High Novice
+	if(Class == 4001) show "Olá, Novice High! Você está indo se tornar "+getarg(1)+", então visite antes a job teacher.";
+//this player has 1st advanced job, but from wrong guild
+	if(Class == (3977+getarg(0))) show "A "+getarg(1)+"?";
+	if(Class != 4001) show "Os boatos dizem que somente Valhallana sabe sua maneira...";
+	emotion 17;
+	close;
+
+L_RIGHT3RD:
+	show "Bem, Olá! Você olha... mais novo.";
+	emotion 20;
+	next;
+	show "["+getarg(4)+"]";
+	show "Você é sempre bem-vindo aqui, "+strcharinfo(0)+"!";
+	show "Nossa guilda velha boa é o seu segundo repouso, não é isto?";
+	emotion 21;
+	close;
+
+L_RIGHTHIGH:
+	show "Olá, "+strcharinfo(0)+"!";
+	show "Se você estiver indo se tornar em "+getarg(3)+", então precisará visitar Valhalla outra vez.";
+	if(JobLevel < 45) show "Mais você precisa no minímo 45 de job lvl ou mais.";
+	emotion 0;
+	close;
+
+L_ALREADY3RD:
+	show "A "+getarg(3)+"?";
+	show "Você não pertence a nossa guilda. Begone!";
+	emotion 23;
+	close;
+
+}

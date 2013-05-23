@@ -1,0 +1,162 @@
+//===== Cronus Script ======================================== 
+//= Guias de Einbroch
+//===== By: ================================================== 
+//= Reddozen
+//===== Versão Atual: ======================================== 
+//= 1.6
+//===== Compatible With: ===================================== 
+//= eAthena 7.15 +
+//===== Description: ========================================= 
+//=
+//===== Additional Comments: ================================= 
+//= 1.5 Iniciado Tradução [UpTroni]
+//= 1.6 Modificações e Revisão [Ewerton]
+//= Script Reestruturado [Mehah]
+//============================================================
+
+einbroch,72,202,4	script	Guia#1::Einbroch_Guide	852,{
+	cutin "ein_soldier",2;
+	show "[Guia de Einbroch]";
+	show "Bem vindo a Einbroch, a cidade de Aço.";
+	show "Por favor me pergunte se você tiver qualquer dúvida.";
+
+M_Menu:
+	next;
+	switch(select("Guia da Cidade","Remover marcações do Mini-Mapa","Notícias","Cancelar")){
+
+	case 1:
+		show "[Guia de Einbroch]";
+		show "Por favor selecione um local no menu que segue.";
+		show "Você gostaria que eu marcasse os locais em seu Mini-Mapa?";
+		next;
+		switch(select("Não, Obrigado.",-,"Sim, por favor.")){
+			case 1: set @COMPASS_CHECK,0;break;
+			case 2:	set @COMPASS_CHECK,1;
+		}
+sM_Menu:
+	switch(select("^FF0000Aeroporto^000000","Estação de Trem","Fábrica","Plaza","Hotel","Loja de armas","Laboratório","Guilda dos Ferreiros","Torre de Einbroch","Cancelar")){
+
+	case 1:
+		show "[Guia de Einbroch]";
+		show "O ^FF0000Aeroporto^000000 se localiza na parte noroeste da cidade.";
+		show "Lá você pode ver o orgulho e a alegria de nossa cidade, o dirigível.";
+		show "Lembre-se que você tem que pagar entrada para subir no dirigível.";
+		viewpoint 1,63,208,1,0xFF0000;
+		break;
+
+	case 2:
+		show "[Guia de Einbroch]";
+		show "A Estação de Trêm fica localizada no nordeste de Einbroch.";
+		show "Trens ficam passando entre aqui e Einbech durante o dia todo, todo dia.";
+		viewpoint 1,238,272,2,0x0000FF;
+		break;
+		
+	case 3:
+		show "[Guia de Einbroch]";
+		show "A Fábrica, talvez a mais importante instalação em Einbroch, fica localizada na parte sul da cidade.";
+		viewpoint 1,149,80,3,0x00FF00;
+		break;
+		
+	case 4:
+		show "[Guia de Einbroch]";
+		show "O Plaza, nossa maior região de compras, pode ser achado ao leste do centro de Einbroch.";
+		viewpoint 1,231,189,4,0xFF00FF;
+		break;
+		
+	case 5:
+		show "[Guia de Einbroch]";
+		show "O Hotel fica ao leste do Plaza e oferece acomodações de alta qualidade.";
+		show "Lá, você pode aproveitar sua estadia em Einbroch com conforto~";
+		viewpoint 1,257,200,5,0x00AAFF;
+		break;
+		
+	case 6:
+		show "[Guia de Einbroch]";
+		show "A Loja de armas fica localizada ao norte do Plaza.";
+		show "Lá você pode comprar armas para seu uso pessoal.";
+		viewpoint 1,217,212,6,0xDDAA00;
+		break;
+		
+	case 7:
+		show "[Guia de Einbroch]";
+		show "O Laboratório é um anexo da Fábrica e fica localizado no setor sudoeste de Einbech";
+		viewpoint 1,43,45,7,0xDDAA00;
+		break;
+		
+	case 8:
+		show "[Guia de Einbroch]";
+		show "A Guilda dos Ferreiros fica localizada na parte sudeste de Einbroch.";
+		show "Você pode aprimorar seu equipamento usando os serviços deles.";
+		viewpoint 1,255,105,8,0xDDAA00;
+		break;
+		
+	case 9:
+		show "[Guia de Einbroch]";
+		show "A Torre de Einbroch fica no centro da cidade.";
+		show "Do topo da torre, você pode ver toda Einbroch.";
+		viewpoint 1,173,195,9,0xDDAA00;
+		break;
+
+	case 10:
+		show "[Guia de Einbroch]";
+		show "Por favor diga-me para remover";
+		show "marcações do Mini-Mapa se você";
+		show "não deseja ter as indicações";
+		show "marcadas em seu Mini-Mapa.";
+		goto M_Menu;
+	}
+	next;
+	goto sL_Wipe;
+
+sL_Wipe:
+	if(@COMPASS_CHECK == 1) goto sM_Menu;
+	viewpoint 2,63,208,1,0xFF0000;
+	viewpoint 2,238,272,2,0x0000FF;
+	viewpoint 2,149,80,3,0x00FF00;
+	viewpoint 2,231,189,4,0xFF00FF;
+	viewpoint 2,257,200,5,0x00AAFF;
+	viewpoint 2,217,212,6,0xDDAA00;
+	viewpoint 2,43,45,7,0xDDAA00;
+	viewpoint 2,255,105,8,0xDDAA00;
+	viewpoint 2,173,195,9,0xDDAA00;
+	if (@COMPASS_CHECK == 0) goto sM_Menu;
+
+	case 2:
+		viewpoint 2,63,208,1,0xFF0000;
+		viewpoint 2,238,272,2,0x0000FF;
+		viewpoint 2,149,80,3,0x00FF00;
+		viewpoint 2,231,189,4,0xFF00FF;
+		viewpoint 2,257,200,5,0x00AAFF;
+		viewpoint 2,217,212,6,0xDDAA00;
+		viewpoint 2,43,45,7,0xDDAA00;
+		viewpoint 2,255,105,8,0xDDAA00;
+		viewpoint 2,173,195,9,0xDDAA00;
+		show "[Guia de Einbroch]";
+		show "Certo, as marcações do seu Mini-Mapa foram removidas.";
+		show "Se você precisar de qualquer orientação sobre Einbroch, por favor deixe que eu ou outro Guia de Einbroch ajude.";
+		cutin "ein_soldier",255;
+		goto M_Menu;
+	
+	case 3:
+		show "[Guia de Einbroch]";
+		show "Através da Tecnologia da República de Schwartzwalt, nós atualizamos para um sistema de informação digital que nós permite marcar indicações em seu Mini-Mapa para uma navegação mais fácil.";
+		next;
+	  	show "[Guia de Einbroch]";
+	  	show "Seu Mini-Mapa fica localizado no canto superior direito da tela.";
+		show "Se você não consegue ver, aperte as teclas Ctrl + Tab ou clique no botão 'Mapa' em sua Janela de Informações Básicas.";
+	  	next;
+	  	show "[Guia de Einbroch]";
+	 	show "Em seu Mini-Mapa, clique nos simbolos '+' e '-' para aumentar ou diminuir o zoom do seu Mini-Mapa.";
+		show "Nós esperamos que você aproveite sua jornada aqui na cidade de Einbroch.";
+	 	goto M_Menu;
+
+	case 4:
+		show "[Guia de Einbroch]";
+		show "Nós esperamos que você aproveite sua jornada aqui na cidade de Einbroch. Oh, e por favor fique atento aos Alertas de Poluição";
+		cutin "ein_soldier",255;
+		close;
+	}
+}
+
+einbroch,155,43,4	duplicate(Einbroch_Guide)	Guia#Einb2	852
+einbroch,162,317,4	duplicate(Einbroch_Guide)	Guia#Einb3	852

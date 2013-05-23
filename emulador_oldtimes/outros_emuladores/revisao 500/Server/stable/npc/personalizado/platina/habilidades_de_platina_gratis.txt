@@ -1,0 +1,179 @@
+//===== Cronus Script ========================================
+//= Mestra das Habilidades
+//===== Por: =================================================
+//= Ravish
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Descrição: ===========================================
+//= Dá ao jogador as "Quest Skills"
+//===== Comentários Adicionais: ==============================
+//= 1.0 Iniciado o Npc [Ravish]
+//============================================================
+
+
+function	script	d_skill	{
+
+//============================================================
+set @ZenyCost, 0; //Custo para cada skill. Deixe 0 para ser grátis.
+//
+//============================================================
+
+	if (JobLevel < getarg(0)) goto L_NivelBaixo;
+	if (getskilllv(getarg(1))>0) goto L_JaTemSkill;
+	show "[Mestra das Habilidades]";
+	if (@ZenyCost != 0) show "Isto vai lhe custar apenas "+ @ZenyCost +" zeny.";
+	if (@ZenyCost != 0) show "Está disposto a pagar?";
+	if (@ZenyCost != 0) next;
+	if (@ZenyCost != 0) menu "Sim",-,"Não, obrigado",L_Fim;
+	if (Zeny < @ZenyCost) goto L_SemGrana;
+	show "Aqui está sua hbilidade. Faça um bom proveito.";
+	skill getarg(1),1,0;
+	close;
+
+	L_NivelBaixo:
+		show "[Mestra das Habilidades]";
+		show "Você não tem nível de classe suficiente para aprender esta habilidade.";
+		show "Volte quando for mais forte.";
+		close;
+
+	L_JaTemSkill:
+		show "[Mestra das Habilidades]";
+		show "Você já possui esta habilidade.";
+		close;
+
+	L_SemGrana:
+		show "[Mestra das Habilidades]";
+		show "Affe... Você não tem dinheiro para pagar por isso.";
+		show "Vá conseguir dinheiro antes.";
+		close;
+
+	L_Fim:
+		show "[Mestra das Habilidades]";
+		show "Ok, então. Você que sabe.";
+		show "Se mudar de idéia estarei aqui.";
+		show "Até mais.";
+		close;
+}
+
+prontera.gat,146,190,4	script	Mestra das Habilidades	94,{
+
+//============================================================
+set @ZenyCost, 0; //Custo para cada skill. Deixe 0 para ser grátis.
+//
+//============================================================
+
+	if (BaseClass==Job_Novice) goto L_Apr;
+	if (BaseClass==Job_Swordman) goto L_Esp;
+	if (BaseClass==Job_Mage) goto L_Mag;
+	if (BaseClass==Job_Archer) goto L_Arc;
+	if (BaseClass==Job_Acolyte) goto L_Nov;
+	if (BaseClass==Job_Merchant) goto L_Mer;
+	if (BaseClass==Job_Thief) goto L_Gat;	
+
+	L_Apr:
+		if (getskilllv(142)>0 && getskilllv(143)>0) goto L_JaTemSkill;
+		show "[Mestra das Habilidades]";
+		show "Aqui estão suas habilidades. Faça um bom proveito.";
+		skill 142,1,0;
+		skill 143,1,0;
+		close;
+	L_Esp:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Qual dessas habilidades você gostaria de aprender?";
+		next;
+		menu "Golpe Fatal",L_Esp_1,"Instinto de Sobrevivência",L_Esp_2,"Recuperar HP em Movimento",L_Esp_3,"Nenhuma",L_Fim;
+
+	L_Esp_1:
+		callfunc "d_skill",30,144;
+
+	L_Esp_2:
+		callfunc "d_skill",30,145;
+
+	L_Esp_3:
+		callfunc "d_skill",35,146;
+
+	L_Mag:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Muito bem, qual dessas habilidades vocês gostaria de aprender?";
+		next;
+		menu "Proteção Arcana",-,"Nenhuma",L_Fim;
+		
+		callfunc "d_skill",35,157;
+
+	L_Arc:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Então, qual dessas habilidades você gostaria de aprender?";
+		next;
+		menu "Fabricar Flechas",L_Arc_1,"Disparo Violento",L_Arc_2,"Nenhuma",L_Fim;
+
+	L_Arc_1:
+		callfunc "d_skill",35,147;
+
+	L_Arc_2:
+		callfunc "d_skill",35,148;
+
+	L_Nov:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Qual dessas habilidades você gostaria de aprender?";
+		next;
+		menu "Luz Divina",-,"Nenhuma",L_Fim;
+
+		callfunc "d_skill","Job_Acolyte",30,156;
+
+	L_Mer:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Então, qual dessas habilidades vocês gostaria de aprender?";
+		next;
+		menu "Grito de Guerra",L_Mer_1,"Personalizar Carrinho",L_Mer_2,"Cavalo-de-Pau",L_Mer_3,"Nenhuma",L_Fim;
+
+	L_Mer_1:
+		callfunc "d_skill",15,155;
+
+	L_Mer_2:
+		callfunc "d_skill",30,134;
+
+	L_Mer_3:
+		callfunc "d_skill",35,153;
+
+	L_Gat:
+		show "[Mestra das Habilidades]";
+		show "Olá.";
+		if (@ZenyCost != 0) show "Ao custo de "+ @ZenyCost +" zeny eu posso te ensinar uma habilidade.";
+		show "Qual dessas habilidades você gostaria de aprender?";
+		next;
+		menu "Arremessar Pedra",L_Gat_1,"Procurar Pedras",L_Gat_2,"Chutar Areia",L_Gat_3,"Recuar",L_Gat_4,"Nenhuma",L_Fim;
+
+	L_Gat_1:
+		callfunc "d_skill",20,152;
+
+	L_Gat_2:
+		callfunc "d_skill",20,151;
+
+	L_Gat_3:
+		callfunc "d_skill",25,149;
+
+	L_Gat_4:
+		callfunc "d_skill",35,150;
+
+	L_Fim:
+		show "[Mestra das Habilidades]";
+		show "Ok, então. Você que sabe.";
+		show "Se mudar de idéia estarei aqui.";
+		show "Até mais.";
+		close;
+
+	L_JaTemSkill:
+		show "[Mestra das Habilidades]";
+		show "Você já possui esta habilidade.";
+		close;
+}

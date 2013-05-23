@@ -1,0 +1,129 @@
+//===== Cronus Script ======================================== 
+//= Guia de Alberta
+//===== Por: ================================================= 
+//= Radaway
+//===== Versão Atual: ======================================== 
+//= 1.0
+//===== Compativel =========================================== 
+//= Cronus [172]
+//===== Description: ========================================= 
+//= Guia de Alberta
+//===== Comentarios Adicionais: ==============================
+//= 1.0 Traduzido por Radaway
+//= Script Reestruturado [Mehah]
+//============================================================ 
+
+//Norte
+alberta,23,238,4	script	Guia::guias_alb	105,{
+	cutin "prt_soldier",2;
+	show "[Guia de Alberta]";
+	show "Bem-vindo à Alberta,";
+	show "a cidade portuária.";
+	show "Nós estamos aqui para ajudar os";
+	show "visitantes da cidade. Se você tem";
+	show "alguma dúvida, consulte-nos.";
+	show "Se esta é a sua primeira vez";
+	show "utilizando um guia, por favor";
+	show "selecione 'tutorial'.";
+L_MENU:
+	next;
+	switch(select("Indicações","Limpar indicações","Tutorial","Cancelar")){
+		case 1:
+			show "[Guia de Alberta]";
+  			show "Por favor, selecione uma das";
+  			show "opções";
+  			show "no seguinte menu.";
+  			show "Você gostaria que as indicações";
+ 			show "permaneçam no Mini-Mapa?";
+ 			next;
+ 		switch(select("Sim","Não")){
+ 			case 1: set @COMPASS_CHECK,1; break;
+ 			case 2: set @COMPASS_CHECK,0;
+ 		}
+L_MENU_2:
+		switch(select("^FF0000Guilda dos Mercadores.^000000","Loja de Armas.","Loja de Ferramentas.","Estalagem.","Cancelar")){
+	
+			case 1:
+				show "[Guia de Alberta]";
+				show "A Guilda dos Mercadores é o lugar";
+				show "onde Aprendizes podem tornar-se";
+				show "Mercadores.";
+				show "Ela se encontra ao";
+				show "sudoeste da cidade";
+				viewpoint 1,33,41,1,0xFF0000;
+				break;
+				
+			case 2:
+				show "[Guia de Alberta]";
+				show "A 'Loja de Armas'";
+				show "se encontra no";
+				show "sul da cidade.";
+				viewpoint 1,117,37,2,0xFF00FF;
+				break;
+				
+			case 3:
+				show "[Guia de Alberta]";
+				show "A 'Loja de Ferramentas' se encontra";
+				show "bem no centro da cidade.";
+				viewpoint 1,98,154,3,0xFF00FF;
+				break;
+				
+			case 4:
+				show "[Guia de Alberta]";
+				show "A 'Estalagem' se encontra no ";
+				show "norte da cidade";
+				viewpoint 1,65,233,4,0xFF00FF;
+				break;
+	
+			case 5:	
+				show "[Guia de Alberta]";
+			 	show "Por favor, selecione uma das";
+			 	show "opções.";
+			 	goto L_MENU;
+		}
+			next; 
+	 		if(@COMPASS_CHECK)goto L_MENU_2;
+			viewpoint 2,33,41,1,0xFF0000;
+			viewpoint 2,117,37,2,0xFF00FF;
+			viewpoint 2,98,154,3,0xFF00FF;
+			viewpoint 2,65,233,4,0xFF00FF;
+			viewpoint 2,33,41,5,0xFF00FF;
+			goto L_MENU_2;
+			
+		case 2:
+			viewpoint 2,33,41,1,0xFF0000;
+			viewpoint 2,117,37,2,0xFF00FF;
+			viewpoint 2,98,154,3,0xFF00FF;
+			viewpoint 2,65,233,4,0xFF00FF;
+			viewpoint 2,33,41,5,0xFF00FF;
+		  	goto L_MENU;
+		  	
+		case 3:
+ 			show "[Guia de Alberta]";
+ 			show "Nós fomos exaustivamente treinados";
+ 			show "para servi-lo da melhor maneira";
+ 			show "possivel e sem falhas.";
+ 			show "Assim você tem a garantia das";
+  			show "melhores indicações possiveis.";
+  			next;
+  			show "[Guia de Alberta]";
+  			show "As indicações que lhe daremos podem";
+  			show "ser marcadas no seu Mini-Mapa.";
+  			show "Para visualizar o seu Mini-Mapa,";
+  			show "aperte 'Ctrl+Tab', ou clique no";
+  			show "botão 'mapa' no menu principal.";
+  			show "Controle o seu 'zoom' no Mini-Mapa";
+			show "por meio dos símbolos '+'e'-'.";
+  			goto L_MENU;
+  			
+		case 4:
+		 	show "[Guia de Alberta]";
+		 	show "Espero que você tenha uma jornada";
+		 	show "segura e aproveite sua estadia.";
+			cutin "prt_soldier",255; 
+		 	close;
+	}
+}
+
+// South --------------------------------------------------------
+alberta,120,60,3	duplicate(guias_alb)	Guia#2::Alb_Guide	105

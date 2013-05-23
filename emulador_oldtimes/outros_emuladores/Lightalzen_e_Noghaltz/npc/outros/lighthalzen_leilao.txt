@@ -1,0 +1,58 @@
+//===== Cronus Script =======================================
+//= Script do leilão de Lighthalzen
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.1
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Script relativo ao leilão de Lighthalzen
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido e adaptado	[Page]
+//= 1.1 Revisado		[Page]
+//===========================================================
+
+lighthalzen.gat,205,169,4	script	Guia do Leilão	833,{
+
+	show "[Guia do Leilão]";
+	show "Você gostaria de participar do leilão?";
+	next;
+	menu "Sim.",WA_yes,"Não.",WA_no;
+WA_yes:
+	show "[Guia do Leilão]";
+	show "Tenha uma boa viagem~";
+	close2;
+	warp "auction_02.gat",43,24;
+	end;
+
+WA_no:
+	show "[Guia do Leilão]";
+	show "Visite-nos novamente.";
+	close;
+}
+
+auction_02.gat,31,46,9	script	Supervisor do Leilão::as1	874,{
+
+	show "[Supervisor]";
+	show "Bem-vindo. Você";
+	show "está procurando por";
+	show "algum item...?";
+	next;
+	menu "Sim.",AU_yes,"Não.",AU_no;
+
+AU_yes:
+	show "Desculpe, no momento não poderemos lhe atender.";
+	close;
+
+AU_no:
+	show "[Supervisor]";
+	show "Ok, então...";
+	close;
+}
+auction_02.gat,43,65,2	duplicate(as1)	Supervisor do Leilão::asd1	874
+auction_02.gat,56,46,2	duplicate(as1)	Supervisor do Leilão::asd2	874
+
+auction_02.gat,43,17,0	warp	auc_light01	1,1,lighthalzen.gat,209,169

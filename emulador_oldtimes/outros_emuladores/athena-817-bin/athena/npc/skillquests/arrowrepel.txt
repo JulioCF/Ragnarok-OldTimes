@@ -1,0 +1,61 @@
+//Arrow Repel
+
+payon.gat,30,94,3	script	Deothen	88,{
+	if ((Class == Job_Archer) && (JobLevel < 35)) goto LStartLowlv;
+	if (!((Class == Job_Archer) || (Class == Job_Hunter) || (Class == Job_Bard) || (Class == Job_Dancer))) goto LStartOther;
+	if (getskilllv(148)>0) goto LStartTwice;
+	if ((countitem(721)>=2) && (countitem(942)>=3) && (countitem(962)>=10) && (countitem(925)>=10) && (countitem(532)>=36)) goto L3;
+Lstart:
+	mes "[Deothen]";
+	mes "Hi, I'm the master";
+	mes "of the skill ^0033FFArrow Repel^000000.";
+	mes "I might be able to teach you the skill,";
+	mes "but only if you help me get the";
+	mes "ingredients for my Grandma's soup.";
+	next;
+	mes "[Deothen]";
+	mes "I need the following:";
+	mes "- 2 ^FF0000Emeralds^000000";
+	mes "- 3 ^FF0000Yoyo tails^000000";
+	mes "- 10 ^FF0000Tentacles^000000";
+	mes "- 10 ^FF0000Bill of birds^000000";
+	mes "- 36 ^FF0000Banana Juices^000000";
+	mes "Hurry hurry!";
+	close;
+
+L3:
+	mes "[Deothen]";
+	mes "OH! Marvelous you brought";
+	mes "me all the ingredients!";
+	mes "Now It'll be my pleasure to";
+	mes "teach you the skill";
+	mes "^0033FFArrow Repel^00000";
+	next;
+	delitem 721,2;
+	delitem 942,3;
+	delitem 962,10;
+	delitem 925,10;
+	delitem 532,36;
+	skill 148,1,0;
+	mes "[Deothen]";
+	mes "There you go!";
+	mes "Happy hunting in the future.";
+	close;
+LStartLowlv:
+	mes "[Deothen]";
+	mes "Oh I think you're a bit";
+	mes "inexperienced to learn anything";
+	mes "from me, come back later!";
+	close;
+LStartOther:
+	mes "[Deothen]";
+	mes "I'm sorry you just don't have";
+	mes "what it takes to learn this skill!";
+	close;
+LStartTwice:
+	mes "[Deothen]";
+	mes "Hey! It's you again?";
+	mes "I'm afraid I taught you everything";f
+	mes "I know.";
+	close;
+}

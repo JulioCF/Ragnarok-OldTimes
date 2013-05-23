@@ -1,0 +1,137 @@
+//===== Cronus Script ========================================
+//= Kenny
+//===== Por: =================================================
+//= eAthena Dev Team
+//===== Versão Atual: ========================================
+//= 1.1/1.2
+//===== Descrição: ===========================================
+//= Negocia Pacotes e Carregadores
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido [Sasuquinho e Deadly]
+//= 1.1 Adicionado nome de itens como argumento [Kamper]
+//= 1.2 Corrigindo pequenos erros [Tiu Skan]
+//============================================================
+
+que_ng,187,149,3	script	Loja de Carregadores	83,{
+	
+	if(BaseJob != Job_Gunslinger)
+	{
+		show "[Kenny]";
+		show "Bem-vindo à minha loja.";
+		show "Eu negocio Carregadores e Pacotes para Justiceiros.";
+		next;
+		show "[Kenny]";
+		show "Desculpe, mas parece que meus serviços não serão";
+		show "úteis para você, aventureiro.";
+		show "Ainda assim, caso conheça algum Justiceiro,";
+		show "diga para ele passar por aqui.";
+		close;
+	}
+	
+	show "[Kenny]";
+	show "Eu sou o negociador de Carregadores, Kenny!";
+	show "Compre Carregadores e Pacotes";
+	show "comigo!";
+	next;
+	show "[Kenny]";
+	show "Eu posso montar para você, Carregadores e Pacotes,";
+	show "só preciso das";
+	show "Esferas necessárias!";
+	show "Vamos lá!";
+	next;
+	switch( select( "Pacote de Esferas de Relâmpago","Pacote de Esferas Cegantes","Pacote de Esferas Venenosas","Pacote de Esferas Congelantes","Pacote de Esferas de Chamas","Carregador","Carregador Sanguinário","Carregador de Prata","Cancelar" ))
+	{
+		case 1: callfunc "Func_Casing",13204,12144,"Esferas de Relâmpagos"; break;
+		case 2: callfunc "Func_Casing",13206,12145,"Esferas Cegantes"; break;
+		case 3: callfunc "Func_Casing",13205,12146,"Esferas Venenosas"; break;
+		case 4: callfunc "Func_Casing",13207,12147,"Esferas Congelantes"; break;
+		case 5: callfunc "Func_Casing",13203,12148,"Esferas de Chamas"; break;
+		case 6: callfunc "Func_Casing",13200,12149,"Projéteis"; break;
+		case 7: callfunc "Func_Casing",13202,12150,"Projéteis Sanguinários"; break;
+		case 8: callfunc "Func_Casing",13201,12151,"Projéteis de Prata"; break;
+		case 9: 
+		default:
+			show "[Kenny]";
+			show "Tudo certo. Se há";
+			show "alguma coisa a mais que eu possa fazer";
+			show "por você, por favor me fale.";
+		close;
+	}
+	close;
+}
+
+function	script	Func_Casing	{
+
+	show "[Kenny]";
+	show "Por favor digite a quantidade que você quer.";
+	next;
+	show "[Kenny]";
+	show "" +getitemname(getarg(1))+ " irá";
+	show "custar 500 " +getarg(2);
+	show "e 500 zenys.";
+	next;
+	show "[Kenny]";
+	show "Você pode trocar no maximo 50.";
+	show "Digite 0 se você quiser cancelar.";
+	next;
+	digit .@caser_amount;
+	if(.@caser_amount < 1)
+	{
+		show "[Kenny]";
+		show "Tudo certo. Se há";
+		show "alguma coisa a mais que eu possa fazer";
+		show "por você, por favor me fale.";
+		close;
+
+	}
+	if(.@caser_amount > 50)
+	{
+		show "[Kenny]";
+		show "Você excedeu o limite!";
+		show "Tente na próxima vez.";
+		close;
+	}
+	set .@caser_bullet, .@caser_amount * 500;
+	
+	//Weight checking
+	if(checkweight(getarg(1), .@caser_amount) != 1)
+	{
+		show "[Kenny]";
+		show "Você está com muito peso.";
+		show "Por favor limpe seu inventário.";
+		close;
+	}
+	
+	//Checar Material	
+	if(countitem(getarg(0)) < .@caser_bullet)
+	{
+		show "[Kenny]";
+		show "Huh......";
+		show "Você não tem materiais o suficiente";
+		show "para trocar pelo";
+		show "número de itens que você quer.";
+		show "Por favor traga a";
+		show "quantidade correta de itens.";
+		close;
+	}
+	
+	//Checar Zenys
+	if(Zeny < .@caser_bullet)
+	{
+		show "[Kenny]";
+		show "Err... Você não tem zeny suficiente.";
+		show "A taxa é 500 zeny.";
+		show "Cheque sua quantidade de zeny e volte a falar comigo.";
+		close;
+	}
+	
+	show "[Kenny]";
+	show "Ah muito bem!";
+	show "O número foi confirmado!";
+	if(getarg(1) < 12149) show "Agora irei pegar seu Pacote.";
+	else show "Agora irei pegar seu Carregador.";
+	set Zeny, Zeny - .@caser_bullet;
+	delitem getarg(0), .@caser_bullet;
+	additem getarg(1), .@caser_amount;
+	close;
+}

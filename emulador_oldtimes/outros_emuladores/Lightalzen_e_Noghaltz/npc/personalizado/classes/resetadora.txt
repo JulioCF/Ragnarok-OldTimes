@@ -1,0 +1,124 @@
+//===== Cronus Script ======================================== 
+//= Resetadora
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.0
+//===== Descrição: =========================================== 
+//= Reseta os pontos de Habilidades e Atributos do personagem
+//============================================================
+
+prontera.gat,158,193,6	script	Resetadora	75,{
+
+function MUresetStatus;
+function CheckZeny;
+function CheckVIP;
+
+//== (MU) Reset Char =======================
+	set @MUreset,0; //Habilitar resete baseado no MU (1 para Habilitar)
+	set @MUlvl,99; //Level requerido para reseta
+   	set @MUlimite,15; //Limite de quantos resete o jogador pode ter (0 para infinitos resets)
+   setarray @MUlimiteVIP[1],0,1; //Limite de quantos resete o vip pode ter (0 para infinitos resets) OBS: (0= Limite de Reset 1= Level de VIP(GM))
+   	set @MUinfo,1; //Mostra informação de quantos pontos em cada resete (se tiver ativado o limite)
+   	set @MUpnt,150; //Quantos pontos vai receber a cada resete
+   	set @Mupreco,10000; //Preço requerido para reseta	
+//==========================================
+	set @Pskill,5000; //Preço para reseta skill
+	set @Pstatus,5000; //Preço para reseta status 
+	set @Pambos,@Pskill+@Pstatus-1000; //Preço para reseta ambos
+//==========================================
+	CheckVIP();
+	show "[Resetadora]";
+	show "Olá, posso resetar seus pontos.";
+	if(@MUreset) show "Resetar Char: "+@Mupreco+"z";
+	show "Resetar Habilidades: "+@Pskill+"z";
+	show "Resetar Atributos: "+@Pstatus+"z";
+	show "Resetar Ambos: "+@Pambos+"z";
+	next;
+	if(@MUreset)
+		set @menu,select("^FF3355Resetar Habilidades","^FF3355Resetar Atributos","^FF3355Resetar Ambos","^FF3355Resetar Char(MU)^000000","Nenhum, obrigado.");
+	else
+		set @menu,select("^FF3355Resetar Habilidades","Resetar Atributos","Resetar Ambos^000000","Nenhum, obrigado.");
+
+	switch(@menu){
+	
+	case 1:
+		show "[Resetadora]";
+		CheckZeny(@Pskill);
+		show "Tudo bem, vou resetar agora.. Lembrando, ajeite seus pontos e fale comigo mais vezes se precisar!";
+		ResetSkill;
+		close;
+	case 2:
+		show "[Resetadora]";
+		CheckZeny(@Pstatus);
+		show "Tudo bem, vou resetar agora.. Lembrando, ajeite seus pontos e fale comigo mais vezes se precisar!";
+		MUresetStatus(0);
+		close;
+	case 3:
+		show "[Resetadora]";
+		CheckZeny(@Pambos);
+		show "Tudo bem, vou resetar agora.. Lembrando, ajeite seus pontos e fale comigo mais vezes se precisar!";
+		ResetSkill;
+		MUresetStatus(0);
+		close;
+
+	case 4: 
+		if(@MUreset && BaseLevel >= @MUlvl && (resetchar < @MUlimite || !@MUlimite)){
+			show "[Resetadora]";
+			show "Tudo bem, vou resetar agora.. Lembrando, você voltará ao lvl 1 com uma certa quantia de pontos!";
+			if(@MUinfo && @MUlimite){
+				show " ";
+				show "Informações:";
+				if(resetchar == 1) show "Você possui "+resetchar+" resete."; else
+				if(resetchar) show "Você possui "+resetchar+" resets.";
+				for(set @i,1; @i <= @MUlimite; set @i,@i+1)
+					show @i+"º reset "+@MUpnt*@i+" pontos";
+			}
+			next;
+			show "[Resetadora]";
+			show "Você tem certeza?";
+			next;
+			switch(select("Sim","Não")){
+				case 1:
+					show "[Resetadora]";
+					CheckZeny(@Mupreco);
+					set resetchar, resetchar + 1;
+					resetlvl(3);
+					MUresetStatus(1);
+					Show "Resetado com Sucesso";
+			}
+		}else
+			if(@MUreset){
+				if(BaseLevel < @MUlvl)	show "Desculpe, você não tem level necessário"; else
+				show "Desculpe, você ja chego no limite de resete";
+			}
+		
+	case 5: close;
+	}
+	
+function	MUresetStatus	{
+	resetstatus;
+	if(!getarg(0)){
+		if(resetchar) set statuspoint, statuspoint + @MUpnt*resetchar-48;
+	}else{
+			set statuspoint,statuspoint - statuspoint;
+			set statuspoint, statuspoint + @MUpnt*resetchar;
+	}
+}
+
+function	CheckZeny	{
+	if (Zeny < getarg(0)){
+		show "^FF3355Desculpe, você não tem todo o Zeny necessário.";
+		close;
+	}else set Zeny,zeny-getarg(0);
+}
+
+function 	CheckVIP	{
+	if(getgmlevel() >= @MUlimiteVIP[2]){
+		if(!@MUlimiteVIP[1])
+			set @MUlimite,0;
+		else
+			set @MUlimite,@MUlimiteVIP[1];
+	}
+}
+}

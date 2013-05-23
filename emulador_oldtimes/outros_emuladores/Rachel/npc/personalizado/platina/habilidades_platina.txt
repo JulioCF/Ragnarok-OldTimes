@@ -1,0 +1,55 @@
+//===== Cronus Script ======================================== 
+//= Habilidades Platina
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Recebe as habilidade de Quest
+//===== Changelog: ===========================================
+//= 1.1 Adicionado suporte as novas habilidades de Quest [Mehah]
+//= 1.2 Removido Fingir de Morto das Classes Extendeds [Pudim]
+//============================================================
+prontera,128,200,6	script	Habilidades de Platina	94,{
+	show "[Habilidades de Platina]";
+	show "Olá, você desejar receber suas habilidades extras?";
+	if(HP_custo) show "Irá custa "+HP_custo+" Zeny.";
+	next;
+	switch(select("Sim","Não")){
+		case 1:
+			show "[Habilidades de Platina]";
+			switch(BaseJob){		
+
+				case Job_Novice: callfunc("skill:add",HP_custo,2,142,143);			
+				case Job_Swordman: callfunc("skill:add",HP_custo,3,144,145,146);
+				case Job_Mage: callfunc("skill:add",HP_custo,1,157);
+				case Job_Archer: callfunc("skill:add",HP_custo,2,147,148);
+				case Job_Acolyte: callfunc("skill:add",HP_custo,1,156);
+				case Job_Merchant: callfunc("skill:add",HP_custo,3,153,154,155);
+				case Job_Thief: callfunc("skill:add",HP_custo,4,149,150,151,152);
+
+				case Job_Knight: callfunc("skill:add",HP_custo,4,144,145,146,1001);
+				case Job_Priest: callfunc("skill:add",HP_custo,2,156,1014);
+				case Job_Wizard: callfunc("skill:add",HP_custo,2,157,1006);
+				case Job_Blacksmith: callfunc("skill:add",HP_custo,5,153,154,155,1012,1013);
+				case Job_Hunter: callfunc("skill:add",HP_custo,3,147,148,1009);
+				case Job_Assassin: callfunc("skill:add",HP_custo,6,149,150,151,152,1003,1004);
+
+				case Job_Crusader: callfunc("skill:add",HP_custo,4,144,145,146,1002);
+				case Job_Monk: callfunc("skill:add",HP_custo,3,156,1015,1016);
+				case Job_Sage: callfunc("skill:add",HP_custo,2,157,1007);
+				case Job_Rogue: callfunc("skill:add",HP_custo,5,149,150,151,152,1005);
+				case Job_Alchem: callfunc("skill:add",HP_custo,4,153,154,155,238);
+				case Job_Bard: callfunc("skill:add",HP_custo,3,147,148,1010);
+				case Job_Dancer: callfunc("skill:add",HP_custo,3,147,148,1011);
+
+				default: callfunc("skill:add",HP_custo,1,142);
+			}
+			
+		case 2:
+			show "[Habilidades de Platina]";
+			show "Quando Você precisar dos meus serviços é só volta.";
+			close;		
+	}
+}
+

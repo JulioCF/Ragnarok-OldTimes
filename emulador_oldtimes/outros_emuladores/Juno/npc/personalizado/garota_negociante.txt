@@ -1,0 +1,94 @@
+//===== Cronus Script ================================================= 
+//= Garota Negociante
+//===== Por: ==========================================================
+//= Mehah
+//===== Versão Atual: ================================================= 
+//= 1.0
+//===== Descrição: ==================================================== 
+//= Dá gratuitamente Falcões, PecoPecos e Carrinhos
+//===== Changelog: ==================================================== 
+//=
+//=====================================================================
+
+prontera.gat,127,200,5	script	Garota Negociante	90,{
+	if(sex==1){set @gn_sex$,"M";}else{set @gn_sex$,"F";}
+	show "[Garota Negociante]";
+	show "Olá, aqui você pode pegar Carrinhos, Falcões e Pecopecos.";
+	next;
+	menu "Pegar Carrinho",L_Cart,"Pegar falcão",L_Falcon,"Pegar Pecopeco",L_Peco,"Sair",-;
+	show "[Garota Negociante]";
+	show strcharinfo(0) + ", por favor quando estiver pronto fale comigo novamente.";
+	close;
+L_Cart:
+	set @RentJobN$,"carrinhos são "+callfunc("classname",23,"P",@gn_sex$)+" e "+callfunc("classname",5,"P",@gn_sex$)+" com a habilidade que ambos possuem.";
+	set @RentName$,"Carrinho";
+	if(Class !=Job_Novice && checkcart(0) == 0 && getskilllv(39) >= 1){
+		setcart;
+		goto L_Quit;
+	}else{
+		if((BaseClass == Job_Merchant || Class == Job_SuperNovice) && getskilllv(39)<1){
+			goto L_Need_Skill;
+		}else{
+			if (checkcart(0) == 1){
+				goto L_Check;
+			}else{
+				goto L_NoClass;
+			}
+		}
+	}
+L_Falcon:
+	set @RentJobN$,"falcões são "+callfunc("classname",11,"P",@gn_sex$)+" com a habilidade que possue.";
+	set @RentName$,"Falcão";
+	if(Class !=Job_Novice && checkfalcon(0) == 0 && getskilllv(127) == 1){
+		setfalcon;
+		goto L_Quit;	
+	}else{
+		if(BaseJob != Job_Archer && BaseClass == Job_Archer && getskilllv(127)<1){
+			goto L_Need_Skill;
+		}else{
+			if (checkfalcon(0) == 1) {
+				goto L_Check;
+			}else{
+				goto L_NoClass;
+			}
+		}
+	}
+
+L_Peco:
+	set @RentJobN$,"PecoPecos são "+callfunc("classname",7,"P",@gn_sex$)+" e "+callfunc("classname",14,"P",@gn_sex$)+" com a habilidade que ambos possuem.";
+	set @RentName$,"PecoPeco";
+	if (Class !=Job_Novice && checkriding(0) == 0 && getskilllv(63) == 1){
+		setriding;
+		goto L_Quit;
+	}else{
+		if ((BaseJob != Job_Swordman && BaseClass == Job_Swordman) && getskilllv(63)<1){
+			goto L_Need_Skill;	
+		}else{
+			if (checkriding(0) == 1){
+				goto L_Check;
+			}else{
+				goto L_NoClass;
+			}
+		}
+	}
+L_NoClass:
+	show "[Garota Negociante]";
+	show "Desculpe " + strcharinfo(0) + ", os únicos que podem pegar "+@RentJobN$;
+	close;
+
+L_Need_Skill:
+	show "[Garota Negociante]";
+	show "Desculpe, você não tem a habilidade requerida para poder usar o "+@RentName$+".";
+	close;
+	
+L_Check:
+	show "[Garota Negociante]";
+	show "Você já possui "+@RentName$+"!";
+	close;
+
+L_Quit:
+	show "[Garota Negociante]";
+	show strcharinfo(0) + ", por favor volte aqui quando for preciso.";
+	close;
+	
+}

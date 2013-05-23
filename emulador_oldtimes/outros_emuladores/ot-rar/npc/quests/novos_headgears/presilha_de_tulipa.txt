@@ -1,0 +1,51 @@
+//= Cronus r3353
+
+geffen,84,189,6	script	Ses	815,{ 
+ mes "[Ses]";
+ if(BaseJob == Job_Novice) GOTO L_NOVICE;
+ mes "Woo,Óla! fruta fruta!";
+ mes "Desculpa, mas é que eu amo flores, frutas e tudo que me faça";
+ mes "paracer mais com elas.";
+ next;
+ menu "Faça-me uma Presilha de Tulipa!",-,"O que eu preciso?",M_REQ,"Adeus!",M_EXIT;
+
+ mes "[Ses]";
+ mes "Você já tem os items?";
+ next;
+ menu "Sim!",-,"Não!",M_EXIT;
+
+ if(countitem(2278) < 1 || countitem(975) < 1) GOTO L_NOITEM;//Items: Mr. Smile, Scarlet Dyestuffs,
+ delitem 2278,1;//Items: Mr. Smile,
+ delitem 975,1;//Items: Scarlet Dyestuffs,
+ mes "[Ses]";
+ mes "Iai! Obrigado! Abacaxi!";
+ mes "Aqui está!";
+ next;
+ getitem 5077,1;//Items: Tulip Hairpin,
+ mes "[Ses]";
+ mes "Aproveite ele!";
+ close;
+
+L_NOITEM:
+ mes "[Ses]";
+ mes "Você não tem itens sufuciente para eu criar uma Presilha de Tulipa!";
+ next;
+
+M_REQ:
+ mes "[Ses]";
+ mes "Bem, eu vou precisar de...";
+ mes "1 Máscara Feliz para a substância";
+ mes "e 1 Tintura Vermelha!";
+ mes "Traga eles para eu fazer seu item";
+ close;
+
+L_NOVICE:
+ mes "Eu amo flores... Você ama também?";
+ close;
+
+M_EXIT:
+ mes "[Ses]";
+ mes "Okay!";
+ mes "Até mais!";
+ close;
+}

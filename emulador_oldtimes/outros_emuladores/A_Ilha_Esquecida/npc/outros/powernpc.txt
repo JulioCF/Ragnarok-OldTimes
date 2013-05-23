@@ -1,0 +1,329 @@
+//===== Cronus Script ========================================
+//= Power Arena de Kunlun
+//===== Por: =================================================
+//= KarLaeda
+//===== Versão Atual: ========================================
+//= 1.0/1.0
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido [FrozenCirius]
+//============================================================
+
+gonryun,180,118,4	script	Homem de Ferro#gnp	85,{
+	if (countitem(1201) > 0) {
+		show "- Um momento !!! -";
+		show "- Você está carregando -";
+		show "- itens demais. -";
+		show "- Por Favor volte -";
+		show "- depois que você estiver um pouco mais leve. -";
+		close;
+	}
+	if (BaseJob == Job_Novice) {
+		show "[Songmoodoo]";
+		show "Crianças não são permitidas aqui.";
+		close;
+	}
+	if (in_battle == 3) set in_battle,1;
+	if (in_battle < 1) {
+		show "[Songmoodoo]";
+		show "Hey hey~ Isso não é algo";
+		show "que se vê todos os dias.";
+		show "Oh~ você parece forte!";
+		show "Quer tentar?";
+		next;
+		switch(select("Claro, porque não?:?????:Não, obrigado.")){
+		case 1:
+			show "[Songmoodoo]";
+			show "Haha~ Eu sabia que você iria tentar.";
+			show "Se você conseguir levantar aquilo,";
+			show "Eu lhe direi algo realmente interessante.";
+			show "Pronto?";
+			next;
+			show "^0000FFSongmoodoo aponta para uma rocha";
+			show "e te pede para levantá-la.";
+			if (BaseJob < Job_Knight) {
+				if (checkweight(7049,690)) {
+					show "^0000FFVocê levantou a rocha levemente.^000000";
+					set in_battle,1;
+					additem 7049,690; // Pedra
+					next;
+					emotion e_no1;
+					show "[Songmoodoo]";
+					show "Wow~ Excelente~";
+					show "Te levarei para um lugar legal";
+					show "Te vejo da próxima vez.";
+					show "Até mais~";
+				} else {
+					show "Parece muito pesado para você.^000000";
+					next;
+					show "[Songmoodoo]";
+					show "Você ainda precisa de muito treino.";
+					show "Volte quando tiver mais prática.";
+				}
+			} else if (BaseClass == Job_Swordman || BaseClass == Job_Thief || BaseClass == Job_Merchant || BaseJob == Job_Monk) {
+				if (checkweight(7049,1100)) {
+					show "^0000FFVocê levantou a pedra levemente.^000000";
+					set in_battle,1;
+					additem 7049,1100; // Pedra
+					next;
+					emotion e_no1;
+					show "[Songmoodoo]";
+					show "Wow~ Excelente~";
+					show "Te levarei para um lugar legal";
+					show "Te vejo da próxima vez.";
+					show "Até mais~";
+				} else {
+					show "Parece muito pesado para levantar.^000000";
+					next;
+					show "[Songmoodoo]";
+					show "Você ainda precisa de muito treino.";
+					show "Volte quando tiver mais prática.";
+				}
+			} else {
+				if (checkweight(7049,730)) {
+					show "^0000FFVocê levantou a rocha levemente.^000000";
+					set in_battle,1;
+					additem 7049,730; // Pedra
+					next;
+					emotion e_no1;
+					show "[Songmoodoo]";
+					show "Wow~ Excelente~";
+					show "Te levarei para um lugar legal";
+					show "Te vejo da próxima vez.";
+					show "Até mais~";
+				} else {
+					show "Parece pesado demais para levantar.^000000";
+					next;
+					show "[Songmoodoo]";
+					show "Você ainda precisa de muito treino.";
+					show "Volte quando tiver mais prática.";
+				}
+			}
+			break;
+		case 2:
+			show "[Songmoodoo]";
+			show "Talvez não seja uma boa idéia, mas.";
+			show "Se você acredita ser forte,";
+			show "Essa pode ser uma grande opotunidade de tentar";
+			show "algo novo. Quer tentar???";
+			break;
+		case 3:
+			show "[Songmoodoo]";
+			show "Eu também acho que não...";
+			show "...";
+			emotion e_pif;
+			break;
+		}
+	} else if (in_battle == 1) {
+		show "[Songmoodoo]";
+		show "É bom te ver de novo!";
+		show "Vamos lá???";
+		next;
+		if (select("Claro:Talvez na próxiam vez") == 1) {
+			show "[Songmoodoo]";
+			show "Excelente! Haha.";
+			show "Eu gosto da sua confiança.";
+			show "Boa sorte pra você~";
+			close2;
+			warp "gon_test",53,6;
+			end;
+		} else {
+			show "[Songmoodoo]";
+			show "Erm...";
+			show "Tudo bem.";
+			show "Então te vejo na próxima vez.";
+		}
+	} else {
+		show "[Songmoodoo]";
+		show "Você correu de lá?";
+		show "Acha que não é forte o suficiente?";
+		show "Eu lhe darei outra chance, se desejar.";
+		show "Até mais.";
+		emotion e_pif;
+		set in_battle,1;
+	}
+	close;
+}
+
+gon_test,50,14,4	script	Administrador#gnp	780,{
+	show "[Administrator]";
+	if (BaseJob == Job_Novice) {
+		show "Crianças não são bem-vindas aqui.";
+		close;
+	}
+	if ($@in_battle) {
+		show "Desculpe, o Campo de Batalha";
+		show "está ocupado agora.";
+		show "Tente de novo mais tarde.";
+		close;
+	}
+	show "Você está pronto?";
+	show "";
+	show "Lembre que você tem de me pagar";
+	show "500 zenys para batalhar.";
+	next;
+	if (select("Sim, deixe-me batalhar!:Um momento, por favor.") == 2) {
+		show "[Administrator]";
+		show "Ok, te vejo mais tarde.";
+		close;
+	}
+	if (Zeny < 500) {
+		show "[Administrator]";
+		show "Desculpe mas você não possui 500 zenys.";
+		close;
+	}
+	set Zeny,Zeny - 500;
+	set in_battle,1;
+	warp "gon_test",42,86;
+	set $@in_battle,1;
+	setnpctimer 0,"Invocador#gnp";
+	startnpctimer "Invocador#gnp";
+	end;
+}
+
+gon_test,42,89,4	script	Invocador#gnp	774,{
+	show "[SongYeunWoo]";
+	if (in_battle == 3) {
+		show "Por favor, volte depois de se registrar.";
+		close;
+	} else if (in_battle == 2) {
+		show "Você já tem uma partida para disputar.";
+		show "Você só pode disputar uma partida por vez.";
+		show "Por favor, retorne se você quiser uma partida";
+		show "com outros monstros.";
+		close;
+	}
+	show "Bem-vindo.";
+	show "Quais monstros você gostaria de invocar?";
+	next;
+	set @gnpGroup,select("Grupo 1:Grupo 2:Grupo 3:Grupo 4:Grupo 5:Grupo 6:Grupo 7:Grupo 8:Grupo 9:Grupo 10:Grupo 11");
+	set @gnpGroupMob$,.gnpMobsName$[(@gnpGroup-1)*6];
+	for (set @i,1; @i < 6; set @i, @i+1) {
+		set @gnpGroupMob$, @gnpGroupMob$ + ":" + .gnpMobsName$[(@gnpGroup-1)*6 + @i];
+	}
+	set @gnpMob,select(@gnpGroupMob$);
+	show "[SongYeunWoo]";
+	show "Que comecem as batalhas!";
+	close2;
+	set in_battle,2;
+	if (getnpctimer(0) < 180000) monster "gon_test",56,86,.gnpMobsName$[(@gnpGroup-1)*6 + @gnpMob - 1],.gnpMobsId[(@gnpGroup-1)*6 + @gnpMob - 1],1,"Invocador#gnp::OnGnpMobDead";
+//  do init timer on mob select ?
+//	setnpctimer 0;
+	end;
+
+	OnInit:
+		initnpctimer;
+		stopnpctimer;
+		setarray .gnpMobsName$[0],"Farmiliar","Esporo Venenoso","Drainilar","Argos","Louva-a-Deus","Lobo do Deserto";
+		setarray .gnpMobsId[0],1419,1428,1434,1430,1457,1432;
+		setarray .gnpMobsName$[6],"Orc Esqueleto","Sasquatch","Esqueleto Operário","Matyr","Obeaune","Bongun";
+		setarray .gnpMobsId[6],1462,1442,1469,1460,1425,1472;
+		setarray .gnpMobsName$[12],"Trilobita","Cobold Arqueiro","Soldadinho de Chumbo","Cavalo Marinho","JAKK","Carniçal";
+		setarray .gnpMobsId[12],1454,1455,1443,1426,1436,1423;
+		setarray .gnpMobsName$[18],"Marduk","Talo de Verme","Argiope","Marionete","Chepet","Mosca Caçadora";
+		setarray .gnpMobsId[18],1458,1440,1429,1459,1444,1422;
+		setarray .gnpMobsName$[24],"Isis","Punk","Sorrateiro","Petite Terrestre","Petite Voador","Deviruchi";
+		setarray .gnpMobsId[24],1421,1481,1424,1465,1466,1433;
+		setarray .gnpMobsName$[30],"Pesadelo","Arqueiro Orc","Bafomé Jr","Injustiçado","Mímico","Nove-Caudas";
+		setarray .gnpMobsId[30],1427,1473,1431,1446,1474,1471;
+		setarray .gnpMobsName$[36],"Xamã do Vento","Grand Orc","Minorous","Raydric","Raydric Arqueiro","Esqueleto Prisioneiro";
+		setarray .gnpMobsId[36],1450,1439,1461,1467,1453,1479;
+		setarray .gnpMobsName$[42],"Tritão","Alma Penada","Joker","Penomena","Alarme","Druida Malígno";
+		setarray .gnpMobsId[42],1451,1475,1437,1441,1476,1435;
+		setarray .gnpMobsName$[48],"Arclouse","Moldura maldita","RideWord","Sting","Anolian","Khalitzburg";
+		setarray .gnpMobsId[48],1477,1448,1478,1489,1488,1438;
+		setarray .gnpMobsName$[54],"Zherlthsh","Pasana","Executor","Dragão Mutante","Quimera","Tirfing";
+		setarray .gnpMobsId[54],1482,1464,1487,1449,1456,1486;
+		setarray .gnpMobsName$[60],"Grifo","Rybio","Andarilho","Fendark","Mysteltainn";
+		setarray .gnpMobsId[60],1447,1483,1490,1484,1485;
+	end;
+
+	OnTimer120000:
+		areaannounce "gon_test",41,81,74,92,"1 min. restante",0;
+	end;
+
+	OnTimer180000:
+		killmonster "gon_test","Invocador#gnp::OnGnpMobDead";
+	end;
+
+	OnTimer182000:
+		areaannounce "gon_test",41,81,74,92,"Acabou o tempo.",0;
+	end;
+
+	OnGnpMobDead:
+		setnpctimer 0;
+		set in_battle,1;
+		areaannounce "gon_test",41,81,74,92,"Obrigado. Volte mais vezes.",0;
+		sleep 4000;
+	OnTimer184000:
+		stopnpctimer;
+		areawarp "gon_test",41,81,74,92,"gon_test",44,4;
+		set $@in_battle,0;
+	end;
+}
+
+gon_test,46,14,3	script	Guia do Campo#gnp	770,{
+	show "[SongHeeYeon]";
+	show ".....";
+	show "Olá~";
+	show "Esse é o Campo de Batalha.";
+	show "Tem alguma pergunta?";
+	next;
+	switch(select("Um Campo de Batalha?:Apenas um minutinho, senhora.:Entrar.:Sair.:Não tenho perguntas.")){
+	case 1:
+		show "[SongHeeYeon]";
+		show "Como o nome sugere,";
+		show "aqui é um campo para partidas.";
+		show "Nós temos variados monstros";
+		show "em diferentes níveis.";
+		next;
+		show "[SongHeeYeon]";
+		show "Monstros-Chefes de primeira classe ainda estão em preparativos.";
+		show "Nós cobramos uma pequena taxa pra entrar.";
+		break;
+	case 2:
+		show "[SongHeeYeon]";
+		show "erm...desculpe-me?";
+		show "ah..Acho que tenho muito trabalho ainda...";
+		show "Sinto muito..";
+		break;
+	case 3:
+		show "[SongHeeYeon]";
+		show "Sim, obrigado.";
+		show "Divirta-se.";
+		close2;
+		set in_battle,3;
+		warp "gon_test",25,98;
+		end;
+	case 4:
+		show "[SongHeeYeon]";
+		show "Obrigado.";
+		show "Por favor, volte sempre.";
+		close2;
+		warp "gonryun",177,112;
+		end;
+	case 5:
+		show "[SongHeeYeon]";
+		show "...";
+		show "Adeus.";
+		break;
+	}
+	close;
+}
+
+gon_test,70,103,3	script	ChowAnAn#gnp	773,{
+	show "[ChowAnAn]";
+	show "Deseja voltar?";
+	next;
+	if (select("Sim.:Não.") == 1) {
+		show "[ChowAnAn]";
+		show "Obriagdo.";
+		show "Por favor, volte mais vezes.";
+		close2;
+		set in_battle,1;
+		warp "gon_test",44,4;
+		end;
+	}
+	show "[ChowAnAn]";
+	show "Obrigado.";
+	close;
+}

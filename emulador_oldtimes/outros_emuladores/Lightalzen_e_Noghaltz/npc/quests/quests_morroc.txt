@@ -1,0 +1,116 @@
+//===== Cronus Script ======================================== 
+//= Quests de Morroc
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Quests da cidade de Morroc
+//===== Changelog: =========================================== 
+//= 1.1 Traduzido [Dinasty]
+//============================================================
+
+// Stop Post Quest
+morocc_in.gat,142,100,4	script	William	89,{
+	show "[William]";
+	show "Bem vindo a famosa loja de ^3355FF'Placa de PARE...'^000000 a casa dos MacWillian's.";
+	next;
+	show "[William]";
+	show "Já ouviu falar da nossa família?.. Nós produzimos sinais de trânsito a mais de 250 anos.";
+	show "E eu tenho recebido muitos pedidos de ^3355FF'Placas de PARE'^000000 recentemente ;]";
+	next;
+	menu "Eu quero uma ^3355FF'Placa de PARE'^000000!",M_Order, "Não estou interessado.",M_End;
+
+	M_Order:
+		show "[William]";
+		show "A ^3355FF'Placa de PARE'^000000 cabe confortavelmente na cabeça das pessoas.";
+		show "Não é somente um acessório interessante, como também está na moda.";
+		next;
+		show "[William]";
+		show "Eu garanto que a nossa ^3355FF'Placa de PARE'^000000 dura bem mais que 100 anos, ou então não me chamo MacWillian!!";
+		next;
+		show "[William]";
+		show "Para produzir a ^3355FF'Placa de PARE'^000000, você precisa:";
+		show "^3355FF91100 Zeny,";
+		show "50 Troncos,";
+		show "e 1 Tintura Preta^000000.";
+		next;
+		if((countitem(1019) >= 50) && (countitem(983) >= 1) && (Zeny >= 91100)) goto sL_GetPost;
+		show "[William]";
+		show "Você não tem os itens necessários, volte mais tarde. ";
+		close;
+
+		sL_GetPost:
+			show "[William]";
+			show "Aqui está a ^3355FF'Placa de PARE '^000000! Obrigado.";
+			additem 2272,1;
+			delitem 1019,50;
+			delitem 983,1;
+			set Zeny, Zeny - 91100;
+			emotion 15;
+			close;
+
+	M_End:
+		show "[William]";
+		show "Obrigado por parar na casa dos MacWillian's, até mais. ";
+		close;
+}
+
+// Binoculars Quest
+morocc_in.gat,76,163,4	script	Alquimista	64,{
+	show "[Marius]";
+	show "Ha! Ha! Ha!! Outro cliente... Espera!!! Eu sei o que vai dizer.......Você quer os binóculos, certo?";
+	next;
+	menu "Binóculos?",M_What, "Fazer binóculos.",M_Make, "Cancelar.",M_End;
+
+	M_What:
+		show "[Marius]";
+		show "É chamado realmente de ^3355FF'Binóculos'^000000! É um dispositivo óptico para enxergar distânte, e não para algo de perto.";
+		next;
+		show "[Marius]";
+		show "Você ve, são duas lentes colocadas na frente dos seus olhos.. e seu cérebro interpreta a imagem.. blah blah blah..";
+		next;
+		show "[Marius]";
+		show "Você não parece interessado em o que eu tenho em dizer...! Você não acredita?? Estou dizendo a verdade!";
+		emotion 20;
+		next;
+		show "[Marius]";
+		show "Para você fazer os ^3355FF'Binóculos'^000000, você precisa:";
+		show "^3355FF50,000 Zeny,";
+		show "100 Aços,";
+		show "e 1 Quatro Olhos^000000.";
+		next;
+		show "[Marius]";
+		show "Aff! Oh cara, não..... Um! O que eu estava falando é realmente verdade ....!!!";
+		close;
+
+	M_Make:
+		show "[Marius]";
+		if((countitem(2243) < 1) || (countitem(999) < 100) || (Zeny < 50000)) goto sL_NotEnuf;
+		show "Bommm! Você apreciará definitivamente um par destes";
+		next;
+		show "[Marius]";
+		show "Aqui está os binóculos !";
+		additem 2296,1;
+		delitem 2243,1;
+		delitem 999,100;
+		set Zeny, Zeny - 50000;
+		next;
+		show "[Marius]";
+		show "Mas antes que você saia e use-os, eu tenho algo a lhe dizer......";
+		if(sex==0) show "NÃO USE-OS PARA SE APROVEITAR DE OUTROS!";
+		if(sex==1) show "Cuidado para onde você olha.... você pode ver o que não quer.......";
+		close;
+
+		sL_NotEnuf:
+			show "Argggghhhhhhh !! Você não tem os itens necessários!! Você precisa de:";
+			show "^3355FF1 Quatro Olhos, 50,000 Zeny and 100 Aços^000000.";
+			emotion 6;
+			close;
+
+	M_End:
+		show "[Marius]";
+		show "Ei você! Você está falando com o mais famoso mestre em ótica do mundo! Não deve me ignorar!";
+		emotion 23;
+		close;
+}

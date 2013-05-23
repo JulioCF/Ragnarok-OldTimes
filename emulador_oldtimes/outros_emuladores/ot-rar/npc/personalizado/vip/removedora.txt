@@ -1,0 +1,61 @@
+sec_in01,165,180,4	script	Velha Sábia	863,{
+
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	mes "[Velha Sábia]";
+	mes "Eu tenho o poder místico de remover cartas colocadas em equipamentos. O que acha disso?";
+	mes "^FF0000Nada será perdido, a chance de sucesso é de 120% *-*^000000";
+	next;
+	switch (select ("Me ajudaria muito!:O que você quer em troca?:Não acho nada interessante..."))
+	{
+		mes "[Velha Sábia]";
+	
+		case 1:
+			mes "Então, qual item você quer que eu examine?";
+			setarray .@pos$[1], "Cabeça Topo","Armadura","Mão Esquerda","Mão Direita","Capa","Sapatos","Acessório 1","Acessório 2","Cabeça Meio","Cabeça Baixo";
+			set .@menu$, "";
+			for (set .@i, 1; .@i <= 10; set .@i, .@i + 1)
+			{
+				if (getequipisequiped(.@i))
+					set .@menu$, .@menu$ + .@pos$[.@i] + " ("+getequipname(.@i)+")";
+				set .@menu$, .@menu$ + ":";	
+			}
+			next;
+			set .@menu, select (.@menu$);
+			mes "[Velha Sábia]";
+			if (!getequipisequiped(.@menu))
+				callsub F_MesThenClose, "Não há nada equipado aí.";
+			if (!getequipcardcnt(.@menu))
+				callsub F_MesThenClose, "Não há nenhuma carta nesse equipamento.";
+			if (!checkweight(1202,(getequipcardcnt(.@menu)+1)))
+				callsub F_MesThenClose, "Você está com peso de mais. Vá até o armazém e guarde algumas coisas.";
+			mes "O item escolhido possui "+getequipcardcnt(.@menu)+" carta(s) equipada(s).";
+			mes "Para aprimorar minha magia, serão necessários "+((getequipcardcnt(.@menu)*25000)+200000)+"z,";
+			mes "1 Fragmento Estelar e 1 Gema Amarela.";
+			next;
+			if (select ("Continuar!:Desistir...") == 2) close;
+			mes "[Velha Sábia]";
+			if ((Zeny < (200000+(getequipcardcnt(.@menu)*25000))) || (countitem(1000) < 1) || (countitem(715) < 1))
+				callsub F_MesThenClose, "Você não tem tudo que é necessário para minha mágica; volte quando conseguir.";
+			mes "Muito bem, vamos começar!";
+			next;
+			mes "[Velha Sábia]";
+			set Zeny, Zeny - (200000+(getequipcardcnt(.@menu)*25000));
+			delitem 1000, 1;
+			delitem 715, 1;
+			successremovecards .@menu;
+			callsub F_MesClose, "O processo foi um grande sucesso, tudo ocorreu nos conformes.";	
+	
+		case 2: callsub F_MesClose, "Eu vou precisar de 200.000z, mais 25.000z para cada carta em seu equipamento. Além disso, precisarei de 1 un. Fragmento Estelar e 1 un. Gema Amarela para realizar minha mágica.";
+		
+		case 3:	callsub F_MesClose, "Que pena... T_T";
+	}
+	
+	F_MesClose:
+		mes getarg(0);
+		close;
+	return;
+}

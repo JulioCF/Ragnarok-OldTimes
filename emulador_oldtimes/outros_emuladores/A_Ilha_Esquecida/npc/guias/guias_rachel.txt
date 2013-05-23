@@ -1,0 +1,116 @@
+//===== eAthena Script ======================================= 
+//= Guia de Rachel
+//===== By: ================================================== 
+//= L0ne_W0lf
+//===== Current Version: ===================================== 
+//= 1.2a
+//===== Compatible With: ===================================== 
+//= eAthena SVN
+//===== Description: ========================================= 
+//= [Aegis Conversion]
+//= Rachel City guide
+//===== Additional Comments: ================================= 
+//= 1.0 First version. [L0ne_W0lf]
+//= 1.1 Change the while loops a bit. [L0ne_W0lf]
+//= 1.2 Deleted an Unnecessary "next;" [Samuray22]
+//	-Thanks to $ephiroth.
+//= 1.2a Fixed some errors with the loop[Samuray22]
+//	-Thanks to $ephiroth.
+//============================================================ 
+
+rachel,138,146,5	script	Guia de Rachel	934,{
+	show "[Guia de Rachel]";
+	show "Seja bem-vindo á capital de";
+	show "Arunafeltz, Rachel. onde o";
+	show "ar da deusa Freya extende-se.";
+	show "Se estás usando pela primeira vez";
+	show "os serviços de um guia, porque";
+	show "não checar o menu \"Noticias\" primeiro?";
+	set .@loop1,1;
+	while(.@loop1) {
+		next;
+		switch(select("Guia da Vila:Remover marcas do mini-mapa:Notícias:Cancelar")) {
+		case 1:
+			show "[Guia de Rachel]";
+			show "Posso lhe indicar qualquer construção de Rachel.";
+			show "Então, aonde você quer ir?";
+			if (.@compass_check == 0) {
+				show "Quer que eu marque";
+				show "as localizações no seu";
+				show "Mini-Mapa?";
+				next;
+				if (select("Sim:Não") == 1) set .@compass_check,1;
+			}
+			set .@loop2,1;
+			while(.@loop2) {
+				if (.@wait_button_chk == 0) set .@wait_button_chk,1;
+				else next;
+
+				switch(select("Cheshrumnir:Hotel:Loja de Armas:Loja de Utilidades:Aeroporto:Cancelar")) {
+				case 1:
+					show "[Guia de Rachel]";
+					show "Cheshrumnir é o Solo Sagrado onde a Papa, a encarnação da deusa Freya vive.";
+					show "Tome a rua norte para encontrar o prédio.";
+					if (.@compass_check == 1) viewpoint 1,150,249,1,0xFF0000;
+					break;
+				case 2:
+					show "[Guia de Rachel]";
+					show "Você pode descançar de suas aventuras no Hotel.";
+					show "O prédio á minha esquerda é o Hotel de Rachel.";
+					if (.@compass_check == 1) viewpoint 1,115,149,2,0xFF00FF;
+					break;
+				case 3:
+					show "[Guia de Rachel]";
+					show "Quer conferir as armas que são vendidas em Rachel?";
+					show "A loja de armas fica perto do portão ocidental.";
+					if (.@compass_check == 1) viewpoint 1,42,87,3,0x99FFFF;
+					break;
+				case 4:
+					show "[Guia de Rachel]";
+					show "A loja de Utilidades de Rachel vende as poções de melhor qualidade.";
+					show "Está localizada próxima ao portão ocidental.";
+					if (.@compass_check == 1) viewpoint 1,83,78,4,0x0000FF;
+					break;
+				case 5:
+					show "[Guia de Rachel]";
+					show "O aeroporto está localizado perto do portão oriental.";
+					if (.@compass_check == 1) viewpoint 1,273,125,5,0x00FF00;
+					break;
+				case 6:
+					show "[Guia de Rachel]";
+					show "Se você quiser que eu apague as indicações no seu mini-mapa,";
+					show "me peça, escolhendo \"Remover marcas do mini-mapa\" no menu.";
+					set .@loop2,0;
+					break;
+				}
+			}
+			break;
+
+		case 2:
+			viewpoint 2,150,249,1,0xFF0000;
+			viewpoint 2,115,149,2,0xFF00FF;
+			viewpoint 2,42,87,3,0x99FFFF;
+			viewpoint 2,83,78,4,0x0000FF;
+			viewpoint 2,273,125,5,0x00FF00;
+			show "[Guia de Rachel]";
+			show "Ok, eu apaguei tudo. Se você quiser saber mais sobre algum local daqui, venha me procurar.";
+			break;
+		case 3:
+			show "[Guia de Rachel]";
+			show "Quando você está usando o ''Guia da Vila'',";
+			show "tenha certeza de que eles estão aparecendo no canto superior direito de sua tela.";
+			show "Se você não está vendo seu mini-mapa, aperte ''ctrl+tab'' ou clique no botão ''Mapa'' na sua janela de informações básicas, ok?";
+			show "Você ainda pode tirar o zoom no mini-mapa apertando o botão ''-'' no caso de você não estar vendo o mapa da vila por inteiro.";
+			break;
+		case 4:
+			show "[Guia de Rachel]";
+			show "Espero que tenha uma maravilhosa jornada";
+			show "em Arunafeltz.";
+			close2;
+			set .@loop1,0;
+			break;
+		}
+	}
+	close;
+	end;
+}

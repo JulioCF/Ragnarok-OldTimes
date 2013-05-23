@@ -1,0 +1,201 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Arqueiro
+//===== Por: =================================================
+//= Plinio Marcos
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Descrição: ===========================================
+//= Quest das habilidades de Arqueiro
+//= Retirado do Amazon
+//===== Changelog: ===========================================
+//= 1.0 Traduzido [Tassadar]
+//============================================================
+
+//<======================== Roberto: Arrow crafting =========================>\\
+morocc,121,109,5	script	Roberto	88,{
+	show "[Roberto]";
+	if (baseClass == Job_Archer) goto L_Start;
+
+L_Other:
+	show "Eh?... Primeira vez que vê um arqueiro? por que você apenas";
+	show "não vai cuidadar de seus problemas. Eu só falo com aventureiros experientes";
+	show "e somente arqueiros........";
+	emotion 1;
+	close;
+L_Start:
+	if (BaseJob==Job_Archer && JobLevel<35) goto L_LowLvl;
+	if (getskilllv(147)>0) goto L_GotSkill;
+	if (ARWCRFT == 1) goto L_GetSkill;
+	show "Hmmm?.... Oh, você me parece ser um arqueiro experiente.  Vamos conversar";
+	show "por um momento, eh? Vou começar falando de mim";
+	show "Na minha infância.... . . . . . . . . . . .";
+	next;
+	show "[Roberto]";
+	show "Quando eu tinha 15 anos, eu decidi trabalhar com um Ferreiro........";
+	next;
+	show "[Roberto]";
+	show "............... ~(blah blah blah)~...................";
+	next;
+	show "[Roberto]";
+	show ".... o homen era um bom ferreiro...........";
+	next;
+	show "[Roberto]";
+	show "..~(blah blah)~........ ~(blah blah)~.........";
+	next;
+	show "(muitas horas depois.....)";
+	next;
+	show "[Roberto]";
+	show "Com isso eu consegui aprender a criar vários tipos de";
+	show "de flechas.  isso sim, veio bem a calhar.";
+	next;
+	show "[Roberto]";
+	show "Me diga, você gostaria de aprender essa habilidade?";
+	show "Acho que posso lhe confiar este ensinamento.......";
+	next;
+	menu "Zzz... Eh!! Uh, Flechas... criar... sim, aprender.",M_0, "Zzzzz... Eh! uh... Onde estou????",M_1;
+
+	M_0:
+		show "[Roberto]";
+		show "Muito bem!  para aprender a arte de ^5533FF'Criar";
+		show "Flechas'^000000, você deve me entregar estes itens:";
+		show "^FF335520 Resina,";
+		show "7 Esporos Venenoso,";
+		show "41 Escamas Afiada,";
+		show "13 Troncos,";
+		show "1 Poção Vermelha^000000";
+		set ARWCRFT, 1;
+		emotion 5;
+		close;
+	M_1:
+		show "[Roberto]";
+		show "................................................................";
+		emotion 7;
+		next;
+		show "[Roberto]";
+		show "Você não ouviu nada do que eu disse... afff";
+		show "Cai fora........";
+		emotion 32;
+		next;
+		show "!!!!SMACK!!!!";
+		percentheal -5,0;
+		close;
+
+L_GetSkill:
+	if ((countitem(907)<20) || (countitem(7033)<7) || (countitem(906)<41) || (countitem(1019)<13) || (countitem(501)<1)) goto L_NotEnuf;
+	show "Você conseguiu todos os itens... Muito bem.  Vamos começar.....";
+	next;
+	show "~ Fique sempre com a lista de ingredientes em mãos ~";
+	next;
+	show "[Roberto]";
+	show "Ajuste aqui, se não vai dar errado.";
+	next;
+	show ".......................";
+	next;
+	show "[Roberto]";
+	show "Hmm?...... oque você acha que é isso'?....... eu não esperava algo";
+	show "assim...... Procure na lista o tipo de ingrediente você precisa para";
+	show "fazer as flechas que você quer.......";
+	next;
+	show "[Roberto]";
+	show "Não fique na expectativa de ter uma cerimônia para você";
+	show "pois o treinamento é legitimo.......";
+	next;
+	delitem 907, 20;
+	delitem 7033, 7;
+	delitem 906, 41;
+	delitem 1019, 13;
+	delitem 501, 1;
+	skill 147,1,0;
+	set ARWCRFT, 0;
+	show "[Roberto]";
+	show "...... boa sorte, criador de flechas.  espero que a utilize bem";
+	show "e detone alguns monstros hehehe.......";
+	close;
+
+	L_NotEnuf:
+		show "Você não tem os itens que eu lhe pedi.";
+		next;
+		goto M_0;
+L_GotSkill:
+	show "Hmmm?.... Hey, eu não tenho mais nada para lhe ensinar.";
+	show "Vai fazer suas flechas";
+	show "e economizar umas zeny.....";
+	close;
+L_LowLvl:
+	show "Hmm?... Você gostaria de falar comigo? Mas eu não tenho nada";
+	show "prá falar com você.....";
+	emotion 1;
+	next;
+	show "[Roberto]";
+	show "Eu só converso com arqueiros de ^5533FFalto nível de classe^000000 pois";
+	show "o que tenho a dizer só interessa a esse tipo de aventureiro.";
+	show "Pois o que tenho para ensinar precisa de aventureiros experientes.";
+	close;
+}
+
+
+//<============================== Arrow Repel ===============================>\\
+payon,103,63,5	script	Jason	88,{
+	show "[Jason]";
+	if (baseClass == Job_Archer) goto L_Start;
+
+L_Other:
+	show "Hei, não tenho nada a lhe dizer?";
+	close;
+L_Start:
+	if (getskilllv(148)>0) goto L_GotSkill;
+	if (BaseJob == Job_Archer && JobLevel < 35) goto L_LowLvl;
+	if (ARWREP == 1) goto L_Check;
+	show "Oi, Eu sou o mestre da habilidade ^0033FFDisparo Violento^000000. Eu posso";
+	show "lhe ensiná-lá, mas só se você me ajudar a conseguir uns igredientes";
+	show "para a sopa da minha avó.";
+	next;
+	show "[Jason]";
+	show "Arrow Repel permite que você empurre seu oponente para trás";
+	show "mantendo uma distância segura.  Essa habilidade é muito importante";
+	show "para arqueiros.";
+	next;
+
+	L_List:
+	show "[Jason]";
+	show "Eu preciso desses itens:";
+	show "- 2 ^FF0000Esmeraldas^000000";
+	show "- 3 ^FF0000Caudas de Yoyo^000000";
+	show "- 10 ^FF0000Tentáculos^000000";
+	show "- 10 ^FF0000Bicos de Ave^000000";
+	show "- 36 ^FF0000Sucos de Banana^000000";
+	next;
+	show "[Jason]";
+	show "Estarei esperando aqui.";
+	set ARWREP, 1;
+	close;
+
+L_LowLvl:
+	show "Você me parece muito inexperiente para lhe ensinar está habilidade,";
+	show "volte outra hora!  Principalmente quando estiver em um ^5533FFNível de Classe 35^000000 ou maior.";
+	close;
+
+L_Check:
+	if ((countitem(721)<2) || (countitem(942)<3) || (countitem(962)<10) || (countitem(925)<10) || (countitem(532)<36)) goto L_NotEnuf;
+	show "OH! Muito bem, você conseguiu todos os ingredientes!";
+	show "Agora irei lhe ensinar a habilidade ^0033FFDisparo Violento^000000";
+	next;
+	delitem 721,2;
+	delitem 942,3;
+	delitem 962,10;
+	delitem 925,10;
+	delitem 532,36;
+	skill 148,1,0;
+	set ARWREP, 0;
+	show "[Jason]";
+	show "Muito bem! Boa caçada.";
+	close;
+
+	L_NotEnuf:
+		show "Pena, você ainda não conseguiu os ingredientes.";
+		next;
+		goto L_List;
+L_GotSkill:
+	show "Hei! Você novamente? Mas eu não tenho mais nada para lhe ensinar.";
+	close;
+}

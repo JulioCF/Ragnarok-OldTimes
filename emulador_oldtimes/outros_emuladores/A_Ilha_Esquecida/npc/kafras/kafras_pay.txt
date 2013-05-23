@@ -1,0 +1,41 @@
+//===== Cronus Script ======================================== 
+//= Kafras Payon
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Kafras da cidade de Payon
+//===== Changelog: =========================================== 
+//= 1.1 Iniciado o Npc [Kamper]
+//============================================================
+payon,181,104,4	script	Funcionária Kafra#pay1	113,{
+	cutin "kafra_05",2;
+	callfunc "F_KafSetPay";
+	callfunc "F_Kafra",0,0,1;
+
+	M_Save:
+		savepoint "payon",160,58;
+		callfunc "F_KafEnd",0,1;
+}
+pay_arche,55,123,8	script	Funcionária Kafra#pay2	115,{
+	cutin "kafra_03",2;
+	callfunc "F_KafSetPay";
+	callfunc "F_Kafra",0,0,1;
+
+	M_Save:
+		savepoint "pay_arche",49,144;
+		callfunc "F_KafEnd",0,1;
+}
+function	script	F_KafSetPay	{
+	setarray @wrpD$[0], "Alberta", "Prontera", "Morroc";
+	setarray @wrpP[0], 1200, 1800, 2000;
+	set @wrpC$[0], @wrpD$[0]+" -> "+@wrpP[0];
+	set @wrpC$[1], @wrpD$[1]+" -> "+@wrpP[1];
+	set @wrpC$[2], @wrpD$[2]+" -> "+@wrpP[2];
+	set @wrpC$[3], "Cancel";
+	set @wrpC$[4], "";
+	set @wrpC$[5], "";
+	set @wrpC$[6], "";
+	return;
+}

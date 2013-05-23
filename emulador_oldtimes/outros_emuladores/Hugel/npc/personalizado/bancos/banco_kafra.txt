@@ -1,0 +1,99 @@
+//===== Cronus Script ========================================  
+//= Banco Kafra de Prontera
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.7
+//===== Changelog: =========================================== 
+//= 1.6 Traduzido o Npc [Kamper]
+//= 1.7 Organizado [Kamper]
+//============================================================
+
+prontera,132,217,5	script	Banco Kafra	113,{
+	cutin "kafra_05",2;
+	show "[Kafra]";
+	show strcharinfo(0)+", bem-vindo ao Banco Kafra";
+
+	set @kb_int,(gettime(6)*31)+gettime(5); 
+	set @income,0;
+	if (#kafrabank<=0 || #kb_int>=@kb_int) goto L_NoIncomeToday;
+	set @income,(#kafrabank/1000)*(@kb_int-#kb_int); 
+
+	L_NoIncomeToday:
+		set #kb_int,@kb_int; 
+		show "[Kafra]";
+		if(#kafrabank==0) show "Nós poderíamos abrir uma conta";
+		if(@income>0) show "Renda de hoje ^135445" + @income + "^000000 zeny.";
+		set #kafrabank,#kafrabank+@income;
+		if(#kafrabank>0) show "Sua conta: ^135445" + #kafrabank + "^000000 zeny.";
+		show "O que você deseja?";
+		next;
+		if(#kafrabank==0) menu "-Abrir uma conta no banco",-,"-Sair",B_EXIT2;
+		if(#kafrabank>0) menu "-Depositar",-,"-Retirar",M_WITHDRAW,"-Sair",B_EXIT2;
+		show "[Kafra]";
+		show "Por favor, diga-me quantos zenys você gostaria de depositar.";
+		next;
+		digit @kafrabank;
+  
+		if(@kafrabank<1000) goto L_LESS_1000;
+		if(@kafrabank>1000000) goto L_TOO_BIG_AMOUNT;
+		if(@kafrabank+@kafrabank2>zeny) goto L_NOT_ENOUGH;
+		set zeny,zeny-@kafrabank;
+		set #kafrabank,#kafrabank+@kafrabank;
+		show "[Kafra]";
+		show "Você fez um depósito de ^135445" + @kafrabank + "z^000000.";
+ 
+		goto B_EXIT;
+
+	M_WITHDRAW:  
+		if(#kafrabank==0) goto L_ZERO_ACCOUNT;
+		show "[Kafra]";
+		show "Sua conta: ^135445" + #kafrabank + "^000000 zeny.";
+		show "Quantos zenys você gostaria de retirar?";
+		next;
+		digit @kafrabank;
+  
+		if(@kafrabank<1) goto B_EXIT2;
+		if(@kafrabank>1000000) goto L_TOO_BIG_AMOUNT;
+		if(@kafrabank>#kafrabank) goto L_NOT_ENOUGH;
+		set #kafrabank,#kafrabank-@kafrabank;
+		set zeny,zeny+@kafrabank;
+		show "[Kafra]";
+		show "Aqui, ^135445" + @kafrabank + "z^000000, ponha sua assinatura aqui";
+		goto B_EXIT;
+  
+	L_NOT_ENOUGH:  
+		show "[Kafra]";
+		show "Você não tem tanto zeny em sua conta.";
+		next;
+		goto B_EXIT2;
+
+	L_ZERO_ACCOUNT:  
+		show "[Kafra]";
+		show "Você não tem nenhum zeny em sua conta";
+		next;
+		goto B_EXIT2;
+
+	L_TOO_BIG_AMOUNT:  
+		show "[Kafra]";
+		show "Desculpe, o máximo de zenys que você pode depositar é 1,000,000.";
+		next;
+		goto B_EXIT2;
+
+	L_LESS_1000:  
+		show "[Kafra]";
+		show "Desculpe, a quantidade mínima de zenys que você deve depositar é 1,000.";
+		next;
+		goto B_EXIT2;
+  
+	B_EXIT:
+		show "[Kafra]";
+		show "Muito bem, venha quando precisar!";
+		next;
+
+	B_EXIT2:  
+		show "[Kafra]";
+		show "Obrigado por usar nosso serviço.";
+		cutin "",255;
+		close; 
+}

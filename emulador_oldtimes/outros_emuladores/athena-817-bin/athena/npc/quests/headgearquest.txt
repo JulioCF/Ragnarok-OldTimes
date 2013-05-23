@@ -1,0 +1,693 @@
+// $Id: headgearquest.txt,v 1.1 2004/02/03 17:28:43 rovert Exp $
+// Item 'Pretend Murdered' quest
+payon_in01.gat,103,111,4	script	Granny	103,{
+	if(countitem(1049)<3) goto LNoHat;
+
+	mes "[Granny]";
+	mes "I wish I could make Clothings for my Grand Children in this festive season..";
+	mes "Could you give me your ^3355FF' Skirt of Virgin '^000000 ..I need Four of it ..Please ?";
+	mes "I am begging you,Young man..";
+	next;
+	menu "Alright.",LAlright,"No way!",LNoWay;
+
+	LAlright:
+		delitem 1049,4;
+		mes "[Granny]";
+		mes "Oh Thank you so much ~ Now I can make Clothings for Kitty Cutty ~";
+		mes ".. Ah..Wait  ..I almost forgot.Well I was a quite popular actress back in my young day...";
+		mes "My members gave me for wedding present when I left the Troupe...I've kept it for the precious memory of my youth.";
+		next;
+		mes "[Granny]";
+		mes "If it's Okay,I want to give you mine for your Fabrics.";
+		close;
+		getitem 2293,1;
+		mes "Good Bye ~Young man~!";
+		close;
+
+	LNoWay:
+		mes "[Granny]";
+		mes "Sigh..How can I get  ^3355FF'Skirt of Virgin '^000000 by myself...I am so weak and tired ..Sigh..";
+		mes "I really wanted to make my Babies Happy .....";
+		close;
+
+LNoHat:
+	mes "[Granny]";
+	mes "I gather Mushrooms on the Mountin of Payon Everyday.I didn't even noticed time has come because of my bad memory....";
+	mes ".. Hmm..Now I remember of a festive season in next month.";
+	mes "I wish I could make clothings for my family in this season.";
+	mes "For that,I need ^3355FF'4 Skirt of Virgin'^000000..";
+	next;
+	mes "[Granny]";
+	mes "Young man,please help me.When you find Some ^3355FF'Skirt of Virgin '^000000..";
+	mes "please bring them to me.I won't forget if you help me...";
+	close;
+}
+
+// Item `Welding Mask' Quest
+geffen_in.gat,144,166,4	script	Blacksmith	63,{
+	mes "[Blacksmith]";
+	mes "Who am I!Iam the one and only Veteran Blacksmith in here! You heard?!";
+	mes "I've been working for 30 years in this hotty,bloody Hellfire!";
+	mes "Since I became a Blacksmith,I invented something really incredible.Wanna listen?";
+	next;
+	menu "I'd love to.",LILoveTo,"Well,I don't think I want.",LIDont;
+
+	LILoveTo:
+		mes "[Blacksmith]";
+		mes "We allways make Various Metal products with welding Steel under Horribly Hot circunstances.";
+		mes "So we have to face the hot-air heating and metallic fluid,our face are almost burnt down and sometimes injured during working...";
+		mes "But with this!!!! You dont have to be worried~! So-Called .. ^3355FF' Welding Mask '^000000 !!";
+		next;
+		mes "[Blacksmith]";
+		mes "This one keeps your face out of the heat.";
+		mes "This Must be an Most-wannaget ~ ☆ Item !";
+		mes "So how's that ? If you offer me  ^2244FF'50 Steels '^000000 and ^4422FFOnly 2000 Zeny^000000,I will make it for you right away~!!";
+		next;
+		menu "Hm..Not bad.Alright.",LNotBad,"No thanks.Useless for me though.",LNoThx;
+
+		LNotBad:
+			if(countitem(999)<50) goto LHeyDork;
+			if(Zeny<2000) goto LHeyDork;
+
+			mes "[Blacksmith]";
+			mes "I like you,Dude ! Alright,I do it right away !!";
+			delitem 999,50;
+			set Zeny,Zeny-2000;
+			getitem 2292,1;
+			mes "[Blacksmith]";
+			mes "You are the best guy I've ever met!";
+			mes "Bye bye Buddy ~";
+			close;
+
+		LKeyDork:
+			mes "[Blacksmith]";
+			mes "Hey Dork .If you don't have enough steels or money,Get LOST!!";
+			mes "Have you ever heard about Quenching? It 's not easy as you think!";
+			mes "Go get some money or whatever my Craft needs!!!!";
+			close;
+
+		LNoThx:
+			mes "[Blacksmith]";
+			mes "Oh Man ! You should regret this time.I recommanded it for you not me !";
+			mes "Man,Everyone gets older and older.You should take care of your bloody face before it gets shirinking!";
+			close;
+
+	LIDont:
+		mes "[Blacksmith]";
+		mes "I think I wasted my precious time on you ..I think I have nothing more to say.Go back to your way !";
+		close;
+}
+
+// Item `Ear Muffs' Quest
+payon_in01.gat,103,79,4	script	Mistic Lady	76,{
+	mes "[Mistic Lady]";
+	mes ". . . . . .";
+	mes "My Family have produced and sold the special Winter product  ^3355FF'Ear Muffs'^000000 for many years..";
+	mes "We just moved in here, but unfortunately the Weather is always Warm so we hardly live with our Job...";
+	mes "If you plan to travel to the cold area I suggest you to prepare ^3355FF'Ear Muffs'^000000..";
+	next;
+	mes "[Mistic Lady]";
+	mes ". . . . . .";
+	mes "Ear Muffs is the special product of my family's own. We provide it to customers with ^FF3355'1 Cursed Rubi '^000000, ^3311AA' 1 Headset '^000000..";
+	mes " ^3355FF' 200 Feathers '^000000 and  ^DDDD00' 5000 Zeny '^000000.";
+	next;
+	menu "Oh Yeah?It sounds Good.",LSoundsGood,"No thank you,Ma'am.",LNoThx;
+
+	LSoundsGood:
+		if(countitem(724)<1) goto LWeCant;
+		if(countitem(949)<200) goto LWeCant;
+		if(countitem(5001)<1) goto LWeCant;
+		if(Zeny<5000) goto LWeCant;
+
+		mes "[Mistic Lady]";
+		mes ". . . . .";
+		delitem 724,1;
+		delitem 949,200;
+		delitem 5001,1;
+		set Zeny,Zeny-5000;
+		mes "I will give you this ready-made one.";
+		getitem 2283,1;
+		mes ". . . . .";
+		mes "Thank you for buying our product.You won't regret to purchase our Ear Muffs.This one is the satisfaction Guaranteed.";
+		close;
+
+		LWeCant:
+			mes "[Mistic Lady]";
+			mes ". . . . .";
+			mes ". . . . . Dear .. You don't have enough money and items ..";
+			mes "We can't afford you if you don't bring every items needed. Discount is not served.Please understand we have to make our living...";
+			close;
+
+	LNoThx:
+		mes ". . . . .";
+		mes "That's fine.I believe we will meet one of these days  ..";
+		mes ". . . . .";
+		close;
+}
+
+// item `Antler' Quest
+alberta_in.gat,122,53,4	script	Cherokee	47,{
+	mes "[Cherokee]";
+	mes "Hey I am a Horn Collector.Sonds Great,Huh?";
+	mes "What do you think about Anmal horns?♨ I think  they are very worth it to collect.Even You can wear one on the head.";
+	mes "Besides you can decorate your house with them .It should be great.";
+	next;
+	mes "By the way ..I realised there wear the Horn I couldn't get yet.It's called ^FF3355'Evil Horn '^000000..";
+	mes "And some might say Evil horn is not the sort of Animal horn but the Devil Horn..Still I really really wish I could have it.";
+	mes "Do you....? Do you have  the ^FF3355'Evil Horn '^000000?";
+	mes "If you offer me 20 Evil Horns,I will give you my precious collection, ^3355FF'Antler '^000000.So Deal?";
+	next;
+	menu "Okay,Let's Deal.",LOk,"Shut up Dumbo.",LShutup;
+
+	LOk:
+		if(countitem(923)<20) goto LUnfortune;
+		delitem 923,20;
+		mes "[Cherokee]";
+		mes "Whoah~!This is the first time I've ever seen a real ^FF3355'Evil Horn '^000000!!";
+		mes "Thank you!Here,this is my Antler for you!";
+		getitem 2284,1;
+		mes "With your great help,I can make my wish come true this time.I appreciate you!";
+		mes "God Bless You ..";
+		close;
+
+		LUnfortune:
+			mes "[Cherokee]";
+			mes "Hmm..Unfortunately you are not ready for my demand, ^FF3355'20 Evil Horns '^000000.";
+			close;
+
+	LShutup:
+		mes "Well that's fine .. Although you seems to be a very very rude person...I will forgive you.";
+		mes "And I know we will speak again ..";
+		close;
+}
+
+// item `Stop_Post' Quest
+morocc_in.gat,142,100,4	script	William	89,{
+	mes "[William]";
+	mes "Welcome to MacMillan's ^3355FF' Post '^000000 Workshop .";
+	next;
+	mes "My Clan,MacMillan ..";
+	mes "Has been producing Professional Traffic Signal Posts for more than 250 years.";
+	mes "And nowadays we are booking Special Orders with our Unique Ornament, ^3355FF'Stop Post'^000000.";
+	next;
+	menu "Could I order one ^3355FF' Stop Post '^000000?",LOrder,"Nah,Not my business.",LNot;
+
+	LOrder:
+		mes "The Ancient Lineage,MacMillan's Unique ornament,^3355FF' Stop Post '^000000 ..";
+		mes "is also Durable as a Traffic Signal on the road, furthermore fits you well as a hair decoration ornament.";
+		mes "We will promise you on the strength of a 100-years guarantee.";
+		next;
+		mes "For producing ^3355FF'Stop Post'^000000,we   need ^3355FF' 91100 Zeny '^000000,";
+		mes "^3355FF' 50 Wooden Blocks '^000000 and  ^3355FF' 1 Black Dyestuffs'^000000.";
+
+		if(countitem(1019)<50) goto LCheckAgain;
+		if(countitem(983)<1) goto LCheckAgain;
+		if(Zeny<91100) goto LCheckAgain;
+
+		delitem 1019,50;
+		delitem 983,1;
+		set Zeny,Zeny-91100;
+		mes "[William]";
+		mes "Here you are ! This is the one and only Ornament for you, ^3355FF'Stop Post '^000000!";
+		mes "Thank you for coming by!";
+		getitem 2272,1;
+		close;
+
+		LCheckAgain:
+			mes "[William]";
+			mes "Why don't you check the requirements again??";
+			mes "I don't think you brought every items needed.";
+			close;
+
+	LNot:
+		mes "[William]";
+		mes "Anyway Thank you for coming by,My Clan,`MacMillan's Workshop.";
+		mes "God Bless You.";
+		close;
+}
+
+// Trader
+aldeba_in.gat,152,166,4	script	Trader	86,{
+	mes "[Trader]";
+	mes "Muhahaha! I am the Very Famous one,Enigmatic Dealer!";
+	mes "I am Always bustling in and out of Midgard Continent!";
+	mes "Alright.. Here's my Unique and Rare Products from all over the world,You just watch and enjoy!";
+	next;
+	mes "(1) � ^3355FFDoctor Band^000000 : 1 Red Bandana + 50 Iron + 1 Cracked Diamond + 3500 Zeny";
+	mes "(2) � ^3355FFFeather Bonnet^000000 : 1 Romantic Gent + 300 Feather of Birds + 500 Zeny";
+	mes "(3) � ^3355FFPhantom of Opera^000000 : 20 Steel + 1 Singing Plant + 5000 Zeny";
+	mes "(4) � ^3355FFSakkat^000000 : 120 Trunk + 10000 Zeny";
+	next;
+	menu "Doctor Hat",L0,"Feather Bonnet",L1,"Phantom of Opera",L2,"Sakkat",L3;
+		
+		L0:
+			if ((countitem(2275)==0) || (countitem(998)< 50) || (Zeny< 3500)) goto CantMake;
+			delitem 2285,1;
+			delitem 998,50;
+			set Zeny,Zeny-3500;
+			mes "[Trader]";
+			mes "Hmm! Have.. Any Medical License?! Alright. I've heard about an well-known unlicensed physician `Cuwaki'.. I hope you won't get caught...";
+			mes "Yeah... It's your business whatever. Take this.";
+			getitem 2273,1;
+			close;
+		L1:
+			if ((countitem(2247)==0) || (countitem(916)<300) || (Zeny<500)) goto CantMake;
+			delitem 2247,1;
+			delitem 916,300;
+			set Zeny,Zeny-500;
+			mes "[Trader]";
+			mes "Umhahaha. You have good sense, Dude.";
+			mes "I know you got a hard time to collect these stuffs, but this one is worth to deserve. Take it.";
+			getitem 5018,1;
+			close;
+		L2:
+			if ((countitem(998)<20) || (countitem(707)==0) || (Zeny<5000)) goto CantMake;
+			delitem 998,20;
+			delitem 707,1;
+			set Zeny,Zeny-5000;
+			mes "[Trader]";
+			mes "This is pretty nice one.";
+			mes "Well little bit Scary though.. I think it has an Magnetic Attraction. What about your idea?";
+			mes ".. You like it ..Alright.. Take it!";
+			getitem 2281,1;
+			close;
+		L3:
+			if ((countitem(1019)<120) || (Zeny<10000)) goto CantMake;
+			delitem 1019,120;
+			set Zeny,Zeny-10000;
+			mes "[Trader]";
+			mes "If you have a chance to visit the Uplander Village, Payon, Please go meet the Sakkat Craftsman.";
+			mes "He've never sold Sakkat to other Dealers but to me. Because only me, can recognise its quality. Due its rarity, Sakkat becomes a very Unique and Exceptional product.";
+			mes "OK! Take it!";
+			getitem 2280,1;
+			close;
+
+			CantMake:
+				mes "[Trader]";
+				mes "You,Dullard. Check this requirements again.";
+				mes "You Don't look like an idiot though....C'Mon,Man.Get real.";
+				close;
+}
+
+// `Boy's Cap' Quest
+alberta_in.gat,59,139,4	script	Grampa	120,{
+	mes "[Grampa]";
+	mes "Gasp ..Gasp";
+	next;
+	mes "[Grampa]";
+	mes "When I look on my past life,it seems totally useless ..";
+	mes "Still I feel like young ..";
+	mes "But unfortunately my body doesn't work well ..";
+	mes "Cough !! Cough .. !!";
+	next;
+
+	if(countitem(1030)<10) goto LTalk;
+
+	menu "Show him Tiger's Footskin.",LShow,"Exchange it with Boys Cap.",LExchange,"Cancel",LCancel;
+
+	LShow:
+		mes "[Grampa]";
+		mes "Ohhh !! Th ..This is the one..by hearsay ..";
+		mes "Tiger's Footskin !!";
+		next;
+		mes "[Grampa]";
+		mes "Gain Strength even taking a look on it! Inflame the Blood even smelling once!";
+		mes "80 year-old Grampa makes a Boy after grabing one bite of it!!!!";
+		mes "It is the Tiger's Footskin !!";
+		mes "Ohhhh Ohh My God !! Please .. Please give me that .. Please ..";
+		close;
+
+	LExchange:
+		delitem 1030,10;
+		getitem 5016,1;
+		mes "[Grampa]";
+		mes "T .. Tahnk you !!";
+		mes "Now I can be vigorous again with this item !";
+		mes "I will eat this thing right away !";
+		close;
+
+	LCancel:
+		mes "[Grampa]";
+		mes "He.. Hey Young one !! Wai .. Wait !";
+		close;
+
+LTalk:
+	menu "Talk",LTalk2,"Cancel",LCancel2;
+	LTalk2:
+		mes "[Grampa]";
+		mes "Listen to me .. You have to keep your health as well as you can ..";
+		mes "If you don't treat your body well .. You will regret after you get old ..";
+		next;
+		mes "[Grampa]";
+		mes "To restore youth again,";
+		mes "I took everything good for Health by hearsay,but they didn't work at all ..";
+		mes "After all,I broke up due to spending whole my property into them ..";
+		next;
+		mes "[Grampa]";
+		mes "Now I gave up to restore my youth ..But there is only one thing I wish could do is ..";
+		mes "To eat ^3355FFTiger's Footskin^000000,";
+		mes " The King of Invigorant !!";
+		next;
+		mes "[Grampa]";
+		mes "Have you heard ?! Tiger's Footskin ..";
+		mes "When you see,your white hair grows in Black again,When Sniff ,";
+		mes "You get Clairvoyance,when even touch,you can make a Boy at 80 year-old...";
+		mes "It is The King of Invigorant !";
+		next;
+		mes "[Grampa]";
+		mes "Ahhahh.. Before I died..I wish I could eat 10 Tiger's Footskin..";
+		mes "I could realise my Dearest wishes...";
+		mes "If someone helped me to take them ..";
+		mes "I would present him my precious item,^3355FFBoys Cap^000000 without nothing to regret ..";
+		close;
+
+	LCancel2:
+		mes "[Grampa]";
+		mes "Cough Cough !! ..";
+		mes "Tiger ....Tiger's ..... Foot ..... skin .....Cough Cough !!";
+		close;
+}
+
+// Ph.D Hat Quest
+prt_in.gat,38,108,4	script	Teacher	53,{
+	if(countitem(710)<1) goto LNoHat;	//Illusion_Flower
+	if(countitem(703)<1) goto LNoHat;	//Hinalle
+	if(countitem(704)<1) goto LNoHat;	//Aloe
+	if(countitem(708)<1) goto LNoHat;	//Ment
+
+	mes "[Teacher]";
+	mes "Oh .. Those Flowers in your hand are ..";
+	next;
+	menu "Show Flowers",LShowFlowers,"Present Flowers",LPresentFlowers,"Cancel",LCancel;
+
+	LShowFlowers:
+		mes "[Teacher]";
+		mes "Ah .. Definately ..They are  4 kinds of Flowers I was looking for ..";
+		mes "Would you give them to me?...";
+		next;
+		mes "[Teacher]";
+		mes "If you would...I'll...give you my precious item.";
+		close;
+
+	LPresentFlowers:
+		delitem 710,1;
+		delitem 703,1;
+		delitem 704,1;
+		delitem 708,1;
+		getitem 5012,1;
+		mes "[Teacher]";
+		mes "I really really appreciate you what you've done for me.I mean I am really grateful.";
+		mes "I will give my precious item for you as I promise you.";
+		mes "This is a Hat worn on my Graduation Day in University. It reminds me of my happy School days.";
+		mes "Please take this...";
+		close;
+
+LNoHat:
+	mes "[Teacher]";
+	mes "Don't you think...Flower is pretty?";
+	next;
+	menu "Talk",LTalk,"Quit",LQuit;
+
+	LTalk:
+		mes "[Teacher]";
+		mes "When I was young,I didn't play around with buddies but I studied myself all the time.";
+		mes "Sometimes I regret what I did in my young days... but it is not a big deal now. Through hard Study,I finished entire educational courses ealier than other friends.";
+		next;
+		mes "[Teacher]";
+		mes "However...I was sad because I had no pal around.";
+		mes "When I got a hard time to study..I needed someone who could listen to me.";
+		mes "After all, the other day,finally I met my best friend.";
+		next;
+		mes "[Teacher]";
+		mes "When I saw a Pretty Flower blooming on the abandoned Garden...";
+		mes "I realised It was my friend which had the same fate of me.";
+		next;
+		mes "[Teacher]";
+		mes "Even though, to others it is a Common and Normal Flower.. to me She gave the reason of Studying again.";
+		mes "I could achieve my goal because of her.";
+		next;
+		mes "[Teacher]";
+		mes "So.. recently..I am trying to repay to her.";
+		mes "Now I am studying Flowers, and I will cover whole world with Flowers.";
+		next;
+		mes "[Teacher]";
+		mes "To Accomplish my work..I need buches of flowers...";
+		mes "But for me,who rarely goes outside,.. It is really hard to find flowers as many as I need.";
+		mes "I need 1 ^3355FFDreamy Flower^000000 ,1 ^3355FFHinalle^000000,1 ^3355FFAloe^000000 and 1 ^3355FFMent^000000... If you can bring them to me,I could give you my treasue...";
+		close;
+
+	LQuit:
+		mes "[Teacher]";
+		mes "One of thesedays I will cover whole world with Flowers.";
+		close;
+}
+
+// Oxygen Mask Quest
+payon_in02.gat,25,71,4	script	Boy	86,{
+	if(countitem(701)<5) goto LNoOxygenMask;
+
+	mes "[Boy]";
+	mes "ArrrrGgggghhhh! Ah..No I can't...";
+	mes "Huk.. Now my eyes are even gone mad...They seem so Cute to my eyes... Argh..Nooooooo!!";
+	next;
+	menu "Show Ora Ora",LShowOraOra,"Give Ora Ora",LGiveOraOra,"Cancel",LCancel;
+
+	LShowOraOra:
+		mes "[Boy]";
+		mes "Oooooohhhh!!!";
+		mes "Is..Is this one...this is..Ora Ora...!";
+		mes "I make it short! If..If you give it to me..I will give you my treasure!";
+		mes "So..What about my idea? Wanna Deal?";
+		close;
+
+	LGiveOraOra:
+		delitem 701,5;
+		mes "[Boy]";
+		mes "Muhahahahah!!! Finally I have this! Ora Ora!";
+		mes "Stupid and Disgusting Thief Bugs!! You will get payed for !!!";
+		next;
+		mes "[Boy]";
+		mes "Huk...Huk...";
+		mes "Sorry I was out of my control for a while with pleasure.. hmm.. Now I will give my treasure as I promised you.";
+		next;
+		getitem 5004,1;
+		mes "[Boy]";
+		mes "When you wear this on Mouth and start to Breathe... It will filter every dusty things out of your lung.";
+		mes "When I was a Sailor,I picked it up from the sea.";
+		mes "It is nothing but a useless one for me,also you helped me I will give this one for you.";
+		next;
+		mes "[Boy]";
+		mes "Kakakakakaka! By the way I can't wait to use this Ora Ora!";
+		close;
+
+	LCancel:
+		mes "[Boy]";
+		mes "Huhuhuhuhu... What If I could not get rid of Thief Bugs...";
+		mes "Only one thing I could do is to Fall in Love with them..Hehehehehehe...";
+		close;
+
+LNoOxygenMask:
+	mes "[Boy]";
+	mes "Blahhhhhh! I.. I.. Now I can't take it any more!!!";
+	mes "You little stinky filthy Bastards!!!";
+	next;
+	menu "Continue",LContinue,"Cancel",LCancel2;
+
+	LContinue:
+		mes "[Boy]";
+		mes "Anyway I think my past life was really eventful.";
+		mes "My both parents passed away when I was a little kid...So I had to work for my living. It was a really hard time.";
+		next;
+		mes "[Boy]";
+		mes "Ever since I did work for 10 years.. I could afford to buy my own house... my dream,home sweet home.";
+		next;
+		mes "[Boy]";
+		mes "Unfortunately I didn't have much money to buy a nice one I wish for...";
+		mes "And.. I found this house,a Big and Cheaper than earlier one....I bought this without deep thought...";
+		next;
+		mes "[Boy]";
+		mes "Oh Jesus. It revealed as the Heaven for Thief Bugs!!!";
+		next;
+		mes "[Boy]";
+		mes "I tried to do everything I could do...Coaxed them.. Killed them.. It was only..for a moment!";
+		mes "Lastly I tried to burn down this house....!";
+		next;
+		mes "[Boy]";
+		mes "Gasp..I mean really Do I need...  ^3355FF Ora Ora^000000 to get rid of them?";
+		mes "People say it is very rarely seen from far countries .";
+		mes "If I could afford 5 of it.. I won't have to be frustrated with these Disgusting Bugs any more...";
+		close;
+
+	LCancel2:
+		mes "[Boy]";
+		mes "Never endign fight with Bugs...Now I am really tired. I give up..Do as you wish you scumbag...Huhuhuhuhu...";
+		close;
+}
+
+// Headset Quest
+geffen_in.gat,30,71,4	script	Eric	83,{
+	mes "[Eric]";
+	mes "Please listen to my story of my blessed grand father.";
+	next;
+	menu "Talk",LTalk,"Ask about Items needed",LAsk,"Manufacture",LManuf,"Quit",LQuit;
+
+	LTalk:
+		mes "[Eric]";
+		mes "My Grand Father who passed away few years ago";
+		mes "was Special to me.";
+		mes "He always stayed with me,taking care of me";
+		mes " Even better than My busy working old man.";
+		next;
+		mes "[Eric]";
+		mes "To me, His library was always like";
+		mes "a ' Fairyland '.";
+		mes "I spent most of time in his Library.";
+		next;
+		mes "[Eric]";
+		mes "I learned a lot of things";
+		mes "from his books in Library.";
+		mes "Grand Father was interested in Alchemy and Music,";
+		mes "His Library was filled with Many misterious old books.";
+		next;
+		mes "[Eric]";
+		mes "One day ..";
+		mes "As usual,I went to the Library,";
+		mes "And discovered a Interesting Design Drawing.";
+		next;
+		mes "[Eric]";
+		mes "It showed some instrument which looked as Ear muffs,";
+		mes "When worn on Head,sound as music or whisper could be";
+		mes "Transmitted to ears through a thin wire.";
+		next;
+		mes "[Eric]";
+		mes "I guessed ..it is my grand father's work.";
+		mes "That's why I made up my mind to produce that stuff.";
+		mes "For that,I met few Alchemists and asked them to produce it ,";
+		mes "They rejected my offer because they couldn't afford to produce it due to the lack of knowledge.";
+		next;
+		mes "[Eric]";
+		mes "After all I thought I'd gotta make it myself..";
+		mes "So I researched for few years ..";
+		mes "Now I have full knowledge related that thing.";
+		mes "But!!! ..I couldn't gather articles to make it.";
+		next;
+		mes "[Eric]";
+		mes "If I can get those articles,";
+		mes "I would produce it right away.";
+		mes "If  ..you have any interest with my idea,";
+		mes "Could you bring them for me ?";
+		next;
+		mes "[Eric]";
+		mes "Only I wanna do is,";
+		mes "Achieve my goal to remember what my grand father had done.";
+		mes "If you ask me to carry it along with you,I wouldn't mind.";
+		close;
+
+	LAsk:
+		mes "[Eric]";
+		mes "^3355FFSteel^000000 ^FF555540^000000";
+		mes "^3355FFOridecon^000000 ^FF55551^000000";
+		mes "^3355FFAlchol^000000 ^FF55551^000000";
+		mes "^3355FFCoal^000000 ^FF55551^000000";
+		mes "These are Articles needed for grand father's masterpiece.";
+		close;
+
+	LManuf:
+		if(countitem(999)<40) goto LNoManuf;	//Steel
+		if(countitem(984)<1) goto LNoManuf;	//Oridecon
+		if(countitem(970)<1) goto LNoManuf;	//Alchol
+		if(countitem(1003)<1) goto LNoManuf;	//Coal
+
+		delitem 999,40;
+		delitem 984,1;
+		delitem 970,1;
+		delitem 1003,1;
+		getitem 5001,1;
+		mes "[Eric]";
+		mes "Thump thump ..";
+		next;
+		mes "[Eric]";
+		mes "Thank you.";
+		mes "Because of you,I could accomplish my grand father's wish.";
+		mes "He would be happy if he look down on me from the Heaven..";
+		next;
+		mes "[Eric]";
+		mes "As I said Please take this.";
+		mes "I am just proud of myself that I can make it myself.";
+		close;
+
+		LNoManuf:
+			mes "[Eric]";
+			mes "Thank you for trying to help me ..But you didn't bring whole items I need.";
+			mes "I think you will make it soon though...";
+			close;
+
+	LQuit:
+		mes "[Eric]";
+		mes "Fare well.";
+		close;
+}
+
+// Binoculars Quest
+morocc_in.gat,76,163,4	script	Alchemist	64,{
+	mes "[Marius]";
+	mes "Howdi - A new customer !";
+	mes "Stop!!! I know I know what you're gonna talk about.";
+	mes "You want the Magic Glasses from me,right ?";
+	next;
+	menu "What is that ?",LWhatIs,"Manufacture",LManuf,"Ignore him",LIgnore;
+
+	LWhatIs:
+		mes "[Marius]";
+		mes "Hmm ! Officially it is called as the ' ^3355FFBinoculars^000000 '!";
+		mes "An optical device, such as a pair of field glasses ,";
+		mes "designed for simultaneous use by both eyes !";
+		mes "And consisting of two small telescopes joined with a single focusing device.";
+		mes "You can make them arranged to produce stereoscopic vision.";
+		next;
+		mes "[Marius]";
+		mes "So? Something,Huh ?!";
+		mes "Muhahahahahaha !";
+		mes ". . . . .";
+		mes ".. Errr ? You don't seem to believe what I said?";
+		mes "Oh C'mon,Jerk . It is real !!";
+		close;
+
+	LManuf:
+		if(countitem(2243)<1) goto LNoBinoculars;	//Geek_Glasses
+		if(countitem(999)<100) goto LNoBinoculars;	//Steel
+
+		mes "[Marius]";
+		mes "Gr~~~~eat !";
+		mes "This Magic Glasses will be happy";
+		mes "with you,the Nice Master !";
+		next;
+		delitem 2243,1;
+		delitem 999,100;
+		set Zeny,Zeny-50000;
+		mes "[Marius]";
+		mes "Here it is ! The Binoculars !";
+		getitem 2296,1;
+		mes "[Marius]";
+		mes "But I must say ..";
+		mes "Don't peep at something you should not look ♬";
+		mes "Pooffff !";
+		close;
+
+		LNoBinoculars:
+			mes "[Marius]";
+			mes "Argggghhhhhhh !! You didn't bring enough items!!!!";
+			mes "Now you bring a disgrace on me!!!";
+			mes "Baaaadddd !!";
+			close;
+
+	LIgnore:
+		mes "[Marius]";
+		mes "Hey you !";
+		mes "Now you're in front of Marius,";
+		mes "Alchemist of the Alchemist.";
+		mes "Do you ignore me,now,Huh???";
+		mes "Come on!! I beat your ass!!!";
+		close;
+}
+

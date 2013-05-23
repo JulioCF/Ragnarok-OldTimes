@@ -1,0 +1,254 @@
+//===== Cronus Script =========================================== 
+//= Quest Mistura
+//===== Por: ====================================================
+//= GM Professor (Olivete)
+//===== Versão Atual: =========================================== 
+//= 1.1
+//===== Changelog: ============================================== 
+//= 1.2 Traduzido GM Professor (Olivete)
+//===============================================================
+
+// Merchant Louitz -----------------------------------------------------------
+alberta_in.gat,130,54,2	script	Mercador Louitz	84,{
+	show "[Louitz]";
+	show "E aí? Tudo certo?";
+	if(countitem(970) && countitem(971) && countitem(972)) goto M_Menu2; //Items: Alcohol, Detrimindexta, Karvodailnirol,
+M_Menu:
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_Cancel;
+M_Menu2:
+	next;
+	menu "Conversar",M_Talk,"Saber mais sobre as soluções",M_Solut,"Cancelar",M_Cancel;
+	
+	M_Talk:
+		show "[Mercador Louitz]";
+		show "Eu estive em Geffen há algum tempo tentando encontrar ferramentas mágicas e então eu escutei uma conversa sobre um cientista louco.";
+		show "Eu fiquei bem interessado nesse assunto e procurei saber mais...";
+		next;
+		show "[Mercador Louitz]";
+		show "Depois de muitas tentativas eu finalmente o conheci... Infelizmente ele estava 'atolado' de trabalho e nem percebeu que eu estava por ali...";
+		next;
+		show "[Mercador Louitz]";
+		show "Ele continuava dizendo para si mesmo ^0000FF'Karvodainirol... Detrimindexta... Álcool^000000...'";
+		next;
+		show "[Mercador Louitz]";
+		show "Eu tinha uma noção do que ele estava falando, mas agora eu eu sei que esses são nomes de soluções raras e únicas...";
+		if(countitem(970) && countitem(971) && countitem(972)) goto M_Menu2;//Items: Alcohol, Detrimindexta, Karvodailnirol,
+		show "Eu gostaria ^0000FFde ver^000000 com meus próprios olhos...";
+		emotion e_slur;
+		goto M_Menu2;
+
+	M_Solut:
+		if(MORGEN==0)set MORGEN,1;
+		show "[Mercador Louitz]";
+		show "O que percebi, foi que ele usa essas soluções para fazer outros agentes e misturas...";
+		show "Você pode falar com ^0000ddAure Dupon^000000 em Geffen para saber mais sobre isso. ";
+		next;
+		show "[Mercador Louitz]";
+		show "Você pode encontra-lo perto do ^0000ddLado direito^000000 da cidade. Pergunte a ele sobre ^0000ddMorgenstein^000000.  Este é o nome do cientista louco.";
+		goto M_Menu2;
+
+	M_Cancel:
+		show "[Louitz]";
+		show "Hmmmm entendo...";
+		close;
+}
+
+// Aure Dupon ------------------------------------------------------------------------
+geffen.gat,181,114,4	script	Aure Dupon	55,{
+	show "[Aure Dupon]";
+	show "O TEMPO nunca ESPERA por voce!!! Mesmo a MAGIA não pode PARAR o tempo! Eu sinto o tempo passando enquanto nós conversamos...";
+	emotion e_gasp;
+	next;
+	show "[Aure Dupon]";
+	show "Mas... por que voce me parou?";
+	emotion e_hmm;
+	if(MORGEN >= 1) goto M_Menu2;
+M_Menu:
+	next;
+	menu "Conversar",M_Talk,"Cancelar",M_Cancel;
+M_Menu2:
+	next;
+	menu "Conversar",M_Talk,"Sobre Morgenstein",M_Morgen,"Cancelar",M_Cancel;
+	
+	M_Talk:
+		show "[Aure Dupon]";
+		show "É verdade que sou um vidrado em minha busca para ganhar o poder da magia, mas eu te garanto que existe outros bem mais estranhos do que eu...";
+		next;
+		show "[Aure Dupon]";
+		show "Como por exemplo o cientista louco chamado ^0000ddMorgenstein^000000. Mas me diga, você gastaria toda sua vida em busca de uma causa simples?";
+		next;
+		show "[Aure Dupon]";
+		show "Você desistira de tudo para alcançar seu objetivo? Mesmo que isso signfique se arriscar loucamente?";
+		if(MORGEN>=1) goto M_Menu2;
+		goto M_Menu;
+
+	M_Morgen:
+		if(MORGEN==1) set MORGEN,2;
+		show "[Aure Dupon]";
+		show "Morgenstein? Esse cara tem parafusos a menos... Ele sempre está no ^0000ddPrédio da Guilda dos Ferreiros^000000 fazendo suas poções.";
+		show "Ele as chama de ^ff0000Misturas^000000 e ^ff0000Contra Agentes^000000. Mas não faço idéia pra que elas servem...";
+		next;
+		show "[Aure Dupon]";
+		show "Você deveria ir falar com ele se está curioso a respeito do trabalho dele.";
+		goto M_Menu2;
+
+	M_Cancel:
+		show "[Aure Dupon]";
+		show "Os seres humanos são apenas uma pequena parte da Natureza... e acima dos humanos está a vontade da Natureza...";
+		close;
+}
+
+// Chemist Morgenstein -----------------------------------------------------------
+geffen_in.gat,141,140,2	script	Morgenstein	121,{
+	if(MORGEN == 2) goto L_0;
+	if(MORGEN == 3) goto L_1;
+
+	show "[Alquimista Morgenstein]";
+	show "Heheheheheh... Hmmmm... eu sinto cheiro de alguém se aproximando...";
+	show "É um ser humano... vivo... hmmmm delícia... ehheheheehehhe";
+	emotion e_awsm;
+	close;
+
+L_0:
+	show "[Alquimista Morgenstein]";
+	show "Você veio saber sobre mim? O que voê quer saber?";
+M_Menu:
+	next;
+	menu "Saber sobre a pesquisa",M_Rsrch,"Nada...",M_End;
+	
+	M_Rsrch:
+		show "[Alquimista Morgenstein]";
+		show "Heheheheheh... Você já deve ter escutado sobre o que eu faço...";
+		show "Eu irei te falar de qualquer forma... não há nada para esconder... Heehhehehehehe";
+		emotion e_gg;
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Até aonde eu sei, minha pesquisa já está completa...";
+		show "Eu sou um gênio, você sabe!!! E eu posso criar qualquer coisa!!! Hhehehehehhe... o problema é só quanto tempo pode levar... ";
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Você sabe o que quero dizer.... tempooooo? Hahahhahahaahha...";
+		emotion e_gg;
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Hmmmm... você quer saber sobre minha pesquisa? É muito simples! Eu estou combinando diferentes materiais...";
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Não é interessante? Estou aperfeicionando o método de derreter materiais como ferro e pedra, e então mistura-los em uma nova substância!";
+		show "Uma vez que eu termine isso, eu poderei tornar qualquer coisa desse mundo em algo novo !!!";
+		next;
+		show "[Alquimista Morgenstein]";
+		show "~~~~ !! Hehe!!!...Heheheheheh!!!...grrrrrr quisssshhhhhhh!!!..Kekekekekelll!!!!";
+		emotion e_slur;
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Argh!~coff~coff.. Nossa....Enquanto eu estava fazendo isso eu acabei descobrindo algo incrível!";
+		show "Durante minha pesquisa eu descobri como fazer diferentes tipos de líquidos. Eu os chamo de ^5533FF'contra agentes e misturas'^000000.";
+		next;
+		show "[Alquimista Morgenstein]";
+		show "Eu posso fazer uma para você agora mesmo! Você quer? Ahhhhh... falando sobre esses experimentos e pesquisas me deixam... 'excitado'........";
+		show "Você também pode sentir o quanto estou 'excitado' e se você quiser.. Ahhhh... ... eu posso fazer você sentir...";
+		set MORGEN,3;
+		if(ALCH_Q == 4) set al_morgen,1;
+		close;
+
+L_1:
+	show "[Alquimista Morgenstein]";
+	show "O que você quer?";
+M_Menu2:
+	next;
+	menu "Saber sobre a pesquisa",M_Rsrch,"Eu quero criar...",-, "Nada...",M_End;
+	
+		show "[Alquimista Morgenstein]";
+		show "Heheheheheheh.... Então você está interessado nas minhas criações... Quem não estaria?!... Kekekekekekeke!!!";
+		show "Então.. o que posso fazer por você??? Huh? Heheheheheh.............";
+		emotion e_gg;
+		next;
+		menu "-Contra Agente",-, "-Mistura",sM_Mixture, "-Nada não...",M_End;
+		
+			show "[Alquimista Morgenstein]";
+			show "Oh... Contra Agente... Kekekekekekeke... Vamos ver... eu preciso de alguns items........";
+			show "...Vamos ver...... Oh... Oh...... Ahhhh..... Hmmm.....";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Oh.... Até onde me lembro eu preciso de....:";
+			show "^5533FF1 Álcool";
+			show "1 Detrimindexta^000000......";
+			show "e ^5533FF1 Garrafa Vazia^000000....";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Com essas 3 coisas eu poderei fazer um contra agente. Não será difícil de fazer..... Kekekekekekeke....";
+			show "Oh, eu terei que te cobrar ^5533FF3000 zeny^000000 certo? Heheheheheh..... Com certeza você não acha que estou te explorando, não é?";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Tudo certo?....";
+			next;
+			menu "Faça",-,"Não faça",M_End;
+
+				show "[Alquimista Morgenstein]";
+				if(countitem(970) && countitem(971) && countitem(713) && Zeny>=3000) goto sl_GetCounter;//Items: Alcohol, Detrimindexta, Empty Bottle,
+					show "Me desculpe... você precisa de 1 Empty Bottle, 1 Alcohol, 1 Detrimindexta, and 3000 Zeny para eu criar o Contra Agente.";
+					emotion e_sry;
+					close;
+	
+				sl_GetCounter:
+					delitem 970,1;//Items: Alcohol,
+					delitem 713,1;//Items: Empty Bottle,
+					delitem 971,1;//Items: Detrimindexta,
+					set Zeny, Zeny-3000;
+					show "OhOhOhOh...... Heheheheheh...... Assim... Bom... Maisssss... Vamossss... Isssooooo........ Heheheheheh";
+					show ".... Ahhhh.... ..... OhOh.... OhOh!..... OhOhOhOhOhOh!!!...!!!!!!";
+					next;
+					additem 973,1;//Items: Counteragent,
+					show "[Alquimista Morgenstein]";
+					show ".... Hmmm......";
+					emotion e_hmm;	
+					close;
+
+		sM_Mixture:
+			show "[Alquimista Morgenstein]";
+			show "Oh... Mistura?... Kekekekekekeke... Vamos ver... eu preciso de alguns items........";
+			show "...Vamos ver...... Oh... Oh...... Ahhhh..... Hmmm.....";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Oh.... Até onde me lembro eu preciso de....:";
+			show "^5533FF1 Álcool";
+			show "1 Karvodailnirol^000000.....";
+			show "e ^5533FF1 Garrafa Vazia^000000...........";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Com essas 3 coisas eu poderei fazer um contra agente. Não será difícil de fazer..... Kekekekekekeke....";
+			show "Oh, eu terei que te cobrar ^5533FF3000 zeny^000000 certo? Heheheheheh..... Com certeza você não acha que estou te explorando, não é?";
+			next;
+			show "[Alquimista Morgenstein]";
+			show "Certo??...";
+			next;
+			menu "Faça",-,"Não Faça",M_End;
+
+				show "[Alquimista Morgenstein]";
+				if(countitem(970) && countitem(972) && countitem(713) && Zeny>=4000) goto sl_GetMix;//Items: Alcohol, Karvodailnirol, Empty Bottle,
+					show "Me desculpe... você precisa de 1 Garrafa Vazia, 1 Álcool, 1 Karvodainirol, e 4000 Zeny para eu fazer uma Mistura.";
+					emotion e_sry;
+					close;
+			
+				sl_GetMix:
+					delitem 970,1;//Items: Alcohol,
+					delitem 713,1;//Items: Empty Bottle,
+					delitem 972,1;//Items: Karvodailnirol,
+					set Zeny, Zeny-4000;
+					show "OhOhOhOh...... Heheheheheh...... Assim... Bom... Maisssss... Vamossss... Isssooooo........ Heheheheheh";
+					show ".... Ahhhh.... ..... OhOh.... OhOh!..... OhOhOhOhOhOh!!!...!!!!!!";
+					next;
+					additem 974,1;//Items: Mixture,
+					show "[Alquimista Morgenstein]";
+					show ".... Hmmm......";
+					emotion e_hmm;
+					close;
+
+	M_End:
+		show "[Alquimista Morgenstein]";
+		show "... Kekekekekekeke....";
+		emotion e_heh;
+		close;
+}

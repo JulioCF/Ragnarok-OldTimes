@@ -1,0 +1,1174 @@
+//===== Cronus Script ======================================== 
+//= Script Templário
+//===== Por: =================================================
+//= Black Dragon
+//===== Versão Atual: ======================================== 
+//= 2.0
+//===== Descrição: =========================================== 
+//= Muda a classe para Templário
+//===== Changelog: =========================================== 
+//= Traduzido [Olivete]
+//= Adaptado Classname Na Função F_BlockHigh [Mehah]
+//============================================================
+
+prt_castle.gat,45,169,4	script	Templário Mestre	752,{
+	if(sex ==1) {
+		callfunc "F_BlockHigh",Job_Swordman_High,""+callfunc("classname",4002,"S","M")+"",Job_Paladin,""+callfunc("classname",4015,"S","M")+"","^000080Michael Halig^000000";
+	}else{
+		callfunc "F_BlockHigh",Job_Swordman_High,""+callfunc("classname",4002,"S","F")+"",Job_Paladin,""+callfunc("classname",4015,"S","F")+"","^000080Michael Halig^000000";
+	}
+	show "[^000080Michael Halig^000000]";
+	if (BaseJob > 0) goto NEXT_0;
+	if (BaseJob == 0) goto NOV;
+	show "Olá "+ strcharinfo(0);
+	show "Vejo que você se inscreveu na ^008000Confraria dos "+callfunc("classname",1,"P","M")+"^000000.";
+	TALK:
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Se você se tornou um ^800000"+callfunc("classname",1,"S","M")+"^000000, você terá o privilégio de ser promovido a ^800000"+callfunc("classname",7,"S","M")+"^000000 or ^800000"+callfunc("classname",14,"S","M")+"^000000.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Caso você decida fazer o teste para ^800000"+callfunc("classname",14,"S","M")+"^000000, venha falar comigo.";
+	show "Saiba que você precisa ter pelo menos nível de classe 40 para poder ser promovido para sua segunda classe.";
+	close;
+	NOV:
+	show "Olá! Como vai?";
+	goto TALK;
+NEXT_0:
+	if (BaseJob > 1) goto NEXT0;
+	if (CRUS_Q == 1) goto CONT;
+	if (CRUS_Q == 2) goto CONT0;
+	if (CRUS_Q == 3) goto CONT1;
+	if (CRUS_Q == 4) goto CONT2;
+	if (CRUS_Q > 4) goto CONT3;
+	show "Bem-vindo! Posso te ajudar em algo?";
+	next;
+	menu "Eu gostaria de ser promovido a  ^800000"+callfunc("classname",14,"S","M")+"^000000.",JOB,"Como é ser um ^800000"+callfunc("classname",14,"S","M")+"^000000?",ASK,"Qual a causa de um ^800000"+callfunc("classname",14,"S","M")+"^000000?",ASK0,"Eu só estou dando uma olhadinha...",-;
+	show "[^000080Michael Halig^000000]";
+	show "Oh, tudo bem.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Caso decida seguir os caminho de um ^800000"+callfunc("classname",14,"S","M")+"^000000, sinta-se a vontade para voltar aqui.";
+	close;
+	JOB:
+	show "[^000080Michael Halig^000000]";
+	show "Tudo bem, mas deixe-me dar uma olhada em vocÊ...";
+	next;	
+	if (JobLevel != 50) goto SKIP;
+	set JBLVL,50;
+	set CRUS_Q,5;
+	goto TEST1;
+	SKIP:
+	if (JobLevel > 39) goto OKAY;
+	show "[^000080Michael Halig^000000]";
+	show "Me desculpe, você precisa ter nível de classe 40 pelo menos.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Todas as segundas classes exigem isso.";
+	close;
+	OKAY:
+	if (SkillPoint == 0) goto OKAY0;
+	JOB0:
+	show "[^000080Michael Halig^000000]";
+	show "Para se tornar um ^800000"+callfunc("classname",14,"S","M")+"^000000, você precisa usar todos seus pontos de habilidade.";
+	close;
+	OKAY0:
+	show "[^000080Michael Halig^000000]";
+	show "Aparentemente, tudo esta perfeito.";
+	set CRUS_Q,1;
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Tudo bem, devemos começar os testes?";
+	next;
+	menu "Sim, agora mesmo!",OKAY1,"Ainda não.",-;
+	show "[^000080Michael Halig^000000]";
+	show "Oh, tudo bem, eu entendo. Volte quando estiver pronto.";
+	close;
+	OKAY1:
+	if (SkillPoint != 0) goto JOB0;
+	set CRUS_Q,2;
+	show "[^000080Michael Halig^000000]";
+	show "Vamos ver então... o primeiro teste é para coletar itens.";
+	next;
+	set CRUS_Q, rand (2);
+	set CRUS_Q,CRUS_Q + 3;
+	show "[^000080Michael Halig^000000]";
+	show "Traga-me os seguintes itens:";
+	if (CRUS_Q != 3) goto IT;
+	show "- 10 ^FF0000Unhas Apodrecida^000000";
+	show "- 10 ^FF0000Tranças^000000";
+	show "- 10 ^FF0000Uniformes Velho de Presidiário^000000";
+	show "- 10 ^FF0000Escamas Fétida^000000";
+	close;
+	IT:
+	show "- 10 ^FF0000Lampiões^000000";
+	show "- 10 ^FF0000Mandíbulas Horrendas^000000";
+	show "- 10 ^FF0000Bandagens Estragada^000000";
+	show "- 10 ^FF0000Zé-Lanternas^000000";
+	close;
+	
+	ASK:
+	show "[^000080Michael Halig^000000]";
+	show "Ser um ^800000"+callfunc("classname",14,"S","M")+"^000000 é lutar pelo bem das pessoas e por pessoas boas.";
+	show "Nem sempre pelos que estão no poder, mas sim, por causas justas.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Eu espero que você pense em ser tornar um.";
+	show "Lutar pelo bem, é uma causa que deveria ser adotada por todos.";
+	close;
+	ASK0:
+	show "[^000080Michael Halig^000000]";
+	show "A razão de ser um ^800000"+callfunc("classname",14,"S","M")+"^000000 é lutar pelo bem do nosso mundo.";
+	show "Um ^800000"+callfunc("classname",14,"S","M")+"^000000 é uma pessoa que trabalha com justiça e verdade.";
+	close;
+	CONT:
+	show "Você mudou de idéia?";
+	next;
+	menu "Sim, eu quero me tornar um ^800000"+callfunc("classname",14,"S","M")+"^000000.",JOB,"Desculpe, mas eu não quero...",-;
+	show "[^000080Michael Halig^000000]";
+	show "Entendo... Que pena.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Caso mude de idéia, eu estarei bem aqui.";
+	close;
+	CONT0:
+	show "Certo, hummm...";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Eu achei que alguém como você iria passar.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Quer tentar novamente?";
+	next;
+	menu "Sim, claro!",OKAY1,"Não, está bem assim.",-;
+	show "[^000080Michael Halig^000000]";
+	show "Tudo bem então.";
+	close;
+	CONT1:
+	set @item,0;
+	if(countitem(957)>=10) goto ITEM7;//Items: Decayed_Nail,
+	show "- 10 ^FF0000Unhas Apodrecida^000000";
+	set @item, item +1;
+	ITEM7:
+	if(countitem(901)>=10) goto ITEM8;//Items: Daenggie,
+	show "You still miss the this item";
+	show "- 10 ^FF0000Tranças^000000";
+	set @item, item +1;
+	ITEM8:
+	if(countitem(1099)>=10) goto ITEM10;//Items: Worn-out_Prison_Uniform,
+	show "You still miss the this item";
+	show "- 10 ^FF0000Uniformes Velho de Presidiário^000000";
+	set @item, item +1;
+	ITEM9:
+	if(countitem(959)>=10) goto ITEM9;//Items: Stinky_Scale,
+	show "You still miss the this item";
+	show "- 10 ^FF0000Escamas Fétida^000000";
+	set @item, item +1;
+	ITEM10:
+	if (@item == 0) goto DONE;
+	close;
+	DONE:
+	show "Bom trabalho!";
+	show "Você conseguiu tudo!";
+	delitem 957,10;//Items: Unha_Apodrecidal,
+	delitem 901,10;//Items: Trança,
+	delitem 1099,10;//Items: Uniforme_Velho_de_Presidiário,
+	delitem 959,10;//Items: Escama_Fétida,
+	set CRUS_Q,5;
+	TEST1:
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Muito bem, vamos para o segundo teste.";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Vá para a prisão que está no porão.";
+	show "Mas antes de ir, tenha certeza que você está levando um ^FF0000Rosary^000000.";
+	close;
+	CONT2:
+	set @item, 0;
+	if(countitem(1041)>=10) goto ITEM11;//Items: Lantern,
+	show "Ainda falta esse item";
+	show "- 10 ^FF0000Lampiões^000000";
+	set @item, item +1;
+	ITEM11:
+	if(countitem(958)>=10) goto ITEM12;//Items: Horrendous_Mouth,
+	show "Ainda falta esse item";
+	show "- 10 ^FF0000Mandíbulas Horrendas^000000";
+	set @item, item +1;
+	ITEM12:
+	if(countitem(930)>=10) goto ITEM13;//Items: Rotten_Bandage,
+	show "Ainda falta esse item";
+	show "- 10 ^FF0000Bandagens Estragada^000000";
+	set @item, item +1;
+	ITEM13:
+	if(countitem(1062)>=10) goto ITEM14;//Items: Jack_'o_Pumpkin,
+	show "Ainda falta esse item";
+	show "- 10 ^FF0000Zé-Lanternas^000000";
+	set @item, item +1;
+	ITEM14:
+	if (@item== 0) GOTO DONE0;
+	close;
+	DONE0:
+	show "Bom trabalho!";
+	show "Você conseguiu tudo!";
+	delitem 1041,10;//Items: Lampião,
+	delitem 958,10;//Items: Mandíbula_Horrenda,
+	delitem 930,10;//Items: Bandagem_Estragada,
+	delitem 1062,10;//Items: Zé-Lanterna,
+	set CRUS_Q,5;
+	goto TEST1;
+	CONT3:
+	if (CRUS_Q == 8) goto CONT4;
+	if (CRUS_Q > 8) goto CONT5;
+	show "Por favor fale com o homem que está na prisão.";
+	show "Você precisará levar um ^FF0000Rosary^000000 contigo.";
+	close;
+	CONT4:
+	show "Bom trabalho com o ^FF8000Teste de paciência^000000!";
+	next;
+	show "[^000080Michael Halig^000000]";
+	show "Agora vamos ao ^FF8000TEste de conhecimentos^000000.";
+	show "Por favor fale com Gabriel Valentine na Catedral. Ela irá testar seus conhecimentos.";
+	set CRUS_Q,9;
+	close;
+	CONT5:
+	if (CRUS_Q == 13) goto CONT6;
+	if (CRUS_Q == 14) goto CONT7;
+	show "Por favor fale com Gabriel Valentine na catedral para continuar.";
+	close;
+	CONT6:
+	show "Excelente trabalho em todos os seus testes!!";
+	show "Agora deime-me te examinar antes de ser promovido a ^800000"+callfunc("classname",14,"S","M")+"^000000.";
+	next;
+	set CRUS_Q,14;
+	show "[^000080Michael Halig^000000]";
+	CONT7:
+	if (SkillPoint == 0) goto GOOD;
+	show "Me desculpe, você precisa usar todos seus pontos de habilidade.";
+	close;
+	GOOD:
+	show "Isso é para ajudar você em seu novo caminho.";
+	if (JBLVL != 50) additem 1409,1;//Items: Pike__,
+	if (JBLVL == 50) additem 1408,1;//Items: Pike_,
+
+	callfunc "Job_Change",Job_Crusader;
+	callfunc "F_ClearJobVar";	// clears all job variables for the current player
+	close;
+NEXT0:
+	if (BaseJob != 2) goto NEXT1;
+	show "Olá, bem-vindo ao ^008000Castelo de Prontera^000000.";
+	show "Espero que você tenha um ótimo dia!";
+	close;
+NEXT1:
+	if (BaseJob != 3) goto NEXT2;
+	show "Boa sorte em sua caça.";
+	close;
+NEXT2:
+	if (BaseJob != 4) goto NEXT3;
+	show "Olá! Tudo bom?";
+	show "Boa sorte em seu caminho.";
+	close;
+NEXT3:
+	if (BaseJob != 5) goto NEXT4;
+	show "Olá, não estamos precisando de nada nesse momento, me desculpe.";
+	close;
+NEXT4:
+	if (BaseJob != 6) goto NEXT5;
+	show "Cuidado com o que andas fazendo...";
+	close;
+NEXT5:
+	if (BaseJob != 7) goto NEXT6;
+	show "Olá, " + strcharinfo(0);
+	close;
+NEXT6:
+	if (BaseJob != 8) goto NEXT7;
+	show "Olá, "+ strcharinfo(0);
+	show "Eu gostaria de acreditar que tudo está indo muito bem.";
+	close;
+NEXT7:
+	if (BaseJob != 9) goto NEXT8;
+	show "Olá! Bem-vindo ao ^008000Castelo de Prontera^000000.";
+	show "Que bom que você está aqui.";
+	close;
+NEXT8:
+	if (BaseJob != 10) goto NEXT9;
+	show "Olá! Nesse momento não precisando de nenhuma arma ou armadura, obrigado.";
+	close;
+NEXT9:
+	if (BaseJob != 11) goto NEXT10;
+	show "Olá, te desejo sorte e sucesso.";
+	close;
+NEXT10:
+	if (BaseJob != 12) goto NEXT11;
+	show "Não se meta em confusão, ou você quer conversar com os guardas?";
+	close;
+NEXT11:
+	if (BaseJob != 14) goto NEXT12;
+	show "Saudações, "+ strcharinfo(0);
+	close;
+NEXT12:
+	if (BaseJob != 15) goto NEXT13;
+	show "Olá! Bem-vindo ao ^008000Castelo de Prontera^000000.";
+	close;
+NEXT13:
+	if (BaseJob != 16) goto NEXT14;
+	show "Olá! Bem-vindo ao ^008000Castelo de Prontera^000000, aproveite sua estadia.";
+	close;
+NEXT14:
+	if (BaseJob != 17) goto NEXT15;
+	show "Não se meta em confusão. Você o que é bom pra você!!!";
+	close;
+NEXT15:
+	if (BaseJob != 18) goto NEXT16;
+	show "Então... como estão indo os experimentos la em ^00FF00Al de Baran^000000?";
+	close;
+NEXT16:
+	if (BaseJob != 19) goto NEXT17;
+	show "Bem-vindo ao castelo senhor!";
+	close;
+NEXT17:
+	if (BaseJob != 20) goto NEXT18;
+	show "Olá senhorita. Tudo bom?";
+	close;
+NEXT18:
+	if (BaseJob != 22) goto NEXT19;
+	if (Sex != 0) goto MALE;
+	show "Olá! Bem-vindo ao ^008000Castelo de Prontera^000000.";
+	close;
+	MALE:
+	show "Muito bem senhor!";
+	close;
+NEXT19:
+	show "Olá e tenha um ótimo dia!";
+	close;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Man in Anguish - Crusader Job Quest - 2nd Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+prt_castle.gat,164,32,0	script	Homem em Agonia	733,{
+	if (CRUS_Q == 7) goto CONT;
+	if (CRUS_Q > 7) goto CONT0;
+	show "[^000080Murnak Mijoul^000000]";
+	show "Quem... quem é você?";
+	next;
+	if (CRUS_Q == 5) goto CHECK;
+
+	OTHER:
+	if (CRUS_Q == 6) goto EXIT1;
+	show "[^000080Murnak Mijoul^000000]";
+	show "O que você quer?";
+	show "Deixe-me sozinho!";
+	close;
+	CHECK:	
+	if (countitem(2608) == 0) goto NOT;//Items: Rosary,
+
+	show "[^000080Murnak Mijoul^000000]";
+	show "Hmmm... você está aqui pela causa.";
+	next;
+	show "[^000080Murnak Mijoul^000000]";
+	show "Isso é uma tortura...";
+	show "Eles sempre me enviam para essa sala.";
+	next;
+	show "[^000080Murnak Mijoul^000000]";
+	show "Eu tenho ficado sempre cansado e cansado disso.";
+	next;
+	show "[^000080Murnak Mijoul^000000]";
+	show "Se você deseja entrar, eu posso te enviar para lá.";
+	next;
+	menu "Sim.",-,"Só um segundo...",EXIT;
+	show "[^000080Murnak Mijoul^000000]";
+	show "Tudo bem então... Te direi aonda ir.";
+	GO:
+	next;
+	savepoint "prt_castle.gat",162,27;
+	if (getmapusers("job_cru.gat") > 0) goto EXIT0;
+	set CRUS_Q,6;
+	warp "job_cru.gat",23,42;
+	EXIT0:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Me desculpe, mas já tem alguem lá agora.";
+	show "Só um minuto, não vai demorar muito.";
+	close;
+	EXIT:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Por favor não me perturbe!";
+	close;
+	NOT:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Deixe-me sozinho!";
+	show "Você não pode deixar uma pessoa em agonia, sozinha?";
+	close;
+
+	CONT:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Vejo que conseguiu. Bom trabalho!";
+	set CRUS_Q,8;
+	close;
+	EXIT1:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Desculpe, mas você precisa tentar novamente.";
+	goto GO;
+	CONT0:
+	show "[^000080Murnak Mijoul^000000]";
+	show "Não há nada mais que precise de mim.";
+	show "Agora deixe-me...";
+	close;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Gabriel Valentine - Crusader Job Quest - Knowledge Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+prt_church.gat,94,116,0	script	Gabriel Valentine	745,{
+	show "[^000080Gabriel Valentine^000000]";
+	if (BaseJob != 0) goto NEXT_o;
+	show "Olá jovem viajante.";
+	close;
+NEXT_o:
+	if (BaseJob != 1) goto NEXT0;
+	show "Olá, " + strcharinfo(0);
+	next;
+	if (CRUS_Q != 9) goto EXIT;
+	BEGIN:
+	menu "Fazer o teste de conhecimento.",-,"Nada não...",EXIT;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Oh, você está tentando ser promovido a ^800000"+callfunc("classname",14,"S","M")+"^000000 hein?";
+	show "Sem problemas...";
+	next;
+	START:
+	set @Q , 0;
+	set @Q1 , 0;
+	set @Q2 , 0;
+	set @Q3 , 0;
+	set @Q4 , 0;
+	set @Q5 , 0;
+	set @Q6 , 0;
+	set @Q7 , 0;
+	set @Q8 , 0;
+	set @Q9 , 0;
+	set @Q10 , 0;
+	set @Q11 , 0;
+	set @Q12 , 0;
+	set @Q13 , 0;
+	set @Q14 , 0;
+	set @Q15 , 0;
+	set @Q16 , 0;
+	set @Q17 , 0;
+	set @Q18 , 0;
+	set @Q19 , 0;
+	set @Q20 , 0;
+	set @ANS , 0;
+	RND:
+	if (@Q > 10) goto DONE;
+	set @RND, rand(20);
+	if (@RND > 9) goto G1;
+	if (@RND > 4) goto G1A;
+	if (@RND > 3) goto G1A1;
+	if (@RND == 0) goto Q1;
+	if (@RND == 1) goto Q2;
+	if (@RND != 1) goto Q3;
+	G1A1:
+	if (@RND == 3) goto Q4;
+	if (@RND != 3) goto Q5;
+	G1A:
+	if (@RND > 8) goto G1A2;
+	if (@RND == 5) goto Q6;
+	if (@RND == 6) goto Q7;
+	if (@RND != 6) goto Q8;
+	G1A2:
+	if (@RND == 8) goto Q9;
+	if (@RND != 8) goto Q10;
+	G1:
+	if (@RND > 14) goto G2A;
+	if (@RND > 13) goto G2A1;
+	if (@RND == 10) goto Q11;
+	if (@RND == 11) goto Q12;
+	if (@RND == 12) goto Q13;
+	G2A1:
+	if (@RND == 13) goto Q14;
+	if (@RND == 14) goto Q15;
+	G2A:
+	if (@RND > 18) goto G2A2;
+	if (@RND == 15) goto Q16;
+	if (@RND == 16) goto Q17;
+	if (@RND == 17) goto Q18;
+	G2A2:
+	if (@RND == 18) goto Q19;
+	if (@Q20 != 0) goto RND;
+	set @Q20,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você arriscaria sua vida para salvar alguém?";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q1:
+	if (@Q1 != 0) goto RND;
+	set @Q1,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Se alguém pedir sua ajuda por uma boa causa, você se sente obrigado a ajudar?";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS, @ANS + 1;
+	goto RND;
+	Q2:
+	if (@Q2 != 0) goto RND;
+	set @Q2, 1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você deixaria um ladrão fugir com o seu roubo?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q3:
+	if (@Q3 != 0) goto RND;
+	set @Q3,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você deseja que o mundo estivesse em paz e harmonia?";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q4:
+	if (@Q4 != 0) goto RND;
+	set @Q4,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você tentaria suicídio?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q5:
+	if (@Q5 != 0) goto RND;
+	set @Q5,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você usaria drogas em festas?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q6:
+	if (@Q6 != 0) goto RND;
+	set @Q6,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você mataria sem causa?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q7:
+	if (@Q7 != 0) goto RND;
+	set @Q7,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você seguraria seus sentimentos durante argumentos?";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q8:
+	if (@Q8 != 0) goto RND;
+	set @Q8,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você permitiria químicos fazer experimentos ilegais?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q9:
+	if (@Q9 != 0) goto RND;
+	set @Q9,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Se alguém te jogar uma pedra, você ficaria furioso?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q10:
+	if (@Q10 != 0) goto RND;
+	set @Q10,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Se alguém te oferecer dinheiro que pertence a um pobre, você ficaria com ele?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q11:
+	if (@Q11 != 0) goto RND;
+	set @Q11,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você põe sua pessoa nas alturas?";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q12:
+	if (@Q12 != 0) goto RND;
+	set @Q12,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você é mais humilde que os outros?";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q13:
+	if (@Q13 != 0) goto RND;
+	set @Q13,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você trata as pessoas com muito respeito e cordialidade.";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q14:
+	if (@Q14 != 0) goto RND;
+	set @Q14,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você luta quando está afim.";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q15:
+	if (@Q15 != 0) goto RND;
+	set @Q15,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você vai para barzinhos toda noite.";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q16:
+	if (@Q16 != 0) goto RND;
+	set @Q16,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você acredita no Pai, no Filho e no Espírito Santo.";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q17:
+	if (@Q17 != 0) goto RND;
+	set @Q17,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você acredita que o Diabo é mau e deve ser tratado da mesma forma.";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q18:
+	if (@Q18 != 0) goto RND;
+	set @Q18,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você acredita que falar é para os fracos e que isso não resolve nada";
+	next;
+	menu "Sim",RND,"Não",-;
+	set @ANS,@ANS + 1;
+	goto RND;
+	Q19:
+	if (@Q19 != 0) goto RND;
+	set @Q19,1;
+	set @Q,@Q + 1;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Se TODO MUNDO deseja ficar em guerra, ENTÃO seria certo seguir a violência.";
+	next;
+	menu "Sim",-,"Não",RND;
+	set @ANS,@ANS + 1;
+	goto RND;
+	DONE:
+	show "[^000080Gabriel Valentine^000000]";
+	show "Você teve "+ @ANS +" / 10 respostas corretas.";
+	next;
+	if (CRUS_Q != 10) goto secND;
+	if (@ANS < 8) goto NO;
+	PASS:
+	show "[^000080Gabriel Valentine^000000]";
+	show "Bom trabalho! Você está aprovado no ^FF8000Teste de Conhecimentos^000000!";
+	show "Está quase acabando, você irá fazer o ^FF8000Teste de Purificação^000000, encontre Bliant Piyord na ^008000Cavalaria de Prontera^000000.";
+	set CRUS_Q, 11;
+	close;
+	NO:
+	set CRUS_Q, 10;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Me desculpe, você não passou.";
+	next;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Tente novamente assim que você sentir vontade.";
+	show "Espero que você consiga pelo menos 8 certas na próxima vez que vier.";
+	close;
+	secND:
+	if (@ANS > 7) goto PASS;
+	show "[^000080Gabriel Valentine^000000]";
+	show "Me desculpe, você precisa de mais respostas corretas.";
+	close;
+	EXIT:
+	if (CRUS_Q == 10) goto BEGIN;
+	if (CRUS_Q > 10) goto FINISH;
+	close;
+	FINISH:
+	show "[^000080Gabriel Valentine^000000]";
+	show "Vá para o Cavaleiro Guardião no ^008000Castelo de Prontera^000000 para continuar com o ^FF8000Teste de Purificação^000000.";
+	close;
+
+
+NEXT0:
+	if (BaseJob != 2) goto NEXT1;
+	show "Olá, bem-vindo ao ^008000Cavalaria de Prontera^000000.";
+	show "Espero que você tenha um ótimo dia!";
+	close;
+NEXT1:
+	if (BaseJob != 3) goto NEXT2;
+	show "Boa sorte em sua caça.";
+	close;
+NEXT2:
+	if (BaseJob != 4) goto NEXT3;
+	show "Olá! Tudo bom?";
+	show "Boa sorte em seu caminho.";
+	close;
+NEXT3:
+	if (BaseJob != 5) goto NEXT4;
+	show "Olá, não estamos precisando de nada nesse momento, me desculpe.";
+	close;
+NEXT4:
+	if (BaseJob != 6) goto NEXT5;
+	show "Cuidado com o que andas fazendo...";
+	close;
+NEXT5:
+	if (BaseJob != 7) goto NEXT6;
+	show "Olá, " + strcharinfo(0);
+	close;
+NEXT6:
+	if (BaseJob != 8) goto NEXT7;
+	show "Olá, "+ strcharinfo(0);
+	show "Eu gostaria de acreditar que tudo está indo muito bem.";
+	close;
+NEXT7:
+	if (BaseJob != 9) goto NEXT8;
+	show "Que bom que você está aqui.";
+	close;
+NEXT8:
+	if (BaseJob != 10) goto NEXT9;
+	show "Olá! Nesse momento não precisando de nenhuma arma ou armadura, obrigado.";
+	close;
+NEXT9:
+	if (BaseJob != 11) goto NEXT10;
+	show "Olá, te desejo sorte e sucesso.";
+	close;
+NEXT10:
+	if (BaseJob != 12) goto NEXT11;
+	show "Não se meta em confusão, ou você quer conversar com os guardas?";
+	close;
+NEXT11:
+	if (BaseJob != 14) goto NEXT12;
+	show "Saudações, "+ strcharinfo(0);
+	close;
+NEXT12:
+	if (BaseJob != 15) goto NEXT13;
+	show "Olá! Bem-vindo ao ^008000Quartel dos Cavaleiros^000000.";
+	close;
+NEXT13:
+	if (BaseJob != 16) goto NEXT14;
+	show "Olá! Bem-vindo ao ^008000Quartel dos Cavaleiros^000000, aproveite sua estadia.";
+	close;
+NEXT14:
+	if (BaseJob != 17) goto NEXT15;
+	show "Não se meta em confusão. Você o que é bom pra você!!!";
+	close;
+NEXT15:
+	if (BaseJob != 18) goto NEXT16;
+	show "Então... como estão indo os experimentos la em ^00FF00Al de Baran^000000?";
+	close;
+NEXT16:
+	if (BaseJob != 19) goto NEXT17;
+	show "Bem-vindo ao castelo senhor!";
+	close;
+NEXT17:
+	if (BaseJob != 20) goto NEXT18;
+	show "Olá senhorita. Tudo bom?";
+	close;
+NEXT18:
+	if (BaseJob != 22) goto NEXT19;
+	if (Sex != 0) goto MALE;
+	show "Olá, bem-vindo ao ^008000Quartel dos Cavaleiros^000000.";
+	close;
+	MALE:
+	show "Muito bem senhor!";
+	close;
+NEXT19:
+	show "Tenha um ótimo dia";
+	close;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Bliant Piyord - Crusader Job Quest - Purification Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+prt_in.gat,83,97,0	script	Cavaleiro Patrono	734,{
+	show "[^000080Bliant Piyord^000000]";
+	if (BaseJob != 0) goto NEXT_o;
+	show "Bem-vindo jovem andarilho.";
+	close;
+NEXT_o:
+	if (BaseJob != 1) goto NEXT0;
+	if (CRUS_Q == 11) goto PART1;
+	if (CRUS_Q == 12) goto PART2;
+	if (CRUS_Q != 13) goto EXIT;
+	show "Muito bem!";
+	show "Fale com ^000080Michael Halig^000000, ele irá te promover a ^800000"+callfunc("classname",14,"S","M")+"^000000.";
+	close;
+	PART2:
+	if (@CRU2 == 43) goto EXIT2;
+	PART2A:
+	show "Então... você gostaria de tentar novamente?";
+	next;
+	menu "Sim",TEST,"Não",-;
+	show "[^000080Bliant Piyord^000000]";
+	show "Oh, tudo bem então.";
+	close;
+	PART1:
+	show "Olá, " + strcharinfo(0);
+	show "Vejo que você chegou longe.";
+	next;
+	show "[^000080Bliant Piyord^000000]";
+	show "Não me desapone nesse teste.";
+	show "Este é o ^FF8000Teste de Purificação^000000.";
+	show "Eu irie te levar para o local do teste quando estiveres pronto.";
+	next;
+	menu "Eu quero ir agora.",-,"Só um minuto por favor.",EXIT0;
+	TEST:
+	show "[^000080Bliant Piyord^000000]";
+	show "Deixe-me ter certeza que lá está vazio.";
+	next;
+	if( getmapusers("job_cru.gat")>0 ) goto EXIT1;
+	killmonster "job_cru.gat","CR_KILL::OnStart";
+	savepoint "prt_in.gat",81,100;
+	set CRUS_Q, 12;
+	warp "job_cru",167,175;
+	EXIT1:
+	show "[^000080Bliant Piyord^000000]";
+	show "Me desculpe, já tem alguem lá esse momento.";
+	close;
+	EXIT0:
+	show "[^000080Bliant Piyord^000000]";
+	show "Sem problema, quando estiver pronto, estarei aqui.";
+	close;
+	EXIT:
+	show "Olá, " + strcharinfo(0);
+	show "Você vem treinando bem? Como estão suas habilidades?";
+	show "Você já está forte o suficiente para se tornar um ^800000"+callfunc("classname",14,"S","M")+"^000000?";
+	next;
+	show "[^000080Bliant Piyord^000000]";
+	show "Se você acha que sim, em breve te encontrarei novamente para os testes.";
+	close;
+EXIT2:
+	show "Muito bem!";
+	set CRUS_Q,13;
+	next;
+	show "Volte para ^000080Michael Halig^000000 e ele irá te promover a ^800000"+callfunc("classname",14,"S","M")+"^000000.";
+	close;
+NEXT0:
+	if (BaseJob != 2) goto NEXT1;
+	show "Bom te ver.";
+	show "Espero que consigamos manter a ordem em ^00FF00Prontera^000000.";
+	close;
+NEXT1:
+	if (BaseJob != 3) goto NEXT2;
+	show "Bem-vindo, espero que você tenha um bom dia!";
+	close;
+NEXT2:
+	if (BaseJob != 4) goto NEXT3;
+	show "Bom dia para vocÊ!";
+	close;
+NEXT3:
+	if (BaseJob != 5) goto NEXT4;
+	show "Olá, mas não estou preciso de alguma coisa.";
+	close;
+NEXT4:
+	if (BaseJob != 6) goto NEXT5;
+	show "Se você pensa que pode roubar e escapar em ^00FF00Prontera^000000, nós temos soldados por todos lados.";
+	close;
+NEXT5:
+	if (BaseJob != 7) goto NEXT6;
+	show "Bem-vindo!";
+	show "Espero que você tenha um ótimo dia!";
+	close;
+NEXT6:
+	if (BaseJob != 8) goto NEXT7;
+	show "Bem-vindo a ^00FF00Prontera^000000!";
+	show "Espero que você tenha um ótimo dia!";
+	close;
+NEXT7:
+	if (BaseJob != 9) goto NEXT8;
+	show "Olá! Estou feliz em ter pessoas como você por aqui!";
+	close;
+NEXT8:
+	if (BaseJob != 10) goto NEXT9;
+	show "Bom você ter vindo, mas não preciso de nada nesse momento.";
+	show "Me desculpe.";
+	close;
+NEXT9:
+	if (BaseJob != 11) goto NEXT10;
+	show "Como está indo a temporada de caça?";
+	show "Espero que tudo esteja bem.";
+	close;
+NEXT10:
+	if (BaseJob != 12) goto NEXT11;
+	show "Fique fora de problemas, me escutou?";
+	close;
+NEXT11:
+	if (BaseJob != 14) goto NEXT12;
+	show "Bem-vindo! Tenha um ótimo dia!";
+	close;
+NEXT12:
+	if (BaseJob != 15) goto NEXT13;
+	show "Olá, Espero que sua estadia em ^00FF00Prontera^000000 seja maravilhosa.";
+	close;
+NEXT13:
+	if (BaseJob != 16) goto NEXT14;
+	show "É bom ver pessoas como vocÊ por aqui em ^00FF00Prontera^000000!";
+	close;
+NEXT14:
+	if (BaseJob != 17) goto NEXT15;
+	show "Tenha cuidado se não deseja ser apanhando.";
+	show "Eu não quero ter que tocar em você.";
+	close;
+NEXT15:
+	if (BaseJob != 18) goto NEXT16;
+	show "Espero que os experimentos em ^00FF00Al de Baran^000000 sejam legais, ou nós iremos enviar alguem para acabar com isso.";
+	close;
+NEXT16:
+	if (BaseJob != 19) goto NEXT17;
+	show "Que dia maravilhoso para ter uma pessoa como você vistando.";
+	close;
+NEXT17:
+	if (BaseJob != 20) goto NEXT18;
+	show "Bem-vindo e tenha um ótimo dia!";
+	close;
+NEXT18:
+	if (BaseJob != 22) goto NEXT19;
+	if (Sex != 0) goto MALE;
+	show "Uouuu! Parabéns pelo casamento!";
+	close;
+	MALE:
+	show "Muito bem!  Parabéns por seu casamento!";
+	close;
+NEXT19:
+	show "Bom dia!";
+	close;
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Entry A - Crusader Job Quest - Patience Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+job_cru.gat,23,42,0	script	CR_DEAD	-1,{
+
+OnStart:
+	killmonster "job_cru.gat","CR_DEAD::OnStart";
+	set @CRU1,0;
+	enablenpc "CR_TST_2";
+	warp "prt_castle.gat",162,27;
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Entry - Crusader Job Quest - Patience Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+job_cru.gat,23,42,0	script	CR_TST_2	139,8,8,{
+
+	if (CRUS_Q != 6) goto EXIT;
+	set @CRU1,1;
+	mapannounce "job_cru.gat","Resista e encontrará a saída.",8;
+
+	monster "job_cru.gat",10,43,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",14,47,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",26,46,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",31,46,"Requium",1913,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",16,52,"Raydric Archer",1914,0,"CR_DEAD::OnStart";
+	monster "job_cru.gat",22,53,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",28,49,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",12,54,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",17,55,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",21,57,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",30,58,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",11,64,"Raydric Archer",1914,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",19,67,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",24,62,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",13,70,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",18,69,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",29,67,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",32,68,"Requium",1913,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",16,75,"Raydric Archer",1914,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",21,74,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",27,76,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",14,78,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",19,76,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",24,79,"Requium",1913,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",14,83,"Raydric Archer",1914,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",18,85,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",22,84,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",33,86,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",13,89,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",17,92,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",23,90,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",26,88,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",17,97,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",23,100,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",31,101,"Ghoul",1910,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",13,103,"Raydric Archer",1914,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",22,105,"Injustice",1912,1,"CR_DEAD::OnStart";
+	monster "job_cru.gat",30,107,"Khalitzburg",1911,1,"CR_DEAD::OnStart";
+	disablenpc "CR_TST_2";
+	end;
+	EXIT:
+	warp "prt_castle.gat",162,27;
+}
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Exit - Crusader Job Quest - Patience Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+job_cru.gat,23,109,0	script	CR_EXT_1	139,1,1,{
+
+if (@CRU1 == 0) goto JUMP;
+	set CRUS_Q,7;
+	killmonster "job_cru.gat","CR_DEAD::OnStart";
+	enablenpc "CR_TST_2";
+JUMP:
+	warp "prt_castle.gat",162,28;
+}
+
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Fighting Area - Crusader Job Quest - 4th Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+job_cru.gat,167,175,0	script	CR_KILL	-1,{
+
+OnStart:
+	if (@CRU2 == 43) goto good;
+
+	set @CRU2,@CRU2 +1;
+	announce "Você matou outro monstro.",3;
+	end;
+
+	good:
+	announce "Você matou todos os monstros, você já pode sair.",3;
+	end;
+}
+
+job_cru.gat,167,175,0	script	CR_TST_4	139,1,1,{
+
+	if(CRUS_Q != 12) goto EXIT;
+	set @CRU2,1;
+	announce "Defeat all the enemies.",3;
+	monster "job_cru.gat",163,42,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,66,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",163,89,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,115,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",166,141,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",168,166,"Bongun",1188,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",164,170,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",173,153,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",164,138,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",166,128,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,117,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",163,102,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",172,84,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",162,76,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",167,65,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,58,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",162,48,"Munak",1026,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",170,33,"Munak",1026,1,"CR_KILL::OnStart";	
+	monster "job_cru.gat",170,26,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",166,37,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,47,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",165,61,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",172,65,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",163,77,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",164,86,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",165,98,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",170,101,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",163,110,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",164,117,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",166,129,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",165,139,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",166,151,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",168,160,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",162,169,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,171,"Skeleton",1076,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",162,32,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",165,51,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",172,73,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",170,92,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",173,111,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",170,124,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",171,147,"Zombie",1015,1,"CR_KILL::OnStart";
+	monster "job_cru.gat",163,162,"Zombie",1015,1,"CR_KILL::OnStart";
+	disablenpc "CR_TST_4";
+	EXIT:
+	end;
+}
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+//
+// Test 4 Exit - Crusader Job Quest - 4th Test
+// By Black Dragon based on the information at RagnaInfo
+//
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+job_cru.gat,167,17,0	script	CR_EXT_4	139,2,2,{
+	enablenpc "CR_TST_4";
+	warp "prt_in.gat",81,100;
+}
+
+//==============================================================================
+// mapflag
+//==============================================================================
+job_cru.gat	mapflag	nomemo
+job_cru.gat	mapflag	noteleport
+job_cru.gat	mapflag	nosave	SavePoint
+job_cru.gat	mapflag	nopenalty
+job_cru.gat	mapflag	nobranch
+job_cru.gat	mapflag	noexp
+job_cru.gat	mapflag	noloot
+

@@ -1,0 +1,356 @@
+//===== Cronus Script ======================================== 
+//= Mestra das Classes
+//===== Por: =================================================
+//= Kamper(Criador) e Mehah (Otimização e Atualizações)
+//===== Versão Atual: ======================================== 
+//= 1.2.1b
+//===== Descrição: =========================================== 
+//= Muda a classe do personagem
+//==== Changelog ============================================
+//= 1.1 Adicionado suporte a nova classe (Tae Kwon Dô) [Mehah]
+//= 1.2 Adicionado Suporte a nova classe (Atirador e Ninja) [Mehah]
+//= 1.2.1b Adicionado suporte a Variavel utilizada no NPC Valkyrie [Mehah]
+//============================================================
+prontera,153,186,5	script	Mestra das Classes	770,{
+	function check;
+	function jobselect;
+
+	if(!BaseJob) set @Njob,MC_Njob_1; else set @Njob,MC_Njob_2;
+	show "[Mestra das Classes]";
+	if(checkjob(Class,4) || checkjob(Class,6) || Class == Job_SuperNovice || Class == Job_Gunslinger || Class == Job_Ninja || Class >= Job_Star_Gladiator && Class <= Job_Soul_Linker){
+		show "Você já chegou ao final das classes, me desculpa mas não posso fazer nada por você.";
+	}else if(!BaseJob && Class != Job_Novice_High){
+		show "Qual classe deseja se transformar?";
+		next;
+		switch ( select(callfunc("getjobname",Job_Swordman),callfunc("getjobname",Job_Mage),callfunc("getjobname",Job_Archer),callfunc("getjobname",Job_Acolyte),callfunc("getjobname",Job_Merchant),callfunc("getjobname",Job_Thief),callfunc("getjobname",Job_SuperNovice),callfunc("getjobname",Job_Taekwon),callfunc("getjobname",Job_Gunslinger),callfunc("getjobname",Job_Ninja)) )
+		{
+			case 1: jobselect Job_Swordman,MC_ZenyReq1;
+			case 2: jobselect Job_Mage,MC_ZenyReq1;
+			case 3: jobselect Job_Archer,MC_ZenyReq1;
+			case 4: jobselect Job_Acolyte,MC_ZenyReq1;
+			case 5: jobselect Job_Merchant,MC_ZenyReq1;
+			case 6: jobselect Job_Thief,MC_ZenyReq1;
+			case 7: check "BaseLevel",MC_SupAprLvl;
+					jobselect callfunc("checkclass",4),MC_ZenyReqS;
+			case 8: jobselect Job_Taekwon,MC_ZenyReq1;
+			case 9: jobselect Job_Gunslinger,MC_ZenyReq1;
+			case 10: jobselect Job_Ninja,MC_ZenyReq1;
+		}
+	}else if(checkjob(BaseJob,1) && !checkjob(Class,3) || Class == Job_Taekwon){
+			show "Qual classe deseja se transformar?";
+			next;
+			switch(BaseJob){
+			case Job_Swordman:
+					switch ( select(callfunc("getjobname",Job_Knight),callfunc("getjobname",Job_Crusader)) ) {
+						case 1: jobselect Job_Knight,MC_ZenyReq2;
+						case 2: jobselect Job_Crusader,MC_ZenyReq2;
+					}
+			case Job_Mage:
+					switch ( select(callfunc("getjobname",Job_Wizard),callfunc("getjobname",Job_Sage)) ) {
+						case 1: jobselect Job_Wizard,MC_ZenyReq2;
+						case 2: jobselect Job_Sage,MC_ZenyReq2;
+					}
+			case Job_Archer:
+					switch ( select(callfunc("getjobname",Job_Hunter),callfunc("getjobname",Job_Bard)) ) {
+						case 1: jobselect Job_Hunter,MC_ZenyReq2;
+						case 2: if(!(sex)) jobselect Job_Dancer,MC_ZenyReq2; else jobselect Job_Bard,MC_ZenyReq2;
+					}
+			case Job_Acolyte:
+					switch ( select(callfunc("getjobname",Job_Priest),callfunc("getjobname",Job_Monk)) ) {
+						case 1: jobselect Job_Priest,MC_ZenyReq2;
+						case 2: jobselect Job_Monk,MC_ZenyReq2;
+					}
+			case Job_Merchant:
+					switch ( select(callfunc("getjobname",Job_Blacksmith),callfunc("getjobname",Job_Alchem)) ) {
+						case 1: jobselect Job_Blacksmith,MC_ZenyReq2;
+						case 2: jobselect Job_Alchem,MC_ZenyReq2;
+					}
+			case Job_Thief:
+					switch ( select(callfunc("getjobname",Job_Assassin),callfunc("getjobname",Job_Rogue)) ) {
+						case 1: jobselect Job_Assassin,MC_ZenyReq2;
+						case 2: jobselect Job_Rogue,MC_ZenyReq2;
+					}					
+			case Job_Taekwon:
+					switch ( select(callfunc("getjobname",Job_Star_Gladiator),callfunc("getjobname",Job_Soul_Linker)) ) {
+						case 1: jobselect Job_Star_Gladiator,MC_ZenyReq2;
+						case 2: jobselect Job_Soul_Linker,MC_ZenyReq2;
+					}
+			}
+	}else if(checkjob(Class,2)){
+			show "Você tem certeza que deseja se transforma em Aprendiz T.?";
+			next;
+			if(select("Sim","Não") == 1){
+				callfunc("skill:questsave");
+				check "BaseLevel",MC_TransLvl;
+				check "JobLevel",MC_TransJob;
+				if((MC_RetItemZeny) && Zeny || Weight){
+					show "Seu dinheiro e seus itens te ligam ao mundo material.";
+					show "Se livre deles para que eu possa lhe transformar em Aprendiz T.";
+					close;
+				}
+				if(checkcart() || checkfalcon() || checkriding() ){
+					if(checkcart()) show "Por favor, se livre de seu carrinho para continuarmos."; else
+					if(checkfalcon()) show "Desculpe, mas você deve retirar seu falcão"; else
+					if(checkriding()) show "Desculpe, mas você deve retirar seu PecoPeco";
+					close;
+				}
+				check "SkillPoint",0;
+				set MC_ULTJOB, Class;
+				setjob Job_Novice_High;
+				resetlvl(1);
+				callfunc("skill:questload");
+			}
+		}else if(Class == Job_Novice_High && MC_ULTJOB || ADVJOB ){
+				check "JobLevel",@Njob;
+				check "SkillPoint",0;
+				if(ADVJOB)
+					set MC_ULTJOB, ADVJOB;
+				show "Deseja se transformar em "+callfunc("getjobname",callfunc("checkclass",1))+"?";
+				next;
+				if(select("Sim","Não") == 1){
+					if(check("Zeny",MC_ZenyReq1)) set zeny, Zeny - MC_ZenyReq1;
+					setjob callfunc("checkclass",1);
+				}
+		}else if(checkjob(Class,3) && MC_ULTJOB || ADVJOB){
+				check "JobLevel",@Njob;
+				check "SkillPoint",0;
+				if(ADVJOB)
+					set MC_ULTJOB, ADVJOB;
+				show "Deseja se transformar em "+callfunc("getjobname",callfunc("checkclass",2))+"?";
+				if(select("Sim","Não") == 1){
+					if(check("Zeny",MC_ZenyReq2)) set zeny, Zeny - MC_ZenyReq2;
+					setjob callfunc("checkclass",2);
+					set MC_ULTJOB, 0;
+					if(ADVJOB)
+						set ADVJOB, 0;
+				}
+		}else{
+			show "Erro: O seu personagem não possui a ultima classe gravada.";
+			debugmes "Erro: O personagem('"+strcharinfo(0)+"') não possui a ultima classe gravada.";
+		}
+	close;
+	
+	function	jobselect	{
+		show "[Mestra das Classes]";
+		check "JobLevel",@Njob;
+		check "SkillPoint",0;
+		show "Você tem certeza?";
+		next;
+		if(select("Sim","Não") == 1){
+			if(check("Zeny",getarg(1))) set zeny, Zeny - getarg(1);
+			setjob getarg(0)+callfunc("checkclass",3);
+		}
+		close;
+	}
+
+	function	check	{
+		if(getarg(0) == "BaseLevel" && BaseLevel < getarg(1))
+			show "Desculpe, mas você precisa chegar ao nível de base "+getarg(1)+"!";
+		else if(getarg(0) == "JobLevel" && JobLevel < getarg(1))
+			show "Desculpe, mas você precisa chegar ao nível de classe "+getarg(1)+"!";
+		else if(getarg(0) == "SkillPoint" && SkillPoint > 0 && MC_SKPCheck)
+			show "Desculpe, mas você precisa gastar todos os seus pontos de habilidades...";
+		else if(getarg(0) == "Zeny" && Zeny < getarg(1)){
+			show "Desculpe, mas você não tem o dinheiro necessário!";
+			show "Você precisa de "+ getarg(1) +" Zeny!";
+		}else
+			return TRUE;
+		close;
+	}
+}
+
+function	script	checkclass	{
+	switch(getarg(0)){	
+	case 1:	switch(MC_ULTJOB){ 
+			case Job_Knight:
+			case Job_Crusader:
+				return Job_Swordman_High;
+			
+			case Job_Priest: 
+			case Job_Monk:
+				return Job_Acolyte_High;
+			
+			case Job_Wizard:
+			case Job_Sage:
+				return Job_Mage_High;
+			
+			case Job_Blacksmith:
+			case Job_Alchem:
+				return Job_Merchant_High;
+			
+			case Job_Hunter:
+			case Job_Bard:
+			case Job_Dancer:
+				return Job_Archer_High;
+			
+			case Job_Assassin:
+			case Job_Rogue:
+				return Job_Thief_High;
+			
+			default: return FALSE;
+		}
+	case 2: return MC_ULTJOB + Job_Novice_High;	
+	case 3: if (class >= Job_Baby && class <= Job_Super_Baby) return Job_Baby; else return FALSE;
+	case 4: if (class == Job_Baby) return 22; else return Job_SuperNovice;
+
+	default: return FALSE;
+	}
+}
+
+function	script	getjobname	{
+	if(Sex){
+		switch(getarg(0)){
+			case 0: return "Aprendiz";
+			case 1: return "Espadachim";
+			case 2: return "Mago";
+			case 3: return "Arqueiro";
+			case 4: return "Noviço";
+			case 5: return "Mercador";
+			case 6: return "Gatuno";
+			case 7: return "Cavaleiro";
+			case 8: return "Sacerdote";
+			case 9: return "Bruxo";
+			case 10: return "Ferreiro";
+			case 11: return "Caçador";
+			case 12: return "Mercenário";
+			case 13: return "Cavaleiro";
+			case 14: return "Templário";
+			case 15: return "Monge";
+			case 16: return "Sábio";
+			case 17: return "Arruaceiro";
+			case 18: return "Alquimista";
+			case 19: return "Bardo";
+			case 20: return "Bardo";
+			case 21: return "Templário";
+			case 23: return "S. Aprendiz";
+			case 24: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Justiceiro";
+			case 25: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Ninja";
+			case 4001: return "Aprendiz T.";
+			case 4002: return "Espadachin T.";
+			case 4003: return "Mago T.";
+			case 4004: return "Arqueiro T.";
+			case 4005: return "Noviço T.";
+			case 4006: return "Mercador T.";
+			case 4007: return "Gatuno T.";
+			case 4008: return "Lorde";
+			case 4009: return "Sumo Sacerdote";
+			case 4010: return "Arquimago";
+			case 4011: return "Mestre Ferreiro";
+			case 4012: return "Atirador de Elite";
+			case 4013: return "Algoz";
+			case 4014: return "Lorde";
+			case 4015: return "Paladino";
+			case 4016: return "Mestre";
+			case 4017: return "Professor";
+			case 4018: return "Desordeiro";
+			case 4019: return "Criador";
+			case 4020: return "Menestrel";
+			case 4021: return "Menestrel";
+			case 4022: return "Paladino";
+			case 4023: return "Mini Aprandiz";
+			case 4024: return "Mini Espadachim";
+			case 4025: return "Mini Mago";
+			case 4026: return "Mini Arqueiro";
+			case 4027: return "Mini Noviço";
+			case 4028: return "Mini Mercador";
+			case 4029: return "Mini Gatuno";
+			case 4030: return "Mini Cavaleiro";
+			case 4031: return "Mini Sacerdote";
+			case 4032: return "Mini Bruxo";
+			case 4033: return "Mini Ferreiro";
+			case 4034: return "Mini Caçador";
+			case 4035: return "Mini Mercenário";
+			case 4036: return "Mini Cavaleiro";
+			case 4037: return "Mini Templário";
+			case 4038: return "Mini Monge";
+			case 4039: return "Mini Sábio";
+			case 4040: return "Mini Arruaceiro";
+			case 4041: return "Mini Alquimista";
+			case 4042: return "Mini Bardo";
+			case 4043: return "Mini Bardo";
+			case 4044: return "Mini Templário";
+			case 4045: return "S.Aprendiz - Jr.";
+			case 4046: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Taekwon";
+			case 4047: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Mestre Taekwon";
+			case 4048: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Mestre Taekwon";
+			case 4049: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Espiritualista";
+		}
+	}else{
+		switch(getarg(0)){
+			case 0: return "Aprendiz";
+			case 1: return "Espadachim";
+			case 2: return "Maga";
+			case 3: return "Arqueira";
+			case 4: return "Noviça";
+			case 5: return "Mercadora";
+			case 6: return "Gatuna";
+			case 7: return "Cavaleira";
+			case 8: return "Sacerdotisa";
+			case 9: return "Bruxa";
+			case 10: return "Ferreira";
+			case 11: return "Caçadora";
+			case 12: return "Mercenária";
+			case 13: return "Cavaleira";
+			case 14: return "Templária";
+			case 15: return "Monja";
+			case 16: return "Sábia";
+			case 17: return "Arruaceira";
+			case 18: return "Alquimista";
+			case 19: return "Odalisca";
+			case 20: return "Odalisca";
+			case 21: return "Templária";
+			case 23: return "S. Aprendiz";
+			case 24: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Justiceira";
+			case 25: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Ninja";
+			case 4001: return "Aprendiz T.";
+			case 4002: return "Espadachim T.";
+			case 4003: return "Maga T.";
+			case 4004: return "Arqueira T.";
+			case 4005: return "Noviça T.";
+			case 4006: return "Mercadora T.";
+			case 4007: return "Gatuna T.";
+			case 4008: return "Lady";
+			case 4009: return "Suma Sacerdotisa";
+			case 4010: return "Arquimaga";
+			case 4011: return "Mestra Ferreira"; //Não seria Mestra?
+			case 4012: return "Atiradora de Elite";
+			case 4013: return "Algoz";
+			case 4014: return "Lady";
+			case 4015: return "Paladina";
+			case 4016: return "Mestre"; //Não seria Mestra?
+			case 4017: return "Professora";
+			case 4018: return "Desordeira";
+			case 4019: return "Criadora";
+			case 4020: return "Cigana";
+			case 4021: return "Cigana";
+			case 4022: return "Paladina";
+			case 4023: return "Mini Aprendiz";
+			case 4024: return "Mini Espadachin";
+			case 4025: return "Mini Maga";
+			case 4026: return "Mini Arqueira";
+			case 4027: return "Mini Noviça";
+			case 4028: return "Mini Mercadora";
+			case 4029: return "Mini Gatuna";
+			case 4030: return "Mini Cavaleira";
+			case 4031: return "Mini Sacerdotisa";
+			case 4032: return "Mini Bruxa";
+			case 4033: return "Mini Ferreira";
+			case 4034: return "Mini Caçadora";
+			case 4035: return "Mini Mercenária";
+			case 4036: return "Mini Cavaleira";
+			case 4037: return "Mini Templária";
+			case 4038: return "Mini Monja";
+			case 4039: return "Mini Sábia";
+			case 4040: return "Mini Arruaceira";
+			case 4041: return "Mini Alquimista";
+			case 4042: return "Mini Odalisca";
+			case 4043: return "Mini Odalisca";
+			case 4044: return "Mini Templária";
+			case 4045: return "S.Aprendiz - Jr.";
+			case 4046: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Taekwon";
+			case 4047: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Mestre Taekwon";
+			case 4048: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Mestre Taekwon";
+			case 4049: if(class >= Job_Baby && class <= Job_Super_Baby) return ""; else return "Espiritualista";
+		}
+	}
+}

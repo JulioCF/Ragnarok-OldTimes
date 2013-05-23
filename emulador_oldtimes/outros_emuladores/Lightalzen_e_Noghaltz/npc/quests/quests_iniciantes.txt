@@ -1,0 +1,633 @@
+//===== Cronus Script ========================================
+//= Quests Iniciantes
+//===== Por: =================================================
+//= ????
+//===== Versão Atual: ========================================
+//= 1.1b
+//===== Compatível Com: ======================================
+//= Cronus [1075+]; bRO [9+])
+//===== Descrição: ===========================================
+//= 
+//===== Comentários Adicionais: ==============================
+//= 1.1b Traduzido para o cronus [touch]
+//============================================================
+
+prontera.gat,123,102,5	script	Mercador#1	85,{
+    if(Weight*100/MaxWeight >= 90){
+        show "[Mercador]";
+        show "Você excederá seu limite de peso se trocar as Poções Vermelhas..";
+        close;
+}
+            setarray @need,935,914,909;    
+            setarray @amount,5,10,10;    
+        
+    show "[Mercador]";
+    show "Bom dia!";
+    show "Você tem itens como "+getitemname(@need[0])+"s ou "+getitemname(@need[1])+"s ?";
+    show "...e Jellopies ?..";
+    show "Ah, sim, eu preciso deles para";
+    show "algo.";
+    next;
+    show "[Mercador]";
+    show "Claro que não estou pedindo para me dá-los de graça.!";
+    show "Que tal...se eu te der uma Poção";
+    show "Vermelha por "+@amount[0]+" "+getitemname(@need[0])+"s ou "+@amount[1]+" "+getitemname(@need[1])+"s???";
+    show "ou ainda "+@amount[2]+" Jellopies ???";
+    
+    next;
+    switch (select("claro!","Está querendo me passar pra tráz?","Não, obrigado.")) {
+    case 1:
+        show "[Mercador]";
+        show "Então, que item você me trouxe?";
+        show ""+getitemname(@need[0])+"s? "+getitemname(@need[1])+"s?";
+        show "Ou Jellopies?";
+        next;
+        set @i,select(""+getitemname(@need[0])+"",""+getitemname(@need[1])+"",""+getitemname(@need[2])+"","Cancelar")-1;
+        if(@i==3) {
+            show "[Mercador]";
+            show "Claro, sem problemas.";
+            close;
+        }
+        set @have,countitem(@need[@i]);
+        if(@have < @amount[@i]) {
+            show "[Mercador]";
+            if(@i > 0)    
+            show "Hey, onde eles estão?";
+            show "OS " + getitemname(@need[@i])+"s que você prometeu?";
+            show "Me dê os "+getitemname(@need[@i])+"s!";
+            close;
+        }
+        show "[Mercador]";
+        show "Ok, deixe-me dar uma olhada nas coisas que você trouxe.";
+        next;
+        set @max,@have / @amount[@i];    
+        show "[Mercador]";
+        show "Você tem um total de "+@have+" "+getitemname(@need[@i])+"s...";
+        show "Eu posso te dar";
+        show @max+" Poções Vermelhas por isso.";
+        next;
+        show "[Mercador]";
+        show "O que você me diz? Negócio fechado?";
+        next;
+        if(select("Fechado.","Hummm, não!")==2) {
+            show "[Mercador]";
+            show "Aahhh! É uma pena.";
+            show "Bah!";
+            close;
+        }
+        show "[Mercador]";
+        show "Você sabe o número exato de Poções Vermelhas";
+        show "que você pode receber por "+getitemname(@need[@i])+"s, não?";
+        next;
+        show "[Mercador]";
+        show "Você pode receber no mímino 1";
+        show "e no máximo 100 Poções Vermelhas por vez.";
+        show "Se você mudar de idéia, entre com '0'";
+        show "para cancelar.";
+        while(1) {
+            next;
+            digit @val;
+            if(@val<0 || @val>100) {
+                show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+                continue;
+            }
+            break;
+        }
+        if(@val == 0) {
+            show "[Mercador]";
+            show "O que... como você teve coragem";
+            show "de desperdiçar meu tempo?";
+            show "Saia, eu não negocio com tratantes.";
+            close;
+        }
+        if(@val > @max) {
+            show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+            close;
+        }
+        delitem @need[@i],@amount[@i]*@val;
+        additem 501,@val;
+        show "[Mercador]";
+        show "Lá vamos nós!";
+        show "Verifique a quantidade novamente.";
+        show "Muito obrigado, foi uma ótima negociação.";
+        close;
+    case 2:
+        show "[Mercador]";
+        show "Você acha que eu estou te passando pra tráz?!";
+        show "Você tem noção do quanto seu comentário foi ignorante?!";
+        show "Quando você verificar o preço de cada item,";
+        show "vai ver que estou perdendo Zenys na negociação.";
+        show "Mas... se você não quer negociar, tudo bem!";
+        close;
+    case 3:
+        show "[Mercador]";
+        show "Hah, sem problemas.";
+        show "Bah!";
+        close;
+    }
+}
+
+
+geffen.gat,173,88,5	script	Mercador#2	85,{
+    if(Weight*100/MaxWeight >= 90){
+        show "[Mercador]";
+        show "Você excederá seu limite de peso se trocar as Poções Vermelhas..";
+        close;
+}
+            setarray @need,935,915,909;    
+            setarray @amount,5,6,10;    
+        
+    show "[Mercador]";
+    show "Bom dia!";
+    show "Você tem itens como "+getitemname(@need[0])+"s ou "+getitemname(@need[1])+"s ?";
+    show "...e Jellopies ?..";
+    show "Ah, sim, eu preciso deles para";
+    show "algo.";
+    next;
+    show "[Mercador]";
+    show "Claro que não estou pedindo para me dá-los de graça.!";
+    show "Que tal...se eu te der uma Poção";
+    show "Vermelha por "+@amount[0]+" "+getitemname(@need[0])+"s ou "+@amount[1]+" "+getitemname(@need[1])+"s???";
+    show "ou ainda "+@amount[2]+" Jellopies ???";
+    
+    next;
+    switch (select("claro!","Está querendo me passar pra tráz?","Não, obrigado.")) {
+    case 1:
+        show "[Mercador]";
+        show "Então, que item você me trouxe?";
+        show ""+getitemname(@need[0])+"s? "+getitemname(@need[1])+"s?";
+        show "Ou Jellopies?";
+        next;
+        set @i,select(""+getitemname(@need[0])+"",""+getitemname(@need[1])+"",""+getitemname(@need[2])+"","Cancelar")-1;
+        if(@i==3) {
+            show "[Mercador]";
+            show "Claro, sem problemas.";
+            close;
+        }
+        set @have,countitem(@need[@i]);
+        if(@have < @amount[@i]) {
+            show "[Mercador]";
+            if(@i > 0)    
+            show "Hey, onde eles estão?";
+            show "OS " + getitemname(@need[@i])+"s que você prometeu?";
+            show "Me dê os "+getitemname(@need[@i])+"s!";
+            close;
+        }
+        show "[Mercador]";
+        show "Ok, deixe-me dar uma olhada nas coisas que você trouxe.";
+        next;
+        set @max,@have / @amount[@i];    
+        show "[Mercador]";
+        show "Você tem um total de "+@have+" "+getitemname(@need[@i])+"s...";
+        show "Eu posso te dar";
+        show @max+" Poções Vermelhas por isso.";
+        next;
+        show "[Mercador]";
+        show "O que você me diz? Negócio fechado?";
+        next;
+        if(select("Fechado.","Hummm, não!")==2) {
+            show "[Mercador]";
+            show "Aahhh! É uma pena.";
+            show "Bah!";
+            close;
+        }
+        show "[Mercador]";
+        show "Você sabe o número exato de Poções Vermelhas";
+        show "que você pode receber por "+getitemname(@need[@i])+"s, não?";
+        next;
+        show "[Mercador]";
+        show "Você pode receber no mímino 1";
+        show "e no máximo 100 Poções Vermelhas por vez.";
+        show "Se você mudar de idéia, entre com '0'";
+        show "para cancelar.";
+        while(1) {
+            next;
+            digit @val;
+            if(@val<0 || @val>100) {
+                show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+                continue;
+            }
+            break;
+        }
+        if(@val == 0) {
+            show "[Mercador]";
+            show "O que... como você teve coragem";
+            show "de desperdiçar meu tempo?";
+            show "Saia, eu não negocio com tratantes.";
+            close;
+        }
+        if(@val > @max) {
+            show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+            close;
+        }
+        delitem @need[@i],@amount[@i]*@val;
+        additem 501,@val;
+        show "[Mercador]";
+        show "Lá vamos nós!";
+        show "Verifique a quantidade novamente.";
+        show "Muito obrigado, foi uma ótima negociação.";
+        close;
+    case 2:
+        show "[Mercador]";
+        show "Você acha que eu estou te passando pra tráz?!";
+        show "Você tem noção do quanto seu comentário foi ignorante?!";
+        show "Quando você verificar o preço de cada item,";
+        show "vai ver que estou perdendo Zenys na negociação.";
+        show "Mas... se você não quer negociar, tudo bem!";
+        close;
+    case 3:
+        show "[Mercador]";
+        show "Hah, sem problemas.";
+        show "Bah!";
+        close;
+    }
+}
+
+morocc.gat,180,259,3	script	Mercador#3	85,{
+    if(Weight*100/MaxWeight >= 90){
+        show "[Mercador]";
+        show "Você excederá seu limite de peso se trocar as Poções Vermelhas..";
+        close;
+}
+            setarray @need,935,916,909;    
+            setarray @amount,5,7,10;    
+        
+    show "[Mercador]";
+    show "Bom dia!";
+    show "Você tem itens como "+getitemname(@need[0])+"s ou "+getitemname(@need[1])+"s ?";
+    show "...e Jellopies ?..";
+    show "Ah, sim, eu preciso deles para";
+    show "algo.";
+    next;
+    show "[Mercador]";
+    show "Claro que não estou pedindo para me dá-los de graça.!";
+    show "Que tal...se eu te der uma Poção";
+    show "Vermelha por "+@amount[0]+" "+getitemname(@need[0])+"s ou "+@amount[1]+" "+getitemname(@need[1])+"s???";
+    show "ou ainda "+@amount[2]+" Jellopies ???";
+    
+    next;
+    switch (select("claro!","Está querendo me passar pra tráz?","Não, obrigado.")) {
+    case 1:
+        show "[Mercador]";
+        show "Então, que item você me trouxe?";
+        show ""+getitemname(@need[0])+"s? "+getitemname(@need[1])+"s?";
+        show "Ou Jellopies?";
+        next;
+        set @i,select(""+getitemname(@need[0])+"",""+getitemname(@need[1])+"",""+getitemname(@need[2])+"","Cancelar")-1;
+        if(@i==3) {
+            show "[Mercador]";
+            show "Claro, sem problemas.";
+            close;
+        }
+        set @have,countitem(@need[@i]);
+        if(@have < @amount[@i]) {
+            show "[Mercador]";
+            if(@i > 0)    
+            show "Hey, onde eles estão?";
+            show "OS " + getitemname(@need[@i])+"s que você prometeu?";
+            show "Me dê os "+getitemname(@need[@i])+"s!";
+            close;
+        }
+        show "[Mercador]";
+        show "Ok, deixe-me dar uma olhada nas coisas que você trouxe.";
+        next;
+        set @max,@have / @amount[@i];    
+        show "[Mercador]";
+        show "Você tem um total de "+@have+" "+getitemname(@need[@i])+"s...";
+        show "Eu posso te dar";
+        show @max+" Poções Vermelhas por isso.";
+        next;
+        show "[Mercador]";
+        show "O que você me diz? Negócio fechado?";
+        next;
+        if(select("Fechado.","Hummm, não!")==2) {
+            show "[Mercador]";
+            show "Aahhh! É uma pena.";
+            show "Bah!";
+            close;
+        }
+        show "[Mercador]";
+        show "Você sabe o número exato de Poções Vermelhas";
+        show "que você pode receber por "+getitemname(@need[@i])+"s, não?";
+        next;
+        show "[Mercador]";
+        show "Você pode receber no mímino 1";
+        show "e no máximo 100 Poções Vermelhas por vez.";
+        show "Se você mudar de idéia, entre com '0'";
+        show "para cancelar.";
+        while(1) {
+            next;
+            digit @val;
+            if(@val<0 || @val>100) {
+                show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+                continue;
+            }
+            break;
+        }
+        if(@val == 0) {
+            show "[Mercador]";
+            show "O que... como você teve coragem";
+            show "de desperdiçar meu tempo?";
+            show "Saia, eu não negocio com tratantes.";
+            close;
+        }
+        if(@val > @max) {
+            show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+            close;
+        }
+        delitem @need[@i],@amount[@i]*@val;
+        additem 501,@val;
+        show "[Mercador]";
+        show "Lá vamos nós!";
+        show "Verifique a quantidade novamente.";
+        show "Muito obrigado, foi uma ótima negociação.";
+        close;
+    case 2:
+        show "[Mercador]";
+        show "Você acha que eu estou te passando pra tráz?!";
+        show "Você tem noção do quanto seu comentário foi ignorante?!";
+        show "Quando você verificar o preço de cada item,";
+        show "vai ver que estou perdendo Zenys na negociação.";
+        show "Mas... se você não quer negociar, tudo bem!";
+        close;
+    case 3:
+        show "[Mercador]";
+        show "Hah, sem problemas.";
+        show "Bah!";
+        close;
+    }
+}
+
+aldebaran.gat,152,63,5	script	Mercador#4	85,{
+    if(Weight*100/MaxWeight >= 90){
+        show "[Mercador]";
+        show "Você excederá seu limite de peso se trocar as Poções Vermelhas..";
+        close;
+}
+            setarray @need,955,916,909;    
+            setarray @amount,1,7,10;    
+        
+    show "[Mercador]";
+    show "Bom dia!";
+    show "Você tem itens como "+getitemname(@need[0])+"s ou "+getitemname(@need[1])+"s ?";
+    show "...e Jellopies ?..";
+    show "Ah, sim, eu preciso deles para";
+    show "algo.";
+    next;
+    show "[Mercador]";
+    show "Claro que não estou pedindo para me dá-los de graça.!";
+    show "Que tal...se eu te der uma Poção";
+    show "Vermelha por "+@amount[0]+" "+getitemname(@need[0])+"s ou "+@amount[1]+" "+getitemname(@need[1])+"s???";
+    show "ou ainda "+@amount[2]+" Jellopies ???";
+    
+    next;
+    switch (select("claro!","Está querendo me passar pra tráz?","Não, obrigado.")) {
+    case 1:
+        show "[Mercador]";
+        show "Então, que item você me trouxe?";
+        show ""+getitemname(@need[0])+"s? "+getitemname(@need[1])+"s?";
+        show "Ou Jellopies?";
+        next;
+        set @i,select(""+getitemname(@need[0])+"",""+getitemname(@need[1])+"",""+getitemname(@need[2])+"","Cancelar")-1;
+        if(@i==3) {
+            show "[Mercador]";
+            show "Claro, sem problemas.";
+            close;
+        }
+        set @have,countitem(@need[@i]);
+        if(@have < @amount[@i]) {
+            show "[Mercador]";
+            if(@i > 0)    
+            show "Hey, onde eles estão?";
+            show "OS " + getitemname(@need[@i])+"s que você prometeu?";
+            show "Me dê os "+getitemname(@need[@i])+"s!";
+            close;
+        }
+        show "[Mercador]";
+        show "Ok, deixe-me dar uma olhada nas coisas que você trouxe.";
+        next;
+        set @max,@have / @amount[@i];    
+        show "[Mercador]";
+        show "Você tem um total de "+@have+" "+getitemname(@need[@i])+"s...";
+        show "Eu posso te dar";
+        show @max+" Poções Vermelhas por isso.";
+        next;
+        show "[Mercador]";
+        show "O que você me diz? Negócio fechado?";
+        next;
+        if(select("Fechado.","Hummm, não!")==2) {
+            show "[Mercador]";
+            show "Aahhh! É uma pena.";
+            show "Bah!";
+            close;
+        }
+        show "[Mercador]";
+        show "Você sabe o número exato de Poções Vermelhas";
+        show "que você pode receber por "+getitemname(@need[@i])+"s, não?";
+        next;
+        show "[Mercador]";
+        show "Você pode receber no mímino 1";
+        show "e no máximo 100 Poções Vermelhas por vez.";
+        show "Se você mudar de idéia, entre com '0'";
+        show "para cancelar.";
+        while(1) {
+            next;
+            digit @val;
+            if(@val<0 || @val>100) {
+                show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+                continue;
+            }
+            break;
+        }
+        if(@val == 0) {
+            show "[Mercador]";
+            show "O que... como você teve coragem";
+            show "de desperdiçar meu tempo?";
+            show "Saia, eu não negocio com tratantes.";
+            close;
+        }
+        if(@val > @max) {
+            show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+            close;
+        }
+        delitem @need[@i],@amount[@i]*@val;
+        additem 501,@val;
+        show "[Mercador]";
+        show "Lá vamos nós!";
+        show "Verifique a quantidade novamente.";
+        show "Muito obrigado, foi uma ótima negociação.";
+        close;
+    case 2:
+        show "[Mercador]";
+        show "Você acha que eu estou te passando pra tráz?!";
+        show "Você tem noção do quanto seu comentário foi ignorante?!";
+        show "Quando você verificar o preço de cada item,";
+        show "vai ver que estou perdendo Zenys na negociação.";
+        show "Mas... se você não quer negociar, tudo bem!";
+        close;
+    case 3:
+        show "[Mercador]";
+        show "Hah, sem problemas.";
+        show "Bah!";
+        close;
+    }
+}
+
+payon.gat,200,134,5	script	Mercador#5	85,{
+    
+	if(Weight*100/MaxWeight >= 90){
+        	show "[Mercador]";
+       	 	show "Você excederá seu limite de peso se trocar as Poções Vermelhas..";
+       	 	close;
+	}
+            setarray @need,902,909;    
+            setarray @amount,6,10;    
+        
+    show "[Mercador]";
+    show "Bom dia!";
+    show "Você tem itens como "+getitemname(@need[0])+"s ou "+getitemname(@need[1])+"s ?";
+    show "...e Jellopies ?..";
+    show "Ah, sim, eu preciso deles para";
+    show "algo.";
+    next;
+    show "[Mercador]";
+    show "Claro que não estou pedindo para me dá-los de graça.!";
+    show "Que tal...se eu te der uma Poção";
+    show "Vermelha por "+@amount[0]+" "+getitemname(@need[0])+"s ou "+@amount[1]+" "+getitemname(@need[1])+"s???";
+    show "ou ainda "+@amount[2]+" Jellopies ???";
+    
+    next;
+    switch (select("claro!","Está querendo me passar pra tráz?","Não, obrigado.")) {
+    case 1:
+        show "[Mercador]";
+        show "Então, que item você me trouxe?";
+        show ""+getitemname(@need[0])+"s? "+getitemname(@need[1])+"s?";
+        show "Ou Jellopies?";
+        next;
+        set @i,select(""+getitemname(@need[0])+"",""+getitemname(@need[1])+"","Cancelar")-1;
+      
+	  if(@i==3) {
+            show "[Mercador]";
+            show "Claro, sem problemas.";
+            close;
+        }
+
+        set @have,countitem(@need[@i]);
+        if(@have < @amount[@i]) {
+            show "[Mercador]";
+            if(@i > 0)    
+            show "Hey, onde eles estão?";
+            show "Os " + getitemname(@need[@i])+"s que você prometeu?";
+            show "Me dê os "+getitemname(@need[@i])+"s!";
+            close;
+        }
+        show "[Mercador]";
+        show "Ok, deixe-me dar uma olhada nas coisas que você trouxe.";
+        next;
+        set @max,@have / @amount[@i];    
+        show "[Mercador]";
+        show "Você tem um total de "+@have+" "+getitemname(@need[@i])+"s...";
+        show "Eu posso te dar";
+        show @max+" Poções Vermelhas por isso.";
+        next;
+        show "[Mercador]";
+        show "O que você me diz? Negócio fechado?";
+        next;
+        if(select("Fechado.","Hummm, não!")==2) {
+            show "[Mercador]";
+            show "Aahhh! É uma pena.";
+            show "Bah!";
+            close;
+        }
+        show "[Mercador]";
+        show "Você sabe o número exato de Poções Vermelhas";
+        show "que você pode receber por "+getitemname(@need[@i])+"s, não?";
+        next;
+        show "[Mercador]";
+        show "Você pode receber no mímino 1";
+        show "e no máximo 100 Poções Vermelhas por vez.";
+        show "Se você mudar de idéia, entre com '0'";
+        show "para cancelar.";
+        while(1) {
+            next;
+            digit @val;
+            if(@val<0 || @val>100) {
+                show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+                continue;
+            }
+            break;
+        }
+        if(@val == 0) {
+            show "[Mercador]";
+            show "O que... como você teve coragem";
+            show "de desperdiçar meu tempo?";
+            show "Saia, eu não negocio com tratantes.";
+            close;
+        }
+        if(@val > @max) {
+            show "[Mercador]";
+                show "Uh oh, o número que você";
+                show "digitou parece incorreto.";
+                show "É melhor você checar quantar Poções";
+                show "Vermelhas você pode obter.";
+            close;
+        }
+        delitem @need[@i],@amount[@i]*@val;
+        additem 501,@val;
+        show "[Mercador]";
+        show "Lá vamos nós!";
+        show "Verifique a quantidade novamente.";
+        show "Muito obrigado, foi uma ótima negociação.";
+        close;
+    case 2:
+        show "[Mercador]";
+        show "Você acha que eu estou te passando pra tráz?!";
+        show "Você tem noção do quanto seu comentário foi ignorante?!";
+        show "Quando você verificar o preço de cada item,";
+        show "vai ver que estou perdendo Zenys na negociação.";
+        show "Mas... se você não quer negociar, tudo bem!";
+        close;
+    case 3:
+        show "[Mercador]";
+        show "Hah, sem problemas.";
+        show "Bah!";
+        close;
+    }
+}
+

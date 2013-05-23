@@ -1,0 +1,1608 @@
+//===== Por: ===================================================
+//= Playtester
+//===== Versão Atual: ==========================================
+//= 1.7
+//===== Compatível com: ========================================
+//= Qualquer Versão do Cronus
+//===== Descrição: =============================================
+//= Armas e projeteis de Gunslinger (Atirador)
+//===== Comentários Adicionais: ================================
+//= 1.0 Only Garrison Gun done yet [Playtester]
+//= 1.1 Added Garrison[2] [Playtester]
+//= 1.2 Added Drifter, Destroyer and Inferno [Playtester]
+//= 1.3 Added official Gatling quests [Playtester]
+//= 1.4 Updated Destroyer Quest - Credits to Sinoco for first
+//= official version. [SinSloth]
+//= 1.5 Updated Inferno Quest to official version [SinSloth]
+//= 1.6 Updated Garrison Quest - Credits to Lazarus^ for
+//= making the first official version. [SinSloth]
+//= 1.7 Adaptado para o Cronus, tradução finalizada, retirado .gat, BUGs Corrigidos. [Shack]
+//==============================================================
+
+
+//===================== Garrison =====================================================
+
+que_ng,182,85,3	script	Garrison	109,{
+
+	if(BaseJob != Job_Gunslinger)
+	{
+		show "[Garrison]";
+		show "Você não é um Justiceiro";
+		show "Vocês está me distraindo de meu trabalho.Vá embora";
+		close;
+	}
+	else if(BaseLevel < 55)
+	{
+		show "[Garrison]";
+		show "Meu nome é Garrison.Eu sou um showtre em criação de armas";
+		show "A arma que eu fabrico também se chama Garrison.Eu a nomeei assim porque acho Garrison um nome legal e perfeito assim como eu.";
+		next;
+		show "[Garrison]";
+		show "Por que você não encomenda uma Garrison de mim?";
+		next;
+		callsub SubGarrison;
+	}
+	switch(gun_gs)
+	{
+		case 0:
+			if(countitem(13104) < 1)
+			{
+				show "[Garrison]";
+				show "Meu nome é Garrison.Eu sou um showtre em criação de armas";
+				show "A arma que eu fabrico também se chama Garrison.Eu a nomeei assim porque acho Garrison um nome legal e perfeito assim como eu.";
+				next;
+				show "[Garrison]";
+				show "Você está aqui para encomendar uma Garrison de mim?";
+				next;
+				callsub SubGarrison;
+			}
+			show "[Garrison]";
+			show "Hmm.O que está rolando?";
+			show "Você está aqui porque precisa de uma arma?";
+			next;
+			switch(select("Eu preciso de uma Garrison.","Sinceramente? Não.","Cancelar") )
+			{
+				case 1:
+					show "[Garrison]";
+					show "Oh.Bem vindo";
+					show "Todos precisam de mim!";
+					show "Isso prova que minha arma,a Garrison,é a melhor de todas";
+					show "Então,você está me pedindo para fazer uma agora?";
+					next;
+					callsub SubGarrison;
+
+				case 2:
+					show "[Garrison]";
+					show "Hmm.Você está parecendo que está vagando sem uma missão";
+					show "Se você tiver tempo,você me faria um favor?";
+					next;
+					show "["+strcharinfo(0)+"]";
+					show "O que é?";
+					next;
+					show "[Garrison]";
+					show "Mmm.Bem,eu recebi atualmente recebi uma carta declarando que há várias armas com defeito que eu criei chamada de Six Shooter";
+					next;
+					show "[Garrison]";
+					show "Eu sou um perfeccionista,mas cara com minha idade,minha visão está escurecendo,e eu acho que talvez vendi a defeituosa Six Shooters";
+					next;
+					show "[Garrison]";
+					show "Então o que eu estou tentando dizer é,eu estou esperando alguém  que ache partes sobressalentes para que eu possa usar para consertar as partes defeituosas da Six Shooter";
+					next;
+					show "[Garrison]";
+					show "Se você me ajudar,eu irei por 1 slot nesta Garrison que você está segurando agora";
+					show "O que você me diz?";
+					next;
+					show "[Garrison]";
+					show "Só pra você saber,se eu por o slot na sua Garrison,qualquer refinamento ou carta slotada irá desaparecer.Decida cuidadosamente";
+					next;
+					switch( select( "Eu não gosto muito da idéia...","Ok, eu irei tentar.")){
+					
+						case 1:
+							show "[Garrison]";
+							show "Hmm,eu entendo";
+							show "Entendo";
+							show "Eu acho que vou procurar outra pessoa";
+							close;
+
+						case 2:
+							show "[Garrison]";
+							show "Oh,você irá?";
+							show "Estou tão agradecido";
+							show "Estás são os materiasi que eu preciso para fazer as partes sobressalentes";
+							next;
+							show "[Garrison]";
+							show "10 Aço, 1 Elunium, 10 Emveretarcon, 30 Carvão, e 10 Parafusos Enferrujados.";
+							show "Eu preciso EXATAMENTE dessa quantia.Não se esqueça";
+							set gun_gs,1;
+							close;
+					}
+
+				case 3:
+					show "[Garrison]";
+					show "Hmm...venha me ver depois";
+					close;
+			}
+
+		case 1:
+			if((countitem(999) < 10) || (countitem(7317) < 10) || (countitem(1011) < 10) || (countitem(1003) < 30) || (countitem(985) < 1))
+			{
+				show "[Garrison]";
+				show "10 Aço, 1 Elunium, 10 Emveretarcon, 30 Carvão, and 10 Parafusos Enferrujados.";
+				show "Não se esqueça..tem que ser a quantia exata";
+				close;
+			}
+			show "[Garrison]";
+			show "Oh você voltou com o que eu preciso?";
+			show "Estou tão agradecido";
+			show "Oh...tem outro favor que eu preciso que seja feito.Err";
+			next;
+			show "[Garrison]";
+			show "Eu preciso entregar as partes sobressalentes uma vez que eu as fiz para outra pessoa,mas eu tenho muito trabalho por aqui";
+			next;
+			show "[Garrison]";
+			show "Desculpe pedir,mas eu estava esperando que você pudesse entregar o que eu fiz desses materiais para outra pessoa";
+			next;
+			show "[Garrison]";
+			show "Enquanto você está indo entregar,Eu vou fazer as preparações para slotar sua Garrison,como prometido.";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "-Hmm, eu não quero fazer isso,mas eu irei fazer de qualquer forma";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Ok.";
+			next;
+			show "[Garrison]";
+			show "Oh,muito obrigado";
+			show "Então entregue isto para uma pessoa chamada Ravery.Ele mora na favela de Lighthalzen";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Você recebeu a boa encomenda de Garrison";
+			show "Vamos entregar-las para a pessoa chamada Ravery,que mora na favela de Lighthalzen";
+			delitem 999,10;
+			delitem 1011,10;
+			delitem 7317,10;
+			delitem 985,1;
+			delitem 1003,30;
+			set gun_gs,2;
+			close;
+
+		case 2:
+			show "["+strcharinfo(0)+"]";
+			show "Você recebeu as boas encomendas de Garrison";
+			show "Vamos entrega-las para a pessoa chamada Ravery,que mora na favela de Lighthalzen";
+			close;
+
+		case 3:
+			show "[Garrison]";
+			show "Oh como está sua viagem?";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Gyah~";
+			show "Eu morri cedo";
+			show "Aquele homem tentou me atacar assim que me viu.Eu mal espacei morto!";
+			next;
+			show "[Garrison]";
+			show "Ahh não";
+			show "Eu não tinha ideia de que a pessoa que me mandou a carta estava na verdade planejando me matar.Ele provavelmente foi mandado de uma guilda de nossos inimigos...";
+			next;
+			show "[Garrison]";
+			show "Parece que eu lhe mandei sem intenções para uma missão muito perigosa";
+			next;
+			show "[Garrison]";
+			show "Me desculpe";
+			show "Você também deve saber,mas há pessoas más planejando atacar a Guilda de Professor e Justiceiro em todos os lugares";
+			next;
+			show "[Garrison]";
+			show "Considere isso uma parte de seu treino como Gunslinger";
+			next;
+			show "[Garrison]";
+			show "Me desculpe por isso ter acontecido";
+			show "Mas,como prometido,e irei slotar sua Garrison";
+			next;
+			if(countitem(13104) < 1)
+			{
+				show "[Garrison]";
+				show "Huh? Suspiro.";
+				show "Você vendeu sua arma enquanto você esteve fora?";
+				show "Eu disse que slotaria sua arma,mas nunca disse que slotaria uma arma que não está aqui";
+				show "Vá e pegue sua Garrison e traga-a aqui";
+				set gun_gs,4;
+				close;
+			}
+			show "[Garrison]";
+			show "Deixe-me ver";
+			show "*tonk* *tonk* *thump* *whump*";
+			show "Aqui está sua modificada";
+			show "Garrison.";
+			show "Faça bom uso";
+			delitem 13104,1;
+			additem 13105,1;
+			set gun_gs, 5;
+			close;
+		case 4:
+			if(countitem(13104) < 1)
+			{
+				show "[Garrison]";
+				show "Vá e pegue sua Garrison e traga-a aqui";
+				close;
+			}
+			show "[Garrison]";
+			show "Ah,aqui está";
+			show "Aqui está sua modificada";
+			show "Garrison.";
+			show "Faça bom uso";
+			delitem 13104, 1;
+			additem 13105, 1;
+			set gun_gs,5;
+			close;
+		case 5:
+			show "[Garrison]";
+			show "Hmm você está aqui de novo?";
+			show "Qual o problema?";
+			show "Você voltou porque precisa de uma arma?";
+			show "De que você precisa?";
+			next;
+			switch( select( "De uma Garrison.","Preciso Slotar minha Garrison","Cancelar"))
+			{
+				case 1:
+					callsub SubGarrison;
+				case 2:
+					callsub SubGarrison_;
+			}
+	}
+
+SubGarrison:
+	show "[Garrison]";
+	show "Para criar uma Garrison,eu preciso de...";
+	show "50 Aços 3 Eluniums,";
+	show "1 Oridecon, 50 Carvões,";
+	show "20 Parafusos Enferrujados, e";
+	show "Há uma taxa de 30,000 Zenys";
+	show "Bem, você quer uma?";
+	next;
+	switch( select( "Talvez depois.","Sim, faça uma pra mim imediatamente.","Cancelar") )
+	{
+		case 1:
+			show "[Garrison]";
+			show "Hmmm Eu trabalhei pesado  por nada~";
+			show "Pense sobre isso.Venha me ver quando tiver decidido";
+			close;
+
+		case 2:
+			if((countitem(999) < 50) || (countitem(7317) < 20) || (countitem(984) < 1) || (countitem(1003) < 50) ||(countitem(985) < 3) )
+			{
+				show "[Garrison]";
+				show "Você não trouxe materiais suficientes";
+				show "Para criar uma Garrison,eu preciso de...";
+				show "50 Aços, 3 Eluniums,";
+				show "1 Oridecon, 50 Carvões,";
+				show "20 Parafusos Enferrujados,";
+				show "E há uma quantia de 30.000Zeny";
+				show "Não esqueça";
+				close;
+			}
+			else if(Zeny < 30000)
+			{
+				show "[Garrison]";
+				show "Você precisa de mais Zeny";
+				show "Mais Zeny";
+				close;
+			}
+			else if(checkweight(13104,1) == 0)
+			{
+				show "[Garrison]";
+				show "Há alguma vaga no seu inventório?";
+				show "Para minha criação";
+				show "Abra uma vaga";
+				show "Em seu inventório,e então";
+				show "Venha me ver";
+				close;
+			}
+			show "[Garrison]";
+			show "Hmm,parece que há a quantia exata de materiais e Zeny";
+			show "Aqui está sua Garrison";
+			show "Se você precisar de outra,venha me ver";
+			delitem 984,1; //Oridecon
+			delitem 985,3; //Elunium
+			delitem 999,50; //Aço
+			delitem 1003,50; //Carvão
+			delitem 7317,20; //Parafuso Enferrujado
+			set Zeny,Zeny-30000;
+			additem 13104,1; //Garrison
+			close;
+
+		case 3:
+			show "[Garrison]";
+			show "Eu irei te ver quando eu te ver";
+			close;
+	}
+
+SubGarrison_:
+	show "[Garrison]";
+	show "Para slotar uma Garrison,eu preciso de";
+	show "10 Aços, 1 Elunium,";
+	show "10 Emveretarcon, 30 Carvões,";
+	show "10 Parafusos Enferrujados, e";
+	show "1 Garrison.";
+	show "Bem,você quer um?";
+	next;
+	switch( select( "Talvez depois.","Sim, faça para mim imediatamente.","Cancelar" ))
+	{
+		case 1:
+			show "[Garrison]";
+			show "Você me fez trabalhar a toa";
+			show "Volte quando vocè tiver decidido";
+			close;
+
+		case 2:
+			if((countitem(999) < 10) || (countitem(7317) < 10) || (countitem(1011) < 10) || (countitem(1003) < 30) || (countitem(985) < 1) || (countitem(13104) < 1))
+			{
+				show "[Garrison]";
+				show "Você não trouxe materiais suficientes";
+				show "Para fazer uma Garrison,eu preciso de";
+				show "10 Aços 1 Elunium,";
+				show "10 Emveretarcon, 30 Carvões,";
+				show "10 Parafusos Enferrujados, e";
+				show "1 Garrison.";
+				show "Não se esqueça";
+				close;
+			}
+			else if(checkweight(13105,1) != 1)
+			{
+				show "[Garrison]";
+				show "Não há espaço em seu inventório";
+				show "para minha criação";
+				show "Faça algum espaço";
+				show "em seu inventório,e então";
+				show "Venha me ver";
+				close;
+			}
+			show "[Garrison]";
+			show "Hmm,parece que tem a qauntidade certa de materiais e Zeny";
+			show "Aqui está uma Garrison modificada e com slot";
+			show "Se você precisar de outra,venha me ver";
+			delitem 999,10;
+			delitem 1011,10;
+			delitem 7317,10;
+			delitem 985,1;
+			delitem 1003,30;
+			delitem 13104,1;
+			additem 13105,1;
+			close;
+		
+		case 3:
+			show "[Garrison]";
+			show "Eu irei lhe ver quando eu lhe ver";
+			close;	
+	}
+}
+
+lighthalzen,322,247,6	script	Ravey	 86,{
+
+	if(gun_gs == 2)
+	{
+		show "["+strcharinfo(0)+"]";
+		show "Com licença.Olá";
+		show "Eu estou aqui para repor as partes da defeituosa arma dos Justicei..";
+		next;
+		show "[Ravey]";
+		show "Você!!!";
+		show "Huuut~!!";
+		show "Morra!!!";
+		set gun_gs,3;
+		percentheal 100,0;
+		percentheal -90,0;
+		next;
+		show "["+strcharinfo(0)+"]";
+		show "O homem chamado Ravery ataca repentinamente,como se ele estivesse esperando a palavra Justiceiro";
+		show "Você quase morreu";
+		next;
+		show "["+strcharinfo(0)+"]";
+		show "Você foje sem olhar pra trás";
+		show "Vamos voltar rápido para Garrison";
+		close;
+	}
+	if(gun_gs == 3)
+	{
+		show "["+strcharinfo(0)+"]";
+		show "O homem chamado Ravery atacou repentimanente,como se ele estivesse esperando a palavra Justiceiro";
+		show "Você quase morreu";
+		next;
+		show "["+strcharinfo(0)+"]";
+		show "Vamos voltar logo para Garrison";
+		close;
+	}
+	show "[Ravey]";
+	show "Ugh...";
+	show "Err.. Err..";
+	show "......";
+	close;
+}
+
+
+que_ng,187,163,3	script	Ingrid	744,{
+
+	if(BaseJob != Job_Gunslinger)
+	{
+		show "[Ingrid]";
+		show "Como você está?";
+		show "Eu tenho sido apontada como a nova Criadora de Armas de Justiceiros.Meu nome é Ingrid";
+		next;
+		show "[Ingrid]";
+		show "De qualquer forma,você não parece ser um membro da Guilda de Justiceiros,então eu não posso lhe ajudar em nada.Desculpe";
+		close;
+	}
+	switch(gun_inf)
+	{
+		case 0:
+			show "[Ingrid]";
+			show "Como você está?";
+			show "Eu tenho sido apontada como a nova Criadora ";
+			show "de Armas de Justiceiros.Meu nome é Ingrid";
+			show "É um prazer servir você!";
+			next;
+			show "[Ingrid]";
+			show "Há tão pouco tempo";
+			show "que eu comecei a trabalhar";
+			show "Mas eu irei fazer o meu melhor para";
+			show "Lhe ajudar";
+			next;
+			show "[Ingrid]";
+			show "Ahh ... Estou tão anciosa.";
+			show "Como agora,eu estou tendo o trabalho de criar uma arma chamada O Inferno pelos clientes";
+			next;
+			show "[Ingrid]";
+			show "O Inferno é a arma mais avançada de nosso laboratório";
+			next;
+			show "[Ingrid]";
+			show "Tem um invrível poder e precisão,e um desenho ergonômino então ela pode ser facilmente segurada e mínimiza significantemente a pressão quando se atira";
+			show "É uma arma digna de ser chama de a verdadeira arma para qualquer Justiceiro";
+			show "huff huff...";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Você sabe muito sobre isso";
+			show ".....";
+			next;
+			show "[Ingrid]";
+			show "Ah. Claro";
+			show "Eu sou a pessoa que desenhou essa arma";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Wooow isto é incrível";
+			next;
+			show "[Ingrid]";
+			show "Ah Oops...";
+			show "Eu acabei de divugar-la?";
+			show "Eu ainda não sou comparada a professora Serena";
+			next;
+			show "[Ingrid]";
+			show "Na verdade,eu também queria me tornar uma Justiceira,mas graças a minha fraca determinação fisíca,eu tive que desistir";
+			next;
+			show "[Ingrid]";
+			show "Enquanto eu me aplicava para me tornar uma Justiceira,eu live muita sorte da professora Serena ter visto meus talentos,e com a ajuda dela,eu estou aonde estou ajudando com a manufatura e venda de armas de Justiceiros";
+			next;
+			show "[Ingrid]";
+			show "Eu continuo com remorso de não ter sido capaz de virar uma Justiceira,mas ao menos meu irmão,que fez o teste em meu lugar,passou e se tornou um";
+			next;
+			show "[Ingrid]";
+			show "Eu estou feliz desde que eu sinto que,meu irmão é capaz de cumprir nosso sonho";
+			next;
+			show "[Ingrid]";
+			show "Haha olhe para mim lhe falando todas essas coisas quando você nem se quer perguntou.";
+			show "Desculpe";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Não,tudo bem";
+			show "Você pode não ter se tornado uma Justiceira,mas eu acho que você se tornou uma grande pessoa.";
+			next;
+			show "[Ingrid]";
+			show "Verdade?Obrigada";
+			show "Eu tentarei o meu melhor";
+			next;
+			show "[Ingrid]";
+			show "Para produzir a Inferno";
+			show "Eu preciso de 100 Placas de ferro usadas,10 Oridecons,50 Parafusos enferrujados velhos,100 Corações incandescentes,e 200,000Zeny";
+			show "Gostaria de produzir uma agora?";
+			next;
+			switch( select( "Eu vou pensar sobre isso.", "Sim, por favor." ) )
+			{
+				case 1:
+					show "[Ingrid]";
+					show "AH eu entendo";
+					show "Entendo";
+					show "Ok,bem,pense sobre isto";
+					show "Venha me ver quando tiver se decidido";
+					close;
+
+				case 2:
+					show "[Ingrid]";
+					show "Eu entendo";
+					show "Aqui estão os materiais de novo";
+					next;
+					show "[Inferno]";
+					show "Para produzir uma Inferno";
+					show "Eu preciso de 100 Placas de ferro usadas,10 Oridecons,50 Parafusos enferrujados velhos,100 Corações incandescentes,e 200.000Zeny";
+					show "Você deve me trazer o número EXATO de materiais";
+					show "Por favor não se esqueça";
+					set gun_inf,1;
+					close;
+			}
+
+		case 1:
+			callsub SubInferno;
+
+		case 2:
+			show "[Ingrid]";
+			show "Olá,você voltou";
+			show "Você está aqui porque precisa de uma Inferno?";
+			next;
+			switch( select( "Não...eu estou de volta só por causa...","Sim, me faça uma inferno!" ) )
+			{
+				case 1:
+					show "[Ingrid]";
+					show "Ah eu entendo";
+					show "Entendo";
+					show "Ok,bem,pense sobre isto";
+					show "Volte quando tiver se decidido";
+					close;
+
+				case 2:
+					callsub SubInferno;
+			}
+	}
+
+SubInferno:
+	if ((countitem(7319) < 100) || (countitem(7317) < 50) || (countitem(984) < 10) || countitem(7097) < 100)
+	{
+		show "[Ingrid]";
+		show "Sim,os materias que pedi são 100 Placas de ferro usadas,10 ridecons,50 Parafusos enferrujados velhos,100 corações incandescentes,e 200,000Zeny";
+		show "Você deve me trazer o número EXATO de materiais";
+		show "Por favor não se esqueça";
+		close;
+	}
+	else if(Zeny < 200000)
+	{
+		show "[Ingrid]";
+		show "Você trouze tudo certo,";
+		show "mas você trouxe Zeny suficiente?";
+		show "O preço para se criar uma Inferno é 200,000Zeny";
+		show "Por favor não esqueça disto.";
+		close;
+	}
+	else if(checkweight(13162,1) != 1)
+	{
+		show "[Ingrid]";
+		show "Parece que você tem muitos itens para minha criaçâo,entao eu não posso lhe dar isso.";
+		show "Por que você nao volta e me ver de novo quando tiver pronto para receber isto?";
+		close;
+	}
+	else
+	{
+		show "[Ingrid]";
+		show "Eu vejo que você tem a quantia própria de materiais e Zeny";
+		show "Aqui está a Inferno que eu criei para você.";
+		show "Faça bom uso.";
+		set Zeny,Zeny-200000;
+		delitem 7319,100;
+		delitem 984,10;
+		delitem 7317,50;
+		delitem 7097,100;
+		additem 13162,1;
+		if(gun_inf == 1) set gun_inf,2;
+		close;
+	}
+}
+
+que_ng,185,180,3	script	Vanessa	726,{
+
+	if(BaseJob != Job_Gunslinger)
+	{
+		show "[Vanessa]";
+		show "Hah !Hah !!";
+		show "Ballitude! Comandante Sambo!";
+		show "Arrebatando!, Muye Tai!";
+		show "Pancracion!,Lucharibre!";
+		show "Eu irei melhorar todas as armas de mãos nuas neste mundo!!";
+		next;
+		show "[Vanessa]";
+		show "Hmm?!";
+		show "Quem é você?Você está interrompendo meu treino";
+		show "Suma";
+		close;
+	}
+	switch(gunst)
+	{
+		case 0:
+			show "[Vanessa]";
+			show "Ha!Hyaa!!";
+			show "Vale Tudo!Commando Sambo!";
+			show "Arrebentando!,Muay Thai!";
+			show "Pankration!,Mucho Libre!";
+			show "Eu irei melhorar todos os estilos de luta";
+			show "neste mundo!!";
+			next;
+			show "[Vanessa]";
+			show "Mm?";
+			show "Você é um Justiceiro,huh?";
+			show "Por que você está interrompendo";
+			show "meus exercícios e eu";
+			show "ficando em frente a mim?";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "É apenas excercícios de observação";
+			show "parce bom...";
+			show ".............";
+			next;
+			show "[Vanessa]";
+			show "Oh!Você gosta de artes marcíais?";
+			show "Venha aqui,eu irei imobilizar";
+			show "você em uma queda de braços";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "N Não obrigado";
+			show "tá  o.k";
+			next;
+			show "[Vanessa]";
+			show "O que está o.k";
+			show "Venha aqui";
+			show "-Bam!Bam!-";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Aah~Ugh~ Don't do that~";
+			show "Aa..Aaaahhhh~~!!";
+			show "Argh~";
+			show "-Sons de algo quebrando";
+			show "Owww~~";
+			show "*Sobs*~~";
+			next;
+			show "[Vanessa]";
+			show "Hmm...eu pus muita força..";
+			show "Mm~";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "Bem obviamente";
+			show "Idiota!Idiota!!";
+			show "*sobs*~";
+			next;
+			show "[Vanessa]";
+			show "Umm~umm~";
+			show "Desculpe";
+			show "Okay, okay,";
+			show "Não chore";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "*sob*~";
+			next;
+			show "[Vanessa]";
+			show "Okay~ okay..";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "*sob*~";
+			next;
+			show "[Vanessa]";
+			show "Pare!Arrgh!";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "........";
+			next;
+			show "[Vanessa]";
+			show "Bem,okay.";
+			show "Desculpe pelo que aconteceu";
+			show "Eu irei lhe fazer uma arma";
+			show "se você pegar uns ";
+			show "materiais...";
+			next;
+			show "[Vanessa]";
+			show "Eu sou Vanessa Louise.";
+			show "Uma original Artísta Marcial Aplicadora";
+			show "mas eu peguei o caminho errado";
+			show "e eu estou numa furada fazendo armas.";
+			show "Oh meu deus oh minha minha vida miserável";
+			next;
+			show "[Vanessa]";
+			show "Agora no assunto";
+			show "A arma que eu criou é";
+			show "chama de Destruidora";
+			next;
+			show "[Vanessa]";
+			show "Eu a expeciamente nomiei assim";
+			show "depois de uma tecníca que eu usei numa arena";
+			show "Hehe~";
+			show "Pegue isto!Destruidora";
+			next;
+			show "["+strcharinfo(0)+"]";
+			show "*sob*~ Por favor~Pare~";
+			next;
+			show "[Vanessa]";
+			show "Ah uh...Desculpe...";
+			show "Primeiro Destruidora precisa de";
+			show "materiais antes de cria-la";
+			next;
+			show "[Vanessa]";
+			show "Uma quantia considerável de itens é necessária";
+			show "então pense cuidadosamente";
+			next;
+			show "[Vanessa]";
+			show "E isto?Este tipo de";
+			show "opotunidade não é comum.";
+			show "Quer fazer uma quest?";
+			next;
+			switch(select("Talvez em uma próxima vez...","Quero.")){
+			
+				case 1:	
+					show "[Vanessa]";
+					show "Mm~ Isto é tão~";
+					show "Será uma oportunidade para você.";
+					show "Você irá lamentar isto";
+					show "Então lhe vejo depois";
+					show "Bye~Bye~";
+					close;
+           
+				case 2:	
+					show "[Vanessa]";
+					show "Mm, Okay.";
+					show "Para fazer uma Destruidora";
+					show "Você precisa de 50 Placas de Ferro Usadas";
+					show "5 Oridecons, 70 Parafusos Enferrujados velhos";
+					show "e uma taxa de 100,000Zeny";
+					show "Você deve me trazer estes itens exatos.Entendido?";
+					set gunst,1;
+					close;
+			}
+
+		case 1:
+			callsub SubDestroyer;
+			
+		case 2:
+			show "[Vanessa]";
+			show "Oh você está de volta?";
+			show "Como você está agora?";
+			show "Tem um novo item no inventório.";
+			show "Vá em frente e escolha.";
+			next;
+			switch(select( "Destroyer","Destroyer Slotada","Cancelar") )
+			{
+				case 1:
+					show "[Vanessa]";
+					show "Yeah, isto está bom.";
+					show "Está é uma Destruidora normal.";
+					show "Precisa de 50 Placas de ferro usadas";
+					show "5 Oridecons, 70 Parafusos enferrujados velhos";
+					show "e 100,000Zeny para cria-la.";
+					show "Você deve me trazer a quantia exata de materias.";
+					show "Você quer isso?";
+					next;
+					switch( select("Talvez em uma próxima vez...:Quero.")){
+					
+               			case 1:
+							show "[Vanessa]";
+							show "O QUE?~Qual é?";
+							show "O que há para se pensar?";
+							show "Ok,bem,pense sobre isso";
+							show "e volte...";
+							close;
+							case 2:
+							callsub SubDestroyer;
+					}
+							
+				case 2:
+					show "[Vanessa]";
+					show "Oh~A Destruidora Slotada~";
+					show "Diferente da Destruidora normal,";
+					show "Eu quero que você encontre um dos raros itens que eu estou colecionando.";
+					show "Então eu darei uma pra você.";
+					next;
+					show "[Vanessa]";
+					show "Esou procurando por uma Dedos Afiados[2]";
+					show "Eu quero 5 Oridecons também.";
+					show "Você deve me trazer a quantia exata de materiais.";
+					show "Você ainda quer uma Destruidora Slotada?";
+					next;
+					switch( select( "Eu vou pensar sobre isso...","Sim, eu quero!") )
+					{
+               					case 1:
+							show "[Vanessa]";
+							show "O que~qual é";
+							show "O que há para se pensar?";
+							show "Ok,bem,pense sobre isso";
+							show "e volte...";
+							close;
+			
+						case 2:
+							callsub SubDestroyer_;
+			
+					}
+           
+				case 3:
+					show "[Vanessa]";
+					show "Hmm~ Yeah~";
+					show "Tome seu tempo.";
+					show "Talves você gostaria de poupar comigo?";
+					close;
+			}
+	}
+
+SubDestroyer:
+
+	if ((countitem(7319) < 50) || (countitem(7317) < 70) || (countitem(984) < 5))
+	{
+		show "[Vanessa]";
+		show "Yeah,os materiais requeridos são 50 Placas de ferro usadas";
+		show "5 Oridecons, 70 Parafusos enferrujados,e 100,000Zeny";
+		show "Deixe em sua mente que você precisa trazer a quantia exata.";
+		close;
+	}
+	else if(Zeny < 100000)
+	{
+		show "[Vanessa]";
+		show "Você trouxe a quantia certa de materiais.";
+		show "Mas a taxa é 100.000Zeny.";
+		show "Mantenha isso em mente.";
+		close;
+	}
+	else if(checkweight(13160,1) != 1)
+	{
+		show "[Vanessa]";
+		show "Parece que você não está possibilitado de carregar minha criação com você showmo se eu tiver feito isso.";
+		show "Vá e limpe seu iventório um pouco.";
+		close;
+	}
+	else
+	{
+		show "[Vanessa]";
+		show "Okay~ Muito bem~";
+		show "Tudo checado";
+		show "Você tem os materiais perfeitos e Zeny.";
+		show "Aqui está a Destruidora que eu criei a tempo para você.";
+		show "Faça bom uso.";
+		set Zeny,Zeny-100000;
+		delitem 7319,50;
+		delitem 984,5;
+		delitem 7317,70;
+		additem 13160,1;
+		if(gunst == 1) set gunst,2;
+		next;
+		show "[Vanessa]";
+		show "Se você precisar novamente venha depois.";
+		show "Venha qualquer hora.";
+		show "Próxima vez eu irei usar um diferente tipo de técnica de mãos nuas.";
+		close;
+	}
+
+SubDestroyer_:
+
+	if ((countitem(1812) < 1) || (countitem(984) < 5))
+	{
+		show "[Vanessa]";
+		show "Yeah,os materiais requeridos são 1 Dedos Afiados[2]";
+		show "e 5 Oridecons.";
+		show "Mantenha em mente que os materiais precisam ser exatos.";
+		close;
+	}
+	else if(checkweight(13161,1) != 1)
+	{
+		show "[Vanessa]";
+		show "Não há espaço em seu iventório.";
+		show "showmo eu tendo feito uma.";
+		show "Você não parece hábil para carregar isso";
+		show "Venha me ver depois que você tiver limpado seu iventório.";
+		close;
+	}
+	else
+	{
+		show "[Vanessa]";
+		show "Okay~ Muito bem~";
+		show "Tudo checado~";
+		show "Você tem a perfeita quantia e Zeny~";
+		show "Aqui está a Destruidora Slotada que eu fiz a tempo para você.";
+		show "Faça bom uso.";
+		delitem 1812,1;
+		delitem 984,5;
+		additem 13161,1;
+		next;
+		show "[Vanessa]";
+		show "Se você precisar de outra venha depois.";
+		show "Volte a qualquer hora~";
+		show "Próxima vez eu irei usar um diferente tipo de técnica de mãos nuas.";
+		close;
+	}
+}
+
+que_ng,149,178,4	script	Lab Director	744,{
+
+	if(gun_na == 1){
+		if(countitem(1043) > 999 && countitem(932) > 999){
+			delitem 1043,1000;
+			delitem 932,1000;
+			set gun_na,2;
+			show "[N. A]";
+			show "Ahh,está tudo aqui!Ahh,e eu";
+			show "estava precocupado com nada";
+			show "estarei habilitado a alçar minha ^ff0000Butcher^000000";
+			show "quando eu tiver terminado de cria-la";
+			next;
+			show "[N. A]";
+			show "Tá bom,eu darei a ^ff0000Butcher^000000 para você.";
+			show "showmo assim,nós não trabalhamos ";
+			show "de graça,então nós precisamos cobrar você";
+			show "por isso.Também,você precisa obter";
+			show "permissão para usar a Butcher de";
+			show "Lady Celena.";
+			next;
+			show "[N. A]";
+			show "Uma vez que você tenha pego a permissão,eu irei";
+			show "dar a Butcher para você,após pagar";
+			show "a taxa de 100,000 Zenys";
+			close;
+		}else{
+			show "[N. A]";
+			show "Você precisa encontrar ^ff00001000 Garra de Orc^000000 e ^ff00001000 Skel Osso^000000 ainda?";
+			show "Se você acha que é muito difícil";
+			show "você pode escolher desistir";
+			next;
+			if(select("Eu não vou desistir!:Eu desisto...") == 1){
+				show "[N. A]";
+				show "Tudo bem, eu confio em você";
+				show "Boa sorte";
+				close;
+			}else{
+				show "[N. A]";
+				show "Você está desistindo huh?";
+				show "Bem,eu admito que o";
+				show "teste é um pouco difícil,mas";
+				show "você náo pode alçar esta arma";
+				show "se você não consegue fazer o teste";
+				show "Você deve voltar depois para";
+				show "pegar o desafio de novo";
+				set gun_na,0;
+				close;
+			}
+		}
+	}
+	else if(gun_na == 2){
+		show "[N. A]";
+		show "Eu ja consegui a permissão ";
+		show "da Lady Serena para deixar você";
+		show "usar a Butcher. Você pode usar uma vez ";
+		show "que tenha me pago 100000 zeny.";
+		show "Você quer pagar agora?";
+		next;
+		if(select("Nope.:Yeah.") == 1){
+			show "[N. A]";
+			show "Tudo bem.Irei esperar o seu retorno";
+			show "com o dinheiro";
+			close;
+		}else{
+			if(Zeny < 100000){
+				show "[N. A]";
+				show "Uh,eu não acho que você tem";
+				show "dinheiro sufuciente consigo.";
+				show "Venha me ver com o dinheiro";
+				show "certo?";
+				close;
+			}
+			if(checkweight(13158,1) == 0){
+				show "[N. A]";
+				show "Você está com excesso de peso";
+				show "showmo se eu lhe der ";
+				show "a arma,você não pode carrega-la";
+				show "Por favor limpe seu iventório.";
+				close;
+			}
+			set Zeny,Zeny-100000;
+			set gun_na,0;
+			additem 13158,1;
+			show "[N. A]";
+			show "1,2,3,4,5";
+			show "6... 99997, 99998, 99999...";
+			show "100000. *ding~!* Muito bem!!";
+			show "A taxa está limpa agora.Você deve";
+			show "Pegar a ^ff0000Butcher^000000 agora!";
+			next;
+			show "[N. A]";
+			show "Sr. F. Harrison de Lighthalzen";
+			show "está muito interessado em seu novo";
+			show "brinquedo lá.Mostre pra ele";
+			show "alguma vez.Ele ficará muito feliz.";
+			next;
+			show "[N. A]";
+			show "Faça bom uso disto";
+			show "Te vejo por ai!";
+			close;
+		}
+	}
+	else if(gun_na == 10){
+		if (countitem(999) > 69 && countitem(985) > 4 && countitem(984) > 2 && countitem(1003) > 69 && countitem(7317) > 49 && Zeny > 50000){
+			delitem 999,70;
+			delitem 985,5;
+			delitem 984,3;
+			delitem 1003,70;
+			delitem 7317,50;
+			set Zeny,Zeny-50000;
+			set gun_na,11;
+			show "[N. A]";
+			show "Aha,você me trouxe todos os";
+			show "materiais.Aqui,deixe eu me apressar";
+			show "para isso sair rapido!Isso vai me levar";
+			show "algum tempo,então espere";
+			close;
+		}else{
+			show "[N. A]";
+			show "Eh?Você não tem os materiais";
+			show "com você ainda?";
+			next;
+			show "[N. A]";
+			show "Para fazer a Drifter, eu irei precisar de";
+			show "70 Aços, 5 Elunium,";
+			show "3 Oridecon, 70Carvões, 50 parafusos";
+			show "enferrujados,e também uma taxa de";
+			show "50000 zeny.";
+			show "Volte assim que tiver";
+			show "tudo pronto";
+			next;
+			show "[N. A]";
+			show "Se você nao quer mais isso";
+			show "você pode cancelar o pedido";
+			next;
+			if(select("Não cancele.:Por favor, cancele.") == 1){
+				show "[N. A]";
+				show "Bem,venha me ver com os ";
+				show "materiais.Estarei esperando.";
+				close;
+			}else{
+				show "[N. A]";
+				show "Tudo certo,os pedidos para fazer";
+				show "uma Drifter para você está cancelado.";
+				show "Lhe desejo boa sorte";
+				show "no futuro.";
+				set gun_na,0;
+				close;
+			}
+		}
+	}
+	else if(gun_na == 11){
+		if(checkweight(13157,1) == 0){
+			show "[N. A]";
+			show "Você está com excesso de epso";
+			show "showmo se eu fizer a";
+			show "arma,você não poderá carrega-la";
+			show "Por favor limpe seu iventório";
+			close;
+		}
+		set gun_na,0;
+		additem 13157,1;
+		show "[N. A]";
+		show "Ahh,aqui está completa";
+		show "pra você a Drifter.";
+		next;
+		show "[N. A]";
+		show "Por favor aprenda a usar as";
+		show "Gatlings direito.A louca";
+		show "destruição vai ser certamente";
+		show "útil para você mentalmente.";
+		close;
+	}
+	else if(gun_na == 101){
+		show "[N. A]";
+		show "Ah,olá?";
+		show "Eu sou o coordenador do";
+		show "Desenvolvimento de Armas de Einbroch";
+		show "Meu nome é 'Diretor de laboratório'";
+		show "Você precisa de algo?";
+		next;
+		menu "Eu preciso de uma Haste Especial de Metal",-;
+		show "[N. A]";
+		show "Huh...?Ei,você nao é aquele cara";
+		show "que venho aqui com uma";
+		show "Butcher um tempo atrás?Como está a";
+		show "Butcher?";
+		next;
+		show "[N. A]";
+		show "....... O QUE?!?VOCÊ A QUEBROU!?";
+		show "Eu achei que vocè fosse capaz de";
+		show "usa-la bem... Você me desapontou!!!";
+		next;
+		show "[N. A]";
+		show "Você traiu a minha confiança em você!";
+		show "Seu traidor! Traidor!!TRAIDOR!!!!";
+		next;
+		menu "Explica tudo",-;
+		show "[N. A]";
+		show "...... Bem.";
+		show "Então foi  Mr. F. Harrison que";
+		show "quebrou?huh?Desculpe,eu não devia";
+		show "ter suspeitado de você";
+		next;
+		show "[N. A]";
+		show "Lady Celena tem a haste de metal";
+		show "especial que você quer,mas o doutor";
+		show "não está agora,e ninguém mais sabe";
+		show "aonde isso está";
+		next;
+		show "[N. A]";
+		show "Eu tenho outra pesquisa pra você agora";
+		show "então eu não posso perder meu tempo";
+		show "procurando por...Grr...eu preciso das";
+		show "Esferas Elementais para continuar";
+		show "com minha pesquisa...";
+		next;
+		menu "Faça uma oferta a ele",-;
+		show "[N. A]";
+		show "Uma oferta?Tipo o que?";
+		next;
+		menu "Nós achamos coisas por cada oferta",-;
+		show "[N. A]";
+		show "Hmm... Parece interessante.";
+		show "Bem,de acordo com a oferta";
+		show "Eu irei procurar a haste pra você";
+		show "enquanto você me tras as";
+		show "Esferas Elementais.";
+		next;
+		show "[N. A]";
+		show "30 Esferas de veneno, 30 Esferas ardentes,";
+		show "30 Esferas eletrizantes, 30 Esferas";
+		show "Cegas, ou 30 Esferas Congelantes..";
+		show "Me traga 30 de cada elemento.";
+		set gun_na,102;
+		close;
+	}
+	else if(gun_na == 102){
+		show "[N. A]";
+		show "30 Esferas venenosas , 30 Esferas ardentes";
+		show "30 Esferas eletrizantes, 30 Esferas";
+		show "cegas,ou 30 Esferas congelantes.";
+		show "Me traga 30 de cada elemento.";
+		show "Você os achou?";
+		next;
+
+		switch(select("Não:Eu achei 30 Esferas venenosas.:Eu achei 30 Esferas Ardentes.:Eu achei 30 Esferas Eletrizantes.:Eu achei 30 Esferas Cegas.:Eu achei 30 Esferas Congelantes.")){
+
+		case 1:
+			show "[N. A]";
+			show "Só me traga qualquer tipo";
+			show "que você possa achar.";
+			close;
+			break;
+		case 2:
+			if(countitem(13205) >= 30){
+				delitem 13205,30;
+				set gun_na,103;
+			}
+			else goto L_MORE;
+			break;
+		case 3:
+			if(countitem(13203) >= 30){
+				delitem 13203,30;
+				set gun_na,103;
+			}
+			else goto L_MORE;
+			break;
+		case 4:
+			if(countitem(13204) >= 30){
+				delitem 13204,30;
+				set gun_na,103;
+			}
+			else goto L_MORE;
+			break;
+		case 5:
+			if(countitem(13206) >= 30){
+				delitem 13206,30;
+				set gun_na,103;
+			}
+			else goto L_MORE;
+			break;
+		case 6:
+			if(countitem(13207) >= 30){
+				delitem 13207,30;
+				set gun_na,103;
+			}
+			else goto L_MORE;
+			break;
+		}
+		show "[N. A]";
+		show "Oo,você achou todos eles!";
+		show "Eu tenho que revirar Lady Celena's lab";
+		show "para achar essa haste também.";
+		show "Vamos fazer a troca!";
+		next;
+		show "-Você deu as Esferas";
+		show "Elementais para o Coordenador de Pesquisa e ganhou";
+		show "a Haste de Metal em troca.";
+		next;
+		show "[N. A]";
+		show "Mr. F. Harrison está muito bom..";
+		show "Tenho certeza que ele pode consertar";
+		show "a Butcher para você.";
+		show "Bem,te vejo depois!";
+		close;
+	}
+	else if(gun_na == 103 || gun_na == 104){
+		show "[N. A]";
+		show "Mr. F. Harrison está muito bom..";
+		show "Tenho certeza que ele pode consertar";
+		show "a Butcher para você";
+		show "Bem,te vejo depois!";
+		close;
+	}
+	show "[N. A]";
+	show "Ah.Ola?";
+	show "Eu sou o Coordenador de";
+	show "Desenvolvimento de Armas de Einbroch";
+	show "Meu nome é 'Diretor do Laboratório'.";
+	show "Você precisa de algo?";
+	next;
+	if (BaseJob != Job_Gunslinger){
+		menu "Falar com ele.",-;
+		show "[N. A]";
+		show "Se você ver Justiceiros por ai,";
+		show "fale para eles que eu tenho";
+		show "as mais novas armas.";
+		show "Se necessário,mande os ";
+		show "aqui.Heheheheheheheheh...";
+		close;
+	}
+	if (BaseLevel > 67){
+		menu "Perguntar sobre  'Butcher'.",L_BUTCHER,"Perguntar sobre 'Drifter'.",L_DRIFTER,"Cancelar",L_CANCEL;
+	}
+	else if(BaseLevel > 54){
+		menu "Perguntar sobre 'Drifter'.",L_DRIFTER,"Cancelar",L_CANCEL;
+	}
+	else{
+		menu "Falar.",-;
+		show "[N. A]";
+		show "... Destruição... Loucura...";
+		show "Hmm... Velocida de ataque acima de 180...";
+		next;
+		show "[N. A]";
+		show "Desculpa,eu estava desenvolvendo algumas";
+		show "armas novas.Por favor não";
+		show "me pertube.";
+		close;
+	}
+
+L_CANCEL:
+	show "[N. A]";
+	show "Eu tenho as últimas notícias das novas";
+	show "armas mas....acho que você está";
+	show "muito ocupado para ouvi-las.";
+	show "Talvez da próxima vez.";
+	close;
+
+L_BUTCHER:
+	show "[N. A]";
+	show "Ah,você ouviu as notícias";
+	show "após o recente fim";
+	show "do desenvolvimento eh?";
+	next;
+	show "[N. A]";
+	show "^ff0000Butcher^000000 é o mais novo deselvolvimento";
+	show "por nós,o Lab. de Armas de Fogo de Einbroch";
+	show "É o mais novo tipo de Gatling";
+	show "que desenvolvemos.Enquanto";
+	show "^ff0000Drifter^000000 é uma boa arma";
+	show "assim como, a ^ff0000Butcher^000000 definitivamente tem";
+	show "um poder de fogo muito maior!";
+	next;
+	show "[N. A]";
+	show "Devido a este poderoso poder de fogo,";
+	show "a Butcher também foi apelidada";
+	show "como a 'Assassina'.";
+	next;
+	show "[N. A]";
+	show "Ainda assim,showmo Justiceiros tem";
+	show "tido problemas para controlar uma";
+	show "arma tão poderosa.";
+	next;
+	show "[N. A]";
+	show "Acha que consegue dar conta disso?";
+	next;
+	if(select("I'm not sure...:Of course I can!!") == 1){
+		show "[N. A]";
+		show "A ^ff0000Butcher^000000 é uma arma que você";
+		show "não poderá controlar sem foça.";
+		show "Eu irei te ver de novo quando";
+		show "você tiver confiança suficiente para";
+		show "segurar este monstro.";
+		close;
+	}else{
+		show "[N. A]";
+		show "Aha,como auto-confiante você";
+		show "é!showmo assim,eu vejo pessoas com";
+		show "tanta auto-confiança em qualquer lugar.";
+		show "Você precisará provar isso";
+		show "Mas agora......Hmm.....";
+		next;
+		show "[N. A]";
+		show "Hmmm......";
+		next;
+		show "[N. A]";
+		show "Aha! Já sei!";
+		next;
+		show "[N. A]";
+		show "Aqui,me traga  ^ff00001000 Garras de Orc^000000 e ^ff00001000 Skel Bone^000000.";
+		show "Se você puder me trazer estes itens";
+		show "Eu deixarei você usar a Butcher.";
+		next;
+		show "[N. A]";
+		show "Fácil,não?Va e prove";
+		show "sua habilidade!Heheheheheh....";
+		set gun_na,1;
+		close;
+	}
+
+L_DRIFTER:
+	show "[N. A]";
+	show "Ah,você está aqui para aprender sobre";
+	show "a ^ff0000Drifter^000000 eh?";
+	next;
+	show "[N. A]";
+	show "A ^ff0000Drifter^000000 é uma de muitas";
+	show "armas de alta classe desenvoldidas";
+	show "pela Lady Celena. É uma altomática";
+	show "Gatling que provém de alto poder";
+	show "de fogo,ao que é o maior";
+	show "dentre todas as armas de Justiceiros.";
+	next;
+	show "[N. A]";
+	show "Claro,você precisa da Habilidade";
+	show "que permita que você controle Gatlings,";
+	show "mas quem puder controlar Gatlings bem";
+	show "receberá ajuda total da";
+	show "^ff0000Drifter^000000.";
+	next;
+	show "[N. A]";
+	show "Você quer tentar usar a ^ff0000Drifter^000000?";
+	next;
+	if(select("Um, no.:Yeah!") == 1){
+		show "[N. A]";
+		show "Se você não quer tentar";
+		show "volte aqui,outra hora.";
+		close;
+	}else{
+		set gun_na,10;
+		show "[N. A]";
+		show "Desde que seja realmente dificil de achar";
+		show "os materiais para construir";
+		show "a ^ff0000Drifter^000000, nós apenas fazemos elas";
+		show "com pedidos,e nós requeremos estes";
+		show "que querem usar a ^ff0000Drifter^000000 para trazer";
+		show "a nós os materiais.";
+		next;
+		show "[N. A]";
+		show "Eu irei te falar os materiais";
+		show "necessários,apenas traga-os e";
+		show "nós construiremos para você.";
+		next;
+		show "[N. A]";
+		show "Para fabricar uma Drifter,nós precisamos de";
+		show "70 Aços, 5 Eluniums, 3";
+		show "Oridecons, 70 Carvões, 50 Parafusos";
+		show "Enferrujados,e uma ataxa de";
+		show "50,000 zeny.";
+		show "Volte quando você tiver achado";
+		show "todos eles.";
+		close;
+	}
+
+L_MORE:
+	show "[N. A]";
+	show "Eh?O que?Eu sou a única pessoa";
+	show "que não pode ver eles?";
+	show "Me traga mais!";
+	close;
+}
+
+lighthalzen,205,284,6	script	F. Harrison	85,{
+
+	if (gun_na == 100){
+		if(checkweight(13102,1) == 0){
+			show "[F. Harrison]";
+			show "Você está sobrecarregado";
+			show "showmo que eu lhe de a ";
+			show "arma, você não poderá carrega-la.";
+			show "Por favor limpe seu iventório.";
+			close;
+		}
+		show "[F. Harrison]";
+		show "Hmm... Oh?";
+		show "Ahh...... Eh?";
+		next;
+		show "[F. Harrison]";
+		show "Heheh... Hmm... Huh...?";
+		next;
+		menu "Posso ter minha Butcher de volta agora?",-;
+		show "[F. Harrison]";
+		show "Uh? Oh, umm... Heheh...";
+		next;
+		show "[F. Harrison]";
+		show "Is-isto, huh? Eh... Heheh...";
+		next;
+		show "[F. Harrison]";
+		show "Ahahahah! I uh...";
+		next;
+		show "[F. Harrison]";
+		show "Essa coisa! BOOM!";
+		next;
+		show "[F. Harrison]";
+		show "Bam bam! Eu ia atirar!";
+		show "Yeah!";
+		next;
+		show "[F. Harrison]";
+		show "Mas ela resistiu! Então eu fui 'BAM!' com";
+		show "minha mão! MUAHAHAHAH!!";
+		next;
+		show "[F. Harrison]";
+		show "E ela quebrou...... *sob sob*";
+		next;
+		show "[F. Harrison]";
+		show "Eu me chamo de 'Dr. Qualquer coisa' e";
+		show "Eu queria me conserata,mas eu";
+		show "não vejo os materiais";
+		show "para consertar... E os materiais são";
+		show "muito raros... *sob sob*";
+		next;
+		show "[F. Harrison]";
+		show "Umm... Desculpe por quebra-la";
+		show "mas....Você poderia me arrumar os";
+		show "materiais necessários para consertar isso?";
+		show "Me traga estes amteriais,e eu posso";
+		show "consertar isso,e mais modificarei isso para";
+		show "você!EU PROMETO!!";
+		next;
+		show "Então por favor me traga os materiais...";
+		show "*sob sob sob*";
+		next;
+		show "[F. Harrison]";
+		show "Os materiais que eu preciso são";
+		show "10 Aços, 2 Eluniums,";
+		show "1 Oridecon, 20 Carvões...";
+		show "E uma Haste Especial de Metal";
+		show "usada na Butcher";
+		show "Acho que somente Lady Celena pode";
+		show "fabricar essas hastes........";
+		next;
+		show "[F. Harrison]";
+		show "Mas primeiro,você precisa falar";
+		show "com o assistente da Lady Celena,o 'Diretor do Laboratório'";
+		show "e pedir pela ajuda dele.";
+		show "Está é uma criança um pouco histérica,mas";
+		show "ela será de boa ajuda se você falar";
+		show "gentilmente com ela...";
+		next;
+		show "[F. Harrison]";
+		show "Desculpe....Aqui,";
+		show "te emprestar a minha valiosa arma,";
+		show "'Crimson Bolt'. Mas tenha certeza";
+		show "que você trará todos estes materiais";
+		show "para mim assim que você os achar!!";
+		show "Me prometa!!!";
+		set gun_na,101;
+		additem 13102,1;
+		close;
+	}
+	else if(gun_na == 101 || gun_na == 102){
+		show "[F. Harrison]";
+		show "Os materiais que eu preciso são";
+		show "10 Aços, 2 Eluniums,";
+		show "1 Oridecon, 20 Carvões...";
+		show "e uma Haste Especial de Metal";
+		show "usada na Butcher....";
+		show "Converse com o 'Diretor do Laboratório' para a sua";
+		show "ajuda com a haste.";
+		close;
+	}
+	else if(gun_na == 103){
+		if(countitem(999) >= 10 && countitem(985) >= 2 && countitem(984) >= 1 && countitem(1003) >= 20){
+			if(countitem(13102) > 0){
+				delitem 999,10;
+				delitem 985,2;
+				delitem 984,1;
+				delitem 1003,20;
+				delitem 13102,1;
+				set gun_na,104;
+				show "[F. Harrison]";
+				show "Aha! Você conseguiu todos os materiais";
+				show "para mim!Eu irei começar com os";
+				show "reparos logo,por favor espere.....";
+				close;
+			}
+			else{
+				show "[F. Harrison]";
+				show "Aha! Você conseguiu todos os materiais";
+				show "para mim!";
+				show "... Mas onde está a minha valiosa";
+				show "'Crimson Bolt'!? Eu não irei consertar";
+				show "suar Butcher se você não me devolver";
+				show "traga a para mim de volta!!!";
+				close;
+			}
+		}
+		else{
+			show "[F. Harrison]";
+			show "Os materiais que eu preciso são";
+			show "10 Aços, 2 Eluniums,";
+			show "1 Oridecon, 20 Carvões...";
+			show "E uma Haste Especial de Metal";
+			show "usada na Butcher...";
+			show "Será bom você arrumar a";
+			show "Haste Especial de Metal logo.";
+			close;
+		}
+	}
+	else if(gun_na == 104){
+		if(checkweight(13159,1) == 0){
+			show "-Você já está com exceso de peso.";
+			show "-Volte quando tiver se livrado de alguma";
+			show "coisa primeiro.";
+			close;
+		}
+		set gun_na,0;
+		additem 13159,1;
+		show "[F. Harrison]";
+		show "Whew...Finalmente está consertada,obrigado";
+		show "pelo seu esforço.Estou muito chateado";
+		show "por te-la quebrado,e obrigado";
+		show "pelo seu esforço.Me sinto culpado";
+		show "por somente consertar ela,então eu adicionei";
+		show "um pouco mais de poder nela.Eu espero";
+		show "que seja de bom agrado pra você.";
+		show "Bem,desfrute.";
+		close;
+	}
+	else if(gun_na == 0){
+		if(BaseJob != Job_Gunslinger) goto L_BORED;
+		if(BaseLevel > 67 && countitem(13158) > 0){
+			show "[F. Harrison]";
+			show "Cara,estou tão entediado";
+			show "me pergunto se há algo ";
+			show "interessante...";
+			next;
+			show "[F. Harrison]";
+			show "Eh?Você é um Justiceiro?";
+			show "Eu não havia visto essa arma";
+			show "em suas mão antes...";
+			next;
+			show "[F. Harrison]";
+			show "Posso pegá-la?Por favor?";
+			show "Qual é,deixe me dar uma olhada!";
+			show "Estou entediado de mais aqui!";
+			show "Por favorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr?";
+			next;
+			if(select("Sem chance.:Aqui está...") == 1){
+				show "[F. Harrison]";
+				show "Hah!Você acha que é o único com ";
+				show "uma arma legal?Bem";
+				show "eu tenho a minha linda Crimson Bolt!";
+				show "Hmph!!";
+				close;
+			}
+			show "[F. Harrison]";
+			show "Heheh... Está é a mais nova";
+			show "Arma de fogo devenvolvida pelo Laboratório";
+			show "de Eibroch,chamada de";
+			show "Butcher Destruidora,eh?";
+			show "Interessante...MUITO interessante....";
+			next;
+			show "[F. Harrison]";
+			show "EI,deixe me testa-la ";
+			show "um pouco,certo?Não se preocupe,eu";
+			show "sei como cuidar de uma arma,";
+			show "eu não vou quebrar ela!";
+			show "Isto isto!Vamos lá";
+			delitem 13158,1;
+			set gun_na,100;
+			close;
+		}
+	}
+
+L_BORED:
+	show "[F. Harrison]";
+	show "Cara estou tão entediado...";
+	show "Me pergunto se há algo ";
+	show "interessante....";
+	next;
+	show "[F. Harrison]";
+	show "Oh bem...irei apenas brincar com minha";
+	show "linda 'Crimson Bolt'.";
+	close;
+}

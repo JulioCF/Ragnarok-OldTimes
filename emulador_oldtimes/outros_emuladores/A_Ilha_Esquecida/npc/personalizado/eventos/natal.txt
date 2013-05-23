@@ -1,0 +1,197 @@
+//(=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=)
+//(       (c)2006         Banned Presents                     )
+//(    __________                                 .___        )
+//(    \______   \_____    ____   ____   ____   __| _/        )
+//(     |    |  _/\__  \  /    \ /    \_/ __ \ / __ |         )
+//(     |    |   \ / __ \|   |  \   |  \  ___// /_/ |         )
+//(     |______  /(____  /___|  /___|  /\___  >____ |         )
+//(            \/      \/     \/     \/     \/     \/         )
+//(                                                           )
+//(             -- [S] [c] [r] [i] [p] [t] [s] --             )
+//(    _   _   _   _   _   _     _   _   _   _   _   _   _    )
+//(   / \ / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \ / \   )
+//(  ( C | r | o | n | u | s ) ( S | c | r | i | p | t | s )  )
+//(   \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ \_/   )
+//(                                                           )
+//(   Advanced NPCs (c) 2005-2006    The BannedRO Project     )
+//(=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=)
+//===== Cronus Script ========================================
+//= Evento de Natal
+//===== By ===================================================
+//= [Banned]
+//===== Versão ===============================================
+//= 1.3
+//===== Compativel Com =======================================
+//= Cronus TXT e SQL
+//===== Description ==========================================
+//= Sumona Monstros Natalinos.
+//===== Changelog ============================================
+//= 1.0 - NPC Criado	                             [Banned]
+//= 1.1 - Adicionado set de mapflags		     [Banned]
+//= 1.2 - Reformulado, coisas inúteis retiradas	     [Banned]
+//= 1.3 - Corrigida contagem de pontos		     [Banned]
+//= Script Reestruturado [Mehah]
+//============================================================
+prontera,142,174,5	script	Evento de Natal::Evento de Natal	718,{
+	function mobKillCheck;
+	
+	show "[Papail Noel]";
+	show "Olá "+ strcharinfo(0) +" !";
+	show "Gostaria de fazer o que ?";
+	next;
+	switch( select("Manipular Evento","Menu dos Players","Nada!") ){
+		case 1:
+			if (getgmlevel() < 80){
+				show "[Papail Noel]";
+				show "Sinto muito "+ strcharinfo(0) +"!";
+				show "Somente GMs podem manipular o Evento !";
+				close;
+			}
+			show "[Papail Noel]";
+			show "Olá "+ strcharinfo(0) +" !";
+			show "Gostaria de fazer o que com o Evento ?";
+			next;
+			if( select("Vamos Começar !","Parar o Evento !") == 1){
+				show "[Papail Noel]";
+				show "Ok !";
+				next;
+				announce "O GM "+ strcharinfo(0) +" deu Início ao Evento de Natal!",8;
+				next;
+				killmonster "job_knt.gat", "KntLvl1::OnMyMobDead";
+				atcommand strcharinfo(0)+":@skilloff "+getcharid(0);
+				donpcevent "ChristEvent::OnStart";
+				initnpctimer "TimerEvent";
+			}else{
+				announce "O GM "+ strcharinfo(0) +" finalizou o Evento de Natal!",8;
+				stopnpctimer;
+				killmonsterall "prontera.gat";
+				atcommand strcharinfo(0)+":@skillon "+getcharid(0);
+			}
+			close;
+
+		case 2:
+			while(TRUE){
+				show "[Papail Noel]";
+				show "Olá "+ strcharinfo(0) +"!";
+				show "Gostaria de fazer o que ?";
+				next;
+				switch( select("Contar Meus Pontos","Pegar meu Prêmio !","Nada...") ){				
+					case 1:
+						show "[Papail Noel]";
+						show strcharinfo(0);
+						show "Você tem "+ @Mob_Killed +" pontos !";
+						next;
+						break;
+						
+					case 2:
+						show "[Papail Noel]";
+						show "Escolha seu prêmio !";
+						next;
+						switch( select("1 Old Blue Box [^00FF0070 Pontos^000000]",
+						     "1 Gift Box [^00FF0050 Pontos^000000]",
+						     "1 Gorro de Natal [^00FF0025 Pontos^000000]",
+						     "50 Candy Cane [^00FF0020 Pontos^000000]",
+						     "75 Well-baked Cookie [^00FF0015 Pontos^000000]",
+						     "100 Lucky Candy  [^00FF0010 Pontos^000000]",
+						     "Nenhum"))
+						{
+							show "[Papail Noel]";						
+							case 1: mobKillCheck(70,603,1);
+							case 2: mobKillCheck(50,644,1);
+							case 3: mobKillCheck(25,2236,1);
+							case 4: mobKillCheck(20,530,50);
+							case 5: mobKillCheck(15,538,75);						
+							case 6: mobKillCheck(10,570,100);						
+						}
+				}
+			}
+		case 3: close;
+	}
+
+	function	mobKillCheck	{
+		if( @Mob_Killed < getarg(0) ){
+			show "Você não tem pontos suficientes";
+			close;
+		}else{
+			show "Muito Bem, vamos pegar o seu prêmio !";
+			additem getarg(1),getarg(2);
+			next;
+			show "Aí está !";
+			set @Mob_Killed,@Mob_Killed -getarg(0);
+			close;
+		}
+	}	
+}
+
+// ========================================================
+// ======================= Monsters =======================
+// ========================================================
+prontera,1,1,1	script	ChristEvent	-1,{
+
+OnStart:
+	set $@MapMobs, 250;
+	monster "prontera.gat",156,175,"Antônio",1247,50,"ChristEvent::OnMobDead";
+	monster "prontera.gat",159,172,"Cookie",1246,50,"ChristEvent::OnMobDead";
+	monster "prontera.gat",156,168,"Poring Noel",1062,50,"ChristEvent::OnMobDead";
+	monster "prontera.gat",152,171,"Presente",1249,50,"ChristEvent::OnMobDead";
+	monster "prontera.gat",156,171,"Goblin Natalino",1245,50,"ChristEvent::OnMobDead";
+	end;
+
+OnMobDead:
+	set @Mob_Killed,@Mob_Killed +1;
+	set $@MapMobs,$@MapMobs -1;
+	if($@MapMobs == 0){
+		announce "Todos os Monstros foram Mortos, portanto o Evento acabou!",bc_blue|bc_all;
+		stopnpctimer "TimerEvent";
+		end;
+	}else
+		end;
+	stopnpctimer "TimerEvent";
+	end;
+
+Over:
+	announce "Todos os Monstros foram Mortos, portanto o Evento acabou!",bc_blue|bc_all;
+	stopnpctimer "TimerEvent";
+	end;
+}
+
+// =========================================================
+// ======================= NPC Timer =======================
+// =========================================================
+prontera.gat,1,1,1	script	TimerEvent	-1,{
+
+OnTimer2000:
+	set $@EvtTime$, "Vocês tem 3 minutos para matar todos os monstros";
+	callsub EventAnnounce;
+
+OnTimer62000:
+	set $@EvtTime$, "Vocês tem 2 minutos para matar todos os monstros";
+	callsub EventAnnounce;
+
+OnTimer92000:
+	set $@EvtTime$, "Matandos os Monstros você ganha pontos e pode trocar por prêmios";
+	callsub EventAnnounce;
+
+OnTimer122000:
+	set $@EvtTime$, "Vocês tem 1  minutos para matar todos os monstros";
+	callsub EventAnnounce;
+
+OnTimer152000:
+	set $@EvtTime$, "Vocês só tem 30 segundos para matar todos os monstros";
+	callsub EventAnnounce;
+
+OnTimer162000:
+	set $@EvtTime$, "Vocês só tem 10 segundos para matar todos os monstros";
+	callsub EventAnnounce;
+
+OnTimer182000:
+	set $@EvtTime$, "O Tempo do Evento acabou, vá trocar seus prêmios";
+	callsub EventAnnounce;
+	killmonsterall "prontera.gat";
+	stopnpctimer "TimerEvent";
+	end;
+
+EventAnnounce:
+	announce "[ Papai Noel ]: "+$@EvtTime$+"!",bc_blue|bc_all;
+	end;
+}

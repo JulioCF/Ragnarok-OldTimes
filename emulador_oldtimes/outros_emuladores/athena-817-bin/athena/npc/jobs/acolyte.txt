@@ -1,0 +1,314 @@
+//Acolyte Quest for Athena by BeerNuts
+//Modified by Akaru
+
+prt_church.gat,184,41,4	script	Cleric	60,{
+
+	if(job_acolyte_q==0) goto M11;
+	if(job_acolyte_q==2) goto Mission2;
+	if(job_acolyte_q==3) goto Mission3;
+	if(job_acolyte_q==4) goto Mission4;
+	if(job_acolyte_q > 5) goto M0Cont;
+
+// Start Father Rubalkabara
+
+Mission2:
+
+	mes "[Father Mareusis]";
+	mes "Back so soon? Did you forget your mission?";
+	menu "Yeah..",Mission2b,"Nope.",Mission2c;
+
+Mission2b:
+
+	mes "[Father Mareusis]";
+	mes "Please visit ^000077Father Rubalkabara^000000, the member of the Prontera Parish and get back. He has been Practicing Asceticism  ^000077in the Relics at the Nothern East of Prontera City^000000.";
+	close;
+
+Mission2c:
+
+	mes "[Father Mareusis]";
+	mes "Then go do your mission. You can't be a servant of God with out completing it!";
+	close;
+
+// Start Mother Mathilda
+
+Mission3:
+
+	mes "[Father Mareusis]";
+	mes "Back so soon? Did you forget your mission?";
+	menu "Yeah..",Mission3b,"Nope.",Mission3c;
+
+Mission3b:
+
+	mes "[Father Mareusis]";
+	mes "Please Visit ^000077Mother Mathilda^000000 and get back. She has been Practicing Asceticism ^000077 Near Morroc Town, the Southern West of Prontera City.^000000.";
+	close;
+
+Mission3c:
+
+	mes "[Father Mareusis]";
+	mes "Then go do your mission. You can't be a servant of God with out completing it!";
+	close;
+
+// Start Father Yosuke
+
+Mission4:
+
+	mes "[Father Mareusis]";
+	mes "Back so soon? Did you forget your mission?";
+	menu "Yeah..",Mission4b,"Nope.",Mission4c;
+
+Mission4b:
+
+	mes "[Father Mareusis]";
+	mes "Please Visit ^000077Father Yosuke^000000 and get back. He has been Practicing Asceticism ^000077 around a Bridge in Somewhere near Northern West of Prontera.^000000.";
+	close;
+
+Mission4c:
+
+	mes "[Father Mareusis]";
+	mes "Then go do your mission. You can't be a servant of God with out completing it!";
+	close;
+
+M11:
+	set @TEMP,0;
+	mes "[Father Mareusis]";
+	mes "What is it you are looking for?";
+	next;
+	menu "Father, I want to be a Acolyte.",M0,"The Requirements.",M1,"I just look around. That's all.",MEnd;
+
+	M0:
+		if(Class==4) goto JobAco;
+		if(Class !=0) goto NotNov;
+		if(job_acolyte_q==0) goto M0001;
+
+		JobAco:
+			mes "[Father Mareusis]";
+			mes "Are you feeling okay today..Oh..your attire.. are you an Acolyte? You are not joking around with me, are you?";
+			close;
+		NotNov:
+			mes "[Father Mareusis]";
+			mes "Sorry but I don't think you are a Novice.";
+			close;
+		M0001:
+			mes "[Father Mareusis]";
+			mes "Lets see here...";
+			mes "Do you truly wish to become a servant of God?";
+			next;
+			if(JobLevel < 10) goto BaseL9;
+			menu "Yes, Father, I do.",M00,"Nope, I lied.",M01;
+			
+			M00:
+				mes "[Father Mareusis]";
+				mes "Good. I accept " + strcharinfo(0) + " 's will for an Acolyte.";
+				mes "You understand that you need to do penance before you become a servant of God,don't you?";
+				next;
+				mes "[Father Mareusis]";
+				mes "Well I will give you a mission.....";
+				set @TEMP,rand(3);
+				goto M00R0;
+
+				M00R0:
+					if(@TEMP !=0) goto M00R1;
+					set job_acolyte_q,2;
+					mes "Please visit ^000077Father Rubalkabara^000000, the member of the Prontera Parish and get back. He has been Practicing Asceticism  ^000077in the Relics at the Nothern East of Prontera City^000000.";
+					goto M00Cont;
+				M00R1:
+					if(@TEMP !=1) goto M00R2;
+					set job_acolyte_q,3;
+					mes "Please Visit ^000077Mother Mathilda^000000 and get back. She has been Practicing Asceticism ^000077 Near Morroc Town, the Southern West of Prontera City.^000000.";
+					goto M00Cont;
+				M00R2:
+					set job_acolyte_q,4;
+					mes "Please Visit ^000077Father Yosuke^000000 and get back. He has been Practicing Asceticism ^000077 around a Bridge in Somewhere near Northern West of Prontera.^000000.";
+					goto M00Cont;
+
+					M00Cont:
+						mes "The Grace of God will enlighten your way of the Penace.";
+						close;
+		M0Cont:
+			mes "[Father Mareusis]";
+			mes "Oh, You come back. Let me check you are ready to serve God...Let's see...";
+			next;
+			goto M0ContB;
+			
+	BaseL9:
+		mes "Oh, My Good Lord! Haven't you accomplished the Basic Training yet?! You should have trained more! Go back to where you're from and react at least Job Level 9 or learn more Basic Skills First.";
+		close;
+
+
+		M0ContB:
+			mes "Hmm... Now You are qualified and your name is on the list. All right. Hereby I will take your willingness to become Acolyte.";
+			next;
+			set job_acolyte_q,0;
+			JobChange 4;
+			mes "[Father Mareusis]";
+			mes "Remember to be thankful to God, who is taking care of us all the time, that we have the unique chance to serve him... When you face at hard times later, you must believe in God who loves you ever and after.";
+			next;
+			mes "[Father Mareusis]";
+			mes "Lastly, I sincerely congratulate you not to give up the test.";
+			close;
+	M1:
+		mes "[Father Mareusis]";
+		mes "Do you wish to become an Acolyte?";
+		mes "Then here are the two requirements you must go through.";
+		next;
+		mes "[Father Mareusis]";
+		mes "First, You have to reach at least Novice Job Level 9 and learn entire Basic Skills at the same time.";
+		mes "You must do what I tell you before Everything if you wish to survive until the end of this world.";
+		next;
+		mes "[Father Mareusis]";
+		mes "Second, You have to overcome a Divine Test as a prayer.";
+		mes "The Divine Destination will be decided when you fill the application form.";
+		goto M1Cont;
+	M1Cont:
+		next;
+		mes "[Father Mareusis]";
+		mes "Please come back after performing 2 things perfectly I asked you. You'll make it perfect if you eager to be a servant of God from the bottom of your heart.";
+		close;
+
+	MEnd:
+	mes "[Father Mareusis]";
+	mes "Alright, Come back anytime.";
+	close;
+}
+
+prt_fild03.gat,365,255,2	script	Ascetic	89,{
+	if(Class==0) goto JobNov;
+	mes "[Father Rubalkabara]";
+	mes "Ohho... Do you come into the Deep down here only for Training? Or are you just a Wanderer..?";
+	mes "Whatever you are, Please take care of yourself. Monsters in here are shockingly Strong contray to their Cute Apprearance.";
+	close;
+	
+	JobNov:
+		if(job_acolyte_q==6) goto JobAcoQE6;
+		if(job_acolyte_q !=0) goto JobAcoNE0;
+		mes "[Father Rubalkabara]";
+		mes "Huh..? What brings you here? This is Very dangerous place for a Novice like you. Please Go back quickly.";
+		close;
+
+		JobAcoNE0:
+			if(job_acolyte_q==2) goto JobAcoQE2;
+			mes "[Father Rubalkabara]";
+			mes "Oh... Are you the young man who wish to become an Acolyte...? I already received the news of you from the Santuary.";
+			mes "Is your name .... " + strcharinfo(0) + " ..... umm... I don't think you are on the List of Candidates.";
+			next;
+			mes "[Father Rubalkabara]";
+			mes "...... Why don't you go back to the Santuary and check again?";
+			close;
+
+			JobAcoQE2:
+				mes "[Father Rubalkabara]";
+				mes "Oh... Are you the young man who wish to become an Acolyte...? I already received the news of you from the Santuary.";
+				mes "Is your name .... " + strcharinfo(0) + " .. Right! Yes,Thank you to vist me.";
+				next;
+				mes "[Father Rubalkabara]";
+				mes "I believe you've been informed about Acolyte so much from Friar Mareusis. That's why I won't tell more things.. Besides, I know your generation don't like to be told from old man. Ha, ha, ha...";
+				next;
+				mes "[Father Rubalkabara]";
+				mes "But you might have to withstand about what elder person say.Because God loves to teach his children.You will see.";
+				mes "I will send the message which shows you vist me to the Santuary soon as I can.. so go back to Prontera now.";
+				next;
+				mes "[Father Rubalkabara]";
+				mes "Farewell.";
+				savepoint "prt_fild03.gat",361,255;
+				set job_acolyte_q,job_acolyte_q+4;
+				close;
+		JobAcoQE6:
+			mes "[Father Rubalkabara]";
+			mes "Please take care. They would know at that time you arrive at the Santuary.";
+			next;
+			mes "[Father Rubalkabara]";
+			mes "I sent them a pigeon with the message... I hope it will arrive safely...";
+			close;
+}
+
+moc_fild07.gat,41,355,4	script	Ascetic	95,{
+	if(Class==0) goto JobNov;
+	mes "[Mother Marthilda]";
+	mes "...........";
+	close;
+
+	JobNov:
+		if(job_acolyte_q==7) goto JobAcoQE7;
+		if(job_acolyte_q !=0) goto JobAcoNE0;
+		mes "[Mother Marthilda]";
+		mes "...........";
+		close;
+
+		JobAcoNE0:
+			if(job_acolyte_q==3) goto JobAcoQE3;
+			mes "[Mother Marthilda]";
+			mes "Ah,You are the one of Acolyte Applicants.I sincerely Welcome you.";
+			mes "What is your name? Um... " + strcharinfo(0) + " .. let's see..";
+			mes "..Well.. I can't see your name on the List ....";
+			next;
+			mes "[Mother Marthilda]";
+			mes "I recommand you to return to the Santuary and Check again.";
+			close;
+
+			JobAcoQE3:
+				mes "[Mother Marthilda]";
+				mes "Ah,You are the one of Acolyte Applicants.I sincerely Welcome you.";
+				next;
+				mes "[Mother Marthilda]";
+				mes "What is your name? Um... " + strcharinfo(0) + " ..let's see.. Yes! I found you.";
+				mes "I will send the confirm note to the Santuary that you, " + strcharinfo(0) + "  visit me.";
+				mes "Please go back to the Santuary and Speak to the Priest in Charge.";
+				savepoint "moc_fild07.gat",35,355;
+				set job_acolyte_q,job_acolyte_q+4;
+				close;
+		JobAcoQE7:
+			mes "[Mother Marthilda]";
+			mes "I will send a Pigeon with the message. When you arrive at the Santuary, the Priest in charge would receive and confirm my message.";
+			mes "I will pray to God for helping you to make your wish come true.";
+			close;
+}
+
+prt_fild00.gat,208,218,6	script	Ascetic	98,{
+	if(Class==0) goto JobNov;
+	mes "[Father Yosuke]";
+	mes "...................";
+	close;
+
+	JobNov:
+		if(job_acolyte_q==8) goto JobAcoQE8;
+		if(job_acolyte_q !=0) goto JobAcoNE0;
+		mes "[Father Yosuke]";
+		mes "You, Novice. Wanna tell me something?";
+		close;
+		
+		JobAcoNE0:
+			if(job_acolyte_q==4) goto JobAcoQE4;
+			mes "[Father Yosuke]";
+			mes "Hey.You behind there.";
+			mes "You look like an Acolyte Applicant... Right?";
+			next;
+			mes "[Father Yosuke]";
+			mes "Not bad, Not bad. You withstand the Long Journey pretty well.";
+			mes "Name? " + strcharinfo(0) + "  .....Hmm.. Interesting.. I can't see your name on the List..?";
+			next;
+			mes "[Father Yosuke]";
+			mes "I think you did a mistake.";
+			mes "......It is your fault anyway, Forget this time.And go back to the Santuary.";
+			close;
+
+			JobAcoQE4:
+				mes "[Father Yosuke]";
+				mes "Hey. Whatever you are, you look like an Acolyte Applicant.... Am I right?";
+				next;
+				mes "[Father Yosuke]";
+				mes "Not bad, Not bad. You withstand the Long Journey pretty well.";
+				mes "What's your name? " + strcharinfo(0) + "  ....";
+				next;
+				mes "[Father Yosuke]";
+    				mes "Ok. I will send the confirm note to the Santuary that you, " + strcharinfo(0) + "  visit me.";
+				mes "Now go back to where you come from.And Don't forget you have to return to the Santuary.";
+				savepoint "prt_fild00.gat",206,230;
+				set job_acolyte_q,job_acolyte_q+4;
+				close;
+		JobAcoQE8:
+			mes "[Father Yosuke]";
+			mes "What ? Have more Business with me?";
+			mes "You don't! Go back to the Santuary Now!";
+			close;
+}

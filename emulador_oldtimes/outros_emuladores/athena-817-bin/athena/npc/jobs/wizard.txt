@@ -1,0 +1,1563 @@
+//Translated by yoshiki
+//Athena Conversion by RoVeRT
+//================== Wizard's Guild: Cartlin Medichi ======================
+//======== Registration, Mission 1 Item Quest, etc =======
+gef_tower.gat,111,37,4	script	Wizard's Guild Worker	70,{
+//======== Other Jobs
+   	if (Class == Job_Magician) goto Part2;
+		if (Class == Job_Wizard) goto IsWizard;
+		if (Class == Job_Novice) goto IsNovice;
+		goto IsOther;
+		IsWizard:
+			if (Sex == 1) goto IsMale;
+				mes "[Cartlin]";
+				mes "What do you need comrade Wizard?";
+				mes "If nothing, please leave..";
+				next;
+				mes "[Cartlin]";
+				mes "Of course, asking me out is another thing, heh.";
+				close;
+				end;
+			IsMale:
+				mes "[Cartlin]";
+				mes "What does a wizard need of us?";
+				mes "Please leave.";
+				next;
+				mes "[Cartlin]";
+				mes "If you get yourself a boyfriend, return though. XD.";
+				close;
+				end;
+		IsNovice:
+			mes "[Guild Clerk]";
+			mes "Awwww, a little novice!.";
+			mes "How cute! This place is for wizards only!";
+			next;
+			mes "[Guild Clerk]";
+			mes "If you're interested in magic,";
+			mes "^0000FFMagician's^000000 Guild is the place for you.";
+			goto DontFall;
+		IsOther:
+			mes "[Guild Clerk]";
+			mes "Hmm? What brings you to climb all the way up here?";
+			mes "If you have nothing to do here, leave.";
+			mes "This place is for wizards only =P";
+	DontFall:
+		next;
+		mes "[Guild Clerk]";
+		mes "Don't fall while going down!";
+		close;
+		end;
+
+//======== Registration
+Part2:
+	if (job_wizard_q != 0) Part3;
+		mes "[Guild Clerk]";
+		mes "Hey! What brings you all the way up here?";
+		mes "You want to be a wizard, right?";
+		next;
+		menu "Of course!",BeWiz, "Not really",NotBeWiz;
+			BeWiz:
+				mes "[Guild Clerk]";
+				mes "Of course, that's always the reason.";
+				mes "I'll guide you along!.";
+				next;
+				mes "[Guild Clerk]";
+				mes "My name's Cartlin Medichi, I'm a noob wizard -.-;.";
+				mes "Relax, you can call me Cartlin.";
+				next;
+				mes "[Cartlin]";
+				mes "Even thought many people want to be wizards."												mes "Many fail because of the test.";
+				next;
+				mes "[Cartlin]";
+				mes "Job level 40 is required like all 2nd jobs.";
+				mes "Besides, any below that and you won't have";
+				mes "enough magic power.";
+				next;
+				mes "[Cartlin]";
+				mes "Well, I'll tell you about the test.";
+				mes "After you register.";
+				next;
+				menu "Sign the form",SignUp, "Let me think about it........",Think;
+					SignUp:
+						if (JobLevel >= 40) goto SkPointChk;
+							mes "[Cartlin]";
+							mes "Hey, I told you. You have to be at least job lvl 40";
+							mes "Don't you remember me telling you -.-;";
+							next;
+							mes "[Cartlin]";
+							mes "You're not in a hurry, go train more.";
+							mes "I'll let you apply after job 40.";
+							close;
+							end;
+					   SkPointChk:
+       						if (SkillPoint == 0) goto StartTest;
+							mes "[Cartlin]";
+       							mes "Everything looks good, but it seems you have skill points left over.";
+	       						mes "Reapply after spending them all.";
+       							close;
+       							end;
+					   StartTest:
+       						mes "[Cartlin]";
+						mes "Okay, I'll take good care of this form.";
+						mes "You're name is " + strcharinfo(0) + " right?";
+						next;
+						mes "[Cartlin]";
+						mes "Wizard test is divided in 3 parts.";
+						mes "1st is getting a magical item.";
+						mes "2nd is the Q&A exam";
+						mes "and 3rd is our fave, the field exam.";
+						next;
+						mes "[Cartlin]";
+						mes "People job lvl 50 can skip the first test.";
+						mes "They already worked hard enough.";
+						next;
+//======== check for job 50
+						if (JobLevel < 50) Under50;
+							mes "[Cartlin]";
+							mes "Wow! You're job level 50!";
+							mes "You must have worked hard! I'm impressed!";
+							next;
+							mes "[Cartlin]";
+							mes "Okay, I'll record that you're job 50.";
+							mes "You get to skip the first test, but you still got 2 left.";
+							next;
+							mes "[Cartlin]";
+							mes "Now, talk to that man in the corner for the test.";
+							mes "It's hard, so be careful.";
+							set job_wizard_q,3;
+							close;
+							end;
+					Under50:
+						mes "[Cartlin]";
+						mes "Okay, you're applied. I'll tell you the items you need to bring us.";
+						mes "Remember these!";
+						next;
+						mes "[Cartlin]";
+						mes "First test is bring magical items.";
+						mes "Write these down or something!";
+						next;
+//======== Needed items
+						set @wizard_m1,rand(2);
+						mes "[Cartlin]";
+						mes "The items you need to bring are............";
+						if (@wizard_m1 == 1) goto OtherItems;
+							set job_wizard_q,1;
+							mes "10 red gem stones";
+							mes "10 blue gem stones";
+							mes "and 10 yellow gemstones.";
+							goto AfterItems;
+						OtherItems:
+							set job_wizard_q,2;
+							mes "5 Crystal Blues";
+							mes "5 Green Lives";
+							mes "5 Red Bloods";
+							mes "and 5 Wind of Verdures.";
+					    AfterItems:
+						mes "This test isn't THAT hard, so go!";
+						next;
+						mes "[Cartlin]";
+						mes "So, good luck!";
+						mes "I'll be waiting!";
+						close;
+						end;
+					Think:
+						mes "[Cartlin]";
+						mes "Ok then, think about it hard!";
+						mes "Applications are always open!";
+						close;
+						end;
+			NotBeWiz:
+				mes "[Guild Clerk]";
+				mes "What? Nothing?";
+				mes "";
+				close;
+				end;
+//======== Mission 1 : Gemstones
+Part3:
+	if (job_wizard_q != 1) goto Part4;
+		mes "[Cartlin]";
+		mes "Did you get all the items?";
+		mes "Let's see......";
+		next;
+			if ((countitem("Red_Gemstone") < 10) && (countitem("Blue_Gemstone") < 10) && (countitem("Yellow_Gemstone") < 10)) goto ShortItem1;
+				mes "[Cartlin]";
+				mes "Great! You've brought everything!";
+				mes "The guild will use these well.";
+				next;
+				delitem "Red_Gemstone",10;
+				delitem "Blue_Gemstone",10;
+				delitem "Yellow_Gemstone",10;
+				set job_wizard_q,3;
+				mes "[Cartlin]";
+				mes "Congrats, you passed the first test.";
+				mes "Don't just relax yet! Still 2 tests left!";
+				next;
+				mes "[Cartlin]";
+				mes "Now go talk to the man in the corner for the other tests.";
+				mes "They're pretty hard, so be careful.";
+				close;
+				end;
+	ShortItem1:
+		mes "[Cartlin]";
+		mes "You don't seem to have everything you need.";
+		next;
+		mes "[Cartlin]";
+		mes "It's a waste of time to come up here without the needed items >_>";
+		mes "Go get the rest of the items!";
+		next;
+		mes "[Cartlin]";
+		mes "10 red gemstones,";
+		mes "10 blue gemstones.";
+		mes "and 10 yellow gemstones.";
+		mes "Don't forget that we need them all!";
+		close;
+		end;
+//======== Mission 1 : Elemental ores
+Part4:
+	if (job_wizard_q != 2) goto Part5;
+		mes "[Cartlin]";
+		mes "Did you get all the items?";
+		mes "Then, lets see!";
+		next;
+		if ((countitem("Crystal_Blue") < 5) && (countitem("Yellow_Live") < 5) && (countitem("Bloody_Red") < 5) && (countitem("Wind_Of_verdure") < 5)) goto ShortItem2;
+			mes "[Cartlin]";
+			mes "Great! You've found them all!";
+			mes "The guild will use them well.";
+			next;
+			delitem "Crystal_Blue",5;
+			delitem "Yellow_Live",5;
+			delitem "Bloody_Red",5;
+			delitem "Wind_Of_verdure",5;
+			set job_wizard_q,3;
+			mes "[Cartlin]";
+			mes "Congrats, you passed the first test.";
+			mes "Don't relax yet, you still got 2 tests left.";
+			next;
+			mes "[Cartlin]";
+			mes "Now talk to the man in the corner for the tests.";
+			mes "It's pretty hard, so be careful.";
+			close;
+			end;
+	ShortItem2:
+		mes "[Cartlin]";
+		mes "It seems you didn't bring everything needed >_>";
+		next;
+		mes "[Cartlin]";
+		mes "It's hard work to climb all the way up here >_>";
+		mes "It's a waste of time and energy coming with nothing -.-;";
+		next;
+		mes "[Cartlin]";
+		mes "5 Crystal Blue,";
+		mes "5 Green Lives,";
+		mes "5 Red Bloods,";
+		mes "and 5 'Wind of Verdure's";
+		mes "Don't forget to bring them!";
+		close;
+		end;
+//======== You already brought the items, why return?
+Part5:
+	if (job_wizard_q != 3) goto Part6;
+		mes "[Cartlin]";
+		mes "Hey, did you go talk to the man?";
+		mes "No? You can't just become a wizard by getting items >_>.";
+		next;
+		mes "[Cartlin]";
+		mes "There's 2 more tests left.";
+		mes "I'll be waiting, so go finish them.";
+		close;
+		end;
+//======== failed q&a
+Part6:
+	if (job_wizard_q != 4) goto Part7;
+		mes "[Cartlin]";
+		mes "o.O You failed the Q&A test!?";
+		mes "You want to be a wizard and you can't get them >_>";
+		next;
+		mes "[Cartlin]";
+		mes "Heh, do you want big sis to give you a hint?";
+		mes "If so, I'm thirsty, so go buy me 1 apple juice =P";
+		next;
+		menu "Can I have a hint?",YesHint, "I can pass on my own!",NoHint;
+			YesHint:
+				if (countitem("Apple_Juice") < 1) goto NoJuice;
+					delitem "Apple_Juice",1;
+					mes "[Cartlin]";
+					mes "Mmmmmmmmmmmmm, apple juice.";
+					mes "Slurp Slurp";
+					next;
+					mes "[Cartlin]";
+					mes "Thx, I'll give you the hint now.";
+					next;
+					mes "[Cartlin]";
+					mes "The man gives you 3 major types of questions.";
+					mes "Questions about spells, monsters,";
+					mes "and the caster.";
+					next;
+					mes "[Cartlin]";
+					mes "It's up to him to pick the questions.";
+					mes "If he shaved and cut his hair, he might look cool >_>";
+					mes "But obviously he won't do it -.-;";
+					next;
+					mes "[Cartlin]";
+					mes "Now, the questions about spells,";
+					mes "They're obviously about the spells you've learned.";
+					next;
+					mes "[Cartlin]";
+					mes "There WILL be questions about spells you don't";
+					mes "know much about, so go ask other wizards =P";
+					next;
+					mes "[Cartlin]";
+					mes "There's places out there with lots of information";
+					mes "about spells! Such as www.ragnarok.co.kr!";
+					mes "Heh, you can find better sites cuz gravity sux >_>";
+					next;
+					mes "[Cartlin]";
+					mes "The monster questions,";
+					mes "You COULD just go out there and fight them to learn about them.";
+					next;
+					mes "[Cartlin]";
+					mes "Hmm, if I remember right, there's a libary";
+					mes "in Prontera that has lots of information.";
+					mes "It's easier to just go there and read about them >_>";
+					next;
+					mes "[Cartline]";
+					mes "Now, the questions about wizards.....";
+					mes "You're on your own for this one..";
+					mes "Why? Because YOU'RE a mage.";
+					next;
+					mes "[Cartlin]";
+					mes "If you don't know anything about yourself,";
+					mes "how would a stranger like me know?";
+					goto Continue;
+				NoJiuce:
+					mes "[Cartlin]";
+					mes "Well, if you want hints, I want apple juice!.";
+					mes "Otherwise, you're on your own =P.";
+					goto Continue;
+				NoHint:
+					mes "[Cartlin]";
+					mes "That's right! Tests are meant to done alone!";
+					mes "That's definatly the way a wizard should think!";
+	Continue:
+		next;
+		mes "[Cartlin]";
+		mes "Good luck!";
+		mes "Mister Examiner is waiting!";
+		close;
+		end;
+//======== One test left!
+Part7:
+	if (job_wizard_q != 5) goto Part8;
+		mes "[Cartlin]";
+		mes "Heh, I could hear you in there.";
+		mes "Working so hard on the questions.";
+		next;
+		mes "[Cartlin]";
+		mes "Just one test left!";
+		mes "Finish that and you'll be a wizard!.";
+		next;
+		mes "[Cartlin]";
+		mes "Good luck!";
+		mes "The examiner's waiting!";
+		close;
+		end;
+//======== Ouch! That must hurt
+Part8:
+	if (job_wizard_q != 6) goto Part9;
+		mes "[Cartlin]";
+		mes "Why did you come out during the test?";
+		mes "I never thought you were that weak >_>";
+		next;
+		if (Sex == 1) goto IsMale2;
+			mes "[Cartlin]";
+			mes "How could a powerful mage like you get beaten so easily!!";
+			mes "Go back in and try harder -.-";
+			goto Continue2;
+		IsMale2:
+			mes "[Cartlin]";
+			mes "You can't act all weak, just because you're a girl! >_>";
+			mes "If you want to be a wizard, go and pass!";
+			next;
+			mes "[Cartlin]";
+			mes "I thought it was hard too, but it wasn't enough to make me quit!";
+			mes "You have to face hardship sometimes!";
+	Contimue2:
+		next;
+		mes "[Cartlin]";
+		mes "Good luck!";
+		mes "The examiner is waiting for you!";
+//======== 전직이래요.
+Part9:
+	if (job_wizard_q != 7) goto QuitScript;
+		if (SkillPoint == 0) goto NoSkPoints;
+			mes "[Cartlin]";
+		      	mes "Did you pass?";
+       			mes "Uh oh, you has skill points left, go spend them!";
+      			close;
+			end;
+      	NoSkPoints:
+		mes "[Cartlin]";
+		mes "Great! You finished it!";
+		mes "Congrats, congrats, congrats!";
+		next;
+		mes "[Cartlin]";
+		mes "Ack, I'm wasting time, I better change you!";
+		next;
+		set job_wizard_q,0;
+		jobchange Job_Wizard;
+		mes "[Cartlin]";
+		mes "Now you're a wizard! Act responsibly!";
+		mes "Make sure when you cast, you know what will happen!";
+		next;
+		mes "[Cartlin]";
+		mes "Don't do stupid things like casting in the middle of town!";
+		mes "It lags and magic is supposed to be used on monsters anyways >_>";
+		next;
+		mes "[Cartlin]";
+		mes "Become mightier by partying with others!";
+		mes "Oh yea, here's a present!";
+		next;
+		mes "[Cartlin]";
+		mes "Rustle Rustle";
+		next;
+		getitem Blue_Potion,6;
+		mes "[Cartlin]";
+		mes "Use them wisely!";
+		mes "It's a present from me, so you better drink them all!";
+		next;
+		mes "[Cartlin]";
+		mes "Well wizard, have a good life!";
+		close;
+QuitScript:
+		end;
+}
+
+//================== Examiner: Raul Expagarus AKA makes no sense >_>==================
+//======== Mission 2 do , Mission 3 do, warps from tower to arena ===========
+gef_tower.gat,102,24,2	script	Wizard	735,{
+//======== filtering other jobs
+   	if (Class == Job_Magician) goto Part2;
+		if (Class == Job_Wizard) IsWizard;
+		if (Class == Job_Priest) goto IsPriest;
+		if (Class == Job_Novice) goto IsNovice;
+			mes "[Raul]";
+			mes "Ugh I don't feel good....I feel like I'm trapped in ice........";
+			next;
+			mes "[Raul]";
+			mes "Who're you?! Leave!";
+			close;
+			end;
+		IsWizard:
+			mes "[Raul]";
+			mes "Cough Cough, what can I do for you?";
+			mes "Hmmm, you're a magic use too...";
+			next;
+			if (Sex == 1) goto IsMale;
+				mes "[Raul]";
+				mes "If you're not responsible, you might accidently learn useless spells.";
+				mes "Instead of that, you might want to focus on learning to use your spells now.";
+				next;
+				mes "[Raul]";
+				mes "In a fight for love, you might become cripples hehe.";
+				close;
+				end;
+			IsMale:
+				mes "[Raul]";
+				mes "If you're not responsible, you might accidently learn useless spells";
+				mes "You should learn it with all your heart, otherwise, just quit now.";
+				next;
+				mes "[Raul]";
+				mes "If you don't wish to study like that...............";
+				mes "Heh, go be a housewife.";
+				close;
+				end;
+		IsPriest:
+			mes "[Raul]";
+			mes "Leave holy ones!";
+			mes "Magic is considered a power not from God.......";
+			next;
+			mes "[Raul]";
+			mes "Besides, I'm not feeling too good";
+			mes "Leave now!";
+			close;
+			end;
+		IsNovice:
+			mes "[Raul]";
+			mes "What's a little kid like you doing here?";
+			mes "Get out of here!";
+			close;
+			warp "geffen.gat",120,110;
+//========something about job changing >_>
+Part2:
+	if (job_wizard_q != 0) goto Part3;
+		mes "[Raul]";
+		mes "Cough, I don't have any time to talk.";
+		next;
+		mes "[Raul]";
+		mes "Sorry, but please leave.";
+		close;
+		end;
+//======== Mission 1 Player in Gemstone Quest
+//======== Mission 1 Player in ore quest
+Part3:
+	if (job_wizard_q != 1 && job_wizard_q != 2) goto Part4;
+		mes "[Raul]";
+		mes "Heh, a wizard trainee eh?!";
+		next;
+		mes "[Raul]";
+		mes "You COULD just stay as a mage and live a pretty decent life.....";
+		next;
+		mes "[Raul]";
+		mes "Then again, wizards ARE much more upper class.";
+		close;
+		end;
+//======== Mission 2:starting.
+Part4:
+	if (job_wizard_q != 3) goto Part5;
+		mes "[Raul]";
+		mes "I see you've passed the 1st test.";
+		mes "Yes, I'm your test examiner. My name is Raul Expagarus";
+		next;
+		mes "[Raul]";
+		mes "It's not too late! You can still return to a peaceful life in town if you wish.";
+		next;
+		mes "[Raul]";
+		mes "You probably have no clue how dangerous it is to use magic.";
+		next;
+		menu "I want to live as a regular magican",BeMage, "I want to continue the test!",BeWiz;
+			BeMage:
+				mes "[Raul]";
+				mes "Good choice, cough cough.";
+				mes "Wizard is a difficult job, magic is not meant for humans to use.........";
+				next;
+				mes "[Raul]";
+				mes "Go down the tower and don't look back.";
+				mes "Use the magic you have now and live a peaceful life.";
+				close;
+				end;
+			BeWiz:
+				mes "[Raul]";
+				mes "HA! Here's a little idiot.";
+				mes "Hmph, I'll see how GREAT you do.";
+				next;
+//================== Mission 2 : Quiz
+	M2_Start:
+		mes "[Raul]";
+		mes "Lets start the test!";
+		mes "If you miss one, you're screwed! HA!";
+		next;
+		mes "[Raul]";
+		mes "10 questions, get them right!";
+		mes "Even if you miss, I won't tell you the correct answer.";
+		next;
+		set @wizard_m2,rand(3);
+		set @wizard_t,0;
+		mes "[Raul]";
+		mes "Cough, here's the questions!";
+		next;
+//============================ Mission 2 : Magic Questions
+		if (@wizard_m2 == 0) goto M2_P2_Q1;
+			M2_Q1:	mes "[Raul]";
+				mes "1. What isn't required for fire wall?";
+				next;
+				menu "Fire Bolt Lv 4",M2_Q2, "Fire Ball Lv 5",M2_Q2, "Sight Lv 1",M2_Q2, "Napalm Beat Lv 4",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q2:
+				mes "[Raul]";
+				mes "2. What happens to a monster's element after it's frozen by Frost Diver?";
+				next;
+				menu "Changes to Water",-, "Changes to Earth",M2_Q3, "Changes to Fire",M2_Q3, "Changes to Wind",M2_Q3;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q3:
+				mes "[Raul]";
+				mes "3. When you max out Napalm Beat, how many times matk will the dmg be?";
+				next;
+				menu "1.6x",M2_Q4, "1.7x",-, "2x",M2_Q4, "20x",M2_Q4;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q4:
+				mes "[Raul]";
+				mes "4. What item is required for stone curse?";
+				next;
+				menu "Red Blood",M2_Q5, "Blue Gem",M2_Q5, "Yellow Gem",M2_Q5, "Red Gem",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q5:
+				mes "[Raul]";
+				mes "5. What isn't required for Safety Wall?";
+				next;
+				menu "Napalm Beat Lv 4",M2_Q6, "Soul Strike Lv 5",M2_Q6, "SP Recovery Lv. 6",-, "Ice Wall Lv 7",M2_Q6;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q6:
+				mes "[Raul]";
+				mes "6. How much SP will you regain every 10 sec with lvl 7 SP Rec.?";
+				next;
+				menu "14",M2_Q7, "21",-, "28",M2_Q7, "35",M2_Q7;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q7:
+				mes "[Raul]";
+				mes "7. You have 50% SP, how much dmg will Energy Coat reduce and how much sp will it use??";
+				next;
+				menu "dmg 18% SP1.5%",M2_Q8, "dmg18% SP2%",-, "dmg 24% SP1.5%",M2_Q8, "dmg 24% SP2%",M2_Q8;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q8:
+				mes "[Raul]";
+				mes "8. Safety Wall Lv.6's  sp consumed, and no. of hits absorbed?";
+				next;
+				menu "40 sp, 6hits",M2_Q9, "35 sp, 6hits",M2_Q9, "40 sp, 7hits",-, "35 sp, 7hits",M2_Q9;
+					set @wizard_t,@wizard_t + 10;
+			M2_Q9:
+				mes "[Raul]";
+				mes "9. Lv. 10 Thunder Storm's Sp Consume";
+				next;
+				menu "84",M2_Q10, "74",-, "64",M2_Q10, "54",M2_Q10;
+						set @wizard_t,@wizard_t + 10;
+			M2_Q10:
+				mes "[Raul]";
+				mes "10. What would be a good skill to use in the Izlude Guild Dungeon?";
+				next;
+				menu "Lightning Bolt",-, "Fire Bolt",M2_End, "Ice Bolt",M2_End, "Sight",M2_End;
+					set @wizard_t,@wizard_t + 10;
+					goto M2_End;
+
+//============================ Mission 2 : 	Monster Quiz
+	M2_P2_Q1:
+		if (@wizard_m2 == 1) goto M2_P3_Q1;
+				mes "[Raul]";
+				mes "1. What drops a slot guard?";
+				next;
+				menu "Thief Bug",M2_P2_Q2, "Peco Peco",M2_P2_Q2, "Pupa",-, "Mace Kobold",M2_P2_Q2;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q2:
+				mes "[Raul]";
+				mes "2. Which monster is the easiest for magicians?";
+				next;
+				menu "Flora",-, "Gierth",M2_P2_Q3, "Golem",M2_P2_Q3, "Myst",M2_P2_Q3;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q3:
+				mes "[Raul]";
+				mes "3. What monster is completly immune to Stone Curse?";
+				next;
+				menu "Elder Willow",M2_P2_Q4, "Evil Druid",-, "Baek-Ryuhn-Oak",M2_P2_Q4, "Marc",M2_P2_Q4;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q4:
+				mes "[Raul]";
+				mes "4. How much dmg do you do with a wind spell to a Water 3 monster?";
+				next;
+				menu "125%",M2_P2_Q5, "150%"M2_P2_Q5, "175%",M2_P2_Q5, "200%",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q5:
+				mes "[Raul]";
+				mes "5. Baby Desert Wolves vs Familiar, which one wins?";
+				next;
+				menu "Baby Desert Wolf",-, "Farmiliar",M2_P2_Q6, "Tie",M2_P2_Q6, "Don't Know",M2_P2_Q6;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q6:
+				mes "[Raul]";
+				mes "6. Which monster can't be tamed as a pet?";
+				next;
+				menu "Poporing",M2_P2_Q7, "Roda Frog",-, "Smokie",M2_P2_Q7, "Poison Spore",M2_P2_Q7;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q7:
+				mes "[Raul]";
+				mes "7. Which monster is weak against fire?.";
+				next;
+				menu "Knife Goblins",M2_P2_Q8, "Mace Goblin",M2_P2_Q8, "Flain Goblin",M2_P2_Q8, "Hammer Goblin",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q8:
+				mes "[Raul]";
+				mes "8. Which monster has the highest magic def?";
+				next;
+				menu "Horong",M2_P2_Q9, "ChonChon",M2_P2_Q9, "Andre",M2_P2_Q9, "Caramel",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q9:
+				mes "[Raul]";
+				mes "9. Pick the monster that doesn't belong.";
+				next;
+				menu "Poring",M2_P2_Q10, "Mastering",M2_P2_Q10, "Ghostring",-, "Spore",M2_P2_Q10;
+					set @wizard_t,@wizard_t + 10;
+			M2_P2_Q10:
+				mes "[Raul]";
+				mes "10. Which is not a undead?";
+				next;
+				menu "Drake",M2_End, "Megalodon",M2_End, "Deviace",-, "Khalitzburg",M2_End;
+					set @wizard_t,@wizard_t + 10;
+					goto M2_End;
+
+//============================ Mission 2 : Wizard Quiz
+		M2_P3_Q1:
+				mes "[Raul]";
+				mes "1. Which is the most important stat?";
+				next;
+				menu "INT",-, "AGI",M2_P3_Q2, "DEX",M2_P3_Q2, "VIT",M2_P3_Q2;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q2:
+				mes "[Rau]";
+				mes "2. Which element doesn't have a bolt spell?";
+				next;
+				menu "Water",M2_P3_Q3, "Earth",-, "Fire",M2_P3_Q3, "Wind",M2_P3_Q3;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q3:
+				mes "[Rau]";
+				mes "3. What is NOT one of the wizard's strong points?";
+				next;
+				menu "Weak physical abilites",M2_P3_Q4, "Distance Attacks",M2_P3_Q4, "Good money maker",-, "High Magic Def",M2_P3_Q4;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q4:
+				mes "[Rau]";
+				mes "4. Which town is the home of mages";
+				next;
+				menu "Prontera",M2_P3_Q5, "Morroc",M2_P3_Q5, "Alberta",M2_P3_Q5, "Geffen",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q5:
+				mes "[Rau]";
+				mes "5. Which card has nothing to do with INT?";
+				next;
+				menu "Andre Card",M2_P3_Q6, "Soldier Andre Card",-, "Baby Desert Wolf Card",M2_P3_Q6, "Elder Willow Card",M2_P3_Q6;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q6:
+				mes "[Rau]";
+				mes "6. What is superior about the mage class compared to others?";
+				next;
+				menu "Close Range Combat",M2_P3_Q7, "High Dodge",M2_P3_Q7, "Dance Skills",M2_P3_Q7, "Magical Power",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q7:
+				mes "[Rau]";
+				mes "7. What is the INT bonus at job lvl 40?";
+				next;
+				menu "8",M2_P3_Q8, "7",M2_P3_Q, "6",M2_P3_Q, "5",-;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q8:
+				mes "[Raul]";
+				mes "8. Which Item can't be equiped by mages?";
+				next;
+				menu "Knife",M2_P3_Q9, "Cap",-, "Sandel",M2_P3_Q9, "Eye of Dullahan",M2_P3_Q9;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q9:
+				mes "[Raul]";
+				mes "9. During the mage test, which stone is one of the Catalysts?";
+				next;
+				menu "Yellow Gemstone",-, "Red Gemstone",M2_P3_Q10, "Blue Gemstone",M2_P3_Q10, "Red Blood",M2_P3_Q10;
+					set @wizard_t,@wizard_t + 10;
+			M2_P3_Q10:
+				mes "[Raul]";
+				mes "10. Which card has nothing to do with magic?";
+				next;
+				menu "Marduk Card",M2_End, "Baek-Rhyun-Oak Card",-, "Willow Card",M2_End, "Maya Card",M2_End;
+					set @wizard_t,@wizard_t + 10;
+
+//============================ Mission 2 : 퀴즈 결과 발표
+	M2_End:
+		mes "[Raul]";
+		mes "Great job, when you get the time afterwards, get something to eat heh.";
+		next;
+		mes "[Raul]";
+		mes "Your score is = " + @wizard_t;
+			if (@wizard_t < 100) goto Got90;
+				set job_wizard_q,5;
+				mes "Wonderful! You've passed the 2nd test.";
+				next;
+				mes "[Raul]";
+				mes "Don't relax yet! There is still a 3rd test left.";
+				mes "While we prepare for the next test, sit and rest a bit.";
+				close;
+		Got90:
+			if (@wizard_t < 90) goto Failed;
+				set job_wizard_q,5;
+				mes "Hmm, you've missed one question, but I'll pass you.";
+				next;
+				mes "[Raul]";
+				mes "Don't relax yet! There is still a 3rd test left.";
+				mes "While we prepare for the next test, sit and rest a bit.";
+				close;
+			Failed:
+				set job_wizard_q,4;
+				mes "Failed, go study more.";
+				next;
+				mes "[Raul]";
+				mes "You're a long way away.";
+				mes "With that low intelligence, you have no chance of surviving as a wizard.";
+				close;
+			endif;
+		end;
+//======== Mission 2 Retry.
+Part5:
+	if (job_wizard_q != 4) goto Part6;
+		mes "[Raul]";
+		mes "Hmph, you want to try again?";
+		next;
+		mes "[Raul]";
+		mes "How can you hate a peaceful life so much?";
+		next;
+		mes "[Raul]";
+		mes "Be that way! If you miss one question, you fail! What do you say!?";
+		next;
+		menu "I want to live in peace..........",TryNo, "I want to continue.",TryYes;
+			TryNo:
+				mes "[Raul]";
+				mes "Good choice.";
+				mes "Wizard is a difficult job, magic was never meant for people to use.";
+				next;
+				mes "[Raul]";
+				mes "Go down and don't look back.";
+				mes "Use what you have now and live in peace.";
+				close;
+				end;
+			TryYes:
+				mes "[Raul]";
+				mes "Heh, another idiot!";
+				mes "Let's see how great you are!";
+				next;
+				goto M2_Start;
+
+//======== Mission 3 대기중, 워프를 타자!
+Part6:
+	if (job_wizard_q != 5) goto Part7;
+		mes "[Raul]";
+		mes "Get some rest?";
+		mes "Now, let's start the last test.";
+		next;
+		mes "[Raul]";
+		mes "I'll make a quick explanation of the test, want to hear it?";
+		next;
+		menu "No thank you.",NoHear, "Please go on",YesHear;
+			NoHear:
+				mes "[Raul]";
+				mes "Ignorant fool, go die!";
+				mes "Your corpse will be left as the monsters' food.";
+				next;
+				set job_wizard_q,6;
+				savepoint "geffen.gat",120,107;
+				mes "[Raul]";
+				mes "Be that way, I'll send you now";
+				mes "Have fun getting slaughtered!";
+				close;
+				warp "job_wiz.gat",57,154;
+				break;
+			YesHear:
+				mes "[Raul]";
+				mes "Good, a smart one, I will explain now";
+				mes "It may be hard, but do as you're asked and you'll pass.";
+				next;
+				mes "[Raul]";
+				mes "Test is in 3 stages";
+				mes "There are rooms in this order, Room of Water, of Earth, and of Fire.";
+				next;
+				mes "[Raul]";
+				mes "There will be monsters of the elements in their respective rooms.";
+				mes "Use the right spells, and it won't be that difficult.";
+				next;
+				mes "[Raul]";
+				mes "Within the time limit, kill all the monsters,";
+				mes "Then kill the monster guarding the exit.";
+				next;
+				mes "[Raul]";
+				mes "Go through the exit and the test will be over.";
+				mes "Succeed and you'll become a master of magic, a wizard.";
+				next;
+				mes "[Raul]";
+				mes "You seem afraid, its not too late to return....";
+				mes "Give up now and you can return to town.";
+				next;
+				menu "I want to take the test.",GO, "IM SCARED~ I WANNA GO HOME >_>",Scared;
+					GO:
+						set job_wizard_q,6;
+						savepoint "geffen.gat",120,107;
+						mes "[Raul]";
+						mes "Kid, you have courage.";
+						mes "We'll start as you wish!!";
+						close;
+						warp "job_wiz.gat",57,154;
+						end;
+					Scared:
+						set job_wizard_q,6;
+						mes "[Raul]";
+						mes "Good choice, it fits you better.";
+						mes "Have a nice peaceful life!";
+						close;
+						warp "geffen.gat",120,110;
+						end;
+//======== Mission 3 Retry!
+Part7:
+	if (job_wizard_q != 6) goto Part8;
+		set @wizard_t,0;
+		mes "[Raul]";
+		mes "You want to take the test AGAIN!?";
+		mes "You love magic THAT much!?";
+		next;
+		mes "[Raul]";
+		mes "You failed, so it's time for a quiz!";
+		mes "If you don't like this, then pass the 3rd test.";
+		next;
+		mes "[Raul]";
+		mes "Let's start now hehe.";
+		next;
+/////Waste of Time Test
+		mes "[Raul]";
+		mes "1. Which monster doesn't exist?";
+		next;
+		menu "Mantis",M3_Q2, "Cunner Tooth",-, "Gierth",M3_Q2, "Caramel",M3_Q2;
+			set @wizard_t,@wizard_t + 20;
+	M3_Q2:
+		mes "[Raul]";
+		mes "2. Which monster is NOT a animal type?";
+		next;
+		menu "Yoyo",M3_Q3, "Bigfoot",M3_Q3, "Metaller",M3_Q3, "Zerom",-;
+			set @wizard_t,@wizard_t + 20;
+	M3_Q3:
+		mes "[Raul]";
+		mes "3. Which monster has no cast sense?";
+		next;
+		menu "Marina",-, "Vitata",M3_Q4, "Scorpion",M3_Q4, "Gierth",M3_Q4;
+			set @wizard_t,@wizard_t + 20;
+	M3_Q4:
+		mes "[Raul]";
+		mes "4. What's a good spell to use on Marin Spheres?";
+		next;
+		menu "Cold Bolt",M3_Q5, "Fire Bolt",M3_Q5, "Lightning Bolt",-, "Stone Curse",M3_Q5;
+			set @wizard_t,@wizard_t + 20;
+	M3_Q5:
+		mes "[Raul]";
+		mes "5. Which monster can move?";
+		next;
+		menu "Hydra",M3_Q6, "Mandragora",M3_Q6, "Greatest General",M3_Q6, "Frilldora",-;
+			set @wizard_t,@wizard_t + 20;
+	M3_Q6:
+		mes "[Raul]";
+		mes "Do it right so I won't have to quiz you again.";
+		next;
+		mes "[Raul]";
+		mes "Your score is " + @wizard_t;
+		if (@wizard_t < 100) goto Got80;
+			mes "If you're so smart, why can't you pass the test >_>";
+			next;
+	Got80:
+		if (@wizard_t == 80) goto Failed2;
+			mes "Kehe, almost perfect.";
+			mes "퀹'll let you try again.";
+			next;
+		Failed2:
+			mes "Failed! Go study more!";
+			next;
+			mes "[Raul]";
+			mes "You aren't fit to be a wizard, why do you think you failed!?";
+			close;
+			end;
+		menu "Let's start!" "Explain the test again please.";
+			case 1;
+				mes "[Raul]";
+				mes "I won't help you even if you die this time.";
+				mes "Don't come crying to me if you fail.........again hehe.";
+				next;
+				percentheal 100,100;
+				mes "[Raul]";
+				mes "I'll send you to the arena now.";
+				mes "Have fun getting your butt whuped!";
+				close;
+				warp "job_wiz.gat",57,154;
+				end;
+			case 2;
+				mes "[Raul]";
+				mes "Cough, I'll give you a briefing then.";
+				mes "Even if it seems hard, just do as you're asked, and you'll pass.";
+				next;
+				mes "[Raul]";
+				mes "The test is in 3 stages.";
+				mes "Water Room, Earth Room, and Fire Room. Each with their respective monsters.";
+				next;
+				mes "[Raul]";
+				mes "The monsters shouldn't be that hard.";
+				mes "Just use the right spells and you'll beat them!";
+				next;
+				mes "[Raul]";
+				mes "Within the time limit, kill all the monsters,";
+				mes "Then kill the monster guarding the exit, then leave.";
+				next;
+				mes "[Raul]";
+				mes "Afterwards, you're done with the test.";
+				mes "You can become a master of magic, a wizard.";
+				next;
+				mes "[Raul]";
+				mes "Heh, you seem afraid.";
+				mes "Give up now and I'll send you back to town.";
+				next;
+				menu "I want to do the test." "I'M AFRAID! SEND ME BACK HOME!! >_>";
+					case 1;
+						percentheal 100,100;
+						mes "[Raul]";
+						mes "Don't make me send you there again!";
+						mes "Pass the test!";
+						close;
+						warp "job_wiz.gat",57,154;
+						break;
+					case 2;
+						mes "[Raul]";
+						mes "Good thought, its much more fitting.";
+						mes "Have a nice and ordinary life!";
+						close;
+						warp "geffen.gat",120,110;
+						break;
+				endchoose;
+			break;
+		endchoose;
+	end;
+//======== Passed!
+Part8:
+	if (job_wizard_q != 7) goto QuitScript;
+		mes "[Raul]";
+		mes "What do you want now?";
+		mes "If you want, I'll let you take the test again, keke.";
+		next;
+		mes "[Raul]";
+		mes "Go, become a wizard.";
+		mes "But be careful! Magic can always destroy you!";
+		close;
+QuitScript:
+		end;
+}
+//================== Arenas ==================
+//======== EVERYONE DIES~ KEKEKEKEK XD===========
+
+//======== Helper
+job_wiz.gat,50,165,4	script	Helper	700,{
+	mes "[Helper]";
+	mes "Welcome to the testing grounds!";
+	mes "Please go to the waiting room..";
+	next;
+	mes "[Helper]";
+	mes "Please wait if there is someone in front of you.";
+	mes "Progress will be announced periodically, so just relax until your turn.";
+	next;
+	mes "[Helper]";
+	mes "1 person usually takes 5 - 10 min.";
+	mes "It shouldn't take too long.";
+	close;
+	end;
+}
+//======== Waiting Room
+job_wiz.gat,50,165,2	script	Waiting Room	700,{
+	OnInit:
+		disablenpc "Waiting Room";
+//		setarenaeventsize 1;
+//   	makewaitingroom "Waiting Room" 20;
+	waitingroom "Waiting Room",20,1,"Waiting Room::OnStartArena";
+//		SetTexJob NOVICE;
+//		SetTexJob SWORDMAN;
+////		SetTexJob MAGICIAN;
+//		SetTexJob ARCHER;
+//		SetTexJob ACOLYTE;
+//		SetTexJob MERCHANT;
+//		SetTexJob THIEF;
+//		SetTexJob KNIGHT;
+//		SetTexJob PRIEST;
+//		SetTexJob WIZARD;
+//		SetTexJob BLACKSMITH;
+//		SetTexJob HUNTER;
+//		SetTexJob ASSASSIN;
+   	enablearena;
+	end;
+
+OnStartArena:
+//	warpwaitingpctoarena "job_wiz.gat" 114 169;
+	warpwaitingpc "job_wiz.gat",114,169;
+	cmdothernpc "Water Room" "On";
+	disablearena;
+	end;
+
+OnCommandOn:
+   	enablearena;
+	end;
+}
+//======== Water Room
+job_wiz.gat,1,1,1	script	Water Room	66,{
+	OnInit:
+		disablenpc "Water Room";
+	end;
+
+	OnCommandOn:
+		enablenpc "Water Room";
+		monster "job_wiz.gat",109,174,"--ja--",PHEN,1,"Water Room";
+		monster "job_wiz.gat",118,174,"--ja--",KUKRE,1,"Water Room";
+		monster "job_wiz.gat",109,165,"--ja--",VADON,1,"Water Room";
+		monster "job_wiz.gat",118,165,"--ja--",CORNUTUS,1,"Water Room";
+		monster "job_wiz.gat",101,157,"--ja--",MARINA,1,"Water Room";
+		monster "job_wiz.gat",126,157,"--ja--",MARIN,1,"Water Room";
+		monster "job_wiz.gat",98,170,"--ja--",KUKRE,1,"Water Room";
+		monster "job_wiz.gat",129,170,"--ja--",OBEAUNE,1,"Water Room";
+		InitTimer;
+		end;
+
+	OnCommandReset:
+		killmonster "job_wiz.gat","Water Room";
+		end;
+
+	OnCommandOff:
+		disablenpc "Water Room";
+		end;
+
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Water Room") > 0) goto NotWin;
+			announce strcharinfo(0) + "Has killed all the monsters!",1;
+			cmdothernpc "Water Room2" "On";
+			stoptimer;
+	   NotWin:
+		end;
+
+	OnTimer1000:
+		announce "Room of Water, testing will begin.",1;
+		end;
+	OnTimer2000:
+		announce "3 min left",1;
+		end;
+	OnTimer3000:
+		announce "Kill all the monsters within the time limit.",1;
+		end;
+	OnTimer33000:
+		announce "2min 30sec left.",1;
+		end;
+	OnTimer63000:
+		announce "2min left",1;
+		end;
+	OnTimer93000:
+		announce "1min 30sec left",1;
+		end;
+	OnTimer123000:
+		announce "1min left.",1;
+		end;
+	OnTimer153000:
+		announce "30sec left.",1;
+		end;
+	OnTimer173000:
+		announce "10 seconds!",1;
+		end;
+	OnTimer183000:
+		announce "Out of Time",1;
+		cmdothernpc "Water Room" "Reset";
+		end;
+	OnTimer184000:
+		cmdothernpc "fail1" "On";
+		end;
+	OnTimer185000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer186000:
+		cmdothernpc "fail1" "Off";
+		cmdothernpc "Water Room" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//======== Door Guard for Water
+job_wiz.gat,1,2,1	script	Water Room2	66,{
+	OnInit:
+		disablenpc "Water Room2";
+		end;
+	OnCommandOn:
+		enablenpc "Water Room2";
+		cmdothernpc "Water Room2" "Reset";
+		cmdothernpc "Water Room2" "Off";
+		monster "job_wiz.gat",114,169,"--ja-","MARINE_SPHERE",1,"Water Room2";
+		monster "job_wiz.gat",112,169,"--ja-","HYDRA",1,"Water Room2";
+		monster "job_wiz.gat",116,169,"--ja-","HYDRA",1,"Water Room2";
+		monster "job_wiz.gat",114,171,"--ja-","HYDRA",1,"Water Room2";
+		monster "job_wiz.gat",114,167,"--ja-","HYDRA",1,"Water Room2";
+		InitTimer;
+		end;
+	OnCommandReset:
+		killmonster "job_wiz.gat","Water Room2";
+		end;
+	OnCommandOff:
+		disablenpc "Water Room2";
+		end;
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Water Room2") > 0) goto NotWin;
+			announce strcharinfo(0) + "has succenssfully defeated the guards!",1;
+			warp "job_wiz.gat",116,97;
+			cmdothernpc "Water Room2" "Reset";
+			cmdothernpc "Water Room2" "Off";
+			cmdothernpc "Earth Room" "On";
+			stoptimer;
+	   NotWin:
+		end;
+	OnTimer1000:
+		announce "The gate guards have appeared! 1 min left!",1;
+		end;
+	OnTimer30000:
+		announce "30sec left!",1;
+		end;
+	OnTimer50000:
+		announce "10sec left!",1;
+		end;
+	OnTimer60000:
+		announce "Out of time!",1;
+		cmdothernpc "Water Room2" "Reset";
+		end;
+	OnTimer61000:
+		cmdothernpc "fail1" "On";
+		end;
+	OnTimer62000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer63000:
+		cmdothernpc "fail1" "Off";
+		cmdothernpc "Water Room2" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//======== Room of Water, failed, warp back
+job_wiz.gat,114,169,0	script	fail1	139,16,16,{
+		announce strcharinfo(0) + "has failed the test!",1;
+		warp "geffen.gat",120,110;
+		end;
+
+	OnInit:
+		disablenpc "fail1";
+		end;
+	OnCommandOn:
+		enablenpc "fail1";
+		end;
+	OnCommandOff:
+		disablenpc "fail1";
+		end;
+}
+//======== Earth Room
+job_wiz.gat,1,3,1	script	Earth Room	66,{
+	OnInit:
+		disablenpc "Earth Room";
+		end;
+	OnCommandOn:
+		enablenpc "Earth Room";
+		percentheal 100,100;
+		monster "job_wiz.gat",111,102,"--ja-","YOYO",1,"Earth Room";
+		monster "job_wiz.gat",120,102,"--ja-","DENIRO",1,"Earth Room";
+		monster "job_wiz.gat",111,102,"--ja-","CARAMEL",1,"Earth Room";
+		monster "job_wiz.gat",120,102,"--ja-","HODE",1,"Earth Room";
+		monster "job_wiz.gat",111,93,"--ja-","SAVAGE",1,"Earth Room";
+		monster "job_wiz.gat",120,93,"--ja-","GIEARTH",1,"Earth Room";
+		monster "job_wiz.gat",107,98,"--ja-","BIGFOOT",1,"Earth Room";
+		monster "job_wiz.gat",124,98,"--ja-","ORK_WARRIOR",1,"Earth Room";
+		monster "job_wiz.gat",104,86,"--ja-","VITATA",1,"Earth Room";
+		monster "job_wiz.gat",127,86,"--ja-","MANTIS",1,"Earth Room";
+		InitTimer;
+		end;
+	OnCommandReset:
+		killmonster "job_wiz.gat","Earth Room";
+		end;
+	OnCommandOff:
+		disablenpc "Earth Room";
+		end;
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Earth Room") > 0) goto NotWin;
+			announce strcharinfo(0) + "Has successfully killed all monsters!",1;
+			cmdothernpc "Earth Room2" "On";
+			stoptimer;
+	   NotWin:
+		end;
+	OnTimer1000:
+		announce "Room of Earth, test will begin.",1;
+		end;
+	OnTimer2000:
+		announce "3 min left",1;
+		end;
+	OnTimer3000:
+		announce "Kill all the monsters within the time limit.",1;
+		end;
+	OnTimer33000:
+		announce "2min 30sec left.",1;
+		end;
+	OnTimer63000:
+		announce "2min left",1;
+		end;
+	OnTimer93000:
+		announce "1min 30sec left",1;
+		end;
+	OnTimer123000:
+		announce "1min left.",1;
+		end;
+	OnTimer153000:
+		announce "30sec left.",1;
+		end;
+	OnTimer173000:
+		announce "10 seconds!",1;
+		end;
+	OnTimer183000:
+		announce "Out of Time",1;
+		cmdothernpc "Earth Room" "Reset";
+		end;
+	OnTimer184000:
+		cmdothernpc "fail2" "On";
+		end;
+	OnTimer185000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer186000:
+		cmdothernpc "fail2" "Off";
+		cmdothernpc "Earth Room" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//======== Gate Guards for earth
+job_wiz.gat,1,4,1	script	Earth Room2	66,{
+	OnInit:
+		disablenpc "Earth Room2";
+		end;
+	OnCommandOn:
+		enablenpc "Earth Room2";
+		cmdothernpc "Earth Room2" "Reset";
+		cmdothernpc "Earth Room" "Off";
+		monster "job_wiz.gat",116,97,"--ja-","FLORA",1,"Earth Room2";
+		monster "job_wiz.gat",114,95,"--ja-","MANDRAGORA",1,"Earth Room2";
+		monster "job_wiz.gat",118,98,"--ja-","MANDRAGORA",1,"Earth Room2";
+		monster "job_wiz.gat",114,99,"--ja-","MANDRAGORA",1,"Earth Room2";
+		monster "job_wiz.gat",118,99,"--ja-","MANDRAGORA",1,"Earth Room2";
+		monster "job_wiz.gat",116,94,"--ja-","MANDRAGORA",1,"Earth Room2";
+		monster "job_wiz.gat",116,100,"--ja-","MANDRAGORA",1,"Earth Room2";
+		InitTimer;
+		end;
+	OnCommandReset:
+		killmonster "job_wiz.gat","Earth Room2";
+		end;
+	OnCommandOff:
+		disablenpc "Earth Room2";
+		end;
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Earth Room") > 0) goto NotWin;
+			announce strcharinfo(0) + "Has defeated the gate guards!",1;
+			warp "job_wiz.gat",46,99;
+			cmdothernpc "Earth Room2" "Reset";
+			cmdothernpc "Earth Room2" "Off";
+			cmdothernpc "Fire Room" "On";
+			stoptimer;
+	   NotWin:
+		end;
+	OnTimer1000:
+		announce "The gate guards have appeared! 1 min left!",1;
+		end;
+	OnTimer30000:
+		announce "30sec left!",1;
+		end;
+	OnTimer50000:
+		announce "10sec left!",1;
+	OnTimer60000:
+		announce "Out of time!",1;
+		cmdothernpc "Earth Room2" "Reset";
+		end;
+	OnTimer61000:
+		cmdothernpc "fail2" "On";
+		end;
+	OnTimer62000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer63000:
+		cmdothernpc "fail2" "Off";
+		cmdothernpc "Earth Room2" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//======== Warp out of earth room, fail
+job_wiz.gat,116,97,0	script	fail2	139,16,16,{
+		announce strcharinfo(0) + "has failed the test.",1;
+		warp "geffen.gat",120,110;
+		end;
+	OnInit:
+		disablenpc "fail2";
+		end;
+	OnCommandOn:
+		enablenpc "fail2";
+		end;
+	OnCommandOff:
+		disablenpc "fail2";
+		end;
+}
+//======== Room of Fire
+job_wiz.gat,1,5,1	script	Fire Room	66,{
+	OnInit:
+		disablenpc "Fire Room";
+		end;
+	OnCommandOn:
+		enablenpc "Fire Room";
+		percentheal 100,100;
+		monster "job_wiz.gat",58,110,"--ja-","ZEROM",1,"Fire Room";
+		monster "job_wiz.gat",33,110,"--ja-","GOBLIN_2",1,"Fire Room";
+		monster "job_wiz.gat",40,103,"--ja-","SCORPION",1,"Fire Room";
+		monster "job_wiz.gat",51,103,"--ja-","FRILLDORA",1,"Fire Room";
+		monster "job_wiz.gat",40,92,"--ja-","PECOPECO",1,"Fire Room";
+		monster "job_wiz.gat",51,92,"--ja-","ELDER_WILOW",1,"Fire Room";
+		monster "job_wiz.gat",37,89,"--ja-","METALLER",1,"Fire Room";
+		monster "job_wiz.gat",54,89,"--ja-","DESERT_WOLF",1,"Fire Room";
+		InitTimer;
+		end;
+	OnCommandReset:
+		killmonster "job_wiz.gat","Fire Room";
+		end;
+	OnCommandOff:
+		disablenpc "Fire Room";
+		end;
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Fire Room") > 0) goto NotWin;
+			announce strcharinfo(0) + "Has killed all the monsters.",1;
+			cmdothernpc "Fire Room2" "On";
+			stoptimer;
+	   NotWin:
+		end;
+	OnTimer1000:
+		announce "Room of Fire, test will begin.",1;
+		end;
+	OnTimer2000:
+		announce "3 min left",1;
+		end;
+	OnTimer3000:
+		announce "Kill all the monsters within the time limit.",1;
+		end;
+	OnTimer33000:
+		announce "2min 30sec left.",1;
+		end;
+	OnTimer63000:
+		announce "2min left",1;
+		end;
+	OnTimer93000:
+		announce "1min 30sec left",1;
+		end;
+	OnTimer123000:
+		announce "1min left.",1;
+		end;
+	OnTimer153000:
+		announce "30sec left.",1;
+		end;
+	OnTimer173000:
+		announce "10 seconds!",1;
+		end;
+	OnTimer183000:
+		announce "Out of Time",1;
+		cmdothernpc "Fire Room" "Reset";
+		end;
+	OnTimer184000:
+		cmdothernpc "fail3" "On";
+		end;
+	OnTimer185000:
+		announce "Next in line, please enter",1;
+		end;
+	OnTimer186000:
+		cmdothernpc "fail3" "Off";
+		cmdothernpc "Fire Room" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//======== Gate Guards for Fire
+job_wiz.gat,1,6,1	script	Fire Room2	66,{
+	OnInit:
+		disablenpc "Fire Room2";
+		end;
+	OnCommandOn:
+		enablenpc "Fire Room2";
+		cmdothernpc "Fire Room2" "Reset";
+		cmdothernpc "Fire Room" "Off";
+		monster "job_wiz.gat",44,99,"--ja-","GREATEST_GENERAL",1,"Fire Room2";
+		monster "job_wiz.gat",43,99,"--ja-","HORONG",1,"Fire Room2";
+		monster "job_wiz.gat",45,99,"--ja-","HORONG",1,"Fire Room2";
+		InitTimer;
+		end;
+	OnCommandReset:
+		killmonster "job_wiz.gat","Fire Room2";
+		end;
+	OnCommandOff:
+		disablenpc "Fire Room2";
+		end;
+	OnMyMobDead:
+		if (mobcount("job_wiz.gat","Fire Room2") > 0) goto NotWin;
+			announce "Congratulations, " + strcharinfo(0) + ". You passed the test!",1;
+			set job_wizard_q,7;
+			cmdothernpc "Fire Room2" "Reset";
+			cmdothernpc "Fire Room2" "Off";
+			cmdothernpc "Helper2" "On";
+			stoptimer;
+	   NotWin:
+		end;
+	OnTimer1000:
+		announce "Gate guards have appeared! 2 min left!.",1;
+		end;
+	OnTimer30000:
+		announce "1min 30sec left!",1;
+		end;
+	OnTimer60000:
+		announce "1min left!",1;
+		end;
+	OnTimer90000:
+		announce "30sec left!",1;
+		end;
+	OnTimer110000:
+		announce "10sec left!",1;
+		end;
+	OnTimer120000:
+		announce "Out of time!",1;
+		cmdothernpc "Fire Room2" "Reset";
+		end;
+	OnTimer121000:
+		cmdothernpc "fail3" "On";
+		end;
+	OnTimer122000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer123000:
+		cmdothernpc "fail3" "Off";
+		cmdothernpc "Fire Room2" "Off";
+		cmdothernpc "Waiting Room" "On";
+		end;
+}
+//========failed fire. warp
+job_wiz.gat,46,99,0	script	fail3 	139,16,16,{
+		warp "geffen.gat",120,110;
+		end;
+	OnInit:
+		disablenpc "fail3";
+		end;
+	OnCommandOn:
+		enablenpc "fail3";
+		end;
+	OnCommandOff:
+		disablenpc "fail3";
+		end;
+}
+//========Fire Room = Success
+job_wiz.gat,46,99,0	script	Success	139,16,16,{
+		warp "gef_tower.gat",110,30;
+		end;
+	OnInit:
+		disablenpc "Success";
+		end;
+	OnCommandOn:
+		enablenpc "Success";
+		end;
+	OnCommandOff:
+		disablenpc "Success";
+		end;
+}
+//======== Announcer
+job_wiz.gat,1,7,1	script	helper2	66,{
+	OnInit:
+		disablenpc "helper2";
+		end;
+	OnCommandOn:
+		InitTimer;
+		end;
+	OnCommandOff:
+		disablenpc "helper2";
+		end;
+	OnTimer2000:
+		announce "Please try again.",1;
+		end;
+	OnTimer4000:
+		announce "The test is now over, next in line, please enter.",1;
+		end;
+	OnTimer5000:
+		cmdothernpc "Success" "On";
+		end;
+	OnTimer6000:
+		cmdothernpc "Success" "Off";
+		end;
+	OnTimer7000:
+		announce "Next in line, please enter.",1;
+		end;
+	OnTimer9000:
+		cmdothernpc "helper2" "Off";
+		cmdothernpc "Waiting Room" "On";
+		stoptimer;
+		end;
+}

@@ -1,0 +1,288 @@
+//===== Cronus Script ======================================== 
+//= Mestra das Classes
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.3.1
+//===== Descrição: =========================================== 
+//= Muda a classe do personagem
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.1 Corrigido o erro de Dup Label
+//= 1.2 Corrigido o mes
+//= 1.3 Corrigido o label L_mer [Kamper]
+//= 1.3.1 Adaptado para o novo sistema de classes [Mehah]
+//============================================================
+prontera.gat,153,186,5	script	Mestra das Classes	101,{
+
+// ======================================== Configuração =============================================
+set @SupAprLvl, 45; // Nível de Base necessário para se transformar em Super aprendiz (Default : 45)
+set @ZenyReq1, 0; // Dinheiro necessário para pagar a transformação de classes 1-1 (Default : 0)
+set @ZenyReq2, 0; // Dinheiro necessário para pagar a transformação de classes 2-1 e 2-2 (Default : 0)
+set @ZenyReqS, 0; // Dinheiro necessário para pagar a transformação de Super Aprendiz (Default : 0)
+// ===================================================================================================
+
+	if(Class == 0) goto L_Aprendiz;
+	if(Class > 6) show "Você já chegou ao final das classes, me desculpa mas não posso fazer nada por você";
+	if(Class > 6) close;
+	goto L_Prim;
+
+	L_Aprendiz:
+		if(JobLevel < 10) goto JobError1;
+		if(SkillPoint != 0) goto SkillError;
+		show "Qual classe deseja se transformar?";
+		next;
+		if(sex ==1) menu ""+callfunc("classname",3,"S","M")+"",L_arq,""+callfunc("classname",6,"S","M")+"",L_gat,""+callfunc("classname",1,"S","M")+"",L_esp,""+callfunc("classname",5,"S","M")+"",L_mer,""+callfunc("classname",4,"S","M")+"",L_nov,""+callfunc("classname",2,"S","M")+"",L_mag,""+callfunc("classname",23,"S","M")+"",L_sup;
+		if(sex ==0) menu ""+callfunc("classname",3,"S","F")+"",L_arq,""+callfunc("classname",6,"S","F")+"",L_gat,""+callfunc("classname",1,"S","F")+"",L_esp,""+callfunc("classname",5,"S","F")+"",L_mer,""+callfunc("classname",4,"S","F")+"",L_nov,""+callfunc("classname",2,"S","F")+"",L_mag,""+callfunc("classname",23,"S","F")+"",L_sup;
+	L_Prim:
+		if(JobLevel < 40) goto JobError2;
+		if(SkillPoint != 0) goto SkillError;
+		show "Qual classe deseja se transformar?";
+		next;
+		if(BaseJob == Job_Archer && Sex == 1) menu ""+callfunc("classname",11,"S","M")+"",L_cac,""+callfunc("classname",19,"S","M")+"",L_bar;
+		if(BaseJob == Job_Archer && Sex == 0) menu ""+callfunc("classname",11,"S","F")+"",L_cac,""+callfunc("classname",19,"S","F")+"",L_oda;
+		if(BaseJob == Job_Thief && Sex == 1) menu ""+callfunc("classname",12,"S","M")+"",L_mer2,""+callfunc("classname",17,"S","M")+"",L_arr;
+		if(BaseJob == Job_Thief && Sex == 0) menu ""+callfunc("classname",12,"S","F")+"",L_mer2,""+callfunc("classname",17,"S","F")+"",L_arr;
+		if(BaseJob == Job_Swordman && Sex == 1) menu ""+callfunc("classname",7,"S","M")+"",L_cav,""+callfunc("classname",14,"S","M")+"",L_tem;
+		if(BaseJob == Job_Swordman && Sex == 0) menu ""+callfunc("classname",7,"S","F")+"",L_cav,""+callfunc("classname",14,"S","F")+"",L_tem;
+		if(BaseJob == Job_Merchant && Sex == 1) menu ""+callfunc("classname",10,"S","M")+"",L_fer,""+callfunc("classname",18,"S","M")+"",L_alq;
+		if(BaseJob == Job_Merchant && Sex == 0) menu ""+callfunc("classname",10,"S","F")+"",L_fer,""+callfunc("classname",18,"S","F")+"",L_alq;
+		if(BaseJob == Job_Acolyte && Sex == 1) menu ""+callfunc("classname",8,"S","M")+"",L_sac,""+callfunc("classname",15,"S","M")+"",L_mon;
+		if(BaseJob == Job_Acolyte && Sex == 0) menu ""+callfunc("classname",8,"S","F")+"",L_sac,""+callfunc("classname",15,"S","F")+"",L_mon;
+		if(BaseJob == Job_Mage && Sex == 1) menu ""+callfunc("classname",9,"S","M")+"",L_bru,""+callfunc("classname",16,"S","M")+"",L_sab;
+		if(BaseJob == Job_Mage && Sex == 0) menu ""+callfunc("classname",9,"S","F")+"",L_bru,""+callfunc("classname",16,"S","F")+"",L_sab;
+
+// Classes 1-1
+L_arq:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 3;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+L_gat:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 6;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+L_esp:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 1;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+L_mer:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 5;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+L_nov:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 4;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+L_mag:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq1 > 0) show "Custa "+ @ZenyReq1 +" Zeny!";
+	if(Zeny < @ZenyReq1) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 2;
+	set zeny, Zeny - @ZenyReq1;
+	close;
+
+// Classe Super Aprendiz
+L_sup:
+	if(BaseLevel < @SupAprLvl) goto LevelErro;
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReqS > 0) show "Custa "+ @ZenyReqS +" Zeny!";
+	if(Zeny < @ZenyReqS) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 23;
+	set zeny, Zeny - @ZenyReqS;
+	close;
+
+LevelErro:
+	show "[Mestra das Classes]";
+	show "Desculpe, mas você precisa de Nível Base "+ @SupAprLvl;
+	close;
+
+// Classes 2-1
+L_cav:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 7;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_bru:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 9;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_cac:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 11;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_sac:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 8;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_fer:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 10;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_mer2:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 12;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+// Classes 2-2
+L_tem:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 14;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_sab:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 16;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_bar:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 19;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_oda:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 20;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_mon:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 15;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_alq:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 18;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+L_arr:
+	show "[Mestra das Classes]";
+	show "Você tem certeza?";
+	if(@ZenyReq2 > 0) show "Custa "+ @ZenyReq2 +" Zeny!";
+	if(Zeny < @ZenyReq2) goto ZenyErro;
+	menu "Não",L_sair,"Sim",-;
+	setjob 17;
+	set zeny, Zeny - @ZenyReq2;
+	close;
+
+// Final
+JobError1:
+	show "[Mestra das Classes]";
+	show "Desculpe, mas você precisa chegar ao nível de classe 10!";
+	close;
+
+JobError2:
+	show "[Mestra das Classes]";
+	show "Desculpe, mas você precisa chegar ao nível de classe 40!";
+	close;
+
+SkillError:
+	show "[Mestra das Classes]";
+	show "Desculpe, mas você precisa gastar todos os seus pontos de habilidades...";
+	close;
+
+ZenyErro:
+	show "[Mestra das Classes]";
+	show "Desculpe, mas você não tem o dinheiro necessário!";
+	close;
+
+L_sair:
+	close;
+}

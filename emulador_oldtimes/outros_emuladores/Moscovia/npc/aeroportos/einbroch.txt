@@ -1,0 +1,106 @@
+//===== Cronus Script ========================================
+//= Serviçais do Aeroporto de Einbroch
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Versão Atual: ======================================== 
+//= 1.6/1.3
+//===== Descrição: ===========================================
+//= 1.4 Iniciado Tradução [UpTroni]
+//= 1.5 Revisão [Ewerton]
+//= 1.6 Corrigido textos [Kamper]
+//============================================================
+
+
+airport,126,43,4	script	Equipe do Aeroporto#01::AirportE	90,{
+	show "[Equipe do Aeroporto]";
+	show "Bem Vindo ao Aeroporto.";
+	show "Como eu posso ajudá-lo?";
+	next;
+	menu "Embarcar no Aeroplano",-,"Cancelar",L_Cancel;
+
+		show "[Equipe do Aeroporto]";
+		show "A taxa de embarque do Aeroplano";
+		show "é de 1,200 zeny, mas se você tem";
+		show "um Bilhete para Aeroplano,";
+		show "a taxa não será cobrada.";
+		show "Você vai embarcar no Aeroplano?";
+		next;
+		menu "Sim",-,"Não",L_Cancel;
+
+		if(countitem(7311) > 0) goto L_GotTicket;
+		if(Zeny < 1200) goto L_NoZeny;
+			set Zeny, Zeny - 1200;
+			warp "airport",148,51;
+			close;
+
+		L_GotTicket:
+			delitem 7311,1;
+			warp "airport",148,51;
+			close;
+
+	L_NoZeny:
+		show "[Equipe do Aeroporto]";
+		show "Você não tem Zeny suficiente.";
+		close;
+
+	L_Cancel:
+		show "[Equipe do Aeroporto]";
+		show "Obrigado e tenha";
+		show "um bom dia.";
+		close;
+}
+
+airport,143,43,4	duplicate(AirportE)	Equipe do Aeroporto#02	90
+airport,156,43,4	duplicate(AirportE)	Equipe do Aeroporto#03	90
+
+airport,126,51,4	script	Equipe do Aeroporto#04::AirportE2	90,{
+	show "[Equipe do Aeroporto]";
+	show "Bem vindo~";
+	show "Por favor siga por este";
+	show "caminho para embarcar no Aeroplano.";
+	next;
+	menu "Sair do Terminal Principal",-,"Cancelar",L_Cancel;
+
+		show "[Equipe do Aeroporto]";
+		show "Se você deixar o";
+		show "Terminal Principal, você";
+		show "terá que pagar a taxa de entrada";
+		show "novamente para embarcar no";
+		show "Aeroplano. Você tem certeza";
+		show "que deseja sair?";
+		next;
+		menu "Sim",-,"Não",L_Cancel;
+
+			warp "airport",142,40;
+			close;
+
+	L_Cancel:
+		show "[Equipe do Aeroporto]";
+		show "Tudo bem, obrigado";
+		show "por ser nosso cliente";
+		show "e eu espero que você";
+		show "tenha um vôo agradável~";
+		close;
+}
+
+airport,143,51,4	duplicate(AirportE2)	Equipe do Aeroporto#05	90
+airport,156,51,4	duplicate(AirportE2)	Equipe do Aeroporto#06	90
+
+einbroch,94,267,4	script	Equipe do Aeroporto	91,{
+	show "[Equipe do Aeroporto]";
+	show "Bem vindo ao";
+	show "Bem vindo ao Aeroporto de Einbroch.";
+	show "Por favor use esta porta para";
+	show "embarcar no Aeroplano com paradas";
+	show "em Lighthalzen e Juno na";
+	show "República de Schwaltzvalt";
+	next;
+	show "[Equipe do Aeroporto]";
+	show "Por outro lado, se Einbroch é";
+	show "o seu destino, por favor";
+	show "desca a escada e fale";
+	show "com os funcionários da chegada para o conduzir";
+	show "até o Terminal Principal. Obrigado,";
+	show "e aproveite sua viagem.";
+	close;
+}

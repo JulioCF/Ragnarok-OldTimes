@@ -1,0 +1,54 @@
+//===== Cronus Script ================================================= 
+//= Garota Negociante
+//===== Por: ==========================================================
+//= Mehah
+//===== Versão Atual: ================================================= 
+//= 1.2
+//===== Descrição: ==================================================== 
+//= Dá gratuitamente Falcões, PecoPecos e Carrinhos
+//===== Changelog: ====================================================
+//= 1.2 Corrigido checagem do SuperBaby e posto para ignora basejob de Bardo e Odalisca [Mehah]
+//=====================================================================
+
+prontera,130,196,5	script	Garota Negociante	90,{
+	show "[Garota Negociante]";
+	show "Olá, aqui você pode pegar Carrinhos, Falcões ou Pecopecos depedendo da sua vocação.";
+	next;	
+	if(BaseClass == Job_Merchant || BaseJob == Job_SuperNovice)
+		select("Pegar Carrinho","Sair");
+	else if(BaseJob != Job_Archer && BaseJob != Job_Bard && BaseJob != Job_Dancer && BaseClass == Job_Archer)
+		select("Pegar falcão","Sair");
+	else if(BaseJob != Job_Swordman && BaseClass == Job_Swordman)
+		select("Pegar Pecopeco","Sair");
+	else
+		set @menu,3;
+	switch(@menu){
+		show "[Garota Negociante]";
+		case 1:
+			if(!checkcart() && getskilllv(39))
+				setcart;
+			else
+			if(!checkfalcon() && getskilllv(127))
+				setfalcon;
+			else
+			if(!checkriding() && getskilllv(63))
+				setriding;
+			else{
+				if(checkcart()) show "Você já possui Carrinho."; else
+				if(checkfalcon()) show "Você já possui Falcon."; else
+				if(checkriding()) show "Você já possui PecoPeco."; else
+				show "Desculpe, você não possui a habilidade requerida.";
+				close;
+			}
+			show "Volte quando necessitar novamente dos meus serviços.";
+			close;
+			
+		case 2:
+			show "Por favor, quando estiver pronto fale comigo novamente.";
+			close;
+			
+		case 3:
+			show "Desculpe, mas eu não posso ajuda-lo.";
+			close;
+	}
+}

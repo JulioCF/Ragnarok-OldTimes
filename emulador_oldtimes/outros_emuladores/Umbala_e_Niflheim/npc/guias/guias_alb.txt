@@ -1,0 +1,125 @@
+//===== Cronus Script ======================================= 
+//= Guia de Alberta
+//===== Por: ================================================== 
+//= Radaway
+//===== Versão Atual: ===================================== 
+//= 1.0
+//===== Compativel ===================================== 
+//= Cronus [172]
+//===== Description: ========================================= 
+//= Guia de Alberta
+//===== Comentarios Adicionais: ================================= 
+//= Tradução
+//= 1.0 Traduzido por Radaway
+//============================================================ 
+
+//Norte
+alberta.gat,23,238,4	script	Guia::guias_alb	105,{
+	cutin "prt_soldier",2;
+	show "[Guia de Alberta]";
+	show "Bem-vindo à Alberta,";
+	show "a cidade portuária.";
+	show "Nós estamos aqui para ajudar os";
+	show "visitantes da cidade. Se você tem";
+	show "alguma dúvida, consulte-nos.";
+	show "Se esta é a sua primeira vez";
+	show "utilizando um guia, por favor";
+	show "selecione 'tutorial'.";
+L_MENU:
+	next;
+	menu "Indicações",L_CITY,"Limpar indicações",L_REMOVE,"Tutorial",L_NOTICE,"Cancelar",L_END;
+L_CITY:
+	show "[Guia de Alberta]";
+  	show "Por favor, selecione uma das";
+  	show "opções";
+  	show "no seguinte menu.";
+  	show "Você gostaria que as indicações";
+ 	show "permaneçam no Mini-Mapa?";
+  	menu "Sim.",L_YES,"Não.",L_NO;
+L_NO:
+  		set @COMPASS_CHECK,0;
+	goto L_CONT;
+L_YES:
+  		set @COMPASS_CHECK,1;
+L_CONT:
+L_MENU_2:
+	menu "^FF0000Guilda dos "+callfunc("classname",5,1,1)+".^000000",L_MERCHANT,"Loja de Armas.",L_WEAPON,"Loja de Ferramentas.",L_TOOL,"Estalagem.",L_INN,"Cancelar",L_CANCELAR;
+L_CANCELAR:	
+	show "[Guia de Alberta]";
+ 	show "Por favor, selecione uma das";
+ 	show "opções.";
+ 	goto L_MENU;
+L_MERCHANT:
+	show "[Guia de Alberta]";
+	show "A Guilda dos "+callfunc("classname",5,1,1)+" é o lugar";
+	show "onde "+callfunc("classname",0,1,1)+" podem tornar-se";
+	show ""+callfunc("classname",5,1,1)+".";
+	show "Ela se encontra ao";
+	show "sudoeste da cidade";
+	viewpoint 1,33,41,1,0xFF0000;
+	next; 
+	goto L_WIPE;
+L_WEAPON:
+	show "[Guia de Alberta]";
+	show "A 'Loja de Armas'";
+	show "se encontra no";
+	show "sul da cidade.";
+	viewpoint 1,117,37,2,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_TOOL:
+	show "[Guia de Alberta]";
+	show "A 'Loja de Ferramentas' se encontra";
+	show "bem no centro da cidade.";
+	viewpoint 1,98,154,3,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_INN:
+	show "[Guia de Alberta]";
+	show "A 'Estalagem' se encontra no ";
+	show "norte da cidade";
+	viewpoint 1,65,233,4,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_WIPE:
+ 		if(@COMPASS_CHECK == 1)goto L_MENU_2;
+		viewpoint 2,33,41,1,0xFF0000;
+		viewpoint 2,117,37,2,0xFF00FF;
+		viewpoint 2,98,154,3,0xFF00FF;
+		viewpoint 2,65,233,4,0xFF00FF;
+		viewpoint 2,33,41,5,0xFF00FF;
+	goto L_MENU_2;
+L_REMOVE:
+		viewpoint 2,33,41,1,0xFF0000;
+		viewpoint 2,117,37,2,0xFF00FF;
+		viewpoint 2,98,154,3,0xFF00FF;
+		viewpoint 2,65,233,4,0xFF00FF;
+		viewpoint 2,33,41,5,0xFF00FF;
+  	goto L_MENU;
+L_NOTICE:
+ 	show "[Guia de Alberta]";
+ 	show "Nós fomos exaustivamente treinados";
+ 	show "para servi-lo da melhor maneira";
+ 	show "possivel e sem falhas.";
+ 	show "Assim você tem a garantia das";
+  	show "melhores indicações possiveis.";
+  	next;
+  	show "[Guia de Alberta]";
+  	show "As indicações que lhe daremos podem";
+  	show "ser marcadas no seu Mini-Mapa.";
+  	show "Para visualizar o seu Mini-Mapa,";
+  	show "aperte 'Ctrl+Tab', ou clique no";
+  	show "botão 'mapa' no menu principal.";
+  	show "Controle o seu 'zoom' no Mini-Mapa";
+	show "por meio dos símbolos '+'e'-'.";
+  	goto L_MENU;
+L_END:
+ 	show "[Guia de Alberta]";
+ 	show "Espero que você tenha uma jornada";
+ 	show "segura e aproveite sua estadia.";
+	cutin "prt_soldier",255; 
+ 	close;
+}
+
+// South --------------------------------------------------------
+alberta.gat,120,60,3	duplicate(guias_alb)	Guia#2	105

@@ -1,0 +1,66 @@
+//Loud Roar
+alberta.gat,83,96,5	script	Brynolf	98,{
+
+	if ((Class == Job_Merchant) && (JobLevel < 15)) goto LStartLowlv;
+	if (!((Class == Job_Merchant) || (Class == Job_Blacksmith) || (Class == Job_Alchem))) goto LStartOther;
+	if (getskilllv(155)>0) goto LStartTwice;
+	if ((countitem(722)>=7) && (countitem(532)>=1) && (countitem(921)>=50)) goto L3;
+Lstart:
+	mes "[Brynolf]";
+	mes "Hi I'm the master of";
+	mes "^0033FFLoud Exclamation^000000.";
+	mes "I can teach it to you if you help";
+	mes "me get some items!";
+	next;
+	mes "[Brynolf]";
+	mes "The items I need are:";
+	mes "- 7 ^FF0000Pearls^000000";
+	mes "- 1 ^FF0000Banana juice^000000";
+	mes "- 50 ^FF0000Mushroom spores^000000";
+	mes "Now go out and hunt som items for me!";
+	close;
+L3:
+	mes "[Brynolf]";
+	mes "Oh You've gathered the items!";
+	mes "Now I'll reward you with the";
+	mes "skill 'cause that's what you";
+	mes "want, right?";
+	next;
+	menu "Of course!!!!",L1_1,"Of course not!!!!",L1_2;
+L1_1:
+	 	mes "[Brynolf]";
+	 	mes "Ok then!";
+	 	next;
+		delitem 722,7;
+		delitem 532,1;
+		delitem 921,50;
+		skill 155,1,0;
+	 	mes "[Brynolf]";
+	 	mes "Now you're an official user";
+	 	mes "of the skill ^0033FFLoud Exclamation^000000";
+	 	mes "CONGRATZ!";
+	 	close;
+L1_2:
+	 	mes "[Brynolf]";
+	 	mes "Oh? I guess that's fine with me.";
+	 	mes "Thou I'm a little bit hurt...";
+		mes "Go away I don't like you anymore!";
+	 	close;
+LStartLowlv:
+	mes "[Brynolf]";
+	mes "Oh I think you're a bit";
+	mes "inexperienced to learn anything";
+	mes "from me, come back later!";
+	close;
+LStartOther:
+	mes "[Brynolf]";
+	mes "I'm sorry you just don't have";
+	mes "what it takes to learn this skill!";
+	close;
+LStartTwice:
+	mes "[Brynolf]";
+	mes "Hey! It's you again?";
+	mes "I'm afraid I taught you everything";
+	mes "I know.";
+	close;
+}

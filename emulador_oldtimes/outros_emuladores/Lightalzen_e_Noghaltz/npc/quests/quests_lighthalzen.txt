@@ -1,0 +1,2606 @@
+//===== Cronus Script =======================================
+//= Quests de Lighthalzen
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.2
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quests relativa ao episódio Lighthalzen
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido e adaptado	[Page]
+//= 1.1 Corrigido pequeno erro de adaptação [Page]
+//===========================================================
+
+lighthalzen.gat,1,1,7	script	sneakAddSuber	-1,{
+OnInit:
+	set $@sneakchance, 3;	// chance of successful sneak(0 = never, 10 = always)
+	set $@sneakguard, 0;	// numbers of people who sneaked past guard
+	set $@threshold, 10;	// numbers of sneakers before mob appears
+	set $@mob, 50;		// Max respawn numbers of "mobsters"
+	set $@mobcount, 0;	// current numbers of "mobsters"
+	set $@lhz_alert, 0;	// Alert on Lighthalzen(0 = off, 1 = on)
+	set $@i, 0;
+	
+	end;
+
+OnMinute00:
+OnMinute05:
+OnMinute10:
+OnMinute15:
+OnMinute20:
+OnMinute25:
+OnMinute30:
+OnMinute35:
+OnMinute40:
+OnMinute45:
+OnMinute50:
+OnMinute55:
+	if($@lhz_alert == 0) set $@sneakguard, $@sneakguard + rand(1,3);
+	if($@lhz_alert == 1) set $@sneakguard, $@sneakguard - 1;  // Monsters will die after 5~10 min. (sneakAddSuber)
+	end;
+}
+
+lighthalzen.gat,1,1,7	script	AlertChk	-1,{
+OnInit:
+	initnpctimer;
+	end;
+
+OnTimer10000:
+	if($@sneakguard >= $@threshold) goto MakeMob;
+	if($@sneakguard == 0) goto ClearMob;  // Monsters will die after 5~10 min. (sneakAddSuber)
+	setnpctimer 0;
+	end;
+	
+MakeMob:
+	if($@lhz_alert == 1) goto ChkEnd;
+	set $@mobcount, $@mob;
+	mapannounce "lighthalzen.gat","Organização da manutenção da Ordem Pública: Atualmente, a segurança da cidade está comprometida, nós pedimos que os cidadãos sejam mais cuidadosos. Eu repito, nós pedimos aos cidadãos para que sejam mais cuidadosos!", 1;
+	
+	for( set $@i, 0; $@i < $@mob; set $@i, $@i + 1 ) {
+		monster "lighthalzen.gat",0,0,"Gangster",1592,1,"AlertChk::OnMobKilled";
+	}
+
+	set $@lhz_alert, 1;	
+	set $@sneakguard, 2;   // Monsters will die after 5~10 min. (sneakAddSuber)
+	setnpctimer 0;
+	end;
+	
+ClearMob:
+	if($@lhz_alert == 0) goto ChkEnd;
+	set $@mobcount, 0;
+	mapannounce "lighthalzen.gat","Organização da manutenção da Ordem Pública: Nós estamos habilitados de verificar todos os criadores de problemas na cidade. Você talvez possa relaxar agora.", 1;	
+	killmonster "lighthalzen.gat","AlertChk::OnMobKilled";
+	set $@lhz_alert, 0;
+	set $@sneakguard, 0;
+	setnpctimer 0;
+	end;
+		
+OnMobKilled:
+	set $@mobcount, $@mobcount - 1;
+	if($@mobcount == 0) goto ClearMob;
+	setnpctimer 0;
+	end;	
+	
+ChkEnd:	
+	setnpctimer 0;
+	end;	
+}
+
+lighthalzen.gat,267,200,3	script	Guarda de Segurança#01	868,{
+
+	if(countitem(7350)>0) goto Lhzpass1;
+	if($@lhz_alert == 1) goto Lhzstop;
+	if((gettime(2)>00 && gettime(2)<10)) goto LhzTalk2;
+	if((gettime(2)>30 && gettime(2)<40)) goto LhzTalk2;
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk1;
+
+LhzTalk:
+	show "[Guarda]";
+	show "Opa, onde você pensa que está indo?!?";
+	show "Eu não posso enviar ninguém ao distrito";
+	show "slum! Se nós deixarmos pessoas suspeitas";
+	show "como você pasar, não haverá nenhum";
+	show "ponto na cidade que ficará calmo!";
+	close;
+
+LhzTalk1:
+	show "[Guarda]";
+	show "-Veja como esse guarda está";
+	show "fazendo algo interessante.";
+	show "Agora é uma boa";
+	show "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen.gat",297,227;
+	set $@sneakguard, $@sneakguard + 1;
+	close;
+
+LhzTalk2:
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk;
+	show "[Guarda]";
+	show "zzZ... zzZ... zzZ...";
+	show "hmm. hmm... zzZ...";
+	next;
+	show "[Guarda]";
+	show "-Veja como esse guarda está";
+	show "dormindo. Agora é uma boa";
+	show "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen.gat",297,227;
+	close;
+
+Lhzpass1:
+	show "[Guarda]";
+	show "Quem é você?! ...Hmm? Você tem";
+	show "uma passagem? Me desculpe. Você";
+	show "me parece um aventureiro, mas eu";
+	show "suponho que você tenha autoridade";
+	show "por aqui. Hm, acho que pode passar.";
+	next; 
+	warp "lighthalzen.gat",297,227;
+	close;
+
+Lhzstop:
+	show "[Guarda]";
+	show "Recentemente, houve muita gente";
+	show "nos sabotando quanto a passagem,";
+	show "então tivemos que aumentar o nível";
+	show "de segurança. E quem ousa a nos";
+	show "sabotar de qualquer maneira?";
+	show "É outro problema...";
+	close;
+}
+
+lighthalzen.gat,294,223,7	script	Guarda de Segurança#02	868,{
+
+	if(countitem(7350)>0) goto Lhzpass1;
+	if($@lhz_alert == 1) goto Lhzstop;
+	if((gettime(2)>00 && gettime(2)<10)) goto LhzTalk2;
+	if((gettime(2)>30 && gettime(2)<40)) goto LhzTalk2;
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk1;
+
+LhzTalk:
+	show "[Guarda]";
+	show "Opa, onde você pensa que está indo?!?";
+	show "Eu não posso enviar ninguém ao distrito";
+	show "slum! Se nós deixarmos pessoas suspeitas";
+	show "como você pasar, não haverá nenhum";
+	show "ponto na cidade que ficará calmo!";
+	close;
+
+LhzTalk1:
+	show "[Guarda]";
+	show "-Olhe, o guarda está fazendo algo";
+	show "diferente... É uma boa hora";
+	show "para sabotá-lo-";
+	next;
+	warp "lighthalzen.gat",264,200;
+	set $@sneakguard, $@sneakguard + 1;
+	close;
+
+LhzTalk2:
+	set @LhzTalk,rand(1,10);
+	if(@LhzTalk  < 2 ) goto LhzTalk;
+	show "[Guarda]";
+	show "zzZ... zzZ... zzZ...";
+	show "hmm. hmm... zzZ...";
+	next;
+	show "[Guarda]";
+	show "-Veja como esse guarda está";
+	show "dormindo. Agora é uma boa";
+	show "hora para sabotá-lo-";
+	next;
+	warp "lighthalzen.gat",264,200;
+	close;
+
+Lhzpass1:
+	show "[Guarda]";
+	show "Quem é você?! ...Hmm? Você tem";
+	show "uma passagem? Me desculpe. Você";
+	show "me parece um aventureiro, mas eu";
+	show "suponho que você tenha autoridade";
+	show "por aqui. Hm, acho que pode passar.";
+	next; 
+	warp "lighthalzen.gat",264,200;
+	close;
+
+Lhzstop:
+	show "[Guarda]";
+	show "Recentemente, houve muita gente";
+	show "nos sabotando quanto a passagem,";
+	show "então tivemos que aumentar o nível";
+	show "de segurança. E quem ousa a nos";
+	show "sabotar de qualquer maneira?";
+	show "É outro problema...";
+	close;
+}
+
+//============================================================
+// Cube Room
+//============================================================
+
+//--------------------------Piciburn--------------------------
+
+lighthalzen.gat,341,224,4	script	Piciburn	868,{
+	if (BaseLevel < 60){
+		show "[Piciburn]";
+		show "Saia daqui.";
+		close;
+	}
+	if (MISC_QUEST&512) goto L_DONE;
+	if (piciburn == 7) goto L_10;
+	if (piciburn == 6) goto L_9;
+	if (piciburn == 5) goto L_6;
+	if (piciburn == 4) goto L_4;
+	if (piciburn == 3) goto L_3;
+	if (piciburn == 2) goto L_2;
+	if (piciburn == 1) goto L_1;
+	show "[Piciburn]";
+	show "Hmm..? O quê é isso?!";
+	show "Eu estou ocupado nesse momento,";
+	show "então pare de me incomodar!";
+	set piciburn,1;
+	close;
+
+L_1:
+	show "[Piciburn]";
+	show "Estou ficando distraído porquê";
+	show "você se mantem olhando fixamente para mim!";
+	show "Você poderia me deixar sozinho, por favor?";
+	set piciburn,piciburn+1;
+	close;
+
+L_2:
+	show "[Piciburn]";
+	show "Hmm...? Ah, é você..";
+	show "Você está começando a me irritar.";
+	show "Você é estranho, sabe disso?";
+	show "O quê é que querem de mim?";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Nada realmente...";
+	show "Apenas olhando pelas";
+	show "redondezas. O quê é que";
+	show "você está fazendo, Piciburn?";
+	next;
+	show "[Piciburn]";
+	show "Oh, " +strcharinfo(0) + "...";
+	show "Se eu realmente necessitasse";
+	show "de lhe mostrar isso, eu não";
+	show "teria todo esse trabalho.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Eu sei! Haha.";
+	next;
+	show "[Piciburn]";
+	show "Você realmente É uma pessoa";
+	show "estranha... Você vai ficar";
+	show "parado aqui e assistindo?";
+	next;
+	show "[Piciburn]";
+	show "... Você está mesmo me irritando!";
+	show "O quê você quer de mim?!";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Eu já lhe disse...";
+	show "Lhe perguntei o quê você";
+	show "estava fazendo. Err.. e esse";
+	show "lugar é quente e pegajoso.";
+	next;
+	show "[Piciburn]";
+	show "Ok, ok...";
+	show "Eu irei lhe contar o quê estou";
+	show "fazendo, mas você me deixará em";
+	show "paz, ok? Obrigado..";
+	next;
+	show "[Piciburn]";
+	show "Eu.. hum... fazendo algo ilegal...";
+	show "Não diga para ninguém sobre isso!";
+	next;
+        show "[Piciburn]";
+	show "Sou a única pessoa que pode fazer um caminho ";
+	show "para o -^FF0000Laboratório^000000- industrial da cidade ou";
+	show "para lugares onde pessoas normais provavelmente não conseguiriam chegar.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "O -Laboratório?!!!-";
+	show "Você realmente pode levar pessoas pra lá?!?!";
+
+	next;
+	show "[Piciburn]";
+	show "Agh! Fique quieto! Que foi que lhe disse?";
+	show "Só lhe disse o que faço, agora vai parar de ficar me encarando?";
+	show "E fique quieto~!";
+	show "Você é estranho.. ¬_¬";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Ah..Haha.. Me desculpe.";
+	show "Eu relamente quero ir lá,";
+	show "então fiquei animado quando escutei que você pode levar pessoas pra lá.";
+	next;
+	show "[Piciburn]";
+	show "Hmm? Você estava querendo entrar lá?";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Sim, mas eu não consegui..";
+	next;
+	show "[Piciburn]";
+	show "Hmm...";
+	show "Isso é bem incômodo...";
+	show "Eu geralmente não falo pras pessoas em quem não confio";
+	show "como entrar no Laboratório...";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "O que eu preciso fazer?";
+	show "Como posso chegar ao Laboratório?";
+	next;
+	show "[Piciburn]";
+	show "Êêê~, só estou guiando as pessoas, não as enviando lá.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Isso não quer dizer a showma coisa?";
+	next;
+	show "[Piciburn]";
+	show "O que estou dizendo é,";
+	show "eu estou dando uma chance pras pessoas entrarem nos laboratórios.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Você é bem talentoso, huh.";
+	next;
+	show "[Piciburn]";
+	show "Hahaha! Pode ter certeza.";
+	show "É fácil como tirar doce de criança!";
+	show "...";
+	show "Na verdade, pensando bem, é impossível eu te mandar lá..";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Como assim impossível?";
+	show "Eu ainda não disse nada~..";
+	next;
+	show "[Piciburn]";
+	show "Ah,fala sério, você ia IMPLORAR para que eu lhe levasse lá~!!!";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Heh...";
+	show "Você realmente É esperto.";
+	show "Bem...";
+	show "Por favorzinho~~?";
+	next;
+	show "[Piciburn]";
+	show "Nunca te deixaria entrar~..";
+	show "Nunca mesmo~!!!";
+	set piciburn,piciburn+1;
+	close;
+
+L_3:
+	show "[" +strcharinfo(0) + "]";
+	show "Por favor!";
+	next;
+	show "[Piciburn]";
+	show "Não.";
+	set piciburn,piciburn+1;
+	close;
+
+L_4:
+	show "[" +strcharinfo(0) + "]";
+	show "Por favoooooooor?";
+	next;
+	show "[Piciburn]";
+	show "Não.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Por favoooooooooooooooor?";
+	next;
+	show "[Piciburn]";
+	show "Eu não quero.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Faça!!!";
+	next;
+	show "[Piciburn]";
+	show "Nunca~!!!";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Por que você está fazendo isso comigo?!!";
+	show "O que você quer de mim !?!";
+	next;
+	show "[Piciburn]";
+	show "O que eu quero?";
+	show "Heh heh.. Um bilhão de zenys.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Você ficou louco?!";
+	next;
+	show "[Piciburn]";
+	show "A escolha é sua.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Senhor, você sabe que eu não tenho todo esse dinheiro.";
+	show "Há alguma outra coisa que você queira?";
+	next;
+	show "[Piciburn]";
+	show "Hmm...";
+	show "Claro...";
+	show "Traga-me 20 Jellopies.";
+	show "Ok?";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "........";
+	show "Então é isso mesmo que você queria me pedir?";
+	next;
+	show "[Piciburn]";
+	show "Hahaha...";
+	show "Sim~~...";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "........";
+	next;
+	show "[Piciburn]";
+	show "Então, o que você está fazendo parado aí?";
+	show "Você vai fazer isso ou não?";
+	next;
+	menu "Claro que sim!",L_5,"Não mesmo! É impossível!",-;
+
+	show "[Piciburn]";
+	show "É, perda sua,";
+	show "que pena!";
+	show "Tchauzinho agora~!!";
+	close;
+
+L_5:
+	show "[Piciburn]";
+	show "Ok então, faça como eu disse,";
+	show "e traga-me 20 jellopies!";
+	show "....";
+	show "O que você está esperando?! VÁ!!";
+	set piciburn,piciburn+1;
+	close;
+
+L_6:
+	show "[Piciburn]";
+	show "Você pegou os itens?";
+	next;
+	menu "Erm.. Não..",-,"Claro que sim!",L_7,"O que você queria mesmo..?",L7_1;
+
+	show "[Piciburn]";
+	show "Ei, não estou afim de brincadeiras.";
+	show "Se você realmente quer entrar lá, traga-me as porcarias dos itens!";
+	close;
+
+L_7:
+	if (countitem(909) >= 20) goto L_8;
+	show "[Piciburn]";
+	show "Você 'tá brincando?";
+	show "Se continuar fazendo isso,";
+	show "eu posso desistir da proshowsa, também.";
+	show "Então vá e pegue todos!";
+	close;
+
+L7_1:
+	show "[Piciburn]";
+	show "Você realmente é burro~!";
+	show "São 20 jellopies!";
+	show "Não se esqueça dessa vez~";
+	close;
+
+L_8:
+	delitem 909,20;
+	show "[Piciburn]";
+	show "Hmm. Você é mais confiável do que eu pensei.";
+	show "Levando esse ato em consideração,";
+	show "eu acredito que você realmente quer ir pra lá.";
+	next;
+	show "[Piciburn]";
+	show "Pensando bem,";
+	show "você me parece diferente.";
+	show "Seria certo dizer que parece... válido de minha confiança..?";
+	next;
+	show "[Piciburn]";
+	show "Bom... De todo jeito...";
+	show "Uma proshowsa é uma proshowsa.";
+	show "Eu te direi o caminho para lá.";
+	next;
+	show "[Piciburn]";
+	show "Como havia dito antes, tudo que posso fazer é";
+	show "dar-lhe a oportunidade de entrar.";
+	next;
+	show "[Piciburn]";
+	show "Eu costumava ser um gerente, e trabalhava para o laboratório,";
+	show "mas o tempo passa, do mesmo jeito que as pessoas,";
+	show "e agora estou trabalhando contra o laboratório.";
+	next;
+	show "[Piciburn]";
+	show "Agora... Responda honestamente em tudo o que eu lhe preocupar agora.";
+	show "O lugar pra onde lhe mandarei depende exclusivamente das suas respostas.";
+	next;
+	show "[Piciburn]";
+	show "Em algum canto do lugar para onde vou te mandar...";
+	show "Haveram coisas que você deve achar,";
+	show "então procure bem.";
+	next;
+	show "[Piciburn]";
+	show "Bem, quando estiver pronto,";
+	show "volte e fale comigo. Ok?";
+	set piciburn,piciburn+1;
+	close;
+
+L_9:
+	show "[Piciburn]";
+	show "Hmm... Então...";
+	show "Você está pronto para ir?";
+	next;
+	menu "Não",-,"Sim",L9_1;
+
+	show "[Piciburn]";
+	show "Hmm... Ainda não, huh...";
+	show "Bom, eu acho que já deveria esperar por isso.";
+	show "Mas não me faça esperar muito tempo~!";
+	close;
+
+L9_1:
+	show "[Piciburn]";
+	show "Isso vai ser bem difícil~";
+	show "Vamos lá!!!";
+	close2;
+	set piciburn,piciburn+1;
+	set @rdm,rand(3);
+	if(@rdm==1)goto L_warp1;
+	if(@rdm==2)goto L_warp2;
+ 	warp "lhz_cube.gat",67,193;
+	end;
+
+L_10:
+	show "[Piciburn]";
+	show "Hah!";
+	show "Você falhou lá dentro, certo? Hahahaha~.";
+	show "Você vai tentar de novo? Ou é muito difícil~";
+	next;
+	menu "Não",-,"Sim",L10_1;
+
+	show "[Piciburn]";
+	show "Foi tão difícil é?";
+	show "Bem, volte se mudar de idéia.";
+	close;
+
+L10_1:
+	show "[Piciburn]";
+	show "Ok..";
+	show "Vou lhe mandar lá novamente..";
+	show "Boa sorte!";
+	close2;
+	set @rdm,rand(3);
+	if(@rdm==1)goto L_warp1;
+	if(@rdm==2)goto L_warp2;
+ 	warp "lhz_cube.gat",67,193;
+	end;
+
+L_warp1: 
+	warp "lhz_cube.gat",66,136;
+	end;
+L_warp2:
+	warp "lhz_cube.gat",66,74;
+	end;
+
+L_DONE:
+	show "[Piciburn]";
+	show "Oh~ eu suponho que você tenha achado a entrada.";
+	show "Vou lhe contar agora...";
+	show "Se quiser ir lá novamente.";
+	next;
+	show "[Piciburn]";
+	show "Você pode chegar lá por uma passagem de esgoto um pouco ao sul da cidade.";
+	next;
+	show "[" +strcharinfo(0) + "]";
+	show "Não meeeeeeesmo!!";
+	next;
+	show "[Piciburn]";
+	show "Eu sei. Eu sei...";
+	show "É sujo.";
+	show "Mas é o único jeito de entrar, então não reclame!";
+	next;
+	show "[Piciburn]";
+	show "Agora, se cuide~.";
+	close;
+}
+
+//--------------------------Box--------------------------
+
+lhz_cube.gat,248,179,0	script	Box#01	111,{
+	if (MISC_QUEST&512 || cubekey&64) goto L_DONE;
+	show "Há um machado na caixa.";
+	next;
+	menu "Pegue o machado.",L_1,"Deixá-lo.",-;
+	close;
+
+L_1:
+	show "Você adquiriu ^FF0000machado^000000.";
+	set cubekey,cubekey|64;
+	close;
+
+L_DONE:
+	show "Aqui está a caixa de onde você tirou o ^FF0000machado^000000.";
+	close;
+}
+
+//--------------------------Barrel--------------------------
+
+lhz_cube.gat,237,183,0	script	Barrel	111,{
+	if (MISC_QUEST&512 || cubekey&1) goto L_DONE;
+	if (cubekey&128) goto L_2;
+	show "Há uma caixa que parece ser frágil.";
+	if ((cubekey&64) == 0) close;
+	next;
+	digit @axe$;
+
+	if (@axe$ == "machado" || @axe$ == "Machado") goto L_1;
+	show "Não houve mudança.";
+	close;
+
+L_1:
+	show "Quando você quebra o barril com o machado,";
+	show "você vê uma caixa dentro dele.";
+	next;
+	show "Na parte de cima da caixa, há um painel com números de 1~9";
+	set cubekey,cubekey|128;
+	close;
+
+L_2:
+	show "Há uma caixa com os números 1~9 na sua parte de cima.";
+	next;
+	set @agree,0;
+	digit @number;
+	if (num6 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num8 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num1 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num4 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num9 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num2 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num7 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num5 == @number) set @agree,@agree+1;
+	digit @number;
+	if (num3 == @number) set @agree,@agree+1;
+	if (@agree == 9 && num1) goto L_3; //you can't enter correct numbers, till read them under that picture [Lupus]
+	show "Não houve mudança.";
+	close;
+
+L_3:
+	show "A caixa abriu, fazendo um barulhinho metálico.";
+	show "Dentro da caixa, há a 'Chave Amarela'.";
+	next;
+	show " Você adquiriu'^FF0000Chave Amarela^000000'.";
+	set cubekey,cubekey|1;
+	close;
+
+L_DONE:
+	show "Nessa caixa estava a '^FF0000Chave Amarela^000000'";
+	show "A caixa está agora vazia.";
+	close;
+}
+
+//--------------------------Drawer--------------------------
+
+lhz_cube.gat,242,201,0	script	Drawer	111,{
+	if (MISC_QUEST&512 || cubekey&32) goto L_DONE;
+	show "A gaveta está trancada.";
+	if (cubekey&2) goto L_1;
+	close;
+
+L_1:
+	digit @key$;
+	if (@key$ == "chave vermelha" || @key$ == "Chave Vermelha") goto L_2;
+	show "A gaveta está trancada, você precisa de uma chave.";
+	close;
+
+L_2:
+	show "A chave vermelha coube perfeitamente, abrindo a gaveta.";
+	show "Você achou a 'pequena faca' dentro.";
+	next;
+	show "Você adquiriu ^FF0000pequena faca^000000.";
+	set cubekey,cubekey|32;
+	close;
+
+L_DONE:
+	show "Essa é a gaveta de onde você tirou a ^FF0000pequena faca^000000.";
+	show "Não há nada dentro, agora.";
+	close;
+}
+
+//--------------------------Documents--------------------------
+
+lhz_cube.gat,237,198,0	script	Documents	111,{
+	if (MISC_QUEST&512 || cubekey&2) goto L_DONE;
+	show "Há muitos documentos aqui.";
+	next;
+	menu "Procurar os documentos.",L_1,"Ignorar.",-;
+	close;
+
+L_1:
+	show "Conforme você olha por entre os documentos, a 'chave vermelha' cai deles.";
+	next;
+	show "Você adquiriu ^FF0000Chave vermelha^000000.";
+	set cubekey,cubekey|2;
+	close;
+
+L_DONE:
+	show "Aqui você achou a  ^FF0000Chave Vermelha^000000.";
+	show "Não há mais nada para fazer aqui.";
+	close;
+}
+
+//--------------------------Bed--------------------------
+
+lhz_cube.gat,247,198,0	script	Bed	111,{
+	show "Há uma cama bagunçada aqui.";
+	next;
+	menu "Acima da cama.",-,"Embaixo da cama.",L_1;
+
+	show "O cobertor está colocado aqui de jeito bem bagunçado.";
+	show "Não há nada de especial aqui.";
+	close;
+
+L_1:
+	if (MISC_QUEST&512 || cubekey&131072) goto L_DONE;
+	if (cubekey&2048){
+		show "Conforme você olha embaixo da cama, você vê que lá";
+		show "existe um pequeno objeto coberto pela poeira.";
+		next;
+		digit @bed$;
+
+		if (cubekey&4096 && (@bed$ == "longa vara" || @bed$ == "Longa Vara")){
+			show "Você usou a longa vara para puxar o objeto.";
+			next;
+			show "Você adquiriu o '^FF0000Modelo cúbico^000000'.";
+			set cubekey,cubekey|131072;
+			close;
+		}
+		show "Você precisa de algo longo para pegar este item.";
+		show "Você não consegue o alcançar!";
+		close;
+	}
+	show "Você olha embaixo da cama e vê uma 'pequena vara'.";
+	show "Está dentro de seu alcance, mas também";
+	show "há outro item embaixo da cama, e para este";
+	show "você precisará de algo longo para puxar e poder pegar.";
+	next;
+	show "Você adquiriu '^FF0000Pequena Vara^000000'.";
+	show "Parece que esta vara pode ser combinada";
+	show "com outra para se tornar maior.";
+	set cubekey,cubekey|2048;
+
+	if ((cubekey&4096) == 0 && cubekey&1024){
+		set cubekey,cubekey|4096;
+		next;
+		show "Esta parece ser similar com a outra vara que você";
+		show "achou embaixo da mesa.";
+		show "Você põe as duas extremidades juntas, e elas se encaixam perfeitamente.";
+		next;
+		show "Você adquiriu a '^FF0000Longa Vara^000000'.";
+	}
+	close;
+
+L_DONE:
+	show "Esse é o lugar de onde você conseguiu o '^FF0000Modelo cúbico^000000'.";
+	show "Não há nada aqui além de poeira.";
+	close;
+}
+
+//--------------------------Cup--------------------------
+
+lhz_cube.gat,229,184,0	script	Cup	111,{
+	if (MISC_QUEST&512 || cubekey&4) goto L_DONE;
+	show "Você vê um pote vazio e um copo com algo dentro.";
+	next;
+	menu "Deixá-lo.",-,"Ver o que está dentro.",L_1;
+	close;
+
+L_1:
+	show "Quando você olha dentro do copo, vê uma 'Chave enferrujada'.";
+	next;
+	show "Você adquiriu a '^FF0000Chave Enferrujada^000000'.";
+	set cubekey,cubekey|4;
+	close;
+
+L_DONE:
+	show "Você achou a  '^FF0000Chave enferrujada^000000' aqui.";
+	show "Não há nada aqui além de um pote vazio e um copo vazio.";
+	close;
+}
+
+//--------------------------Shelf--------------------------
+
+lhz_cube.gat,233,206,0	script	Shelf	111,{
+	if (MISC_QUEST&512 || cubekey&8) goto L_DONE;
+	show "Há vários potes alinhados com ácidos dentro.";
+	show "Ao longo da estante, há diferentes etiquetas.";
+	next;
+	digit @lathe$;
+
+	if (cubekey&4 && (@lathe$ == "Chave Enferrujada" || @lathe$ == "chave enferrujada" || @lathe$ == "Chave enferrujada")) goto L_1;
+	show "Nothing happened.";
+	close;
+
+L_1:
+	show "Conforme você põe a 'Chave Enferrujada' dentro de um pote, ele ferve";
+	show "e faz bolhas, e todo o líquido desaparece.";
+	show "Tudo o que sobrou é um limpa, chave verde.";
+	next;
+	show "Você adquiriu a  '^FF0000Chave Verde^000000'";
+	set cubekey,cubekey|8;
+	close;
+
+L_DONE:
+	show "Aqui está o ácido que corroeu toda a ferrugem ";
+	show "da sua chave.";
+	next;
+	show "Não vejo mais nada útil.";
+	close;
+}
+
+//--------------------------Closet--------------------------
+
+lhz_cube.gat,249,191,0	script	Closet	111,{
+	if (MISC_QUEST&512 || cubekey&8192) goto L_DONE;
+	show "Há um armário cheio de gavetas.";
+	if (cubekey&8) goto L_2;
+	next;
+	menu "Deixá-lo.",-,"Abrir uma das gavetas.",L_1;
+	close;
+
+L_1:
+	show "Não há nada de interessante nessa gaveta.";
+	close;
+
+L_2:
+	next;
+	digit @gkey$;
+
+	if (@gkey$ == "chave verde" || @gkey$ == "Chave Verde") goto L_3;
+	show "Não há nada de interessante nessa gaveta.";
+	close;
+
+L_3:
+	show "Você coloca a 'chave verde' na fechadura";
+	show "de uma das gavetas, abrindo-a.";
+	show "Dentro da gaveta, há um modelo de ";
+	show "um polígono.";
+	next;
+	show "'Você adquiriu o ^FF0000Modelo de Polígono^000000.";
+	set cubekey,cubekey|8192;
+	close;
+
+L_DONE:
+	show "Esse é o armário de onde ";
+	show "você pegou o 'Modelo de Polígono'.";
+	next;
+	show "As outras gavetas não vão abrir, não há mais";
+	show "nada para fazer aqui.";
+	close;
+}
+
+//--------------------------Desk--------------------------
+
+lhz_cube.gat,234,200,0	script	Desk	111,{
+	show "Há uma mesa com vários objetos quebrados sobre ela.";
+	next;
+	menu "Sobre a mesa",-,"Embaixo da mesa",L_1,"Drawer",L_2;
+
+	show "Há muitos livros, papéis e";
+	show "equipamentos de pesquisa.";
+	close;
+
+L_1:
+	if(MISC_QUEST&512 || cubekey&1024) goto L_DONE;
+
+	show "Quando olha embaixo da mesa,";
+	show "você vê uma vara de tamanho razoável.";
+	next;
+	show "Você adquiriu a '^FF0000Pequena Vara^000000'.";
+	show "Parece que esta vara pode ser combinada";
+	show "com outra apra se tornar maior.";
+	set cubekey,cubekey|1024;
+	if(cubekey&2048){
+		set cubekey,cubekey|4096;
+		next;
+	        show "Esta parece ser similar com a outra vara que você";
+		show "achou embaixo da cama.";
+		show "Você põe as duas extremidades juntas, e elas se encaixam perfeitamente.";
+		next;
+		show "Você adquiriu a '^FF0000Longa Vara^000000'";
+	}
+	close;
+L_DONE:
+	show "Aqui é de onde você adquriu a '^FF0000Pequena Vara^000000'.";
+	show "Não há mais nada aqui além de poeira.";
+	close;
+L_2:
+	show "Está trancado e não pode ser aberto.";
+	close;
+}
+
+//--------------------------Picture--------------------------
+
+lhz_cube.gat,237,206,0	script	Picture	111,{
+	if (MISC_QUEST&512 || num1 > 0) goto L_DONE;
+	show "Há uma figura na parede.";
+	next;
+	menu "Movê-la.",L_1,"Deixá-la.",-;
+	close;
+
+L_1:
+	show "Ela não se move.";
+	next;
+	digit @knife$;
+
+	if (cubekey&32 && (@knife$ == "pequena faca" || @knife$ == "Pequena Faca")) goto L1_1;
+	show "Nada aconteceu.";
+	close;
+
+L1_1:
+	show "Você deslizou a 'pequena faca' por detrás da moldura";
+	show "e a usou para forçar a moldura.";
+	show "Conforme você tira a moldura, a figura";
+	show "cai da parede.";
+	next;
+	set num1,rand(1,9);
+	Lset1:
+	set num2,rand(1,9);
+	if (num1 == num2) goto Lset1;
+	Lset2:
+	set num3,rand(1,9);
+	if (num1 == num3) goto Lset2;
+	if (num2 == num3) goto Lset2;
+	Lset3:
+	set num4,rand(1,9);
+	if (num1 == num4) goto Lset3;
+	if (num2 == num4) goto Lset3;
+	if (num3 == num4) goto Lset3;
+	Lset4:
+	set num5,rand(1,9);
+	if (num1 == num5) goto Lset4;
+	if (num2 == num5) goto Lset4;
+	if (num3 == num5) goto Lset4;
+	if (num4 == num5) goto Lset4;
+	Lset5:
+	set num6,rand(1,9);
+	if (num1 == num6) goto Lset5;
+	if (num2 == num6) goto Lset5;
+	if (num3 == num6) goto Lset5;
+	if (num4 == num6) goto Lset5;
+	if (num5 == num6) goto Lset5;
+	Lset6:
+	set num7,rand(1,9);
+	if (num1 == num7) goto Lset6;
+	if (num2 == num7) goto Lset6;
+	if (num3 == num7) goto Lset6;
+	if (num4 == num7) goto Lset6;
+	if (num5 == num7) goto Lset6;
+	if (num6 == num7) goto Lset6;
+	Lset7:
+	set num8,rand(1,9);
+	if (num1 == num8) goto Lset7;
+	if (num2 == num8) goto Lset7;
+	if (num3 == num8) goto Lset7;
+	if (num4 == num8) goto Lset7;
+	if (num5 == num8) goto Lset7;
+	if (num6 == num8) goto Lset7;
+	if (num7 == num8) goto Lset7;
+	Lset8:
+	set num9,rand(1,9);
+	if (num1 == num9) goto Lset8;
+	if (num2 == num9) goto Lset8;
+	if (num3 == num9) goto Lset8;
+	if (num4 == num9) goto Lset8;
+	if (num5 == num9) goto Lset8;
+	if (num6 == num9) goto Lset8;
+	if (num7 == num9) goto Lset8;
+	if (num8 == num9) goto Lset8;
+
+L_DONE:
+	show "Há números atrás da figura.";
+	show "" + num1 + "3 " + num2 + "6 " + num3 + "9 " + num4 + "4 " + num5 + "8 " + num6 + "1 " + num7 + "7 " + num8 + "2 " + num9 + "5";
+	show "Talvez você devesse escrever esses números em algum lugar...";
+	close;
+}
+
+//--------------------------generator--------------------------
+
+lhz_cube.gat,224,192,0	script	Generator	111,{
+	if (MISC_QUEST&512 || cubekey&256) goto L_DONE;
+	show "A grande máquina está funcionando, fazendo um imenso barulho.";
+	show "Há um monte de símbolos estranhos e";
+	show "uma pequena fechadura atrás deles.";
+	next;
+	digit @key$;
+
+	if (cubekey&1 && (@key$ == "chave amarela" || @key$ == "Chave Amarela")) goto L_1;
+	show "Não há nada para fazer aqui.";
+	close;
+
+L_1:
+	show "Você colocou a 'chave amarela' na fechadura";
+	show "e a girou.";
+	show "A máquina estala, e fica silenciosa.";
+	next;
+	show "Quando ela foi parada, a lâmpada que estava perto da";
+	show "cama também foi desligada.";
+	set cubekey,cubekey|256;
+	close;
+
+L_DONE:
+	show "A grande máquina está silenciosa agora.";
+	close;
+}
+
+//--------------------------Lamp--------------------------
+
+lhz_cube.gat,248,205,0	script	Lamp	111,{
+	if (MISC_QUEST&512 || cubekey&16) goto L_DONE;
+	if (cubekey&256) goto L_1;
+	show "Há uma lâmpada acesa, brilhando.";
+	show "Parece que tem algo dentro dela";
+	show "mas está muito quente para que eu a toque.";
+	show "Parece que de algum modo, você precisa desligar a lâmpada.";
+	close;
+
+L_1:
+	show "Há algo dentro do bulbo.";
+	next;
+	menu "Deixá-lo.",-,"Quebrar o bulbo.",L_2;
+	close;
+
+L_2:
+	show "Quando você quebra o bulbo, uma";
+	show "'chave negra' cai dele.";
+	next;
+	show "Você adquiriu a '^FF0000Chave Negra^000000'.";
+	set cubekey,cubekey|16;
+	close;
+
+L_DONE:
+	show "Não há mais anda aqui além de um bulbo quebrado.";
+	close;
+}
+
+//--------------------------Box--------------------------
+
+lhz_cube.gat,248,193,0	script	Box#02	111,{
+	if (MISC_QUEST&512 || countitem(2657) || @gotLPkey) goto L_DONE;
+	show "Há uma caixa com três buracos.";
+	next;
+	if (cubekey&65536 && cubekey&262144 && cubekey&16384) goto L_4;
+	menu "Buraco em Elipse",L_1,"Buraco Quadrado",L_2,"Buraco em Polígono",L_3;
+
+L_1:
+	if (cubekey&65536) goto L1_2;
+	digit @ellipse$;
+
+	if (cubekey&32768 && (@ellipse$ == "Modelo em Elipse" || @ellipse$ == "Modelo em Elipse")) goto L1_1;
+	show "Nada aconteceu.";
+	close;
+
+L1_1:
+	show "Você colocou o 'Modelo em Elipse' no buraco com o formato de elipse.";
+	show "A caixa deu um estalo metálico.";
+	set cubekey,cubekey|65536;
+	close;
+
+L1_2:
+	show "Você já colocou o 'Modelo em Elipse.";
+	close;
+
+L_2:
+	if (cubekey&262144) goto L2_2;
+	digit @quadrangle$;
+
+	if (cubekey&131072 && (@quadrangle$ == "Modelo cúbico" || @quadrangle$ == "Modelo Cúbico")) goto L2_1;
+	show "Nada aconteceu.";
+	close;
+
+L2_1:
+	show "Você colocou o 'Modelo Cúbico' no buraco de formato quadrado.";
+	show "A caixa deu um estalo metálico.";
+	set cubekey,cubekey|262144;
+	close;
+
+L2_2:
+	show "Você já colocou o 'Modelo Cúbico'.";
+	close;
+
+L_3:
+	if (cubekey&16384) goto L3_2;
+	digit @polygon$;
+
+	if (cubekey&8192 && (@polygon$ == "Modelo de Polígono" || @polygon$ == "Modelo de Polígono")) goto L3_1;
+	show "Nothing happened.";
+	close;
+
+L3_1:
+	show "Você colocou o 'Modelo de Polígono' no buraco com formato poligonal.";
+	show "A caixa deu um estalo metálico.";
+	set cubekey,cubekey|16384;
+	close;
+
+L3_2:
+	show "Você já colocou o 'Modelo de Polígono'.";
+	close;
+
+L_4:
+	show "Todos os buracos estão preenchidos pelos seus respectivos objetos.";
+	next;
+	menu "Deixar a caixa.",-,"Abrir a caixa.",L4_1;
+	close;
+
+L4_1:
+	show "Há um pedaço cartão dentro dela.";
+	next;
+	show "Você adquiriu a 'Permissão do Laboratório'.";
+	set @gotLPkey,1;
+	additem 2657,1;
+	close;
+
+L_DONE:
+	show "Há uma caixa aberta aqui.";
+	show "Não há nada dentro.";
+	close;
+}
+
+//--------------------------Test tube--------------------------
+
+lhz_cube.gat,224,197,0	script	Test Tube	111,{
+	if (MISC_QUEST&512) goto L_DONE;
+	if (countitem(2657) > 0) goto L_3;
+	if (cubekey&32768) goto L_2;
+	show "Há um estranho tudo de ensaio aqui.";
+	show "Parece que há algo dentro.";
+	show "Há uma fechadura e um buraco onde cabe um fino objeto.";
+	next;
+	digit @key$;
+
+	if (cubekey&16 && (@key$ == "Chave Negra" || @key$ == "Chave Negra")) goto L_1;
+	show "Nada aconteceu.";
+	close;
+
+L_1:
+	show "Você colocou a 'Chave Negra' e a girou.";
+	show "A janela de vidro na frente da máquina se abriu,";
+	show "revelando um modelo em formato de elipse.";
+	next;
+	show "Você ganhou '^FF0000Modelo de elipse^000000'.";
+	set cubekey,cubekey|32768;
+	close;
+
+L_2:
+	show "Aqui é onde você achou o '^FF0000Modelo de elipse^000000'.";
+	show "Há um símbolo estranho no fundo da máquina.";
+	show "Parece que pode ser aberto, desde que existem dobradiças de um lado.";
+	close;
+
+L_3:
+	show "Há um buraco retangular na frente da máquina.";
+	next;
+	digit @answer$;
+
+	if (@answer$ == "Permissão do Laboratório" || @answer$ == "permissão" || @answer$ == "permissão do laboratório" || @answer$ == "permissão") goto L_4;
+	show "Nada aconteceu.";
+	close;
+
+L_4:
+	show "Você colocou o 'Cartão do Laboratório' no buraco,";
+	show "e uma escadaria apareceu no chão.";
+	next;
+	menu "Descer a escada.",L4_1,"Não descer a escada.",-;
+	close;
+
+L4_1:
+	show "Ela se conectou à uma escadaria longa.";
+	set cubekey,0;	
+	set num1,0;	set num2,0;	set num3,0;	set num4,0;	set num5,0;
+	set num6,0;	set num7,0;	set num8,0;	set num9,0;
+	set piciburn,0;
+	set MISC_QUEST,MISC_QUEST|512;
+	close2;
+L_DONE:
+	warp "lhz_cube.gat",177,13;
+	end;
+}
+
+//============================================================
+// Lighthalzen Pickpocket Mini-Quest
+//============================================================
+
+lighthalzen.gat,240,216,4	script	Homem Suspeito#Pickpocket1	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",33,1;
+	close;
+}
+
+lighthalzen.gat,220,169,4	script	Homem Suspeito#Pickpocket2	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",33,2;
+	close;
+}
+
+lighthalzen.gat,164,127,4	script	Homem Suspeito#Pickpocket3	870,2,2,{
+	end;
+OnTouch:
+	callfunc "F_LHZPick",20,3;
+	if(@caught!=1) close;
+	show "[Homem Suspeito]";
+	show "Ayee! Fui pego.";
+	show "Se você me desculpar,";
+	show "eu posso lhe dar algo muito bom.";
+	next;
+	show "["+strcharinfo(0)+"]";
+	show "Está perdoado, agora o que é";
+	show "essa coisa da qual você falou?";
+	next;
+	show "[Homem Suspeito]";
+	show "A parte de baixo do seu corpo,";
+	show "irá produzir um forte poder";
+	show "uma vez que tomar esta poção.";
+	show "É muito útil quando se quer";
+	show "correr rápido.";
+	next;
+	show "[Homem Suspeito]";
+	show "Eu lhe venderei elas por uma pechincha,";
+	show "no preço máximo de 15,000zenys por uma quantia";
+	show "de três poções.";
+	show "Quantas você quer?";
+	next;
+	digit @number;
+	if(@number>3) set @number,3;
+	set @cost,15000*@number;
+	if(Zeny<@cost) goto L_Zeny;
+	//please check that you add the script to it.
+	set Zeny,zeny-@cost;
+	additem 12016,@number; //Speed Potion
+	show "[Homem Suspeito]";
+	show "Obrigado por seu dinheiro.";
+	if(rand(1,2)==1) goto L_Reset;
+	disablenpc "Man#Pickpocket3";
+	enablenpc "Man#Pickpocket2";
+	close;
+L_Reset:
+	disablenpc "Man#Pickpocket3";
+	enablenpc "Man#Pickpocket1";
+	close;
+L_Zeny:
+	show "[Homem Suspeito]";
+	show "Que pena.";
+	show "Nenhum zeny faz de você um homem pobre.";
+	close;
+OnInit:
+	disablenpc "Man#Pickpocket2";
+	disablenpc "Man#Pickpocket3";
+}
+
+function	script	F_LHZPick	{
+	if(Zeny<100) set Zeny,0;
+	if(Zeny>=100) set Zeny,zeny-100;
+	show "Pickpocket";
+	next;
+	if(rand(0,100)<getarg(0)) goto L_Caught;
+	show "Hehehehe....";
+	return;
+L_Caught:
+	show "(Você percebe que o homem pôs a";
+	show "mão no seu bolso!)";
+	next;
+	show "["+strcharinfo(0)+"]";
+	show "Eh!? O que você está fazendo!";
+	show "Você está!? Roubando meu dinheiro?!";
+	next;
+	show "[Homem Suspeito]";
+	show "Ah! Fui pego!";
+	next;
+	show "["+strcharinfo(0)+"]";
+	show "Você é um ladrão?!?";
+	next;
+	show "[Homem Suspeito]";
+	show "Hehehehe....";
+	next;
+	set @rand,rand(1,4);
+	if(getarg(1)==1 && @rand<4) goto L_MoveB;
+	if(getarg(1)==2 && @rand<4) goto L_MoveA;
+	if(getarg(1)==1 && @rand==4) goto L_MoveC1;
+	if(getarg(1)==2 && @rand==4) goto L_MoveC2;
+	set @caught,1;
+	return;
+L_MoveA:
+	disablenpc "Man#Pickpocket2";
+	enablenpc "Man#Pickpocket1";
+	return;
+L_MoveB:
+	disablenpc "Man#Pickpocket1";
+	enablenpc "Man#Pickpocket2";
+	return;
+L_MoveC1:
+	disablenpc "Man#Pickpocket1";
+	enablenpc "Man#Pickpocket3";
+	return;
+L_MoveC2:
+	disablenpc "Man#Pickpocket2";
+	enablenpc "Man#Pickpocket3";
+	return;
+}
+
+//==============================================================
+// Friendship
+//==============================================================
+
+lhz_in02.gat,201,210,3	script	Digotz	869,{
+
+	if(friendship > 9)goto s_Dead;
+	if(friendship == 9)goto s_Wounded;
+	if(friendship == 8)goto s_Cont7;
+	if(friendship == 6 && friendship2 || friendship == 7)goto s_Cont6;
+	if(friendship == 6)goto s_Cont5;
+	if(friendship == 4 || friendship == 5)goto s_Cont4;
+	if(friendship == 3)goto s_Cont3;
+	if(friendship == 2)goto s_Cont2;
+	show "[Digotz]";
+	show "Oh, um aventureiro?";
+	show "Bem-vindo à Alta";
+	show "Lighthalzen. Entretanto,";
+	show "receio que esta área não tenha muito";
+	show "a oferecer-lhe";
+	show "em questão de adrenalina.";
+	next;
+	if(friendship == 1)goto s_Cont;
+	show "[Digotz]";
+	show "Sinta-se à vontade para";
+	show "dar uma olhada à sua volta se";
+	show "quiser. Estou na verdade";
+	show "feliz em ver alguém diferente";
+	show "além das frescas pessoas";
+	show "ricas que vivem por aqui.";
+	close;
+
+s_Cont:
+	show "[Digotz]";
+	show "Meu nome é Digotz,";
+	show "apenas mais um cidadão";
+	show "da Alta Lighthalzen.";
+	show "Espero que aproveite";
+	show "sua estadia na minha cidade natal.";
+	next;
+	menu "Você conhece alguém chamado Maku?",-;
+
+	show "[Digotz]";
+	show "Maku? Maku. Sim, ele é meu";
+	show "amigo de infância. Ou era,";
+	show "de qualquer jeito. Agora ele é apenas um idiota.";
+	show "Em todo caso, nós não podemos";
+	show "sair, esmo que quiséssemos,";
+	show "por inúmeras razões.";
+	next;
+	show "[Digotz]";
+	show "Ei, por quê estou";
+	show "falando sobre isso? Não";
+	show "que eu me importe com ";
+	show "o fato de que eu e Maku não";
+	show "somos mais amigos. Sabe de uma coisa?";
+	show "Apenas esqueça tudo o que lhe disse.";
+	set friendship,2;
+	close;
+
+s_Cont2:
+	show "[Digotz]";
+	show "O quê você ainda está";
+	show "fazendo passeando por";
+	show "aqui? Não há nada de";
+	show "interessante na Alta Cidade";
+	show "para você ver, aventureiro.";
+	next;
+	show "[Digotz]";
+	show "Por Deus...!";
+	show "Me escute";
+	show "Maku faz com que eu me sinta";
+	show "muito chateado por alguma razão!";
+	close;
+
+s_Cont3:
+	show "[Digotz]";
+	show "Eu sei que a";
+	show "aparência da Alta Cidade";
+	show "parece mais atrativa,";
+	show "mas confie em mim. Este lugar";
+	show "é sem cor, sem gosto. Agora, você";
+	show "já visitou o pobre distrito?";
+	next;
+	menu "Sim,eu já o visitei...",-;
+
+	show "[" + strcharinfo(0) + "]";
+	show "Sim, eu já o visitei...";
+	show "E eu conheci alguém";
+	show "chamado Maku lá.";
+	next;
+	show "[Digotz]";
+	show "Maku?! Oh, ele deve ter";
+	show "mencionado algo sobre";
+	show "mim. Mas não ligo para nada do que ele";
+	show "fala, a não ser que seja uma desculpa";
+	show "por ser um completo e total idiota.";
+	show "Desde que éramos crianças...";
+	next;
+	show "[Digotz]";
+	show "De qualquer jeito, nós costumávamos ser próximos,";
+	show "mas aquele cara nunca foi um verdadeiro";
+	show "amigo meu! Como daquela";
+	show "vez que ele trapeçeou para vencer-me";
+	show "no braço de ferro!Ou quando ele nunca";
+	show "me agradeceu por ter comprado nosso lanche!";
+	next;
+	show "[Digotz]";
+	show "Claro, ele até que me ajudou";
+	show "um pouquinho no meu encontro com a minha ";
+	show "primeira namorada, mas eu nunca o";
+	show "perdoarei por me arrumar o";
+	show "piior encontro às cegas que";
+	show "um homem pode vivenciar!";
+	next;
+	show "[Digotz]";
+	show "Maku não sabe porcaria nenhuma";
+	show "sobre amizade! Mesmo se eu";
+	show "quisesse vê-lo, existem essas";
+	show "pessoas que não querem que os ricos";
+	show "vejam os pobres.";
+	next;
+	show "Se Maku está bem, isso";
+	show "já é bom de se saber!";
+	show "Não há necessidade para que eu";
+	show "vá até lá e veja como está!";
+	show "Eu tenho um único";
+	show "arrependimento, entretanto...";
+	next;
+	show "[Digotz]";
+	show "Eu queria ter uma chance,";
+	show "uma última chance de ver Maku...";
+	show "Então eu poderia chutá-lo";
+	show "com minhas próprias pernas! É, isso mesmo!";
+	show "Idiota arrogante! E mesmo assim,";
+	show "não posso fazer isso...";
+	next;
+	show "[Digotz]";
+	show "Os seguranças aqui";
+	show "nunca permitirão que os ricos e ";
+	show "os pobres se encontrem, temendo que";
+	show "os pobres comecem a perturbar a paz";
+	show "e ordem dessa cidade. É uma regra";
+	show "estúpida feita por pessoas estúpidas.";
+	next;
+	show "[Digotz]";
+	show "Mesmo assim, é bem assustador saber que";
+	show "alguém pode ser punido";
+	show "por violar tão estúpido";
+	show "tabu, na verdade. De todo jeito, se";
+	show "você ver Maku de novo, diga";
+	show "diga isso pra ele por mim, entendeu?";
+	next;
+	show "[Digotz]";
+	show "^FF0000Tolo sem futuro!";
+	show "Você continua um idiota teimoso!";
+	show "Você me deve no mínimo três lanches!";
+	show "Isso sem mencionar desculpas!";
+	show "Mas quem liga para o que você pensa?!";
+	show "Estou feliz pra caramba sem você!";
+	set friendship,4;
+	close;
+
+s_Cont4:
+	show "[Digotz]";
+	show "Ainda está passeando pela";
+	show "Alta Lighthalzen?";
+	show "Não que eu ligue, mas se ";
+	show "você por um acaso encontrar Maku,";
+	show "entregue essa mensagem por";
+	show "por mim, frase por frase.";
+	next;
+	show "[Digotz]";
+	show "^FF0000Tolo sem futuro!";
+	show "Você continua um idiota teimoso!";
+	show "Você me deve no mínimo três lanches!";
+	show "Isso sem mencionar desculpas!";
+	show "Mas quem liga para o que você pensa?!";
+	show "Estou feliz pra caramba sem você!";
+	close;
+
+s_Cont5:
+	show "[Digotz]";
+	show "Oh, fazia um tempo.";
+	show "O qu está fazendo";
+	show "aqui? E, um, você";
+	show "mandou aquela mensagem";
+	show "ao Maku? Agora que penso";
+	show "sobre isso, eu estava mei--";
+	next;
+	show "[" + strcharinfo(0) + "]";
+	show "Eu entreguei a mensagem";
+	show "palavra por palavra, e Maku";
+	show "ficou bravo, te chamou de várias coisas";
+	show "e está disposto a te";
+	show "bater muito.";
+	next;
+	show "[Digotz]";
+	show "Esse sujo sem valor,";
+	show "de carne podre!";
+	show "Se não fosse por esses";
+	show "guardas, eu iria até o";
+	show "gueto e espancaria Maku";
+	show "sozinho! Esse cara estúpido!";
+	next;
+	show "[Digotz]";
+	show "Em tempos assim,";
+	show "eu realmente sinto falta de ^FF0000Benkaistein^000000";
+	show "aquele cara sempre tinha resposta para";
+	show "esse tipo de ";
+	show "situação. É, eu acho que ele";
+	show "está em alguma cidade longe daqui, estudando.";
+	next;
+	show "[Digotz]";
+	show "Suponho que ele esteja naquele";
+	show "lugar, qualquer que seja o nome,";
+	show "desde que há milhares de livros ";
+	show "lá que ele pode usar.Mas";
+	show "é, Benkaistein seria";
+	show "sempre o mediador...";
+	next;
+	show "[Digotz]";
+	show "Mesmo naquela época, quando";
+	show "eu, ele e Maku costumávamos";
+	show "sair juntos, Benkastein ia";
+	show "achar algo que nos agradasse caso entrássemos em";
+	show "algum tipo de desentendimento. Mesmo assim, ele não poderia";
+	show "fazer nada por Maku agora...";
+	next;
+	show "[Digotz]";
+	show "Eu não sei por quê,";
+	show "mas estou tão nervoso!";
+	show "Por quê estou me estressando";
+	show "tanto por isso?!";
+	set friendship2,1;
+	close;
+
+s_Cont6:
+	show "[Digotz]";
+	show "Mesmo que Benkaistein voltasse";
+	show "de qualquer lugar que estivesse";
+	show "estudando, eu não creio que ele";
+	show "seria capaz de convencer Maku à se desculpar";
+	show "comigo. Esse cara é simplesmente";
+	show "muito retardado para seu próprio bem!";
+	if(friendship != 7)close;
+	next;
+	menu "Mostrar o Noticiário de Benkastein.",s_Journal,"Não mostrar o Noticiário de Benkastein.",-;
+
+	show "[Digotz]";
+	show "Eu não entendo";
+	show "por quê estou tão nervoso!";
+	show "Estou começando a agir";
+	show "mais como Maku, mas,";
+	show "não me entenda errado, não";
+	show "que eu me importe com esse cara.";
+	close;
+
+s_Journal:
+	show "[Digotz]";
+	show "Por quê estou tão descompassado?";
+	show "^3131FF*Cabisbaixo*^000000 Você tem algo ";
+	show "para me mostrar? Huh? Benkastein";
+	show "queria que eu desse uma lida esse seu";
+	show "diário? Claro, por que não? Eu realmente";
+	show "devo muito a ele por todos esses anos...";
+	next;
+	show "[Noticiário de Benkastein]";
+	show "^AD9595Hoje, eu, Digotz e";
+	show "Maku brincamos desse jogo de voar";
+	show "maluco. Basicamente, nós fizemos";
+	show "umas asas de madeira e";
+	show "papel, pulamos das montanhas";
+	show "e tentamos voar. Bobo, eu sei.";
+	next;
+	show "^000000[Noticiário de Benkastein]";
+	show "^AD9595Hoje foi minha vez de";
+	show "pular e bater meus braços com essas";
+	show "falsas e mal-feitas asas.";
+	show "Não é uma boa brincadeira quando";
+	show "paro para pensar sobre ela. cara, eu espero";
+	show "que não façamos isso novamente.";
+	next;
+	show "^000000[Digotz]";
+	show "Nossa, eu lembro disso!";
+	show "Maku vestia as asas a maioria";
+	show "do tempo, mas eu ainda mantenho o recorde ";
+	show "por ter ficado mais tempo";
+	show "que todos no ar! É, eu era";
+	show "um regular Garoto Pegasus~";
+	next;
+	show "[Noticiário de Benkastein]";
+	show "^AD9595Maku, Digotz e eu fomos ";
+	show "para fora da cidade. É claro,";
+	show "não contamos a ninguém, ou";
+	show "estaríamos em problemas. Foi";
+	show "um dia muito emocionante.Mas";
+	show "então, achamos um monstro!";
+	next;
+	show "^000000[Noticiário de Benkastein]";
+	show "^AD9595Eu queria fugir mas Maku";
+	show "e Digotz queriam bater no monstro";
+	show "para que pudéssemos virar heróis.";
+	show "Claro, ficamos muito machucados,";
+	show "e o monstro foi embora.";
+	show "Cara, minha mãe não ficou nada feliz...";
+	next;
+	show "^000000[Digotz]";
+	show "Huh. Eu não lembro disso";
+	show "muito bem. Mas eu sei que";
+	show "Benkastein, eu e Maku";
+	show "não tínhamos medo de nada naquela";
+	show "época. Devíamos ser loucos";
+	show "para lutar com um monstro, também.";
+	next;
+	show "[Noticiário de Benkastein]";
+	show "^AD9595Digotz está doente há três";
+	show "dias agora. É apenas uma gripe";
+	show "normal e  Maku fica dizendo";
+	show "que é culpa do Digotz por ter ficado doente.";
+	show "Mas ele está sempre me pedindo para ";
+	show "ir visitá-lo e ver se ele está bem.";
+	next;
+	show "^000000[Digotz]";
+	show "Eu acho que lembro de ter ficado";
+	show "bem doente. Maku estava preocupado?";
+	show "Eu... Eu devo ter pegado alguma doença";
+	show "com risco de morte, como...";
+	show "um, Gonorréia. É, é.";
+	show "Deve ter sido isso.";
+	next;
+	show "[Noticiário de Benkastein]";
+	show "^AD9595Mamãe e papai continuam ";
+	show "dizendo que eu não devo mais sair com o ";
+	show "Maku. A razão deles é bem";
+	show "idiota, e não ligo se ele é";
+	show "pobre. Ele é um dos melhores garotos";
+	show "que eu conheço.";
+	next;
+	show "^000000[Noticiário de Benkastein]";
+	show "^AD9595A família de Digotz";
+	show "é bem rica e eles também não";
+	show "querem que ele veja mais o Maku.";
+	show "Mas Digotz não se importa.";
+	show "Eu sei que ele gosta muito de Maku.";
+	next;
+	show "^000000[Digotz]";
+	show "Bom, éramos muito menores e";
+	show "mais próximos naquela";
+	show "época, então... ^111111*Ahem!*^000000por quê";
+	show "Benkastein sequer escreveu isso?!";
+	next;
+	show "[Noticiário de Benkastein]";
+	show "^AD9595Hoje, nós três fizemos";
+	show "um juramento de amizade,";
+	show "igualzinho ao que lemos naquela história";
+	show "em quadrinhos. Nós juramos que";
+	show "seríamos amigos não importa o quê.";
+	show "Para sempre e sempre.";
+	next;
+	show "^000000[Digotz]";
+	show "Eu... Eu fui forçado a fazer";
+	show "esse juramento!E as pessoas de fato";
+	show "mudam, 'cê sabe! Quero dizer,";
+	show "éramos apenas crianças,";
+	show "não é como se esse juramento";
+	show "realmente signifique algo agora, não é?";
+	next;
+	show "[Digotz]";
+	show "Ah, que seja. Eu vou";
+	show "ver Maku. Eu não ";
+	show "sinto falta dele ou algo do tipo, mas";
+	show "eu realmente preciso cancelar";
+	show "aquele juramento. E talvez";
+	show "eu até bata um pouco em Maku.";
+	set friendship,8;
+	close;
+
+s_Cont7:
+	show "[Digotz]";
+	show "Wh-whoa, Eu preciso";
+	show "ir me arrumar! Aquele Maku";
+	show "vai tirar sarro de mim se eu";
+	show "estiver parecendo rico e muito pomposo.";
+	show "Porcaria! Onde foi que eu coloquei";
+	show "minhas roupas de rua?";
+	close;
+
+s_Wounded:
+	show "^3131FFDigotz está seriamente";
+	show "ferido por um corte";
+	show "por uma faca, que ainda está";
+	show "enfincada em sua barriga.^000000";
+	next;
+	show "[" + strcharinfo(0) + "]";
+	show "Digotz...?";
+	show "Oh não, deixe-me";
+	show "achar-lhe ajuda!";
+	next;
+	show "[Digotz]";
+	show "H-heh... É o";
+	show "aventureiro... Cara,";
+	show "aquele Maku. Ele sempre";
+	show "me trouxe má sorte...";
+	show "É muito tarde agora e ";
+	show "eu não tenho muito tempo...";
+	next;
+	show "[Digotz]";
+	show "Aqueles guardas de quem lhe";
+	show "falei sobre... Os que não querem que";
+	show "os pobres e os ricos se";
+	show "falem? Eu... Acho que eles descobriram";
+	show "que eu ia encontrar meu velho";
+	show "amigo. Eu só queria vê-lo...";
+	next;
+	show "[Digotz]";
+	show "Aquele homem... Num terno";
+	show "preto... Ele simplesmente... Ele simplesmente";
+	show "me esfaqueou! Eu...Deus. Faz";
+	show "tanto tempo desde que falei com";
+	show "ele. Nós vamos sair e nos divertir,";
+	show "bem como fazíamos nos velhos tempos.";
+	next;
+	show "[Digotz]";
+	show "Eu senti falta dos meus companheiros,mas...";
+	show "Agora eu posso os escutar me chamando.";
+	show "Agora podemos ficar juntos como";
+	show "todos prometemos. É...";
+	show "Eu estava errado. A vida é muito curta";
+	show "para ficarmos bravos com nossos ami--";
+	next;
+	show "[Digotz]";
+	show "..............";
+	next;
+	show "[Digotz]";
+	show "..............";
+	show ".......................";
+	next;
+	show "[Digotz]";
+	show "..............";
+	show ".......................";
+	show "................................";
+	next;
+	show "^3131FFDigotz parou de respirar.";
+	show "Você remove a faca";
+	show "de seu corpo inerte como uma última";
+	show "cortesia ao homem que";
+	show "amou tanto seus amigos.";
+	next;
+	set friendship,10;
+	additem 1201,1;
+	close;
+
+s_Dead:
+	show "^3131FFDigotz morreu,";
+	show " mas a expressão em ";
+	show "sua face parece ser bem";
+	show "contente e tranqüila.";
+	close;
+
+}
+
+lighthalzen.gat,337,232,3	script	Maku	870,{
+
+	if(friendship > 1)goto Switches;
+	show "[Maku]";
+	show "Ei, você é um";
+	show "desses aventureiros, é?";
+	show "Bem-vindo ao gueto.";
+	show "Nada muito emocionante";
+	show "aqui, mas ó, você pode";
+	show "explorar o quanto quiser.";
+	next;
+	show "[Maku]";
+	show "Não sei se você sabe";
+	show "mas atualmente, as pessoas que";
+	show "moram aqui não tem permissão para";
+	show "explorar a cidade toda. É";
+	show "um tipo de tabu e não deveríamos falar sobre isso,";
+	show "mas para quê ligar, certo?";
+	next;
+	show "[Maku]";
+	show "É, basicamente as pessoas";
+	show "ricas têm muito medo";
+	show "dos pobres indo os ";
+	show "visitar, então a segurança nessa";
+	show "cidade é bem durona! Esses";
+	show "caras riquinhos são lixo...";
+	next;
+	show "[Maku]";
+	show "Eu não costumava pensar";
+	show "assim. Na verdade, eu costumava";
+	show "ter um amigo rico";
+	show "até que eu descobri que ele não era tudo";
+	show "que eu pensava que era. Aquele";
+	show "trouxa! Por que ele é assim?!";
+	next;
+	show "[Maku]";
+	show "É, esqueça isso.";
+	show "Nem sei por quê estou";
+	show "falando da minha vida pessoal";
+	show "para alguém que acabei de conhecer,";
+	show "mesmo. Claro, todos nós ";
+	show "fazemos isso, mas ainda...";
+	next;
+	show "[Maku]";
+	show "Bom, quando você se";
+	show "cansar do gueto,";
+	show "'cê realmente precisa ir ver";
+	show "a parte rica da cidade.";
+	show "Sei que soa estranho, mas eu vou admitir";
+	show "que lá é muito melhor do que este lugar.";
+	if(BaseLevel > 29) set friendship,1;
+	close;
+
+
+Switches:
+	switch(friendship)
+	{
+	
+	case 2:
+		show "[Maku]";
+		show "Ei, o que você";
+		show "ainda está fazendo por aqui?";
+		show "Eu achava que tinha recomendado";
+		show "que você fosse ver a ";
+		show "Alta Lighthalzen. Esse";
+		show "lugar é bem sem-graça...";
+		next;
+		menu "É que eu conheci Digotz e...",-;
+
+		show "[Maku]";
+		show "Você o que...?!";
+		show "Você viu meu velho amigo,";
+		show "Digotz?! Er, quero dizer,";
+		show "Senhor Alexander Digotz,";
+		show "que costumava ser meu colega,";
+		show "mas que óbviamente não é mais.";
+		next;
+		show "[Maku]";
+		show "Claro, éramos muito próximos";
+		show "um tempo, mas isso foi há";
+		show "muito tempo atrás. Faz tempo";
+		show "desde que saímos juntos";
+		show "e agora ele provavelmente odeia";
+		show "meu bolso sem dinheiro e...";
+		next;
+		show "[Maku]";
+		show "Argh, apenas me escute bem,";
+		show " Eu pareço um fraco assim.";
+		show "Eu não sinto falta de Digotz! Na verdade,";
+		show "eu odeio aquele cara, cem";
+		show "porcento! Da próxima vez que eu";
+		show "vê-lo, eu irei quebrar a cara dele!";
+		set friendship,3;
+		close;
+	break;
+
+	case 3:
+		show "[Maku]";
+		show "Cara, preciso me estressar ";
+		show "mesmo! Claro, eu e  Digotz";
+		show "éramos camaradas antes e pode ";
+		show "parecer que somos amigos agora,";
+		show "mas não mesmo, mesmo que costumássemos ser";
+		show "muito mais próximos que isso. Argh!";
+		next;
+		show "[Maku]";
+		show "Não me entenda errado, eu não";
+		show "sinto falta do cara ou algo do";
+		show "tipo e não sinto muito pelo";
+		show "que aconteceu. Mas se um dia";
+		show "ele viesse se desculpar comigo, eu";
+		show "provavelmente aceitaria, sabe.";
+		next;
+		show "[Maku]";
+		show "Bem, depois de pensar";
+		show "sobre isso, claro.";
+		show "Quero dizer, não sou eu";
+		show "quem está guardando mágoas. É tudo";
+		show "culpa desse cara! Sheeeesh!";
+		close;
+	break;
+
+	case 4:
+		show "[Maku]";
+		show "Que diabos você";
+		show "ainda está fazendo aqui?";
+		show "Você deve ter melhores coisas pra fazer";
+		show "além de conversar com um pobretão";
+		show "como eu e um esnobe,";
+		show "totalmente convencido como Digotz.";
+		next;
+		menu "Falando dele...",-;
+		show "[" + strcharinfo(0) + "]";
+		show "Falando dele...";
+		show "Eu conversei com ele novamente.";
+		show "Ele me pediu para lhe passar uma";
+		show "mensagem, mas não tenho certe--";
+		next;
+		show "[Maku]";
+		show "Aquele bastardo ";
+		show "tem uma mensagem pra mim?!";
+		show "Oh, estou tãããão honrado~";
+		show "Diga-me o que aquele idiota";
+		show "tem a dizer, frase por frase!";
+		next;
+		digit @digotzstr$;
+		if(@digotzstr$ != "Tolo sem futuro!")goto failstr;
+		show "[Maku]";
+		show "\"Tolo sem futuro?!\"";
+		show "Bom, ao menos ele teve";
+		show "estômago para falar isso.";
+		show "Mesmo que por outra pessoa!";
+		show " O que mais ele disse?!";
+		next;
+		digit @digotzstr$;
+		if(@digotzstr$ != "Você continua um idiota teimoso!")goto failstr;
+		show "[Maku]";
+		show "\"Idiota teimoso?!\"";
+		show "Não leve ninguém para conhecer alguém,";
+		show "tolo! Por que eu deveria--";
+		show "Grrr! O que ele disse a seguir?!";
+		next;
+		digit @digotzstr$;
+		if(@digotzstr$ != "Você me deve no mínimo três lanches!")goto failstr;
+		show "[Maku]";
+		show "Três lanches?!";
+		show "Eu levei-o para";
+		show "lacnhar umas, quinze vezes!";
+		show "Eu lhe direi, esse cara não ";
+		show "conhece o significado de amizade!";
+		show "O que mais esse trouxa disse?!";
+		next;
+		digit @digotzstr$;	
+		if(@digotzstr$ != "Isso sem mencionar desculpas!")goto failstr;
+		show "[Maku]";
+		show "Eu, me desculpar?!";
+		show "Ele que deveria se ajoelhar e ";
+		show "juntar as mãos, implorando pelo";
+		show "meu bendito perdão! Aquele...";
+		show "Aquele egoís estúpido sem valor...";
+		show "O-Oque mais ele lhe disse?!";
+		next;
+		digit @digotzstr$;
+		if(@digotzstr$ != "Mas quem liga para o que você pensa?!")goto failstr;
+		show "[Maku]";
+		show "Quem liga para o que eu penso?!";
+		show "GRRRAAH~!! Quem liga";
+		show "para o que ele pensa!! ^111111*Respira respira*^000000";
+		show "Eu vou assassinar aquele";
+		show "idiota! Ele não pode me fazer";
+		show "mais nervoso do que estou agora!";
+		next;
+		digit @digotzstr$;
+		if(@digotzstr$ != "Estou feliz pra caramba sem você!")goto failstr;
+		show "[Maku]";
+		show "É isso.";
+		show "Está decidido. A";
+		show "próxima vez que eu ver Digotz,";
+		show "eu vou esfregar sua";
+		show "cara por todo o chão.";
+		set friendship,5;
+		close;
+	break;
+
+	case 5:
+		show "[Maku]";
+		show "RrrrRrrrr.....";
+		show "RrrrrRRRrrRR.....";
+		show "GGGGGRRRRR...";
+		next;
+		show "^3131FFUh oh...";
+		show "Parece que Maku";
+		show "está começando a ficar";
+		show "um pouco nervoso demais.^000000";
+		next;
+		show "[Maku]";
+		show "...";
+		show "......";
+		show ".........";
+		next;
+		show "[Maku]";
+		show "Gggrrrr...";
+		next;
+		show "[Maku]";
+		show "GRAAAAAAAAH~!";
+		show "Quem diabos ele pensa";
+		show "que é, me falando todo";
+		show "esse tipo de porcaria!? Digotz,";
+		show "você não vai fugir depois";
+		show "dessa! Destruirei você!!";
+		next;
+		set Hp,MaxHp/2;
+		show "^3131FFMaku agiat-se rapidamente e";
+		show "explode em pura e violenta";
+		show "fúria. Você consegue acalmá-lo";
+		show "depois de algum tempo, mas";
+		show "por pouco não consegue se salvar de";
+		show "ser morto pela sua raiva^000000";
+		next;
+		show "[Maku]";
+		show "^111111*Respira Respira* *Acalmando-se~*^000000";
+		show "N-Não se preocupe, eu tenho";
+		show "controle sobre mim, agora.";
+		show "Obrigado por não ter me deixado";
+		show "ficar muito nervoso. Em tempos como";
+		show "esse, eu realmente sinto falta de ^FF0000Benkaistein^000000.";
+		next;
+		show "[Maku]";
+		show "Benkastein sempre garantia";
+		show "que eu ficaria longe de";
+		show "brigas. Eu sinto muita falta desse";
+		show "garoto. Ainda assim, ele não está mais por aqui...";
+		next;
+		show "[Maku]";
+		show "Malditos sejam esses guardas!";
+		show "Se eles não estivessem ali,";
+		show "eu poderia simplesmente ir lá e";
+		show "bater no Digotz! Eu juro,";
+		show "se não fosse por eles...!";		
+		set friendship,6;
+		close;
+	break;
+
+	case 6:
+		show "[Maku]";
+		show "Arrrrgh! Sempre que escuto";
+		show "sobre Digotz, eu fico tão";
+		show "irritado! Esse cara está me";
+		show "deixando de lado só por que";
+		show "eu não sou um cara rico como ele?!";
+		next;
+		show "[Maku]";
+		show "Eu não posso...";
+		show "Eu não posso lhe dar uma surra";
+		show "bem dada por causa";
+		show "dessas porcarias de guardas!";
+		show "Arrrrrrrgh! Cara, onde está";
+		show "Benkastein quando preciso dele?";
+		close;
+	break;
+
+	case 7:
+
+	show "[Maku]";
+		show "Arrrrgh! Sempre que escuto";
+		show "sobre Digotz, eu fico tão";
+		show "irritado! Esse cara está me";
+		show "deixando de lado só por que";
+		show "eu não sou um cara rico como ele?!";
+		next;
+		show "[Maku]";
+		show "Eu não posso...";
+		show "Eu não posso lhe dar uma surra";
+		show "bem dada por causa";
+		show "dessas porcarias de guardas!";
+		show "Arrrrrrrgh! Cara, onde está";
+		show "Benkastein quando preciso dele?";
+		close;
+	break;
+
+	case 8:
+		show "[Maku]";
+		show "Ei, o que é isso? Você quer";
+		show "que eu leia esse noticiário?";
+		show "Er, certo, mas eu não fico";
+		show "confortável lendo o";
+		show "diário de alguém. Isso é";
+		show "meio... feio, entende?";
+		next;
+		show "[Maku]";
+		show "Ei, isso é de";
+		show "Benkastein. Eu não vejo";
+		show "ele há um bom tempo.";
+		show "Ah, ele te entregou isso para eu";
+		show "lê-lo? Tudo bem, eu devo-lhe um";
+		show "favor ou dois, então eu devo...";
+		next;
+		show "[Noticiário de Benkastein]";
+	        show "^AD9595Hoje, eu, Digotz e";
+	        show "Maku brincamos desse jogo de voar";
+	        show "maluco. Basicamente, nós fizemos";
+	        show "umas asas de madeira e";
+	        show "papel, pulamos das montanhas";
+	        show "e tentamos voar. Bobo, eu sei.";
+	        next;
+	        show "^000000[Noticiário de Benkastein]";
+	        show "^AD9595Hoje foi minha vez de";
+	        show "pular e bater meus braços com essas";
+	        show "falsas e mal-feitas asas.";
+	        show "Não é uma boa brincadeira quando";
+	        show "paro para pensar sobre ela. cara, eu espero";
+	        show "que não façamos isso novamente.";
+		next;
+		show "^000000[Maku]";
+		show "Do que ele está falando?!";
+		show "Esse jogo foi realmente legal!";
+		show "É, eu sempre usava as";
+		show "asas e Digotz sempre quis";
+		show "usá-las também.";
+		next;
+		show "[Noticiário de Benkastein]";
+	        show "^AD9595Maku, Digotz e eu fomos ";
+	        show "para fora da cidade. É claro,";
+	        show "não contamos a ninguém, ou";
+	        show "estaríamos em problemas. Foi";
+	        show "um dia muito emocionante.Mas";
+	        show "então, achamos um monstro!";
+	        next;
+	        show "^000000[Noticiário de Benkastein]";
+	        show "^AD9595Eu queria fugir mas Maku";
+	        show "e Digotz queriam bater no monstro";
+	        show "para que pudéssemos virar heróis.";
+	        show "Claro, ficamos muito machucados,";
+	        show "e o monstro foi embora.";
+	        show "Cara, minha mãe não ficou nada feliz...";
+		next;
+		show "^000000[Maku]";
+		show "Isso é verdade! Naquela época,";
+		show "nós três não tínhamos";
+		show "medo de nada! Claro,";
+		show "Digotz apanhou mais que todos.";
+		show "Mas eu devo falar, ele também era";
+		show "o mais desmetido de nós.";
+		next;
+		show "[Noticiário de Benkastein]";
+	        show "^AD9595Digotz está doente há três";
+	        show "dias agora. É apenas uma gripe";
+	        show "normal e  Maku fica dizendo";
+	        show "que é culpa do Digotz por ter ficado doente.";
+	        show "Mas ele está sempre me pedindo para ";
+	        show "ir visitá-lo e ver se ele está bem.";
+		next;
+		show "^000000[Maku]";
+		show "O-Oque?! Não, eu não estava";
+		show "preocupado! Deve ter ";
+		show "sido aquela vez em que Digotz";
+		show "pegou Clymonia. Sabe,";
+		show "aquela, uh, horrível doença. Ninguém";
+		show "deveria pegar essa doença!";
+		next;
+		show "^AD9595Mamãe e papai continuam ";
+	        show "dizendo que eu não devo mais sair com o ";
+	        show "Maku. A razão deles é bem";
+	        show "idiota, e não ligo se ele é";
+	        show "pobre. Ele é um dos melhores garotos";
+	        show "que eu conheço.";
+	        next;
+	        show "^000000[Noticiário de Benkastein]";
+	        show "^AD9595A família de Digotz";
+	        show "é bem rica e eles também não";
+	        show "querem que ele veja mais o Maku.";
+	        show "Mas Digotz não se importa.";
+	        show "Eu sei que ele gosta muito de Maku.";
+		next;
+		show "^000000[Maku]";
+		show "...";
+		show "......";
+		next;
+		show "[Noticiário de Benkastein]";
+	        show "^AD9595Hoje, nós três fizemos";
+	        show "um juramento de amizade,";
+	        show "igualzinho ao que lemos naquela história";
+	        show "em quadrinhos. Nós juramos que";
+	        show "seríamos amigos não importa o quê.";
+	        show "Para sempre e sempre.";
+		next;
+		show "^000000[Maku]";
+		show "Bom, isso é verdade,";
+		show "eu acho, mas as pessoas";
+		show "mudam! Além de quê, pegamos";
+		show "essa idéia de uma revista em quadrinhos!";
+		show "Bom, se ele pedisse desculpas primeiro,";
+		show "eu creio que eu o perdoaria.";
+		next;
+		show "[" + strcharinfo(0) + "]";
+		show "Que bom...";
+		show "Por que Digotz disse";
+		show "que ele chegará aqui";
+		show "em alguns dias.";
+		next;
+		show "[Maku]";
+		show "O que?! Ele realmente vai vir";
+		show "aqui? Pra quê? É tarde demais";
+		show "para arrumar as coisas! Ainda assim, eu ficaria";
+		show "ainda mais nervoso se não o visse.";
+		show "Tá , tá bom! Eu irei ensiná-lo";
+		show "uma lição quando ele chegar aqui!";
+		next;
+		show "[Maku]";
+		show "E, um, me dá esse";
+		show "noticiário! Quero lê-lo";
+		show "mais para poder tirar";
+		show "sarro de Digotz. Bwahahaha!";
+		show "Mas sim, um, obrigado. Não que ";
+		show "esteja agradecido ou algo do tipo.";
+		next;
+		show "[Maku]";
+		show "Então, uh, eu creio que";
+		show "vejo-lhe mais tarde.";
+		show "Um, agora preciso me";
+		show "aprontar para algo.";
+		show "^111111(Mas não para ver Digotz!)";
+		if(countitem(7351))delitem 7351,1;
+		set friendship,9;
+		close;
+	break;
+
+	case 9:
+		show "[Maku]";
+		show "Por quê Digotz está";
+		show "tão atrasado? Isso não";
+		show "parece nenhum pouco com ele. Talvez";
+		show "algo errado esteja acontecendo?";
+		close;
+	break;
+
+	case 10:
+		show "[Maku]";
+		show "Por quê Digotz está";
+		show "tão atrasado? Isso não";
+		show "parece nenhum pouco com ele. Talvez";
+		show "algo errado esteja acontecendo?";
+		next;
+		show "[Maku]";
+		show "Heh, ele deve ter";
+		show "algum tipo de razão para";
+		show "estar atrasado, mas se não tiver,";
+		show "eu estive guardando";
+		show "meu pacote de chutes para abrir,";
+		show "só pra ele. Heh heh heh~";
+		close;
+	break;
+
+	case 11:
+		show "[Maku]";
+		show "Por quê Digotz está";
+		show "tão atrasado? Isso não";
+		show "parece nenhum pouco com ele. Talvez";
+		show "algo errado esteja acontecendo?";
+		next;
+		show "[Maku]";
+		show "Heh, ele deve ter";
+		show "algum tipo de razão para";
+		show "estar atrasado, mas se não tiver,";
+		show "eu estive guardando";
+		show "meu pacote de chutes para abrir,";
+		show "só pra ele. Heh heh heh~";
+		close;
+	break;
+	}
+
+failstr:
+	show "[Maku]";
+	show "Hã...? Não sei se Digotz";
+	show "diria algo deste";
+	show "tipo. Tem certeza que você ";
+	show "o ouviu atentamente?Faz";
+	show " algum tempo, mas eu sei";
+	show "como Digotz fala, cara.";
+	close;
+}
+
+yuno_in04.gat,107,14,4	script	Estudante	754,{
+
+	show "[Joey Choryee]";
+	show "Essa é uma área de estudo onde";
+	show "você não deveria falar,";
+	show "andar ou mesmo respirar muito alto.";
+	show "E mesmo assim, estudantes como Benkastein";
+	show "podem calar o mundo todo";
+	show "quando estudam duro o suficiente...";
+	if(friendship != 6)close;
+	next;
+	show "[Joey Choryee]";
+	show "Benkastein...?";
+	show "Ele está na parte norte";
+	show "deste quarto. Ele é um ótimo";
+	show "cara,mas um pouco antiquado.";
+	show "Bem, ele é organizado demais";
+	show "e etiqueta tudo!";
+	close;
+
+}
+
+yuno_in04.gat,96,106,4	script	Estudante Compenetrado	754,{
+
+	if(friendship == 10)goto s_Ask;
+	if(friendship3 == 2 || friendship3 == 3)goto s_Cont2;
+	if(friendship3 == 1)goto s_Cont;
+	show "[Estudante Compenetrado]";
+	show "Deixe-me ver, agora.";
+	show "Magia do Vento,Magia Negra,";
+	show "Porings, ah, aqui está";
+	show "Propriedades das raças de Monstros.";
+	show "Espero que isso contenha";
+	show "a informação da qual preciso...";
+	next;
+	if(friendship != 6)goto s_Dialog;
+	show "Após olhar de relance, momentâneamente";
+	show "para os pertences deste estudante,";
+	show "você percebe que o nome";
+	show "\"Benkastein\" está impresso";
+	show "neles. Este é o amigo de quem";
+	show " Maku e Digotz falavam!";
+	next;
+	menu "Com lincença...",-;
+	show "[" + strcharinfo(0) + "]";
+	show "Com licença...";
+	show "Benkastein?";
+	next;
+	show "[Estudante Compenetrado]";
+	show "...O mundo dos humanos";
+	show "e o mundo dos demônios,";
+	show "sim, sim... Não, o que estou";
+	show "procurando é uma referência ";
+	show "aos céus de Asgard.";
+	show "Hmm, isso aqui deve me ajudar...";
+	next;
+	menu "Ei...",-;
+	show "[" + strcharinfo(0) + "]";
+	show "Ei...";
+	show "Aqui.";
+	show "Benkastein!";
+	next;
+	show "[Estudante Compenetrado]";
+	show "...Oh, esta de fato é";
+	show "uma observação interessante.";
+	show "Se eu pudesse incorporá-la";
+	show "a minha tese sem muitos";
+	show "problemas, minha teoria";
+	show "pareceria muito mais sólida...";
+	next;
+	menu "EI VOCÊ...!",-;
+	show "[" + strcharinfo(0) + "]";
+	show "EI VOCÊ...!";
+	show "BENKASTEIN~!";
+	next;
+	show "[Passionate Student]";
+	show "Oh, céus!";
+	show "V-Você não pode";
+	show "manter sua voz baixa?";
+	show "E-Estou tentando estudar!";
+	show "Não, espere. Você esteve";
+	show "me chamando todo esse tempo?";
+	set friendship3,1;
+	close;
+
+s_Cont:
+	show "[Estudante Compenetrado]";
+	show "Oh, você me assustou!";
+	show "Ainda assim, tenho noção de como";
+	show "é difícil ganhar minha atenção";
+	show "uma vez que me concentro na leitura de ";
+	show "um livro. Então, como";
+	show "posso lhe ajudar, aventureiro?";
+	next;
+	menu "Falar sobre Maku e Digotz.",-;
+	show "[Benkastein]";
+	show "Oh, como estão meus";
+	show "amigos? Oh,como é? Eles estão";
+	show "tendo uma grande briga só";
+	show "por que um é pobre e ";
+	show "o outro é rico?";
+	show "Isso é muito infantil!";
+	next;
+	show "[Benkastein]";
+	show "Mas novamente, isso é simplesmente";
+	show "o jeito deles. ^111111*Cabisbaixo*^000000 Eu realmente quero";
+	show "voltar para casa e fazê-los fazerem";
+	show "as pazes, mas também preciso";
+	show "termianr a minha tese. Vejamos...";
+	show "O que eu possivelmente posso fazer daqui por eles?";
+	next;
+	show "[Benkastein]";
+	show "Oh, já sei o que posso fazer!";
+	show "Espere, mas onde eu coloquei?";
+	show "Oh, como eu posso ter perdido algo";
+	show "tão importante? Espere! Você poderia";
+	show "me esperar um segundo enquanto";
+	show "eu procuro por algo?";
+	set friendship3,2;
+	close;
+
+s_Cont2:
+	show "[Benkastein]";
+	show "Que coisa, isto está";
+	show "demorando muito mais";
+	show "do que eu estava pensando que demoraria.";
+	show "Onde será que coloquei";
+	show "aquela coisa? Hmmmm...";
+	if(friendship3 == 3)goto s_Cont3;
+	next;
+	show "^3131FFTalvez fosse melhor";
+	show "se você ajudasse";
+	show "Benkastein a achar o que";
+	show "ele está procurando.";
+	close;
+
+s_Cont3:
+	next;
+	show "[Benkastein]";
+	show "Oh, como é?";
+	show "Você achou meu";
+	show "noticiário? Rápido, deixe-me";
+	show "vê-lo. Sim, sim...";
+	show "É esse mesmo! Muito obrigado";
+	show "por achar isso para mim!";
+	next;
+	show "[Benkastein]";
+	show "Você se importaria";
+	show "em fazer um favor para mim? Seria";
+	show "melhor que eu falasse com eles";
+	show "pessoalmente, mas estou muito";
+	show "ocupado nessa tese...";
+	next;
+	show "[Benkastein]";
+	show "Você poderia por favor";
+	show "mostrar esse no9ticiário a Digotz e Maku?";
+	show "Eu o escrevi quando éramos";
+	show "bem pequenos, então isto deverá lembrá-los";
+	show "daqueles bons tempos";
+	show "em que costumávamos estar juntos.";
+	next;
+	show "[Benkastein]";
+	show "Ao menos, isso deve ajudá-los";
+	show "pelo menos a perceber";
+	show "quão estúpidamente estão";
+	show "agindo. Obrigado novamente,";
+	show "e por favor cuide bem de";
+	show "Maku e Digotz por mim.";
+	if(friendship == 6)set friendship,7;
+	close;
+
+s_Dialog:
+	show "^3131FFEsse estudante parece estar";
+	show "conduzindo seriamente";
+	show "uma intensiva pesquisa sobre";
+	show "um assunto acadêmico. Por agora,";
+	show "deve ser melhor deixá-lo sozinho";
+	show "para que ele possa estudar em paz.";
+	close;
+
+s_Ask:
+	show "[Benkastein]";
+	show "Você conseguiu levar m";
+	show "meu noticiário para Digotz e";
+	show "Maku?Eu estou certo de que";
+	show "ele os fará lembrar dos nossos";
+	show "velhos tempos. Eu também sei que eles";
+	show "podem ser bem teimosos...";
+	next;
+	show "[Benkastein]";
+	show "De todo jeito, eu agradeço";
+	show "toda a sua";
+	show "ajuda. Quando eu voltar para";
+	show "casa, eu espero conseguir";
+	show "ver aqueles dois novamente.";
+	next;
+	show "[Benkastein]";
+	show "Até lá, eu preciso pesquisar,";
+	show "terminar minha tese e alcançar ";
+	show "todas minhas metas acadêmicas. Oh, por favor";
+	show "pegue este passe para que possa";
+	show "ir e voltar da área pobre para a rica";
+	show "como um agradecimento meu.";
+	next;
+	show "[Benkastein]";
+	show "Claro, também desejo-lhe";
+	show "segurança nas suas viagens,";
+	show "aventureiro. Quando nós";
+	show "três estivermos juntos, eu farei";
+	show "certamento com que você fique sabendo~";
+	if(BaseLevel < 41)set BaseExp,BaseExp+49500;
+	else if(BaseLevel > 40 && BaseLevel < 61)set BaseExp,BaseExp+99000;
+	else if(BaseLevel > 60 && BaseLevel < 71)set BaseExp,BaseExp+198000;
+	else if(BaseLevel > 70 && BaseLevel < 81)set BaseExp,BaseExp+396000;
+	else if(BaseLevel > 80 && BaseLevel < 91)set BaseExp,BaseExp+594000;
+	else if(BaseLevel > 90)set BaseExp,BaseExp+792000;
+	additem 7350,1;
+	set friendship,11;
+	set friendship3,0;
+	close;
+
+}
+
+yuno_in04.gat,168,117,1	script	Livro	111,{
+
+	if(friendship3 >= 3)goto Book2;
+	if(friendship3 == 2)goto Book;
+	show "^3131FFEsse livro está etiquetado como,";
+	show "\"Noticiário de Benkastein";
+	show "Vol. 6.\".";
+	close;
+Book:
+	show "^3131FFEsse livro está etiquetado como,";
+	show "\"Noticiário de Benkastein";
+	show "Vol. 6.\". Isso é provavelmente";
+	show "a coisa que Benkastein estava tentando";
+	show "encontrar, então é melhor levar isto";
+	show "e mostrar logo para ele";
+	set friendship3,3;
+	additem 7351,1;
+	close;
+Book2:
+	show "^3131FFAqui foi onde você encontrou";
+	show "o livro que Benkastein";
+	show "estava procurando.";
+	close;
+
+}
+
+yuno_in04.gat,169,109,1	script	A Ambição Hollgrehenn	111,{
+
+	show "*Hollgrehenn: A Ambição*";
+	show "Por Aragham Caul*";
+	show "";
+	show "";
+	show "";
+	show "";
+	show "Publicante:";
+	show " Livros Muha, Co.";
+	next;
+	show "...";
+	show "Nada o pararia até que";
+	show "estivesse com a mais poderosa arma";
+	show "no mundo em suas mãos.";
+	show "Ele se tornou um ferreiro para que ";
+	show "pudesse distinguir quais eram";
+	show "as mais fortes armas...";
+	next;
+	show "[" + strcharinfo(0) + "]";
+	show "Que coisa estranha...";
+	show "A próxima página";
+	show "foi arrancada.";
+	close;
+
+}
+
+yuno_in04.gat,171,117,1	script	Lista de Livros	111,{
+
+	show "^3131FFVocê acha uma série";
+	show "de livros encapados";
+	show "com títulos, impressos";
+	show "com uma letra decorativa, muito";
+	show "elegante e chamativa";
+	show "na capa destes.";
+	show "Alguns dos títulos incluem...";
+	next;
+	show "*Paixão Vulcânica*";
+	show "*Meia-Noite Crescente*";
+	show "*Um Caso Em Paris*";
+	show "*Amor em Jogo*";
+	show "*O Vizinho Cowboy*";
+	show "*Romance Platônico*";
+	show "*Como Lara Conseguiu Seu Dom De Volta*";
+	next;
+	show "^000000[" + strcharinfo(0) + "]";
+	show "O que...?!";
+	show "Esse lugar tem até";
+	show "uma seção com livros de romance?";
+	close;
+
+}

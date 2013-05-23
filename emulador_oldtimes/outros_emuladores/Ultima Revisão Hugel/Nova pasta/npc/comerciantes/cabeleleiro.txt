@@ -1,0 +1,154 @@
+//===== Cronus Script ======================================== 
+//= Cabelereiro
+//===== Por: ================================================= 
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.0b
+//===== Compatível Com: ====================================== 
+//= Cronus SVN 700+
+//===== Descrição: ===========================================
+//= Hair Dyer with standard palletes
+//===== Comentários Adicionais: ============================== 
+//= 1.0 Traduzido para PT-BR e adaptado [Cervej4]
+//= 1.0b Revisado, fix language [Page]
+//============================================================ 
+
+// Cabeleleiro Jovovich -----------------------------------------------------
+prt_in,243,168,4	script	Cabeleleiro Jovovich	91,{
+	show "[Cabeleleiro Jovovich]";
+	show "Bem-Vindo ao meu Salão de Beleza.";
+	next;
+	show "[Cabeleleiro Jovovich]";
+	show "Oh.. eu não acho que seu cabelo está em boas condições. Acho que você precisa de algo especial.";
+	qMenu0:
+	next;
+	menu "-Tingir cabelo.",M_0, "-Lista de Preços",M_1, "-Dicas de Cabelos",M_2, "-Cancelar",M_End;
+
+	M_0:
+		show "[Cabeleleiro Jovovich]";
+		show "Hohoho~ Boa escolha~~ Qualquer hora é hora de tingir cabelos.";
+		next;
+		show "[Cabeleleiro Jovovich]";
+		show "Escolha a cor que você deseja";
+		next;
+		menu "-Vermelho, por favor.",sM_a, "-Amarelo, por favor.",sM_b,  "-Violeta, por favor.",sM_c, "-Laranja, por favor.",sM_d, "-Verde, por favor.",sM_e,"-Azul, por favor.",sM_f, "-Branco, por favor.",sM_g, "-Preto, por favor.",sM_h, "-Desculpe, mas mudei de idéia.",M_End;
+
+		sM_a:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(975) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			set Zeny, Zeny - 1000;
+			delitem 975,1;
+			show "Ok. Vamos tingir seu cabelo de Vermelho.";
+			setlook 6,8;
+
+			close;
+
+		sM_b:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(976) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Amarelo.";
+			setlook 6,1;
+			delitem 976,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_c:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(981) < 1) goto  sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Violeta.";
+			setlook 6,2;
+			delitem 981,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_d:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(980) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Laranja.";
+			setlook 6,3;
+			delitem 980,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_e:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(979) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Verde.";
+			setlook 6,4;
+			delitem 979,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_f:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(978) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Azul.";
+			setlook 6,5;
+			delitem 978,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_g:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(982) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Branco.";
+			setlook 6,6;
+			delitem 982,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sM_h:
+			show "[Cabeleleiro Jovovich]";
+			if(countitem(983) < 1) goto sL_NoDye;
+			if(Zeny < 1000) goto sL_Zeny;
+			show "Ok. Vamos tingir seu cabelo de Preto.";
+			setlook 6,7;
+			delitem 983,1;
+			set Zeny, Zeny - 1000;
+			close;
+
+		sL_NoDye:
+			show "Para pintar seu cabelo, preciso de tinta. Por favor, veja minha lista de preços.";
+			close;
+
+		sL_Zeny:
+			show "Desculpe, mas você não possui zeny o suficiente.";
+			close;
+
+	M_1:
+		show "[Cabeleleiro Jovovich]";
+		show "Aqui está uma lista de cores que você pode escolher e seus respectivos preços:";
+		show " - Vermelho: 1000 zeny, 1 Tintura Vermelha";
+		show " - Amarelo: 1000 zeny, 1 Tintura Verde";
+		show " - Violeta: 1000 zeny, 1 Tintura Violeta";
+		show " - Laranja: 1000 zeny, 1 Tintura Laranja";
+		show " - Verde: 1000 zeny, 1 Tinturage Verde Escura";
+		show " - Azul: 1000 zeny, 1 Tintura Azul";
+		show " - Branco: 1000 zeny, 1 Tintura Branca";
+		show " - Preto: 1000 zeny, 1 Tintura Preta";
+		goto qMenu0;
+
+	M_2:
+		show "[Cabeleleiro Jovovich]";
+		show "Quando você sentir vontade, de ficar bonito... Se você deseja ter uma beleza quente, fale comigo...";
+		next;
+		show "[Cabeleleiro Jovovich]";
+		show "Mudar a cor de seu cabelo aqui, com certeza lhe trará confiança!";
+		next;
+		show "[Cabeleleiro Jovovich]";
+		show "Por um pequeno preço de 1000z e uma tintura, posso lhe dar a cor dos seus sonhos!";
+		next;
+		goto qMenu0;
+
+	M_End:
+		show "[Cabeleleiro Jovovich]";
+		show "Eu acho que... todo humano segue um caminho para ficar bonito...";
+		close;
+}

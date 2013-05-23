@@ -1,0 +1,408 @@
+//===== Cronus Script ======================================== 
+//= Script Gatuno
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.6
+//===== Descrição: =========================================== 
+//= Muda a classe para Gatuno
+//===== Changelog: =========================================== 
+//= 1.5 Traduzido [DarkAngel]
+//= 1.6 Corrigido erros de português [Kamper]
+//============================================================
+
+// == Monsters ==
+//Spawn is included in this file so make shure its not elsewhere to!
+job_thief1.gat,0,0,0,0	monster	Cogumelo Laranja	1182,180,0,0,0
+job_thief1.gat,0,0,0,0	monster	Fabre	1184,50,0,0,0
+job_thief1.gat,0,0,0,0	monster	Chonchon	1183,50,0,0,0
+job_thief1.gat,0,0,0,0	monster	Esporo	1014,30,0,0,0
+
+
+// == NPCs ==
+// -- Interviewer --
+moc_prydb1.gat,39,129,5	script	Guia de Gatuno	69,{
+	callfunc "Thi_check";
+	if(job_thief_q==2) goto L_1;
+	if(job_thief_q==1) goto L_Back;
+
+	show "[Guia de Gatuno]";
+	if(Sex == 1)show "Heh... Você parece um bom garoto... o que te traz até um buraco sujo que nem aqui?";
+	if(Sex == 0)show "Heh... Você parece uma boa menina... o que te traz até um buraco sujo que nem aqui?";
+	next;
+M_Menu:
+	menu "-Eu não vim aqui por causa da paisagem.....",M_0,"-Eu? Estava so de passagem...",M_End;
+
+		M_0:
+		show "[Guia de Gatuno]";
+		show "Hmph... você me parece meio cru.... Sabe, ser um "+callfunc("classname",6,"S","M")+" não é só chegar em lugares mais difíceis....";
+		show "Você lembra a mim.... Quando eu ainda estava no nível 9 ou 10.... foi quando fiz o meu primeiro roubo...";
+		next;
+		show "[Guia de Gatuno]";
+		show "Hahahaha... Eu ainda me lembro da cara da pessoa que roubei...";
+		emotion 18;
+		next;
+		show "[Guia de Gatuno]";
+		show "Mas em todo caso... Eu devo acreditar que você deseja se tornar um "+callfunc("classname",6,"S","M")+"...";
+		next;
+		menu "-Sim.",sM_0a, "-Não, so estava matando o tempo. ^ ^",sM_0b, "-Por que você fez seu primeiro roubo?",sM_0c;
+
+		sM_0a:
+			goto L_Test;
+		sM_0b:
+			show "[Guia de Gatuno]";
+			show "Wow...que tal então VOCÊ IR EMBORA E PARAR DE ME AMOLAR!!";
+			emotion 6;
+			close;
+		sM_0c:
+			show "[Guia de Gatuno]";
+			show "Eh? Eu?... Bem... Eu realmente não tinha outra escolha.... Eu roubei, porque estava morrendo de fome.";
+			show "Eu não poderia suportar passar fome mais um dia.";
+			close;
+
+	M_End:
+		show "[Guia de Gatuno]";
+		show "Conversar com você foi uma perda de tempo!!?";
+		emotion 32;
+		close;
+
+	L_Test:
+		show "[Guia de Gatuno]";
+		show "Está bem. Primeiro, você deve preencher este formulário. Você sabe escrever, não sabe?";
+		next;
+		show "(você preenche o formulário e devolve para ele)";
+		next;
+		if(JobLevel < 10) goto sL_JobLvl;
+
+		show "[Guia de Gatuno]";
+		show "Muito bem ^ff0000"+ strcharinfo(0) + "^000000, se este for o seu VERDADEIRO nome..... humm parece que você temuma FICHA bem interessante aqui.";
+		show "Deixe-me ver.... assalto... estelionato..... humm....";
+		next;
+		show "[Guia de Gatuno]";
+		show "Ah, lá vamos nós...... você tem as 'qualidades' necessárias para se tornar um bom "+callfunc("classname",6,"S","M")+". Agora tudo que você tem que fazer é passar no teste.";
+		next;
+
+		L_Explain:
+		show "[Guia de Gatuno]";
+		show "O teste exige que você passe ^ff0000'desapercebido'^000000 na ^ff0000'Fazenda de Shibu'^000000, e  ^ff0000'roube'^000000 alguns ^aaaa00'Cogumelos'^000000.";
+		show "Eles possuem ^ff00002^000000 alguns tipos diferentes de ^aaaa00Cogumelos^000000 na fazenda, ^ffbb00Cogumelos Venenosos^000000 e ^ffbb00Cogumelos Borrachentos^000000.";
+		next;
+		show "[Guia de Gatuno]";
+		show "'Shibu' é um 'feliz' "+callfunc("classname",5,"S","M")+" que faz trapaças em Morroc, ele 'rouba' os seus clientes.";
+		next;
+		show "[Guia de Gatuno]";
+		show "Trazendo os cogumelos de volta, você receberá uma pontuação baseada no tipo de Cogumelo que você pegou.";
+		show "1 Cogumelo Venenoso = ^0000ff3 pontos^000000 enquanto 1 Cogumelo Borrachento = ^0000ff1 ponto^000000.  Você precisa de 25 pontos para passar no teste.";
+		next;
+		show "[Guia de Gatuno]";
+		show "Para chegar até a fazenda de Shibu você terá que falar com um dos nossos 'associados'. Você o encontrará lá fora próximo a pirâmide, perto das colunas.";
+		show "Ele é conhecido como ^ddcc00'Homem Irrelevante'^000000.";
+		next;
+		show "[Guia de Gatuno]";
+		show "Aqui estão as coordenadas exatas em caso de você se perder : '^FF0000141, 125^000000'.";
+		show "Encontre-o e ele te ensinará o caminho secreto para a fazenda.";
+		next;
+		show "[Guia de Gatuno]";
+		show "Pode parecer fácil, mas ^009900você deve saber que tem monstros cuidando dos cogumelos^000000?";
+		next;
+		show "[Guia de Gatuno]";
+		show " Portanto, vou te dar uma dica. ^ff0000Elabore uma estratégia^000000 antes de você ir para a fazenda.";
+		next;
+		show "[Guia de Gatuno]";
+		show "Tente roubar os cogumelos o mais rápido que puder.  Você poderá até mesmo ^0000ffdesequipar algumas armas e armaduras^000000.";
+		show "Você não ira querer morrer enquanto estiver fazendu issu...no mínimo tente me dar os cogumelos primeiro e então você podera ir se matar...HAHA! ";
+		next;
+		show "[Guia de Gatuno]";
+		show "Se você não tem mais nenhuma pergunta... então dê o fora daqui!";
+		emotion 27;
+		set job_thief_q,1;
+		close;
+
+		sL_JobLvl:
+			show "[Guia de Gatuno]";
+			show "Err Vejo que você é bem ambicioso...... mas não podemos dar armas para as crianças, podemos? Volte quando você tiver aprendido todas as Habilidades Básicas.";
+			close;
+
+	L_Back:
+		if(countitem(1069)>0) || (countitem(1070)>0) goto sL_1;//Items: Orange_Net_Mushroom, Orange_Gooey_Mushroom_,
+
+		sL_0:
+			show "[Guia de Gatuno]";
+			show "..... O que você está fazendo aqui? Era para você estar buscando Cogumelos, lembra??";
+			show "Não me diga que você já esqueceu da sua missão??? Jesus... Você quer que eu te explique de volta?......";
+			emotion 20;
+			next;
+			menu "Heh.. sim hehe..",sM_1a, "Não.",sM_1b;
+
+			sM_1a:
+				show "[Guia de Gatuno]";
+				show "(~sigh~) Sempre tem alguém mais 'LENTINHO'.... Esta é a última vez que explico, portanto, preta BASTANTE ATENÇÃO!!....";
+				emotion 32;
+				next;
+				goto L_Explain;
+			sM_1b:
+				show "[Guia de Gatuno]";
+				show ".... O que foi??? Você tem algo a me dizer? Vai catar coquinho... digo COGUMELOS!";
+				emotion 7;
+				close;
+
+		sL_1:
+			show "[Guia de Gatuno]";
+			show "O que? Você roubou alguns cogumelos? Por acaso você é idiota?";
+			show "Haha... Eu não acredito que você levou a sério o que eu disse..... ";
+			emotion 1;
+			next;
+			show "[Guia de Gatuno]";
+			show ".... Psssh!! Estava brincando... heheheh! Fale com o cara perto de mim sobre os cogumelos roubados.";
+			emotion 18;
+			close;
+
+	L_1:
+		show "[Guia de Gatuno]";
+		show "Então como foi na Fazenda de Cogumelos? Divertiu muito?";
+		next;
+		menu "Yeah, muito legal.",M_Cool,"Foi horrivel.",M_Not;
+
+		M_Cool:
+			show "[Guia de Gatuno]";
+			show "Uau! Gostei de você! Fabuloso! Todo mundo antes de você disse que `S@#$ apanhei como #$%^&s'.";
+			next;
+			show "[Guia de Gatuno]";
+			show "...... Você não vai tomar o meu lugar, vai? Você parece que tem mais ambição que isso, vou chutar a sua ^ff0000'BUNDA'^000000 se você tentar!";	//this is just too much lol.
+			emotion 0;
+			next;
+			show "[Guia de Gatuno]";
+			show "Mas parece... que ainda faltam cogumelos para você completar a sua missão.";
+			close;
+		M_Not:
+			show "[Guia de Gatuno]";
+			show "Eu sei o que você quis dizer. Todo aquele cheiro de cogumelo e os monstros atacando.";
+			next;
+			show "[Guia de Gatuno]";
+			show "Eeewww! Yuuuckk! Parece... que ainda faltam cogumelos para você completar a sua missão.";
+			emotion 16;
+			close;
+}
+
+
+// -- Test Grader --
+moc_prydb1.gat,42,133,2	script	Camarada Brad	118,{
+	callfunc "F_ToHigh",30,"Thief High",36,"Assassin Cross",149,150,151,152,"Brad";
+	if(BaseJob == 0) goto L_Novice;
+	if(BaseJob == 6) goto L_Thief;
+
+L_Other:
+	show "[Brad]";
+	show "Hey~ Hey~!! Você não parece um "+callfunc("classname",6,"S","M")+". Que foi? Melhor você não bancar o espertinho em território de GATUNO!!";
+	emotion 23;
+	close;
+L_Thief:
+	show "[Brad]";
+	show "Nós ainda não temos nenhum evento especial para "+callfunc("classname",6,"P","M")+". Volte outra hora.";
+	close;
+
+L_Novice:
+	show "[Brad]";
+	if((job_thief_q == 2) && ((countitem(1069) > 0) || (countitem(1070) > 0))) goto L_4;//Items: Orange_Net_Mushroom, Orange_Gooey_Mushroom_,
+	if(job_thief_q >= 1) goto L_3;
+
+	show "Errr? O que foi novato? Se você deseja se tornar um "+callfunc("classname",6,"S","M")+", fale com a garota próximo a mim.";
+	close;
+L_3:
+	show "Traga-me os Cogumelos, então eu darei a nota final.";
+	close;
+L_4:
+	show "Bom. Você pegou alguns cogumelos do tacanha do Shibu";
+	next;
+
+	set @mushrm1,countitem(1069)*3;//Items: Orange_Net_Mushroom,
+	set @mushrm2,countitem(1070);//Items: Orange_Gooey_Mushroom_,
+	set @TotMush,@mushrm1 + @mushrm2;
+	set @money_thief,((countitem(1069) * 5) + (countitem(1070)* 2)) + 200;//Items: Orange_Net_Mushroom, Orange_Gooey_Mushroom_,
+
+	show "[Brad]";
+	show "Vamos ver o que você pegou:";
+	show "^0000ff"+countitem(1069)+"^000000 Cogumelos Venenosos por ^ffbb00"+@mushrm1+"^000000 pontos,";//Items: Orange_Net_Mushroom,
+	show "^0000ff"+countitem(1070)+"^000000 Cogumelos Borrachentos por ^ffbb00"+@mushrm2+"^000000 pontos,";//Items: Orange_Gooey_Mushroom_,
+	show "Dando um total de ^ff0000"+@TotMush+"^000000 pontos.";
+	next;
+	if (@TotMush > 25) goto L_High;
+	if (@TotMush == 25) goto L_Medium;
+
+		show "[Brad]";
+		show "Bah!.... você falhou. Vamos lá! Você pode fazer melhor que isso! Vá buscar mais cogumelos!!!";
+		close;
+
+	L_Medium:
+		show "[Brad]";
+		show "Bom. Você passou no teste.";
+		next;
+		goto L_Final;
+
+	L_High:
+		show "[Brad]";
+		show "Ooooh. Acima de 25 pontos. Você passou no teste!";
+		next;
+
+	L_Final:
+		show "[Brad]";
+		show "Parabéns ^ff0000"+strcharinfo(0)+"^000000, você passou no teste oficial da Guilda! Agora você pode se tornar um "+callfunc("classname",6,"S","M")+"!!";
+		emotion 21;
+		next;
+		if(SkillPoint > 0) goto sL_SkPoint;
+		delitem 1069, countitem(1069);//Items: Orange_Net_Mushroom,
+		delitem 1070, countitem(1070);//Items: Orange_Gooey_Mushroom_,
+
+		callfunc "Job_Change",Job_Thief;
+		callfunc "F_ClearJobVar";		// clears all job variables for the current player
+
+		show "[Brad]";
+		show "Aqui está uma pequena recompensa pelo seu esforço. Gaste com o que você quiser.";
+		next;
+		set Zeny,Zeny+@money_thief;
+		show "[Brad]";
+		show "De agora em diante. você deve agir, pensar e até mesmo cheirar como um "+callfunc("classname",6,"S","M")+".";
+		show "Você é um de nós e isso quer dizer que é de total confiança e amizade com TODOS os "+callfunc("classname",6,"P","M")+" de Rune Midgard.";
+		next;
+		show "[Brad]";
+		show "E se você trouxer desgraça a esta Guilda ou nos trair, nós não hesitaremos em....";
+		show "como eu devo dizer..... ^ff0000'REMOVÊ-LO'^000000 da Guilda dos "+callfunc("classname",6,"P","M")+".";
+		emotion 29;
+		next;
+		show "[Brad]";
+		show "Boa sorte e lembre-se sempre que os ^0000cc'"+callfunc("classname",6,"P","M")+" Motto'^000000: ^ff0000NÃO são capturados^000000l!";
+		close;
+
+		sL_SkPoint:
+			show "[Comrade Brad]";
+			show "Mas antes disso... Por favor use todos os seus pontos de habilidades.";
+			close;
+
+}
+
+
+// -- Irrelevant Man --
+moc_ruins.gat,141,125,3	script	Homem Irrelevante	118,{
+	if(BaseJob == 6) goto L_Thief;
+	if(BaseJob == 0) goto L_Novice;
+
+L_Other:
+	if(@s_flag==1) goto L_1b;
+	if(@s_flag==2) goto L_1c;
+	if(@s_flag==3) goto L_1d;
+	if(@s_flag==4) goto L_1e;
+	set @s_flag, 0;
+
+	L_1a:
+		show "[Homem Irrelevante]";
+		show "Olá~ Olá. Que dia glorioso, não?";
+		show "Eu acho que vou fazer um 'Picnic' nas pirâmides com alguns amigos.";
+		set @s_flag, @s_flag+1;
+		close;
+	L_1b:
+		show "[Homem Irrelevante]";
+		show "'Lalalala, Lar doce Lar.'";
+		show "Eu quero dizer.  Lar doce Lar....";
+		set @s_flag, @s_flag+1;
+		close;
+	L_1c:
+		show "[Homem Irrelevante]";
+		show "...... Do jeito que eu me sinto, eu poderia até voar............ ";
+		set @s_flag, @s_flag+1;
+		close;
+	L_1d:
+		show "[Homem Irrelevante]";
+		show ".......Hmm?.....";
+		next;
+		show "[Irrelevent Man]";
+		show "Ei!! Não me olhe desse jeito! Eu não sou nenhum esquisitão!!!";
+		set @s_flag, @s_flag+1;
+		emotion 6;
+		close;
+	L_1e:
+		show "[Homem Irrelevante]";
+		show "Amigo! Eu não tenho nada a te dizer! Cuide de seus negócios!  Sheesh!!";
+		emotion 32;
+		close;
+
+L_Thief:
+	show "[Homem Irrelevante]";
+	show "Yah Hoo! Olhe para você! Se tornou um "+callfunc("classname",6,"S","M")+"!";
+	emotion 21;
+	next;
+	show "[Homem Irrelevante]";
+	show "Não se preocupe sobre a fazenda Shibu. Deixe-o para os novatos. Vá explorar Rune Midgard e matar mosntros mais fortes.";
+	close;
+
+L_Novice:
+	if(job_thief_q==2) goto L_3;
+	if(job_thief_q==1) goto L_2;
+	show "[Homem Irrelevante]";
+	show "Ei!! Novato! DEseja se tornar mais forte e poderoso!? Deseja saber como se esconder e andar camuflado?";
+	show "Se você quer tudo isso, junte a Guilda dos "+callfunc("classname",6,"P","M")+"! Você sempre será bem-vindo! Junte-se a nós agora mesmo!";
+	next;
+	show "[Homem Irrelevante]";
+	show "Você pode tomar maiores informações no primeiro andar do 'porão' da Pirâmide!";
+	close;
+L_2:
+	show "[Homem Irrelevante]";
+	show "Pssst......Pssst......ei você! Parece que você vai fazer o ^ff0000'Teste'^000000. Estou certo?";
+	next;
+	show "[Homem Irrelevante]";
+	show "Vamos ver.....(ele verifica a lista).... aqui está... você é ^ff0000"+ strcharinfo(0) +"^000000 certo? Bom.";
+	next;
+	show "[Homem Irrelevante]";
+	show "Ok! Vou te mostrar o caminho, mas fique queito. Eu não posso garantir a nossa segurança se tiver que ficar cuidando de você junto.";
+	next;
+
+	L_Warp:
+	set @TEMP,rand(5);
+	set job_thief_q,2;
+	if(@TEMP != 0) goto warpL03a;
+		warp "job_thief1.gat",228,106;
+		close;
+	warpL03a:
+		if(@TEMP != 1) goto warpL03b;
+		warp "job_thief1.gat",38,50;
+		close;
+	warpL03b:
+		if(@TEMP != 2) goto warpL03c;
+		warp "job_thief1.gat",66,331;
+		close;
+	warpL03c:
+		if(@TEMP != 3) goto warpL03d;
+		warp "job_thief1.gat",196,331;
+		close;
+	warpL03d:
+		warp "job_thief1.gat",309,234;
+		close;
+
+L_3:
+	show "[Homem Irrelevante]";
+	show "Muhahahaha~~ O QUE?!? Você ainda NÃO PASSOU no teste? Você por acaso é retardado!! Kakakaka!!";
+	emotion 18;
+	next;
+	show "[Homem Irrelevante]";
+	show "Estava só brincando..... Você deseja voltar para fazenda?";
+	next;
+	menu "Sim",M_Yes,"Ainda não",M_No;
+
+	M_Yes:
+		goto L_Warp;
+
+	M_No:
+		show "[Homem Irrelevante]";
+		show "Ok, me avise quando estiver pronto.";
+		close;
+
+}
+
+//==============================================================================
+// mapflag
+//==============================================================================
+job_thief1.gat	mapflag	nomemo
+job_thief1.gat	mapflag	noteleport
+job_thief1.gat	mapflag	nosave	SavePoint
+job_thief1.gat	mapflag	nopenalty
+job_thief1.gat	mapflag	nobranch
+job_thief1.gat	mapflag	noexp

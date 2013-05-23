@@ -1,0 +1,138 @@
+//===== Cronus Script ========================================
+//= Guerra do Emperium (Payon)
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.1/1.2d
+//===== Compatível com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= NPCs relativos ao 1º Castelo de Payon
+//===== Additional Comments: =================================
+//= 1.0 First Version. No longer uses functions. [L0ne_W0lf]
+//= 1.1 Corrected flag-in spawn point. [L0ne_W0lf]
+//= 1.2 Traduzido ao Português-BR de acordo com o bRo [Asus]
+//= 1.2a Corrigido erros [Soulblaker]
+//= 1.2b Corrigido O switch para entrar na GD. [Lord]
+//= 1.2c Revisado. [RoM]
+//= 1.2d Removido show	[Yum]
+//============================================================
+
+// Guild Flag (Cidade)
+//============================================================
+opayon,102,117,4	script	Palácio do Sol#f1-1::BrightArbor	722,{
+
+	callfunc "Guild_Flags", "payg_cas01";
+
+OnRecvCastlePy01:
+	FlagEmblem GetCastleData("payg_cas01",1);
+	end;
+}
+
+payon,90,322,4	duplicate(BrightArbor)	Palácio do Sol#f1-2	722
+
+// Guild Flag (Fora do Castelo)
+//============================================================
+pay_gld,125,236,4	script	Palácio do Sol#f1-3::BrightArbor2	722,{
+	set .@GID, GetCastleData("payg_cas01",1);
+	if (.@GID == 0) {
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme a ordem do Reino de Rune-Midgard,";
+		mes "declaro que não há nenhum";
+		mes "dono formal deste castelo.";
+		mes " ";
+		mes "2. Se o seu Clã conseguir";
+		mes "passar por todos os desafios";
+		mes "e destruír o Emperium deste castelo,";
+		mes "você será nomeado como o dono deste castelo.";
+	}
+	else {
+		if (getcharid(2) == .@GID) {
+			mes "Bravo guerreiro...";
+			mes "Você quer retornar ao seu honorável lugar?";
+			next;
+			if (select("Voltar ao castelo do seu Clã:Cancelar") == 1) {
+				if (getcharid(2) == GetCastleData("payg_cas01",1)) {
+					warp "payg_cas01",212,108;
+					end;
+				}
+			}
+			close;
+		}
+		mes "[ Decreto do Reino de Rune-Midgard ]";
+		mes " ";
+		mes "1. Conforme o Pacto do Reino de Rune-Midgard,";
+		mes "declaro que este castelo pertence";
+		mes "ao Clã ^ff0000" + GetGuildName(.@GID) + "^000000.";
+		mes " ";
+		mes "2. O Líder do Clã ^ff0000"+ GetGuildName(.@GID) + "^000000 se chama";
+		mes "^FF0000" + GetGuildMaster(.@GID) + "^000000.";
+		mes "Se alguém se opõe a este decreto";
+		mes "desembainhe sua espada para fazer valer sua vontade.";
+	}
+	close;
+
+OnRecvCastlePy01:
+	FlagEmblem GetCastleData("payg_cas01",1);
+	end;
+}
+
+pay_gld,110,233,4	duplicate(BrightArbor2)	Palácio do Sol#f1-4	722
+pay_gld,116,233,4	duplicate(BrightArbor2)	Palácio do Sol#f1-5	722
+pay_gld,91,239,2	duplicate(BrightArbor2)	Palácio do Sol#f1-6	722
+
+// Guild Flag (Dentro do Castelo)
+//============================================================
+payg_cas01,238,67,4	script	Palácio do Sol#f1-7::BrightArbor3	722,{
+	end;
+
+OnRecvCastlePy01:
+	FlagEmblem GetCastleData("payg_cas01",1);
+	end;
+}
+
+payg_cas01,233,67,4	duplicate(BrightArbor3)	Palácio do Sol#f1-8	722
+payg_cas01,221,123,4	duplicate(BrightArbor3)	Palácio do Sol#f1-9	722
+payg_cas01,221,116,4	duplicate(BrightArbor3)	Palácio do Sol#f1-10	722
+payg_cas01,206,108,4	duplicate(BrightArbor3)	Palácio do Sol#f1-11	722
+payg_cas01,212,108,4	duplicate(BrightArbor3)	Palácio do Sol#f1-12	722
+
+// AGIT Manager
+//============================================================
+payg_cas01,139,139,0	duplicate(Gld_Agit_Manager)	Agit#payg_cas01	-1
+
+// Steward
+//============================================================
+payg_cas01,120,58,4	duplicate(Gld_Mngr_Template)	Kurunnadi#payg_cas01	55
+
+// Guardians
+//============================================================
+payg_cas01,120,58,4	duplicate(Gld_Guard_Template)	Guardian#payg_cas01	-1
+
+// Kafra Staff
+//============================================================
+payg_cas01,128,58,3	duplicate(Gld_Kafra_Template)	Kafra#payg_cas01	117
+
+// Saída da Sala do Mestre
+//============================================================
+payg_cas01,295,8,0	script	#switch_Py01	111,{
+	mes " ";
+	mes "Há uma pequena alavanca, você deseja acioná-la?";
+	next;
+	if(select("Acionar.:Não acionar.") == 2) close;
+	warp "payg_cas01",120,59;
+	end;
+}
+
+// Guild Treasure Protection
+//============================================================
+payg_cas01,291,8,0	duplicate(Gld_Trea_Protect)	ban_warp#payg_cas01	-1,6,6
+
+// Guild Treasure Spawns
+//============================================================
+payg_cas01,291,8,0	duplicate(Gld_Trea_Spawn)	Treasure#payg_cas01	-1
+
+// Guild Dungeon Switch
+//============================================================
+payg_cas01,101,25,0	duplicate(Gld_Dun_Template)	#payg_cas01	111

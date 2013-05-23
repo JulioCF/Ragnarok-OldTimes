@@ -1,0 +1,759 @@
+//===== Cronus Script ======================================== 
+//= Scripts de Jawaii
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Npcs de Jawaii
+//===== Changelog: =========================================== 
+//= 1.0 Traduzido o Npc [Desconhecido]
+//= 1.1 Organizado e corrigido erros de português [Kamper]
+//============================================================
+
+//===== Loja: ================================================
+jawaii,186,174,2	shop	Negociante de Jawaii	85,536:150
+
+//===== Scripts de Jawaii ====================================
+jawaii,141,200,3	script	Atendente#Suíte Doçura	798,{
+
+	show "[Alowawu]";
+	show "Bem vindo.";
+	show "Esta é a Suíte Doçura.";
+	show "Eu limpei e organizei o lugar.";
+	show "Então, pode ficar à vontade.";
+	next;
+	show "[Alowawu]";
+	show "O aluguel é 1000 zeny por pessoa.";
+	show "Se você me pagar,";
+	show "irei transeferí-lo para dentro.";
+	show "Não tem como entrar diretamente.";
+	next;
+	show "[Alowawu]";
+	show "Irei te ajudar com a bagagem,";
+	show "senão, meu chefe me pune";
+	show "com Com Triplo.";
+	show "E isso doi muito.";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+			if(Zeny > 999)
+{
+				show "[Alowawu]";
+				show "Obrigado.";
+				show "Vou abrir o portal pra você agora.";
+				show "Tenha uma boa estadia.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",116,64;
+				end;
+}
+			else
+{
+				show "[Alowawu]";;
+				show "Ah. Caro hóspede,";
+				show "você não tem zeny suficiente para pagar pelo quarto.";
+				show "Não posso te deixar entrar. Senão,";
+				show "meu patrão fica bravo e me bate com Combo Triplo.";
+				close;
+}
+s_Cancel:
+			show "[Alowawu]";
+			show "Haha, este quarto é melhor que os outros.";
+			show "Acredite, está bonito e limpo.";
+			show "Se você mudar de idéia,";
+			show "volte e procure por mim.";
+			close;
+}
+
+jawaii,108,199,5	script	Atendente#Suíte Clássica	74,{
+
+	show "[Poyi Oland]";
+	show "Bem vindo.";
+	show "Esta é a suíte clássica com dois quartos.";
+	show "Ela é perfeita pra vocês dois!";
+	show "Embora essas casas se pareçam por fora,";
+	show "o interior é completamente diferente!";
+	next;
+	show "[Poyi Oland]";
+	show "O aluguel é 1000 zeny por pessoa.";
+	show "e cobramos quando vocês sairem!";
+	show "Já que vocês estão viajando,";
+	show "sugiro que escolham um quarto melhor!";
+	next;
+	show "[Poyi Oland]";
+	show "Se precisarem de qualquer coisa, nos chame.";
+	show "Iremos ajudá-los imediatamente.";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+
+			if (Zeny > 999)
+{
+				show "[Poyi Oland]";
+				show "Obrigado por usar.";
+				show "Tenham uma boa estadia.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",130,109;
+				end;
+}
+			else
+{
+				show "[Poyi Oland]";
+				show "Sinto muito!";
+				show "Você não tem zeny suficiente.";
+				show "Por favor, confira seu zeny e volte depois!";
+				close;
+}
+s_Cancel:
+			show "[Poyi Oland]";
+			show "Então, por favor, volte quando você tiver conferido.";
+			show "A presença de todo hóspede é sempre bem-vinda.";
+			close;
+}
+
+jawaii,107,189,5	script	Atendente#Suíte de Lua de Mel	93,{
+
+	show "[Saroki Lania]";
+	show "...Esta é a suíte de Lua-de-Mel e custa 1000 zeny.";
+	next;
+	show "[Saroki Lania]";
+	show "...Você quer entrar?";
+	next;
+	show "[Poyi Oland]";
+	show "Se precisar de qualquer coisa, nos chame.";
+	show "Iremos ajudá-los imediatamente.";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			if(Zeny > 999)
+{
+				show "[Saroki Lania]";
+				show "...Por favor, entre.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",86,117;
+				end;
+}
+			else
+{
+				show "[Saroki Lania]";
+				show "...Não tem zeny suficiente?";
+				close;
+}
+s_Cancel:
+			show "[Saroki Lania]";
+			show "...Tudo bem, então.";
+			close;
+}
+jawaii,112,173,7	script	Atendente#Suíte Villa	93,{
+
+	show "[Lakers Lania]";
+	show "Saroki, isso é rude.";
+	show "Você não consegue tratar os hóspedes de forma educada?";
+	show "Isso os fará se sentir incomodados. Ah, hóspede!";
+	show "Bem vindo! Você está aqui viajando?";
+	next;
+	show "[Lakers Lania]";
+	show "Esta é a suíte Villa.";
+	show "É tão confortável quanto sua casa.";
+	show "O aluguel é apenas 1000 zeny.";
+	next;
+	show "[Lakers Lania]";
+	show "Se quiser usá-la, posso te auxiliar agora mesmo.";
+	show "O que você acha?";
+	next;
+	menu "Usar",-,"Cancelar",s_Cancel;
+			if(Zeny > 999)
+{
+				show "[Lakers Lania]";
+				show "Obrigado e bom descanso.";
+				show "Espero que aprecie a viagem.";
+				close2;
+				set Zeny,Zeny - 1000;
+				warp "jawaii_in",87,75;
+				end;
+}
+			else
+{
+				show "[Lakers Lania]";
+				show "Oh, você não tem zeny suficiente pela estadia...?";
+				show "Talvez possa pegar emprestado com seu parceiro.";
+				show "Huhuhuhu-";
+				close;
+}
+s_Cancel:
+			show "[Lakers Lania]";
+			show "Hmm, talvez você queira experimentar a suíte de Lua-de-Mel.";
+			show "Embora Saroki não seja sociável,";
+			show "o quarto é uma verdadeira obra de arte!";
+			close;
+}
+
+jawaii,122,263,5	script	Sailor#Alberta	100,{
+
+	show "[Sailor]";
+	show "Este navio irá levá-lo de volta para Alberta.";
+	show "Gostou de sua estadia em Jawaii?";
+	show "Por favor, certifique-se de,";
+	show "não ter esquecido nada.";
+	next;
+	show "[Sailor]";
+	show "Bem, então, você está pronto para retornar a Alberta?";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			show "[Sailor]";
+			show "Retirar amarras! Próxima parada: Alberta!!";
+			close2;
+			warp "alberta",192,157;
+			end;
+
+s_Cancel:
+			show "[Sailor]";
+			show "Bem, então fique mais um tempo antes de partir!";
+			show "Não dá pra você vir aqui todos os dias, certo?!";
+			close;
+}
+
+jawaii,239,112,7	script	Sailor#Jawaii2	100,{
+
+	show "[Sailor]";
+	show "Este navio irá te levar de volta a Izlude.";
+	show "Gostou de sua estadia em Jawaii?";
+	show "Por favor, certifique-se de,";
+	show "não ter esquecido nada.";
+	next;
+	show "[Sailor]";
+	show "Bem, então, você está pronto para retornar a Izlude?";
+	next;
+	menu "Sim",-,"Cancelar",s_Cancel;
+
+			show "[Sailor]";
+			show "Retirar amarras! Próxima parada: Izlude!!";
+			close2;
+			warp "izlude",176,182;
+			end;
+
+s_Cancel:
+			show "[Sailor]";
+			show "Bem, então fique mais um tempo antes de partir!";
+			show "Não dá pra você vir aqui todos os dias, certo?!";
+			close;
+}
+
+jawaii,220,235,3	script	Habitante de Jawaii#Love Bo	724,{
+
+	show "[JawaJawa]";
+	show "Você sabe qual o lugar mais bonito de Jawaii?";
+	show "É a 'Ilha do Amor',";
+	show "localizada a norte de Jawaii.";
+	show "Como a água é rasa,";
+	show "Você poderá chegar lá se for cuidadoso.";
+	next;
+	show "[JawaJawa]";
+	show "É também um lugar adequado para um casal relaxar e passar momentos agradáveis.";
+	show "Se ficar lá sozinho,";
+	show "vai parecer estar perdido,";
+	show "em uma ilha deserta!";
+	next;
+	show "[JawaJawa]";
+	show "Bem, claro que você pode brincar de Perdido";
+	show "com a carta na garrafa vazia!";
+	show "Mas isso não parece idiota?";
+	close;
+}
+
+jawaii,239,146,3	script	Habitante de Jawaii#Explain1	100,{
+
+	show "[WaiiWaii]";
+	show "Bem vindo a Jawaii!";
+	show "O que seria um casamento sem a lua-de-mel?";
+	show "Neste lugar,";
+	show "você pode ignorar a ameaça daqueles bobões sem namorada.";
+	next;
+	show "[WaiiWaii]";
+	show "Você poderá encontrar alguns montros aqui.";
+	show "Mas, se os deixar em paz, eles não te incomodarão!";
+	show "Eles habitam este lugar há muito tempo,";
+	show "então encare-os como parte da paisagem.";
+	close;
+}
+
+jawaii,168,247,5	script	Habitante de Jawaii#Explain2	724,{
+
+	show "[WajaWaja]";
+	show "Os albergues ficam a Oeste.";
+	show "Cada quarto tem um ambiente diferente.";
+	show "Escolha o mais adequado para você.";
+	show "É melhor se você perguntar os funcionários lá.";
+	next;
+	show "[WajaWaja]";
+	show "Por favor, use este navio para ir para noroeste";
+	show "e sudeste, se quiser voltar.";
+	show "Há barcos que vão para";
+	show "Alberta e Izlude.";
+	close;
+}
+
+jawaii,165,121,1	script	Habitante de Jawaii#Explain3	724,{
+
+	show "[IwaIwa]";
+	show "Jawaii~ Não é uma terra de grande alegria?";
+	show "Você pode descansar";
+	show "e não fazer nada o dia todo.";
+	show "É pra isso que Jawaii serve.";
+	next;
+	show "[IwaIwa]";
+	show "Este é um palco,";
+	show "onde fazem algumas apresentações.";
+	show "Você quer subir lá e cantar para nós?";
+	show "Jawaii~ Ilha da Felicidade.";
+	close;
+}
+
+jawaii_in,43,115,0	script	Freguês#jaw_1	97,{
+
+	show "[Boogie]";
+	show "uhOh....Ai meu Deus! Como vim parar num lugar desses?";
+	show "Todos aqui estão repletos de alegria!";
+	next;
+	show "[Boogie]";
+	show "Mas para um solteirão como eu, só me faz parecer mais idiota ainda!!";
+	show "Você, você deve ter se sentido assim também, né?";
+	next;
+	show "[Boogie]";
+	show "Urgh....";
+	show "Chefe, me dá outra aí!";
+	close;
+}
+
+jawaii_in,41,106,3	script	Freguês#Kyle Jeet	98,{
+
+	show "[Kyle Jeet]";
+	show "Comer e comer...!!";
+	show "Beber! Beber...!!";
+	next;
+	show "[Kyle Jeet]";
+	show "Nós somos libertados...!";
+	show "de sermos um casal no inferno...!";
+	show "para ser um solteiro saudável e precioso no paraíso...!";
+	close;
+}
+
+jawaii_in,15,104,0	script	Atendente#jawaii	80,{
+
+	show "[Atendente]";
+	show "....Bem, eu não sei qual seu propósito em vir aqui.";
+	//Emotion?
+	next;
+	show "[Atendente]";
+	show "Se você tentar perturbar essas pessoas na sua felicidade,";
+	show "pegue uma bebida com o garçom e vá embora quando terminar!";
+	next;
+	menu "Eu sou um ótimo solteiro!!",-,"...Só vim aqui parabenizar...",s_Cong;
+
+		show "[Atendente]";
+		show "Que egoísmo o seu...";
+		show "Você deveria parabenizar aqueles casais felizes!";
+		show "Sendo solteiro ou casado, não cause problemas!!";
+		next;
+		show "[Atendente]";
+		show "Se não, case-se e volte aqui para sua lua-de-mel. Ficaremos felizes em te receber.";
+		close;
+s_Cong:
+		show "[Atendente]";
+		show "....? O quê? Estamos aqui para celebrar?";
+		show "Ai meu Deus! Sinto muito! Como fui rude!";
+		show "Por favor, descanse bem, então~";
+		close;
+}
+
+jawaii_in,28,124,0	script	Bartender#jaw	46,{
+
+	set @drinkcount,0;
+	show "[Bartender]";
+	show "Bem vindo, querido freguês.";
+	show "Então, o que você deseja?";
+	next;
+	Loopback:
+		menu "Especial do dia",-,"Nimi",s_Nimi,"Refresco",s_Refreshing,"Misa",s_Misa,"Azul Magnífico",s_Magn;
+
+			if(@drinkcount >= 4)
+{
+				show "[Bartender]";
+				show "Você já bebeu vários drinks. Ainda quer continuar?";
+				next;
+				digit @jawaiitstring$;
+				show "[" + strcharinfo(0) + "]";
+				show "Chefia, como eu ";
+				show @jawaiitstring$;
+				show "não estou me sentindo bem...";
+				next;
+				show "[Bartender]";
+				show "....Toma, esta é minha recomendação, ^0000FF`Especial J&J estilo picante.¨¤«×¾¹'^000000 ";
+				show "Por conta da casa.";
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "Valeu, chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				set @randomdrink,rand(1,4);
+				if(@randomdrink == 1)
+{
+					show "[Bartender]";
+					show "Bem...E que tal isso..?";
+					set Zeny,Zeny - 100;
+					next;
+					show "[Bartender]";
+					show "Eu recomendo esse ^0000FF`Assalto do Beijo Fervente'^000000¡A";
+					show "uma mistura de sabor doce com uma cor avermelhada única, para trazer grandes paixões.";
+					next;
+					show "Você recebeu uma taça triangular coberta com açúcar na borda. -";
+					show "Está liberando um odor doce muito agradável.-";
+					show "Embora esse cheiro seja bom, parece ser perigoso. -";
+					next;
+					show "[Bartender]";
+					show "O primeiro encontro é a fase mais importante.";
+					show "O sabor do açúcar caindo na boca é incrível.";
+					next;
+					show "Ajuste o local em que encosta os lábios e prove lentamente.";
+					percentheal -20,0;
+					specialeffect2 38;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					show "[" + strcharinfo(0) + "]";
+					show "Chefia...Me dá mais uma dose...";
+					next;
+}
+				else if(@randomdrink == 2)
+{
+					show "[Bartender]";
+					show "E que tal este?";
+					next;
+					show "[Bartender]";
+					show "Eu recomendo este ^0000FF`Tiro Duplo Negro Siberiano'^000000 ";
+					show "Uma bebida que permite que você sinta o poder da Rússia e a dimensão da terra.";
+					next;
+					show "- Você olha para a mistura de cubos de gelo e líquido negro.-";
+					show "- Embora o odor seja doce-";
+					show "- Você sente um pouco de cheiro de loção pós-barba.-";
+					next;
+					show "[Bartender]";
+					show "É adequado para ser tomado aos poucos, devido ao seu sabor forte.";
+					show "É uma mistura especial que os siberianos adoram.";
+					next;
+					show "- você sente o cheiro e toma aos golinhos. -";
+					percentheal -20,0;
+					specialeffect2 63; //Fire Ivy?
+					set @drinkcount,@drinkcount + 1;
+					next;
+					show "[" + strcharinfo(0) + "]";
+					show "Chefia...Me dá mais uma dose...";
+					next;
+}
+				else if(@randomdrink == 3)
+{
+					show "[Bartender]";
+					show "Deixe-me recomendar...";
+					next;
+					show "[Bartender]";
+					show "Eu recomendo esse ^0000FF`Magarita Claramente Quente'^000000 ";
+					show "O odor azedo do limão é muito especial, principalmente quando você sente estar com a alma mexicana!";
+					next;
+					show "- Você recebe uma taça triangular coberta com suco de limão.-";
+					show "- Está liberando um odor agri-doce.-";
+					show "- Embora pareça muito atrativo, você não pode ignorar o perigo por trás.";
+					next;
+					show "[Bartender]";
+					show "O sabor doce e refrescante o torna popular entre as garotas,";
+					show "especialmente quando contém a sensação de um mexicano.";
+					next;
+					show "- Você consegue se imaginar usando um Sombrero mexicano-";
+					show "- e bebendo esse coquetel! -";
+					percentheal -20,0;
+					specialeffect2 17;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					show "[" + strcharinfo(0) + "]";
+					show "Chefia...Me dá outra dose...";
+					next;
+}
+				else if(@randomdrink == 4)
+{
+					show "[Bartender]";
+					show "Hmm... E que tal esse?";
+					next;
+					show "[Bartender]";
+					show "Eu recomendo esse ^0000FF`Barcardi 151 Barcelona Crusade'^000000";
+					show "É um coquetel pirata, com muitas memórias";
+					next;
+					show "-Você olha para o líquido amarelo na pequena taça. -";
+					show "-Embora pareça que você pode beber tudo em um único gole, -";
+					show "-parece ser perigoso demais pra beber. -";
+					next;
+					show "[Bartender]";
+					show "Esse aí vai te fazer pegar fogo.";
+					show "Beba tudo em um só gole para sentir a sensação de queimar.";
+					next;
+					show "- Você bebe tudo num só gole. -";
+					percentheal -20,0;
+					specialeffect2 171;
+					set @drinkcount,@drinkcount + 1;
+					next;
+					show "[" + strcharinfo(0) + "]";
+					show "Chefia...Me dá outra dose...";
+					next;
+}
+}
+
+s_Nimi:
+			if(@drinkcount >= 5)
+{
+				show "[Bartender]";
+				show "...Eu vou te pagar uma bebida.";
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				show "[Bartender]";
+				show "Aqui, prove isto.";
+				set Zeny,Zeny - 100;
+				next;
+				show "[Bartender]";
+				show "Se quiser mostrar interesse para uma garota, escolha este!";
+				show "Com seu aroma forte e especial,";
+				show "faz parecer que você também é uma pessoa especial.";
+				next;
+				show "- você recebe uma taça simples com um líquido branco-";
+				show "- Embora tenha um suave odor doce, o sabor é azedo-";
+				show "- E te faz querer gritar. - ";
+				next;
+				show "[Bartender]";
+				show "Muitas pessoas dizem que esse sabor misturado de doce e amargo é parecido com o sabor da vida.";
+				show "Então é melhor provar com a ponta da língua.";
+				next;
+				show "- Beba com a ponta da língua -";
+				next;
+				show "-E faz-me sentir.... Bang !!' -";
+				percentheal -10,0;
+				specialeffect2 18;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "Chefia...Me dá outra bebida...";
+				next;
+}
+s_Refreshing:
+			if (@drinkcount >= 5)
+{
+				show "[Bartender]";
+				show "...Eu vou te pagar uma bebida.";
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				show "[Bartender]";
+				show "Aqui, prove isto.";
+				set Zeny,Zeny - 100;
+				next;
+				show "[Bartender]";
+				show "Esse tem sabor de velhas amizades.";
+				show "Quanto mais você bebe, melhor você se sente.";
+				show "Você pode beber quando, onde e com quem quiser.";
+				next;
+				show "- O líquido azul de aparência saborosa é servido para você. -";
+				show "- dentro de uma taça elegante, -";
+				show "- ele traz uma excitação às narinas com seu odor azedo, mas doce. -";
+				next;
+				show "[Bartender]";
+				show "Não tome apenas uma dose desse.";
+				show "Ficará melhor quanto mais você beber!";
+				next;
+				show "- Sua boca é preenchida com o sabor agri-doce depois que você termina a bebida em 3 goles-";
+				show "- Realmente é uma mistura especial... -";
+				percentheal -10,0;
+				specialeffect2 84; //Magnificat?
+				set @drinkcount,@drinkcount + 1;
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "Chefia...Me dá outra bebida...";
+				next;
+}
+s_Misa:
+			if (@drinkcount >= 5)
+{
+				show "[Bartender]";
+				show "...Eu vou te pagar uma bebida.";
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				show "[Bartender]";
+				show "Aqui, prove isto.";
+				set Zeny,Zeny - 100;
+				next;
+				show "[Bartender]";
+				show "Esse tem sabor de velhas amizades.";
+				show "Quanto mais você bebe, melhor você se sente.";
+				show "Você pode beber quando, onde e com quem quiser.";
+				next;
+				show "- O líquido azul de aparência saborosa é servido para você. -";
+				show "- dentro de uma taça elegante, -";
+				show "- ele traz uma excitação às narinas com seu odor azedo, mas doce. -";
+				next;
+				show "[Bartender]";
+				show "Não tome apenas uma dose desse.";
+				show "Ficará melhor quanto mais você beber!";
+				next;
+				show "- Sua boca é preenchida com o sabor agri-doce depois que você termina a bebida em 3 goles-";
+				show "- Realmente é uma mistura especial... -";
+				percentheal -10,0;
+				specialeffect2 84; //Magnificat?
+				set @drinkcount,@drinkcount + 1;
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "Chefia...Me dá outra bebida...";
+				next;
+}
+
+s_Magn:
+			if (@drinkcount >= 5)
+{
+				show "[Bartender]";
+				show "...Eu vou te pagar uma bebida.";
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "...Valeu ...Chefia...";
+				percentheal -100,0;
+				close;
+}
+			else
+{
+				show "[Bartender]";
+				show "Aqui, prove isto.";
+				set Zeny,Zeny - 100;
+				next;
+				show "[Bartender]";
+				show "É recomendado para aqueles que têm saudade das memórias gloriosas do passado...";
+				show "Para aqueles que iniciam uma guerra para preservar a paz...";
+				show "E, claro... Para aqueles que fingem a verdade da história.";
+				next;
+				show "- Você recebe um líquido marrom numa coqueteleira. -";
+				show "- Você sente o cheiro grosso e pesado de óleo de maquinário. -";
+				show "- Cheiro de fogos de artifício? Não, é um pouco diferente... -";
+				next;
+				show "[Bartender]";
+				show "Pode parecer ser muito, mas é melhor você terminar tudo em um gole.";
+				show "Você vai perder o sabor se beber muito devagar.";
+				next;
+				show "- Ao pegar a coqueteleira, você imediatamente termina a bebida.-";
+				next;
+				show "- E parece que você foi atingido por um canhão.-";
+				percentheal -10,0;
+				specialeffect2 132;
+				set @drinkcount,@drinkcount + 1;
+				next;
+				show "[" + strcharinfo(0) + "]";
+				show "Chefia...Me dá outra bebida...";
+				next;
+}
+goto Loopback;
+}
+
+jawaii_in,25,94,5	script	Atendente#jaw1	724,{
+
+	show "[Atendente Teleteer]";
+	show "Bem vindo à Pousada de Jawaii~";
+	show "Espero que goste de sua estadia aqui...";
+	show "Mas não beba demais e cause problemas!";
+	close;
+}
+
+jawaii_in,25,96,5	script	Atendente#jaw2	724,{
+
+	show "[Atendente PoYi]";
+	show "Bem vindo à Pousada de Jawaii~";
+	show "Espero que goste de sua estadia aqui...";
+	show "Mas, não tenha inveja e critique as pessoas que foram abençoadas com a felicidade!";
+	close;
+}
+
+jawaii_in,25,98,5	script	Atendente#jaw3	724,{
+
+	show "[Atendente Poppy]";
+	show "Bem vindo à Pousada de Jawaii~";
+	next;
+	show "[Atendente Poppy]";
+	show "Deixe-me te perguntar... você é de uma terra estrangeira?";
+	show "Você ainda é solteiro, certo?";
+	show "Sou uma ótima cozinheira também, será que você não gostaria de me considerar?";
+	show "Que tal? Heim?";
+	close;
+}
+
+jawaii_in,25,100,5	script	Atendente#jaw4	724,{
+
+	show "[Atendente Ether]";
+	show "Bem vindo à Pousada de Jawaii~";
+	show "Proibido criticar! Proibido desencorajar!";
+	show "Proibido ficar bêbado! Parabenizar, SEMPRE!";
+	close;
+}
+
+jawaii_in,30,94,4	script	Atendente#jaw5	724,{
+
+	show "[Atendente Donna]";
+	show "Bem vindo à Pousada de Jawaii~";
+	show "......Oh não.....";
+	show "...Bem vindo! Mas por favor, não fique bêbado e cause problemas de novo! ";
+	close;
+}
+
+jawaii_in,30,96,4	script	Atendente#jaw6	724,{
+
+	show "[Atendente Ken]";
+	show "Bem vindo à Pousada de Jawaii~";
+	show "Você pode relaxar, mas...";
+	show "Por favor, controle-se...";
+	close;
+}
+
+jawaii_in,30,98,4	script	Atendente#jaw7	724,{
+
+	show "[Atendente Emater]";
+	show "Bem vindo à Pousada de Jawaii~";
+	next;
+	show "[Atendente Emater]";
+	show "...Você parece uma alma penada.";
+	show "Este lugar não é adequado para você!";
+	show "Bem, já que você gosta,";
+	show "divirta-se, mas por favor não cause problemas~";
+	close;
+}
+
+jawaii_in,30,100,4	script	Atendente#jaw8	724,{
+
+	show "[Atendente GoYa]";
+	show "Bem vindo à Pousada de Jawaii~";
+	next;
+	show "[Atendente GoYa]";
+	show "Como uma história faltando um capítulo,";
+	show "você parece péssimo.";
+	show "Encontre um parceiro para você, para que possam apreciar sua aventura~";
+	close;
+}

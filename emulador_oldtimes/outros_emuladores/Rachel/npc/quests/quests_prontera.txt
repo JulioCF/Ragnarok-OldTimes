@@ -1,0 +1,94 @@
+//===== Cronus Script ========================================
+//= Quest de Itens em Prontera
+//===== Por: =================================================
+//= Kobra_k88
+//===== Versão: ==============================================
+//= 1.2.1
+//===== Descrição: ===========================================
+//= Quest do capelo
+//===== Changelog: ===========================================
+//= 1.2 Traduzido [matheusc]
+//= 1.2.1 Corrigido Fala do Professor [Mutar]
+//============================================================
+
+// Ph.D Hat Quest-------------------------------------------------------
+prt_in,38,108,4	script	Professora	53,{
+	if((countitem(710) >= 1) && (countitem(703) >= 1) && (countitem(704) >= 1) && (countitem(708) >= 1)) goto L_Start;//Items: Illusion Flower, Hinalle, Aloe, Ment,
+	show "Você não acha que.... ^4444FF'Flores'^000000 são maravilhosas?";
+	next;
+	menu "Conversar.",-, "Finalizar conversa.",M_End;
+	
+		show "[Professora]";
+		show "Quando eu era mais nova eu nova, eu não brincava com meus amigos...E acabei estudando por minha conta.";
+		next;
+		show "[Professora]";
+		show "Eu ainda lamento essa decisão...mas através do duro estudo eu podia terminar as tarefas antes dos meus colegas de classe.";
+		next;
+		show "[Profesora]";
+		show "Eu era muito fechada... e quando as coisas apertaram eu não tinha ninguem com quem desabafar...";
+		next;
+		show "[Professora]";
+		show "E em um dia eu encontrei o meu melhor amigo.";
+		next;
+		show "[Professora]";
+		show "Era uma belissíma flor que estava florencendo em um jardim abandonado...eu achei que a flor estava igual a mim... então ela foi minha melhor amiga.";
+		next;
+		show "[Professora]";
+		show "Mesmo sendo uma simples flor, ela me deu forças para continuar com meus estudos.";
+		show "Com ela eu poderia conseguir todos meus objetivos...";
+		next;
+		show "[Professora]";
+		show "Eu comecei estudar mais sobre as flores, e agora o meu objetivo é de cobrir o mundo com flores.";
+		next;
+		show "[Professora]";
+		show "Mas eu preciso de muitas flores... mas aqui na escola não tenho tempo para sair...";
+		show "E é muito dificil encontrar as flores que estou procurando.";
+		next;
+		show "[Professora]";
+		show "Eu necessito de 1 ^3355FFFlor da Ilusão ^000000 ,1 ^3355FFHinalle^000000,1 ^3355FFAloes^000000 e 1 ^3355FFMenta^000000...";
+		show "Se você me trazer estas flores eu posso te recontribuir com o meu tesouro.";
+		close;
+	
+	M_End:
+		show "[Professora]";
+		show "Qualquer dias desses eu colocarei flores no mundo todo...";
+		close;
+
+L_Start:
+	show "[Professora]";
+	show "Oh... As flores estão com você...";
+	M_Menu:
+	next;
+	menu "Mostrar flores",-, "Entregar as Flores",M_Give, "Cancelar",M_End;
+
+		show "[Professora]";
+		show "Ah... que maravilha!! Estas são exatamente os 4 tipos de flores que estou procurando ..";
+		show "A ^3355FFlor da Ilusão, Hinalle, Aloe, e Menta^000000.  você poderia me dar?...";
+		next;
+		show "[professora]";
+		show "E eu lhe darei como recompensa o meu tesouro...";
+		goto M_Menu;
+
+	M_Give:
+		if((countitem(710) < 1) || (countitem(703) < 1) || (countitem(704) < 1) || (countitem(708) < 1)) goto L_Cheater;//Items: Illusion Flower, Hinalle, Aloe, Ment,
+		delitem 710,1;//Items: Flor da Ilusão,
+		delitem 703,1;//Items: Hialle,
+		delitem 704,1;//Items: Aloe,
+		delitem 708,1;//Items: Menta,
+		show "[Professora]";
+		show "Estou eternamente grata pelo o que você me fez... eu eu lhe entregarei o que prometi.";
+		emotion 15;
+		next;
+		show "[Professora]";
+		show "Este é o chapei que eu utilizei na minha formatura na bela universidade que frequentei.";
+		show "Por favor não recuse...";
+		additem 5012,1;//Items: Capelo,
+		close;
+
+	L_Cheater:
+		show "[Professora]";
+		show "Eu não entregarei meu tesouro a um trapaceador.";
+		show "Não volte mais!";
+		emotion e_bzz;
+		close;
+}

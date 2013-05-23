@@ -1,0 +1,298 @@
+//===== Cronus Script ========================================
+//= Quest Habilidade de Mercador
+//===== Por: =================================================
+//= Plinio Marcos
+//===== Versão Atual: ========================================
+//= 1.1
+//===== Descrição: ===========================================
+//= Quest das habilidades de Mercador
+//= Retirado do Amazon
+//===== Changelog: ===========================================
+//= 1.0 Traduzido [Tassadar]
+//= 1.1 Corrigido o erro em um mes [Kamper]
+//============================================================
+
+//--------------------------------------- Necko: Crazy Uproar--------------------------------\\
+alberta,89,96,5	script	Necko#1	139,0,4,{
+	show "[!?]";
+	show "Muahahahahhhahahahahhahah!!";
+	show "Pukakakakakkakakakakakakaka!!";
+	close;
+}
+
+alberta,83,96,5	script	Necko	98,{
+	show "[Necko]";
+	if (baseClass == Job_Merchant) goto L_Start;
+
+L_Other:
+	show "A loja do Necko está fechada hoje. Volte depois..... Hehe....";
+	close;
+
+L_Start:
+	if (getskilllv(155)>0) goto L_GotSkill;
+	if (CRAZYROAR == 1) goto L_GetSkill;
+	show "Oh! Você está aqui por causa da minha voz? Minha voz é muito alta, não acha?";
+	show "Sabe por que, por que mesmo longe você consegue ouvi-lá.";
+	emotion 1;
+	next;
+	show "[Necko]";
+	show "Deixa eu te dizer algo....... Minha voz é alta mesmo..... Por que ela é única......";
+	next;
+	show "[Necko]";
+	if(BaseJob==Job_Merchant && JobLevel < 15) goto L_JobLvl;
+	show "Como pode perceber, eu conheço uma habilidade que me ajuda muito.... o nome dela é ^3355FFGrito de Guerra^000000!!";
+	emotion 5;
+	next;
+	show "[Necko]";
+	show "Grito de Guerra usa sua voz para canalizar a força de seu espirito em batalhas!";
+	show "Essa habilidade requere ^FF55338 sp^000000 para poder aumentar sua ^3355FF4 FOR por 5 min^000000!!";
+	next;
+	show "[Necko]";
+	show "Ela é muito útil.  Mas para aprendê-lá, você precisa compreender a base dos sons.  Eu aprendi com um eremita em Payon.";
+	next;
+	show "[Necko]";
+	show "Infelizmente, quem me ensinou morreu em um ataque.";
+	show "Aww.... você ficou desapontado.... vejo que realmente quer aprender o Crazy Uproar??";
+	next;
+	show "[Necko]";
+	show "Hmm..... eu posso ensinar, isso é, se você realmente quer aprender.  Você precisará treinar suas cordas vocais.";
+	show "Mas para isso eu preciso dos seguintes itens:";
+	next;
+	show "[Necko]";
+	show "- ^3355FF7 Pérolas,";
+	show "- 1 Suco de Banana,";
+	show "- 50 Esporos de Cogumelo^000000.";
+	next;
+	show "[Necko]";
+	show "Volte quando tiver os itens, assim treinarei suas cordas vocais........";
+	show "Bbooowuuuuuuuuuuuuuuuuuuuuuuuuuh!!";
+	set CRAZYROAR, 1;
+	close;
+
+	L_JobLvl:
+		show "Você precisa estar em um ^3355FFNível de Classe 15^000000.  Somente assim poderei lhe ensinar.....";
+		next;
+		show "[Necko]";
+		show "Uahahahahahahhahahahahahaha!";
+		show "Kyukwakakakakkakakakakakkakaka!";
+		close;
+
+L_GetSkill:
+	if ((countitem(722)<7) || (countitem(532)<1) || (countitem(921)<50)) goto L_Items;
+	show "Vejo que conseguiu os itens! Muito bem.  Vamos começar o treinamento.....";
+	next;
+	show "[Necko]";
+	show "Repita comigo: Fa fa fa fa fa.... So so so so so..... La la la la la.... Mi mi mi mi mi mi......";
+	next;
+	show "~Várias horas depois~";
+	next;
+	show "[Necko]";
+	show "Raaaaaawwwwrrrrrrrrrrr!....... Ha ha!! Excelente.  Sua voz está pronta pra utilizar o ^3355FFGrito de Guerra^000000. Bom trabalho.";
+	delitem 722,7;
+	delitem 532,1;
+	delitem 921,50;
+	skill 155,1,0;
+	set CRAZYROAR, 0;
+	emotion 21;
+	close;
+
+	L_Items:
+	 	show "Você precisa desses itens para aprender o Grito de Guerra:";
+		show "- ^3355FF7 Pérolas,";
+		show "- 1 Suco de Banana,";
+		show "- 50 Esporos de Cogumelo^000000.";
+		close;
+
+L_GotSkill:
+	show "Olá novamente. Pelo som de sua poderosa voz, você está tornando muito bom o Grito de Guerra.";
+	close;
+}
+
+
+//----------------------------------------- Charlron: Change cart ---------------------------------\\
+alberta,119,221,6	script	Charlron	107,{
+	show "[Charlron]";
+	if (baseClass == Job_Merchant) goto L_Start;
+L_Other:
+	show "Eu sou um mercador, e assim negocio muitas coisas. Meu nome é Charlron. Se você encontrar algo de interessante, volte aqui e agente pode negociar.";
+	close;
+L_Start:
+	if (getskilllv(154)>0) goto L_GotSkill;
+	if (CHANGECART == 1) goto L_GetSkill;
+	show "Bem vindo jovem.  Vender é muito divertido? Eu sou o mercador Charlron.";
+	next;
+	show "[Charlron]";
+	show "Mesmo velho, meu carrinho é muito legal? Talvez, eu possa lhe ensinar algo.";
+	next;
+	show "[Charlon]";
+	show "Eu tenho feito algumas pesquisas sobre os carrinhos, e recentemente e tive algumas idéias de como mudar o seu design.";
+	next;
+	show "[Charlon]";
+	show "Eu poderei mudar o design de seu carrinho. Mas claro, existe algumas coisas que eu irei precisar......";
+	next;
+	show "[Charlron]";
+	if (BaseJob==Job_Merchant && JobLevel < 30) goto L_JobLvl;
+	show "Primeiro, eu preciso desses itens:";
+	show "^3355FF50 Troncos,";
+	show "20 Couros de Animais,";
+	show "10 Ferros^000000.";
+	set CHANGECART, 1;
+	close;
+
+	L_JobLvl:
+		show "Eu sou um mercador muito famoso, Por isso não faço negócios com amadores..........";
+		show "Você precisa de um ^3355FFNível de Classe 30^000000 para poder fazer negócios com você.";
+		close;
+
+L_GetSkill:
+	if ((countitem(1019)<50) || (countitem(998)<10) || (countitem(919)<20)) goto L_Items;
+	show "Muito bem, você tem todos os itens...... Hmm?... Vamos mudar o design de seu carrinho.";
+	show "Agora que você tem os materiais apropriados, siga apenas este guia para deixar seu carrinho personalizado.";
+	//delitem 1019,50;
+	//delitem 998,10;
+	//delitem 919,20;
+	skill 154,1,0;
+	set CHANGECART, 0;
+	show "[Charlron]";
+	show "Boa sorte, vejo você por ai.";
+	close;
+
+	L_Items:
+		show "Volte quando tiver os seguintes itens:";
+		show "^3355FF50 Troncos,";
+		show "20 Couros de Animais,";
+		show "10 Ferros^000000.";
+		close;
+L_GotSkill:
+	show "Heh heh... Todos estão comentando sobre seu carrinho. Os negócios para você irão melhorar e muito....";
+	close;
+
+}
+
+
+//-------------------------====-------- Gershuan: Cart Revolution ---------------------------------\\
+alberta,232,106,6	script	Gershaun	57,{
+	if (baseClass == Job_Merchant) goto L_Start;
+
+L_Other:
+	show "[Gershaun]";
+	show "Se não tem trabalho, arranje o que fazer!";
+	show "Se não tem trabalho, arranje o que fazer!";
+	show "Se não tem trabalho, arranje o que fazer!";
+	close;
+
+L_Start:
+	if (getskilllv(153)>0) goto L_GotSkill;
+	if (CARTREVO == 1) goto L_GetSkill;
+	show "[Gershaun]";
+	show "Hmm... um jovem mercador. Vejo que usa seu carrinho, sem muita noção? Ele não serve apenas para vender.?";
+	emotion 20;
+	next;
+	show "[Gershaun]";
+	show "Eu descobri algumas maneiras diferentes de usar meu carrinho.";
+	show "Ainda nenhumas de minhas idéias novas foram satisfatórias.";
+	next;
+	menu "Eu já sei.",M_0, "......???",M_1;
+
+	M_0:
+		show "[Gershuan]";
+		show "Se você já sabe, então não me amole!";
+		emotion 23;
+		close;
+	M_1:
+		show "[Gershuan]";
+		show "Em desespero, eu vaguei através dos campos com meu carrinho.  Dia após....  Eu estava em uma planicíe ....";
+		next;
+		show "[Gershuan]";
+		show "Ali, eu encontrei um poderoso monstro! eu tinha certeza que estava em perigo!";
+		show "Eu perguntava para mim mesmo, 'Por que eu! um pobre mercador!?'";
+		emotion 0;
+		next;
+		show "[Gershuan]";
+		show "De frente para a morte certa... esperando oque poderia ser o fim de tudo.  então como ultimo esforço, fiz um movimento.....";
+		emotion 19;
+		next;
+		show "[Gershuan]";
+		show "Eu usei meu carrinho para atacar o monstro!";
+		emotion 0;
+		next;
+		show "[Gershuan]";
+		show "Apenas com este movimento, consegui derrotar aquele demônio!!!!!";
+		next;
+		show "[Gershuan]";
+		show "Eu coloquei o nome dessa nova habilidade como ^3355FF'Cavalo-de-Pau'^000000!";
+		show "Mas ele usa ^FF553312 sp^000000 quando lança o carrinho contra um oponente!";
+		emotion 5;
+		next;
+		show "[Gershuan]";
+		show "Quanto mais pesado seu carrinho, mais dano ele irá causar. Você gostaria de aprender?";
+		next;
+		menu "Sim!!",sM_0, "Não, valeu...",sM_1;
+
+		sM_0:
+			show "[Gershuan]";
+			if (BaseJob==Job_Merchant && JobLevel < 35) goto ssL_LowLvl;
+			show "Ok! Eu lhe darei um treinamento especial para o Cavalo-de-Pau. Mas primeiro encontre estes itens:";
+			show "^3355FF30 Mucos Pegajosos,";
+			show "20 Asas de Mosca,";
+			show "15 Ferros,";
+			show "5 Tentáculos,";
+			show "2 Sucos de Uva^000000.";
+			next;
+			show "[Gershuan]";
+			show "Volte quando encontrar estes itens. Boa Sorte.";
+			set CARTREVO, 1;
+			close;
+
+			ssL_LowLvl:
+				show "[Gershuan]";
+				show "Ok! Eu lhe darei um treinamento especial para o Cavalo-de-Pau.";
+				show "Mas primeiro você deverá alcançar o ^3355FFNível de Classe 35^000000!";
+				close;
+
+		sM_1:
+			show "[Gershuan]";
+			show "Idiota, não sabe oque está perdendo!!";
+			emotion 6;
+			close;
+
+L_GetSkill:
+	if ((countitem(533)<2) || (countitem(998)<15) || (countitem(938)<30) || (countitem(601)<20) || (countitem(962)<5)) goto sM_0;
+	show "[Gershaun]";
+	show "Muito bom. Vejo que conseguiu todos o itens. Vamos começar o treinamento....";
+	next;
+	show "[Gershuan]";
+	show "Certifique-se que seus pés estão bem presos no chão. Equilibrio é a chave! Comece agora em um balanço... aperte os punhos firmemente..";
+	next;
+	show "[Gershuan]";
+	show "AGORA LANCE O CARRINHO!!!";
+	next;
+	show "[Gershuan]";
+	show "Eh....... Isso foi horrível.... Okay, tente outra vez.....";
+	emotion 4;
+	next;
+	show "~Muitas horas depois~";
+	next;
+	show "[Gershuan]";
+	show "ISSO!!! FINALMENTE!!";
+	show "Muito bem, jovem você dominou a habilidade Cavalo-de-Pau!";
+	emotion 21;
+	next;
+	delitem 533,2;
+	delitem 998,15;
+	delitem 938,30;
+	delitem 601,20;
+	delitem 962,5;
+	skill 153,1,0;
+	set CARTREVO, 0;
+	show "[Gershuan]";
+	show "Cuide-se, e lembre-se que quanto mais pesado seu carrinho melhor.";
+	emotion 29;
+	close;
+
+L_GotSkill:
+	show "[Gershaun]";
+	show "Está gostando da habilidade Cavalo-de-Pau? Lembre-se, o ^3355FFPeso^000000 do carrinho influência no seu ^3355FFDano^000000.";
+	close;
+
+}

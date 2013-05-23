@@ -1,0 +1,37 @@
+payon.gat,109,119,5	script	Iron Cane Quest	76,{
+	mes "[Iron Cane Quest]";
+        mes "Here's What you Need";
+        mes "The requirements, should you be brave enough to collect them, are:";
+        mes "200 orcish vouchers";
+	mes "1 Heroic Emblem"
+	next;
+	mes "[Iron Cane QUest]";
+	mes ". . . . . .";
+	mes "Are you ready for me to make this special item?";
+	next;
+	menu "Sure am!",LSureAm,"These requirements are unfathomable!",LUnfathomable;
+
+	LSureAm:
+		mes "[Iron Cane Quest]";
+		if((countitem(931) < 200) || (countitem(968) < 1)) goto LNotEnough;
+		mes ". . . . .";
+		delitem 931,200;
+		delitem 968,1;
+		mes "Wow!  You are brave indeed!";
+		getitem 2266,1;
+		mes ". . . . .";
+		mes "Enjoy!";
+		close;
+
+		LNotEnough:
+			mes ". . . . .";
+			mes ". . .I'm sorry .. You don't have enough money and items ..";
+			mes "I can't afford to make this if you don't bring all materials needed.  Please understand this is to benefit heroes such as yourself!";
+			close;
+
+	LUnfathomable:
+		mes ". . . . .";
+		mes "What I had to go through was more unfathomable..";
+		mes "If you succeed in getting these items, you will have incredible strength!";
+		close;
+}

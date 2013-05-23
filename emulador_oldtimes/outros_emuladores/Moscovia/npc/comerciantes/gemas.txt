@@ -1,0 +1,113 @@
+//===== Cronus Script ========================================
+//= Negociador de Gemas
+//===== Por: =================================================
+//= L0ne_W0lf
+//===== Versão Atual: ========================================
+//= 1.1a/1.2
+//===== Compatível Com: ======================================
+//= Cronus SVN
+//===== Descrição: ===========================================
+//= Negocia várias gemas de certas cores por outras cores.
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido o script [XStriker]
+//= 1.1 Adicionado getarg com opções dos nomes dos itens [Kamper]
+//= 1.1a Erros de português corrigido por @Coja ImortalRO Staff
+//============================================================
+
+payon,173,238,5	script	Jade#pay	754,{
+	if (checkweight(1201,1) == 0) {
+		show "^3355FFEspere um momento! Creio que você esteja carregando muitos itens com você. Por favor, volte quando você tiver deixado alguns itens em seu Armazém.^000000";
+		close;
+	}
+	show "[Jade]";
+	show "Dê-me duas";
+	show "gemas";
+	show "da mesma cor e eu vou";
+	show "mudá-las para gemas";
+	show "de cores diferentes.";
+	next;
+	switch(select("Gemas Azuis em Gemas Vermelhas!:Gemas Vermelhas em Gemas Amarelas!:Gemas Amarelas em Gemas Azuis!")) {
+	case 1: callsub S_TradeGems,717,716,"Gemas Azuis","Gemas Vermelhas";
+	case 2: callsub S_TradeGems,716,715,"Gemas Vermelhas","Gemas Amarelas";
+	case 3: callsub S_TradeGems,715,717,"Gemas Amarelas","Gemas Azuis";
+	}
+
+S_TradeGems:
+	if (countitem(getarg(0)) < 2) {
+		show "[Jade]";
+		show "Hah...!";
+		show "Você está brincando comigo, não é?";
+		show "Eu não posso prestar";
+		show "esse serviço a você se você não";
+		show "me der pelo menos";
+		show "2 "+getarg(2)+"!";
+		close;
+	}
+	else {
+		set .@gems,countitem(getarg(0))/2;
+		show "[Jade]";
+		show "Acho que posso criar";
+		show "um total de " + .@gems + " " + getarg(3);
+		show "usando as "+getarg(2);
+		show "que você tem.";
+		show "O que você quer fazer?";
+		next;
+		switch(select("Me dê todas que você puder.:Eu quero escolher a quantitade.:Sair.")) {
+		case 1:
+			delitem getarg(0),.@gems * 2;
+			additem getarg(1),.@gems;
+			show "[Jade]";
+			show "Pode ir.";
+			show "Sinta-se a vontade para voltar";
+			show "a qualquer hora.";
+			show "Hum, o que está olhando?";
+			show "Há algo em meu rosto?";
+			close;
+		case 2:
+			show "[Jade]";
+			show "Então, diga-me quantas";
+			show "você quer?";
+			show "O máximo";
+			show "que você pode escolher é 100.";
+			next;
+			while(1) {
+				digit .@input,0,101;
+				if (.@input == 0) {
+					show "[Jade]";
+					show "Nada?";
+					show "Acho que você";
+					show "está louco...";
+					close;
+				}
+				else if (.@input > 100) {
+					show "[Jade]";
+					show "Errm...";
+					show "Falei para colocar";
+					show "um número menor";
+					show "que 100, lembra...?";
+					next;
+				}
+				else {
+					break;
+				}
+			}
+
+			if (.@gems > .@input) {
+				delitem getarg(0),.@input * 2;
+				additem getarg(1),.@input;
+				show "[Jade]";
+				show "Pode ir.";
+				show "Sinta-se a vontade para voltar";
+				show "a qualquer hora.";
+				show "Hum, o que está olhando?";
+				show "Há algo em meu rosto?";
+			}
+			close;
+		case 3:
+			show "[Jade]";
+			show "Tudo bem, sem problemas.";
+			show "Volte outra hora.";
+			close;
+		}
+	}
+}

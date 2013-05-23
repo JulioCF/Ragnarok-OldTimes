@@ -1,0 +1,1701 @@
+//===== Cronus Script ======================================== 
+//= Louyang Npcs
+//===== Por: =================================================
+//= eAthena dev team
+//===== Versão Atual: ======================================== 
+//= 1.1
+//===== Descrição: =========================================== 
+//= Npcs da cidade Louyang
+//===== Changelog: =========================================== 
+//= Traduzido [Roberto]
+//= Atualização e Revisão por [Olivete]
+//============================================================
+
+alberta.gat,245,45,4    script  Garota    815,{ 
+       show "[Garota]";
+       show "La la la la~";
+       show "Hoje eu me sinto tão bem";
+       show "eu estou com vontade de fazer";
+       show "um picnic hoje em algum lugar"; 
+       show "La la la la~";
+       next;
+       menu "Sobre Louyang",-,"Ir para Louyang",M_GOTO,"Cancelar",M_CANCEL;
+
+       show "[Garota]";
+       show "Ou, você está"; 
+       show "interessado em Louyang?";
+       show "È um bom lugar para";
+       show "aventureiros visitar.";
+       next;
+       show "[Garota]";
+       show "Louyang tem uma longa história"; 
+       show "com contos sobre macias e guerreiros ancestrais. Também é conhecida pelos monstros que rondam a área de Louyang";
+       next;
+       show "[Garota]";
+       show "Lá você encontrará medicamentos que curam tudo, ocorrências misteriosas, e artistas marciais tudo eum um só lugar!"; 
+       next;
+       show "[Garota]";
+       show "Eu costumava treinar artes marciais todas as manhãs quando eu estava em Louyang. Pode não parecer, mas eu sou muito forte!";
+       next;
+       show "[Garota]"; 
+       show "Se você quiser visitar";
+       show "Louyang, sinta se avontade";
+       show "para me dizer. É só me dar";
+       show "algum zeny que iremos.";
+       close; 
+
+M_GOTO:
+       show "[Garota]";
+       show "Eu te guiarei ";
+       show "até Louyang imediatamente.";
+       show "Pelos meus serviços, eu estou";
+       show "aceitando 10,000 zeny"; 
+       next;
+       show "[Garota]";
+       show "E então, você está pronto?";
+       next;
+       menu "Claro",-,"Cancelar",M_CANCEL2;
+
+       if(Zeny < 10000) goto L_NOZENY; 
+       show "[Garota]";
+       show "Okay~";
+       show "Pronto!";
+       show "Divirta-se!";
+       close2;
+       set Zeny,Zeny-10000;
+       warp "lou_fild01.gat",190,101; 
+       end;
+
+L_NOZENY:
+       show "[Garota]";
+       show "...";
+       show "Me parece que";
+       show "você não tem 10,000 zeny...";
+       show "Vá arrumar algum dinheiro antes!"; 
+       close;
+
+M_CANCEL:
+       show "[Garota]";
+       show "Oh...";
+       show "Tenha um bom dia!";
+       close;
+
+M_CANCEL2:
+       show "[Garota]";
+       show "Oh..."; 
+       show "É tão desapontador te ouvir dizer isto.";
+       show "Bem, tenha um bom dia!";
+       close;
+}
+
+lou_fild01.gat,190,100,1        script  Garota    815,{
+       show "[Garota]"; 
+       show "Você gostaria de voltar para Alberta?";
+       next;
+       menu "Voltar para Alberta.",-,"Cancelar",M_CANCEL;
+
+       show "[Garota]";
+       show "Eu espero"; 
+       show "te ver novamente!";
+       show "Tchau Tchau!";
+       close2;
+       warp "alberta.gat",235,45;
+       end;
+
+M_CANCEL:
+       show "[Garota]";
+       show "Se você gostar desta área, porque não experimentar a comida e apreciar a paisagem!"; 
+       next;
+       show "[Garota]";
+       show "E por paisagem....";
+       show "Eu quero dizer as garotas!";
+       show "Tee hee~";
+       close;
+}
+
+louyang.gat ,224,104,4   script  Representante  818,{
+       show "[Representante]";
+       show "Bem Vindo a Louyang,";
+       show "uma terra antiga com";
+       show "uma história cheia de contos"; 
+       show "de bravura.";
+       next;
+       show "[Representante]";
+       show "Nós agora providenciamos uma travessia oceânica para acomodar a viajantes estrangeiros e o intercâmbio cultural, do qual todos se beneficiarão."; 
+       next;
+       show "[Representante]";
+       show "Louyang é fomosa por sua história elaborada, assim como suas especialidades que são únicas desta nação. Por favor não tenha pressa e aproveite sua estada."; 
+       next;
+       menu "Pergunte sobre o lugar dos prédios.",-,"Remova todas as marcações do mini-mapa.",M_REMOVE,"Cancelar",M_CANCEL;
+
+       show "[Representante]"; 
+       show "Aonde você gostaria de ir?";
+       menu "Castelo do Dragão",-,"Consultório médico",M_DOC,"A prefeitura",M_CHALL,"Loja de Armas",M_WEP,"Loja de Utilidades",M_TOOL,"Para a Taverna",M_TAVERN; 
+
+       show "[Representante]";
+       show "O Castelo do Dragão esta localizado em ^FFCCFF+^000000.";
+       show "É o lugar onde mora os nobres,";
+       show "incluindo nosso senhor."; 
+       next;
+       viewpoint 1,218,252,1,0xFFCCFF;
+       show "[Representante]";
+       show "Já que você não é daqui, eu acho que seria apropriado você visitar primeiro o nosso senhor."; 
+       close;
+
+M_DOC:
+       show "[Representante]";
+       show "Nós temos um médico muito habilidoso";
+       show "Você pode achar o seu consultório em^FFFF00+^000000.";
+       next;
+       viewpoint 1,263,93,2,0xFFFF00;
+       show "[Representante]";
+       show "Dizem que não existe doença";
+       show "que ela não cure.";
+       show "Bem, eu não posso guarantir se isto é ou não é verdade."; 
+       close;
+
+M_CHALL:
+       show "[Representante]";
+       show "Nós temos uma prefeitura onde opera o governo federal.";
+       show "esta localizado em ^AFAFAF+^000000."; 
+       next;
+       viewpoint 1,310,79,3,0xAFAFAF;
+       show "[Representante]";
+       show "Se você tiver algum problema, você deve falar com os empregados na prefeitura.";
+       close; 
+
+M_WEP:
+       show "[Representante]";
+       show "Aloja de armas fica em ^00FF00+^000000.";
+       next;
+       viewpoint 1,145,175,4,0x00FF00;
+       show "[Representante]"; 
+       show "Você verá armas maravilhosas que são forjadas por nossos experientes ferreiros de Louyang.";
+       close;
+
+M_TOOL:
+       show "[Representante]";
+       show "A loja de utilidades esta localizada em ^0000FF+^000000."; 
+       next;
+       viewpoint 1,136,97,5,0x0000FF;
+       show "[Representante]";
+       show "Conhecer o seu inimigo ja é metade da batalha!";
+       show "Também é muito mais seguro se preparar antes do que se arrepender depois. Porque você não vai dar uma conferida  no material deles?"; 
+       close;
+
+M_TAVERN:
+       show "[Representante]";
+       show "Quando voc~e estiver cansado durante sua viajem eu sugiro que você de uma passadinha na Taverna em ^00FF00+^000000."; 
+       next;
+       viewpoint 1,279,168,6,0x00FF00;
+       close;
+
+M_REMOVE:
+       viewpoint 2,218,252,1,0xFFCCFF;
+       viewpoint 2,263,93,2,0xFFFF00;
+       viewpoint 2,310,79,3,0xAFAFAF;
+       viewpoint 2,145,175,4,0x00FF00; 
+       viewpoint 2,136,97,5,0x0000FF;
+       viewpoint 2,279,168,6,0x00FF00;
+       show "[Representante]";
+       show "Pronto! Todas as marcações foram removidas de seu mapa. Sinta se avontade para me perguntar a localização dos prédios sempre que você precisar."; 
+       close;
+
+M_CANCEL:
+       show "[Representante]";
+       show "Eu compreendo que você queira explorar Louyang e ver as paisagens por si só. Beleza então,";
+       show "Te cuida!"; 
+       close;
+}
+
+louyang.gat,213,214,4   script  Soldier 825,{
+       show "[Soldier]";
+       show "Bem Vindo a Louyang, uma cidade com uma longa e colorida história.";
+       next; 
+       show "[Soldier]";
+       show "Recentemente nós desenvolvemos uma travessia oceânica para acomodar o comércio com nações estrangeiras.";
+       next;
+       show "[Soldier]"; 
+       show "Louyang é famosa por suas várias especialidades que lhe é de direito. Aqui você pode descobrir muitas coisas que são únicas em nosso país.";
+       next;
+       show "[Soldier]";
+       show "Por favor aproveite, nós lhe convidamos para curtir ao máximo sua estada aqui em Louyang.";
+       next;
+       menu "Perguntar o local dos prédios.",-,"Remover todas as marcas do mini-mapa.",M_REMOVE,"Cancelar",M_CANCEL; 
+
+       show "[Soldier]";
+       show "Aonde você gostaria de ir?";
+       menu "Castelo do Dragão",-,"Consultório Médico",M_DOC,"Prefeitura",M_CHALL,"Loja de armas",M_WEP,"Loja de utilidades",M_TOOL,"a Taverna",M_TAVERN; 
+
+       show "[Soldier]";
+       show "O castelo do Dragão esta localizado em ^FFCCFF+^000000.";
+       show "È lá que os nobres moram,";
+       show "incluindo o nosso senhor."; 
+       next;
+       viewpoint 1,218,252,1,0xFFCCFF;
+       show "[Soldier]";
+       show "Since you're an outsider, I guess it would be appropriate for you to visit our lord first.";
+       close; 
+
+M_DOC:
+       show "[Soldier]";
+       show "Nós temos um médico muito habilidoso";
+       show "Você encontrará seu consultório aqui ^FFFF00+^000000.";
+       next;
+       viewpoint 1,263,93,2,0xFFFF00; 
+       show "[Soldier]";
+       show "Dizem que não tem";
+       show "doença que ela não cure.";
+       show "Bem, eu não sei dizer se isto é verdade.";
+       close;
+
+M_CHALL:
+       show "[Soldier]";
+       show "Nós temos uma prefeitura onde atua o governo federal.";
+       show "localizado aqui ^AFAFAF+^000000.";
+       next;
+       viewpoint 1,310,79,3,0xAFAFAF; 
+       show "[Soldier]";
+       show "Se tiver algum problema, você deve procurar os empregados que la trabalham.";
+       close;
+
+M_WEP:
+       show "[Soldier]";
+       show "a loja de armas esta localizada aqui ^00FF00+^000000."; 
+       next;
+       viewpoint 1,145,175,4,0x00FF00;
+       show "[Soldier]";
+       show "Lá você encontrará maravilhosas armas forjadas por nossos experientes ferreiros.";
+       close;
+
+M_TOOL:
+       show "[Soldier]";
+       show "A loja de utilidades é aqui ^0000FF+^000000.";
+       next;
+       viewpoint 1,136,97,5,0x0000FF;
+       show "[Soldier]";
+       show "Conhecer o seu inimigo já é metade da batalha!"; 
+       show "É muito melhor se preparar antes para não se arrepender. Porque você não da uma passada por lá para conferir os produtos?";
+       close;
+
+M_TAVERN:
+       show "[Soldier]";
+       show "Quando você se cansar durante sua jornada, eu recomendo que você dê uma passadinha na Taverna aqui ^00FF00+^000000.";
+       next;
+       viewpoint 1,279,168,6,0x00FF00;
+       close;
+
+M_REMOVE:
+       viewpoint 2,218,252,1,0xFFCCFF;
+       viewpoint 2,263,93,2,0xFFFF00;
+       viewpoint 2,310,79,3,0xAFAFAF;
+       viewpoint 2,145,175,4,0x00FF00;
+       viewpoint 2,136,97,5,0x0000FF;
+       viewpoint 2,279,168,6,0x00FF00; 
+       show "[Soldier]";
+       show "Pronto! Todas as marcações foram removidas do seu mini-mapa. Fique avontade para me pergunta a localização dos prédios sempre que precisar.";
+       close; 
+
+M_CANCEL:
+       show "[Soldier]";
+       show "Eu acho que é divertido explorar os lugares por conta própria. Se cuide.";
+       close;
+}
+
+lou_fild01.gat,195,177,4	script	Jiu Lian Bu	819,{ 
+       if(QL_SOUP2 == 1) goto L_DONE;
+       if(QL_GOTFAKESOUP == 1) goto L_FAKE;
+       if(QL_GOTDRAGONSOUP == 1) goto L_SOUP;
+       if(QL_ACCEPTSOUP == 1) goto L_GORESTA;
+       show "[Jiu Lian Bu]"; 
+       show "Ei?";
+       show "E ai?";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Eu não curto ficar no meio de muita gente, então eu vim pra cá. Escutar este riacho realmente acalma minha mente."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Sem querer ofender, mas eu estou chateado";
+       show "com a grande quantidade de turistas vindo para Louyang";
+       show "Claro, eu sei que nossa cidade é atraente em tem belas paisagens."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Mas eu simplesmente não suporto multidões. Pessoas se juntam como ovelhas em qualquer lugar que eles ficam sabendo que é popular, e isso me irrita!"; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Falando nisso, tem até";
+       show "um lugar assim aqui em Louyang";
+       show "Cara, eu odeio aquele restaurante!"; 
+       next;
+       menu "Que restaurante?",-,"Ignore-o",M_IGNORE;
+
+       show "[Jiu Lian Bu]";
+       show "No lado leste de Louyang, tem um restaurante que foi feito em um lago. ele já existe a muito tempo, e vende comida por um preço ridículo!"; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Oh claro que a comida e os sabores";
+       show "lá tem uma longa história, mas eu";
+       show "não acho que isto justifica o fato"; 
+       show "deles mudarem deles terem mudado de patrão!";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Como um jovem";
+       show "que ama sua cidade,";
+       show "Eu não posso deixar que eles"; 
+       show "manipulem meu povo desta maneira!";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Mas todo mundo por aqui ja sabe quem eu sou, portanto não posso fazer nada! Eu ja tive muito, digamos, 'incidentes' com as pessoas que vivem aqui."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Eu já fui pego pichando muros, roubando em lojas, trapaceando, roubando algumas namoradas... Portanto, eu não sou o cidadão padrão.";
+       next; 
+       show "[Jiu Lian Bu]";
+       show "Ei, espere um pouco. O povo";
+       show "local ainda não esta";
+       show "muito familiarizado com você ainda. Hmmmm....";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Você entraria naquele restaurante e roubaria o ^3C2EE6Caldo de Sopa de Dragão^000000 pra mim?";
+       next;
+       show "[Jiu Lian Bu]"; 
+       show "O Caldo de sopa de Dragão é a";
+       show "coluna da receita secreta";
+       show "do dono do restaurante.";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Mas eles estão enganando seus";
+       show "clientes fazendo o Caldo mais aguado";
+       show "e vendendo a sopa";
+       show "por um preço ridiculo! Seria bom para eles aprenderem"; 
+       show "se o seu segredo fosse roubado!";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Se você puder roubar um pouco do caldo,";
+       show "Eu te pagarei. E ai o que tu acha?"; 
+       next;
+       menu "Eu farei exatamente isto!",-,"Não, roubar é errado.",M_NO;
+
+       show "[Jiu Lian Bu]";
+       show "Ótimo!";
+       show "Eu sabia que você"; 
+       show "ia me entender!";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Okay, o restaurante é do lado leste de Louyang. Mas você tem que ser muito cuidadoso. Os trabalhadores de lá tomam conta desse caldo como gaviões!"; 
+       set QL_ACCEPTSOUP,1;
+       close;
+
+M_NO:
+       show "[Jiu Lian Bu]";
+       show "Roubar?";
+       show "Você pode ter";
+       show "alguma razão ai."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Mas por outro lado, é isso que o restaurante vem fazendo com seus clientes por anos! Portanto, tecnicamente, nós só estariamos roubando de volta."; 
+       close;
+
+M_IGNORE:
+       show "[Jiu Lian Bu]";
+       show "Aquele buraco nem é tão bom assim. eu quero dizer é que é tão óbvio que eles passam os clientes para trás! Sopa de Dragão?! Ta mais pra...sopa de lagartixa!"; 
+       close;
+
+L_GORESTA:
+       show "[Jiu Lian Bu]";
+       show "Huh...?";
+       show "Ôpa, eu pensei que você ja estivesse a caminho do restaurante. É molhor você ir andando."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Beleza parceiro, Certifique-se";
+       show "de que os caras que trabalham lá não te pegue. Boa Sorte!";
+       close;
+
+L_FAKE:
+       show "[Jiu Lian Bu]";
+       show "Uau! Você conseguiu!";
+       show "Deixe me ver...";
+       next;
+       show "^445BA7Jiu Lian Bu toma uma golada do caldo que você trouxe pra ele.."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "PôÔô cara...";
+       show "Isso nem chega perto do caldo da sopa de dragão. Me desculpa mas você poderia voltar e tentar de novo?"; 
+       close;
+       set QL_GOTFAKESOUP,0;
+
+L_SOUP:
+       show "[Jiu Lian Bu]";
+       show "Uau! Você conseguiu!";
+       show "Deixe me ver...";
+       next;
+       show "^445BA7Jiu Lian Bu toma uma golada do caldo que você trouxe pra ele.."; 
+       next;
+       show "Ooooh. agora sim.";
+       show "Essa aqui é a parada.";
+       show "Muhahahahahaha~!";
+       show "Isso ira deixar o cozinheiro";
+       show "em agonia por um tempo!"; 
+       next;
+       set QL_GOTDRAGONSOUP,0;
+       set QL_ACCEPTSOUP,0;
+       set QL_SOUPQUEST,1;
+       show "[Jiu Lian Bu]";
+       show "bom trabalho peixe! Heh heh heh, porque você arriscou seu pescoço por mim, Eu vou te mostrar um lugar irado! É só me seguir!"; 
+       close2;
+       warp "lou_fild01.gat",180,171;
+       end;
+
+L_DONE:
+       show "[Jiu Lian Bu]";
+       show "Hey~";
+       show "Como você tem passado, hein malandragem!?"; 
+       show "você quer visitar aquele lugar de novo?";
+       next;
+       menu "claro, vamos nessa!",-,"Nah, talvez uma outra hora.",M_NAH;
+
+       show "[Jiu Lian Bu]"; 
+       show "Tudo bem!";
+       show "Vamos então";
+       show "deixar o esquema armado.";
+       close2;
+       warp "lou_fild01.gat",180,171;
+       end;
+
+M_NAH: 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Não ta no clima, eh?";
+       show "Sem problema. Mas sinta se livre";
+       show "para voltar aqui sempre";
+       show "que você quiser."; 
+       close;
+}
+
+lou_fild01.gat,175,174,4	script	Jiu Lian Bu	819,{
+       if(QL_SOUPQUEST < 1) goto L_DOQUEST;
+       if(QL_SOUP2 < 1) goto L_1STTIME;
+       show "[Jiu Lian Bu]"; 
+       show "Então...";
+       show "O que qui tu que fazê?";
+       emotion 18;
+       next;
+       menu "Gritar.",-,"Ir embora.",M_LEAVE;
+
+       show "[Jiu Lian Bu]"; 
+       show "Pronto?!";
+       show "Diga bem alto!";
+       next;
+       digit @loushout$;
+       mapannounce "lou_fild01.gat","'" + strcharinfo(0) + "' shouts: " + @loushout$ ,17; 
+       show "[" + strcharinfo(0) + "]";
+       show @loushout$;
+       close;
+
+M_LEAVE:
+       show "[Jiu Lian Bu]";
+       show "Ahhh...";
+       show "Beleza, vamos"; 
+       show "arrumar o esquema então.";
+       close2;
+       warp "lou_fild01.gat",197,174;
+       end;
+
+L_DOQUEST:
+       show "[Jiu Lian Bu]";
+       show "Quem é você?"; 
+       show "Vaza do meu local aew!";
+       close2;
+       warp "lou_fild01.gat",197,174;
+       end;
+
+L_1STTIME:
+       show "[Jiu Lian Bu]";
+       show "Então..."; 
+       show "que tu acha?";
+       show "Lugar mais bonito de Louyang, né mesmo?";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Sempre que eu estou deprimido ou precisando relaxar, eu simplesmente sento aqui e curto a brisa. Me ajuda a esquecer minhas preocupações."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Heh heh, a melhor parte é, que este lugar me deixa longe de minha irmã. Cara, aquela mina só faz reclamar e reclamar o dia todo..";
+       next; 
+       show "[Jiu Lian Bu]";
+       show "Porque você não senta e fecha os olhos e sente este ventinho. É bem refrescante";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Também..."; 
+       show "Eu estou um pouco";
+       show "envergonhado";
+       show "em dizer isso mas...";
+       next;
+       show "[Jiu Lian Bu]";
+       show "eu sou o tipo de cara que fala o que da na telha. Se tem alguma coisa que você quer dizer, mas não pode, é como veneno para a mente."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Você sabe do que eu estou falando certo? Você fica com aquela coisa presa dentro de você, e isso acaba causando uma ansiedade de que você não precisa."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "Então...";
+       show "Isso é o que você vai fazer.";
+       show "Feche seus punhos e ";
+       show "encha seus pulmões de ar."; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "E simplesmente grite";
+       show "o que vier na telha!";
+       show "Se você não sabe as palavras";
+       show "simplesmente gritar"; 
+       show "ja ajuda.";
+       show "Bote tudo pra fora!";
+       next;
+       show "[Jiu Lian Bu]";
+       show "Pronto?!";
+       show "Diga bem alto!";
+       next;
+       digit @loushout$;
+       mapannounce "lou_fild01.gat","'" + strcharinfo(0) + "'Grita:" + @loushout$ ,17;
+       show "[" + strcharinfo(0) + "]"; 
+       show @loushout$;
+       set QL_SOUP2,1;
+       next;
+       show "[Jiu Lian Bu]";
+       show "Então, como se sente?";
+       show "Não esta se sentindo bem melhor agora? Hahaha~"; 
+       next;
+       show "[Jiu Lian Bu]";
+       show "De agora em diante, sempre que você";
+       show "quiser se aliviar do estresse";
+       show "venha me ver e nós voltaremos"; 
+       show "a este lugar. Vamos dizer que é minha maneira";
+       show "de te agradecer.";
+       close;
+}
+
+lou_in02.gat,61,175,2	script	Funcionário	818,2,2{
+       show "[Ya Hua]"; 
+       show "^6A6A6A*Boceja...*";
+       close;
+
+OnTouch:
+       if(QL_GOTDRAGONSOUP == 1 || QL_GOTFAKESOUP == 1) goto S_CAUGHT;
+       end;
+
+S_CAUGHT:
+       show "[Ya Hua]"; 
+       show "^6A6A6A*Boceja...*";
+       show "^000000Palpebras...";
+       show "Ficando...";
+       show "mais pesadas...";
+       next;
+       show "[Ya Hua]"; 
+       show "Espere um segundo...";
+       show "Você é um gatuno?!";
+       show "Saia daqui!!";
+       if(QL_GOTFAKESOUP == 1) set QL_GOTFAKESOUP,0;
+       if(QL_GOTDRAGONSOUP == 1) set QL_GOTDRAGONSOUP,0; 
+       next;
+       show "^3C2EE6You have failed";
+       show "^3C2EE6to steal the pot.";
+       close;
+}
+
+lou_in02.gat,54,174,6   script  Funcionário        822,{
+       show "[Chang Pai]"; 
+       show "^6A6A6A*Boceja...*";
+       close;
+}
+
+lou_in02.gat,50,185,4   script  Pot     111,{
+       if(QL_SOUPQUEST == 1) goto L_EMPTY;
+       if(QL_ACCEPTSOUP < 1) goto L_NORMAL;
+       show "^3C2EE6Nas sombras, Você encontra um grande pote cheio com um liquido escuro e avermelhado. O que você quer fazer?";
+       next;
+       menu "Pegar o pote",-,"Procurar por outro pote.",M_LOOK; 
+
+       if (QL_GOTDRAGONSOUP == 1) set QL_GOTDRAGONSOUP,0;
+       show "^3C2EE6Você da uma olhada cuidadosamente ao seu redor. Não seria esperto roubar isto agora se estiver alguém de olho.";
+       next; 
+       show "^3C2EE6Já que o restaurante está fechado, o lugar todo esta quieto. Todos os funcionarios estão dormindo.";
+       next;
+       show "^3C2EE6Você cuidadosamente levanta o pote, e apesar de ser pesado, você acha que consegue carregar."; 
+       next;
+       show "^3C2EE6Tudo o que";
+       show "^3C2EE6você tem que fazer agora";
+       show "^3C2EE6é sair do restaurante";
+       show "^3C2EE6sem ser pego..."; 
+       set QL_GOTFAKESOUP,1;
+       close;
+
+M_LOOK:
+       show "^3C2EE6Você decide";
+       show "procurar por outro pote.";
+       close;
+
+L_NORMAL:
+       show "[Chef]"; 
+       show "Ah...";
+       show "Por favor";
+       show "não toque nos potes!";
+       close;
+
+L_EMPTY:
+       show "^3C2EE6Você achou um pote, entretanto o mesmo está vazio."; 
+       close;
+}
+
+lou_in02.gat,49,185,4   script  Pot     111,{
+       if(QL_SOUPQUEST == 1) goto L_EMPTY;
+       if(QL_ACCEPTSOUP < 1) goto L_NORMAL;
+       show "^3C2EE6Nas sombras você acha um grande pote cheio com um liquido escuro avermelhado. O que você quer fazer?"; 
+       next;
+       menu "Pegar o pote.",-,"Procurar por outro pote.",M_LOOK;
+
+       if (QL_GOTFAKESOUP == 1) set QL_GOTFAKESOUP,0;
+       show "^3C2EE6Você da uma olhada cuidadosamente ao seu redor. Não seria esperto roubar isto agora se estiver alguém de olho."; 
+       next;
+       show "^3C2EE6Já que o restaurante está fechado, o lugar todo esta quieto. Todos os funcionarios estão dormindo.";
+       next;
+       show "^3C2EE6você cuidadosamente levanta o pote, e apesar de estar pesado, você acha que consegue carregá-lo."; 
+       next;
+       show "^3C2EE6Tudo o que";
+       show "^3C2EE6você tem que fazer agora";
+       show "^3C2EE6é sair do restaurante";
+       show "^3C2EE6sem ser pego..."; 
+       set QL_GOTDRAGONSOUP,1;
+       close;
+
+M_LOOK:
+       show "^3C2EE6Você decide";
+       show "procurar por outro pote.";
+       close;
+
+L_NORMAL:
+       show "[Chef]"; 
+       show "Ah...";
+       show "Por favor";
+       show "não toque nos potes!";
+       close;
+
+L_EMPTY:
+       show "^3C2EE6Você achou um pote vazio.";
+       close; 
+}
+
+louyang.gat,261,123,4	script	Chi Wu Ping	824,{
+       show "[Chi Wu Ping]";
+       show "Eu não me sinto bem...";
+       show "Estou...tão por fora....";
+       next; 
+       show "[Chi Wu Ping]";
+       show "Oh, meu corpo dolorido!";
+       show "Todos os meus músculos estão doloridos...";
+       show "Existe somente uma coisa que seria"; 
+       show "capaz de curar toda esta dor...";
+       show "agoniante...";
+       next;
+       show "[Chi Wu Ping]";
+       show "Ei garoto!!";
+       show "Voc~e não se parece com um local!"; 
+       show "Porque você não segue a estrada adiante";
+       show "e da uma conferida no restaurante?";
+       next;
+       show "[Chi Wu Ping]";
+       show "A sopa que eles vendem lá é provavelmente a comida mais sauddável que você jamais encontrará."; 
+       next;
+       show "[Chi Wu Ping]";
+       show "Eu acho que você poderia";
+       show "comer um pouco daquela sopa";
+       show "para sua saúde.";
+       close; 
+}
+
+lou_in02.gat,62,183,4   script  Chefe    820,{
+       if(QL_SOUPQUEST == 1) goto L_FINISHED;
+       show "[Wang Shi Long]";
+       show "Olá, você é um";
+       show "dos nossos clientes?"; 
+       show "Eu sou Wang Shi Long";
+       show "o chef do restaurante.";
+       next;
+       show "[Wang Shi Long]";
+       show "Minha familia vem servindo comida";
+       show "para o Senhor Bai Long por muito tempo.";
+       show "Este restaurante foi passado de geração em geração";
+       show "em minha familia, e eu sou o sucesor.";
+       next; 
+       show "[Wang Shi Long]";
+       show "Nossa especialidade, a Sopa do Dragão,";
+       show "é muito considerada pelo senhor";
+       show "Bai Long, que é conhecido"; 
+       show "pelo seu paladar apurado.";
+       next;
+       show "[Wang Shi Long]";
+       show "E eu também tenho orgulho em dizer";
+       show "que nós só cozinhamos com ingredientes fresquinhos"; 
+       show "e de alta qualidade.";
+       next;
+       show "[Wang Shi Long]";
+       show "Nós sempre fomos famosos";
+       show "em Louyang por centenas e centenas de anos"; 
+       show "devido ao alto nível";
+       show "de nossa cozinha.";
+       next;
+       show "[Wang Shi Long]";
+       show "Neste clima quente e seco,";
+       show "a sopa de Dragão é o melhor alimento para"; 
+       show "qualquer gosto. Eu sugiro que você";
+       show "experimente um pouco. Você ficará";
+       show "bem satisfeito!";
+       close;
+
+L_FINISHED:
+       show "[Wang Shi Long]"; 
+       show "^6A6A6A*Reclama e chora*^000000";
+       show "Eu acho que é isso...!";
+       show "O fim da gloria da minha familia.";
+       show "Alguém roubou o caldo que é"; 
+       show "base da minha sopa de Dragão!";
+       next;
+       show "[Wang Shi Long]";
+       show "O que é que eu faço agora?";
+       show "Sem a sopa do Dragão, o restaurante"; 
+       show "da minha familia agora ";
+       show "vai ser como os outros...";
+       close;
+}
+
+lou_in02.gat,42,186,4	script	Liu Jia Lim	816,{
+       if(QL_SOUPQUEST == 1) goto L_FINISHED; 
+       show "[Liu Jia Lim]";
+       show "Você sabe qual é p melhor prato deste restaurante? É a sopa do Dragão! Eles a vendem aqui desde que o restaurante abriu.";
+       next;
+       show "[Liu Jia Lim]"; 
+       show "O seu sabor delicado vem do caldo que é extraido de pura carne sem gordura. Portanto ela também é muito famosa entre as meninas de dieta.";
+       next;
+       show "É saborosa e muito boa para saúde. Porque você não pede um pouco? Eu não conheço ninguém que tenha provado a sopa do Dragão que não gostou!"; 
+       close;
+
+L_FINISHED:
+       show "[Liu Jia Lim]";
+       show "Você sabe qual foi o melhor prato deste restaurante durante toda sua história? Sopa de Dragão!";
+       next;
+       show "[Liu Jia Lim]"; 
+       show "O seu sabor delicado vem do caldo que é extraido de pura carne sem gordura. Portanto ela também é muito famosa entre as meninas de dieta.";
+       next;
+       show "[Liu Jia Lim]"; 
+       show "Eu não sei o que aconteceu, mas as pessoas estão dizendo que este restaurante não vende mais Sopa de Dragão.";
+       show "Será que é por conta do preço...?";
+       close;
+}
+
+lou_in02.gat,43,169,8	script	Jiang Rong	827,{
+       show "[Jiang Rong]";
+       show "A sopa de Dragão é conhecida pelo seu sabor apimentado";
+       show "e ainda meio doce, mas muito refrescante."; 
+       next;
+       show "[Jiang Rong]";
+       show "É feita com todo tipo";
+       show "de ervas medicinais, portanto é muito";
+       show "boa para sua saúde também."; 
+       next;
+       show "[Jiang Rong]";
+       show "A sopa de Dragão retira";
+       show "o calor desnecessário criado dentro";
+       show "do corpo e faz o sangue circular."; 
+       show "Por isso melhora as funções corporais";
+       show "e promove a longevidade.";
+       next;
+       show "[Jiang Rong]";
+       show "Eu tenho comido a sopa de Dragão regularmente"; 
+       show "desde que eu era mais novo. Olhe só pra mim,";
+       show "você não acha que eu pareço muito saudável";
+       show "considerando minha idade?";
+       close;
+}
+
+lou_in02.gat,76,181,2	script	Funcionário	822,{
+       show "[Huang Jia Xian]";
+       show "Ehhhh...";
+       show "Desculpe me...";
+       show "...................."; 
+       show "...Zzzzz...Zzzz...";
+       close;
+}
+
+lou_in02.gat,80,173,2	script	Li Min	746,{
+       if(QL_SOUPQUEST == 1) goto L_FINISHED;
+       show "[Li Min]";
+       show "Bem, eu não moro mesmo"; 
+       show "aqui em Louyang.";
+       show "Mesmo assim eu venho aqui frequentemente";
+       show "para visitar.";
+       next;
+       show "[Li Min]";
+       show "Eu acabei de voltar aqui"; 
+       show "por conta de um";
+       show "desejo enorme de comer";
+       show "a comida daqui";
+       show "que eu experimentei a um tempo atrás.";
+       next;
+       show "[Li Min]"; 
+       show "Por alguma razão, ela não me sai da cabeça.";
+       show "Eu não consigo ficar sem!";
+       next;
+       show "[Li Min]";
+       show "O sabor, a textura."; 
+       show "A doçura, derretendo em minha boca";
+       show "e seu aroma tentador";
+       show "brincando em meus lábios...";
+       next;
+       show "[Li Min]";
+       show "Ummmmm...";
+       show "Geléia Real!";
+       show "Me da água";
+       show "na boca.";
+       close;
+
+L_FINISHED:
+       show "[Li Min]";
+       show "^6A6A6A*Suspira*^000000Eu estou tão decepcionada. Eu vim";
+       show "até aqui para experimentar a";
+       show "comida! Eu não acredito que eles";
+       show "não a vendam mais!"; 
+       next;
+       show "[Li Min]";
+       show "E o pior é que eu já estou";
+       show "viciada no sabor! ^6A6A6A*Suspira...*^000000";
+       close;
+}
+
+lou_in02.gat,58,183,4	script	Chefe Assistente	823,{ 
+       show "[Jin Wei Ling]";
+       show "Eu era uma";
+       show "artista marcial";
+       show "entusiasmado.";
+       next;
+       show "[Jin Wei Ling]"; 
+       show "Apesar de eu ter me tornado";
+       show "um assistente de cozinheiro, eu";
+       show "sempre me considero um lutasempre me considero um lutador.dor primeiro.";
+       show "em primeiro lugar."; 
+       next;
+       show "[Jin Wei Ling]";
+       show "então eu decidi por um pouco";
+       show "do espirito das artes marciais enquanto";
+       show "eu cozinho. Nós sempre ficamos muito ocupados"; 
+       show "quendo aparecem muitos clientes.";
+       next;
+       show "[Jin Wei Ling]";
+       show "Quando estamos ocupados eu posso usar";
+       show "a arte marcial para preparar os pratos"; 
+       show "muito mais rápido! Hahaha!!! Artes marciais";
+       show "podem ser muito prático!";
+       next;
+       show "[Jin Wei Ling]";
+       show "Waaa-!!!!";
+       misceffect 55;
+       next;
+       show "[Jin Wei Ling]";
+       show "Waaa Taah-!!!!!";
+       misceffect 11;
+       next;
+       show "[Jin Wei Ling]";
+       show "Waaa..."; 
+       show "Waa Taaah-!!!!!";
+       misceffect 121;
+       next;
+       show "[Jin Wei Ling]";
+       show "^3C2EE6*Corta Corta Corta Corta Corta*^000000";
+       donpcevent "Lounpc::OnEffect"; 
+       next;
+       show "[Jin Wei Ling]";
+       emotion 21;
+       show "Hahahaha! Olhe só para estas";
+       show "fatias perfeitas de vegetais! Muhahahahahah!!";
+       show "Eu vou continuar a aperfeiçoar minha técnica"; 
+       show "enquanto cozinho!";
+       close;
+}
+
+lou_in02.gat,58,181,2	script	Lounpc	139,{
+OnEffect:
+       misceffect 122;
+       end;
+}
+
+louyang.gat,174,150,4	script	Liu Chi Ling	815,{ 
+       if(QL_SOUPQUEST == 1) goto L_RUMOR;
+       show "[Jiu Chi Ling]";
+       show "eu estou procupada com meu irmão.";
+       show "ele é jovem, rebelde e não";
+       show "da ouvidos a ninguém..."; 
+       next;
+       show "[Jiu Chi Ling]";
+       show "Ele acabou de";
+       show "sair de casa";
+       show "reclamando daquele";
+       show "restaurante..."; 
+       next;
+       show "[Jiu Chi Ling]";
+       show "^6A6A6A*Suspira~~*^000000";
+       show "Eu não vou deixar que ele";
+       show "se safe desta vez!";
+       close; 
+
+L_RUMOR:
+       show "[Jiu Chi Ling]";
+       show "Tem um boato estranho rolando";
+       show "de que o restaurante";
+       show "não está mais vendendo Sopa de Dragão..."; 
+       next;
+       show "[Jiu Chi Ling]";
+       show "Você acha que";
+       show "meu irmão fez";
+       show "alguma coisa errada de novo!?";
+       show "Eu espero que não! Se ele aprontou..."; 
+       show "O que eu devo fazer?!";
+       close;
+}
+
+lou_in02.gat,210,47,8	script	Oficial do Hall	825,{
+       if(QL_GOTCOMPROP == 1)goto L_BEENTOHIM;
+       if(QL_LOUBRIBE == 1)goto L_OFFICER; 
+       if(QL_BEENTOSTORAGE == 1)goto L_QUEST;
+       show "[Jin Chiyuan]";
+       show "^6A6A6A*Boceja*^000000";
+       show "Caraca, esse clima quente é uma barra. Hã? Você parece um turista. Está gostando de sua estada?"; 
+       next;
+       show "[Jin Chiyuan]";
+       show "Apesar de nós estarmos tendo esse mal tempo recentemente, ainda existem muitos lugares bonitos para visitar em Louyang. Eu espero que você aproveite."; 
+       close;
+
+L_QUEST:
+       show "[Jin Chiyuan]";
+       show "Hm? Um Rune-Midgardiano? Como posso te ajudar?";
+       next;
+       menu "Eu preciso de um documento.",-,"Eu só estou dando uma passadinha",M_DROP; 
+
+       show "[Jin Chiyuan]";
+       show "Ah, você precisa?";
+       show "Infelismente, existem muitas pessoas esperando na fila a procura de documentos do governo, portanto vai demorar um pouco para atender a seu pedido."; 
+       next;
+       show "[Jin Chiyuan]";
+       show "^6A6A6A*sussurra*";
+       show "^2A2A2ABem existe uma maneira que você pode, digamos, agilizar o processo de expedição de seu pedido...^000000"; 
+       next;
+       menu "Ein? Como é que é?",-,"Um din din para o carimbaço né?",M_BRIBE;
+
+       show "[Jin Chiyuan]";
+       show "^6A6A6A*Ahem!*^000000 Nada não."; 
+       show "Nada de importante, Agora eu estou muito ocupado, portanto se você preencher esse formulário aqui...";
+       close;
+
+M_BRIBE:
+       digit @loubribe;
+       if(@loubribe < 10000)goto L_POOR; 
+       if(zeny < @loubribe)goto L_NOTENOUGH;
+       set Zeny, Zeny - @loubribe;
+       set QL_LOUBRIBE,1;
+       show "[Jin Chiyuan]";
+       show "O que...?!";
+       show "Não foi isso que eu quis dizer, mas se você insiste em fazer uma doação para o nosso governo..."; 
+       next;
+       show "[Jin Chiyuan]";
+       show "^6A6A6A*sussurra*";
+       show "^2A2A2AQuando você chegar no andar de cima, um funcionário vai te dar o documento de que precisa.^6A6A6A *Ahem* ^000000Louyang te agradece!"; 
+       close;
+
+L_POOR:
+       show "[Jin Chiyuan]";
+       show "Deus do céu,";
+       show "O que você esta achando? Que eu sou um mendigo?! Isso ai é umamerreca que nem é considerado suborno!"; 
+       next;
+       emotion 32;
+       show "[Jin Chiyuan]";
+       show "Eu quero dizer...";
+       show "Como ousa você subornar um funcionario da lei! Eu espero que os outros estrangeiros não sejam como você! Por favor saia imediatamente."; 
+       close;
+
+M_DROP:
+       show "[Jin Chiyuan]";
+       show "Ai ai...";
+       show "Deixa eu te contar, agora não é um bom momento para os turistas. Eu espero que você não entre em lugares que você não deva."; 
+       next;
+       show "[Jin Chiyuan]";
+       show "Para ser franco,";
+       show "esta um clima ruim para curiosos neste momento. Por favor tenha cuidado.";
+       close;
+
+L_NOTENOUGH:
+       show "[Jin Chiyuan]";
+       show "Você nem tem isso tudo de dinheiro.";
+       close;
+
+L_OFFICER:
+       show "[Jin Chiyuan]";
+       show "Você não falou com o funcionário que eu te disse? Eu falei com ele sobre o assunto, é só você ir falar com ele no andar de cima."; 
+       next;
+       show "[Jin Chiyuan]";
+       show "Hahahaha...";
+       show "Te cuida";
+       show "Rune-Midgardiano.";
+       close;
+
+L_BEENTOHIM:
+       emotion 18; 
+       show "[Jin Chiyuan]";
+       show "Ah~";
+       show "Você se encontrou com ele";
+       show "não foi?";
+       show "Hahaha...";
+       show "Aproveie sua estada"; 
+       show "em Louyang!";
+       close;
+}
+
+lou_in02.gat,156,38,8	script	Oficial Estudante	822,{
+       if(QL_GOTCOMPROP == 1)goto L_RANT2;
+       if(QL_LOUBRIBE == 1)goto L_BRIBED; 
+       if(QL_BEENTOSTORAGE == 1)goto L_RANT;
+       show "[Huang Zhishu]";
+       show ".....";
+       show "^6A6A6A*resmunga resmunga*^000000";
+       next;
+       show "^3C2EE6Ele parece estar mexendo em alguns papéis por algum documento e não percebe sua presença."; 
+       next;
+       menu "Desculpe me.",-,"Passe por ele.",M_PASS;
+
+       show "[Huang Zhishu]";
+       show "Hmmm...?";
+       show "Bem...";
+       show "..."; 
+       show "To sabendo...";
+       show "^6A6A6A*resmunga resmunga...*^000000";
+       close;
+
+M_PASS:
+       show "[Huang Zhishu]";
+       show ".....";
+       show "^6A6A6A*resmunga sussurra*^000000"; 
+       close;
+
+L_RANT:
+       show "[Huang Zhishu]";
+       show "Os livros contém o espirito e as idéias de seus autores. Qualquer trabalho de arte pode ser considerado uma janela para a alma de seu criador."; 
+       next;
+       show "[Huang Zhishu]";
+       show "^6A6A6A*Resmunga resmunga*^000000";
+       show "Hmm... eu vejo...";
+       show "Ah, eu vejo...";
+       show "^6A6A6A*Resmunga resmunga...*^000000"; 
+       close;
+
+L_BRIBED:
+       show "^3C2EE6*Resmungos resmungos*^000000";
+       next;
+       menu "Sinto muito por isso.",-,"Eu vim pegar o meu documento.",L_DOCU;
+
+       show "[Huang Zhishu]";
+       show "Desculpas aceitas.";
+       show "Hmmm....";
+       show "Oh Eu vejo, eu vejo...";
+       next;
+       emotion 0;
+       show "^3C2EE6*Resmunga resmunga...*"; 
+       show "^3C2EE6..........";
+       close;
+
+L_DOCU:
+       show "[Huang Zhishu]";
+       show "Huh?";
+       show "Ah...";
+       show "É você quem eu estou esperando. Qual tipo de documento que o senhor precisa?"; 
+       digit @loudocument$;
+       next;
+       show "[Huang Zhishu]";
+       show "Vejamos agora.";
+       show "Você quer..";
+       show "um" + @loudocument$ + "?"; 
+       next;
+       if(@loudocument$ != "Communication Proposal")goto L_WHAT;
+       show "[Huang Zhishu]";
+       show "Agora, onde é que eu coloquei isso? Você quer um Communication Proposal né? Eu acho que preciso de algum tempo para achar um. Ah, sim, eu acho que sei onde coloquei um."; 
+       next;
+       show "...";
+       next;
+       show "...";
+       show "......";
+       next;
+       show "...";
+       show "......";
+       show "........."; 
+       next;
+       show "...";
+       show "......";
+       show ".........";
+       show "............";
+       next;
+       show "...";
+       show "......"; 
+       show ".........";
+       show "............";
+       show "...............";
+       next;
+       show "[Huang Zhishu]";
+       show "Aqui está. ";
+       set QL_GOTCOMPROP,1;
+       set QL_LOUBRIBE,0;
+       set QL_BEENTOSTORAGE,0;
+       close;
+
+L_WHAT:
+       show "[Huang Zhishu]";
+       show "Huh?";
+       show "O que..."; 
+       next;
+       show "[Huang Zhishu]";
+       show "Me desculpe mas eu acho que nós não temos este. Eu acho que você deve conferir o nome do documento novamente e então voltar aqui.";
+       close; 
+
+L_RANT2:
+       emotion 33;
+       show "[Huang Zhishu]";
+       show "Hmmm...?";
+       show "Você acha que eu tenho que sair mais? Bem, eu acho que por algum motivo eu não me sinto bem. eu acho mesmo que eu deveria ir respirar um pouco de ar fresco."; 
+       show "^6A6A6A*Boceja...*^000000";
+       next;
+       show "[Huang Zhishu]";
+       show "Mas você também precisa sair mais! não é uma boa idéia ficar sempre em casa. Se você não se exercitar quando jovem, sua saúde pode ser afetada mais tarde."; 
+       close;
+}
+
+lou_in02.gat,248,166,2	script	Tool Shop Master	824,{
+       if(QL_GOTHERB == 1)goto L_HERB;
+       if(QL_TOOLMASTER == 1)goto L_STORAGE;
+       if(QL_DOCQUEST == 1)goto L_QUEST; 
+L_HERB:
+       show "[Wang Chuiyi]";
+       show "Meus negócios não vão bem últimamente. E que diabos acontece com esse tempo?! Eu não sei o que está acontecendo no mundo...";
+       close;
+
+L_QUEST:
+       show "[Wang Chuiyi]";
+       show "Droga!";
+       show "Eu odeio";
+       show "este clima...!";
+       next;
+       emotion 1;
+       show "[Wang Chuiyi]"; 
+       show "Um? posso te ajudar";
+       show "com alguma coisa?";
+       next;
+       menu "Eu estou aqui para pegar uma coisa para o médico...",-,"Eu concordo, o tempo está mesmo ruim.",M_WEATHER; 
+
+       show "[Wang Chuiyi]";
+       show "Huh?";
+       show "Uma missão para o médico? Ela deve estar sem medicamentos de novo. Vá em frente e de uma olhada no depósito.";
+       next; 
+       show "[Wang Chuiyi]";
+       show "você vai encontrar o depósito do outro lado do prédio. Lá você vai encontrar um cara chamado Jiang Xiayou. Vá lá e peça o que você precisa.";
+       set QL_TOOLMASTER,1; 
+       close;
+
+M_WEATHER:
+       show "[Wang Chuiyi]";
+       show "Nem me diga. Esse clima fica me estressando. Droga, eu não acho que vou viver muito se eu continuar ficando irritado desse jeito por este clima..."; 
+       close;
+
+L_STORAGE:
+       show "[Wang Chuiyi]";
+       show "você vai encontrar o depósito do outro lado do prédio. Lá você vai encontrar um cara chamado Jiang Xiayou. Vá lá e peça o que você precisa."; 
+       close;
+}
+
+lou_in02.gat,201,166,5	script	Organizador do Armazém	819,{
+       if(QL_GOTCOMPROP == 1)goto L_FINALLY;
+       if(QL_BEENTOSTORAGE == 1)goto L_LAZY;
+       if(QL_TOOLMASTER == 1)goto L_QUEST; 
+       show "[Jiang Xiayou]";
+       show "^6A6A6A*Boceja*^000000";
+       show "Isto é tão entediante...";
+       show "Tão entediante que é ridiculo. eu não quero perder mais meu tempo aqui, eu tenho coisas importantes para fazer..."; 
+       close;
+
+L_QUEST:
+       show "[Jiang Xiayou]";
+       show "Huh?";
+       show "O que? O que que você esta fazendo aqui? Se você não precisa de nada, é melhor ir se mexendo."; 
+       next;
+       menu "ah sim me desculpe.",-,"Esta quente num é não?",M_HOT,"eu estou em uma missão para a doutora.",M_ERRAND;
+
+       show "[Jiang Xiayou]";
+       show "Ta certo!"; 
+       show "você não deve mexer com uma pessoa neste tempo quente! Agora vá. Você não está vendo que eu estou ocupado!";
+       close;
+
+M_HOT:
+       show "[Jiang Xiayou]";
+       show "Voc~e não tem que me perguntar isso. Eu também to sentindo! Agora, eu to cheio de coisas para fazer, portanto pare de me importunar. Caraca ta muito quente!!"; 
+       close;
+
+M_ERRAND:
+       show "[Jiang Xiayou]";
+       emotion 0;
+       show "Ah é?";
+       show "Porque você não disse logo então? Vejamos.";
+       show "Hmmm..."; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Na realidade, você poderia me dar uma mão primeiro? Não se preocupe, não é tão dificil, mas é muito importante pra mim. Depois que você me ajudar, eu te darei o que você quer."; 
+       next;
+       menu "Umm, o que é?",-,"Desculpe, eu estou ocupado.",L_BUSY;
+
+       show "[Jiang Xiayou]";
+       show "Maneiro, valeu. eu tenho que ir buscar uns documentos oficiais na prefeitura, mas eu não posso sair do depósito já que não tem ninguém para me cubrir aqui."; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Portanto eu quero que você pegue os documentos na prefeitura pra mim. eu acho que não vai te ocupar tanto.";
+       next;
+       show "[Jiang Xiayou]"; 
+       show "Simplesmente siga para leste daqui e procure por um predio que parece que foi feito em camadas. É a prefeitura.";
+       next;
+       show "[Jiang Xiayou]";
+       show "Eu não sei porque o governo gastou tanto dinheiro fazendo aquele prédio, de qualquer forma eu espero que você possa fazer isso por mim."; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Oh,Eu quase esqueci.";
+       show "Você tem que perguntar por um documento especifico, portanto deixe me falar qual é agora"; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Isto é importante";
+       show "portanto não esqueça isto.";
+       show "Quando o cara pergunta qual o documento que você precisa, diga a ele: '^FF0000Communication Proposal^000000' Exatamente como aqui?"; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Se você não especificar os documentos de que precisa, eles não vão te dar nada. Portanto tenha cuidado e não se esqueça!";
+       set QL_BEENTOSTORAGE,1; 
+       close;
+
+L_BUSY:
+       show "[Jiang Xiayou]";
+       show "Bah~!";
+       show "Então esqueça!";
+       next;
+       show "[Jiang Xiayou]";
+       show "Os medicamentos que você procura podem estar por aqui, portando é só dar uma olhada. Se não fosse para a doutora, eu não deixaria nem você ficar aqui sabia!"; 
+       close;
+
+L_LAZY:
+       show "[Jiang Xiayou]";
+       show "Huh?";
+       show "Você ainda não foi na prefeitura?";
+       show "Mas que muleque vadio.";
+       next;
+       show "[Jiang Xiayou]";
+       show "Você não devia estar apressado para levar esses medicamentos para a médica? Nós estamos falando da vida de uma pessoa, isso te diz alguma coisa?"; 
+       next;
+       show "[Jiang Xiayou]";
+       show "Eu acho que você";
+       show "é do tipo esquecido...";
+       show "Quando o cara te pergunta do que você precisa, diga a ele:"; 
+       show "'^FF0000Communication Proposal^000000'.";
+       next;
+       show "[Jiang Xiayou]";
+       show "Exatamente como aqui.";
+       show "Agora, vá logo tigrão."; 
+       close;
+
+L_FINALLY:
+       show "[Jiang Xiayou]";
+       show "Você finalmente o trouxe! Haha, eu já peguei tudo o que você precisa. Vejamos...";
+       show "Sim, é isto aqui!"; 
+       show "Bom, Bom...";
+       next;
+       show "^3C2EE6*resmunga resmunga...*";
+       show "^3C2EE6......";
+       next;
+       menu "Desculpe me.",-;
+       show "[Jiang Xiayou]"; 
+       show "Huh?";
+       show "Ah....";
+       show "Haha...";
+       show "Me desculpe";
+       show " Hahaha~";
+       next;
+       additem 7252,1; //Herbal Medicine 
+       show "[Jiang Xiayou]";
+       show "Ah! Aqui está. Mesmo que tenha sido um pouco irritante de fazer, eu acho que temos que ajudar um ao outro certo? Bem eu te vejo por ai..";
+       set QL_GOTHERB,1; 
+       set QL_BEENTOSTORAGE,0;
+       set QL_GOTCOMPROP,0;
+       set QL_TOOLMASTER,0;
+       close;
+}
+
+louyang.gat,274,136,4	script	Garoto Forte	819,{
+       show "[Akiira]"; 
+       show "Eu estou praticando a minha 'Garra";
+       show "do Dragão' Eu não só preciso usar";
+       show "a força dos meus punhos, mas também tenho que";
+       show "me preparar espiritualmente."; 
+       next;
+       show "[Akiira]";
+       show "Toda arte marcial necessita";
+       show "de treinamento espiritual já que";
+       show "a mente controla o corpo.";
+       show "Se você treinar espiritualmente";
+       show "você facilmete poderá usar";
+       show "qualquer parte de seu corpo!";
+       next;
+       show "[Akiira]";
+       show "Se você está pensando";
+       show "em estudar artes marciais, você";
+       show "deve antes obter conhecimento";
+       show "antes de mergulhar de cabeça";
+       show "no treinamento físico.";
+       next;
+       show "[Akiira]";
+       show "aprenda sobre a arte marcial";
+       show "e medite sobre as verdades da vida.";
+       show "Primeiro, você deve estar com a consciência limpa";
+       show "para que você possa dominar";
+       show "mente e corpo.";
+       close;
+}
+
+louyang.gat,276,136,4	script	Mestre do Punho	819,{ 
+       show "[Zhiang Xiau Ji]";
+       show "Finalmente...";
+       show "Eu dominei";
+       show "o 'Punho do Dragão!'";
+       next;
+       show "[Zhiang Xiau Ji]"; 
+       show "Apesar de ter outo passos básicos";
+       show "eu tive que aprender sobre a história";
+       show "desta arte, e meditar, focando";
+       show "no meu desenvolvimento espiritual, "; 
+       show "por três anos.";
+       next;
+       show "[Zhiang Xiau Ji]";
+       show "Depois disso, meu mestre finalmente";
+       show "começou a me ensinar";
+       show "a parte física dos outo passos"; 
+       show "da guarra do Dragão. Eu tenho";
+       show "me dedicado a esta arte por treze anos.";
+       next;
+       show "[Zhiang Xiau Ji]";
+       show "eu tenho muito orgulho de ter"; 
+       show "dominado esta arte dez anos antes";
+       show "do que eu esperava. Agora eu preciso";
+       show "estudar esta tecnica para melhora-lá";
+       show "corrigindo seus pontos fracos e"; 
+       show "aumentando seus pontos fortes.";
+       next;
+       show "[Zhiang Xiau Ji]";
+       show "Eu acho que isso vai levar";
+       show "mais uns dez anos. Mas eu não estou desanimado com isso"; 
+       show "nem um pouco.";
+       next;
+       show "[Zhiang Xiau Ji]";
+       show "Quando você está aprendendo uma arte marcial";
+       show "você não pode se apressar e aprender"; 
+       show "tudo em um curto espaço de tempo.";
+       show "É impossivel! E ainda por cima";
+       show "essa não é a essência da coisa.";
+       close;
+}
+
+louyang.gat,272,133,0	script	Aprendiz	819,{ 
+       set $talk,rand(12);
+       if($talk == 1) goto L_QUOT1;
+       if($talk == 2) goto L_QUOT2;
+       if($talk == 3) goto L_QUOT3;
+       if($talk == 4) goto L_QUOT4;
+       if($talk == 5) goto L_QUOT5; 
+       if($talk == 6) goto L_QUOT6;
+       if($talk == 7) goto L_QUOT7;
+       if($talk == 8) goto L_QUOT8;
+       if($talk == 9) goto L_QUOT9;
+       if($talk == 10) goto L_QUOT10;
+       if($talk == 11) goto L_QUOT11; 
+L_QUOT0:
+       show "[Aprendiz]";
+       show "Aha~!";
+       show "Hai~!!";
+       show "Huh...";
+       close;
+L_QUOT1:
+       show "[Aprendiz]";
+       show "Woh~!"; 
+       show "Hai~!!";
+       show "Huh huh...";
+       close;
+L_QUOT2:
+       show "[Aprendiz]";
+       show "Kyaa~";
+       show "Yah~~!!";
+       show "......."; 
+       close;
+L_QUOT3:
+       show "[Aprendiz]";
+       show "Hu~!";
+       show "Hu hu~~!!";
+       show "Hu...";
+       close;
+L_QUOT4:
+       show "[Aprendiz]"; 
+       show "Wah?!";
+       show "Ahchiu~~!!";
+       show "Wah...";
+       close;
+L_QUOT5:
+       show "[Aprendiz]";
+       show "Yaah~";
+       show "...!"; 
+       show "........!!";
+       close;
+L_QUOT6:
+       show "[Aprendiz]";
+       show "Chongchiu!!";
+       show "Hu~~!!";
+       show "Hwooh~~";
+       close; 
+L_QUOT7:
+       show "[Aprendiz]";
+       show "Zhua loh~!";
+       show ".....";
+       show "Hu";
+       close;
+L_QUOT8:
+       show "[Aprendiz]";
+       show "Um Golpe~!"; 
+       show "Hai~!!";
+       show "Yah~!!";
+       close;
+L_QUOT9:
+       show "[Aprendiz]";
+       show "Ai yah..";
+       show "Yaahah~~";
+       show "(Gira)......"; 
+       close;
+L_QUOT10:
+       show "[Aprendiz]";
+       show "Niu ah...";
+       show "One~~!!";
+       show "Two~~!!!";
+       close;
+L_QUOT11:
+       show "[Aprendiz]"; 
+       show "Yeeah~!";
+       show "Ah,Eu estou tão cansado~~!!";
+       show "(Desmaia).....";
+       close;
+}
+
+louyang.gat,272,131,0   duplicate(Aprendiz)     Aprendiz#2       819 
+louyang.gat,272,129,0   duplicate(Aprendiz)     Aprendiz#3       819
+louyang.gat,274,133,0   duplicate(Aprendiz)     Aprendiz#4       819
+louyang.gat,274,131,0   duplicate(Aprendiz)     Aprendiz#5       819
+louyang.gat,274,129,0   duplicate(Aprendiz)     Aprendiz#6       819
+louyang.gat,276,133,0   duplicate(Aprendiz)     Aprendiz#7       819
+louyang.gat,276,131,0   duplicate(Aprendiz)     Aprendiz#8       819
+louyang.gat,276,129,0   duplicate(Aprendiz)     Aprendiz#9       819 
+louyang.gat,278,133,0   duplicate(Aprendiz)     Aprendiz#10      819
+louyang.gat,278,131,0   duplicate(Aprendiz)     Aprendiz#11      819
+louyang.gat,278,129,0   duplicate(Aprendiz)     Aprendiz#12      819
+
+lou_in02.gat,265,69,4	script	Doutor	814,{
+       if(QL_DOCQUEST == 1) goto L_MED;
+       if(QL_DOCQUEST == 2) goto L_RANT;
+       if(QL_DOCQUEST == 3) goto L_CHECKITM;
+       if(QL_DOC1STTIME == 1) goto L_QUEST; 
+       show "[Hua Tuo]";
+       show "Existem muitos pontos de pressão no corpo humano. Desde o tempo antigo, tem se acreditado que cada ponto estava limitado a sua função e papel.";
+       next; 
+       show "[Hua Tuo]";
+       show "entretanto, enquanto eu estudava e testava cada ponto, eu cheguei a conclusão que o uso dos pontos, dependendo da circunstância, pode produzir resultados diferentes."; 
+       next;
+       show "[Hua Tuo]";
+       show "Poucos pontos tendem a mostrar os mesmos sintomas, independente do problema. Na maioria das vezes, o efeito do ponto irá diferir de acordo com a condição do corpo e a hora do dia."; 
+       next;
+       show "[Hua Tuo]";
+       show "Por exemplo, o ponto localizado acima do umbigo é o ponto mais vulnerável.";
+       next;
+       show "[Hua Tuo]";
+       show "Se pressionado de uma maneira incorreta, pode causar a morte. Mas entre 5:15 da manhã e 7:15 da manhã. é somente um ponto fraco."; 
+       set QL_DOC1STTIME,1;
+       close;
+
+L_QUEST:
+       show "[Hua Tuo]";
+       show "Hmmm...";
+       show "Eu estou emapuros";
+       next;
+       emotion 19;
+       show "[Hua Tuo]";
+       show "Eu não posso fazer nada sem meus medicamentos. E um dos meus pacientes precisa de cuidado imediato, e eu não posso sair do consultório...";
+       next;
+       menu "Eu posso te ajudar",-,"Mas que desastre!",M_SHAME; 
+
+       show "[Hua Tuo]";
+       show "Huh...?";
+       show "Você...";
+       show "Você está falando sério?";
+       next;
+       show "[Hua Tuo]";
+       show "Isto não vai dar muito trabalho, mas ainda pode ser muito para eu te pedir, especialmente porque nós acabamos de nos conhecer."; 
+       next;
+       menu "Se você se sente sobrecarregada...",-,"Eu não ligo, eu ficarei feliz em te ajudar.",M_HELP2;
+
+       show "[Hua Tuo]";
+       show "Muito obrigada"; 
+       show "por dizer isto.";
+       show "Eu não me sinto avontade em pedir um favor para quem eu acabei de conhecer.";
+       next;
+       emotion 15;
+       show "[Hua Tuo]"; 
+       show "Entretanto, eu vou te pedir este favor uma outra hora. Por agora, se você puder me desculpar...";
+       close;
+
+M_HELP2:
+       show "[Hua Tuo]";
+       show "Hmm, sei."; 
+       show "Bom, então deixe me";
+       show "te pedir este favor.";
+       next;
+       show "[Hua Tuo]";
+       show "Como você ouviu antes, eu preciso de um medicamento especial para tratar este paciente. Mas eu estou ficando sem este remédio de que preciso."; 
+       next;
+       show "[Hua Tuo]";
+       show "eu precisaria que você o pegasse pra mim já que eu não posso deixar o paciente, que esta me esperando neste momento.";
+       next;
+       show "[Hua Tuo]"; 
+       show "^6A6A6A*Suspira*^000000";
+       show "Não parece que uma desgraça puxa a outra? Minha equipe esta atualmente toda ocupada com outras missões.";
+       next;
+       show "[Hua Tuo]"; 
+       show "Por favor visite";
+       show "a loja de utilidades na cidade e me traga o remédio de que necessito. O mestre vai entender se você disser que você foi mandado por mim.";
+       next; 
+       show "[Hua Tuo]";
+       show "Eu sinto muito por te causar tanto incomodo, mas se você me der licença, eu tenho outros pacientes esperando. Por favor se apresse para conseguir o medicamento!"; 
+       set QL_DOCQUEST,1;
+       close;
+
+M_SHAME:
+       show "[Hua Tuo]";
+       show "^6A6A6A*Suspira*^000000 Por alguma razão parece que eu nunca tenho o suficiente em estoque. Será que não tem ninguém que eu possa pedir ajuda?"; 
+       close;
+
+L_MED:
+       if(countitem(7252) == 0)goto L_NOMED;
+       show "[Hua Tuo]";
+       show "Ah finalmente...";
+       show "Voc~e trouxe o que eu precisava. Muito obrigado, é um alivio ter este medicamento disponível novamente."; 
+       delitem 7252,1; //Herbal Medicine
+       next;
+       show "[Hua Tuo]";
+       show "Eu te agradeço desde já, mas será que eu poderia te pedir outro favor? Eu estou te pedindo isso pois sei que posso contar com você. e é claro que eu vou te compensar pelo incomodo."; 
+       next;
+       menu "Eu sinto muito...",L_DONE,"Sem problemas.",-;
+
+       show "[Hua Tuo]";
+       show "Muito obrigado!";
+       show "Eu acabei de ficar sem um outro remédio que meus pacientes vão precisar. Eu não preciso de muito, mas você estará me fazendo um grande favor."; 
+       next;
+       show "[Hua Tuo]";
+       show "Os medicamentos de que preciso são ^0000FF2 Guarra de leopardo^000000 que sustenta os ossos, ^0000FF10 Pêssego muito duro^000000 que fortalece os músculos, ^0000FF5 Pele de sapo venenoso que restaura a pele..."; 
+       next;
+       show "[Hua Tuo]";
+       show "^0000FF20 Raiz marrom^000000 que regula o coração, ^0000FF10 Broto^000000 que melhora o estômago ^0000FF5 Jarra de mel^000000 que é nutritivo.."; 
+       next;
+       show "[Hua Tuo]";
+       show "Eu espero que você tenha memorizado tudo.";
+       show "Novamente, isto...";
+       set QL_DOCQUEST,3;
+       next;
+L_INGREDIENT: 
+       show "[Hua Tuo]";
+       show "^3C2EE62 Garra de Leopardo^000000,";
+       show "^3C2EE610Pêssego Petrificado^000000,";
+       show "^3C2EE65 Pele de Sapo^000000,"; 
+       show "^3C2EE620 Raiz Marrom^000000,";
+       show "^3C2EE610 Semente^000000 e";
+       show "^3C2EE65 Pote de Mel^000000.";
+       close;
+
+L_DONE:
+       show "[Hua Tuo]"; 
+       show "Certo...";
+       show "Eu compreendo.";
+       show "Mas obrigado por ter me ajudado. Por favor aceite isto...";
+       next;
+       show "[Hua Tuo]";
+       show "Não é muito, mas este medicamento é um velho segredo de familia. Eu espero que seja de algum uso durante situações perigosas."; 
+       additem 679,2; //Pilule
+       next;
+       show "[Hua Tuo]";
+       show "Bem, bem, eu te vejo por ai. Mais uma vez, eu gostaria de te agradecer por sua ajuda.";
+       set QL_GOTHERB,0; 
+       set QL_DOC1STTIME,0;
+       set QL_DOCQUEST,2;
+       close;
+
+L_NOMED:
+       show "[Hua Tuo]";
+       show "Você ainda não conseguiu os medicamentos...? Eu espero que você consiga o mais rápido possivel..."; 
+       close;
+
+L_RANT:
+       show "[Hua Tuo]";
+       show "Ser forte como pessoa não significa simplesmente ter força fisica.";
+       next;
+       show "[Hua Tuo]";
+       show "Fatores como inteligência, experiência e sabedoria também são considerados quando se julga a força de uma pessoa."; 
+       next;
+       show "[Hua Tuo]";
+       show "Digamos que você seja muito forte e que tenha uma arma poderosa.";
+       next;
+       show "[Hua Tuo]";
+       show "Se você não souber utilizar o poder de sua arma, você não será forte... você será fraco."; 
+       next;
+       show "[Hua Tuo]";
+       show "Quando as armas ou equipamentos sobrepujam suas capacidades, isto resultará nas piores situações.";
+       close;
+
+L_CHECKITM:
+       if(countitem(7172) < 2)goto L_NOTENOUGH; //Claw of Panther 
+       if(countitem(7164) < 10)goto L_NOTENOUGH; //Very Hard Peach
+       if(countitem(7155) < 5)goto L_NOTENOUGH; //Poisonous Toad Skin
+       if(countitem(7188) < 20)goto L_NOTENOUGH; //Brown Root
+       if(countitem(7193) < 10)goto L_NOTENOUGH; //Sprout
+       if(countitem(7121) < 5)goto L_NOTENOUGH; //Honey Jar
+       //These following dialogs are made up, I didn't finish the quest =/
+       show "[Hua Tuo]"; 
+       show "Muito obrigado agora eu posso tratar meus pacientes.";
+       next;
+       show "[Hua Tuo]";
+       show "Ah...";
+       show "Claro!";
+       show "Aqui está sua recompensa. Use este medicamento quando você estiver fraco."; 
+       delitem 7172,2; //Claw of Panther
+       delitem 7164,10; //Very Hard Peach
+       delitem 7155,5; //Poisonous Toad Skin
+       delitem 7188,20; //Brown Root
+       delitem 7193,10; //Sprout
+       delitem 7121,5; //Honey Jar 
+       additem 679,5; //Pilule
+       set QL_GOTHERB,0;
+       set QL_DOC1STTIME,0;
+       set QL_DOCQUEST,2;
+       close;
+
+L_NOTENOUGH:
+       show "[Hua Tuo]";
+       show "Hmm...."; 
+       show "Infelizmente você ainda não coletou todos os itens ainda. Mas uma vez, por favor colete-os....";
+       next;
+       goto L_INGREDIENT;
+}

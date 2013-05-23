@@ -1,0 +1,1661 @@
+//Phracon Seller
+prt_in.gat,56,69,4 script Miner 119,{
+	mes "[Miner]";
+	mes "Hello, Im selling metals I just mined.";
+	mes "They are Pharacon and Emvertacon.";
+	mes "Would you like to buy some?";
+	menu"Pharacon - 200z",PHARA,"Emveretarcon - 1000z",EMVER;
+
+PHARA:
+	set @itemid,1010;
+	set @value,200;
+	goto CONTINUE;
+
+EMVER:
+	set @itemid,1011;
+	set @value,1000;
+
+CONTINUE:
+	input @ammount;
+	if (@ammount <= 0) goto BELOW;
+	if (zeny<@value*@ammount) goto NO;
+	if (checkweight(@item,@amount) == 0) goto FAIL;
+	getitem @itemid,@ammount;
+	set zeny,zeny-@value*@ammount;
+close;
+
+NO:
+	mes "You do not have enough zeny!";
+	close;
+
+FAIL:
+	mes "You cant hold that many of that item";
+	close;
+
+BELOW:
+	mes "You have to buy a POSITIVE amount of items!";
+	close;
+}
+
+payon_in01.gat,84,26,4	script	Miner	88,{
+	mes "[Miner]";
+	mes "Hello, Im selling metals I just mined.";
+	mes "They are Pharacon and Emvertacon.";
+	mes "Would you like to buy some?";
+	menu"Pharacon - 200z",PHARA,"Emveretarcon - 1000z",EMVER;
+
+PHARA:
+	set @itemid,1010;
+	set @value,200;
+	goto CONTINUE;
+
+EMVER:
+	set @itemid,1011;
+	set @value,1000;
+
+CONTINUE:
+	input @ammount;
+	if (@ammount <= 0) goto BELOW;
+	if (zeny<@value*@ammount) goto NO;
+	if (checkweight(@item,@amount) == 0) goto FAIL;
+	getitem @itemid,@ammount;
+	set zeny,zeny-@value*@ammount;
+	close;
+
+NO:
+	mes "You do not have enough zeny!";
+	close;
+
+FAIL:
+	mes "You cant hold that many of that item";
+	close;
+
+BELOW:
+	mes "You have to buy a POSITIVE amount of items!";
+	close;
+}
+
+morocc_in.gat,65,37,4	script	Miner	99,{
+mes "[Miner]";
+mes "Hello, Im selling metals I just mined.";
+mes "They are Pharacon and Emvertacon.";
+mes "Would you like to buy some?";
+menu"Pharacon - 200z",PHARA,"Emveretarcon - 1000z",EMVER;
+
+PHARA:
+set @itemid,1010;
+set @value,200;
+goto CONTINUE;
+
+EMVER:
+set @itemid,1011;
+set @value,1000;
+
+CONTINUE:
+input @ammount;
+if (@ammount <= 0) goto BELOW;
+if (zeny<@value*@ammount) goto NO;
+if (checkweight(@item,@amount) == 0) goto FAIL;
+getitem @itemid,@ammount;
+set zeny,zeny-@value*@ammount;
+close;
+
+NO:
+mes "You do not have enough zeny!";
+close;
+
+FAIL:
+mes "You cant hold that many of that item";
+close;
+
+BELOW:
+mes "You have to buy a POSITIVE amount of items!";
+close;
+}
+
+alberta_in.gat,18,59,5	script	Miner	84,{
+mes "[Miner]";
+mes "Hello, Im selling metals I just mined.";
+mes "They are Pharacon and Emvertacon.";
+mes "Would you like to buy some?";
+menu"Pharacon - 200z",PHARA,"Emveretarcon - 1000z",EMVER;
+
+PHARA:
+set @itemid,1010;
+set @value,200;
+goto CONTINUE;
+
+EMVER:
+set @itemid,1011;
+set @value,1000;
+
+CONTINUE:
+input @ammount;
+if (@ammount <= 0) goto BELOW;
+if (zeny<@value*@ammount) goto NO;
+if (checkweight(@item,@amount) == 0) goto FAIL;
+getitem @itemid,@ammount;
+set zeny,zeny-@value*@ammount;
+close;
+
+NO:
+mes "You do not have enough zeny!";
+close;
+
+FAIL:
+mes "You cant hold that many of that item";
+close;
+
+BELOW:
+mes "You have to buy a POSITIVE amount of items!";
+close;
+}
+
+//Yuno NPC @ 171 26
+
+yuno_in01.gat,171,26,6	script	Miner	88,{
+
+mes "[Miner]";
+mes "Hello, Im selling metals I just mined.";
+mes "They are Pharacon and Emvertacon.";
+mes "Would you like to buy some?";
+menu"Pharacon - 200z",PHARA,"Emveretarcon - 1000z",EMVER;
+
+PHARA:
+set @itemid,1010;
+set @value,200;
+goto CONTINUE;
+
+EMVER:
+set @itemid,1011;
+set @value,1000;
+
+CONTINUE:
+input @ammount;
+if (@ammount <= 0) goto BELOW;
+if (zeny<@value*@ammount) goto NO;
+if (checkweight(@item,@amount) == 0) goto FAIL;
+getitem @itemid,@ammount;
+set zeny,zeny-@value*@ammount;
+close;
+
+NO:
+mes "You do not have enough zeny!";
+close;
+
+FAIL:
+mes "You cant hold that many of that item";
+close;
+
+BELOW:
+mes "You have to buy a POSITIVE amount of items!";
+close;
+}
+
+//Ori/Elu Refiner
+prt_in.gat,63,69,4	script	Dietrich	84,{
+	mes "[Dietrich]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",Lori,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+		Lori:
+		if ((countitem(756) < 5)) goto L_START_1;
+		delitem 756,5;
+		getitem 984,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your oridecon.";
+		mes "Come back again anytime.";
+		close;
+	L_START_1:
+		mes "[Dietrich]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an oridecon unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_1:
+		if ((countitem(757) < 5)) goto L_START_2;
+		delitem 757,5;
+		getitem 985,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your elunium.";
+		mes "Come back again anytime.";
+		close;
+	L_START_2:
+		mes "[Dietrich]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an elunium unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_2:
+		mes "[Dietrich]";
+		mes "Enchanted stones, huh ....";
+		mes "Well, in 20 years of my life as a";
+		mes "stonesmith I've heard of it many";
+		mes "times...though I've never seen it before.";
+		mes "What I heard is this: there are";
+		mes "enchanted stones out there which";
+		mes "possesses different elemental";
+		mes "properties - Water, Earth, Fire, Wind.";
+		next;
+		mes "[Dietrich]";
+		mes "If someone combines an Enchanted Stone";
+		mes "with a weapon while smithing, that weapon";
+		mes "will possess the same property as the stone.";
+		mes "Of course, that person needs to be skillful";
+		mes "enough to work on it.";
+		close;
+}
+
+payon_in01.gat,81,31,4	script	Hakhim	88,{
+	mes "[Hakhim]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",Lori,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+		Lori:
+		if ((countitem(756) < 5)) goto L_START_1;
+		delitem 756,5;
+		getitem 984,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your oridecon.";
+		mes "Come back again anytime.";
+		close;
+	L_START_1:
+		mes "[Hakhim]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an oridecon unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_1:
+		if ((countitem(757) < 5)) goto L_START_2;
+		delitem 757,5;
+		getitem 985,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your elunium.";
+		mes "Come back again anytime.";
+		close;
+	L_START_2:
+		mes "[Hakhim]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an elunium unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_2:
+		mes "[Hakhim]";
+		mes "Enchanted stones, huh ....";
+		mes "Well, in 20 years of my life as a";
+		mes "stonesmith I've heard of it many";
+		mes "times...though I've never seen it before.";
+		mes "What I heard is this: there are";
+		mes "enchanted stones out there which";
+		mes "possesses different elemental";
+		mes "properties - Water, Earth, Fire, Wind.";
+		next;
+		mes "[Hakhim]";
+		mes "If someone combines an Enchanted Stone";
+		mes "with a weapon while smithing, that weapon";
+		mes "will possess the same property as the stone.";
+		mes "Of course, that person needs to be skillful";
+		mes "enough to work on it.";
+		close;
+}
+
+morocc_in.gat,72,32,4	script	Abdul	99,{
+	mes "[Abdul]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",Lori,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+		Lori:
+		if ((countitem(756) < 5)) goto L_START_1;
+		delitem 756,5;
+		getitem 984,1;
+		mes "[Abdul]";
+		mes "As promised, here's your oridecon.";
+		mes "Come back again anytime.";
+		close;
+	L_START_1:
+		mes "[Abdul]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an oridecon unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_1:
+		if ((countitem(757) < 5)) goto L_START_2;
+		delitem 757,5;
+		getitem 985,1;
+		mes "[Abdul]";
+		mes "As promised, here's your elunium.";
+		mes "Come back again anytime.";
+		close;
+	L_START_2:
+		mes "[Abdul]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an elunium unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_2:
+		mes "[Abdul]";
+		mes "Enchanted stones, huh ....";
+		mes "Well, in 20 years of my life as a";
+		mes "stonesmith I've heard of it many";
+		mes "times...though I've never seen it before.";
+		mes "What I heard is this: there are";
+		mes "enchanted stones out there which";
+		mes "possesses different elemental";
+		mes "properties - Water, Earth, Fire, Wind.";
+		next;
+		mes "[Abdul]";
+		mes "If someone combines an Enchanted Stone";
+		mes "with a weapon while smithing, that weapon";
+		mes "will possess the same property as the stone.";
+		mes "Of course, that person needs to be skillful";
+		mes "enough to work on it.";
+		close;
+}
+
+alberta_in.gat,21,63,5	script	Xenophon	84,{
+	mes "[Xenophon]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",Lori,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+		Lori:
+		if ((countitem(756) < 5)) goto L_START_1;
+		delitem 756,5;
+		getitem 984,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your oridecon.";
+		mes "Come back again anytime.";
+		close;
+	L_START_1:
+		mes "[Xenophon]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an oridecon unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_1:
+		if ((countitem(757) < 5)) goto L_START_2;
+		delitem 757,5;
+		getitem 985,1;
+		mes "[Xenophon]";
+		mes "As promised, here's your elunium.";
+		mes "Come back again anytime.";
+		close;
+	L_START_2:
+		mes "[Xenophon]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an elunium unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_2:
+		mes "[Xenophon]";
+		mes "Enchanted stones, huh ....";
+		mes "Well, in 20 years of my life as a";
+		mes "stonesmith I've heard of it many";
+		mes "times...though I've never seen it before.";
+		mes "What I heard is this: there are";
+		mes "enchanted stones out there which";
+		mes "possesses different elemental";
+		mes "properties - Water, Earth, Fire, Wind.";
+		next;
+		mes "[Xenophon]";
+		mes "If someone combines an Enchanted Stone";
+		mes "with a weapon while smithing, that weapon";
+		mes "will possess the same property as the stone.";
+		mes "Of course, that person needs to be skillful";
+		mes "enough to work on it.";
+		close;
+}
+
+
+
+yuno_in01.gat,171,22,6	script	Delayt	88,{
+
+	mes "[Delayt]";
+	mes "If you bring Rough Oridecons and";
+	mes "Rough Eluniums to me,";
+	mes "I can refine them for you.";
+	mes "However, you must bring 5 of each.";
+	next;
+	menu "Make Oridecon",Lori,"Make Elunium",L_MENU_1,"Ask about enchanted stones",L_MENU_2;
+		Lori:
+		if ((countitem(756) < 5)) goto L_START_1;
+		delitem 756,5;
+		getitem 984,1;
+		mes "[Dietrich]";
+		mes "As promised, here's your oridecon.";
+		mes "Come back again anytime.";
+		close;
+	L_START_1:
+		mes "[Delayt]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an oridecon unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_1:
+		if ((countitem(757) < 5)) goto L_START_2;
+		delitem 757,5;
+		getitem 985,1;
+		mes "[Xenophon]";
+		mes "As promised, here's your elunium.";
+		mes "Come back again anytime.";
+		close;
+	L_START_2:
+		mes "[Delayt]";
+		mes "Huh? You're kidding, right?";
+		mes "Didn't I say I can't make you";
+		mes "an elunium unless you bring me";
+		mes "5 rough ones.";
+		close;
+	L_MENU_2:
+		mes "[Delayt]";
+		mes "Enchanted stones, huh ....";
+		mes "Well, in 20 years of my life as a";
+		mes "stonesmith I've heard of it many";
+		mes "times...though I've never seen it before.";
+		mes "What I heard is this: there are";
+		mes "enchanted stones out there which";
+		mes "possesses different elemental";
+		mes "properties - Water, Earth, Fire, Wind.";
+		next;
+		mes "[Delayt]";
+		mes "If someone combines an Enchanted Stone";
+		mes "with a weapon while smithing, that weapon";
+		mes "will possess the same property as the stone.";
+		mes "Of course, that person needs to be skillful";
+		mes "enough to work on it.";
+		close;
+}
+
+
+//Weapon/Armor Refiner
+prt_in.gat,63,60,4	script	Hollgrehenn	85,{
+	mes "[Hollgrehenn]";
+	mes "I am the Armsmith and I can refine any Arms you want.";
+	mes "Tell me which Equipment you want to refine.";
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "Do you want me to refine your Dumb Brain?";
+			goto L_CLOSE;
+
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "I will melt your body with my Heat.";
+			goto L_CLOSE;
+
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "I can't make your left hand into the peerless one.";
+			goto L_CLOSE;
+
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "I can't make your right hand into the peerless one..";
+			goto L_CLOSE;
+
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "Look at you. You don't have any Garment now.";
+			goto L_CLOSE;
+
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "Wahh..your feet stink a lot.";
+			goto L_CLOSE;
+
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+			mes "[Hollgrehenn]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+CHECK1:
+	if (getequipisenableref(@part)) goto CHECK2;
+		mes "[Hollgrehenn]";
+		mes "I don't think I can work on this item...";
+		goto L_CLOSE;
+
+CHECK2:
+	if (getequipisidentify(@part)) goto CHECK3;
+		mes "[Hollgrehenn]";
+		mes "You can't refine this weapon before appraisal..";
+		goto L_CLOSE;
+
+CHECK3:
+	if (getequiprefinerycnt(@part) < 10) goto REFINE0;
+		mes "[Hollgrehenn]";
+		mes "I must say this weapon doesn't accept more refining on it..";
+		goto L_CLOSE;
+
+REFINE0:
+	if (getequipweaponlv(@part) > 0) goto REFINE1;
+		mes "[Hollgrehenn]";
+		mes "To refine this stuff,I need ^ff9999Elunium^000000 and the fee 2000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_0_SUB;
+				mes "[Hollgrehenn]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_0_SUB:
+		if ((countitem(985) < 1) || (Zeny < 2000)) goto L_CANCEL_2;
+			delitem 985,1;
+			set Zeny,Zeny-2000;
+			goto REFINE5;
+REFINE1:
+	if (getequipweaponlv(@part) > 1) goto REFINE2;
+		mes "[Hollgrehenn]";
+		mes "You're gonna refine the Lv 1 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Phracon^000000 and the fee 50 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_1_SUB;
+				mes "[Hollgrehenn]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_1_SUB:
+		if ((countitem(1010) < 1) || (Zeny < 50)) goto L_CANCEL_2;
+			delitem 1010,1;
+			set Zeny,Zeny-50;
+			goto REFINE5;
+REFINE2:
+	if (getequipweaponlv(@part) > 2) goto REFINE3;
+		mes "[Hollgrehenn]";
+		mes "You're gona refine the Lv 2 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Emveretarcon^000000 and the fee 200 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_2_SUB;
+				mes "[Hollgrehenn]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_2_SUB:
+		if ((countitem(1011) < 1) || (Zeny < 200)) goto L_CANCEL_2;
+			delitem 1011,1;
+			set Zeny,Zeny-200;
+			goto REFINE5;
+REFINE3:
+	if (getequipweaponlv(@part) > 3) goto REFINE4;
+		mes "[Hollgrehenn]"
+		mes "You're gona refine the Lv 3 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 5000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_3_SUB;
+				mes "[Hollgrehenn]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_3_SUB:
+		if ((countitem(984) < 1) || (Zeny < 5000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-5000;
+			goto REFINE5;
+REFINE4:
+		mes "[Hollgrehenn]";
+		mes "You're gona refine the Lv 4 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 20000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_4_SUB;
+				mes "[Hollgrehenn]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_4_SUB:
+		if ((countitem(984) < 1) || (Zeny < 20000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-20000;
+REFINE5:
+	if (getequippercentrefinery(@part)<=rand(100)) goto REFINE6;
+		mes "[Hollgrehenn]";
+		mes "Clang! Clang! Clang!";
+		successrefitem @part;
+		next;
+		emotion 21;
+		mes "[Hollgrehenn]";
+		mes "There you go.";
+		mes "It seems My skill doesn't have gotten a bit Rusty yet. It is my work, but still Splendid...";
+		goto L_CLOSE;
+REFINE6:
+	mes "[Hollgrehenn]";
+	mes "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	emotion 23;
+	mes "[Hollgrehenn]";
+	mes "Waaaaaaaaahhhh!!!!";
+	next;
+	mes "[Hollgrehenn]";
+	mes "Eh..Ehem...";
+	mes "Failed. I am deeply ashamed of what I've done...But,";
+	mes "I...told...you..not to force me to do that.";
+	goto L_CLOSE;
+L_CANCEL_1:
+	mes "[Hollgrehenn]";
+	mes "Good Choice.";
+	mes "Also me,feel dirty when I destroy the other's Weapons with my hand.";
+	goto L_CLOSE;
+L_CANCEL_2:
+	mes "[Hollgrehenn]";
+	mes "Is it all you got?";
+	mes "Unfortunately I can't work for you at lower price.Think on my side.";
+	goto L_CLOSE;
+L_CANCEL_3:
+	mes "[Hollgrehenn]";
+	mes "You said so..Hmm so be it...";
+L_CLOSE:
+	close;
+}
+
+morocc_in.gat,73,38,4	script	Aragham	99,{
+	mes "[Aragham]";
+	mes "I am the Armsmith and I can refine any Arms you want.";
+	mes "Tell me which Equipment you want to refine.";
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+			mes "[Aragham]";
+			mes "Do you want me to refine your Dumb Brain?";
+			goto L_CLOSE;
+
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+			mes "[Aragham]";
+			mes "I will melt your body with my Heat.";
+			goto L_CLOSE;
+
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+			mes "[Aragham]";
+			mes "I can't make your left hand into the peerless one.";
+			goto L_CLOSE;
+
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+			mes "[Aragham]";
+			mes "I can't make your right hand into the peerless one..";
+			goto L_CLOSE;
+
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+			mes "[Aragham]";
+			mes "Look at you. You don't have any Garment now.";
+			goto L_CLOSE;
+
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+			mes "[Aragham]";
+			mes "Wahh..your feet stink a lot.";
+			goto L_CLOSE;
+
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+			mes "[Aragham]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+			mes "[Aragham]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+			mes "[Aragham]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+			mes "[Aragham]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+CHECK1:
+	if (getequipisenableref(@part)) goto CHECK2;
+		mes "[Aragham]";
+		mes "I don't think I can work on this item...";
+		goto L_CLOSE;
+
+CHECK2:
+	if (getequipisidentify(@part)) goto CHECK3;
+		mes "[Aragham]";
+		mes "You can't refine this weapon before appraisal..";
+		goto L_CLOSE;
+
+CHECK3:
+	if (getequiprefinerycnt(@part) < 10) goto REFINE0;
+		mes "[Aragham]";
+		mes "I must say this weapon doesn't accept more refining on it..";
+		goto L_CLOSE;
+
+REFINE0:
+	if (getequipweaponlv(@part) > 0) goto REFINE1;
+		mes "[Aragham]";
+		mes "To refine this stuff,I need ^ff9999Elunium^000000 and the fee 2000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_0_SUB;
+				mes "[Aragham]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_0_SUB:
+		if ((countitem(985) < 1) || (Zeny < 2000)) goto L_CANCEL_2;
+			delitem 985,1;
+			set Zeny,Zeny-2000;
+			goto REFINE5;
+REFINE1:
+	if (getequipweaponlv(@part) > 1) goto REFINE2;
+		mes "[Aragham]";
+		mes "You're gonna refine the Lv 1 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Phracon^000000 and the fee 50 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_1_SUB;
+				mes "[Aragham]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_1_SUB:
+		if ((countitem(1010) < 1) || (Zeny < 50)) goto L_CANCEL_2;
+			delitem 1010,1;
+			set Zeny,Zeny-50;
+			goto REFINE5;
+REFINE2:
+	if (getequipweaponlv(@part) > 2) goto REFINE3;
+		mes "[Aragham]";
+		mes "You're gona refine the Lv 2 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Emveretarcon^000000 and the fee 200 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_2_SUB;
+				mes "[Aragham]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_2_SUB:
+		if ((countitem(1011) < 1) || (Zeny < 200)) goto L_CANCEL_2;
+			delitem 1011,1;
+			set Zeny,Zeny-200;
+			goto REFINE5;
+REFINE3:
+	if (getequipweaponlv(@part) > 3) goto REFINE4;
+		mes "[Aragham]"
+		mes "You're gona refine the Lv 3 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 5000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_3_SUB;
+				mes "[Aragham]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_3_SUB:
+		if ((countitem(984) < 1) || (Zeny < 5000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-5000;
+			goto REFINE5;
+REFINE4:
+		mes "[Aragham]";
+		mes "You're gona refine the Lv 4 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 20000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_4_SUB;
+				mes "[Aragham]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_4_SUB:
+		if ((countitem(984) < 1) || (Zeny < 20000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-20000;
+REFINE5:
+	if (getequippercentrefinery(@part)<=rand(100)) goto REFINE6;
+		mes "[Aragham]";
+		mes "Clang! Clang! Clang!";
+		successrefitem @part;
+		next;
+		emotion 30;
+		mes "[Aragham]";
+		mes "There you go.";
+		mes "It seems My skill doesn't have gotten a bit Rusty yet. It is my work, but still Splendid...";
+		goto L_CLOSE;
+REFINE6:
+	mes "[Aragham]";
+	mes "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	emotion 16;
+	mes "[Aragham]";
+	mes "Waaaaaaaaahhhh!!!!";
+	next;
+	mes "[Aragham]";
+	mes "Eh..Ehem...";
+	mes "Failed. I am deeply ashamed of what I've done...But,";
+	mes "I...told...you..not to force me to do that.";
+	goto L_CLOSE;
+L_CANCEL_1:
+	mes "[Aragham]";
+	mes "Good Choice.";
+	mes "Also me,feel dirty when I destroy the other's Weapons with my hand.";
+	goto L_CLOSE;
+L_CANCEL_2:
+	mes "[Aragham]";
+	mes "Is it all you got?";
+	mes "Unfortunately I can't work for you at lower price.Think on my side.";
+	goto L_CLOSE;
+L_CANCEL_3:
+	mes "[Aragham]";
+	mes "You said so..Hmm so be it...";
+L_CLOSE:
+	close;
+}
+
+payon_in01.gat,90,31,4	script	Antonio	88,{
+	mes "[Antonio]";
+	mes "I am the Armsmith and I can refine any Arms you want.";
+	mes "Tell me which Equipment you want to refine.";
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+			mes "[Antonio]";
+			mes "Do you want me to refine your Dumb Brain?";
+			goto L_CLOSE;
+
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+			mes "[Antonio]";
+			mes "I will melt your body with my Heat.";
+			goto L_CLOSE;
+
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+			mes "[Antonio]";
+			mes "I can't make your left hand into the peerless one.";
+			goto L_CLOSE;
+
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+			mes "[Antonio]";
+			mes "I can't make your right hand into the peerless one..";
+			goto L_CLOSE;
+
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+			mes "[Antonio]";
+			mes "Look at you. You don't have any Garment now.";
+			goto L_CLOSE;
+
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+			mes "[Antonio]";
+			mes "Wahh..your feet stink a lot.";
+			goto L_CLOSE;
+
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+			mes "[Antonio]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+			mes "[Antonio]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+			mes "[Antonio]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+			mes "[Antonio]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+CHECK1:
+	if (getequipisenableref(@part)) goto CHECK2;
+		mes "[Antonio]";
+		mes "I don't think I can work on this item...";
+		goto L_CLOSE;
+
+CHECK2:
+	if (getequipisidentify(@part)) goto CHECK3;
+		mes "[Antonio]";
+		mes "You can't refine this weapon before appraisal..";
+		goto L_CLOSE;
+
+CHECK3:
+	if (getequiprefinerycnt(@part) < 10) goto REFINE0;
+		mes "[Antonio]";
+		mes "I must say this weapon doesn't accept more refining on it..";
+		goto L_CLOSE;
+
+REFINE0:
+	if (getequipweaponlv(@part) > 0) goto REFINE1;
+		mes "[Antonio]";
+		mes "To refine this stuff,I need ^ff9999Elunium^000000 and the fee 2000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_0_SUB;
+				mes "[Antonio]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_0_SUB:
+		if ((countitem(985) < 1) || (Zeny < 2000)) goto L_CANCEL_2;
+			delitem 985,1;
+			set Zeny,Zeny-2000;
+			goto REFINE5;
+REFINE1:
+	if (getequipweaponlv(@part) > 1) goto REFINE2;
+		mes "[Antonio]";
+		mes "You're gonna refine the Lv 1 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Phracon^000000 and the fee 50 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_1_SUB;
+				mes "[Antonio]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_1_SUB:
+		if ((countitem(1010) < 1) || (Zeny < 50)) goto L_CANCEL_2;
+			delitem 1010,1;
+			set Zeny,Zeny-50;
+			goto REFINE5;
+REFINE2:
+	if (getequipweaponlv(@part) > 2) goto REFINE3;
+		mes "[Antonio]";
+		mes "You're gona refine the Lv 2 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Emveretarcon^000000 and the fee 200 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_2_SUB;
+				mes "[Antonio]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_2_SUB:
+		if ((countitem(1011) < 1) || (Zeny < 200)) goto L_CANCEL_2;
+			delitem 1011,1;
+			set Zeny,Zeny-200;
+			goto REFINE5;
+REFINE3:
+	if (getequipweaponlv(@part) > 3) goto REFINE4;
+		mes "[Antonio]"
+		mes "You're gona refine the Lv 3 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 5000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_3_SUB;
+				mes "[Antonio]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_3_SUB:
+		if ((countitem(984) < 1) || (Zeny < 5000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-5000;
+			goto REFINE5;
+REFINE4:
+		mes "[Antonio]";
+		mes "You're gona refine the Lv 4 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 20000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_4_SUB;
+				mes "[Antonio]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_4_SUB:
+		if ((countitem(984) < 1) || (Zeny < 20000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-20000;
+REFINE5:
+	if (getequippercentrefinery(@part)<=rand(100)) goto REFINE6;
+		mes "[Antonio]";
+		mes "Clang! Clang! Clang!";
+		successrefitem @part;
+		next;
+		emotion 0;
+		mes "[Antonio]";
+		mes "There you go.";
+		mes "It seems My skill doesn't have gotten a bit Rusty yet. It is my work, but still Splendid...";
+		goto L_CLOSE;
+REFINE6:
+	mes "[Antonio]";
+	mes "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	emotion 32;
+	mes "[Antonio]";
+	mes "Waaaaaaaaahhhh!!!!";
+	next;
+	mes "[Antonio]";
+	mes "Eh..Ehem...";
+	mes "Failed. I am deeply ashamed of what I've done...But,";
+	mes "I...told...you..not to force me to do that.";
+	goto L_CLOSE;
+L_CANCEL_1:
+	mes "[Antonio]";
+	mes "Good Choice.";
+	mes "Also me,feel dirty when I destroy the other's Weapons with my hand.";
+	goto L_CLOSE;
+L_CANCEL_2:
+	mes "[Antonio]";
+	mes "Is it all you got?";
+	mes "Unfortunately I can't work for you at lower price.Think on my side.";
+	goto L_CLOSE;
+L_CANCEL_3:
+	mes "[Antonio]";
+	mes "You said so..Hmm so be it...";
+L_CLOSE:
+	close;
+}
+
+alberta_in.gat,28,58,4	script	Fredrik	85,{
+	mes "[Fredrik]";
+	mes "I am the Armsmith and I can refine any Arms you want.";
+	mes "Tell me which Equipment you want to refine.";
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "Do you want me to refine your Dumb Brain?";
+			goto L_CLOSE;
+
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "I will melt your body with my Heat.";
+			goto L_CLOSE;
+
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "I can't make your left hand into the peerless one.";
+			goto L_CLOSE;
+
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "I can't make your right hand into the peerless one..";
+			goto L_CLOSE;
+
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "Look at you. You don't have any Garment now.";
+			goto L_CLOSE;
+
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "Wahh..your feet stink a lot.";
+			goto L_CLOSE;
+
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+			mes "[Fredrik]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+CHECK1:
+	if (getequipisenableref(@part)) goto CHECK2;
+		mes "[Fredrik]";
+		mes "I don't think I can work on this item...";
+		goto L_CLOSE;
+
+CHECK2:
+	if (getequipisidentify(@part)) goto CHECK3;
+		mes "[Fredrik]";
+		mes "You can't refine this weapon before appraisal..";
+		goto L_CLOSE;
+
+CHECK3:
+	if (getequiprefinerycnt(@part) < 10) goto REFINE0;
+		mes "[Fredrik]";
+		mes "I must say this weapon doesn't accept more refining on it..";
+		goto L_CLOSE;
+
+REFINE0:
+	if (getequipweaponlv(@part) > 0) goto REFINE1;
+		mes "[Fredrik]";
+		mes "To refine this stuff,I need ^ff9999Elunium^000000 and the fee 2000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_0_SUB;
+				mes "[Fredrik]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_0_SUB:
+		if ((countitem(985) < 1) || (Zeny < 2000)) goto L_CANCEL_2;
+			delitem 985,1;
+			set Zeny,Zeny-2000;
+			goto REFINE5;
+REFINE1:
+	if (getequipweaponlv(@part) > 1) goto REFINE2;
+		mes "[Fredrik]";
+		mes "You're gonna refine the Lv 1 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Phracon^000000 and the fee 50 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_1_SUB;
+				mes "[Fredrik]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_1_SUB:
+		if ((countitem(1010) < 1) || (Zeny < 50)) goto L_CANCEL_2;
+			delitem 1010,1;
+			set Zeny,Zeny-50;
+			goto REFINE5;
+REFINE2:
+	if (getequipweaponlv(@part) > 2) goto REFINE3;
+		mes "[Fredrik]";
+		mes "You're gona refine the Lv 2 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Emveretarcon^000000 and the fee 200 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_2_SUB;
+				mes "[Fredrik]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_2_SUB:
+		if ((countitem(1011) < 1) || (Zeny < 200)) goto L_CANCEL_2;
+			delitem 1011,1;
+			set Zeny,Zeny-200;
+			goto REFINE5;
+REFINE3:
+	if (getequipweaponlv(@part) > 3) goto REFINE4;
+		mes "[Fredrik]"
+		mes "You're gona refine the Lv 3 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 5000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_3_SUB;
+				mes "[Fredrik]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_3_SUB:
+		if ((countitem(984) < 1) || (Zeny < 5000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-5000;
+			goto REFINE5;
+REFINE4:
+		mes "[Fredrik]";
+		mes "You're gona refine the Lv 4 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 20000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_4_SUB;
+				mes "[Fredrik]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_4_SUB:
+		if ((countitem(984) < 1) || (Zeny < 20000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-20000;
+REFINE5:
+	if (getequippercentrefinery(@part)<=rand(100)) goto REFINE6;
+		mes "[Fredrik]";
+		mes "Clang! Clang! Clang!";
+		successrefitem @part;
+		next;
+		emotion 18;
+		mes "[Fredrik]";
+		mes "There you go.";
+		mes "It seems My skill doesn't have gotten a bit Rusty yet. It is my work, but still Splendid...";
+		goto L_CLOSE;
+REFINE6:
+	mes "[Fredrik]";
+	mes "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	emotion 4;
+	mes "[Fredrik]";
+	mes "Waaaaaaaaahhhh!!!!";
+	next;
+	mes "[Fredrik]";
+	mes "Eh..Ehem...";
+	mes "Failed. I am deeply ashamed of what I've done...But,";
+	mes "I...told...you..not to force me to do that.";
+	goto L_CLOSE;
+L_CANCEL_1:
+	mes "[Fredrik]";
+	mes "Good Choice.";
+	mes "Also me,feel dirty when I destroy the other's Weapons with my hand.";
+	goto L_CLOSE;
+L_CANCEL_2:
+	mes "[Fredrik]";
+	mes "Is it all you got?";
+	mes "Unfortunately I can't work for you at lower price.Think on my side.";
+	goto L_CLOSE;
+L_CANCEL_3:
+	mes "[Fredrik]";
+	mes "You said so..Hmm so be it...";
+L_CLOSE:
+	close;
+}
+
+yuno_in01.gat,164,26,6	script	Disturb	88,{
+	mes "[Disturb]";
+	mes "I am the Armsmith and I can refine any Arms you want.";
+	mes "Tell me which Equipment you want to refine.";
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+			mes "[Disturb]";
+			mes "Do you want me to refine your Dumb Brain?";
+			goto L_CLOSE;
+
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+			mes "[Disturb]";
+			mes "I will melt your body with my Heat.";
+			goto L_CLOSE;
+
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+			mes "[Disturb]";
+			mes "I can't make your left hand into the peerless one.";
+			goto L_CLOSE;
+
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+			mes "[Disturb]";
+			mes "I can't make your right hand into the peerless one..";
+			goto L_CLOSE;
+
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+			mes "[Disturb]";
+			mes "Look at you. You don't have any Garment now.";
+			goto L_CLOSE;
+
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+			mes "[Disturb]";
+			mes "Wahh..your feet stink a lot.";
+			goto L_CLOSE;
+
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+			mes "[Disturb]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+			mes "[Disturb]";
+			mes "What do you mean by Accessory? Which One?";
+			goto L_CLOSE;
+
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+			mes "[Disturb]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+			mes "[Disturb]";
+			mes "What do you want from me? Which part?";
+			goto L_CLOSE;
+
+CHECK1:
+	if (getequipisenableref(@part)) goto CHECK2;
+		mes "[Disturb]";
+		mes "I don't think I can work on this item...";
+		goto L_CLOSE;
+
+CHECK2:
+	if (getequipisidentify(@part)) goto CHECK3;
+		mes "[Disturb]";
+		mes "You can't refine this weapon before appraisal..";
+		goto L_CLOSE;
+
+CHECK3:
+	if (getequiprefinerycnt(@part) < 10) goto REFINE0;
+		mes "[Disturb]";
+		mes "I must say this weapon doesn't accept more refining on it..";
+		goto L_CLOSE;
+
+REFINE0:
+	if (getequipweaponlv(@part) > 0) goto REFINE1;
+		mes "[Disturb]";
+		mes "To refine this stuff,I need ^ff9999Elunium^000000 and the fee 2000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_0_SUB;
+				mes "[Disturb]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_0_SUB:
+		if ((countitem(985) < 1) || (Zeny < 2000)) goto L_CANCEL_2;
+			delitem 985,1;
+			set Zeny,Zeny-2000;
+			goto REFINE5;
+REFINE1:
+	if (getequipweaponlv(@part) > 1) goto REFINE2;
+		mes "[Disturb]";
+		mes "You're gonna refine the Lv 1 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Phracon^000000 and the fee 50 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_1_SUB;
+				mes "[Disturb]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_1_SUB:
+		if ((countitem(1010) < 1) || (Zeny < 50)) goto L_CANCEL_2;
+			delitem 1010,1;
+			set Zeny,Zeny-50;
+			goto REFINE5;
+REFINE2:
+	if (getequipweaponlv(@part) > 2) goto REFINE3;
+		mes "[Disturb]";
+		mes "You're gona refine the Lv 2 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Emveretarcon^000000 and the fee 200 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_2_SUB;
+				mes "[Disturb]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_2_SUB:
+		if ((countitem(1011) < 1) || (Zeny < 200)) goto L_CANCEL_2;
+			delitem 1011,1;
+			set Zeny,Zeny-200;
+			goto REFINE5;
+REFINE3:
+	if (getequipweaponlv(@part) > 3) goto REFINE4;
+		mes "[Disturb]"
+		mes "You're gona refine the Lv 3 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 5000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_3_SUB;
+				mes "[Disturb]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_3_SUB:
+		if ((countitem(984) < 1) || (Zeny < 5000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-5000;
+			goto REFINE5;
+REFINE4:
+		mes "[Disturb]";
+		mes "You're gona refine the Lv 4 Weapon.";
+		mes "To refine this stuff,I need ^ff9999Oridecon^000000 and the fee 20000 Zeny.";
+		mes "Continue?";
+		next;
+		menu "Yes",-,"No",L_CANCEL_3;
+			if (getequippercentrefinery(@part) == 100) goto L_4_SUB;
+				mes "[Disturb]";
+				mes "Oh my God!!";
+				mes "This appears as It has been refined too many times... It could be destroyed when it's refined more.";
+				mes "After destroyed,it will be useless one...Still do you want to refine?";
+				next;
+				menu "Yes",-,"No",L_CANCEL_1;
+	L_4_SUB:
+		if ((countitem(984) < 1) || (Zeny < 20000)) goto L_CANCEL_2;
+			delitem 984,1;
+			set Zeny,Zeny-20000;
+REFINE5:
+	if (getequippercentrefinery(@part)<=rand(100)) goto REFINE6;
+		mes "[Disturb]";
+		mes "Clang! Clang! Clang!";
+		successrefitem @part;
+		next;
+		emotion 9;
+		mes "[Disturb]";
+		mes "There you go.";
+		mes "It seems My skill doesn't have gotten a bit Rusty yet. It is my work, but still Splendid...";
+		goto L_CLOSE;
+REFINE6:
+	mes "[Disturb]";
+	mes "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	emotion 0;
+	mes "[Disturb]";
+	mes "Waaaaaaaaahhhh!!!!";
+	next;
+	mes "[Disturb]";
+	mes "Eh..Ehem...";
+	mes "Failed. I am deeply ashamed of what I've done...But,";
+	mes "I...told...you..not to force me to do that.";
+	goto L_CLOSE;
+L_CANCEL_1:
+	mes "[Disturb]";
+	mes "Good Choice.";
+	mes "Also me,feel dirty when I destroy the other's Weapons with my hand.";
+	goto L_CLOSE;
+L_CANCEL_2:
+	mes "[Disturb]";
+	mes "Is it all you got?";
+	mes "Unfortunately I can't work for you at lower price.Think on my side.";
+	goto L_CLOSE;
+L_CANCEL_3:
+	mes "[Disturb]";
+	mes "You said so..Hmm so be it...";
+L_CLOSE:
+	close;
+}
+
+ 

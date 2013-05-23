@@ -1,0 +1,1307 @@
+//===== Cronus Script ==========================================
+//= Mestra das Classes
+//===== Por: ===================================================
+//= MaxQoff
+//===== Versão Atual: ==========================================
+//= 1.4
+//===== Descrição: =============================================
+//= Muda a classe do personagem.
+//==== Changelog ===============================================
+//= 1.0 Criação do Script
+//= 1.1 Adicionada opção para habilidades de platina
+//= 1.2 Corrigido o Bug de pontos extras ao renascer
+//= 1.3 Corrigido o Bug de Espiritualista e MTK poder virar Kina Baby
+//= 1.4 Adicionado ao Cronus como Mestra das Classes "Oficial".[MaxDragon]
+//= - Também alteradas algumas algumas coisas.
+//==============================================================
+prontera,153,186,5	script	Mestra das Classes	864,{
+
+set .@nome$,"[Mestra das Classes]"; //Nome do NPC, Original [Mestra das Classes]
+set .@needpoint,1; // É necessário gastar os pontos de habilidades para se transformar para uma outra classe? 1 para sim, 0 para não.
+set .@minbasesa,45; //Nível de base necessário para se tornar um Super Aprendiz, Original [45]
+set .@minjobto2122,40; //Nível de Classe necessário para se tornar uma classe 2-1 ou 2-2, Original [40]
+set .@minbasetoreborn,99; //Nível de Base necessário para renascer o personagem, Original [99]
+set .@minjobtoreborn,50; // Nível de Classe necessário para renascer o personagem. Original [50]
+set .@needequip,1; //É necessário retirar os equipamentos para renascer?, 1 para sim, e 0 para não, Original [1]
+set .@needzeny,1; //É necessário retirar os zenys para renascer?, 1 para sim, 0 para não. Original [1]
+set .@announcereborn,0; //Quando um personagem reborna uma mensagem global é enviada ao servidor, 1 para sim, 0 para não. Original [0]
+set .@bonusstpoint,0; //Quantia de pontos extras que o personagem recebe após rebornar, ele recebe normalmente 100pontos, se você colocar o valor equivalente a 1 nesta variável ele renascerá com 101 e assim por diante, Original [0]
+set .@babyclassonnpc,0; // O NPC fornece a opção para se tornar Classes Bebês? 1 para sim, 2 para fornecer classes bebês e habilidades de platinas 3para apenas habilidades de platina, 0 para fornecer apenas classes normais. Original [0]
+set .@questskills,0; // O NPC fornece Habilidades de quest? 1 para sim, 0 para não. Original [0]
+
+show .@nome$;
+if(Class > 4007 && Class < 4023){
+show "Você chegou ao fim das classes, não posso fazer nada por você.";
+close;
+}
+if(Class > 4046 && Class < 4050){
+show "Você chegou ao fim das classes, não posso fazer nada por você.";
+close;
+}
+if(Class > 4029 && Class < 4046){
+show "Você chegou ao fim das classes, não posso fazer nada por você.";
+close;
+}
+if(Class == 4045){
+show "Você chegou ao fim das classes, não posso fazer nada por você.";
+close;
+}
+if(Class == 0) goto Aprendiz;
+if(Class == 4001) goto AprendizT;
+if(Class == 1) goto Espadachim1;
+if(Class == 2) goto Mago1;
+if(Class == 3) goto Arqueiro1;
+if(Class == 4) goto Aco1;
+if(Class == 5) goto Mercador1;
+if(Class == 6) goto Gatuno1;
+if(Class == 23) goto SA1;
+if(Class == 4046) goto Taekwon1;
+if(Class == 24) goto Justiceiro1;
+if(Class == 25) goto Ninja1;
+if(Class > 6 && Class < 22) goto Rebirth;
+if(JobLevel < .@minjobto2122){
+show "Desculpe mas seu nível de Classe precisa ser no mínimo "+.@minjobto2122+" para chegar até a próxima classe.";
+close;
+}
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(Class == 4002) goto EspadachimT1;
+if(Class == 4003) goto MagoT1;
+if(Class == 4004) goto ArqueiroT1;
+if(Class == 4005) goto AcoT1;
+if(Class == 4006) goto MercadorT1;
+if(Class == 4007) goto GatunoT1;
+if(Class == 4024) goto EspadachimBaby1;
+if(Class == 4025) goto MagoBaby1;
+if(Class == 4026) goto ArqueiroBaby1;
+if(Class == 4027) goto AcoBaby1;
+if(Class == 4028) goto MercadorBaby1;
+if(Class == 4029) goto GatunoBaby1;
+
+EspadachimBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Cavaleira Bebê",CavaleiroBaby,"Templária Bebê",TemplarioBaby; }
+menu "Cavaleiro Bebê",CavaleiroBaby,"Templário Bebê",TemplarioBaby;
+
+CavaleiroBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4030;
+if(.@questskills == 1){
+skill 1001,1,0;
+
+}
+close;
+}
+show "Prontinho.";
+setjob 4030;
+if(.@questskills == 1){
+skill 1001,1,0;
+
+}
+close;
+
+TemplarioBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4037;
+if(.@questskills == 1){
+skill 1002,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4037;
+if(.@questskills == 1){
+skill 1002,1,0;
+}
+close;
+
+MagoBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Bruxa Bebê",BruxoBaby,"Sábia Bebê",SabioBaby; }
+menu "Bruxo Bebê",BruxoBaby,"Sábio Bebê",SabioBaby;
+
+BruxoBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4032;
+if(.@questskills == 1){
+skill 1006,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4032;
+if(.@questskills == 1){
+skill 1006,1,0;
+}
+close;
+
+SabioBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4039;
+if(.@questskills == 1){
+skill 1007,1,0;
+show "Escolha qual Mudança elemental deseja";
+switch(select("Água","Fogo","Vento","Terra")){
+
+case 1:
+skill 1008,1,0;
+close;
+
+case 2:
+skill 1018,1,0;
+close;
+
+case 3:
+skill 1019,1,0;
+close;
+
+case 4:
+skill 1017,1,0;
+close;
+}
+}
+close;
+}
+show "Prontinho.";
+setjob 4039;
+if(.@questskills == 1){
+skill 1007,1,0;
+show "Escolha qual Mudança elemental deseja";
+switch(select("Água","Fogo","Vento","Terra")){
+
+case 1:
+skill 1008,1,0;
+close;
+
+case 2:
+skill 1018,1,0;
+close;
+
+case 3:
+skill 1019,1,0;
+close;
+
+case 4:
+skill 1017,1,0;
+close;
+}
+}
+close;
+
+ArqueiroBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Caçadora Bebê",HunterBaby,"Odalisca Bebê",BardDancerBaby; }
+menu "Caçador Bebê",HunterBaby,"Bardo Bebê",BardDancerBaby;
+
+HunterBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4034;
+if(.@questskills == 1){
+skill 1009,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4034;
+if(.@questskills == 1){
+skill 1009,1,0;
+}
+close;
+
+BardDancerBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4043;
+if(.@questskills == 1){
+skill 1011,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4042;
+if(.@questskills == 1){
+skill 1010,1,0;
+}
+close;
+
+AcoBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Sacerdote Bebê",SacerdoteBaby,"Monja Bebê",MongeBaby; }
+menu "Sacerdote Bebê",SacerdoteBaby,"Monge Bebê",MongeBaby;
+
+SacerdoteBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4031;
+if(.@questskills == 1){
+skill 1014,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4031;
+if(.@questskills == 1){
+skill 1014,1,0;
+}
+close;
+
+MongeBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4038;
+if(.@questskills == 1){
+skill 1015,1,0;
+skill 1016,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4038;
+if(.@questskills == 1){
+skill 1015,1,0;
+skill 1016,1,0;
+}
+close;
+
+MercadorBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Ferreira Bebê",FerreiraBaby,"Alquimista Bebê",AlquimistaBaby; }
+menu "Ferreiro Bebê",FerreiroBaby,"Alquimista Bebê",AlquimistaBaby;
+
+FerreiroBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4033;
+if(.@questskills == 1){
+skill 1012,1,0;
+skill 1013,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4033;
+if(.@questskills == 1){
+skill 1012,1,0;
+skill 1013,1,0;
+}
+close;
+
+AlquimistaBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4041;
+if(.@questskills == 1){
+skill 238,1,0;
+skill 243,1,0;
+skill 244,1,0;
+skill 247,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4041;
+if(.@questskills == 1){
+skill 238,1,0;
+skill 243,1,0;
+skill 244,1,0;
+skill 247,1,0;
+}
+close;
+
+GatunoBaby1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Mercenária Bebê",MercenarioBaby,"Arruaceira Bebê",ArruaceiroBaby; }
+menu "Mercenário Bebê",MercenarioBaby,"Arruaceiro Bebê",ArruaceiroBaby;
+
+MercenarioBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4035;
+if(.@questskills == 1){
+skill 1003,1,0;
+skill 1004,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4035;
+if(.@questskills == 1){
+skill 1003,1,0;
+skill 1004,1,0;
+}
+close;
+
+ArruaceiroBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4040;
+if(.@questskills == 1){
+skill 1005,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4040;
+if(.@questskills == 1){
+skill 1005,1,0;
+}
+close;
+
+EspadachimT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4008;
+if(Classe == 2) setjob 4015;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+MagoT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4010;
+if(Classe == 2) setjob 4017;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+ArqueiroT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4012;
+if(sex == 0){
+if(Classe == 2) setjob 4021;
+close;
+}
+if(Classe == 2) setjob 4020;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+AcoT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4009;
+if(Classe == 2) setjob 4016;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+MercadorT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4011;
+if(Classe == 2) setjob 4019;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+GatunoT1:
+show "Que Odin esteja com você!";
+if(Classe == 1) setjob 4013;
+if(Classe == 2) setjob 4018;
+if(Classe == 0) show "Desculpe mas você não tem uma última classe 2-1 ou 2-2 salva";
+close;
+
+AprendizT:
+if(JobLevel < 10){
+show "Desculpe mas seu nível de Classe deve ser igual à 10 para poder ir para próxima classe.";
+close;
+}
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(Job1 == 1) goto EspadachimT;
+if(Job1 == 2) goto MagoT;
+if(Job1 == 3) goto ArqueiroT;
+if(Job1 == 4) goto AcoT;
+if(Job1 == 5) goto MercadorT;
+if(Job1 == 6) goto GatunoT;
+if(Job1 == 0) goto Nosave;
+
+EspadachimT:
+show "Que Odin esteja com você!";
+setjob 4002;
+close;
+
+MagoT:
+show "Que Odin esteja com você!";
+setjob 4003;
+close;
+
+ArqueiroT:
+show "Que Odin esteja com você!";
+setjob 4004;
+close;
+
+AcoT:
+show "Que Odin esteja com você!";
+setjob 4005;
+close;
+
+MercadorT:
+show "Que Odin esteja com você!";
+setjob 4006;
+close;
+
+GatunoT:
+show "Que Odin esteja com você!";
+setjob 4007;
+close;
+Nosave:
+show "Desculpe mas não há uma ultima classe salva neste personagem.";
+close;
+
+Rebirth:
+if(BaseLevel < .@minbasetoreborn){
+show "Desculpe mas você deve ser "+.@minbasetoreborn+" para renascer.";
+close;
+}
+if(JobLevel < .@minjobtoreborn){
+show "Desculpe mas você deve ser "+.@minjobtoreborn+" para renascer.";
+close;
+}
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(.@needequip == 1){
+if(Weight > 0){
+show "Seus items lhe ligam ao mundo material.";
+close;
+}
+}
+if(.@needzeny == 1){
+if(Zeny > 0){
+show "Seu dinheiro lhe liga ao mundo material";
+close;
+}
+}
+if(.@announcereborn == 1){
+Announce ""+strcharinfo(0)+" está renascendo sob a benção de Odin!",bc_all,0xFFA500;
+}
+show "Parabéns, dê o melhor de si em sua jornada!";
+next;
+show .@nome$;
+show "Que Odin lhe abençoe!";
+setjob 4001;
+set BaseLevel,BaseLevel-.@minbasetoreborn+1;
+resetstatus;
+resetskill;
+set StatusPoint,StatusPoint+.@bonusstpoint;
+set Skillpoint,0;
+close;
+
+
+
+SA1:
+show "Desculpe, você já chegou ao fim das classes, não posso fazer nada por você.";
+close;
+
+Justiceiro1:
+show "Desculpe, você já chegou ao fim das classes, não posso fazer nada por você.";
+close;
+
+Ninja1:
+show "Desculpe, você já chegou ao fim das classes, não posso fazer nada por você.";
+close;
+
+Espadachim1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Cavaleira",Cavaleiro,"Templária",Templario; }
+menu "Cavaleiro",Cavaleiro,"Templário",Templario;
+
+Mago1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Bruxa",Bruxo,"Sábia",Sabio; }
+menu "Bruxo",Bruxo,"Sábio",Sabio;
+
+Arqueiro1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Caçadora",Hunter,"Odalisca",BardDancer; }
+menu "Caçador",Hunter,"Bardo",BardDancer;
+
+Aco1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Sacerdotiza",Sacerdote,"Monja",Monge; }
+menu "Sacerdote",Sacerdote,"Monge",Monge;
+
+Mercador1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Ferreira",Ferreiro,"Alquimista",Alquimista; }
+menu "Ferreiro",Ferreiro,"Alquimista",Alquimista;
+
+Gatuno1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Mercenária",Mercenario,"Arruaceira",Arruaceiro; }
+menu "Mercenário",Mercenario,"Arruaceira",Arruaceiro;
+
+Taekwon1:
+if(JobLevel < .@minjobto2122){
+show "Desculpe, mas você deve ter no mínimo "+.@minjobto2122+" para se transformar em sua próxima classe.";
+close;
+}
+show "Escolha o que deseja se tornar.";
+if(sex == 0){ menu "Mestra Taekwon",MTK,"Espiritualista",Espiritualista; }
+menu "Mestra Taekwon",MTK,"Espiritualista",Espiritualista;
+
+MTK:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Mestra Taekwon!";
+setjob 4047;
+set Classe,1;
+close;
+}
+show "Parabéns, você agora é um Mestre Taekwon!";
+setjob 4047;
+set Classe,1;
+close;
+
+Espiritualista:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Espiritualista!";
+setjob 4049;
+set Classe,2;
+close;
+}
+show "Parabéns, você agora é um Espiritualista!";
+setjob 4049;
+set Classe,2;
+close;
+
+Mercenario:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Mercenária!";
+setjob 12;
+set Classe,1;
+if(.@questskills == 1){
+skill 1003,1,0;
+skill 1004,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Mercenário!";
+setjob 12;
+set Classe,1;
+if(.@questskills == 1){
+skill 1003,1,0;
+skill 1004,1,0;
+}
+close;
+
+Arruaceiro:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Arruaceira!";
+setjob 17;
+set Classe,2;
+if(.@questskills == 1){
+skill 1005,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Arruaceiro!";
+setjob 17;
+set Classe,2;
+if(.@questskills == 1){
+skill 1005,1,0;
+}
+close;
+
+Ferreiro:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Ferreira!";
+setjob 10;
+set Classe,1;
+if(.@questskills == 1){
+skill 1012,1,0;
+skill 1013,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Ferreiro!";
+setjob 10;
+set Classe,1;
+if(.@questskills == 1){
+skill 1012,1,0;
+skill 1013,1,0;
+}
+close;
+
+Alquimista:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Alquimista!";
+setjob 18;
+set Classe,2;
+if(.@questskills == 1){
+skill 238,1,0;
+skill 243,1,0;
+skill 244,1,0;
+skill 247,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Alquimista!";
+setjob 18;
+set Classe,2;
+if(.@questskills == 1){
+skill 238,1,0;
+skill 243,1,0;
+skill 244,1,0;
+skill 247,1,0;
+}
+close;
+
+Sacerdote:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Sacerdotisa!";
+setjob 8;
+set Classe,1;
+if(.@questskills == 1){
+skill 1014,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Sacerdote!";
+setjob 8;
+set Classe,1;
+if(.@questskills == 1){
+skill 1014,1,0;
+}
+close;
+
+Monge:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Monja!";
+setjob 15;
+set Classe,2;
+if(.@questskills == 1){
+skill 1015,1,0;
+skill 1016,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Monge!";
+setjob 15;
+set Classe,2;
+if(.@questskills == 1){
+skill 1015,1,0;
+skill 1016,1,0;
+}
+close;
+
+Hunter:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Caçadora!";
+setjob 11;
+set Classe,1;
+if(.@questskills == 1){
+skill 1009,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Caçador!";
+setjob 11;
+set Classe,1;
+if(.@questskills == 1){
+skill 1009,1,0;
+}
+close;
+
+BardDancer:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Odalisca!";
+setjob 20;
+set Classe,2;
+if(.@questskills == 1){
+skill 1011,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Bardo!";
+setjob 19;
+set Classe,2;
+if(.@questskills == 1){
+skill 1010,1,0;
+}
+close;
+
+Bruxo:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Bruxa!";
+setjob 9;
+set Classe,1;
+if(.@questskills == 1){
+skill 1006,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Bruxo!";
+setjob 9;
+set Classe,1;
+if(.@questskills == 1){
+skill 1006,1,0;
+}
+close;
+
+Sabio:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Sábia!";
+setjob 16;
+set Classe,2;
+if(.@questskills == 1){
+skill 1007,1,0;
+show "Escolha qual Mudança elemental deseja";
+switch(select("Água","Fogo","Vento","Terra")){
+
+case 1:
+skill 1008,1,0;
+close;
+
+case 2:
+skill 1018,1,0;
+close;
+
+case 3:
+skill 1019,1,0;
+close;
+
+case 4:
+skill 1017,1,0;
+close;
+}
+}
+close;
+}
+show "Parabéns, você agora é um Sábio!";
+setjob 16;
+set Classe,2;
+if(.@questskills == 1){
+skill 1007,1,0;
+show "Escolha qual Mudança elemental deseja";
+switch(select("Água","Fogo","Vento","Terra")){
+
+case 1:
+skill 1008,1,0;
+close;
+
+case 2:
+skill 1018,1,0;
+close;
+
+case 3:
+skill 1019,1,0;
+close;
+
+case 4:
+skill 1017,1,0;
+close;
+}
+}
+close;
+
+Cavaleiro:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Cavaleira!";
+setjob 7;
+set Classe,1;
+if(.@questskills == 1){
+skill 1001,1,0;
+
+}
+close;
+}
+show "Parabéns, você agora é um Cavaleiro!";
+setjob 7;
+set Classe,1;
+if(.@questskills == 1){
+skill 1001,1,0;
+
+}
+close;
+
+Templario:
+next;
+show .@nome$;
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+if(sex == 0){ show "Parabéns, você agora é uma Templária!";
+setjob 14;
+set Classe,2;
+if(.@questskills == 1){
+skill 1002,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Cavaleiro!";
+setjob 14;
+set Classe,2;
+if(.@questskills == 1){
+skill 1002,1,0;
+}
+close;
+
+
+
+Aprendiz:
+if(JobLevel < 10){
+show "Desculpe mas você deve ter seu nível de classe igual a 10 para poder se transformar em outra classe";
+close;
+}
+if(.@needpoint == 1){
+if(Skillpoint > 0){
+show "Você deve gastar todos seus pontos de habilidades antes de se tornar uma nova classe.";
+close;
+}
+}
+show "Escolha qual classe deseja se tornar";
+if(.@babyclassonnpc == 1){
+menu "Classes Normais",Normais,"Classes Bebês",Baby;
+}
+goto Normais;
+
+Baby:
+if(sex == 0) {
+menu "Espadachim Bebê",EspadachimBaby,"Maga Bebê",MagoBaby,"Arqueira Bebê",ArqueiroBaby,"Noviça Bebê",AcoBaby,"Mercadora Bebê",MercadorBaby,"Gatuna Bebê",GatunoBaby,"Super Bebê",SABaby;
+}
+menu "Espadachim Bebê",EspadachimBaby,"Mago Bebê",MagoBaby,"Arqueiro Bebê",ArqueiroBaby,"Noviço Bebê",AcoBaby,"Mercador Bebê",MercadorBaby,"Gatuno Bebê",GatunoBaby,"Super Bebê",SABaby;
+
+EspadachimBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4024;
+if(.@questskills == 1){
+skill 144,1,0;
+skill 146,1,0;
+skill 145,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4024;
+if(.@questskills == 1){
+skill 144,1,0;
+skill 146,1,0;
+skill 145,1,0;
+}
+close;
+
+MagoBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4025;
+if(.@questskills == 1){
+skill 157,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4025;
+if(.@questskills == 1){
+skill 157,1,0;
+}
+close;
+
+ArqueiroBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4026;
+if(.@questskills == 1){
+skill 147,1,0;
+skill 148,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4026;
+if(.@questskills == 1){
+skill 147,1,0;
+skill 148,1,0;
+}
+close;
+
+AcoBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4027;
+if(.@questskills == 1){
+skill 156,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4027;
+if(.@questskills == 1){
+skill 156,1,0;
+}
+close;
+
+MercadorBaby:
+if(sex == 0) { show "Prontinho.";
+setjob 4028;
+if(.@questskills == 1){
+skill 153,1,0;
+skill 155,1,0;
+skill 154,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4028;
+if(.@questskills == 1){
+skill 153,1,0;
+skill 155,1,0;
+skill 154,1,0;
+}
+close;
+
+GatunoBaby:
+if(sex == 0){ show "Prontinho.";
+setjob 4029;
+if(.@questskills == 1){
+skill 150,1,0;
+skill 151,1,0;
+skill 152,1,0;
+skill 149,1,0;
+}
+close;
+}
+show "Prontinho.";
+setjob 4029;
+if(.@questskills == 1){
+skill 150,1,0;
+skill 151,1,0;
+skill 152,1,0;
+skill 149,1,0;
+}
+close;
+
+SABaby:
+if(BaseLevel < .@minbasesa){
+show "Desculpe, mas você precisa ter seu nível de base maior ou igual à "+.@minbasesa+"";
+close;
+}
+if(sex == 0){ show "Prontinho.";
+setjob 4045;
+close;
+}
+show "Prontinho.";
+setjob 4045;
+close;
+
+
+Normais:
+if(sex == 0) {
+menu "Espadachim",Espadachim,"Maga",Mago,"Arqueira",Arqueiro,"Noviça",Aco,"Mercadora",Mercador,"Gatuna",Gatuno,"Super Aprendiz",SA,"Taekwon",Taekwon,"Ninja",Ninja,"Justiceira",Justiceiro;
+}
+menu "Espadachim",Espadachim,"Mago",Mago,"Arqueiro",Arqueiro,"Noviço",Aco,"Mercador",Mercador,"Gatuno",Gatuno,"Super Aprendiz",SA,"Taekwon",Taekwon,"Ninja",Ninja,"Justiceiro",Justiceiro;
+
+Espadachim:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Espadachim!";
+setjob 1;
+set Job1,1;
+if(.@questskills == 1){
+skill 144,1,0;
+skill 146,1,0;
+skill 145,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Espadachim!";
+setjob 1;
+set Job1,1;
+if(.@questskills == 1){
+skill 144,1,0;
+skill 146,1,0;
+skill 145,1,0;
+}
+close;
+
+Mago:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Maga!";
+setjob 2;
+set Job1,2;
+if(.@questskills == 1){
+skill 157,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Mago!";
+setjob 2;
+set Job1,2;
+if(.@questskills == 1){
+skill 157,1,0;
+}
+close;
+
+Arqueiro:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Arqueira!";
+setjob 3;
+set Job1,3;
+if(.@questskills == 1){
+skill 147,1,0;
+skill 148,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Arqueiro!";
+setjob 3;
+set Job1,3;
+if(.@questskills == 1){
+skill 147,1,0;
+skill 148,1,0;
+}
+close;
+
+Aco:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Noviça!";
+setjob 4;
+set Job1,4;
+if(.@questskills == 1){
+skill 156,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um noviço!";
+setjob 4;
+set Job1,4;
+if(.@questskills == 1){
+skill 156,1,0;
+}
+close;
+
+Mercador:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Mercadora!";
+setjob 5;
+set Job1,5;
+if(.@questskills == 1){
+skill 153,1,0;
+skill 155,1,0;
+skill 154,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Mercador!";
+setjob 5;
+set Job1,5;
+if(.@questskills == 1){
+skill 153,1,0;
+skill 155,1,0;
+skill 154,1,0;
+}
+close;
+
+Gatuno:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Gatuna!";
+setjob 6;
+set Job1,6;
+if(.@questskills == 1){
+skill 150,1,0;
+skill 151,1,0;
+skill 152,1,0;
+skill 149,1,0;
+}
+close;
+}
+show "Parabéns, você agora é um Gatuno!";
+setjob 6;
+set Job1,6;
+if(.@questskills == 1){
+skill 150,1,0;
+skill 151,1,0;
+skill 152,1,0;
+skill 149,1,0;
+}
+close;
+
+SA:
+next;
+show .@nome$;
+if(BaseLevel < .@minbasesa){
+show "Desculpe mas você precisa ter um nível de base igual ou superior que "+.@minbasesa+"";
+close;
+}
+if(sex == 0){ show "Parabéns, você agora é uma Super Aprendiz!";
+setjob 23;
+close;
+}
+show "Parabéns, você agora é um Super Aprendiz!";
+setjob 23;
+close;
+
+Taekwon:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Taekwon!";
+setjob 4046;
+close;
+}
+show "Parabéns, você agora é um Taekwon!";
+setjob 4046;
+close;
+
+Ninja:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Ninja!";
+setjob 25;
+close;
+}
+show "Parabéns, você agora é um Ninja!";
+setjob 25;
+close;
+
+Justiceiro:
+next;
+show .@nome$;
+if(sex == 0){ show "Parabéns, você agora é uma Justiceira!";
+setjob 24;
+close;
+}
+show "Parabéns, você agora é um Justiceiro!";
+setjob 24;
+close;
+
+}

@@ -1,0 +1,73 @@
+sec_in01,165,180,4	script	Anunciador VIP	832,{
+	
+	if (getgmlevel() < 1)
+	{
+		warp getsavepoint(0), getsavepoint(1), getsavepoint(2);
+		end;
+	}
+	
+	mes "[Anunciador VIP]";
+	
+	mes "Olá, como posso ajudá-l"+((Sex)?"o":"a")+" ?";
+	mes "Cada mensagem tem intervalo de 60 segundos para ser enviada.";
+	next;
+	//switch (select ("Procurar Grupo:Procurar Clã:Anuncio de Itens:Enviar Mensagem"))
+	switch (select ("Procurar Grupo:Procurar Clã:Enviar Mensagem"))
+	{
+		mes "[Anunciador VIP]";
+
+		case 1:
+		case 2:
+			callsub L_Confirm, "[Anúncio VIP]: "+strcharinfo(0)+" ~ "+jobname(Class)+" ~ Nv. "+BaseLevel+"/"+JobLevel+" procura um ["+((@menu == 1)?"Grupo":"Clã")+"] !", "0x"+((@menu == 1)?"00FF00":"FF0000");
+			break;
+		
+		/* TODO
+		case 3:
+			mes "Escolha a opção:";
+			next;
+			switch (select ("Comprar Item:Vender Item"))
+			{
+				mes "[Anunciador VIP]";
+
+				case 1:
+					mes "Digite o ID do item.";
+			}
+		*/
+		
+		case 3:
+		//case 4:
+			mes "Selecione a cor da mensagem:";
+			next;
+			switch (select ("^FFFFFFBranca","^EE6363Vermelha","^E8E8E8Cinza","^00CD00Verde","^5CACEEAzul"))
+			{
+				case 1: set .@color$, "0xFFFFFF"; break;
+				case 2: set .@color$, "0xEE6363"; break;
+				case 3: set .@color$, "0xE8E8E8"; break;
+				case 4: set .@color$, "0x00CD00"; break;
+				case 5: set .@color$, "0x5CACEE"; break;
+			}
+			mes "[Anunciador VIP]";
+			mes "Digite a mensagem:";
+			mes "Ela deve conter no máximo 130 caracteres.";
+			next;
+			input .@msg$;
+			mes "[Anunciador VIP]";
+			if (!getstrlen(.@msg$) || getstrlen(.@msg$) > 130)
+			{
+				mes "O tamanho não confere.";
+				close;
+			}
+			callsub L_Confirm, "[VIP - "+strcharinfo(0)+"] "+.@msg$, .@color$;
+	}
+	
+	L_Confirm:
+		mes "Tem certeza que deseja enviar a mensagem ?";
+		next;
+		if (select ("Sim:Não") == 2) close;
+		mes "[Anunciador VIP]";
+		mes "Mensagem enviada!";
+		close2;
+		announce getarg(0), bc_all, getarg(1);
+		end;
+	return;
+}

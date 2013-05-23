@@ -1,0 +1,78 @@
+//Energy Coat
+
+geffen_in.gat,151,119,4	script	Great Wizard	64,{
+if ((Class == Job_Mage) && (JobLevel < 35)) goto LStartLowlv;
+	if (!((Class == Job_Mage) || (Class == Job_Wizard) || (Class == Job_Sage))) goto LStartOther;
+	if (getskilllv(157)>0) goto LStartTwice;
+	if (((countitem(746)>=3) && (countitem(730)>=1) && (countitem(935)>=5) && (countitem(943)>=1))) goto L3;
+Lstart:
+	mes "[Great Wizard]";
+	mes "Hello young mage. I am glad you've come to visit us.";
+	mes "I have an offer for you.";
+	mes "If you bring me some special items I will give you the Energy Coat skill.";
+	mes "So what do you say? Are you intrested";
+	next;
+	menu "Yes, please",L1,"No,thanks",L2;
+L1:
+	mes "[Great Wizard]";
+	mes "Okay, To get Energy Coat, you will need:";
+	mes "";
+	mes "5 ^FF0000Shells";
+	mes "3 ^FF0000Glass Bead";
+	mes "1 ^FF0000Carat Diamond";
+	mes "1 ^FF0000Solid Shell";
+	mes "";
+	mes "Come back later when you have all these stuff.";
+	mes "Good luck with your task.";
+	close;
+
+L2:
+	mes "[Great Wizard]";
+	mes "I see, Good luck with your task.";
+	mes "I hope to see you here again";
+	close;
+
+L3:
+	mes "[Great Wizard]";
+	mes "Oh wonderfull you have found all the items I asked for.";
+	mes "If you give me these items I will give you the Energy Coat in return.";
+	mes "Do you want me to use your items for this skill?";
+	menu "Yes, please",L3_1,"No,please",L3_2;
+
+L3_1:
+		mes "[Great Wizard]";
+		mes "Ohh my ohh my. This is going to be swell.";
+		mes "Hand over the items... Thank you.";
+ 		next;
+		delitem 746,3;
+		delitem 730,1;
+		delitem 935,5;
+		delitem 943,1;
+		skill 157,1,0;
+ 		mes "[Great Wizard]";
+ 		mes "You now have the Holy Light skill implemented";
+ 		mes "Good luck my friend.";
+ 		close;
+
+L3_2:
+		mes "Ohh I see, good luck anyway.";
+		close;
+ 		
+LStartOther:
+	mes "[Great Wizard]";
+	mes "I am an Priest and I can teach other Acolytes how to use the Holy Light.";
+	mes "This skill can only be used by Acolytes.";
+	mes "Unfortunately you ain't an Acolyte.";
+	close;
+
+LStartLowlv:
+	mes "[Great Wizard]";
+	mes "Hello friendly Mage. You have to raise your level a little more before using the Energycoat.";
+	mes "YOu need to be atleast joblevel 35.";
+	close;
+
+LStartTwice:
+	mes "[Great Wizard]";
+	mes "You already have this skill implemented in your skilltree.";
+	close;
+}

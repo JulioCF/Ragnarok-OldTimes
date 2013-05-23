@@ -1,0 +1,869 @@
+//===== Cronus Script =====================================
+//= Npcs Refinadores
+//===== Por: ==============================================
+//= Syrus22 (1.1)
+//= dafide18 (1.4)
+//= Skotlex (1.5)
+//===== Versão Atual: =====================================
+//= 1.7
+//===== Compatível Com: ===================================
+//= Cronus, Athena, Freya
+//===== Descrição: ========================================
+//= Npc's Refinadores e Ferreiro de Geffen.
+//===== Cometários adicionais: ============================
+//= 1.7 Traduzido para o Cronus [Pudim]
+//=========================================================
+
+//=========================================================
+// Christopher: Ferreiro de geffen
+//=========================================================
+geffen_in.gat,110,172,2	script	Christopher	63,{
+	show "[Christopher Guillenrow]";
+	show "Bem vindo à Ferramentaria do Christopher. Você pode encontrar todos os equipamentos para forjar aqui. Então em que psso ajudá-lo?";
+	M_Menu:
+	next;
+	menu "Comprar Bigorna",M_0, "Comprar itens de forja",M_1, "Comprar Minério",M_2, "Refinar Minério de Pedras",M_3, "Cancelar",M_End;
+
+	M_0:
+		show "[Christopher Guillenrow]";
+		show "Higher quality Anvils gives ye a better chance ta make better weapons, ye know. But they cost more than yer typical ones.";
+		next;
+		menu "Bigorna - 30000z.",sM_Anvil, "Bigorna de Oridecon - 120000z.",sM_OriAnvil, "Bigorna de Ouro - 300000z.",sM_GolAnvil,
+			"Bigornas Melhores que as outras",sM_BetAnvil, "Cancelar",M_Menu;
+
+		sM_Anvil:
+			if(Zeny < 30000) goto L_NoZeny;
+			show "[Christopher Guillenrow]";
+			show "Esta é a mais barata porém é muito eficiente.";
+			set Zeny, Zeny - 30000;
+			additem 986,1;
+			next;
+			goto L_Thanks;
+		sM_OriAnvil:
+			if(Zeny < 120000) goto L_NoZeny;
+			show "[Christopher Guillenrow]";
+			show "Oh! Você tem um bom gosto para bigornas. Esta é uma bigorna apropriada para um Ferreiro.";
+			set Zeny, Zeny - 120000;
+			additem 987,1;
+			next;
+			goto L_Thanks;
+		sM_GolAnvil:
+			if(Zeny < 300000) goto L_NoZeny;
+			show "[Christopher Guillenrow]";
+			show "Esta é a melhor bigorna que temos aqui! Com isso você poderá ser o melhor Ferreiro à qualquer hora.";
+			set Zeny, Zeny - 300000;
+			additem 988,1;
+			next;
+			goto L_Thanks;
+		sM_BetAnvil:
+			show "[Christopher Guillenrow]";
+			show "Me desculpe mas eu não tenho nenhuma bigorna melhor que a de Ouro.";
+			show "Talvez 'Ringgel' o lendário criador de Bigornas poderia criar ter uma... mas é muito dificil encontrá-lo.";
+			close;
+
+	M_1:
+		show "[Christopher Guillenrow]";
+		show "Um respeitável Ferreiro usa ferramentas finas. Você irá conhecer conhecer minhas ferramentas começando pelas mais finas!";
+		show "Escolha qual você quer.";
+		sM_Menu1:
+		next;
+		menu "Mini-Fornalha - 150z.",sM_Furn, "Martelo de Ferro - 1000z.",sM_IrHam, "Martelo de Ouro - 3000z.",sM_GldHam,
+		     "Martelo de Oridecon - 5000z.",sM_OriHam, "Cancelar",M_Menu;
+
+		sM_Furn:
+			show "[Christopher Guillenrow]";
+			show "Este é o pré-requisito para refinar metal!!";
+			show "Então, quantas você quer comprar? Se você deseja cancelar, por favor insira o número '0'. Entretanto, o máximo que você poderá comprar é 1000";
+			set @input, 0;
+			digit @input;
+			next;
+			if(@input < 1 ) goto sM_Menu1;
+			if(@input > 1000 ) goto sM_Max;
+			if(Zeny < 150 * @input) goto L_NoZeny;
+			set Zeny, Zeny - (150 * @input);
+			additem 612, @input;
+			goto L_Thanks;
+		sM_IrHam:
+			if(Zeny < 1000) goto L_NoZeny;
+			set Zeny, Zeny - 1000;
+			additem 613,1;
+			goto L_Thanks;
+		sM_GldHam:
+			if(Zeny < 3000) goto L_NoZeny;
+			set Zeny, Zeny - 3000;
+			additem 614,1;
+			goto L_Thanks;
+		sM_OriHam:
+			if(Zeny < 5000) goto L_NoZeny;
+			set Zeny, Zeny - 5000;
+			additem 615,1;
+			goto L_Thanks;
+		sM_Max:
+			show "[Christopher Guillenrow]";
+			show "Me desculpe, você não pode comprar mais de 1000 fornalhas de uma vez.";
+			close;
+
+	M_2:
+		show "[Christopher Guillenrow]";
+		show "Eu tenho 2 tipos de metal para vender. Qual você deseja?";
+		set @chris, 1;
+		set @name$, "Christopher Guillenrow";
+		callfunc "phramain";
+
+	M_3:
+		show "[Christopher Guillenrow]";
+		show "Eu posso purificar minérios de Oridecon e Elunium. Eu precisarei de 5 minérios para criar 1 puro.";
+		show "Bem... quantos você deseja fazer?";
+		set @chris, 1;
+		set @name$, "Christopher Guillenrow";
+		callfunc "orimain";
+
+	M_End:
+		close;
+
+	L_NoZeny:
+		show "[Christopher Guillenrow]";
+		show "Eu não acho que eu posso deixar você levar isto por este preço. Eu não posso perder o lucro por sua causa.";
+		emotion 4;
+		close;
+
+	L_Thanks:
+		show "[Christopher Guillenrow]";
+		show "Obrigado por comprar na minha ferramentaria. Sinta-se à vontade para voltar quando precisar.";
+		emotion 15;
+		close;
+}
+
+
+
+//=====================================================================================
+// Refiandores de Armas/Armaduras
+//=====================================================================================
+prt_in.gat,63,60,4	script	Hollengrhen	85,{
+	set @name$,"Hollengrhen";
+	callfunc "refinemain";
+	end;
+}
+morocc_in.gat,73,38,4	script	Aragham	99,{
+	set @name$,"Aragham";
+	callfunc "refinemain";
+	end;
+}
+payon.gat,144,173,4	script	Antonio	88,{
+	set @name$,"Antonio";
+	callfunc "refinemain";
+	end;
+}
+alberta_in.gat,28,58,4	script	Fredrik	85,{
+	set @name$,"Fredrik";
+	callfunc "refinemain";
+	end;
+}
+yuno_in01.gat,164,26,6	script	Disturb	88,{
+	set @name$,"Disturb";
+	callfunc "refinemain";
+	end;
+}
+
+//============================================================
+//= Função Principal para Refinar
+//============================================================
+//= Para liberar auto refinar/refinar multiplos sette a variável
+//= @features para 1
+//============================================================
+function	script	refinemain	{
+	set @features,0;
+
+	show "[" + @name$ + "]";
+	show "Eu sou o Armeiro... Eu posso refinar qualquer arma ou parte da armadura que você escolher!";
+	show "Qual parte do equipamento você deseja refinar?";
+	M_Menu:
+	next;
+	menu getequipname(1),PART1,getequipname(2),PART2,getequipname(3),PART3,getequipname(4),PART4,getequipname(5),PART5,
+	     getequipname(6),PART6,getequipname(7),PART7,getequipname(8),PART8,getequipname(9),PART9,getequipname(10),PART10;
+
+	//Cabeça
+	PART1:
+		set @part,1;
+		if (getequipisequiped(1)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Você quer que eu refine o seu estúpido cérebro?";
+		emotion 6;
+		goto M_Menu;
+	//Armadura
+	PART2:
+		set @part,2;
+		if (getequipisequiped(2)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Você quer que eu derreta seu corpo com o calor abrasador...?";
+		emotion 6;
+		goto M_Menu;
+	//Mão Esquerda
+	PART3:
+		set @part,3;
+		if (getequipisequiped(3)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Eu não posso fazer sua mão esquerda em uma arma fatal...";
+		emotion 4;
+		goto M_Menu;
+	//Right Hand
+	PART4:
+		set @part,4;
+		if (getequipisequiped(4)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Eu não posso fazer sua mão direita em uma arma fatal...";
+		emotion 4;
+		goto M_Menu;
+	//Capa
+	PART5:
+		set @part,5;
+		if (getequipisequiped(5)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Veja só... você não tem nenhuma capa equipada...";
+		goto M_Menu;
+	//Calçado
+	PART6:
+		set @part,6;
+		if (getequipisequiped(6)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "Ack!! Esses são alguns pés fedorentos. Eu definitivamente não posso refiná-los... uck!!";
+		emotion 16;
+		goto M_Menu;
+	//Accessório1
+	PART7:
+		set @part,7;
+		if (getequipisequiped(7)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "O que você quer dizer com acessório? Qual deles?";
+		emotion 20;
+		goto M_Menu;
+	//Accessório2
+	PART8:
+		set @part,8;
+		if (getequipisequiped(8)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "O que você quer dizer com acessório? Qual deles?";
+		emotion 20;
+		goto M_Menu;
+	PART9:
+		set @part,9;
+		if (getequipisequiped(9)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "O que você quer de mim? Não há nada equipado aí...";
+		emotion 20;
+		goto M_Menu;
+	PART10:
+		set @part,10;
+		if (getequipisequiped(10)) goto CHECK1;
+		show "[" + @name$ + "]";
+		show "O que você quer de mim? Não há nada equipado aí...";
+		emotion 20;
+		goto M_Menu;
+
+//Checa (xP) se o item é refinável...
+CHECK1:
+	if(getequipisenableref(@part)) goto CHECK2;
+	show "[" + @name$ + "]";
+	show "Eu não posso trabalhar este item...";
+	close;
+
+//Checa (xP) se o item está identificado... (Não sei o porque disso aqui... mas é melhor não mexe)
+CHECK2:
+	if(getequipisidentify(@part)) goto CHECK3;
+	show "[" + @name$ + "]";
+	show "Você precisa identificar este item.";
+	close;
+
+//Checa (xP) se o item já está +10
+CHECK3:
+	if(getequiprefinerycnt(@part) < 10) goto REFINE0;
+	show "[" + @name$ + "]";
+	show "Esta arma já está no nível máximo e não podem mais ser refinados.";
+	close;
+
+//Refinar Armadura
+REFINE0:
+	set @refineitemid, getequipid(@part); // salva o id do item
+	set @refinerycnt, getequiprefinerycnt(@part); //salva a quantidade refinada
+	if(getequipweaponlv(@part) > 0) goto REFINE1;
+	set @matname$,"Elunium";
+	set @material,985;
+	set @price,2000;
+	set @safe,4;
+	if(@features == 1) goto L_refinefeatures;
+	goto L_refinenormal;
+//Refinar Arma de Nível 1
+REFINE1:
+	if(getequipweaponlv(@part) > 1) goto REFINE2;
+	set @matname$,"Phracon";
+	set @material,1010;
+	set @price,50;
+	set @safe,7;
+	if(@features == 1) goto L_refinefeatures;
+	goto L_refinenormal;
+//Refinar Arma de Nível 2
+REFINE2:
+	if(getequipweaponlv(@part) > 2) goto REFINE3;
+	set @matname$,"Emveretarcon";
+	set @material,1011;
+	set @price,200;
+	set @safe,6;
+	if(@features == 1) goto L_refinefeatures;
+	goto L_refinenormal;
+//Refinar Arma de Nível 3
+REFINE3:
+	if(getequipweaponlv(@part) > 3) goto REFINE4;
+	set @matname$,"Oridecon";
+	set @material,984;
+	set @price,5000;
+	set @safe,5;
+	if(@features == 1) goto L_refinefeatures;
+	goto L_refinenormal;
+//Refinar Arma de Nível 4
+REFINE4:
+	set @matname$,"Oridecon";
+	set @material,984;
+	set @price,20000;
+	set @safe,4;
+	if(@features == 1) goto L_refinefeatures;
+	goto L_refinenormal;
+
+L_refinenormal:
+	show "[" + @name$ + "]";
+	show "Para refinar este item, Eu preciso de ^ff99991 " + @matname$ + "^000000 e a taxa de " + @price + " Zeny.";
+	show "Continuar?";
+	next;
+	menu "Sim",-,"Não",Lcancel;
+
+		if (getequippercentrefinery(@part) == 100) goto L_Sub;
+		show "[" + @name$ + "]";
+		show "Hmm... Calma ae! Esta parte do equipamento já está refinado até seu limite de segurança.";
+		show "Voce deve saber que se isso for refinado DENOVO, poderá ser DESTRUÍDO e não poderá ser mais USADO!!";
+		next;
+		show "["+@name$+"]";
+		show "VocÊ ainda quer refiná-lo? Se sim não poderei garantir que sairá tudo bem...";
+		next;
+		menu "Sim",-,"Não",Lcancel1;
+
+		L_Sub:
+			if ((countitem(@material) < 1) || (Zeny < @price)) goto Lcancel2;
+			delitem @material,1;
+			set Zeny,Zeny-@price;
+
+Lrefine:
+	if (getequipisequiped(@part) == 0) goto LNoItem; // hacker removeu o item (pq não, mudado?)
+	if (getequipid(@part) != @refineitemid) goto LNoFake; // hacker mudou o item
+	if (getequiprefinerycnt(@part) != @refinerycnt) goto LNoFake; // hacker mudou o item
+	if (getequippercentrefinery(@part) <= rand(100)) goto Lfail;
+	show "["+@name$+"]";
+	show "Clang! Clang! Clang!";
+	successrefitem @part;
+	next;
+	show "["+@name$+"]";
+	show "HAHA! Estou vendo que minhas habilidades não se enferrujaram ainda! Esplendido... apenas esplendido...";
+	emotion 21;
+	close;
+
+Lfail:
+	show "[" + @name$ + "]";
+	show "Clang! Clang! Clang!";
+	failedrefitem @part;
+	next;
+	show "["+@name$+"]";
+	show "Aaahhh!! Ah não...!!";
+	emotion 16;
+	next;
+	show "["+@name$+"]";
+	show "Eh..Ehem... Me desculpe mais o processo de refinamento ^ff0000falhou^000000.";
+	next;
+	show "["+@name$+"]";
+	show "Estou profundamente decepicionado com o que ouve... mas eu te AVISEI sobre os riscos.";
+	close;
+
+LNoItem:
+	show "[" + @name$ + "]";
+	show "Olha só... você não tem nenhum item equipado...";
+	close;
+
+LNoFake:
+	show "[" + @name$ + "]";
+	show "Clan... Não, mas você acha que eu sou idiota né!?!";
+	show "Você trocou...";
+	show "Vá embora antes que eu te bata com meu Martelo!!!";
+	close;
+
+Lcancel:
+	show "[" + @name$ + "]";
+	show "Você disse então..Será...";
+	close;
+
+Lcancel1:
+	show "[" + @name$ + "]";
+	show "Boa Escolha.";
+	show "Ah... boa escolha. Eu me sentiria horrível se destrui-se uma parte do equipamento de outra pessoa com minha próprias mãos.";
+	close;
+
+Lcancel2:
+	show "[" + @name$ + "]";
+	show "Isso é tudo que você tem? Infelizmente eu não posso trabalhar com esse dinheiro tão pouco. Tente colocando em meus sapatos.";
+	close;
+
+// Novas funções de refinar ========================
+L_refinefeatures:
+	if(getequiprefinerycnt(@part) >= @safe) goto Lnosafe;
+	show "[" + @name$ + "]";
+	show "Eu posso refinar isto até o limite de segurança ou até a quantidade desejada... você escolhe...";
+	next;
+	menu "Até o limite de segurança por favor.",Lsafe,"Irei decidir quantas vezes.",Lnosafe,"Mudei de idéia...",Lcancel;
+
+Lsafe:
+	set @refinecnt,@safe - getequiprefinerycnt(@part);
+	set @fullprice,@price * @refinecnt;
+	show "[" + @name$ + "]";
+	show "Irá custar " + @refinecnt + " " + @matname$ + " e " + @fullprice + " de Zeny. Ok?";
+	next;
+	menu "Sim",-,"Não...",Lcancel;
+	if((countitem(@material) < @refinecnt) || (Zeny < @fullprice)) goto Lcancel2;
+	delitem @material,@refinecnt;
+	set Zeny,Zeny - @fullprice;
+	goto L_refinesafe;
+
+Lnosafe:
+	show "[" + @name$ + "]";
+	show "Então quantas vezes você deseja refinar o item?";
+	next;
+	digit @refinecnt;
+	if (@refinecnt<1) goto Lcancel3; //fixed by Lupus
+	set @refinecheck,@refinecnt + getequiprefinerycnt(@part);
+	if(@refinecheck > 10) goto Lcancel3;
+	set @fullprice,@price * @refinecnt;
+	show "[" + @name$ + "]";
+	show "Irá " + @refinecnt + " " + @matname$ + " e " + @price + " de Zeny... Ok?";
+	next;
+	menu "Sim...",-,"Não...",Lcancel;
+		if(@refinecheck > @safe) goto Lwarn;
+		if((countitem(@material) < @refinecnt) || (Zeny < @fullprice)) goto Lcancel2;
+		delitem @material,@refinecnt;
+		set Zeny,Zeny - @fullprice;
+		goto L_refinenumber;
+		end;
+
+		Lwarn:
+			set @refinecheck,@refinecheck - @safe;
+			show "[" + @name$ + "]";
+			show "Tentarei refinar o equipamento " + @refinecheck + " vezes após o limite de segurança. Seu equipamento pode ser destruído... Ok?";
+			next;
+			menu "Sim",-,"Não...",Lcancel1;
+				if((countitem(@material) < @refinecnt) || (Zeny < @fullprice)) goto Lcancel2;
+				delitem @material,@refinecnt;
+				set Zeny,Zeny - @fullprice;
+				goto L_refinenumber;
+
+Lcancel3:
+	show "[" + @name$ + "]";
+	show "Eu não posso refinar este item tantas vezes.";
+	close;
+
+// SubFunção: Refine Seguro ---------------------
+L_refinesafe:
+	if (getequipisequiped(@part) == 0) goto LNoItem; // hacker removeu o item (por que não, mudado?)
+	if (getequipid(@part) != @refineitemid) goto LNoFake; // hacker mudou o item
+	if (getequippercentrefinery(@part) < 100) goto LNoFake; // hacker mudou o item (não é mais seguro)
+	show "Clang, clang!!!";
+	successrefitem @part;
+	emotion 21;
+	set @refinecnt,@refinecnt - 1;
+	next;
+	if(@refinecnt == 0) goto Lend;
+	goto L_refinesafe;
+
+	Lend:
+		show "[" + @name$ + "]";
+		show "Tudo pronto... Volte logo.";
+		close;
+		
+// SubFunção: Refinar 
+L_refinenumber:
+	show "Clang, clang!!!";
+	if (getequippercentrefinery(@part)<=rand(100)) goto Lfail_number;
+	successrefitem @part;
+	emotion 21;
+	set @refinecnt,@refinecnt - 1;
+	next;
+	if(@refinecnt == 0) goto Lend;
+	goto L_refinenumber;
+
+	Lfail_number:
+		failedrefitem @part;
+		emotion 23;
+		show "[" + @name$ + "]";
+		show "WAHHHH!!! Me desculpe... Eu avisei que poderia acontecer...";
+		set @refinecnt,@refinecnt - 1;
+		if(@refinecnt == 0) goto Lend2;
+		show "Aqui está o material e o Zeny não usado...";
+		additem @material,@refinecnt;
+		set @fullprice,@refinecnt * @price;
+		set Zeny,Zeny + @fullprice;
+
+	Lend2:
+		close;
+}
+
+
+
+//==============================================================================
+// Vendedor de material
+//==============================================================================
+prt_in.gat,56,69,4	script	Vurewell	86,{
+	set @name$,"Vurewell";
+	callfunc "phramain";
+	end;
+}
+payon.gat,145,178,4	script	Begnahd	88,{
+	set @name$,"Begnahd";
+	callfunc "phramain";
+	end;
+}
+morocc_in.gat,65,37,4	script	Sade	99,{
+	set @name$,"Sade";
+	callfunc "phramain";
+	end;
+}
+alberta_in.gat,18,59,5	script	Kahlamanlith	86,{
+	set @name$,"Kahlamanlith";
+	callfunc "phramain";
+	end;
+}
+yuno_in01.gat,171,26,6	script	Dillemat	88,{
+	set @name$,"Dillemat";
+	callfunc "phramain";
+	end;
+}
+
+//============================================================
+//= Funções do Vendedor de material
+//============================================================
+function	script	phramain	{
+	if(@chris == 1) goto M_Menu;
+	show "[" + @name$ + "]";
+	show "Olá, Estou vendendo metais que eu mesmo minerei.";
+	show "Eles são Fracons e Emvertacons.";
+	show "Você deseja compra alguns?";
+	M_Menu:
+	set @chris, 0;
+	next;
+	menu"Fracon - 200z",PHARA,"Emvertacon - 1000z",EMVER;
+
+	PHARA:
+		set @itemid,1010;
+		set @value,200;
+		goto CONTINUE;
+
+	EMVER:
+		set @itemid,1011;
+		set @value,1000;
+
+CONTINUE:
+	show "[" + @name$ + "]";
+	show "Quantos você quer?";
+	next;
+	digit @ammount;
+	if (@ammount <= 0) goto L_BELOW;
+	if (@ammount > 999) goto L_ABOVE;
+	if (zeny < @value * @ammount) goto L_NOZENY;
+	if (checkweight(@itemid,@ammount) == 0) goto L_WEIGHT;
+	additem @itemid,@ammount;
+	set Zeny,Zeny-@value*@ammount;
+	show "[" + @name$ + "]";
+	show "Aqui está.";
+	close;
+
+L_NOZENY:
+	show "Você não tem Zeny o suficiente!";
+	close;
+L_WEIGHT:
+	show "Você não pode carregar tantos itens";
+	close;
+L_BELOW:
+	show "Você tem que comprar uma quantidade POSITIVA de itens!";
+	close;
+L_ABOVE:
+	show "Você não pode comprar tantos itens!";
+	close;
+}
+
+
+
+//==============================================================================
+// Refinadores de Ori/Elu
+//==============================================================================
+prt_in.gat,63,69,4	script	Dietrich	84,{
+	set @name$,"Dietrich";
+	callfunc "orimain";
+	end;
+}
+payon.gat,137,178,4	script	Hakhim	88,{
+	set @name$,"Hakhim";
+	callfunc "orimain";
+	end;
+}
+morocc_in.gat,72,32,4	script	Abdul	99,{
+	set @name$,"Abdul";
+	callfunc "orimain";
+	end;
+}
+alberta_in.gat,21,63,5	script	Xenophon	84,{
+	set @name$,"Xenophon";
+	callfunc "orimain";
+	end;
+}
+yuno_in01.gat,171,22,6	script	Delayt	88,{
+	set @name$,"Delayt";
+	callfunc "orimain";
+end;
+}
+
+//============================================================
+//= Funções de Ori/Elu
+//============================================================
+function	script	orimain	{
+	if(@chris == 1) goto M_Menu;
+	show "[" + @name$ + "]";
+	show "Se você me trouxer Minérios de Oridecon e";
+	show "de Eluniums para mim,";
+	show "Eu posso refiná-los para vocêI can refine them for you.";
+	show "Entretanto, Você deve me trazer 5 de cada para eu refinar 1.";
+	M_Menu:
+	set @chris, 0;
+	next;
+	menu "Criar Oridecon",M_Ori, "Criar Elunium",M_Elu, "Sobre pedas encantadas",M_Stones;
+
+	M_Ori:
+		if(countitem(756) < 5) goto L_NoOri;
+		delitem 756,5;
+		additem 984,1;
+		show "[" + @name$ + "]";
+		show "Como prometido, aqui está seu oridecon.";
+		show "Volte quando quiser.";
+		close;
+
+		L_NoOri:
+			show "[" + @name$ + "]";
+			show "Huh? Você está brincando, certo? Não te disse que eu preciso de 5 minérios de Oridecon pra fazer 1 puro?";
+			close;
+	M_Elu:
+		if(countitem(757) < 5) goto L_NoElu;
+		delitem 757,5;
+		additem 985,1;
+		show "[" + @name$ + "]";
+		show "Como prometido, aqui está seu elunium.";
+		show "Volte quando quiser.";
+		close;
+
+		L_NoElu:
+			show "[" + @name$ + "]";
+			show "Huh? Você está brincando, certo? Não te disse que eu preciso de 5 minérios de Elunium pra fazer 1 puro?";
+			close;
+	M_Stones:
+		show "[" + @name$ + "]";
+		show "Pedras encantadass, hmm...";
+		next;
+		show "[" + @name$ + "]";
+		show "Bem, em 20 anos que eu fui um refinador eu ouvi só ouvi sobre elas muitas vezes... embora eu nunca ter visto elas.";
+		next;
+		show "[" + @name$ + "]";
+		show "Eu fui informado que as pedras encantadas pussem diferentes tipos de propriedades elementais como ^5533FFÁgua, Terra, Fogo, e Vento^000000.";
+		next;
+		show "[" + @name$ + "]";
+		show "Se alguem combinar uma Pedra Encantada com uma arma durante o processo de refinamento, essa arma passará a ter a mesma propriedade elemetal que a pedra.";
+		next;
+		show "[" + @name$ + "]";
+		show "Claro que, a pessoa tem de ser habilidosa o bastante para trabalhar com elas.";
+		goto M_Menu;
+}
+
+
+
+//=====================================================================================
+// Reparadores de Equipamentos
+//=====================================================================================
+prt_in.gat,62,54,2	script	Grendal	84,{
+	set @name$,"Grendal";
+	callfunc "repairmain";
+	end;
+}
+
+//Temp Spot, Not Shure Where To place
+payon.gat,149,182,2	script	Reparador	88,{
+	set @name$,"Repairman";
+	callfunc "repairmain";
+	end;
+}
+
+morocc_in.gat,71,40,2	script	Reparados	99,{
+	set @name$,"Repairman";
+	callfunc "repairmain";
+	end;
+}
+
+//============================================================
+//= Funções para consertar
+//============================================================
+function	script	repairmain	{
+	set @repairprice,5000;
+	show "[" + @name$ + "]";
+	show "Eu sou o reparador e posso consertar quantas armas você quiser.";
+	show "Me diga qual equipamento você quer que eu conserte.";
+	set @broken1,getbrokenid(1);
+	set @broken2,getbrokenid(2);
+	set @broken3,getbrokenid(3);
+	set @broken4,getbrokenid(4);
+	set @broken5,getbrokenid(5);
+	set @broken6,getbrokenid(6);
+	set @broken7,getbrokenid(7);
+	set @broken8,getbrokenid(8);
+	set @broken9,getbrokenid(9);
+	set @broken10,getbrokenid(10);
+	next;
+	if(@broken1==NULL) goto L_CANCEL_3;
+	menu getitemname(@broken1),REPAIR1,getitemname(@broken2),REPAIR2,getitemname(@broken3),REPAIR3,
+		getitemname(@broken4),REPAIR4,getitemname(@broken5),REPAIR5,getitemname(@broken6),REPAIR6,
+		getitemname(@broken7),REPAIR7,getitemname(@broken8),REPAIR8,getitemname(@broken9),REPAIR9,
+		getitemname(@broken10),REPAIR10;
+	REPAIR1:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken1) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(1);
+			goto L_CLOSE;
+	REPAIR2:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken2) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(2);
+			goto L_CLOSE;
+	REPAIR3:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken3) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(3);
+			goto L_CLOSE;
+	REPAIR4:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken4) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(4);
+			goto L_CLOSE;
+	REPAIR5:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken5) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(5);
+			goto L_CLOSE;
+	REPAIR6:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken6) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(6);
+			goto L_CLOSE;
+	REPAIR7:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken7) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(7);
+			goto L_CLOSE;
+	REPAIR8:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken8) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(8);
+			goto L_CLOSE;
+	REPAIR9:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken9) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(9);
+			goto L_CLOSE;
+	REPAIR10:
+		show "[" + @name$ + "]";
+		show "Irei consertar " + getitemname(@broken10) + ".";
+		show "Para consertar, precisarei de ^ff99991 Aço^000000, e " + @repairprice + " de Zeny.";
+		show "Continuar?";
+		next;
+		menu "Sim",-,"Não",L_CANCEL_2;
+		if (countitem(999) < 1 || Zeny < @repairprice) goto L_CANCEL_1;
+			delitem 999,1;
+			set Zeny,Zeny-@repairprice;
+			repair(10);
+			goto L_CLOSE;
+
+L_CANCEL_1:
+	show "[" + @name$ + "]";
+	show "É tudo que você tem?";
+	show "Infelizmente, eu tenho crianças para alimentar...";
+	goto L_CLOSE;
+L_CANCEL_2:
+	show "[" + @name$ + "]";
+	show "Ok, mas não espere usar isto...";
+	goto L_CLOSE;
+L_CANCEL_3:
+	show "[" + @name$ + "]";
+	show "Parece que tudo está em otimo estado hoje...";
+	goto L_CLOSE;
+L_CLOSE:
+	close;
+}

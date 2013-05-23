@@ -1,0 +1,97 @@
+//===== Cronus Script ========================================
+//= Quest das Habilidades de Templário
+//===== Por: =================================================
+//= Lupus, Reddozen
+//===== Versão Atual: ========================================
+//= 1.0b (eA 1.3b)
+//===== Compatível Com: ======================================
+//= RO 10.2+
+//===== Descrição: ===========================================
+//= Quest para novas habilidades de 2a classe
+//===== Comentários Adicionais: ==============================
+//= 1.0 Puxado do eA, traduzido e adaptado [Endless]
+//= 1.0b Fix language, convertido à linguagem padrão [Page]
+//============================================================
+
+//============================================================
+// CRUSADER SKILL - SHRINK
+//============================================================
+geffen,110,118,3	script	Ford	752,{
+	show "[Ford]";
+	if(BaseJob!=Job_Crusader) goto L_nocruz;
+	if(getskilllv(1002)) goto L_alreadyhave;
+	show "Talvez lhe ensinarei uma pequena habilidade";
+	show "caso você me traga algumas coisas...";
+	show "Traga-me esses itens e nós vamos";
+	show "ver se sinto vontade de dar isto à você.";
+	next;
+	show "[Ford]";
+	show "1 Poção Vermelha";
+	show "20 Mucos Pegajosos";
+	show "3 Garrafas Vazias";
+	show "5 Jellopies";
+	show "1 Maçã Verde";
+	show "1 Uva";
+	show "1 Carvão";
+	show "3 Cyfars";
+	next;
+	
+	show "[Ford]";
+	show "Deixe-me conferir seus itens.";
+	next;
+	
+	if(countitem(501)<1 || countitem(938)<20 || countitem(713)<3 || countitem(909)<5 || countitem(619)<1 || countitem(514)<1 || countitem(1003)<1 || countitem(7053)<3)goto L_noitems;//Items: Poção_Vermelha, Muco_Pegajoso, Garrafa_Vazia, Jellopy, Maçã_Verde, Uva, Carvão, Cyfar,
+	delitem 501, 1;//Items: Poção_Vermelha,
+	delitem 938, 20;//Items: Muco_Pegajoso,
+	delitem 713, 3;//Items: Garrafa_Vazia,
+	delitem 909, 5;//Items: Jellopy,
+	delitem 619, 1;//Items: Maçã_Verde,
+	delitem 514, 1;//Items: Uva,
+	delitem 1003, 1;//Items: Carvão,
+	delitem 7053, 3;//Items: Cyfar,
+	show "[Ford]";
+	show "Tempo para lançar meus afortunados dados.";
+	show "Muito bem, eu quase nunca perco.";
+//TODO: add DICE emotions? 8)
+	emotion e_gg;
+	next;
+	if(rand(1,6)!=3) goto L_lose;
+	emotion 58;
+	next;
+	
+	skill 1002,1,0;
+	show "[Ford]";
+	show "Eu não posso acreditar, eu perdi!";
+	show "EU NUNCA perco...";
+	emotion e_sob;
+	close;
+	
+L_noitems:
+	show "[Ford]";
+	show "Você não tem todos os itens.";
+	show "Volte quando você tiver tudo";
+	show "que eu lhe pedi.";
+	close;
+		
+L_lose:
+	emotion 63;
+	next;
+	show "[Ford]";
+	show "Eu ganhei de novo!";
+	show "Eu não vou lhe ensinar";
+	show "nada agora. Volte";
+	show "depois caso queira";
+	show "tentar novamente.";
+	close;
+	
+L_nocruz:
+	show "Se você não é um Templário,";
+	show "então não tem nada";
+	show "o que fazer aqui.";
+	close;
+	
+L_alreadyhave:
+	show "Mas que sorte você tem!";
+	show "Eu já lhe ensinei minhas habilidades..";
+	close;
+}

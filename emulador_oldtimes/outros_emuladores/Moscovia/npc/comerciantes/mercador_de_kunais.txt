@@ -1,0 +1,92 @@
+//===== eAthena Script =======================================
+//= Mercador de Kunai @ que_ng
+//===== Por: ==================================================
+//= eAthena dev team
+//===== Versão Atual: ========================================
+//= 1.2/1.2a
+//===== Compatível Com: ======================================
+//= eAthena/Cronus
+//===== Descrição: ===========================================
+//= Troca Shurikens e Pedras Ninja por Kunais Elementais
+//===== Comentários: =========================================
+//= 1.2b Traduzido [?]
+//= 1.3b Revisado e Adaptado [Pudim]
+//============================================================
+
+que_ng,72,29,3	script	Mercador de Kunai Kashin	83,{
+
+	show "[Kashin]";
+	if(BaseJob != Job_Ninja) {
+		show "Eu sou Kashin do vento. Sou o comerciante das sombras.";
+		next;
+		show "[Kashin]";
+		show "Não me parece que você seja um ninja... Apenas de uma boa olhada em volta e siga o seu caminho.";
+		close;
+	}
+	show "Eu sou Kashin!";
+	show "Se você sempre tem poucas Shurikens, venha me ver.";
+	next;
+	show "[Kashin]";
+	show "Qual vai ser ?";
+	show "Escolha o que você deseja.";
+	next;
+
+	switch(select("Kunai Veneno Mortal:Kunai Nevasca:Kunai Sopro do Vento:Kunai Terra Negra:Kunai Onda de Calor:Cancelar")) {
+	//usage: callfunc "Kunai_Trade",itemreqid1,itemreqct1,itemreqid2,itemreqct2,itemidtrade;
+	case 1: callfunc "Kunai_Trade",13250,20,7524,1,13259; break;
+	case 2: callfunc "Kunai_Trade",13251,8,7522,2,13255; break;
+	case 3: callfunc "Kunai_Trade",13252,4,7523,2,13257; break;
+	case 4: callfunc "Kunai_Trade",13253,2,7524,1,13256; break;
+	case 5: callfunc "Kunai_Trade",13254,1,7521,2,13258; break;
+	default:
+		show "[Kashin]";
+		show "Hmm~ certo~";
+		show "Volte sempre~";
+		show "Eu, Kashin do vento, sempre estou neste lugar.";
+		close;
+	}
+	close;
+}
+
+function	script	Kunai_Trade	{
+	
+	show "[Kashin]";
+	show "Se você me der "+getarg(1)+" "+getitemname(getarg(0))+" e "+getarg(3)+" "+getitemname(getarg(2))+", eu vou dar a você um pacote com 10 "+getitemname(getarg(4))+".";
+	next;
+	show "[Kashin]";
+	show "Você pode comprar apenas 500 pacotes por vez.";
+	show "Se você não quer comprar, apenas digite 0 na quantidade.";
+	next;
+	digit .@amount;
+
+	show "[Kashin]";
+	if(.@amount < 1) {
+		show "[Kashin]";
+		show "Hmm~ certo~";
+		show "Volte sempre !";
+		show "Eu, Kashin do vento, estou sempre neste lugar.";
+		close;
+	}
+	if(.@amount > 500) {
+		show "Você excedeu a quantidade !";
+		show "Digite um número válido da próxima vez !";
+		close;
+	}
+	if(countitem(getarg(0)) < .@amount*getarg(1) || countitem(getarg(2)) < .@amount*getarg(3)) {
+		show "Hmm... isto não é bom~";
+		show "Você não possui material suficiente para fazer a quantidade de Kunais que deseja.";
+		show "Traga um pouco mais se você quer esta quantidade.";
+		close;
+ 	}
+	if(checkweight(getarg(4), .@amount*10) == 0) {
+		show "Sua mochila esta muito cheia para carregar estes itens. Volte após esvazia-la um pouco.";
+		close;
+	}
+	show "Certo~ Muito bem!";
+	show "Quantidade verificada !";
+	show "Aqui estão seus itens.";
+	delitem getarg(0),getarg(1)*.@amount;
+	delitem getarg(2),getarg(3)*.@amount;
+	additem getarg(4),10*.@amount;
+	close;
+}

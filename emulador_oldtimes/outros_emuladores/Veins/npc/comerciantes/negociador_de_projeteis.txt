@@ -1,0 +1,117 @@
+//===== Cronus Script ========================================
+//= Tony
+//===== Por: =================================================
+//= Playtester, Paradox924X
+//===== Versão Atual: ========================================
+//= 1.1a/1.1
+//===== Descrição: ===========================================
+//= Negocia Projéteis
+//===== Comentários Adicionais: ==============================
+//= 1.0 Traduzido [Kamper]
+//= 1.1 Adicionado nome de itens como argumento [Kamper]
+//= 1.1a Erros de português corrigido por @Coja ImortalRO Staff
+//============================================================
+
+que_ng,187,156,3	script	Negociador de Projéteis	86,{
+
+	if (BaseJob == Job_Gunslinger) {
+		show "[Tony]";
+		show "Ei, meu nome é Tony.";
+		show "Eu sou responsável pela distribuição e fabricação";
+		show "de projéteis para Justiceiros.";
+		next;
+		show "[Tony]";
+		show "Bem, grande rapaz!";
+		show "Do que você precisa?!";
+		show "Escolha o que desejar!";
+		show "E pague!";
+		next;
+		switch(select("Esfera Venenosa:Esfera de Chamas:Esfera de Relâmpagos:Esfera Cegante:Esfera Congelante:Cancelar")) {
+			case 1:
+				callfunc "Bullet_Trade",937,10,13205,"Esferas Venenosas","Caninos Venenosos";
+			case 2:
+				callfunc "Bullet_Trade",7097,2,13203,"Esferas de Chamas","Corações Incandescentes";
+			case 3:
+				callfunc "Bullet_Trade",7053,3,13204,"Esferas de Relâmpagos","Cyfars";
+			case 4:
+				callfunc "Bullet_Trade",1024,5,13206,"Esferas Cegantes","Tintas de Polvo";
+			case 5:
+				callfunc "Bullet_Trade",7054,2,13207,"Esferas Congelantes","Brigans";
+			case 6:
+				show "[Tony]";
+				show "Hmm. Okay.";
+				show "Volte quando desejar!";
+				show "Eu, Tony, o Negociador de Projéteis!";
+				show "Sempre estarei aqui!!!";
+				close;
+		}
+	} else {
+		show "[Tony]";
+		show "Ei, meu nome é Tony.";
+		show "Eu sou responsável pela distribuição e fabricação";
+		show "de projéteis para Justiceiros.";
+		next;
+		show "[Tony]";
+		show "Lamento se você veio";
+		show "até aqui para comprar munição.";
+		show "Eu só posso negociar com Justiceiros credênciados.";
+		close;
+	}
+}
+
+function	script	Bullet_Trade	{
+	show "[Tony]";
+	show "Digite a quantidade que deseja.";
+	next;
+	show "[Tony]";
+	show "Eu negocio 30 "+getarg(3)+" por";
+	show "1 Fracon,";
+	show "1 Emveretarcon,";
+	show "e "+getarg(1)+" "+getarg(4)+".";
+	next;
+	show "[Tony]";
+	show "O número máximo que você pode negociar é 500.";
+	show "Se você quiser cancelar, digite 0.";
+	next;
+	digit .@input;
+	set @tony,.@input;
+	set @tony1,.@input;
+	set @tony2,.@input * getarg(1);
+	if (.@input < 1) {
+		show "[Tony]";
+		show "Tudo bem. Se há";
+		show "alguma coisa a mais que eu possa fazer";
+		show "por você, por favor me fale.";
+		close;
+	}
+	if (.@input > 500) {
+		show "[Tony]";
+		show "Quantidade inválida!";
+		show "Tente novamente!";
+		close;
+	} else if ((countitem(1010) >= @tony) && (countitem(1011) >= @tony1) && (countitem(getarg(0)) >= @tony2)) {
+		if (checkweight(getarg(2),.@input * 30) == 0) {
+			show "[Tony]";
+			show "Nossa... Seu inventário está realmente cheio! Volte quando ele estiver mais espaço.";
+			close;
+		} else {
+			show "[Tony]";
+			show "Oh, bom!";
+			show "Um ótimo negócio...";
+			show "Ai está! O que queria.";
+			delitem 1010,@tony;
+			delitem 1011,@tony1;
+			delitem getarg(0),@tony2;
+			additem getarg(2),.@input * 30;
+			close;
+		}
+	} else {
+		show "[Tony]";
+		show "Tsc Tsc~";
+		show "Você não possuí";
+		show "os itens";
+		show "que precisava.";
+		show "Prepara-os e volte.";
+		close;
+	}
+}

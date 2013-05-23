@@ -1,0 +1,88 @@
+//===== Cronus Script ========================================
+//= Serviçais do Aeroporto de Lighthalzen
+//===== Por: =================================================
+//= L0ne_W0lf, Muad_Dib
+//===== Versão Atual: ======================================== 
+//= 1.6/1.2
+//===== Changelog: ===========================================
+//= 1.3 Iniciado Tradução [UpTroni]
+//= 1.4 Revisado          [LEOzinn]
+//= 1.5 Fix de linguagem [Page]
+//= 1.6 Corrigido textos [Kamper]
+//============================================================
+
+
+lhz_airport,126,43,4	script	Equipe do Aeroporto#1::AirportL	90,{
+	show "[Equipe do Aeroporto]";
+	show "Bem-Vindo ao Aeroporto.";
+	show "Como eu posso ajudá-lo?";
+	next;
+	menu "Embarcar no Aeroplano",-,"Cancelar",L_Cancel;
+
+	show "[Equipe do Aeroporto]";
+	show "A taxa de embarque do Aeroplano";
+	show "é de 1,200 zeny, mas caso você";
+	show "possua um Bilhete para Aeroplano,"; 
+	show "a taxa de embarque não será cobrada.";
+	show "Gostaria de embarcar no Aeroplano?";
+	next;
+	menu "Sim",-,"Não",L_Cancel;
+ 
+		if(countitem(7311) > 0) goto GotTicket;
+		if(zeny < 1200) goto L_NoZeny;
+		set Zeny, Zeny - 1200;
+		warp "lhz_airport",148,51;
+		close;
+
+	GotTicket:
+		delitem 7311,1;
+		warp "lhz_airport",148,51;
+		close;
+
+	L_NoZeny:
+		show "[Equipe do Aeroporto]";
+		show "Você não possui Zeny suficiente.";
+		close;
+
+	L_Cancel:
+		show "[Equipe do Aeroporto]";
+		show "Obrigado e tenha um bom dia.";
+		close;
+}
+
+lhz_airport,143,43,4	duplicate(AirportL)	Equipe do Aeroporto#2	90
+lhz_airport,156,43,4	duplicate(AirportL)	Equipe do Aeroporto#3	90
+
+lhz_airport,126,51,4	script	Equipe do Aeroporto#4::AirportL2	90,{
+	show "[Equipe do Aeroporto]";
+	show "Bem vindo~";
+	show "Por favor, siga por este";
+	show "caminho para embarcar no Aeroplano.";
+	next;
+	menu "Sair do Terminal Principal",-,"Cancelar",L_Cancel;
+
+		show "[Equipe do Aeroporto]";
+		show "Se você deixar o Terminal";
+		show "Principal, você terá que";
+		show "pagar a taxa de entrada";
+		show "novamente para embarcar no";
+		show "aeroplano. Tem certeza";
+		show "que deseja sair?";
+		next;
+		menu "Sim",-,"Não",L_Cancel;
+
+			warp "lhz_airport",142,40;
+			close;
+
+	L_Cancel:
+		show "[Equipe do Aeroporto]";
+		show "Tudo bem, obrigado";
+		show "por ser nosso cliente.";
+		show "Espero que você possua";
+		show "um vôo agradável~";
+		close;
+
+}
+
+lhz_airport,143,51,4	duplicate(AirportL2)	Equipe do Aeroporto#5	90
+lhz_airport,156,51,4	duplicate(AirportL2)	Equipe do Aeroporto#6	90

@@ -1,0 +1,184 @@
+//===== Cronus Script ======================================== 
+//= Guia de Prontera
+//===== Por: ================================================= 
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.5c
+//===== Cometários Adicionais: =============================== 
+//= Tradução Totalmente Refeita [Pudim]
+//= Corrigido falta de tradução [????]
+//= Trocado 'Observação' por 'Tutorial' [Pudim]
+//============================================================
+
+
+prontera,154,187,4	script	Guia::Prt_Guia	105,{
+	cutin "prt_soldier",2;
+	show "[Guia de Prontera]";
+	show "Bem-vindo a Prontera, capital de Midgard.";
+	show "Nós estamos aqui para ajudar os visitantes da cidade. se você tem alguma dúvida, consulte-nos.";
+	show "Se esta é a sua primeira utilizado um guia, por favor selecione 'Tutorial'.";
+L_MENU:
+	next;
+	menu "Guia da cidade",L_CITY,"Remover indicações no Mini-Mapa",L_REMOVE,"Tutorial",L_NOTICE,"Cancelar",L_END;
+L_CITY:
+	show "[Guia de Prontera]";
+  	show "Por favor, selecione uma das opções.";
+  	show "Você gostaria que as indicações permaneçam no mini-mapa?";
+  	next;
+  	menu "Sim.",L_YES,"Não.",L_NO;
+L_NO:
+  		set @COMPASS_CHECK,0;
+	goto L_CONT;
+L_YES:
+  		set @COMPASS_CHECK,1;
+L_CONT:
+L_MENU_2:
+	menu "Associação dos Espadachins",L_SWORD,"^0000FFCatedral^000000",L_SANCTUARY,"Cavalria de Prontera",L_CHIVALRY,"Loja de Armas",L_WEAPON,"Loja de Ferramentas",L_TOOL,"Estalagem",L_INN,"Posto de Trocas",L_TRADING,"Bar",L_PUB,"Biblioteca",L_LIBRARY,"Agência de Empregos",L_JOB,"Castelo de Prontera",L_CASTLE,"Prefeitura",L_HALL,"Cancelar",-;
+	show "[Guia de Prontera]";
+ 	show "Se você deseja apagar as indicações do seu mini-mapa, por favor selecione 'Limpar indicações'.";
+ 	goto L_MENU;
+L_SWORD:
+	show "[Guia de Prontera]";
+	show "A associação dos Espadachins, aonde pode-se tornar um deles, foi mudada para a nossa cidade satelite, Izlude. Agora temos apenas um prédio vazio";
+	viewpoint 1,237,41,1,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_SANCTUARY:
+	show "[Guia de Prontera]";
+	show "A 'Catedral' se encontra na ponta nordeste da cidade, lá é possível se tornar um Padre.";
+	viewpoint 1,236,316,2,0xFF0000;
+	next; 
+	goto L_WIPE;
+L_CHIVALRY:
+	show "[Guia de Prontera]";
+	show "A 'Cavalaria de Prontera' se encontra na ponta noroeste da cidade. É lá que Espadachins se tornam Cavaleiros.";
+	viewpoint 1,46,345,3,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_WEAPON:
+	show "[Guia de Prontera]";
+	show "A 'Loja de Armas' se encontra ao nordeste da fonte, no centro da cidade.";
+	viewpoint 1,175,220,4,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_TOOL:
+	show "[Guia de Prontera]";
+	show "A 'Loja de Ferramentas' se encontra ao noroeste da fonte, no centro da cidade.";
+	viewpoint 1,134,221,5,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_INN:
+	show "[Guia de Prontera]";
+	show "A 'Estalagem' se encotnra tanto no lado leste quanto do lado oeste da fonte, no centro da cidade.";
+	viewpoint 1,204,214,6,0xFF00FF;
+	viewpoint 1,107,192,7,0xFF00FF;
+	next; 
+	goto L_WIPE;
+L_TRADING:
+	show "[Guia de Prontera]";
+	show "O 'Posto de Troca' se encontra ao sudeste da fonte, no centro da cidade.";
+	viewpoint 1,179,184,8,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_PUB:
+	show "[Guia de Prontera]";
+	show "O 'Bar' se encontra ao sudeste da fonte, atrás do Posto de Troca, no centro da cidade.";
+	viewpoint 1,208,154,9,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_LIBRARY:
+	show "[Guia de Prontera]";
+	show "Se você for um pouco para o nordeste, a partir da fonte no centro da cidade, você encontrará os dois prédios da 'Biblioteca'.";
+	viewpoint 1,120,267,10,0x00FF00;
+	viewpoint 1,192,267,11,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_JOB:
+	show "[Guia de Prontera]";
+	show "A 'Agência de Empregos' se encontra a sudoeste da fonte, no centro da cidade.";
+	viewpoint 1,133,183,12,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_CASTLE:
+	show "[Guia de Prontera]";
+	show "O 'Castelo de Prontera' se encontra no extremo norte da cidade.";
+	show "Você pode atravessar o Castelo, você chegará aos campos nortes";
+	viewpoint 1,156,360,13,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_HALL:
+	show "[Guia de Prontera]";
+	show "A 'Prefeitura da Cidade' se encontra na ponta sudoeste da cidade.";
+	viewpoint 1,75,91,14,0x00FF00;
+	next; 
+	goto L_WIPE;
+L_WIPE:
+ 		if(@COMPASS_CHECK == 1)goto L_MENU_2;
+		viewpoint 2,237,41,1,0x00FF00;
+		viewpoint 2,236,316,2,0xFF0000;
+		viewpoint 2,46,345,3,0x00FF00;
+		viewpoint 2,175,220,4,0xFF00FF;
+		viewpoint 2,8,134,5,0xFF00FF;
+		viewpoint 2,204,214,6,0xFF00FF;
+		viewpoint 2,107,192,7,0xFF00FF;
+		viewpoint 2,179,184,8,0x00FF00;
+		viewpoint 2,208,154,9,0x00FF00;
+		viewpoint 2,120,267,10,0x00FF00;
+		viewpoint 2,192,267,11,0x00FF00;
+		viewpoint 2,133,183,12,0x00FF00;
+		viewpoint 2,156,360,13,0x00FF00;
+		viewpoint 2,75,91,14,0x00FF00;
+	goto L_MENU_2;
+L_REMOVE:
+		viewpoint 2,237,41,1,0x00FF00;
+		viewpoint 2,236,316,2,0xFF0000;
+		viewpoint 2,46,345,3,0x00FF00;
+		viewpoint 2,175,220,4,0xFF00FF;
+		viewpoint 2,8,134,5,0xFF00FF;
+		viewpoint 2,204,214,6,0xFF00FF;
+		viewpoint 2,107,192,7,0xFF00FF;
+		viewpoint 2,179,184,8,0x00FF00;
+		viewpoint 2,208,154,9,0x00FF00;
+		viewpoint 2,120,267,10,0x00FF00;
+		viewpoint 2,192,267,11,0x00FF00;
+		viewpoint 2,133,183,12,0x00FF00;
+		viewpoint 2,156,360,13,0x00FF00;
+		viewpoint 2,75,91,14,0x00FF00;
+  	goto L_MENU;
+L_NOTICE:
+  	show "[Guia de Prontera]";
+  	show "Nós fomos exaustivamente treinados para servi-lo da melhor maneira possível e sem falhas.";
+	show "Assim você tem a garantia das melhores indicações possíveis.";
+  	next;
+  	show "[Guia de Prontera]";
+ 	show "As indicações que lhe daremos podem ser marcadas no seu mini-mapa, aperte 'ctrl+tab', ou clique no botão 'mapa' no menu principal.";
+	show "Controle o seu 'zoom' no mini-mapa por meio dos símbolos '+' e '-'.";
+ 	goto L_MENU;
+L_END:
+ 	show "[Guia de Prontera]";
+ 	show "Espero que você tenha uma jornada segura e aproveite sua estadia.";
+	cutin "prt_soldier",255; 
+ 	close;
+}
+
+// East ----------------------------------------------------
+prontera,282,208,2	duplicate(Prt_Guia)	Guia#prt2	105
+//West --------------------------------------------------
+prontera,29,200,6	duplicate(Prt_Guia)	Guia#prt3	105
+// South -----------------------------------------------------
+prontera,160,29,0	duplicate(Prt_Guia)	Guia#prt4	105
+// North -----------------------------------------------
+prontera,151,330,4	duplicate(Prt_Guia)	Guia#prt5	105
+
+
+// Guard -----------------------------------------------------
+prontera,160,330,4	script	Guarda#1::Prt_Guard	105,{
+	show "[Guarda]";
+	show "Bem-vindo a Prontera.";
+	close;
+}
+
+prontera,229,104,5	duplicate(Prt_Guard)	Guarda#prt2	105
+prontera,223,98,8	duplicate(Prt_Guard)	Guarda#prt3	105
+prontera,52,344,5	duplicate(Prt_Guard)	Guarda#prt4	105
+prontera,47,339,5	duplicate(Prt_Guard)	Guarda#prt5	105

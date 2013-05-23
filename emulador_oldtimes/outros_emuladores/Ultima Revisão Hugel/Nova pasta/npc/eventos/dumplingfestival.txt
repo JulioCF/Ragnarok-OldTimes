@@ -1,0 +1,94 @@
+//===== Cronus Script ======================================= 
+//= Imitação do festival de bolinho de massa
+//===== By: ================================================== 
+//= Massdriller
+//===== Versão Atual: ===================================== 
+//= 1.0
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Kindred
+//= Script Reestruturado [Mehah]
+//============================================================
+  
+payon,93,81,4	script	Mestre Exorcista Fahae	834,{
+	show "[Exorcista Fahae]";
+	show "Olá jovem guerreiro! Eu sou Exorcista Fahae.";
+	show "Estou à procura do Bacsojin há um tempo.";
+	next;
+	show "[Exorcista Fahae]";
+	show "Acho que já é tempo de eu deixar um jovem concluir";
+	show "minha busca. Eu tenho uns itens que ajudarão você na sua jornada.";
+	next;
+	switch(select("Eu desejo comprá-los","Não obrigado")){
+
+	case 1:
+		show "[Exorcista Fahae]";
+		show "Eu só tenho apenas dois itens que podem ser úteis à você.";
+		next;
+		switch(select("Vinho de Realgar","Herva de Exorcismo")){
+			show "[Exorcista Fahae]";
+			show "Quantos você quer?";
+			show "Lembre-se, apenas 5 por vez.";
+		case 1:	set @custo,20000; break;
+		case 2: set @custo,10000;
+		}
+		break;
+	
+	case 2:
+		show "[Exorcista Fahae]";
+		show "O caminho de acabar com o mal ainda está longe, siga-me no caminho de Deus.";
+		close;
+	}
+	show "Cada uma custa "+@custo+"z.";
+	show "(Digite 0 para cancelar)";
+	next;
+	digit @input;
+	if(@input<0) close;
+	if(@input>5){
+		show "[Exorcista Fahae]";
+		show "Você deve ser um pagão... Este é o caminho de Deus para a bondade.";
+		close;
+	}
+	if(Zeny< @input*@custo){
+		show "[Exorcista Fahae]";
+		show "Dinheiro não traz felicidade, mas ajuda à manter o templo e eu, então colete todos os itens que os monstros jogarem.";
+		close;
+	}
+	if(@menu == 1) additem 682,@input; else
+	if(@menu == 2) additem 683,@input;
+	set Zeny,Zeny-@custo*@input;
+	show "[Exorcista Fahae]";
+	show "Aqui está, espero que isso o ajude na sua jornada.";
+	close;
+}
+  
+//////////////////////////////////////////////
+// Spawn de Monstros /\ Só para evento.     //
+//////////////////////////////////////////////
+  
+// ~Bolinho de massa~
+gef_fild00,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild07,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild04,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild00,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild06,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild01,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild05,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild08,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild04,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+moc_fild02,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild01,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild07,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+moc_fild03,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild06,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild05,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild02,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild09,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+  
+// ~Bacsojin~
+moc_fild03,0,0,0,0	monster	Bacsojin	1518,1,60000,66000
+  
+// ~Chung E~
+moc_fild03,0,0,0,0	monster	Chung E	1519,1,60000,66000
+moc_fild13,0,0,0,0	monster	Chung E	1519,1,60000,66000
+pay_fild01,0,0,0,0	monster	Chung E	1519,1,60000,66000
+  

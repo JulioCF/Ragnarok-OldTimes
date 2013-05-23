@@ -1,0 +1,93 @@
+//===== Cronus Script ======================================== 
+//= Orelha de Coelho
+//===== Por: =================================================
+//= eAthena Dev Team
+//= Matheus [Traduziu para PT(br)]
+//===== Versão Atual: ======================================== 
+//= 1.4
+//===== Changelog: ===========================================
+//= 1.4 Corridio o erro da coordenada, era da payon Nova [Kamper]
+//============================================================
+
+
+// Alberta ------------------------------------------------------------------------------------------------------------------------------------------
+alberta.gat,23,232,1	script	Kafra Corp. Rep.#1::KCRep	83,{
+	show "[Kafra Corp. Rep.]";
+	if (BUNYBND) goto L_Check;
+	show "^529DFFEvento Especial, ^FF0000Orelha de Coelho ^529DFFQuest!!^000000";
+	next;
+	menu "Informação",-, "Fazer",M_Join, "Cancelar",M_End;
+
+		show "[Kafra Corp. Rep.]";
+		show "Para agradecer nossos clientes que utilizam o serviço kafra, nós preparamos uma pequena quest ...";
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "A quest das ^FF0000 Orelha de Coelho ^529DFF!!!^000000.";
+		show "Fazendo a quest você obtêm a super rara ^FF0000Orelha de Coelho^000000!";
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "Tudo o que deve ser feito é coletar alguns itens e trazer-me.";
+		show "E nós lhe entragaremos a lindissíma Orelha de Coelho!";
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "Os itens necessários são:.";
+		show "^5555FF100 Plumas^000000,";
+		show "^5555FF1 Trêvo de 4 folhas^000000,";
+		show "^5555FF1 Pérola^000000,";
+		show "^5555FF1 Orelha de Gato^000000.";
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "Quando você colêtar todos estes itêns volte e fale comigo.";
+		show "Nós podemos ser encontrados em todas cidades de Rune-Midgard";
+		close;
+
+	M_Join:
+
+		show "[Kafra Corp. Rep.]";
+		show "Obrigado por participar da quest, trague-me os itens necessários.";
+		set BUNYBND, 1;
+		close;
+
+	M_End:
+		show "[Kafra Corp. Rep.]";
+		show "Tenha um bom dia.";
+		close;
+
+	L_Check:
+		if(countitem(949)<100 || countitem(706)<1 || countitem(722)<1 || countitem(2213)<1) goto sL_NoItems;
+		delitem 949,100;
+		delitem 706,1;
+		delitem 722,1;
+		delitem 2213,1;
+		show "Wow! Ótimo! Você coletou todos os itens necessários! farei imediatamente a sua orelha de coelho...";
+		emotion 21;
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "Aqui está a sua ^FF0000 Orelha de Coelho^000000...!";
+		additem 2214,1;
+		set BUNYBND,0;
+		next;
+		show "[Kafra Corp. Rep.]";
+		show "Nós adoramos a sua participação. Obrigado por realizar a Orelha de Coelho!";
+		close;
+
+		sL_NoItems:
+			show "Aqui esta a lista dos itens necessários:";
+			show "^5555FF100 Plumas^000000,";
+			show "^5555FF1 Trêvo de 4 Folhas^000000,";
+			show "^5555FF1 Pérola^000000,";
+			show "^5555FF1 Orelha de gato^000000.";
+			close;
+
+}
+
+
+// Geffen ------------------------------------------------------------------------------------------------------------------------------------------
+geffen.gat,116,62,2	duplicate(KCRep)	Kafra Corp. Rep.#2	83,
+// Morroc ------------------------------------------------------------------------------------------------------------------------------------------
+morocc.gat,154,97,4	duplicate(KCRep)	Kafra Corp. Rep.#3	83,
+// Payon ------------------------------------------------------------------------------------------------------------------------------------------
+// Payon Nova payon.gat,184,104,4	duplicate(KCRep)	Kafra Corp. Rep.#4	83,
+payon.gat,83,116,4	duplicate(KCRep)	Kafra Corp. Rep.#4	83,
+// Prontera ------------------------------------------------------------------------------------------------------------------------------------------
+prontera.gat,146,87,6	duplicate(KCRep)	Kafra Corp. Rep.#5	83,

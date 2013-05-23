@@ -1,0 +1,88 @@
+//===== Cronus Script ================================================= 
+//= Serviçais do Aeroporto de Juno
+//===== Por: ==========================================================
+//= L0ne_W0lf, Muad_Dib
+//= Mehah [Traduzido para PT(br)]
+//===== Versão Atual: ================================================= 
+//= 1.0
+//===== Descrição: ==================================================== 
+//= Serviçais do Aeroporto de Juno
+//=====================================================================
+
+y_airport.gat,126,43,4	script	Serviçais do Aeroporto#1::AirportY	90,{
+	show "[Serviçais do Aeroporto]";
+	show "Bem-vindo ao aeroporto.";
+	show "Como eu posso ajudá-lo?";
+	next;
+	menu "Suba a bordo",-,"Cancelar",L_Cancel;
+
+		show "[Serviçais do Aeroporto]";
+		show "A taxa para subir a bordo";
+		show "é 1,200 zeny, mas se você tem";
+		show "um Ingresso Grátis para o Navio,"; 
+		show "à taxa será renunciada.";
+		show "Você deseja subir a bordo?";
+		next;
+		menu "Sim",-,"Não",L_Cancel;
+
+			if(countitem(7311) > 0) goto GotTicket;
+			if(zeny < 1200) goto L_NoZeny;
+			set Zeny,zeny-1200;
+			warp "y_airport.gat",148,51;
+			close;
+
+		GotTicket:
+			delitem 7311,1;
+			warp "y_airport.gat",148,51;
+			close;
+
+		L_NoZeny:
+			show "[Serviçais do Aeroporto]";
+			show "Você não tem bastante zeny.";
+			close;
+
+	L_Cancel:
+		show "[Serviçais do Aeroporto]";
+		show "Obrigado e";
+		show "tenha um bom dia.";
+		close;
+}
+
+y_airport.gat,143,43,4	duplicate(AirportY)	Serviçais do Aeroporto#2	90,{
+// script Airport_Staff_In;
+}
+y_airport.gat,156,43,4	duplicate(AirportY)	Serviçais do Aeroporto#3	90,{
+// script Airport_Staff_In;
+}
+
+y_airport.gat,126,51,4	script	Serviçais do Aeroporto#4::AirportY2	90,{
+	show "[Serviçais do Aeroporto]";
+	show "Bem-vindo~";
+	show "Por favor, prepare-se para subir a bordo do Navio.";
+	next;
+	menu "Sair do Terminal Principal",-,"Cancelar",L_Cancel;
+
+		show "[Serviçais do Aeroporto]";
+		show "Se você deixar o términal principal, você vai";
+		show "ter que pagar a admissão";
+		show "novamente para subir a bordo do Navio.";
+		show "Tem certeza que você deseja sair?";
+		next;
+		menu "Sim",-,"Não",L_Cancel;
+
+			warp "y_airport.gat",142,40;
+			close;
+
+	L_Cancel:
+		show "[Serviçais do Aeroporto]";
+		show "Certo, obrigado";
+		show "e eu espero que você tenha";
+		show "um vôo agradável~";
+		close;
+}
+
+y_airport.gat,143,51,4	duplicate(AirportY2)	Serviçais do Aeroporto#5	90,{
+}
+
+y_airport.gat,156,51,4	duplicate(AirportY2)	Serviçais do Aeroporto#6	90,{
+}

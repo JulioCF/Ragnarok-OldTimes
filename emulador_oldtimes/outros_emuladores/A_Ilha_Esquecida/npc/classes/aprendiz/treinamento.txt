@@ -1,0 +1,3747 @@
+//===== Cronus Script ======================================== 
+//= Base de Treinamento para Aprendiz
+//===== Por: =================================================
+//= Mehah
+//===== Versão Atual: ======================================== 
+//= 1.2.6
+//===== Descrição: =========================================== 
+//= Script baseado no Oficial bRO 98%
+//===== Changelog: =========================================== 
+//= 1.2.4b Alterado sintaxe dos npcs [Mehah]
+//= 1.2.5 Corrigido Funcionária Kafra [Mehah]
+//= 1.2.6 Corrigido os nomes. [Hildds]
+//============================================================
+
+//============================================================
+new_1-1,66,114,4	script	Quadro de avisos#nv	111,{
+	show "^FF0000=================================^000000";
+	show "^E40CAA[Bem vindos]^CC0000 Ao Campo de ^FF9000Treinamento^7FFF00 de Aprendizes^E40CAA [Bem vindos]^000000";
+	show "^FF0000=================================^000000";
+	close;
+}
+
+//============================================================
+new_1-1,144,116,2	script	Guarda#novtrain	105,{
+	show "[Guarda do Campo de Treinamento]";
+	show "É meu dever desejar-lhe as boas vindas ao Campo de Treinamento de Aprendizes!";
+	show "Dirija-se até a entrada do castelo para começar sua instrução.";
+	close;
+}
+
+//============================================================
+new_1-1,144,107,2	script	Guarda#novtrain2	105,{
+	show "[Guarda do Campo de Treinamento]";
+	switch(rand(2)){
+		case 0:
+			show "Entre, todos são bem-vindos para o treinamento!";
+			show "É aqui onde você poderá se prepara para suas futuras aventuras no mundo de Ragnarök!";
+			close;
+		case 1:	
+			show "Vamos, Aprendiz! Essa primeira etapa ajudará na construção de um futuro brilhante!";
+		}
+	close;
+}
+
+//============================================================
+new_1-1,53,114,4	script	Zion#novtrain	727,{
+callfunc "Tr_NoclasseAB","Zion";	
+	switch (Z_opcao) {
+	case 0:
+	show "[Zion]";
+	show "Hein? Um novo Aprendiz?";
+	show "Olá! Bem vindo ao mundo de Ragnarök!";
+	show "Deixe-me ver, seu nome é...";
+	show strcharinfo(0) +". Certo?";
+	show "Muito bem, "+ strcharinfo(0);
+	show "Prazer em conhecê-lo.";
+	next;
+	show "[Zion]";
+	show "Bom, agora que já fomos devidamente apresentados,";
+	show "tem alguma coisa que eu possa fazer por você?";
+	show "Precisa de ajuda com os controles?";
+	show "Ou indicação de onde deve ir?";
+	show "Vamos lá, faça uma pergunta.";
+	next;
+	switch ( select("Pra onde eu vou agora?","Me ensine sobre os controles básicos.","Quem diabos é você") ) {
+		case 1:
+		show "[Zion]";
+		show "Como você pode ver, aqui à direita";
+		show "há uma ponte que cruza o rio.";
+		show "É uma ponte bem velha, e até range";
+		show "quando você passa por ela.";
+		show "Bom, o que importa é:";
+		show "Cruzando essa ponte, há um castelo.";
+		show "Dentro deste castelo está o Campo";
+		show "de Treinamento de Aprendizes.";
+		show "É para lá que você deve ir.";
+		next;
+		show "[Zion]";
+		show "A entrada do castelo está bem";
+		show "visível, marcada por uma ^4d4dffluz azul.^000000";
+		show "É um portal que conecta o espaço";
+		show "externo ao espaço interno do";
+		show "castelo.";
+		show "Passando por este portal, você";
+		show "mudará de mapa.";
+		next;
+		show "[Zion]";
+		show "Certo. você sabe como andar?";
+		show "Da mesma maneira que você clicou em mim com o botão esquerdo para";
+		show "conversar comigo,";
+		show "você pode andar, clicando no";
+		show "quadradinho do chão pra onde deseja ir.";
+		show "É muito simples.";
+		show "O botão esquerdo serve para a";
+		show "maioria das ações no jogo.";
+		show "Andar, pegar itens, conversar com";
+		show "NPCs como eu.";
+		next;
+		show "[Zion]";
+		show "Bem, era isso que eu tinha para te";
+		show "falar nesse assunto.";
+		show "Como eu disse, o castelo está à";
+		show "leste daqui.";
+		show "Siga a ponte e comece logo seu";
+		show "treinamento.";
+		show "É a melhor coisa para os novos habitantes é conhecer o mundo de";
+		show "Ragnarök, pois também traz muitos";
+		show "benefícios para quem fizer todo o";
+		show "curso.";
+		next;
+		show "[Zion]";
+		show "Você vai ver dois soldados antes da entrada.";
+		show "Não tem como errar.";
+		show "Boa sorte!";
+		set Z_opcao,2;
+		close;
+	
+		case 2:
+		show "[Zion]";
+		show "Ah, você quer saber sobre a";
+		show "interface do jogo.";
+		show "Bom, você certamente deve conhecer";
+		show "os comandos básicos com o mouse de clique, clique duplo e arrastar,";
+		show "não é?";
+		show "Eles são usados na vasta maioria";
+		show "das aplicações que você utiliza em";
+		show "seu computador,";
+		show "e para facilitar a jogabilidade, em Ragnarök também é assim.";
+		show "Para andar, conversar com";
+		show "personagens especiais como eu e";
+		show "pegar objetos";
+		show "você usará o clique do botão";
+		show "esquerdo do seu mouse.";
+		next;
+		show "[Zion]";
+		show "Você pode andar clicando apenas";
+		show "uma vez no quadrado do chão aonde";
+		show "que ir,";
+		show "ou arrastando o mouse enquanto";
+		show "clicar.";
+		show "Você conhece o comando arrastar,";
+		show "não é?";
+		show "Segure o botão esquerdo de seu";
+		show "mouse e mexa-o em qualquer";
+		show "direção.";
+		show "É o mesmo movimento que você faz ao marcar um trecho escrito num";
+		show "processador de textos.";
+		show "Vai-me dizer que não é simples?";
+		next;
+		show "[Zion]";
+		show "Bem, há uma séria de outros";
+		show "conhecimentos básicos";
+		show "sobre a interface do jogo, que você deve aprender,";
+		show "caso não conheça bem o jogo ainda.";
+		show "E por isso....";
+		next;
+		show "[Zion]";
+		show "Organizamos um Campo de Treinamento para novos jogadores,";
+		show "para instruir os Aprendizes nos";
+		show "conhecimentos básicos e na";
+		show "ambientação de Ragnarök Online.";
+		show "Para iniciar seu treinamento, siga";
+		show "pela ponte à direita";
+		show "e entre no castelo.";
+		show "Falando com o encarregado lá";
+		show "dentro, você se informará sobre as";
+		show "etapas do curso.";
+		next;
+		show "[Zion]";
+		show "Ah, caso você se confunda,";
+		show "a entrada do castelo é marcado por";
+		show "um ^4d4dffportal de luz azul.^000000";
+		show "Clicando nessa luz, você será";
+		show "transportado para dentro do";
+		show "prédio.";
+		show "Entendeu tudo?";
+		show "Você vai ver que é muito simples.";
+		show "Não se preocupe e bom treinamento.";
+		set Z_opcao,2;
+		close;
+
+		case 3:
+		show "[Zion]";
+		show "Quem sou eu? Eu sou a Zion!";
+		show "Caramba, como você é sem educação.";
+		show "Eu aqui, fazendo serviço de";
+		show "caridade pra ajudar os Aprendizes,";
+		show "e ainda tenho que agüentar pessoas";
+		show "rudes assim.";
+		set Z_opcao,3;
+		close;
+	}
+
+	case 1:
+	show "[Zion]";
+	show "O Campo de Treinamento se encontra";
+	show "naquela direção.";
+	show "Siga a ponte à direita,";
+	show "e você chegará lá.";
+	show "Não deixe de fazer o treinamento,";
+	show "eu recomendo.";
+	show "Mesmo que seja um pouco tedioso às vezes, você não vai se arrepender.";
+	close;
+
+	case 2:
+	show "[Zion]";
+	show "Hein? O que você faz aqui?";
+	show "Você voltou?";
+	show "Bem, eu tenho uma sugestão para";
+	show "você.";
+	show "Não perca seu tempo falando comigo, vá logo para o Campo de";
+	show "Treinamento.";
+	show "Lá você pode melhorar seus";
+	show "conhecimentos sobre o jogo,";
+	show "além de obter experiência, dinheiro e muito itens!";
+	show "Assim, por exemplo! *piscadela*";
+	next;
+	show "[Zion]";
+	show "Um presentinho para te ajudar nesse";
+	show "começo difícil!";
+	set BaseExp,BaseExp+NextBaseExp;
+	set Z_opcao,1;
+	next;
+	show "[Zion]";
+	show "Bom, eu não sei se você é do tipo";
+	show "que tem preguiça de aprender,";
+	show "mas garanto que vale a pena fazer o treinamento, mesmo que";
+	show "você não goste em alguns momentos.";
+	show "Bom, chega de falação.";
+	show "O campo de treinamento fica ali,";
+	show "seguindo pela ponde da direita.";
+	show "Boa sorte!";
+	close;
+	
+	case 3:
+	show "[Zion]";
+	show "Hei.";
+	show "Você ainda tem alguma coisa pra";
+	show "falar comigo?";
+	show "....";
+	show "Há desculpe, não precisava ser tão";
+	show "seca com você... Deixe-me remodelar a frase.";
+	show "O que posso fazer pra te ajudar?";
+	next;
+	show "[Zion]";
+	show "Não, não.";
+	show "Acho que você se perdeu.";
+	show "Você deve ir para o Campo que você";
+	show "está aqui.";
+	show "Cruze a ponte da direita e entre no castelo.";
+	show "Lá dentro haverá um guia para te ajudar.";
+	next;
+	show "[Zion]";
+	show "Caso você ainda não conheça bem o";
+	show "jogo, para entrar no castelo é";
+	show "muito simples.";
+	show "Apenas clique com o mouse no portal azul na frente dele,";
+	show "e você será transportado para";
+	show "dentro.";
+	show "Alguma outra dúvida?";
+	next;
+	show "[Zion]";
+	show "Não? Que bom.";
+	show "Bem então adeus!";
+	show "Ah, e mais uma coisa.";
+	show "Da próxima vez que falar com uma";
+	show "dama, seja mais cordial, viu?";
+	show "Mas como você se deu ao trabalho";
+	show "de vir rapear comigo,";
+	show "vou retribuir o favor e te dar um";
+	show "presentinho. Aproveite.";
+	set BaseExp,BaseExp+NextBaseExp;
+	set Z_opcao,1;
+	close;
+	}
+}
+
+//============================================================
+new_1-2,100,29,4	script	Recepcionista#novtrain	86,{
+callfunc "Tr_NoclasseAB","Recepcionista";
+	show "[Recepcionista do Campo de Treinamento]";
+	show "Bem vindo!";
+	show "Este é o hall de entrada do ^FF0000Campo de Treinamento.^000000";
+	show "Se você é novo ao mundo de Ragnarök, por favor, escolha a opção ^3A7DF8Introdução ao Campo de Treinamento^000000 para obter mais informações.";
+	next;
+R_menu:
+	switch ( select("Inscrever-se no treinamento","Pular o treinamento","^0099FFIntrodução ao Campo de Treinamento.^000000","Deixe-me pensar um pouco mais...") ) {
+	
+	case 1:
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Obrigado por se inscrever no treinamento.";
+		show "Para mais informações sobre cada um dos testes do Campo, converse com os outros guias encarregados";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Para te ajudar nesse início, estamos lhe dando 50 zeny, a moeda corrente de Rune Midgard.";
+		set Zeny,Zeny+50;
+		show "Eu te mandarei agora para o Campo de Treinamento.";
+		next;
+		warp "new_1-2",100,70;
+		close;
+
+	case 2:
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Entendo.";
+		show "Muito bem, dê o melhor de si, e boa sorte no mundo de Ragnarök!";
+		next;
+		switch( rand(5) ) {
+			case 0:
+				savepoint "prontera",273,354;
+				warp "prontera",273,354;
+				callfunc "ClearTreinamentoVar";
+
+			case 1:
+				savepoint "morocc",160,94;
+				warp "morocc",160,94;
+				callfunc "ClearTreinamentoVar";
+
+			case 2:
+				savepoint "geffen",120,100;
+				warp "geffen",120,100;
+				callfunc "ClearTreinamentoVar";
+
+			case 3:
+				savepoint "payon",70,100;
+				warp "payon",70,100;
+				callfunc "ClearTreinamentoVar";
+
+			case 4:
+				savepoint "alberta",116,57;
+				warp "alberta",116,57;
+				callfunc "ClearTreinamentoVar";
+	
+			case 5:
+				savepoint "izlude",94,103;
+				warp "izlude",94,103;
+				callfunc "ClearTreinamentoVar";
+		}
+	case 3:
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Este Campo de treinamento foi criado pelo Ministério da Educação do Reino de Rune Midgard como forma de passar informações relevantes e úteis aos novos habitantes do mundo de Ragnarök Online.";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "O curso de treinamento que organizamos é baseado em dois tipos de testes ou lições:";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "As de conhecimento básico sobre nosso mundo e as de treinamento de combate.";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "No primeiro tipo de lição o enfoque será no aprendizado de noções básicas sobre o jogo, a comunidade online e a terra de Rune Midgard.";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "No treinamento de combate os jogadores testarão suas habilidades em batalhas reais contra monstros.";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Além disso, ao final do treinamento, apresentaremos ao jogador cada umas das 6 classes iniciantes que estão disponíveis, assim, você poderá determinar qual destas classes você acha melhor para seu personagem.";
+		next;
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Se você deseja inscrever-se no Campo de Treinamento, por favor escolha 'Inscrever-se no treinamento' no próximo menu.";
+		show "Se você deseja ir direto para o mundo de Ragnarök, por favor escolha 'Pular o treinamento'.";
+		next;
+		goto R_menu;
+
+	case 4:
+		show "[Recepcionista do Campo de Treinamento]";
+		show "Eu entendo. Leve o tempo que quiser para pensar.";
+		close;
+	}
+}
+//============================================================
+new_1-2,99,105,4	script	Instrutor de Interface#n	751,{
+callfunc "Tr_NoclasseAB","Instrutor de Interface";
+	if( instrutor2 && instrutor3 && inson1){
+		show "[Chris]";
+		show "Você terminou todos os cursos necessários.";
+		show "Você escutou tudo";
+		show "que os outros assistentes tinham pra falar?";
+		show "A próxima etapa do treinamento envolve combate básico.";
+		show "Está pronto pra ela?";
+		next;
+		switch ( select("Ir para a segunda parte do treino!","Quero ficar mais um pouco.","Me mande para uma cidade!") ) {
+			case 1:
+				show "[Chris]";
+				show "Como eu disse, a próxima parte do treinamento é centrada no combate.";
+				show "Preste atenção nas instruções que lhe serão passadas,";
+				show "e tome cuidado ao lutar com os monstros.";
+				show "Boa sorte.";
+				close2;
+				warp "new_1-2",28,178;
+				close;
+		
+			case 2:
+				show "[Chris]";
+				show "É uma boa idéia.";
+				show "O que você aprendeu aqui é conhecimento básico sobre o jogo, mas nem por isso menos importante.";
+				show "Se você está em dúvida sobre alguma coisa,";
+				show "ou sente que perdeu alguma parte importante das explicações, fale novamente com os assistentes.";
+				show "Eles ficarão felizes em ajudar.";
+				next;
+				show "[Chris]";
+				show "Quando terminar e quiser seguir com o treinamento, estarei aqui.";
+				show "Fale de novo comigo e te mandarei para o curso de combate.";
+				close;
+		
+			case 3:
+				show "[Chris]";
+				show "Quer que eu te mande para uma cidade?";
+				show "Bem, eu não posso fazer isso, mas se você acha mesmo que já aprendeu tudo que precisa, fale com a ^4d4dffFuncionário Kafra^000000.";
+				next;
+				show "[Chris]";
+				show "Ela oferece serviços de 'Teletransporte', entre outros, então ela é mais indicada para ajudar você com isso.";
+				show "Apenas fale com ela e peça que te mande para uma das cidades, tenho certeza que ela ficará feliz em ajudá-lo.";
+				show "Afinal, esse é o trabalho das Kafras.";
+				next;
+				show "[Chris]";
+				show "Bom, se você deseja ir embora...";
+				show "acho que não nos veremos mais.";
+				show "Espero ter ajudado você nesse primeiro estágio das suas aventuras.";
+				show "E desejo boa sorte no mundo lá fora.";
+				show "Adeus.";
+				close;
+		}
+	}else{
+		if( instrutor3 && inson1){
+			show "[Chris]";
+			show "Precisa de alguma ajuda?";
+			show "Posso ver sua inscrição?";
+			show "Hmm?";
+			show "Você não fez a aula sobre itens.";
+			show "A instrutora está à minha direita.";
+			next;
+			set @caseSelect,1;
+		}else{
+			if( noinstrutor1 ){
+				show "[Chris]";
+				show "Precisa de alguma ajuda?";
+				show "Posso ver sua inscrição?";
+				show "Hmm...";
+				show "Você ainda não fez a aula sobre habilidades.";
+				show "O Instrutor de habilidades está à sua esquerda.";
+				set @caseSelect,0;
+			}else{
+				show "[Chris]";
+				show "Prazer em conhecê-lo. Posso ver sua inscrição?";
+				next;
+				show "[Chris]";
+				show "Pronto.";
+				show "Eu sô o responsável por ensinar a interface básica de jogo para os novos jogadores.";
+				show "Esta não é uma parte obrigatória do treinamento,logo, se não quiser passar por esta aula, fique à vontade para me dizer.";
+				next;
+				switch ( select("Ouvir a aula de Interface básica.","Sem aulas, quero lutar!","Cancelar") ) {
+
+					case 1:
+						show "[Chris]";
+						show "Cada janela que você vê na sua tela pode ser movida, clicando com o seu mouse e arrastando.";
+						show "Eu explicarei as janelas na sua posição inicial, para simplificar.";
+						next;
+						show "[Chris]";
+						show "Primeiramente, a janela de informações básicas.";
+						show "Essa é a janela principal, que você vê no canto esquerdo superior da tela.";
+						show "Nela você pode ver seu nome, seu nível de base, a experiência do personagem, entre outras informações.";
+						show "Vamos exemplificar melhor.";
+						next;
+						show "[Chris]";
+						show "Eu vou aumentar sua experiência.";
+						show "Repare na sua EXP na janela de informações básicas.";
+						set BaseExp,BaseExp+NextBaseExp;
+						set noinstrutor1,1;
+						set instrutor1,1;
+						set inson1,1;
+						show "Veja como está agora,";
+						show "e como vai ficar depois.";
+						show "Vamos lá?";
+						next;
+						show "[Chris]";
+						show "Na janela de informações, temos outras opções de interesse.";
+						show "Você pode abrir seu Inventário e ver seus equipamentos através dela, ou fazer um Grupo através do botão Contatos.";
+						show "As configurações de jogo, como controle de volume e sons estão também disponíveis por aqui.";
+						show "O botão habilidades abre sua janela de habilidades ativas e passivas.";
+						show "Nela você poderá escolher as habilidades de seu personagem, de acordo com sua classe.";
+						show "Há também a janela de atributos, que determina qualidades como força e inteligência do personagem.";
+						next;
+						show "[Chris]";
+						show "No canto inferior esquerdo, está a barra de diálogos.";
+						show "Através dela você pode se comunicar com outras pessoas digitar comandos.";
+						show "Como você ver, existe uma seta para ver os diálogos anteriores do lado direito.";
+						show "Há também a opção de mandar mensagens públicas, para membros do seu grupo, ou apenas membros do seu clã.";
+						show "Para isso você deve clicar no botão azul à direita da sua barra diálogos.";
+						show "A barra de diálogos e a janela de informação básica não podem ser fechadas totalmente,";
+						show "estando sempre abertas, mesmo que de forma minimizada.";
+						next;
+						show "[Chris]";
+						show "No lado direito superior da tela, você pode ver mini mapa.";
+						show "Ele indica sua posição atual nesta tela através da seta,";
+						show "e caso você faça parte de um clã ou de um grupo,";
+						show "a localização dos membros deste também.";
+						show "ah, um dado que pode te ajudar:";
+						show "^4d4dffOs pontos vermelhos indicam saídas no mapa^000000";
+						show "Em alguns locais, porém, você não verá indicações no mapa, só sua posição, especialmente dentro de casas ou prédios.";
+						next;
+						show "[Chris]";
+						show "Vamos ver, experimente abrir suas janelas e conhecê-las melhor.";
+						show "Clique na janela de informações básicas e abra as outras para ver algumas opções,";
+						show "como as de itens, equipamentos e atributos.";
+						next;
+						show "[Chris]";
+						show "Bem, isso é em suma. o que eu queria passar.";
+						show "Espero que você não esteja entediado.";
+						show "Hm, como recompensa te darei um pouco de EXP.";
+						show "Mas dessa vez, experiência de classe,";
+						show "para que você ganhe uma nova habilidade.";
+						set JobExp,JobExp+NextJobExp;
+						next;
+						show "[Chris]";
+						show "Hm, eu sei que algumas coisas ainda podem ter ficado vagas na minha explicação,";
+						show "mas você pode falar com a assistente Edwin,";
+						show "ela é a encarregada de passar mais detalhes sobre cada uma das janelas da interface.";
+						show "Mais uma coisa. Por Favor, aceite esse presente.";
+						additem 2352,1;
+						close;
+		
+					case 2:
+						show "[Chris]";
+						show "Te mandarei para a parte prática do treino então.";
+						show "Se por acaso, achar que precisa de mais informações,";
+						show "volte para falar comigo.";
+						close2;
+						warp "new_1-2",28,178;
+						close;
+				
+					case 3: close;
+				}	
+			}
+		}
+	}
+	next;
+	switch ( select("Obrigado!","Aulas são chatas.","Cancelar.") ) {
+
+		case 1:
+			show "[Chris]";
+			if(!(@caseSelect)){
+				show "Se você fizer essa aula, poderá aprender uma habilidade muito útil, então preste atenção.";
+				show "Bem, vai ser bom você falar com ele.";
+				show "Te mandarei pra lá.";
+				close2;
+				warp "new_1-2",84,107;
+			}else{
+				show "Você aprenderá a usar itens e outras janelas,";
+				show "Será bastante útil.";
+				show "Bem, continue suas aulas falando com a instrutora de itens.";
+				show "Eu te mandarei pra lá.";
+				close2;
+				warp "new_1-2",115,107;
+			}
+				close;
+		
+		case 2:
+			show "[Chris]";
+			show "Te mandarei para a próxima parte do curso, Combate Básico.";
+			next;
+			switch ( select("O quê? Não!","Sim, por favor.") ) {
+			
+				case 1:
+					show "[Chris]";
+					show "Então, fale comigo se mudar de idéia.";
+					close;
+	
+				case 2:
+					show "[Chris]";
+					show "Boa sorte.";
+					close2;
+					warp "new_1-2",28,178;
+					close;
+			}
+		case 3: close;
+	}
+}
+
+//============================================================
+new_1-2,115,111,4	script	Instrutora de Itens#n	726,{
+callfunc "Tr_NoclasseAB","Instrutora de Itens";
+	if( instrutor1 && instrutor3 && inson2){
+		show "[Aris]";
+		show "Hum, está perdido?";
+		show "Precisa de ajuda com alguma coisa?";
+		show "Pra mim, parece que você já aprendeu o bastante.";
+		show "Quer ir para algum lugar?";
+		next;
+		switch ( select("Eu não sei para onde eu posso ir.","Eu quero ir para uma cidade.","Cancelar.") ) {
+			case 1:
+				show "[Aris]";
+				show "Hmm... Você já aprendeu a usar os itens";
+				show "e habilidades também...";
+				show "Se você não quiser conversar com mais ninguém por aqui,";
+				show "acho que você pode seguir para o combate prático, a segunda parte do treino.";
+				show "É só me dizer que eu posso te mandar pra lá.";
+				next;
+				switch ( select("Me mande pra lá!","Hm, ainda não.") ) {
+					case 1:
+						show "[Aris]";
+						show "Ok, você ainda está com o equipamento que eu te dei?";
+						show "Coloque-o e tome cuidado quando for para o campo.";
+						show "Vamos lá, boa viagem!";
+						close2;
+						warp "new_1-2",28,178;
+						close;
+					
+					case 2:
+						show "[Aris]";
+						show "Ok.";
+						show "Se precisar de alguma coisa, grite, hehe.";
+						show "Eu vou estar bem aqui.";
+						close;
+				}
+			case 2:
+				show "[Aris]";
+				show "Cidade?";
+				show "Hm, pra isso você tem que falar com a Funcionária Kafra.";
+				show "Eu realmente não estou encarregada dessa parte.";
+				show "Só fale com ela e ela resolve isso pra você.";
+				show "Bye-bye!";
+				close;
+				
+			case 3:
+				show "[Aris]";
+				show "Hmm...";
+				close;
+		}
+	}else{		
+		if( instrutor1 && inson2){
+			show "[Aris]";
+			show "Em que posso te ajudar?";
+			show "Hm, você não fez a aula de habilidade.";
+			show "Secil vai ficar desapontado.";
+			show "Por quê você não vai lá e fala com ele?";
+			next;
+			switch ( select("Ok, vou falar com ele.","Estou entediado, cansei de aulas.","O que eu preciso fazer pra ir pra cidade?") ) {
+				case 1:
+					show "[Aris]";
+					show "É uma boa idéia.";
+					show "Secil fica no lado esquerdo do salão.";
+					show "Eu vou te mandar até lá.";
+					show "Estude bastante.";
+					close2;
+					warp "new_1-2",84,107;
+					close;
+				
+				case 2: set @menu,0;break;
+								
+				case 3: set @menu,3;
+			}
+		}else{
+			if( noinstrutor2 ){
+				show "[Aris]";
+				show "Em que posso te ajudar?";
+				show "Hm, você não fez a aula de interface.";
+				show "O Chris vai ficar desapontado.";
+				show "Por quê você não vai lá e fala com ele?";
+				next;
+				switch ( select("Ok, vou falar com ele.","Estou entediado, cansei de aulas.","O que eu preciso fazer pra ir pra cidade?") ) {
+					case 1:
+						show "[Aris]";
+						show "É uma boa idéia.";
+						show "Na verdade, era esperado que você vice ele antes";
+						show "porque o ensino da interface é essencial ao jogo.";
+						show "Ele fica no meio do saguão.";
+						close;
+						
+					case 2: set @menu,0;break;
+						
+					case 3: set @menu,3;break;
+				}
+			}else{
+				show "[Aris]";
+				show "Hmm... Que tédiooo...";
+				show "Oh, olá! Novo por aqui?";
+				show "Você quer fazer a aula sobre itens?";
+				next;
+				switch ( select("Sim.","Não, só quero acabar logo com isso.","Onde fica a cidade?") ) {
+					case 1:
+						show "[Aris]";
+						show "Vou ser breve na aula, imagino que você já esteja ficando entediado.";
+						show "Antes de tudo, abra a janela de Inventário.";
+						show "Para isso, clique 'Itens' na janela de informação básica, ou aperte alt+e.";
+						show "Esta janela mostra os itens que você está carregando, com exeção daqueles que possam estar equipados no personagem.";
+						show "Ela é dividida em 3 partes: itens utilizáveis, equipamento e etc.";
+						next;
+						show "[Aris]";
+						show "Clique em 'item' por favor, para vermos os itens utilizáveis.";
+						show "Eu vou te dar uma Poção do Aprendiz.";
+						show "Clique duplo nela para usá-la Aqui está.";
+						additem 569,1;
+						set noinstrutor2,1;
+						set instrutor2,1;
+						set inson2,1;
+						next;
+						show "[Aris]";
+						show "Clique duplo nela para usar a poção.";
+						show "Agora, equipamentos.";
+						next;
+						show "[Aris]";
+						show "Clique em 'Equip' no Inventário.";
+						show "Os equipamentos que você estiver carregando e o personagem não estiver usando no momento aparecem aqui.";
+						show "Aqui, te darei alguns itens para que você possa testar";
+						show "como se veste um equipamento.";
+						show "Clique duplo nas ^4d4dffSandálias do Aprendiz.^000000";
+						additem 2510,1;
+						additem 2414,1;
+						additem 5055,1;
+						next;
+						show "[Aris]";
+						show "Clique duplo para vestir o equipamento.";
+						show "Para equipar os outros itens use o clique duplo, da mesma maneira.";
+						next;
+						show "[Aris]";
+						show "Hm, você pode aperta ^4d4dffF12^000000 ?";
+						show "9 caixas pequenas vão aparecer numa barra.";
+						show "Esta á a barra de atalhos.";
+						show "Itens, habilidades ou equipamentos podem ser arrastados até ela, para acesso rápido através das teclas f1-f9.";
+						show "Vamos exemplificar.";
+						next;
+						show "[Aris]";
+						show "Primeira, abra sua janela de habilidades.";
+						show "Se você fez a aula sobre habilidades, então você deve agora possuir uma habilidade especial dos Aprendizes,";
+						show "a 'Primeiros Socorros'.";
+						show "Vamos ver como utilizá-la na barra de atalhos.";
+						show "Clique na habilidade e arraste-a para o primeiro quadrado da esquerda da barra.";
+						next;
+						show "[Aris]";
+						show "Agora, ao apertar f1, você automaticamente usará esta habilidade.";
+						show "Isso evidentemente, só funciona com habilidades ativas,";
+						show "aquelas que necessitam de gasto de SP para fazerem efeito.";
+						set JobExp,JobExp+NextJobExp;
+						next;
+						show "[Aris]";
+						show "A minha aulinha rápida termina aqui.";
+						show "Espero que tenha gostado e que tenha sido esclarecedora para você.";
+						show "Mas ainda não acabou,";
+						show "tenho alguns itens aqui que";
+						show "gostaria que você levasse.";
+						show "Eles podem ser úteis no futuro, mas não os use no campo de treinamento.";
+						show "As ^ff0000Asas de Mosca e Asas de Borboleta^000000 são teletransportadoras, e você pode ser perder.";
+						additem 601,10;
+						additem 602,2;
+						additem 569,50;
+						next;
+						show "[Aris]";
+						show "E por último...";
+						show "Mais uma ajudinha na sua EXP!";
+						show "Bom trabalho!";
+						set JobExp,JobExp+NextJobExp;
+						next;
+						switch ( select("O que tenho que fazer agora?","Hora do curso de combate!","Cancelar") ) {
+							case 1:
+								show "[Aris]";
+								show "Você já falou com todos os Instrutores?";
+								show "Eles podem te ajudar se você ainda não conversou com eles.";
+								show "Mas não tanto quanto eu, claro...";
+								next;
+								show "[Aris]";
+								show "Além deles, os Assistentes podem ser de grande valia no seu treinamento teórico.";
+								show "E eles também têm alguns itens para dar para alunos aplicados.";
+								show "Então, se quiser, fique mais um pouco por aqui e aprenda, ou vá para a segunda parte do curso.";
+								show "Você quem decide!";
+								close;
+						
+							case 2:	set @menu,1;break;
+					
+							case 3:
+								show "[Aris]";
+								show "...............";
+								close;
+						}
+					case 2:
+						show "[Aris]";
+						show "Você quer pula minha aula, então?";
+						show "Se quiser, você pode ir direto para a segunda parte do treinamento, centrada em combate.";
+						show "Mas se você não falou com os outros instrutores, eu recomendo que você o faça.";
+						next;
+						select("Vamos ao combate!","Hm, acho que vou ficar mais.");
+						break;
+						
+					case 3: set @menu,3;break;
+				}
+			}
+		}
+	}
+	if(!(@menu)){
+		show "[Aris]";
+		show "Entediado?";
+		show "Se quiser, você pode ir direto para a segunda parte do treinamento, centrada em combate.";
+		show "Mas se você não falou com os outros instrutores, eu recomendo que você o faça.";
+		next;
+		select("Vamos ao combate!","Hm, acho que vou ficar mais.");
+	}
+	switch(@menu){ 
+		case 1:
+			show "[Aris]";
+			show "Quanta energia!";
+			show "Só não deixa de prestar atenção no que o instrutor de lá vai te passar.";
+			show "Ele tem informações que podem salvar sua vida,";
+			show "ou pelo menos, evitar alguns machucados!";
+			show "Vou te mandar pra lá, boa sorte!";
+			show "E adeus.";
+			close2;
+			warp "new_1-2",28,178;
+			close;
+		
+		case 2:
+			show "[Aris]";
+			show "Sim, eu sugiro que você fique mais um pouco também.";
+			show "É sempre bom aprender o máximo possível,";
+			show "e falar com os Assistentes é uma boa pedida para isso,";
+			show "além de mais conhecimento, você pode ganhar ótimos itens também.";
+			close;
+	
+		case 3:
+			show "[Aris]";
+			show "Se você quer ir para uma cidade,você deve falar com a Funcionária Kafra.";
+			show "Prontera, Morocc, Payon, etc...";
+			show "Ela te manda aonde você quiser ir.";
+			close;
+	}
+}
+
+//============================================================
+new_1-2,83,111,4	script	Instrutor de Habilidade	753,{
+callfunc "Tr_NoclasseAB","Instrutor de Habilidade";
+	if( instrutor1 && instrutor2 && inson3){
+		show "[Secil]";
+		show "Precisa de ajuda?";
+		show "Você já terminou todas as aulas...";
+		show "Ah, então voltou para me ver?";
+		show "Sim, eu sei o quanto eu sou simpático.";
+		show "Não é mesmo, hein, hein?";
+		next;
+		switch ( select("Me mande para a próxima para do treino.","Assistentes?","Quero ir para uma cidade.") ) {
+				
+			case 1:
+				show "[Secil]";
+				show "Oh, entendo.";
+				show "Você deseja batalhar, não é mesmo?";
+				show "Ah, esse ímpeto é valoroso. Queria eu ter a oportunidade de lutar agora.";
+				show "Este trabalho é tedioso demais para um homem como eu.";
+				show "Meus punhos estão mais e mais enferrujados!";
+				show "Eu te mandarei para lá, então, arrebente uns monstros por mim!";
+				close2;
+				warp "new_1-2",28,178;
+				close;
+		
+			case 2:
+				show "[Secil]";
+				show "Hmm, parece que você não sabe de quem eu estou falando...";
+				show "Permita que eu explique, ok?";
+				show "Nós, instrutores, temos a intenção de dar aulas simples e rápidas.";
+				show "Sem muita firula, só o básico que as pessoas precisam aprender, pra não se perderem demais no jogo.";
+				show "E também pra não ficarem entediadas nas aulas.";
+				next;
+				show "[Secil]";
+				show "No entanto, só isso não basta muitas vezes.";
+				show "Sempre tem gente que quer saber mais, e eu acho isso muito bom.";
+				show "E para eles, os Assistentes estão disponíveis.";
+				show "Eles falam sobre aspectos mais específicos do jogo,";
+				show "coisas que você vai ter que conhecer cedo ou tarde para tirar o máximo do jogo.";
+				show "Vá falar com eles, vai ser legal!";
+				next;
+				show "[Secil]";
+				show "O Pitch Judas em especial, tem algumas coisas boas pra falar.";
+				show "Ele tem dicas sobre habilidades e como usá-las.";
+				show "Um ótimo professor, mas tenho que admitir...";
+				show "Ele é meio alegrinho demais.";
+				show "Hahaha!";
+				close;
+		
+			case 3:
+				show "[Secil]";
+				show "Então você quer ir para uma cidade?";
+				show "Use os serviços das Kafras então!";
+				show "Tem uma ali à direita, vá falar com ela que ela resolve pra você.";
+				show "HaHaHa! Essas Kafras são uns pedaços de mau caminho!";
+				show "Quer dizer... moças muito gentis e simpáticas.";
+				close;
+		}
+	}else{
+		if( instrutor1 && inson3){
+				show "[Secil]";
+				show "O que posso fazer por você?";
+				show "Hum?";
+				show "Você não assistiu à aula de itens ainda?";
+				show "É, eu sei que ela é muito chata!";
+				show "HaHaHaHa!!!!";
+				next;
+				set @menutexto$,"Eu vou assistir!";
+				set @menutexto2$,"Que tédio, quero ir para a segunda parte do treinamento!";
+				set @IH_menu,1;
+				set @IH_texo,2;
+		}else{	
+			if( noinstrutor3 ){
+				show "[Secil]";
+				show "O que posso fazer por você?";
+				show "Hum?";
+				show "Você não assistiu à aula de interface ainda?";
+				show "É, eu sei que ela é muito chata!";
+				show "HaHaHaHa!!!!";
+				next;
+				set @menutexto$,"Eu vou assistir!";
+				set @menutexto2$,"Que tédio, quero ir para a segunda parte do treinamento!";
+				set @IH_menu,1;
+				set @IH_texo,1;
+			}else{
+				show "[Secil]";
+				show strcharinfo(0) +"!";
+				show "Um belo nome!";
+				show "Bem, podemos começar a aula?";
+				next;
+				set @menutexto$,"O quê você ensina?";
+				set @menutexto2$,"Me mande para a segunda parte do treino!";
+				set @IH_menu,3;
+				goto IH_Menu;
+	
+			IH_Texto:
+				show "[Secil]";
+				show "Eu vivo para lutar!";
+				show "E por isso, te ensinarei técnicas milenares de combate!";
+				show "O toque mortal do dragão vermelho!";
+				show "Pensando bem, acho que é um pouco cedo para isso... Vamos começar com algo mais simples.";
+				show "Vamos ver como funcionaram suas habilidades, ok?";
+				next;
+				show "[Secil]";
+				show "A janela de habilidades está disponível na janela de informação básica. Clique em ^4d4dffhabil^000000.";
+				show "Outra janela se abriu, certo?";
+				show "Para isso pode-se usar o atalho ^4d4dffalt+s^000000 também.";
+				next;
+				show "[Secil]";
+				show "Bom, já abriu a janela?";
+				show "Está vendo ícone das Habilidades Básicas?";
+				show "Você deve estar vendo que na parte de baixo da janela,";
+				show "há a indicação de quantos pontos você tem para gastar em habilidades.";
+				show "Você deverá ter pelo menos um ponto agora,";
+				show "então clique no botão de 'Lvl up' para subir um nível em habilidades básicas!";
+				set JobExp,JobExp+NextJobExp;
+				set noinstrutor3,1;
+				set instrutor3,1;
+				set inson3,1;
+				next;
+				show "[Secil]";
+				show "Aumentou suas habilidades básicas?";
+				show "Se tiver alguma dúvida adicional, você pode falar com o Pitch Judas a respeito. Ele se encontra na sala ao lado.";
+				show "Ele tem muito a dizer sobre o assunto de habilidades.";
+				show "Agora, deixe-me ver o que mais eu posso fazer por você...";
+				next;
+				show "[Secil]";
+				show "Sim, sim, é isso!";
+				show "Vou te ensinar uma habilidade especial.";
+				show "Não é uma técnica mortal, mas sim de 'Primeiros Socorros',";
+				show "e acredite, ela pode vir muito a calhar.";
+				next;
+				show "^4d4dff-Você aprendeu uma Habilidade Especial dos Aprendizes, 'Primeiros Socorros'!-^000000";
+				skill 142,1,0;
+				next;
+				show "^4d4dff-Você recebeu experiência de classe.-^000000";
+				set JobExp,JobExp+NextJobExp;
+				next;
+				show "[Secil]";
+				show "Se você abrir a janela de habilidades agora,";
+				show "a habilidade ^4d4dffPrimeiros Socorros^000000 vai estar lá.";
+				show "Para utilizá-la, pois trata-se de uma habilidade ativa, use o duplo-clique!";
+				next;
+				show "[Secil]";
+				show "Reparou? Quando você usa uma habilidade, seu SP diminui.";
+				show "No caso dessa habilidade, o gasto de SP serve para recarregar um pouco de sua energia.";
+				show "Será bem útil em momentos de perigo.";
+				next;
+				show "[Secil]";
+				show "Muito obrigado pela sua atenção durante a aula!";
+				show "Estou me sentindo muito generoso.";
+				show "Que tal mais um pouco de experiência?";
+				show "Eu sou um cara tão legal, não é?";
+				set BaseExp,BaseExp+NextBaseExp;
+				next;
+				show "[Secil]";
+				show "Bom, minha aula acaba aqui.";
+				show "Foi pequena, mas certamente valeu a pena para você.";
+				show "Você quer saber mais?";
+				show "Além das outras aulas, há ainda Assistentes para dar mais dicas para os alunos.";
+				show "Eles podem te ajudar bastante.";
+				next;
+				set @menutexto$,"Vou dar uma olhada por ai.";
+				set @menutexto2$,"Me mande para a segunda parte do treino!";
+				set @IH_menu,2;
+			}
+		}
+	}
+IH_Menu:
+	switch ( select(@menutexto$,@menutexto2$,"Cancelar.") ) {
+		case 1:
+			switch(@IH_menu){
+			
+				case 1: 
+					show "[Secil]";
+					show "Sim, bem pensado.";
+					show "Assim, você consegue conhecimento,";
+					show "e mais importante, EXP e itens!";
+					show "HaHaHa!";
+					switch(@IH_texo){
+						
+						case 1:	
+							show "Ele está ali no meio, é fácil de achar.";
+							close;
+					
+						case 2: show "Vou te encaminhar para sua aula.";
+							show "Até mais!";
+							close2;
+							warp "new_1-2",115,107;
+							close;
+					}
+				case 2:
+					show "[Secil]";
+					show "Claro. Se acha que precisa saber mais,";
+					show "lembre-se de pedir explicações dos assistentes.";
+					show "Eles estão aí pra isso.";
+					show "Parabéns e boa sorte!";
+					close;
+					
+				case 3: goto IH_Texto;
+
+			}
+		
+		case 2:
+			show "[Secil]";
+			show "Muito bom, acho que está mesmo na hora de você brigar um pouco.";
+			show "Treinamento de Combate!";
+			show "Manda ver e boa sorte!";
+			close2;
+			warp "new_1-2",28,178;
+			close;
+	
+		case 3: close;		
+	}	
+}
+
+//============================================================
+new_1-2,121,101,2	script	Soldado	105,{
+	show "[Soldado]";
+	show "Nós, os Soldados Guia, fornecemos aos viajantes informações sobre locais importantes na entrada de cada cidade.";
+	show "Sempre que visitar uma cidade pela primeira vez, pergunte a um de nós sobre os prédios e locais importantes e ele lhe dirá onde eles ficam.";
+	next;
+	show "[Soldado]";
+	show "Lembre-se também de que nós, os Soldados Guia, estamos sempre de uniforme, para que possamos ser facilmente reconhecidos.";
+	show "Para mais detalhes, converse com um de nós mais tarde, quando visitar uma cidade.";
+	next;
+	show "[Soldado]";
+	show "Se quiser ir para uma das cidades, converse com a Funcionária Kafra ali do lado.";
+	show "Ela te mandará pra onde você quiser.";
+	show "Tenha um bom dia.";
+	close;
+}
+
+//============================================================
+new_1-2,118,108,4	script	Funcionária Kafra	94,{
+callfunc "Tr_NoclasseAB","Funcionária Kafra";
+	show "[Funcionária Kafra]";
+	show "Prazer em conhecê-lo.";
+	show "Eu sou uma das Funcionárias Kafra, enviada para o campo de treinamento para ajudar os novos jogadores.";
+	show "Nosso trabalho é esse, aqui e em qual quer lugar de reino.";
+	show "Somos a maior prestadora de serviços de Rune Midgard, tendo representantes em todas as cidades e em muitos outros lugares.";
+	show "Espero que você utilize sempre nossos serviços a partir de hoje.";
+	next;
+	show "[Funcionária Kafra]";
+	show "Seja bem vindo.";
+	show "A corporação Kafra está sempre ao seu lado.";
+	show "O que posso fazer por você?";
+	next;
+	show "[Funcionária Kafra]";
+	show "Eu preciso avisar-lhe sobre uma coisa.";
+	show "Se você quiser ir para uma das cidades agora,";
+	show "^4d4dffNão poderá retornar ao campo de treinamento.^000000";
+	show "Lembre-se disso, por favor.";
+	next;
+	
+	switch(select("Serviço de Teleporte","Sobre a Corporação Kafra")){
+	case 1:
+		if(!instrutor1 && !instrutor2 && !instrutor3){
+			show "[Funcionária Kafra]";
+			show "Oh, você deseja ir diretamente para uma das cidades?";
+			show "Ok, explicarei-as brevemente para que você possa decidir.";
+			show "'Prontera' é a capital do reino de Rune Midgard, e tem a vila de Izlude como cidade-satélite.";
+			next;
+			show "[Funcionária Kafra]";
+			show "^4d4dffMorroc é uma cidade no deserto, onde vivem Gatunos e Mercenários.";
+			show "Payon é uma cidade de montanha, lar dos Arqueiros e Caçadores.";
+			show "Geffen é a cidade da magia. Um bom lugar para quem se interessa pelas artes arcanas.^000000";
+			next;
+			show "[Funcionária Kafra]";
+			show "^4d4dffE Alberta é uma cidade portuária, voltada ao comércio e lar da Guilda dos Mercadores.^000000";
+			show "Existem outras cidades também, que você poderá conhecer com o tempo.";
+			show "Por hora, escolha qual dessas 5 deseja visitar primeiro.";
+			next;
+		}	
+		if(instrutor1 || instrutor2 || instrutor3)
+			select("Curso de Combate","Prontera","Morroc","Payon","Alberta","Geffen");
+		else
+			select("Prontera","Morroc","Payon","Alberta","Geffen");
+	
+		switch(@menu){
+	
+		case 1:
+			if(instrutor1 || instrutor2 || instrutor3){
+				show "[Funcionária Kafra]";
+				show "Te mandarei para o curso de combate.";
+				close2;
+				warp "new_1-2",28,178;
+				close;
+			}else goto FK_Prontera;
+			
+		case 2:
+			if(!instrutor1 && !instrutor2 && !instrutor3){
+			FK_Morroc:
+				show "[Funcionária Kafra]";
+				show "Morroc, a cidade do deserto.";
+				show "Uma cidade tão seca e árida quanto a maioria de seus habitantes.";
+				show "Há um belo oásis no centro dela, no entanto...";
+				show "Tenha uma boa viagem.";
+				close2;
+				callsub FK_RetornaItem;
+				savepoint "morocc",155,110;
+				warp "morocc",155,110;
+				callfunc "ClearTreinamentoVar";
+			}else goto FK_Prontera;
+	
+		case 3:
+			if(!instrutor1 && !instrutor2 && !instrutor3){
+			FK_Payon:
+			show "[Funcionária Kafra]";
+			show "Payon? Planeja se tornar um Mercador?";
+			show "Não deixe de conhecer o palácio enquanto estiver lá.";
+			show "Boa viagem.";
+			close2;
+			callsub FK_RetornaItem;
+			savepoint "payon",160,58;
+			warp "payon",166,67;
+			callfunc "ClearTreinamentoVar";
+			}else goto FK_Morroc;
+
+		case 4:
+			if(!instrutor1 && !instrutor2 && !instrutor3){
+			FK_Alberta:
+			show "[Funcionária Kafra]";
+			show "A cidade portuária de Alberta.";
+			show "É lá a base do comércio de Rune Midgard, o lugar aonde as mercadorias chegam e a casa dos Mercadores.";
+			show "Muitos barcos saem de lá para locais inóspitos como a ilha das tartarugas e Byalan.";
+			show "Boa viagem.";
+			close2;
+			callsub FK_RetornaItem;
+			savepoint "alberta",114,58;
+			warp "alberta",114,58;
+			callfunc "ClearTreinamentoVar";
+			}else goto FK_Payon;
+	
+		case 5:
+			if(!instrutor1 && !instrutor2 && !instrutor3){
+			FK_Geffen:
+			show "[Funcionária Kafra]";
+			show "A cidade da magia.";
+			show "No centro dela, existe a grande torre de Geffen, um lugar perigoso.";
+			show "Te mandarei para a fonte próxima ao centro.";
+			show "Boa viagem.";
+			close2;
+			callsub FK_RetornaItem;
+			savepoint "geffen",122,65;
+			warp "geffen",122,65;
+			callfunc "ClearTreinamentoVar";
+			}else goto FK_Alberta;
+			
+		case 6:
+			if(!instrutor1 && !instrutor2 && !instrutor3){
+			FK_Prontera:
+			show "[Funcionária Kafra]";
+			show "Prontera, a capital do nosso reino.";
+			show "Um lugar movimentado e que nunca pára.";
+			show "Boa viagem.";
+			close2;
+			callsub FK_RetornaItem;
+			savepoint "prontera",150,50;
+			warp "prontera",150,50;
+			callfunc "ClearTreinamentoVar";
+			}else goto FK_Geffen;
+		}		
+	
+	case 2:
+		show "[Funcionária Kafra]";
+		show "Deixe-me explicar a variedade de serviços que nós, da corporação Kafra, oferecemos, em todo o reino de Rune Midgard.";
+		show "Escolha aquela sobre qual deseja saber mais.";
+	while(TRUE){
+		next;
+		switch(select("Salvar Ponto de Retorno","Armazém","Serviços de Teleporte","Alugar Carrinho","Cancelar")){
+	
+		case 1:
+			show "[Funcionária Kafra]";
+			show "Este serviço é o mais popular e comumente utilizado pelos jogadores.";
+			show "Salvar o Ponto de Retorno serve para definir pra onde o personagem voltará caso morra em uma batalha.";
+			show "Ao usar este serviço com uma Funcionária Kafra, seja numa cidade ou em outro lugar, ao morrer, você voltará para o local onde esta Kafra se encontra.";
+			show "Este ponto ficará marcado como seu Ponto de Retorno padrão, até que você mude ele em outra Kafra.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Inclusive, você pode se transportar para seu Ponto de Retorno instantaneamente a qualquer momento, se possuir um item bem comum chamado 'Asa de Borboleta'.";
+			show "Usando este item, você aparecerá no seu Ponto de Retorno, sem ter que morrer, hihi.";
+			show "Ah, esse serviço da corporação Kafra é inteiramente grátis.";
+			show "Para sua conveniência, sugerimos que você o aproveite ao máximo!";
+			if(!fkbase1){
+				set BaseExp,BaseExp+NextBaseExp;
+				set fkbase1,1;
+			}
+			break;
+	
+		case 2:
+			show "[Funcionária Kafra]";
+			show "Nós, da Corporação Kafra, temos um histórico renomado em providenciar aos nossos clientes o melhor em serviços de armazenagem de itens, à disposição de todos os aventureiros de Rune-Midgard.";
+			show "Eles poderão ter acesso ao seus armazéns pessoais em qual quer cidade ou local onde encontrarem uma funcionária Kafra.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Se o personagem estiver carregando muitos itens, e esteja ficando com excesso de peso, que impossibilita regeneração de hp e sp, ou se tiver portando itens que não serão necessários no momento, mas que você deseja guardar, o Armazém proporciona um espaço além do inventário comum, e que pode ser facilmente acessado sempre que você encontrar uma Kafra.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Este armazém é limitado pelo nível do jogador, e por sua disponibilidade financeira.";
+			show "Personagens com nível de classe com Aprendiz menor que 7 não podem usar o armazém.";
+			show "Isso acontece porque nas habilidades básicas dos Aprendizes, além da capacidade de sentar e formar grupos, está incluída também a que permite o uso do armazém.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Nosso serviço de armazenagem visa também a organização dos seus itens.";
+			show "Uma vez que eles são colocados no armazém, eles serão separados como no seu inventário, em itens utilizáveis, equipamentos e outros.";
+			show "A capacidade máxima do armazém é de 100 itens de tipos diferentes.";
+			show "Porém, para cada item, há uma capacidade de armazenamento de 30,000 unidades.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Este armazém é partilhado por todos os personagens da sua conta, contando que eles estejam no mesmo servidor.";
+			show "Ah, este é um serviço pago, porém com um tarifa pequena, que pode variar de acordo com o local onde você estiver.";
+			show "Entendeu tudo?";
+			if(!fkjob1){
+				set JobExp,JobExp+NextJobExp;
+				set fkjob1,1;
+			}
+			break;
+	
+		case 3:
+			show "[Funcionária Kafra]";
+			show "Nós da Corporação Kafra oferecemos este serviço muito útil, chamado Serviço de Teleporte, que torna viajar grandes distâncias muito fácil.";
+			show "Se você por um acaso precisar chegar rapidamente a um lugar muito distante - ou simplesmente não estiver com vontade de fazer o caminho a pé - o Serviço de Teleporte vem muito a calhar.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Nós garantimos a todos uma viagem confortável, e muito fácil, para quem utilizar nosso serviço especial de Teleporte.";
+			show "Devo lembrar que no entanto, cobramos uma taxa por este serviço.";
+			show "Esta taxa varia de acordo com a cidade ou lugar para qual você deseja se teleportar.";
+			show "Além disso, os destinos disponíveis também variam de acordo com a cidade.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Este serviço, como todos os outros que a Kafra oferece, é resultado de anos de trabalho duro de dedicação aos nossos clientes, de maneira a serví-los melhor.";
+			show "Esperamos que você aprecie nosso trabalho.";
+			break;
+	
+		case 4:
+			show "[Funcionária Kafra]";
+			show "A corporação Kafra proporciona aos clientes interessados em comércio e finanças, o serviço exclusivo de aluguel de Carrinhos.";
+			show "Originalmente, este serviço era disponibilizado em apenas uma cidade, Alberta, e não era oferecido pela corporação Kafra, mas pela Guilda de Mercadores da cidade.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Porém, a Kafra incorporou este serviço, para facilidade de nossos clientes Mercadores, pois agora, eles podem alugar um carrinho facilmente, em qualquer cidade.";
+			show "Este serviço, como já mencionei, é voltado apenas para as classes envolvidas em comércio, ou seja:";
+			show "Mercadores, Ferreiros, Alquimistas e a classe especial dos Eternos Aprendizes.";
+			next;
+			show "[Funcionária Kafra]";
+			show "Para que possamos emprestar o carrinho, o usuário deve aprender a habilidade 'Usar Carrinho'.";
+			show "As taxas de aluguel variam de cidade para cidade, por isso sugiro que você se informe antes sobre os melhores preços.";
+			next;
+			break;
+			
+		case 5:
+			show "[Funcionária Kafra]";
+			show "Não precisa saber mais nada sobre a corporação Kafra?";
+			show "Que bom, espero que eu tenha sido útil.";
+			close;
+		}
+	}
+	}
+	
+FK_RetornaItem:
+	if( !(instrutor1) && !(instrutor2) && !(instrutor3) ){
+		additem 569,100;
+		additem 1243,1;
+		additem 2414,1;
+		additem 2510,1;
+		additem 2352,1;
+		additem 2112,1;
+		additem 601,10;
+		additem 602,2;
+	}
+	additem 7059,5;
+	additem 7060,5;
+	return;
+}
+
+//============================================================
+new_1-2,38,182,4	script	Ajudante	92,{
+callfunc "Tr_NoclasseAB","Ajudante";
+	if (instrutor5){
+		show "[Kane]";
+		show "Eu te avisei para tomar cuidado.";
+		show "Mas não desanime.";
+		show "Tentar é o primeiro passo para o sucesso, mesmo que você fracasse no começo.";
+		next;
+		show "[Kane]";
+		show "Quer tentar de novo?";
+		next;
+		switch(select("Sim","Não, vou me prepara mais.")){
+	
+		case 1:
+			show "[Kane]";
+			show "Então, te darei uma pequena ajuda.";
+			show "Boa sorte.";
+			if (!aju_porcao){
+				additem 569,50;
+				set BaseExp,BaseExp+155;
+				set aju_porcao,1;
+			}
+			set @tipo,1;break;
+			
+		case 2: set @tipo,0;
+		}
+	}else{
+	if (instrutor4){
+		show "[Kane]";
+		show "O segundo teste é uma prova de luta, para que possamos avaliar sua preparação após as instruções dadas.";
+		next;
+		show "[Kane]";
+		show "Lute com vontade e determinação, mas não se preocupe demais.";
+		next;
+		show "[Kane]";
+		show "Você está lá para experimentar a sensação de batalha, não para se machucar.";
+		next;
+		show "[Kane]";
+		show "Você pode sair de lá quando quiser, falando com o funcionário ao norte do campo.";
+		show "Então, preparado?";
+		next;
+		switch(select("Sim","Quero aprender mais")){
+		case 1:		
+			show "[Kane]";
+			show "Dê o melhor de si, mas lute com cautela.";
+			show "Estes itens te ajudarão numa emergência.";
+			show "E te darei também uma arma e um escudo especial.";
+			additem 924,1;
+			additem 601,9;
+			additem 1243,1;
+			additem 2112,1;
+			additem 611,2;
+			additem 569,300;
+			set instrutor5,1;
+			set @tipo,1;
+			break;
+		
+		case 2: set @tipo,0;
+		}
+	}else{
+		show "[Kane]";
+		show "Você quer entrar numa batalha sem sequer saber o básico sobre isso?";
+		show "Fale com o Instrutor de Batalha antes, senão não posso te deixar entrar.";
+		close;		
+	}}
+
+if(@tipo){
+	next;
+	percentheal 100,100;
+	savepoint "new_1-2",22,187;
+	warp "new_" + rand(1,5) + "-3",96,21;
+	close;
+}else{
+	show "[Kane]";
+	if (!instrutor5)
+		show "Então, converse com o Elmeen aqui, antes de entrar.";
+	else
+		show "Então converse com o instrutor de batalha.";
+	show "Quando estiver mais segurança, fale comigo.";
+	close;
+}
+}
+
+//============================================================
+new_1-2,28,185,4	shop	Vendedor de Batata Doce	90,516:-1
+//============================================================
+new_1-2,17,182,5	script	Instrutor de Batalha	84,{
+callfunc "Tr_NoclasseAB","Instrutor de Batalha";
+	if (instrutor4){
+		show "[Elmeen]";
+		show "Oh, quer ouvir as explicações de novo?";
+		show "Escolha sobre qual assunto quer saber mais.";
+		next;
+		set @menuact,1;
+	}else{
+		show "[Elmeen]";
+		show "Como foi na primeira parte do treinamento?";
+		show "Bem, acho que agora você já está bem mais familiarizado com o mundo e o sistema de Ragnarök Online.";
+		next;
+		show "[Elmeen]";
+		show "Nas aulas que você terá agora nos concentraremos na parte prática, dando ênfase nas batalhas.";
+		show "Se você se dedicou na primeira parte do curso, deve ter alguns equipamentos novos agora.";
+		next;
+		show "[Elmeen]";
+		show "Por isso, por favor cheque sua janela de equipamentos apertando alt + e, antes de começarmos as batalhas. Está com todos equipados, já?";
+		next;
+		switch(select("Sim","Não")){
+	
+		case 1:	set @menuact,0;break;
+	
+		case 2:
+			show "[Elmeen]";
+			show "Por favor, tome conta bem dos equipamentos que você recebeu durante o treinamento.";
+			show "Eles serão de grande utilidade para você no futuro, e se você os perder não poderá tê-los de volta.";
+			close;
+			
+		}
+	}while(TRUE){
+		if(@menuact){
+			select("Monstros.","Experiência.","Itens.","Informação básica sobre caçar monstros.","Cancelar.");
+			set @tipo,1;
+		}else{
+			show "[Elmeen]";
+			show "Então, muito bem. Antes de tudo, para atacar, mova seu mouse e posicione o cursor sobre um monstro.";
+			show "Ao clicar nele com o botão esquerdo, o personagem atacará o monstro uma vez.";
+			next;
+			show "[Elmeen]";
+			show "Se por acaso você tiver preguiça de ficar clicando seguidamente para cada ataque, você pode clicar no monstro enquanto segura a tecla CTRL.";
+			show "Assim, o personagem atacará continuamente, até o monstro (ou você) morrer.";
+			next;
+			show "[Elmeen]";
+			show "Bem, tem gente que é preguiçosa até apertar o CTRL ao atacar um monstro.";
+			show "Se você for uma dessas pessoas, ou simplesmente quiser mais praticidade, digite o comando ^E79E29/nc ou /noctrl^000000, que faz com que todos os ataques sejam automáticos.";
+			next;
+			show "[Elmeen]";
+			show "Se a propriedade de um monstro for 'amaldiçoado', como Zumbis e Camiçais, há um método diferente de atacá-lo também, com a habilidade cura, dos Noviços.";
+			show "Basta apertar SHIFT ao usar a habilidade 'Curar' em um monstro.";
+			next;
+			show "[Elmeen]";
+			show "É claro que pensamos nas pessoas preguiçosas neste caso também.";
+			show "Se por um acaso você quiser atacar um monstro com a habilidade 'Curar'sem utilizar SHIFT repetidamente, digite ^E79E29/ns ou /noshift^000000 na barra de diálogos.";
+			next;
+			if (!instrutor4){ 
+				show "[Elmeen]";
+				show "Bem, os comandos de batalha ficaram claros?";
+				show "Agora, ensinarei sobre as propriedades dos monstros a experiência obtida ao matá-los, e sobre os itens que podem ser obtidos nas batalhas.";
+				next;
+				show "[Elmeen]";
+				show "Mas antes que eu me esqueça, vou recarregar sua energia para você não tenha problemas quando for batalhar.";
+				next;
+				show "[Elmeen]";
+				show "ZAAAP!";
+				set BaseExp,BaseExp+NextBaseExp;
+				percentheal 100,100;
+				set instrutor4,1;
+				next;
+				show "[Elmeen]";
+				show "Uff, essa foi difícil.";
+				show "Espero que tenha te ajudado.";
+				show "Sobre qual assunto você quer saber mais?";
+				next;
+			}
+			if(!@menuact){
+				set @tipo,0;
+				select("Monstros.","Experiência.","Itens.","Sair.");
+			}
+		}	
+		switch(@menu){
+		case 1:
+			show "[Elmeen]";
+			show "Há muitos tipos de monstros em Rune Midgard. Começarei com uma denominação simples: os agressivos e não agressivos.";
+			show "Muitos dos monstros são pacíficos e não atacam até que você os atinja uma vez. Outros, os agressivos, atacam ao avistar um personagem. O risco em áreas de monstros agressivos, desnecessário dizer, é muito maior.";
+			next;
+			show "[Elmeen]";
+			show "Entre os não agressivos, há muitos que ajudam um de sua raça quando atacado. Estes monstros podem aparecer multidões ao seu redor, buscando proteger seu semelhante.";
+			show "Num âmbito geral, monstros agressivos e não agressivos têm outras classificações possíveis e mais específicas: eles também são separados por raça, elemento ou propriedade, e tamanho.";
+			show "Uma vez que você se familiarize com essas denominações, será mais fácil definir qual arma ou estratégia usar para cada monstros, aproveitando-se de suas fraquezas.";
+			next;
+			show "[Elmeen]";
+			show "Um exemplo é o uso de cartas específicas - itens obtidos dos próprios monstros que podem ser colocados em armas, dando as elas novas capacidades e mais força contra raças e tipos de inimigos,";
+			show "e também em armaduras e escudos para reduzir o dano destes.";
+			show "Lembre-se disso, pois as cartas serão um fator importante ao escolher suas armas.";
+			next;
+			show "[Elmeen]";
+			show "Voltando aos tipos de monstros, o tamanho influi consideravelmente nas batalhas também.";
+			show "Existem três tamanhos de monstro: pequenos, médios e grandes.";
+			show "Os danos infligidos nestes monstros variam de acordo com o tipo de arma usada. Casa arma tem vantagens e desvantagens contra os 3 tamanhos de monstro.";
+			next;
+			show "[Elmeen]";
+			show "Por exemplo, as adagas são capazes de infligir 100% do dano quando atacam monstros pequenos enquanto as espadas fazem apenas 75% do dano total nestes mesmos monstros. Armas como machados tem mais vantagens em monstros grandes em relação à adagas, por exemplo.";
+			next;
+			show "[Elmeen]";
+			show "No quesito de";
+			show "elementos/propriedades, as variedades que encontramos são Água, Vento(ou relâmpago), Terra, Fogo, os elementos naturais, e Sombra, Fantasma, Veneno, Morto-Vivo e Sagrado, as propriedades especiais.";
+			show "Só para que não haja confusão, as propriedades e elementos estão na mesma categoria, logo não haverá seres de fogo E sombra, por exemplo.";
+			next;
+			show "[Elmeen]";
+			show "O sistema de elemento funciona de maneira que os elementos respeitam suas vulnerabilidades e forças.";
+			show "Água por exemplo, é eficiente contra fogo, logo essa desvantagem dos monstros de fogo pode ser explorada com magias ou armas do elemento Água.";
+			show "Usar armas e magias com o mesmo elemento do montros pode acarretar em nenhum dano ou até regeneração de seu HP. Já os elementos especiais podem ou não ser vulneráveis contra os 4 elementos básicos.";
+			next;
+			set @menuact,1;
+			break;
+	
+		case 2:
+			show "[Elmeen]";
+			show "Basicamente, após matar um monstro, o jogador que causou mais dano à criatura, receberá mais pontos de experiência deste monstro.";
+			show "A porcentagem de pontos de experiência de vai para o jogador, é evidentemente proporcional à do dano que ele causou em relação ao HP do monstro.";
+			next;
+			show "[Elmeen]";
+			show "Por exemplo, peguemos um personagem chamado 'Z' em uma batalha. Nesta batalha, Z inflige 65 pontos de dano num monstro com 100hp, que dá 1000 pontos de experiência ao morrer.";
+			show "Numa conta bem simples, os pontos que Z receberá são proporcionais à estes 65% do HP completo, ou seja, 650 pontos de experiência do total de 1000.";
+			next;
+			show "[Elmeen]";
+			show "Esta regra no entanto, aplica-se de formas diferentes de acordo com a situação.";
+			show "Se você bater neste monstro sozinho, você receberá 100% de sua experiência, logicamente. Mas vamos dizer que no caso, você está atacando um monstro e alguém começa a atacá-lo junto com você.";
+			show "Essa pessoa faz o mesmo dano total que você fez, e juntos, ambos matam esse monstro.";
+			show "Porque ambos fizeram porcentagens semelhantes de dano e porque você começou atacando e sofreu a interferência, 2/3 da experiência irão para você e 1/3 para o outro atacante.";
+			next;
+			show "[Elmeen]";
+			show "Logo, vê-se que atacar um monstro que alguém já está combatendo não é uma atitude muito sensata e nem bem vista em Ragnarök, por causar perda de experiência ao jogador que já estava atacando, por mais reduzida que possa ser. Essa atitude é chamada de Kill Steal ou 'KS'.";
+			show "Para jogar com mais pessoas, o mais indicado é utilizar o sistema de Grupo. Assim, a experiência pode ser igualmente dividida entre os membros do grupo.";
+			next;
+			show "[Elmeen]";
+			show "Além disso, há um outra grande vantagem no sistema de Grupos: há uma porcentagem adicional de experiência aos membros do Grupo cada vez que eles matam um monstro o que faz com que seja mais proveitoso jogar com outras pessoas do que sozinho.";
+			next;
+			set @menuact,1;
+			break;
+	
+		case 3:
+			show "[Elmeen]";
+			show "Ao matar monstros, você tem uma chance de obter itens deles.";
+			show "Dependendo do item e do valor dele, essa chance é maior ou menor para cada um.";
+			next;
+			show "[Elmeen]";
+			show "Acho que mencionei para você o 'KS' ou 'kill steal', não é? É o que acontece quando alguém bate num monstro que você estava batalhando.";
+			show "Bem, caso alguém 'roube' seu monstro, lembre-se de que a pessoa que tiver maior taxa de dano no monstro tem a primazia nos itens.";
+			next;
+			set @menuact,1;
+			break;
+	
+		case 4:
+			if(!@tipo){
+				show "[Elmeen]";
+				show "Fale comigo de novo se tiver alguma dúvida.";
+				close;
+			}else{
+				set @menuact,0;
+				break;
+			}
+		
+		case 5:
+			show "[Elmeen]";
+			show "Fale comigo em caso de dúvidas.";
+			close;
+		}
+	}
+}
+
+//============================================================
+new_1-2,161,182,5	script	Assistente de Interface	92,{
+	show "[Edwin]";
+	show "Olá, eu sou a assistente de interface.";
+	show "Darei algumas explicações sobre as janelas do seu menu de jogo.";
+	show "Escolha aquela sobre qual deseja saber mais.";
+while(TRUE){
+	next;
+	switch(select("Janela de Informações Básicas","Janela de Contatos e Grupo","Janela de Itens","Janela de Configurações","Janela de Equipamento","Cancelar")){
+	
+	case 1:
+	show "[Edwin]";
+	show "Vamos dar uma olhada na janela de informações básicas.";
+	show "Ali você vê seu nome, seu nível de base, sua classe e o seu nível de classe.";
+	next;
+	show "[Edwin]";
+	show "O ^800fffNível de Classe^000000 abaixo do nível de base, refere-se ao nível de classe ou profissão do personagem.";
+	show "Você por exemplo, deve ter apenas um nível de classe, pois acabou de começar.";
+	show "Mas com o tempo seu nível como Aprendiz aumentará.";
+	next;
+	show "[Edwin]";
+	show "Na janela de informações básicas, seus pontos de experiência também aparecem.";
+	show "Em Ragnarök Online a contagem destes pontos aparece na forma de porcentagens, que são diferentes para nível de base e de classe.";
+	show "Quando a experiência somo 100%, o personagem sobe um nível, e a barra reiniciará do 0 a contagem de pontos do próximo nível.";
+	next;
+	show "[Edwin]";
+	show "A barra de HP refere-se à energia do personagem.";
+	show "Quando esta chegar a 0, o personagem cai inconsciente e fica incapaz de lutar.";
+	show "Quando isso acontece, ou pode-se voltar para o Ponto de Retorno, ou esperar que alguém reviva o personagem.";
+	show "Se você morrer em campos ou outros locais hostis, como calabouços, você receberá uma pena de -1% da experiência em ambos os níveis.";
+	show "Então tome cuidado.";
+	next;
+	show "[Edwin]";
+	show "O SP são os pontos que o personagem usará em magias ou em ações especiais.";
+	show "Ao tornar-se uma das 6 primeiras classes, seu personagem terá à disposição uma série de habilidades que utilizarão seus pontos de SP para serem ativadas.";
+	show "Seu instrutor de habilidades falará mais a respeito.";
+	next;
+	show "[Edwin]";
+	show "Se você quiser checar o peso de seu personagem, olhe a parte de baixo da barra.";
+	show "Lá está mostrado seu peso atual e o limite que pode ser carregado.";
+	show "Quando acima de 50% do total permitido de peso, o personagem deixará de recarregar seu HP e SP.";
+	show "Cuidado com isso.";
+	next;
+	show "[Edwin]";
+	show "Os números ao lado do limite de peso correspondem à quantos Zeny o personagem tem.";
+	show "O Zeny é a moeda do reino de Rune-Midgard.";
+	show "Vender itens como o Jellopy, que monstros deixam cair, é a maneira mais fácil de conseguir Zeny.";
+	next;
+	show "[Edwin]";
+	show "Há botões no lado direito da janela de informações básicas.";
+	show "Todos eles abrem outros menus, com diferentes opções específicas.";
+	show "Clicando neles, você pode ter uma idéia do que cada um deles faz.";
+	show "A janela de informações básicas fica sempre aberta no jogo, mas pode ser maximizada ou minimizada, clicando no botão azul do canto direito superior dela ou utilizando o comando de atalho alt+v.";
+	break;	
+	
+	case 2:
+	show "[Edwin]";
+	show "Você pode abrir a 'janela de contatos' ao clicar no botão 'Contat' na janela de informações básicas, ou usando o atalho alt+z.";
+	show "Nela, você pode checar informações sobre seus companheiros de Grupo, onde eles se encontram e se estão online ou não.";
+	next;
+	show "[Edwin]";
+	show "Você pode fazer um grupo digitando /organize [Nome do grupo] na linha de chat na parte de baixo da tela.";
+	show "O líder do grupo - aquele que o criou- pode determinar a distribuição de itens e EXP entre os membros deste.";
+	show "Além disso, se os outros integrantes do grupo estiverem no mesmo cenário será marcada por pontos coloridos no mini-mapa.";
+	next;
+	show "[Edwin]";
+	show "Na janela de contatos, existe também a opção de ver seus amigos.";
+	show "Ao adicionar alguém como seu amigo, o nome desta pessoa fica marcado em sua lista, facilitando a comunicação à distância dentro do jogo.";
+	show "Da sua lista de contatos, você pode 'sussurrar' para seus amigos mais facilmente, uma vez que seus nomes estarão sempre guardados.";
+	next;
+	show "[Edwin]";
+	show "Você aprenderá mais sobre organização de grupos com o instrutor de habilidades.";
+	show "E bem, acho melhor você também testar essa opção por si mesmo assim que tiver nível suficiente para organizar e participar de grupos.";
+	break;
+	
+	case 3:
+	show "[Edwin]";
+	show "A janela de itens é dividida em três sessões";
+	show "'item' que diz respeito à itens utilizáveis ou consumíveis, 'equip', ou seus itens equipáveis, como armas, armaduras e elmos e 'etc', que refere-se à itens variados, itens que podem ter funções especiais, ou servem como forma de conseguir dinheiro em lojas.";
+	next;
+	show "[Edwin]";
+	show "Você pode carregar um determinado número de itens com você, devido ao seu limite de peso e também, ao limite de quantidade para cada item.";
+	show "Quando você estiver com excesso de peso, sugiro que utilize o armazém da corporação Kafra.";
+	show "Ah, equipamentos e itens consumíveis podem ser colocados na barra de atalhos, para facilitar a utilização destes durante batalhas.";
+	show "Você pode abrir a barra de atalhos usando o botão ^4d4dffF12^000000.";
+	show "É possível colocar itens ou equipamentos na barra e utilizar as teclas F1 à F9 para usá-los.";
+	show "Há mais de uma barra de atalhos, para que os jogadores possam usar mais de 9 atalhos.";
+	show "Para acessar as outras duas, aperte F12 novamente.";
+	break;
+	
+	case 4:
+	show "[Edwin]";
+	show "Você pode abrir a janela de configurações no botão 'config' na janela principal, ou então, através do atalho alt+o.";
+	show "Nela é possível ajustar o som e usar skins.";
+	show "Os skins são novos padrões de janela que podem substituir o design comum, dando uma cara diferente às janelas do jogo.";
+	next;
+	show "[Edwin]";
+	show "Com o botão de som, você pode desligar ou ligar tanto a música de fundo, quanto os efeitos sonoros, ou controlar o nível de volume.";
+	show "Bem simples, certo?";
+	next;
+	show "[Edwin]";
+	show "Com a opção de skin, você pode mudar o aspecto das janelas, como eu disse antes.";
+	show "Você pode selecionar Skins diferentes, desde que estes estejam na sua pasta dentro do diretório em que está instalado o jogo.";
+	show "Para encontrar novos skins, visite nossa página oficial na internet: www.cronus-emulator.com";
+	show "Existem skins muito divertidos à sua disposição lá.";
+	next;
+	show "[Edwin]";
+	show "A opção Snap serve como uma forma rápida de atacar um inimigo.";
+	show "Com ela, o seu mouse vai automaticamente 'travar' num monstro próximo, assim que você passar o mouse perto dele.";
+	show "Assim, você só precisa clicar para que seu personagem ataque.";
+	show "O snap pode ser utilizado também para que suas habilidades e a ação de pegar um item funcionem neste mesmo sistema.";
+	next;
+	show "[Edwin]";
+	show "Bem, o snap pode ser bastante útil e confortável, mas eu não sei, não...";
+	show "Eu sugiro que apenas jogadores mais experientes utilizem esta opção.";
+	next;
+	show "[Edwin]";
+	show "Afinal, depende muito da habilidade de cada um...";
+	show "Ah, mas enfim, acho que terminamos por hora.";
+	show "Isso é tudo no quesito configurações.";
+	break;
+	
+	case 5:
+	show "[Edwin]";
+	show "Você poderia apertar o botão 'equip' na janela principal, ou apertar alt+ q?";
+	show "Ao fazer isso você vai ver os itens que seu personagem está equipando no momento.";
+	show "Está vendo?";
+	next;
+	show "[Edwin]";
+	show "Inicialmente, todos começam com uma Faca e uma Camisa de algodão, a armadura mais simples e a arma mais fraca.";
+	show "Há duas maneiras de ser mudar seu equipamento:";
+	show "Clique duas vezes no novo equipamento na janela de itens, ou arraste-o até a janela de equipamento.";
+	show "O item aparecerá equipado na janela, e dependendo do item, mudará a aparência do personagem.";
+	next;
+	show "[Edwin]";
+	show "Você pode também mudar equipamentos colocando mais de um deles na barra de atalhos.";
+	show "Assim, se você desejar mudar rapidamente entre um equipamento e outro, você pode fazê-lo utilizando as teclas F1 a F9.";
+	show "Entendeu tudo?";
+	show "Bem, você vai pegar o jeito quando treinar um pouco.";
+	break;
+	
+	case 6:
+	show "[Edwin]";
+	show "Sinta-se a vontade pra vir falar comigo quando tiver alguma dúvida.";
+	show "Boa sorte no treinamento";
+	close;
+	}
+	}
+	
+}
+
+//============================================================
+new_1-2,182,182,4	script	Assistente de Atributos	754,{
+	show "[Jare Riotte]";
+	show "Seja bem-vindo jovem aventureiro!";
+	show "Eu, Jare Riotte serei seu Assistente de Atributos.";
+	show "Se você assim desejar, poderá aprender muito sobre o mundo que rege seu personagem.";
+	show "Bom, podemos começar?";
+	next;
+	show "[Jare Riotte]";
+	show "Os atributos em Ragnarök Online são";
+	show "Força, Agilidade, Vitalidade, inteligência, Destreza e Sorte.";
+	show "Você poderá personalizá-los à vontade para tornar seu personagem único.";
+	show "Eles podem ser checados e modificados no menu atributos, cujo atalho é alt+a.";
+	next;
+	show "[Jare Riotte]";
+	show "A cada nível de base que você conquistar, um certo número de pontos serão ganhos para serem investidos nos seus atributos.";
+	show "Quanto maior o valor do atributo, mais 'caro' é investir nele.";
+	show "Por isso, é muito importante saber a utilidade de cada um deles.";
+	show "Para que você possa se informar sobre isso corretamente, preparei explicações sobre cada um deles. É só me dizer qual deseja ouvir.";
+while(TRUE){
+	next;
+	switch(select("Força e Agilidade","Vitalidade e Inteligência","Destreza e Sorte","Cancelar")){
+	case 1:
+	show "[Jare Riotte]";
+	show "Vamos começar por Força então.";
+	show "^4d4dffForça (FOR) influencia diretamente seu poder de ataque físico (ATQ) e sua capacidade de carregar peso.^000000";
+	show "1 ponto de FOR aumenta 1 no dano de armas de combate corpo-a-corpo, como espadas e adagas por exemplo.";
+	next;
+	show "[Jare Riotte]";
+	show "Você gosta de matemática? Bem, os atributos envolvem alguns cálculos simples, deixe-me explicar.";
+	show "A cada 10 pontos de Força (e aí contam os números depois do '+', por exemplo, 8+2)";
+	show "Você ganhará um bônus no poder de ataque!";
+	show "A equação matemática é (FOR/10)^2 (^2 quer dizer 'elevado ao quadrado)";
+	next;
+	show "[Jare Riotte]";
+	show "Por isso sempre procure ter sua Força arredondada em 10, contando com os bônus da sua classe, nível e armaduras.";
+	show "Assim você terá o melhor aproveitamento possível dos seus suados pontos de atributos.";
+	show "Bem, em suma, força é um atributo melhor aproveitado por Espadachins e Gatunos, as duas classes que mais se beneficiam de dano físico.";
+	next;
+	show "[Jare Riotte]";
+	show "Ok, vamos falar de Agilidade (AGI) agora.";
+	show "Agilidade influencia diretamente no seu poder de Esquiva e na sua Velocidade de Ataque (VelocAtk no menu de atributos)";
+	next;
+	show "[Jare Riotte]";
+	show "Sua esquiva equivale à: Seu Nível de Base + Sua AGI.";
+	show "Isso quer dizer que se você for Nível de Base 50 e tiver 40 de AGI (contanto os números depois do '+', por exemplo, (32+8), sua Esquiva será 90 (40+50)";
+	show "A Esquiva permite que você desvie de um ataque inimigo sem receber qualquer tipo de dano.";
+	next;
+	show "[Jare Riotte]";
+	show "Porém, se será possível ou não esquivar do ataque é algo que depende da Perícia do adversário.";
+	show "E por mais ágil que você seja, sua chance de esquiva nunca será superior à 95%¨.";
+	show "Na janela atributos, a Esquiva está como 'X+Y'";
+	show "'X' é a Esquiva que eu expliquei agora, e 'Y' é a 'Esquiva Perfeita', que é relacionada com Sorte.";
+	next;
+	show "[Jare Riotte]";
+	show "A Esquiva Perfeita é relacionada a sorte, falarei mais sobre isso quando entrarmos nesse atributo.";
+	show "Sobre a Velocidade de Ataque, ela é o que define o intervalo entre dois ataques seus.";
+	show "Quanto maior a VelocAtq, menor será esse intervalo.";
+	show "Dependendo da sua Classe e da Arma que você estiver usando, sua VelocAtq pode ficar muito alta, ou muito baixo.";
+	show "Se você prestou atenção em tudo que eu disse, deve ter concluído que a Agilidade só é útil em grandes quantidades.";
+	break;
+	
+	case 2:
+	show "[Jare Riotte]";
+	show "Agora vamos falar de Vitalidade(VIT) e Inteligência(INT).";
+	show "^4d4dffA Vitalidade influencia na sua quantidade e recuperação de HP, além da sua Defesa(DEF).^000000";
+	show "Cada ponto de VIT aumentará sua HP, dependendo da sua classe, esse aumento será em proporções diferentes.";
+	show "(A classe que mais beneficia disso é a dos Espadachins)";
+	show "A VIT também melhora a sua 'absorção' de itens de cura (como frutas e porções), e sua resistência contra Envenenamento, Silencio e Atordoamento.";
+	next;
+	show "[Jare Riotte]";
+	show "Vamos checar sua defesa.";
+	show "Na sua janela de atributos, a DEF está como 'X'+'Y'";
+	show "'Y' é a defesa derivada da sua Vitalidade, seja ela 'natural', de bônus de classe, nível ou equipamento.";
+	next;
+	show "[Jare Riotte]";
+	show "'X' é a defesa derivada do equipamento que você está usando.";
+	show "Essa defesa diminui o dano recebido por adversários.";
+	show "Porém, cada uma funciona de um modo.";
+	show "Deixe-me explicar com mais cuidado...";
+	show "Hmmm, vejamos.";
+	next;
+	show "[Jare Riotte]";
+	show "Enquanto a defesa da VIT diminui o dano em Números, (Exemplo: Sua VIT é 20. Ao receber um golpe de 200, o dano é de 180) a defesa do equipamento diminui em porcentagem";
+	show "(Exemplo: Sua DEF de equip é 30. Ao receber um golpe de 200, o dano é de 140)";
+	show "Logo, vê-se que embora ambas sejam importantes, a VIT do equipamento tem mais chances de ajudar contra danos maiores.";
+	next;
+	show "[Jare Riotte]";
+	show "Agora vamos falar de Inteligência, um assunto com o qual eu sou extremamente familiar, na verdade, me formei com Louvor nessa matéria na grandiosa Universidade de Juno, onde uma estatua em minha hon...";
+	show "Ahn! Oh! Sim, do que estávamos falando mesmo?";
+	next;
+	show "[Jare Riotte]";
+	show "Ah, do meu principal atributo, a INT!";
+	show "A INT influencia sua quantidade e recuperação de SP, e sua Defesa Mágica (DefM) e seu Ataque Mágico (AtqM).";
+	show "Cada ponto de INT aumentará sua SP e taxa de recuperação dela.";
+	show "(A recuperação aumenta significantemente de 6 em 6 pontos de INT)";
+	next;
+	show "[Jare Riotte]";
+	show "A INT também melhora a sua 'absorção' de itens que recuperem SP, e sua resistência contra Cegueira, Sono e Petrificação.";
+	show "Na sua janela de atributos, A DefM, defesa mágica, está como 'X'+'Y'.";
+	next;
+	show "[Jare Riotte]";
+	show "'Y' é a DefM derivada da sua INT (seja ela 'natural', de bônus de classe, nível ou equipamento), 'X' é a DefM derivada dos seus equipamentos.";
+	show "A inteligência é essencial para compreender o mundo  à nossa volta.";
+	show "Seja para controlar os elementos, como Magos, ou para servir ao Criador, como Noviços, é necessário investir em INT prioritariamente.";
+	break;
+	
+	case 3:
+	show "[Jare Riotte]";
+	show "Vamos falar de Destreza (DES) e Sorte (SOR) agora.";
+	show "Estes dois atributos têm algo em comum entre eles...";
+	show "Eles são essenciais para aqueles Ferreiros que pretendem forjar armas.";
+	show "Ambos os atributos são igualmente importantes na forja, portanto não é necessário subir um mais que o outro, o melhor é elevar ambos ao mesmo tempo.";
+	next;
+	show "[Jare Riotte]";
+	show "Mas estou divagando. Vamos à aula.";
+	show "A destreza influencia na Velocidade de Ataque, - apesar que não tanto quanto a Agilidade- mas seu papel principal é no aumento da precisão para acertar alvos, principalmente aqueles muitos ágeis.";
+	show "Classes que usam magias, precisam de DES para diminuir o Tempo de Conjuração.";
+	next;
+	show "[Jare Riotte]";
+	show "Em armas de combate corpo-a-corpo, a DES diminui a diferença entre os valores dos ataques mínimo e máximo.";
+	show "O cálculo da precisão ou Perícia de um personagem é obtido pelo nível somando à DES desse.";
+	show "Por exemplo, se seu personagem tem nível base 40 e 20 pontos em DES, sua perícia é 20+40, ou seja, 60.";
+	show "Simples, não?";
+	next;
+	show "[Jare Riotte]";
+	show "A DES é essencial para classes que utilizem o ^4d4dffarco-e-flecha como sua arma principal^000000, todo o seu poder de ataque provém da ^4d4dffDES.^000000";
+	show "A cada 10 pontos de DES, seu ataque melhora significamente.";
+	show "Se você desejar ser Caçador, Bardo ou Arruaceiro que utilize arco invista muitos pontos em Destreza, será muito recompensador!";
+	next;
+	show "[Jare Riotte]";
+	show "Por ultimo, vamos falar de Sorte(SOR).";
+	show "A SOR influencia fatores muito únicos como os Ataques Críticos e a Esquiva Perfeita.";
+	show "Deixe-me explicar como calma...";
+	next;
+	show "[Jare Riotte]";
+	show "A SOR aumenta sua chance de dar Ataque Críticos, essa chance aumenta a cada 3 pontos de SOR.";
+	show "Os Ataques Críticos ignoram a defesa do oponente e sempre são do maior valor possível para o personagem.";
+	show "Para acertar um Ataque Crítico não é necessária Perícia, apenas muita ^4d4dffSorte!^000000";
+	next;
+	show "[Jare Riotte]";
+	show "Agora vamos falar de Esquiva Perfeita para terminar logo essa aula!";
+	show "Veja como está a Esquiva na sua Janela de Atributos.";
+	show "Está como 'X'+'Y'.'X' é a sua esquiva normal, derivada da AGI.";
+	show "'Y' é a sua Esquiva Perfeita, derivada do SOR.";
+	show "Esquiva Perfeita é a porcentagem de chance que você tem de desviar-se de um golpe adversário, independente da perícia do inimigo.";
+	next;
+	show "[Jare Riotte]";
+	show "Quando isso acontece, um balão escrito ^FF7F00Lucky^000000 aparecerá em cima de você.";
+	show "Cada 10 pontos de SOR aumentam 1 ponto de EP.";
+	show "Na minha opinião, SOR pode ser muito útil, mas dificilmente será essencial. Bem, é isso, ufa.";
+	break;
+	
+	case 4:
+	show "[Jare Riotte]";
+	show "Espero que minha aula tenha sido útil para você.";
+	show "Você foi um ótimo estudante, estou muito satisfeito.";
+	show "Bem, já falei demais por hoje.";
+	show "Boa sorte em suas aventuras.";
+	close;
+	}
+	}
+}
+
+//============================================================
+new_1-2,184,172,4	script	Ass. de Habilidades	47,{
+	show "[Pitch Judas]";
+	show "Ai finalmente você chegou!";
+	show "Estive esperando por um Aprendiz tão simpático assim aparecer por aqui, durante muito muuuito tempo!";
+	show "Eu, Picth, me sinto tão responsável por você, que te darei a melhor aula de todos os tempos!";
+	show "Fabuloooso! Vamos aprender sobre habilidades, então?";
+while(TRUE){
+	next;
+	switch(select("Habilidades Passivas e Ativas","Habilidades Básicas","Uso de Emoticons","Cancelar.")){
+
+	case 1:	
+	show "[Pitch Judas]";
+	show "Você escolheu aprender sobre Habilidades passivas e ativas.";
+	show "Eu vou explicar as habilidades passivas antes, ok?";
+	show "Então por favor preste atenção.";
+	show "Primeiro de tudo, abra sua janela de habilidades.";
+	show "Use o menu da janela básica ou aperte Alt + S, ta?";
+	next;
+	show "[Pitch Judas]";
+	show "Você está vendo um ícone de habilidade?";
+	show "Esse ícone é da sua árvore de habilidades de Aprendiz.";
+	show "Enquanto você for Aprendiz, todos os seus pontos de habilidade irão para suas habilidades básicas, que são por natureza, todas passivas. Isso quer dizer que elas não são utilizáveis.";
+	show "São habilidades que aumentam características do personagem ou lhe dão você tenha usá-las, e logo, não gastam seu SP. Um luxo, né?";
+	next;
+	show "[Pitch Judas]";
+	show "Você podia clicar no ícone de habilidades básicas com o botão direito do seu mouse?";
+	show "Você pode ver a descrição de cada umas das habilidades básicas, não é?";
+	show "Todas essas habilidades são absolutamente in-dis-pen-sá-veis para que você jogue Ragnarök com tudo que tem direito.";
+	show "É por isso que elas são chamadas de básicas, né, fofura?";
+	next;
+	show "[Pitch Judas]";
+	show "Voltando, habilidades passivas podem ser resumidas como aquelas que não gastam seu SP.";
+	show "Muitas vezes, as habilidades passivas são responsáveis por dar a cada uma das classes, o que faz dela realmente única e exclusiva.";
+	show "Por exemplo, os Gatunos têm a habilidade Ataque Duplo, e os Espadachins a de regenerar HP.";
+	next;
+	show "[Pitch Judas]";
+	show "Bom, já as habilidades ativas são mais fáceis de entender agora que já expliquei isso.";
+	show "São aquelas que usam SP para serem ativadas, certo? Isso mesmôÔ!";
+	show "Uma habilidade ativa é usada de duas maneiras:";
+	show "com um click duplo no ícone desta, ou de uma forma bem mais prática, que é colocar este ícone à disposição na barra de atalhos.";
+	show "Aí é só apertar tecla que você escolheu para ativar esta habilidade.";
+	next;
+	show "[Pitch Judas]";
+	show "Se você prestou atenção nas aulas, você deve ter ganho uma habilidade especial de Aprendizes.";
+	show "Ela se chama 'Primeiros Socorros'.";
+	show "Vamos lá, teste-a, que você vai ver.";
+	show "Ela gasta uma pequena quantidade de SP para recuperar HP.";
+	show "Algumas habilidades também variam no gasto de SP de acordo com o nível em que estão, pois aumentam em intensidade a cada nível, necessitando de mais SP.";
+	next;
+	show "[Pitch Judas]";
+	show "Resumindo! Habilidades passivas podem ser descritas como aquelas que representam um treinamento mental e/ou físico de cada classe, e por isso, são diferentes de uma para outra.";
+	show "E habilidades que precisam ser usadas, ativadas manualmente, que usam energia do personagem para ajudá-lo em batalhas ou outras situações, são chamadas de habilidades ativas.";
+	show "Acho que ficou bem simples, né?";
+	next;
+	show "[Pitch Judas]";
+	show "É, eu sei, eu sei, não é nem tããão complicado assim...";
+	show "Mas é que eu falei que quando eu gosto dos alunos - e eu sempre gosto- eu tenho que explicar tudo tintim por tintim.";
+	break;
+	
+	case 2:
+	show "[Pitch Judas]";
+	show "As puras habilidades passivas!";
+	show "As habilidades primárias de Ragnarök!";
+	show "As 8 coisas que você TEM que saber pra jogar!";
+	show "Habilidades básicas são tudo isso, e são in-crí-veis!";
+	next;
+	show "[Pitch Judas]";
+	show "Quando você clicar com o botão direito do mouse na sua janela de habilidades, você pode ver a descrição de cada uma, e isso também vale para as habilidades básicas.";
+	show "Enfim, isso é pouco para saber o que cada uma delas faz, não é?";
+	show "Então pra fazer você entender melhor tudo, eu preparei uma aula bem explicativa.";
+ADH_menu:
+while(TRUE){
+	next;
+	switch(select("Trocas e Comércio","Organizar e se juntar a um grupo","Abrir chat","Uso do Armazém","Não, obrigado, já sei de tudo.")){
+	
+	case 1:
+	show "[Pitch Judas]";
+	show "Ao visitar nossa página oficial na internet http://www.cronus-emulator.com";
+	show "Você poderá ver uma explicação de noções de troca e comércio, com imagens detalhando.";
+	show "Para que você possa trocar items ou zeny com outras pessoas, é necessário que você seja ao menos nível 2 em habilidades básicas.";
+	next;
+	show "[Pitch Judas]";
+	show "Para se fazer uma troca, a distância entre você e a pessoa com quem você está fazendo negócio, é muito importante.";
+	show "Você tem de estar perto da pessoa, ou a negociação não funcionará.";
+	show "estando perto, você só precisa clica com o botão direito do mouse nesta pessoa.";
+	show "Apenas uma vez.";
+	next;
+	show "[Pitch Judas]";
+	show "Ao escolher ^800fffSolicitar negociação com^000000,";
+	show "-o comando de trocas-";
+	show "no menu que aparece ao se clicar com o botão direito na pessoa, a pessoa receberá um pedido para negociação com seu nome.";
+	show "Se a pessoa quiser fazer negócio, ela selecionará sim na janela, e ambos os jogadores abrirão, instantaneamente, a janela de trocas.";
+	next;
+	show "[Pitch Judas]";
+	show "Se você estiver a mais de duas células (aqueles quadradinhos no chão)";
+	show "Você não pode solicitar uma negociação.";
+	show "Por isso, lembre do que eu te disse, tá?";
+	show "Para uma troca apenas de itens, clique e arraste o item da sua janela de inventário (alt+e,lembra?) para a janela de troca.";
+	next;
+	show "[Pitch Judas]";
+	show "Para uma troca de zeny, digite a quantidade de zenys que deseja passar na caixinha embaixo.";
+	show "Após colocar os itens ou o zeny na janela de trocas";
+	show "Você deve apertar o botão 'OK' para confirmar";
+	next;
+	show "[Pitch Judas]";
+	show "Eu recomendo, antes de terminar a troca, que você clique com o botão direito nos itens que você colocou na janela de trocas para ver as informações dele, e ter certeza de que você não se enganou.";
+	show "Bem, após se certificar que está tudo certo, e apertar 'Ok', haverá uma segunda confirmação.";
+	show "Apertando o botão trocas, que ambos devem apertar, a troca acontece.";
+	show "Se algum dos dois apertar cancelar em algum momento, ela é cancelada.";
+	break;
+	
+	case 2:
+	show "[Pitch Judas]";
+	show "Agora eu vou te explicar sobre o sistema de grupos, tá?";
+	show "Isso é muito importante, e você já deve saber alguma coisa, mas nunca custa aprender mais.";
+	show "O sistema de grupos permite que você se junte a outras pessoas para que juntos, possam ter mais forças em batalhas, aproveitando as capacidades únicas que cada classe tem, para que todos tirem proveito disso.";
+	show "Assim, ganha-se muito mais experiência e tudo fica mais divertido.";
+	next;
+	show "[Pitch Judas]";
+	show "Você organiza um grupo clicando no botão 'contatos' na janela de informações básicas ou ao escrever na barra de diálogos o comando /organize [nome do grupo].";
+	show "Para fazer um grupo, é necessário, no mínimo ^4d4dffnível 7 de habilidades básicas^000000.";
+	show "Ou seja, antes de se CRIAR um grupo, você vai ter que desenvolver um pouco suas habilidades.";
+	next;
+	show "[Pitch Judas]";
+	show "Uma das melhores coisas de um Grupo, é a distribuição igualitária de experiência entre os membros dele.";
+	show "Com essa opção, cada monstro morto por qual quer um dos membros do grupo dará experiência para todos eles, se eles estiverem num espaço de no máximo 10 níveis entre os membros.";
+	show "Sabe, seria bom se eu pudesse fazer um grupo com você e te mostrar como funciona tudo, mas você vai aprender tudo sem problemas com o tempo, ga-ran-to.";
+	next;
+	show "[Pitch Judas]";
+	show "Ah, uma coisa importante.";
+	show "Embora você não possa criar um grupo até chegar no nível 7 de habilidades básicas,";
+	show "Você pode se juntar a qual quer um, se for convidado pelo líder deste grupo.";
+	show "Não existe nenhum requisito pra entrar num grupo?";
+	show "Não-se-nhor! Huhuhu!";
+	next;
+	show "[Pitch Judas]";
+	show "Isso é tudo em relação ao sistema de grupos.";
+	show "Aliais, tenho uma pequena dúvida estética...";
+	show "Onde você cortou seu cabelo?";
+	show "Porque ficou uma graça em você!";
+	show "Eu preciso de um cabeleireiro tão bom assim meu deus!";
+	show "Fabuloosoo!";
+	break;
+	
+	case 3:
+	show "[Pitch Judas]";
+	show "Você pode abrir uma ^4d4dffsala de chat a partir do nível 4 ou mais de habilidades básicas^000000.";
+	show "Para abrí-la, use a janela de informações básicas ou então pressione o atalho Alt + C no teclado.";
+	show "Espera que tenha mais...";
+	next;
+	show "[Pitch Judas]";
+	show "Quando você abre uma sala, você pode decidir uma porção de coisas.";
+	show "Primeiro de tudo, o nome que ela terá. Escreva na parte de cima.";
+	show "Além disso, também temos a opção de limitar o número de pessoas que podem entrar nela, e colocar uma senha, para que só os escolhidos ex-clu-si-vos possam entrar.";
+	show "Quando as pessoas estiverem dentro da sua sala de chat, você pode ver informações delas usando o botão registrá-las como seus amigos.";
+	next;
+	show "[Pitch Judas]";
+	show "Ah, enquanto você estiver conversando lá, não vai dar pra ouvir nadica de nada do que estiverem falando do lado de fora.";
+	show "Embora você ainda possa receber e mandar mensagens à distância assim...";
+	show "Sabe, eu adoraria conversar a sós com você, num barquinho em Alberta...";
+	next;
+	show "[Pitch Judas]";
+	show "Ai, preciso me controlar! Me desculpa, eu sei que eu sou assim mesmo às vezes...";
+	show "É que ser um NPC é solitário...";
+	show "Eu queria ir pra Como, viver naquele glamour todo!";
+	show "Tomar piña coladas à beira-mar!";
+	show "Aiai! Ser livre!";
+	show "Mas tudo bem, dar aula também é super!";
+	break;
+	
+	case 4:
+	show "[Pitch Judas]";
+	show "Por todo esse grande mundo de Rune Midgard você vai encontrar um monte de moças chiquérrimas que trabalham para a organização Kafra.";
+	show "Você já deve saber o que elas fazem, ajudando os aventureiros com serviços que são super bacanas.";
+	show "As Funcionárias Kafras são umas gra-ças.";
+	next;
+	show "[Pitch Judas]";
+	show "Bem, as Kafras tem um serviço de armazenagem de itens muito prático.";
+	show "E você poderá usá-lo assim que estiver com ^4d4dffnível de habilidades básicas 6 ou superior^000000.";
+	show "Elas não deixarão você usar o armazém se não estiver dentro destes requisitos.";
+	next;
+	show "[Pitch Judas]";
+	show "Mas então... Se você estiver com muitos itens no seu inventário e por exemplo ficar muito gordo, você vai ter um monte de problemas.";
+	show "A sua recuperação de HP e SP, e até sua capacidade de lutar, se tiver muito peso, vai ser prejudicada.";
+	show "Por isso, tome muito cuidado, e fique de olho nessas gordurinhas!";
+	show "Huhuhu, eu sou terrível!";
+	break;
+
+	case 5:
+	show "[Pitch Judas]";
+	show "Já sabe tudo, é?";
+	show "Ulalá, sabia que eu já esperava isso?";
+	show "Você é tão inteligente quanto é uma gracinha!";
+	show "Eu estou muito satisfeito com você!";
+	show "Aiai, pena que vocês Aprendizes nunca ficam assim pra sempre.";
+	show "A roupinha de vocês é muito mais bonita que qual quer outra!";
+	next;
+	show "[Pitch Judas]";
+	show "Quer saber sobre mais alguma coisa?";
+	show "Pode perguntar!";
+	next;
+	goto ADH_menu;
+	}
+	}
+	
+	case 3:
+	show "[Pitch Judas]";
+	show "^4d4dffEmoticons são usados sempre na internet para melhor demonstrar seus sentimentos^000000 ao escrever para outras pessoas.";
+	show "Dentro de Ragnarök há um montão de emoticons para você usar, mas há um requisito básico antes disso.";
+	show "Você tem que estar em ^4d4dffnível 2 ou mais em habilidades básicas^000000 para poder utilizá-los.";
+	next;
+	show "[Pitch Judas]";
+	show "Você pode checar os emoticons registrados nos seus atalhos e os outros emoticons disponíveis usando os atalhos alt + L e alt + M.";
+	show "Lá, você também verá que quando nos atalhos, basta usar a tecla alt e mais o número em que você registrou o emoticon e ele aparece.";
+	next;
+	show "[Pitch Judas]";
+	show "Sabe, expressar seus sentimentos para uma pessoa é uma parte in-dis-pen-sá-vel quando se trata de relacionamentos.";
+	show "É claaaro que muita melação fica demais, e ninguém gosta disso...";
+	show "Mas emoticons são muito divertidos e engraçados, e uma maneira muito bonitinha de se comunicar online.";
+	next;
+	show "[Pitch Judas]";
+	show "Mas então, como eu ia dizendo...";
+	show "Pra facilitar o uso dos emoticons, escolha os que você mais gosta e coloque-os nos atalhos disponíveis na janela de alt + M.";
+	show "Mas, se você tiver boa memória,  você pode decorar aqueles que mais gosta e digitar diretamente os comandos na barra de diálogos.";
+	next;
+	show "[Pitch Judas]";
+	show "SU-per legal, hein?";
+	show "Há muitos emoticons novos que foram adicionados recentemente e não estão na janela de atalhos de Alt+M.";
+	show "Para conhecê-los (porque eles são um luxo só) basta digitar na barra de diálogos o comando ^4d4dff/emotion^000000 e uma lista de todos eles vai aparecer.";
+	break;
+	
+	case 4:
+	show "[Pitch Judas]";
+	show "Hmm, estou vendo, você não precisa mais de mim...";
+	show "Acho que você não vai querer mais aparecer e conversar, hein?";
+	close;
+	}
+	}	
+}
+
+//============================================================
+-	script	Funcionário do Campo::dificuldade	84,{
+	show "[Pman]";
+	show "Você vai batalhar contra os monstros no campo especial.";
+	show "Está pronto?";
+	show "Embora esses monstros seja bem fracos e fáceis de matar,";
+	show "por favor, tome cuidado.";
+	show "Alguns deles são agressivos também, devo te avisar.";
+	show "Por isso, atenção e não abaixe sua guarda.";
+	next;
+	show "[Pman]";
+	show "Se você quiser, eu posso te mandar para um outro campo de treinamento, com monstros mais fortes à sua espera.";
+	show "Evidamente, eles não são mesmo fortes, nada que possa ser impossível para um Aprendiz derrotar, mas ainda assim, mais fortes do que os outros.";
+	next;
+	show "[Pman]";
+	show "Bem, gostaria de tentar?";
+	next;
+	switch(select("Tentar no campo mais fácil.","Quero mais dificuldade.","Cancelar.")){
+	
+	case 1:
+	show "[Pman]";
+	show "Vou te mandar para o campo de batalha mais fácil, então.";
+	show "Boa sorte.";
+	next;
+	warp "new_" + rand(2,3) + "-3",96,21;close;
+
+	case 2:
+	show "[Pman]";
+	show "Vou te mandar para o campo de batalha mais difícil, então.";
+	show "Boa sorte.";
+	next;
+	warp "new_" + rand(4,5) + "-3",96,21;close;
+	
+	case 3:
+	show "[Pman]";
+	show "Não me diga que se assustou?";
+	show "Não há problema nisso, na verdade...";
+	show "Acho que maioria das pessoas ficaria assim.";
+	close;
+	}
+}
+
+//============================================================
+-	script	Funcionário de checagem::checagem	85,{
+	show "[Keyman]";
+	show "Hmmm!";
+	show "Você praticou bastante, não é mesmo?";
+	show "Quer ir para a próxima parte do treinamento?";
+	next;
+	switch(select("Sim","Não")){
+	case 1:
+	warp "new_1-4",99,10;
+	close;
+
+	case 2:
+	show "[Keyman]";
+	show "Você sente necessidade de mais treinos... Isso é bom. Pratique à vontade.";
+	close;
+	}
+}
+
+//============================================================
+new_1-4,91,22,4	script	Instrutor de Aprendizes	57,{
+callfunc "Tr_NoclasseAB","Instrutor de Aprendizes";
+	if (IAset){
+		show "[Bruce]";
+		show "Explicarei mais uma vez, se você desejar.";
+		show "Me diga, sobre qual das classes você deseja";
+		show "mais explicações?";
+	}else{
+		show "[Bruce]";
+		show "Você fez um belo esforço para passar por todos os estágios do treinamento, não?";
+		show "Tenho certeza que sim, ^A62A2A'"+ strcharinfo(0) +"'^000000.";
+		show "É um prazer te conhecer .";
+		show "Meu nome é Bruce, um habitante, como você, do reino de Rune-Midgard.";
+		next;
+		show "[Bruce]";
+		show "Meu dever é ajudar os recém-chegados ensinando-os sobre cada uma das classes disponíveis no jogo, para que possam escolher mais facilmente, de qual desejam ser.";
+		show "Cada uma das classes têm seu pontos fracos e fortes,";
+		show "e é isso que tentarei passar para você.";
+		next;
+		show "[Bruce]";
+		show "As primeiras classes, ou profissões, são";
+		show "^0000FFEspadachim, Mago, Mercador, Arqueiro, Gatuno e Noviço^000000.";
+		next;
+		show "[Bruce]";
+		show "Sobre qual delas classes você deseja saber mais?";
+	}
+while(TRUE){
+	next;
+	switch(select("Espadachins","Magos","Arqueiros","Mercadores","Gatunos","Noviços","Terminar a Conversa.")){
+	
+	case 1:
+	show "[Bruce]";
+	show "Muito Bem.";
+	show "Os Espadachins são, literalmente, homens de armas.";
+	show "Guerreiros natos, eles podem carregar tanto espadas de uma mão ou duas,";
+	show "quanto adagas, machados e lanças.";
+	show "Isso faz com que em matéria de perícia em batalhas os Espadachins sejam os mais versáteis e preparados.";
+	next;
+	show "[Bruce]";
+	show "Outra grande característica do Espadachim é a força física, necessária devido à grande quantidade de equipamento que eles necessitam carregar,";
+	show "e ao fato de que como lutadores eles dependem desta força para vencer.";
+	show "O dano infligido por um Espadachim, juntando sua força e potentes armas, pode ser devastador.";
+	next;
+	show "[Bruce]";
+	show "No entanto, esta classe apresenta uma fraqueza";
+	show "que é serem incapazes de usar feitiços e magias.";
+	show "Os Espadachins são guerreiros de combate corpo a corpo,";
+	show "logo essa ausência é justificada, e também compensada por suas habilidades de luta.";
+	next;
+	show "[Bruce]";
+	show "Além disso, o Espadachim tem na sua vitalidade um de seus maiores trunfos.";
+	show "A sua quantidade de HP pode chegar a números incríveis, inequiparáveis por nenhuma das outras classes, e que juntamente com a habilidade de regeneração rápida,";
+	show "fazem do Espadachim muito difícil de ser derrotado.";
+	next;
+	show "[Bruce]";
+	show "Entre suas outras habilidades, temos aquelas voltadas para o combate,";
+	show "Golpe Fulminante e Impacto Explosivo, que executa ataques poderosos,";
+	show "e outros que melhoram o desempenho do personagem, como as duas Perícias em Espada e Vigor.";
+	next;
+	show "[Bruce]";
+	show "Em Ragnarök Online, o Espadachim é aquele que fica na frente de batalha,";
+	show "mantendo a posição e protegendo os mais fracos atrás de si,";
+	show "pois sua capacidade de agüentar dano é muito grande.";
+	show "Por esta razão, Espadachins são os líderes ideais para um grupo.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Os Espadachins podem avançar de classe e tornar-se Cavaleiros ou Templários, à partir do nível de classe 40.^000000";
+	set IAset,1;
+	break;
+	
+	case 2:
+	show "[Bruce]";
+	show "A classe dos Magos é especializada na manipulação das forças elementais,";
+	show "fogo, água, terra e vento, para invocar magias capazes de devastar áreas cheias de inimigos num piscar de olhos.";
+	next;
+	show "[Bruce]";
+	show "No entanto, por mais poderosos que possam ser na magia,";
+	show "os Magos fisicamente são fracos, e pecam em força e vitalidade.";
+	show "O Mago, por isso, deve ser um bom estrategista,";
+	show "pois danos físicos infligidos neles podem ser fatais.";
+	next;
+	show "[Bruce]";
+	show "Mesmo assim, a classe dos Magos é muito popular,";
+	show "visto que sua habilidade com magias possibilita lutar com monstros mais fortes e vencer,";
+	show "ganhando muita experiência no processo.";
+	show "Este atributo faz da classe dos Magos muito popular no jogo, como você vai ver lá fora.";
+	next;
+	show "[Bruce]";
+	show "Em Ragnarök Online, os Magos são considerados";
+	show "os atacantes num Grupo, pois mesmo ficando atrás da linha de frente, podem infligir grande dano nos inimigos à distância.";
+	show "São muito requisitados em batalhas e grupos por essa característica.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Os Magos podem avançar de classe e tornar-se Bruxos ou Sábios, à partir do nível de classe 40.^000000";
+	set IAset,1;
+	break;
+	
+	case 3:
+	show "[Bruce]";
+	show "A classe dos Arqueiros é especializada no combate à distância, utilizando todo tipo de arcos e bestas, e diferentes flechas, inclusive elementais.";
+	show "Arqueiros possuem pouca força, sendo muito fortes na destreza, que influi na força e na precisão de seus disparos.";
+	show "Arqueiros são rápidos e certeiros, esquivando de seus inimigos e atacando ininterruptamente.";
+	next;
+	show "[Bruce]";
+	show "Em Ragnarök Online, os Arqueiros possuem pouco HP,";
+	show "mas compensam essa fraqueza com ataques de grande potência e velocidade,";
+	show "evitando que o inimigo se aproxime demais e inflija algum dano.";
+	show "Por isso, suas habilidades são todas voltadas para aumentar esse dano e sua destreza com o arco.";
+	next;
+	show "[Bruce]";
+	show "São bastante populares pelo dano que podem causas, especialmente como Caçadores,";
+	show "e pela facilidade com que ganham experiência.";
+	show "O longo alcance dos Arqueiros possibilita em alguns o alvo de barrancos ou lugares mais altos sem serem alcançados.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Arqueiros podem avançar para a segunda classe";
+	show "como Caçadores, não importa de qual sexo sejam,";
+	show "ou como a classe alternativa dos Bardos, para os homens, e Odalisca, para as mulheres, que tenham alcançado o nível de classe 40.^000000";
+	set IAset,1;
+	break;
+	
+	case 4:
+	show "[Bruce]";
+	show "A especialidade da classe dos Mercadores";
+	show "é o comércio em todas as suas formas,";
+	show "tendo pouca proficiência em combate e magias.";
+	next;
+	show "[Bruce]";
+	show "Através de seus grandes";
+	show "conhecimentos do mercado, e de seus contatos,";
+	show "eles podem comprar itens a preços baixos e vendê-los com sobretaxa, conseguindo grandes lucros nestas transações.";
+	show "Para vender e comprar mercadorias, a presença de um Mercador é inestimável.";
+	next;
+	show "[Bruce]";
+	show "Os Mercadores em Ragnarök Online possuem uma série de habilidades que envolvem o comércio, e lhes dão vantagens neste campo,";
+	show "inclusive a capacidade de abrir 'lojas' para colocar à venda itens raros ou com desconto em qual quer lugar que desejem.";
+	next;
+	show "[Bruce]";
+	show "Por isso, a maioria dos Mercadores utiliza um carrinho,";
+	show "onde carregam suas mercadorias para a venda.";
+	show "As suas evoluções, Ferreiro e Alquimista, além de mais habilidades de comércio, possuem habilidades de batalha devastadoras.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Os Mercadores podem avançar de classe";
+	show "e torna-se Ferreiros ou Alquimistas,";
+	show "á partir do nível de classe 40.^000000";
+	set IAset,1;
+	break;
+	
+	case 5:
+	show "[Bruce]";
+	show "A classe dos Gatunos é especializada no combate corpo a corpo, como os Espadachins, mas usa a adaga como arma principal.";
+	show "Suas grandes vantagens são sua capacidade de esquiva e seus ataques rápidos, ambas melhoradas e desenvolvidas por habilidades passivas.";
+	next;
+	show "[Bruce]";
+	show "Além disso, o Gatuno é naturalmente furtivo e mortal,";
+	show "sendo capaz de se esconder instantaneamente, ficando invisível aos outros jogadores,";
+	show "e é perito em venenos que sugam a energia e diminuem a precisão do inimigo numa batalha.";
+	show "Podem também surrupiar itens de monstros sem precisar combatê-los.";
+	next;
+	show "[Bruce]";
+	show "Os Gatunos são grandes lutadores como os Espadachins,";
+	show "mas que valorizam acima da força e da resistência, a velocidade, que favorece sua esquiva e proporciona uma rapidez incrível em seus ataques.";
+	show "São por natureza rápidos e certeiros.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Os Gatunos podem avançar para Mercenários";
+	show "ou Arruaceiros como segunda classe.^000000";
+	set IAset,1;
+	break;
+	
+	case 6:
+	show "[Bruce]";
+	show "Os Noviços são os servos devotados do Senhor, cuja missão na Terra é proteger e ajudar ao próximo,";
+	show "não através da violência, mas sim dos seus poderes divinos,";
+	show "de forma a beneficiar ao próximo e não a si mesmo.";
+	next;
+	show "[Bruce]";
+	show "Em Ragnarök Online, os Noviços são uma classe de suporte,";
+	show "que proporciona melhorias e ajuda para as outras classes durante as batalhas.";
+	show "Além de curar outros personagens, no Noviços podem por exemplo, aumentar sua força e destreza, ou teleportá-los para um local seguro.";
+	show "As capacidades dos Noviços são inestimáveis em combate.";
+	next;
+	show "[Bruce]";
+	show "Por isso, eles são sempre convidados para juntar-se a Grupos,";
+	show "e ajudar em grandes batalhas.";
+	next;
+	show "[Bruce]";
+	show "^8E2323Eles podem avançar para Sacerdotes ou Monges";
+	show "como segunda classe.^000000";
+	set IAset,1;
+	break;
+	
+	case 7:
+	show "[Bruce]";
+	show "Para mais informações,";
+	show "não deixe de visitar nosso site oficial";
+	show "^2F4F4Fwww.cronus-emulator.com^000000.";
+	show "O Hanson já está te esperando. Vá encontrá-lo.";
+	close;
+	}
+}
+}
+
+//============================================================
+new_1-4,100,29,4	script	Instrutor Final	46,{
+	set IFmago,0;
+	set IFespadachim,0;
+	set IFnovico,0;
+	set IFgatuno,0;
+	set IFmercado,0;
+	set IFarqueiro,0;
+	if (finalres) goto fincancelado;
+	if (!IAset){
+	show "[Hanson]";
+	show "Bem vindo.";
+	show "Meu nome é 'Hanson',";
+	show "Eu sou o encarregado do terceiro teste, o teste de personalidade, ou vocacional.";
+	show "Seu nome é...^A62A2A'"+ strcharinfo(0) +"'^000000. Correto?";
+	next;
+	show "[Hanson]";
+	show "Muito bem, antes que comecemos, sugiro que você converse com o Instrutor de Aprendizes, ao meu lado,";
+	show "para maiores informações sobre cada classe.";
+	show "Eu estarei esperando aqui.";
+	close;
+	}else{
+	
+	show "[Hanson]";
+	show "Bom dia,";
+	show "^A62A2A'"+ strcharinfo(0) +"'^000000.";
+	show "Você fez um bom esforço para chegar até aqui, não é mesmo?";
+	show "Pelo visto, você acabou de aprender sobre as 6 classes disponíveis.";
+	show "Bem, este será seu terceiro teste, mas um teste de personalidade, ou vocacional,";
+	show "e que não é obrigatório.";
+	next;
+	show "[Hanson]";
+	show "Ou seja, se você não quiser fazê-lo,";
+	show "a escolha é toda sua.";
+	show "No entanto, se você fizer este último teste,";
+	show "você poderá ter mais benefícios.";
+	next;
+	show "[Hanson]";
+	show "Primeiramente, eu lhe darei alguns presentes ao final do teste, itens de cura que poderão ser muito úteis para você no futuro,";
+	show "nas batalhas do mundo Ragnarök Online.";
+	show "Presentes são sempre bem vindos, não é?";
+	show "Eu sei que sim!";
+	next;
+	show "[Hanson]";
+	show "Além disso, após terminar o teste nós lhe daremos uma sugestão de classe que se identifique com sua personalidade";
+	show "e o teleportaremos para a cidade onde você poderá fazer a mudança para esta profissão.";
+	show "E poderá haver ainda mais um ou outro bônus além desses que mencionei...";
+	next;
+	show "[Hanson]";
+	show "E então, o que você quer fazer?";
+	show "Que ir direto para o mundo de Ragnarök Online";
+	show "ou fazer o teste de personalidade?";
+	show "Pense a respeito e me diga.";
+	next;
+	switch(select("Eu quero fazer o teste.","Quero começar a jogar Ragnarök Online")){
+
+	case 2:
+	show "[Hanson]";
+	show "Hum, compreendo.";
+	show "Te mandarei para o mundo de Ragnarök Online imediatamente.";
+	next;
+	show "[Hanson]";
+	show "No entanto, espero que no futuro, você não negligencie sua educação e aprenda mais e mais sobre o Reino de Rune-Midgard, na prática.";
+	next;
+	show "[Hanson]";
+	show "E por último, "+ strcharinfo(0) +",";
+	show "espero que você se torne um bom jogador.";
+	show "Boa sorte.";
+	show "E adeus.";
+	next;
+	goto Teleportfinal;
+	
+	default:
+	show "[Hanson]";
+	show "Ótima escolha!";
+	show "Aqueles que fazem todos os teste e cursos que oferecemos";
+	show "certamente serão jogadores bem sucedidos lá fora,";
+	show "pelo seu nível superior de preparação e determinação!";
+	show "Falando sério, se você não escolhesse fazer o teste...";
+	show "Acho que ficaria muito desapontado com você.";
+	next;
+	show "[Hanson]";
+	show "Mas muito bem! Vamos começar este teste.";
+	show "Por favor, relaxe e vá com calma.";
+	show "Tome o tempo que quiser e escolha as respostas mais adequadas ao seu ponto de vista e seu modo de pensar.";
+	next;
+	show "[Hanson]";
+	show "Lembre-se, esse teste é só para que conheçamos sua personalidade, não existem padrões de bom ou ruim aqui, ok?";
+	show "Afinal, cada vê as coisas de um jeito diferente. Vamos lá!";
+	next;
+	show "[Hanson]";
+	show "Escolha a alternativa com a qual você mais se identifica das opções abaixo:";
+	next;
+	switch(select("Estudo","Exercícios","Caridade","Violência")){
+
+	case 1:
+	set IFmago,IFmago+1;
+	break;
+	
+	case 2:
+	set IFespadachim,IFespadachim+1;
+	set IFgatuno,IFgatuno+1;
+	break;	
+	
+	case 3:
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 4:
+	set IFgatuno,IFgatuno+1;
+	}
+	switch(select("Mudança","Permanência")){
+	case 1:
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 2:
+	set IFnovico,IFnovico+1;
+	}	
+	switch(select("Consumidor","Fornecedor","Produtor")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	set IFgatuno,IFgatuno+1;
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 2:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 3:
+	set IFmago,IFmago+1;
+	}
+	switch(select("Fama","Prudência")){
+	case 1:
+	set IFgatuno,IFgatuno+1;
+	break;
+
+	case 2:	
+	set IFarqueiro,IFarqueiro+1;
+	}
+	switch(select("Teoria","Experiência")){
+	case 1:
+	set IFmago,IFmago+1;
+	break;
+	
+	case 2:
+	set IFespadachim,IFespadachim+1;
+	}	
+	switch(select("O passado","A realidade","O futuro")){
+	case 1:
+	set IFarqueiro,IFarqueiro+1;
+	break;
+	
+	case 2:
+	set IFmercado,IFmercado+1;
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 3:
+	set IFmago,IFmago+1;
+	}
+	show "[Hanson]";
+	show "Por favor, responda as perguntas seguintes com 'sim' ou 'não'.";
+	next;
+	show "[Hanson]";
+	show "É melhor morrer a viver uma vida submissa.";
+	next;
+	switch(select("Sim.","Não")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	break;
+	
+	case 2:
+	set IFgatuno,IFgatuno+1;
+	set IFmercado,IFmercado+1;
+	}	
+	show "[Hanson]";
+	show "O sucesso de outras pessoas te incomoda.";
+	next;
+	switch(select("Sim.","Não.")){
+	case 1:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 2:
+	set IFnovico,IFnovico+1;
+	}
+
+	show "[Hanson]";
+	show "Você não tem medo de explorar lugares perigosos.";
+	next;
+	switch(select("Sim.","Não")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	break;
+	
+	case 2:
+	set IFmago,IFmago+1;
+	}	
+	show "[Hanson]";
+	show "Você gosta de estar na liderança.";
+	next;
+	switch(select("Sim.","Não")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	break;
+	
+	case 2:
+	set IFarqueiro,IFarqueiro+1;
+	}	
+
+	show "[Hanson]";
+	show "Ao explorar uma caverna, você encontrou um beco sem saída.";
+	show "Examinando um muro ao seu lado você percebeu uma pequena alavanca com uma inscrição grava ao lado dizendo 'Puxar'.";
+	next;
+	show "[Hanson]";
+	show "Ao ver a placa 'Puxar',";
+	show "você sentiu uma vontade imensa de empurrar esta alavanca.";
+	next;
+	switch(select("Sim.","Não.")){
+	case 1:
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 2:
+	set IFespadachim,IFespadachim+1;
+	}
+	
+	show "[Hanson]";
+	show "Você vê coisas que não existem.";
+	next;
+	switch(select("Sim.","Não.")){
+	case 1:
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 2:
+	set IFmago,IFmago+1;
+	}
+
+	show "[Hanson]";
+	show "Se caisse de um penhasco, você tem certeza de que poderia voar.";
+	next;
+	switch(select("Sim.","Não.")){
+	case 1:
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 2:
+	set IFmago,IFmago+1;
+	}	
+
+	show "[Hanson]";
+	show "Dinheiro fala.";
+	next;
+	switch(select("Sim.","Não")){
+	case 1:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 2:
+	set IFarqueiro,IFarqueiro+1;
+	}	
+	show "[Hanson]";
+	show "Agora, uma nova série de perguntas.";
+	show "Elas são do mesmo tipo de antes.";
+	show "Apenas relaxe e escolha a alternativa mais de acordo com sua personalidade.";
+	next;
+	show "[Hanson]";
+	show "Ao se deparar com uma vida rotineira...";
+	next;
+	switch(select("Eu me sinto como um robô.","Me sinto seguro e satisfeito.","Eu não conheço a rotina.")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 2:
+	set IFmago,IFmago+1;
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 3:
+	set IFarqueiro,IFarqueiro+1;
+	set IFmercado,IFmercado+1;
+	}
+
+	show "[Hanson]";
+	show "Você está andando casualmente por um shopping,";
+	show "e encontra um item interessante à venda";
+	show "em uma das vitrines.";
+	show "Você fica pensando se deveria ou não comprá-lo.";
+	show "A primeira coisa que você faz nesta situação é";
+	next;
+	switch(select("Pensar se você precisa disso ou não.","Checar o preço.","Comprar sem pensar!")){
+	case 1:
+	set IFarqueiro,IFarqueiro+1;
+	break;
+	
+	case 2:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 3:
+	set IFgatuno,IFgatuno+1;
+	}
+	
+	show "[Hanson]";
+	show "Você _________________";
+	show "competir com outras pessoas.";
+	next;
+	switch(select("não liga de","não gosta de","não tem interesse em")){
+	case 1:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 2:
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 3:
+	set IFnovico,IFnovico+1;
+	set IFespadachim,IFespadachim+1;
+	}
+	
+	show "[Hanson]";
+	show "Você é responsável por um serviço que exige que você trabalhe em equipe com muitas pessoas.";
+	show "Se você cuidar disso sozinho, levará mais tempo e esforço, mas você pode fazer do seu jeito.";
+	show "Se você fizer o trabalho em equipe, como esperado,";
+	show "será uma tarefa mais simples e rápida.";
+	show "Sua escolha é...";
+	next;
+	switch(select("Fazer sozinho, mesmo que seja mais complicado.","Fazer em equipe.")){
+	
+	case 1:
+	set IFmago,IFmago+1;
+	break;
+	
+	case 2:
+	set IFmercado,IFmercado+1;
+	}	
+
+	show "[Hanson]";
+	show "Ao andar na rua calmamente, você encontra uma moça desmaiada no chão.";
+	show "O que você faz?";
+	next;
+	switch(select("Eu a levo para o hospital.","Vejo se tenho alguma outra prioridade.","Ignoro.")){
+	case 1:
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 2:
+	set IFespadachim,IFespadachim+1;
+	set IFarqueiro,IFarqueiro+1;
+	break;
+	
+	case 3:
+	set IFmago,IFmago+1;
+	set IFgatuno,IFgatuno+1;
+	set IFmercado,IFmercado+1;
+	}
+
+	show "[Hanson]";
+	show "Você achou um item não identificado.";
+	show "que parece ser algum tipo de vestimenta.";
+	show "O que você faz?";
+	next;
+	switch(select("Checo que tipo de item é.","Me pergunto se alguém o perdeu?","Oba, sorte grande!","Deixo onde está.")){
+	case 1:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 2:
+	set IFnovico,IFnovico+1;
+	break;
+	
+	case 3:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 4:
+	set IFmago,IFmago+1;
+	}
+
+	show "[Hanson]";
+	show "Durante um jantar social,";
+	show "você comete uma gafe no meio da conversa.";
+	show "Como você conserta a situação?";
+	next;
+	switch(select("Finjo que era uma piada.","Mudo de assunto.","Analiso o que falei.","Peço desculpas sinceras.")){
+	case 1:
+	set IFgatuno,IFgatuno+1;
+	break;
+	
+	case 2:
+	set IFespadachim,IFespadachim+1;
+	break;
+	
+	case 3:
+	set IFmago,IFmago+1;
+	break;
+	
+	case 4:
+	set IFnovico,IFnovico+1;
+	}	
+
+	show "[Hanson]";
+	if(sex){
+		show "Você está viajando com sua amada.";
+		show "Ela pede que você compre pra ele um souvenir especialmente inútil.";
+	}else{
+		show "Você está viajando com seu amado.";
+		show "Ele pede que você compre pra ela um souvenir especialmente inútil.";
+	}
+	show "O que você faz?";
+	next;
+	switch(select("Compro e dou de presente a ela.","Me recuso a comprar.","Deixo para uma outra hora.")){
+	case 1:
+	set IFespadachim,IFespadachim+1;
+	break;
+	
+	case 2:
+	set IFmercado,IFmercado+1;
+	break;
+	
+	case 3:
+	set IFgatuno,IFgatuno+1;
+	}
+
+	show "[Hanson]";
+	show "Ok! Isso é tudo.";
+	show "Você terminou todos os teste e cursos do treinamento!";
+	show "Meu parabéns!";
+	show "Estou bastante orgulhoso.";
+	next;
+	show "[Hanson]";
+	show "Eu preparei alguns itens para você,";
+	show "uma pequena recompensa por ter feito o teste vocacional.";
+	show "Por favor, aceite-os.";
+	next;
+	set finalres,1;
+	additem 501,4;
+	additem 503,2;
+	additem 506,2;
+	next;
+	show "[Hanson]";
+	show "Agora, para finalizar,";
+	show "direi qual das classes é a mais adequada para você,";
+	show "de acordo com suas respostas no teste vocacional.";
+	show "Aguarde só um momento.";
+	next;
+	show "[Hanson]";
+	show ".............";
+	show "Um segundo, já estou terminando...";
+	show ".............";
+	next;
+	show "[Hanson]";
+	show "........!";
+	next;
+	show "[Hanson]";
+	show "Sim, aqui está o resultado do seu teste,";
+	show "^A62A2A'"+strcharinfo(0)+"'^000000!";
+	next;
+	set @melhorclasse,IFespadachim;
+	set @njob,0;
+	if (@melhorclasse < IFarqueiro){
+		set @melhorclasse,IFarqueiro;
+		set @njob,1;
+	}
+	if (@melhorclasse < IFgatuno){
+		set @melhorclasse,IFgatuno;
+		set @njob,2;
+	}
+	if (@melhorclasse < IFmago){
+		set @melhorclasse,IFmago;
+		set @njob,3;
+	}
+	if (@melhorclasse < IFnovico){
+		set @melhorclasse,IFnovico;
+		set @njob,4;
+	}
+	if (@melhorclasse < IFmercado){
+		set @melhorclasse,IFmercado;
+		set @njob,5;
+	}
+	}
+	}
+	switch (@njob) {
+
+	case 0: //Espadachim
+		show "[Hanson]";
+		show "Embora você seja uma pessoa de mente simples e direita,";
+		show "você tem um grande força de vontade e deseja ser uma pessoa importante para este mundo e para os outros.";
+		show "E você tem sempre em mente o bem estar dos mais fracos.";
+		next;
+		show "[Hanson]";
+		show "Para você de grande força e determinação,";
+		show "^696969Espadachim^000000";
+		show "Será a classe mais adequada.";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo a classe que deseja ser?";
+		show "O que me diz?";
+		show "Se escolher a classe recomendada, sua recompensa será maior.";
+		next;
+		menu "Espadachim!",-,"Quero minha própria escolha!",propriaescolha;
+
+		show "[Hanson]";
+		show "Uma boa escolha!";
+		show "O teste de personalidade é sempre útil.";
+		show "Assim que eu lhe der seus suprimentos especiais,";
+		show "te teleportarei para a cidade dos Espadachins,";
+		show "chamada Izlude.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "100zeny";
+		show "Alfanje x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		set Zeny,Zeny+100;
+		additem 1104,1;
+		additem 1010,7;	
+		show "[Hanson]";
+		show "Aí estão seus suprimentos.";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar um breve explicação sobre cada um deles então.";
+		next;
+		show "[Hanson]";
+		show "Os Vales-Teletransporte e Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Eu lhe dei também um 'Alfanje'.";
+		show "Ao mudar sua classe para Espadachim, você poderá usá-lo.";
+		show "É uma arma muito melhor do que a Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCS especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "[Hanson]";
+		show "Como mencionei, a cidade para onde te enviarei chama-se Izlude.";
+		show "Ela é uma pequena cidade satélite da capital Prontera.";
+		show "A associação dos Espadachins fica na parte oeste da cidade.";
+		show "Lembre-se disso para não se perder.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "e adeus.";
+		next;
+		goto checkteleportjob;
+	
+	case 1: //Arqueiro
+		show "[Hanson]";
+		show "Você é uma pessoa de grande compreensividade,";
+		show "sempre tentando entender os outros, mesmo que sejam diferentes ou estranhos.";
+		show "E por isso, espera que os outros também te entendam,";
+		show "mas muitas vezes isso não acontece...";
+		next;
+		show "Você se recusa a ser uma pessoa comum, preferindo seguir seus sonhos.";
+		show "Para você, contemplativo e amante da natureza,";
+		show "^696969Arqueiro é a classe mais indicada,";
+		show "sua vida será livre, mas também uma luta pelo que é certo.";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo a classe que deseja ser?";
+		show "O que me diz?";
+		next;
+		menu "Arqueiro!",-,"Quero minha própria escolha!",propriaescolha;
+
+		show "[Hanson]";
+		show "Uma ótima escolha!";
+		show "O teste de personalidade é muito confiável.";
+		show "Bem, deixe-me ver...";
+		show "Assim que você receber seus suprimentos adicionais,";
+		show "te mandarei para a cidade da sua classe.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "100zeny";
+		show "Arco Composto x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		set Zeny,Zeny+100;
+		additem 1704,1;
+		additem 1010,7;
+		show "Aí estão seus suprimentos.";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar um breve explicação sobre cada um deles então.";
+		next;
+		show "Os Vales-Teletransporte e Vales-Armazém, alem do especial Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "Assim quer mudar sua classe,";
+		show "sugiro que você use o Arco composto ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Eu lhe dei também um 'Alfanje'.";
+		show "Assim que mudar sua classe.";
+		show "Sugiro que você use o Main Gauche ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCS especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "A cidade para onde te enviarei chama-se";
+		show "'Payon', lar do palácio oriental.";
+		show "A guilda dos Arqueiros fica a nordeste da cidade.";
+		show "Não se esqueça disso.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "e adeus.";
+		next;
+		goto checkteleportjob;
+	
+	case 2: //Gatuno
+		show "[Hanson]";
+		show "Carpe diem.";
+		show "Este é o seu lema.";
+		show "Você é curioso e quer explorar o mundo, virá-lo de ponta cabeça.";
+		show "Para você, aventureiro e despreocupado,";
+		show "uma pessoa de espírito livre,";
+		next;
+		show "^696969Gatuno^000000 é a classe mais indicada.";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo a classe que deseja ser?";
+		show "O que me diz?";
+		next;
+		menu "Gatuno!",-,"Quero minha própria escolha!",propriaescolha;
+
+		show "[Hanson]";
+		show "Uma ótima escolha!";
+		show "O teste de personalidade é muito confiável.";
+		show "Bem, deixe-me ver...";
+		show "Assim que você receber seus suprimentos adicionais,";
+		show "te mandarei para a cidade da sua classe.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "100zeny";
+		show "Main Gauche x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		set Zeny,Zeny+100;
+		additem 1207,1;
+		additem 1010,7;	
+		show "[Hanson]";
+		show "Aí estão seus suprimentos.";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar um breve explicação sobre cada um deles então.";
+		next;
+		show "Os Vales-Teletransporte e Vales-Armazém, alem do especial Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "Assim quer mudar sua classe,";
+		show "sugiro que você use o Machado de Batalha ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Eu lhe dei também um 'Alfanje'.";
+		show "Assim que mudar sua classe.";
+		show "Sugiro que você use o Main Gauche ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCS especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "A cidade para onde te enviarei chama-se";
+		show "'Morroc', e é cercada por um árido deserto.";
+		show "A guilda dos Gatunos fica no primeiro subterrâneo";
+		show "de uma pirâmide à noroeste da cidade.";
+		show "Não se esqueça disso.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "e adeus.";
+		next;
+		goto checkteleportjob;
+		
+	case 3: //Mago
+		show "[Hanson]";
+		show "Você não gosta de parecer tolo, e além de ser interessar pelo mundo à sua volta e seu funcionamento você também é muito independente, preferindo na maioria das vezes, fazer as coisas sem ajuda alheia.";
+		next;
+		show "[Hanson]";
+		show "Você tem um boa julgamento e entendimento, mas é muito tímido e interiorizado.";
+		show "Para você, que gosta de observar as coisas de fora,";
+		show "^696969Mago^000000 é a classe mas indicada.";
+		show "Pelo jeito, grandes magias e inteligência";
+		show "São o seu forte, não é?";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo";
+		show "a classe que deseja ser?";
+		show "O que me diz?";
+		next;
+		menu "Mago!",-,"Quero minha própria escolha!",propriaescolha;
+
+		show "[Hanson]";
+		show "Uma ótima escolha!";
+		show "O teste de personalidade é muito confiável.";
+		show "Bem, deixa-me ver...";
+		show "Assim que você receber seus suprimentos adicionais,";
+		show "te mandarei para a cidade da sua classe.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "100zeny";
+		show "Bastão x1";
+		show "Punhal x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		set Zeny,Zeny+100;
+		additem 1601,1;
+		additem 1204,1;
+		additem 1010,7;		
+		show "[Hanson]";
+		show "Aí estão seus suprimentos.";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar um breve explicação sobre cada um deles então.";
+		next;
+		show "[Hanson]";
+		show "Os Vales-Teletransporte e Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Eu lhe dei também um 'Alfanje'.";
+		show "Assim que mudar sua classe.";
+		show "Sugiro que você use o Bastão ou o Punhal ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCS especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "[Hanson]";
+		show "A cidade para onde te enviarei chama-se";
+		show "'Geffen', a capital da magia.";
+		show "A academia de Magos fica na parte noroeste da cidade.";
+		show "Não se esqueça disso.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "e adeus.";
+		next;
+		goto checkteleportjob;
+	
+	case 4: //Noviço
+		show "[Hanson]";
+		show "Você é muito acolhedor e caridoso,";
+		show "e as pessoas acabam gostando de você mesmo que você não se esforce para isso.";
+		show "Talvez porque você seria capaz de dar sua vida pelo bem estar daqueles à sua volta.";
+		next;
+		show "[Hanson]";
+		show "Ao mesmo tempo, você não gosta que as pessoas te ajudem,";
+		show "e por isso é frequentemente visto como altista.";
+		show "Para você, que tem a bondade no seu coração,";
+		show "e o desejo de acima de tudo, ajudar ao próximo,";
+		show "^696969Noviço^000000 é a classe mais indicada.";
+		show "Ajudar e receber a felicidade dos que ama como recompensa.";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo";
+		show "a classe que deseja ser?";
+		show "O que me diz?";
+		next;
+		menu "Noviço!",-,"Quero minha própria escolha!",propriaescolha;
+
+		show "[Hanson]";
+		show "Uma ótima escolha!";
+		show "O teste de personalidade é muito confiável.";
+		show "Bem, deixe-me ver...";
+		show "Assim que você receber seus suprimentos adicionais,";
+		show "te mandarei para a cidade da sua classe.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "100zeny";
+		show "Maça x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		set Zeny,Zeny+100;
+		additem 1504,1;
+		additem 1010,7;		
+		show "Aí estão suprimentos.";
+		show "0";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar uma breve explicação sobre cada um deles então.";
+		next;
+		show "Os Vales-Teletransporte e Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Assim que mudar de classe, sugiro que utilize sua Maça ao invéz da Faca do Aprendiz.";
+		show "É uma arma muito mais poderosa e própria da sua classe.";
+		show "Guarde-a com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCs especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "[Hanson]";
+		show "A cidade para onde você será mandado";
+		show "chama-se Prontera, a capital de nosso reino.";
+		show "O santuário de Prontera fica no nordeste da cidade.";
+		show "Não se esqueça disso.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "E adeus.";
+		next;
+		goto checkteleportjob;
+	
+	case 5: //Mercador
+		show "[Hanson]";
+		show "Você está sempre interessado no correr do mundo,";
+		show "e é uma pessoa organizada e com força de vontade.";
+		show "Seus objetivos e metas na vijá estão há muito tempo definidos e você age de acordo com eles, sendo muito responsável em suas ações";
+		next;
+		show "[Hanson]";
+		show "Para você, que tem o desejo de vencer na vida,";
+		show "^696969Mercador^000000 é a classe mais adequada.";
+		next;
+		show "[Hanson]";
+		show "Então, gostaria de aceitar nossa sugestão";
+		show "ou gostaria de escolher por si mesmo a classe que deseja ser?";
+		show "O que me diz?";
+		next;
+		menu "Mercador!",-,"Quero minha própria escolha!",propriaescolha;
+	
+		show "[Hanson]";
+		show "Uma ótima escolha!";
+		show "O teste de personalidade é muito confiável.";
+		show "Bem, deixe-me ver...";
+		show "Assim que você receber seus suprimentos adicionais,";
+		show "te mandarei para a cidade da sua classe.";
+		next;
+		show "^882420Lista de Itens Presenteados^000000";
+		show "Vale-Armazém x5";
+		show "Vale-Teletransporte x5";
+		show "vale-Carrinho x4";
+		show "100zeny";
+		show "Machado de Batalha x1";
+		show "Fracon x7";
+		next;
+		additem 7059,5;
+		additem 7060,5;
+		additem 7061,4;
+		set Zeny,Zeny+100;
+		additem 1351,1;
+		additem 1010,7;	
+		show "[Hanson]";
+		show "Aí estão seus suprimentos.";
+		show "Cheque para ver se está tudo em ordem.";
+		show "Ah, acho que alguns desses itens podem ser desconhecidos para você.";
+		show "Deixe-me dar um breve explicação sobre cada um deles então.";
+		next;
+		show "Os Vales-Teletransporte e Vales-Armazém, alem do especial Vale-Carrinho que você está recebendo,";
+		show "são utilizáveis nas funcionárias Kafra.";
+		show "Como os próprios nomes dizem,";
+		show "eles permitem que você use estes serviços Kafra sem custo adicional.";
+		show "É um ótimo negócio, ainda mais quando você ainda não tem muito dinheiro disponível.";
+		next;
+		show "Assim quer mudar sua classe,";
+		show "sugiro que você use o Machado de Batalha ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "'Zeny' é a moeda corrente do reino de Midgard, como você ja deve saber.";
+		show "Eu lhe dei também um 'Alfanje'.";
+		show "Assim que mudar sua classe.";
+		show "Sugiro que você use o Bastão ou o Punhal ao invês da Faca do Aprendiz.";
+		show "Guarde com cuidado.";
+		next;
+		show "[Hanson]";
+		show "Já o 'Fracon' é um metal especial.";
+		show "Ele é usado ao reforçar armas de nível 1,";
+		show "deixando-as mais fortes, em NPCS especiais.";
+		show "Estes refinadores de armas são encontrados geralmente, perto das lojas de armas nas cidades.";
+		show "Assim que mudar de classe,";
+		show "Vá visitar um deles, e melhore sua arma por um custo pequeno.";
+		next;
+		show "[Hanson]";
+		show "A cidade para onde te enviarei chama-se";
+		show "'Alberta', e é uma cidade portuária.";
+		show "A guilda dos Mercadores fica no canto sudeste da cidade.";
+		show "Não se esqueça disso.";
+		next;
+		show "[Hanson]";
+		show "Agora, você será teleportado.";
+		show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+		show "e adeus.";
+		next;
+		goto checkteleportjob;
+	}
+propriaescolha:
+	show "[Hanson]";
+	show "Hmmm... Não?";
+	show "Entendo. Bem, é sua escolha.";
+	show "Não há obrigação de aceitar a classe que sugerimos.";
+	show "Então, por favor, escolha a classe que deseja.";
+	next;
+	switch (@njob) {
+		case 0: 
+			switch( select("Mago","Mercador","Gatuno","Arqueiro","Noviço") ) {
+			case 1:
+				set @njob,3;
+				set @IF_Class$,"Mago";
+				break;
+
+			case 2:
+				set @njob,5;
+				set @IF_Class$,"Mercador";
+				break;
+				
+			case 3:
+				set @njob,2;
+				set @IF_Class$,"Gatuno";
+				break;
+			
+			case 4:
+				set @njob,1;
+				set @IF_Class$,"Arqueiro";
+				break;
+				
+			case 5:
+				set @njob,4;
+				set @IF_Class$,"Noviço";
+			}
+			break;
+		case 1: 
+			switch( select("Mago","Mercador","Gatuno","Espadachim","Noviço") ) {
+			case 1:
+				set @njob,3;
+				set @IF_Class$,"Mago";
+				break;
+
+			case 2:
+				set @njob,5;
+				set @IF_Class$,"Mercador";
+				break;
+				
+			case 3:
+				set @njob,2;
+				set @IF_Class$,"Gatuno";
+				break;
+			
+			case 4:
+				set @njob,0;
+				set @IF_Class$,"Espadachim";
+				break;
+				
+			case 5:
+				set @njob,4;
+				set @IF_Class$,"Noviço";
+			}
+			break;
+		case 2: 
+			switch( select("Mago","Mercador","Espadachim","Arqueiro","Noviço") ) {
+			case 1:
+				set @njob,3;
+				set @IF_Class$,"Mago";
+				break;
+
+			case 2:
+				set @njob,5;
+				set @IF_Class$,"Mercador";
+				break;
+				
+			case 3:
+				set @njob,0;
+				set @IF_Class$,"Espadachim";
+				break;
+			
+			case 4:
+				set @njob,1;
+				set @IF_Class$,"Arqueiro";
+				break;
+				
+			case 5:
+				set @njob,4;
+				set @IF_Class$,"Noviço";
+			}
+			break;		
+		case 3:
+			switch( select("Espadachim","Mercador","Gatuno","Arqueiro","Noviço") ) {
+			case 1:
+				set @njob,0;
+				set @IF_Class$,"Espadachim";
+				break;
+
+			case 2:
+				set @njob,5;
+				set @IF_Class$,"Mercador";
+				break;
+				
+			case 3:
+				set @njob,2;
+				set @IF_Class$,"Gatuno";
+				break;
+			
+			case 4:
+				set @njob,1;
+				set @IF_Class$,"Arqueiro";
+				break;
+				
+			case 5:
+				set @njob,4;
+				set @IF_Class$,"Noviço";
+			}
+			break;		
+		case 4: 
+			switch( select("Mago","Mercador","Gatuno","Arqueiro","Espadachim") ) {
+			case 1:
+				set @njob,3;
+				set @IF_Class$,"Mago";
+				break;
+
+			case 2:
+				set @njob,5;
+				set @IF_Class$,"Mercador";
+				break;
+				
+			case 3:
+				set @njob,2;
+				set @IF_Class$,"Gatuno";
+				break;
+			
+			case 4:
+				set @njob,1;
+				set @IF_Class$,"Arqueiro";
+				break;
+				
+			case 5:
+				set @njob,0;
+				set @IF_Class$,"Espadachim";
+			}
+			break;		
+		case 5: 
+			switch( select("Mago","Espadachim","Gatuno","Arqueiro","Noviço") ) {
+			case 1:
+				set @njob,3;
+				set @IF_Class$,"Mago";
+				break;
+
+			case 2:
+				set @njob,0;
+				set @IF_Class$,"Espadachim";
+				break;
+				
+			case 3:
+				set @njob,2;
+				set @IF_Class$,"Gatuno";
+				break;
+			
+			case 4:
+				set @njob,1;
+				set @IF_Class$,"Arqueiro";
+				break;
+				
+			case 5:
+				set @njob,4;
+				set @IF_Class$,"Noviço";
+			}
+	}
+	show "[Hanson]";
+	show "Você escolheu se tornar um '"+@IF_Class$+"'.";
+	if(@njob!=0) show "A cidade para onde te enviarei chama-se";
+	switch (@njob) {
+	case 0:
+		show "Como mencionei, a cidade para onde te enviarei chama-se Izlude.";
+		show "Ela é uma pequena cidade satélite da capital Prontera.";
+		show "A associação dos "+@IF_Class$+" fica na parte oeste da cidade.";
+		show "Lembre-se disso para não se perder.";
+		break;
+	case 1:
+		show "'Payon', lar do palácio oriental.";
+		show "A guilda dos "+@IF_Class$+" fica a nordeste da cidade.";
+		break;
+	case 2:
+		show "'Morroc', e é cercada por um árido deserto.";
+		show "A guilda dos "+@IF_Class$+" fica no primeiro subterrâneo";
+		show "de uma pirâmide à noroeste da cidade.";
+		break;
+	case 3:
+		show "'Geffen', a cidade da magia.";
+		show "A academia de "+@IF_Class$+" se localiza na parte noroeste da cidade.";
+		break;
+	case 4:
+		show "chama-se Prontera, a capital de nosso reino.";
+		show "O santuário de Prontera fica no nordeste da cidade.";
+		break;
+	case 5:
+		show "'Alberta', e é uma cidade portuária.";
+		show "A guilda dos "+@IF_Class$+" fica no canto sudeste da cidade.";
+	}
+	if(@njob!=0) show "Não se esqueça disso.";
+	next;
+	show "[Hanson]";
+	show "Assim que você receber seus suprimentos adicionais, te mandarei para a cidade da sua classe.";
+	next;
+	show "^882420Lista de Itens Presenteados^000000";
+	show "Vale-Armazém x5";
+	show "Vale-Teletransporte x5";
+	show "100zeny";
+	show "Túnica x1";
+	show "Fracon x7";
+	next;
+	additem 7059,5;
+	additem 7060,5;
+	set Zeny,Zeny+100;
+	additem 2305,1;
+	additem 1010,7;	
+	show "A Túnica é um novo presente que nós do campo de treinamento estamos dando.";
+	show "Assim que você quiser, você poderá trocar";
+	show "sua Armadura de Aprendiz e coloca essa nova vestimenta.";
+	show "Faça bom proveito.";
+	next;
+	show "Boa sorte, ^A62A2A'"+strcharinfo(0)+"^000000.";
+	show "E adeus.";
+	next;
+
+checkteleportjob:
+	switch (@njob) {
+
+		case 0:	
+			savepoint "izlude",94,103;
+			warp "izlude_in",74,167;
+			callfunc "ClearTreinamentoVar";
+	
+		case 1:
+			savepoint "payon",256,242;
+			warp "payon_in02",64,65;
+			callfunc "ClearTreinamentoVar";
+	
+		case 2:
+			savepoint "morocc",149,100;
+			warp "moc_ruins",155,44;
+			callfunc "ClearTreinamentoVar";
+	
+		case 3:
+			savepoint "geffen",120,38;
+			warp "geffen_in",163,98;
+			callfunc "ClearTreinamentoVar";
+	
+		case 4:	
+			savepoint "prontera",116,72;
+			warp "prt_church",172,19;
+			callfunc "ClearTreinamentoVar";
+	
+		case 5:
+			savepoint "alberta",31,231;
+			warp "alberta_in",62,44;
+			callfunc "ClearTreinamentoVar";
+	}
+	
+fincancelado:
+	show "[Hanson]";
+	show "Hmmm... Por que você ainda está aqui?";
+	show "Você não disse nada, então achei que já tinha ido embora...";
+	show "Que estranho...";
+	show "Bem, já que você já fez o teste final,";
+	show "e eu te dei os suprimentos...";
+	show "Acho que podemos mandá-lo para alguma cidade próxima, não é?";
+	next;
+	
+Teleportfinal:
+	switch ( rand(0,5) ) {
+		case 0:
+			savepoint "izlude",94,103;
+			warp "prt_fild08",357,212;
+			callfunc "ClearTreinamentoVar";
+		case 1:	
+			savepoint "payon",256,242;
+			warp "pay_fild01",334,354;
+			callfunc "ClearTreinamentoVar";
+		case 2:	
+			savepoint "morocc",149,100;
+			warp "moc_fild07",198,39;
+			callfunc "ClearTreinamentoVar";
+
+		case 3:	
+			savepoint "geffen",120,38;
+			warp "gef_fild07",327,188;
+			callfunc "ClearTreinamentoVar";
+
+		case 4:	
+			savepoint "prontera",116,72;
+			warp "prt_fild08",170,371;
+			callfunc "ClearTreinamentoVar";
+
+		case 5:	
+			savepoint "alberta",31,231;
+			warp "pay_fild03",388,70;
+			callfunc "ClearTreinamentoVar";
+		
+	}
+}
+function	script	Tr_NoclasseAB	{
+	if(BaseJob != 0 || Upper==1 || Tr_naoaceitoclass){
+		show "["+getarg(0)+"]";
+		show "Você não deveria esta aqui.";
+		close2;
+		savepoint "prontera",156,181;
+		warp "prontera",156,181;
+		end;
+	}else{
+		return;
+	}
+}
+
+function	script	ClearTreinamentoVar	{
+	set Tr_naoaceitoclass,1; // Ativação de checagem depois do treinamento
+	set Z_opcao,0;
+	set instrutor1,0;
+	set instrutor2,0;
+	set instrutor3,0;
+	set instrutor4,0;
+	set instrutor5,0;
+	set inson1,0;
+	set inson2,0;
+	set inson3,0;
+	set noinstrutor1,0;
+	set noinstrutor2,0;
+	set noinstrutor3,0;
+	set fkbase1,0;
+	set fkjob1,0;
+	set IAset,0;
+	set IFmago,0;
+	set IFespadachim,0;
+	set IFnovico,0;
+	set IFgatuno,0;
+	set IFmercado,0;
+	set IFarqueiro,0;
+	set finalres,0;
+	close;
+}
+
+//============================================================
+//Monstros
+// new_1-3
+new_1-3,0,0,0,0	monster	Fabre	1184,5,0,0,0
+new_1-3,0,0,0,0	monster	Poring	1002,10,0,0,0
+new_1-3,0,0,0,0	monster	ChonChon	1011,10,0,0,0
+new_1-3,0,0,0,0	monster	Lunático	1063,10,0,0,0
+new_1-3,0,0,0,0	monster	Drops	1113,10,0,0,0
+
+// new_2-3
+new_2-3,0,0,0,0	monster	Condor	1009,10,0,0,0
+new_2-3,0,0,0,0	monster	Salgueiro	1010,10,0,0,0
+new_2-3,0,0,0,0	monster	Sapo de Rodda	1012,10,0,0,0
+new_2-3,0,0,0,0	monster	Picky	1050,10,0,0,0
+new_2-3,0,0,0,0	monster	Fabre	1184,5,0,0,0
+
+// new_3-3
+new_3-3,0,0,0,0	monster	Condor	1009,10,0,0,0
+new_3-3,0,0,0,0	monster	Salgueiro	1010,10,0,0,0
+new_3-3,0,0,0,0	monster	Sapo de Rodda	1012,10,0,0,0
+new_3-3,0,0,0,0	monster	Picky	1050,10,0,0,0
+new_3-3,0,0,0,0	monster	Fabre	1184,5,0,0,0
+
+// new_4-3
+new_4-3,0,0,0,0	monster	Esporo	1014,10,0,0,0
+new_4-3,0,0,0,0	monster	Besouro-Ladrão	1051,10,0,0,0
+new_4-3,0,0,0,0	monster	Rocker	1052,10,0,0,0
+new_4-3,0,0,0,0	monster	Besouro-Ladrão Fêmea	1053,10,0,0,0
+new_4-3,0,0,0,0	monster	Fabre	1184,5,0,0,0
+
+// new_5-3
+new_5-3,0,0,0,0	monster	Esporo	1014,10,0,0,0
+new_5-3,0,0,0,0	monster	Besouro-Ladrão	1051,10,0,0,0
+new_5-3,0,0,0,0	monster	Rocker	1052,10,0,0,0
+new_5-3,0,0,0,0	monster	Besouro-Ladrão Fêmea	1053,10,0,0,0
+new_5-3,0,0,0,0	monster	Fabre	1184,5,0,0,0
+
+//============================================================
+//Duplicação
+new_1-3,95,30,4	duplicate(dificuldade)	Funcionário do Campo#1	84,{
+new_2-3,95,30,4	duplicate(dificuldade)	Funcionário do Campo#2	84,{
+new_3-3,95,30,4	duplicate(dificuldade)	Funcionário do Campo#3	84,{
+new_4-3,95,30,4	duplicate(dificuldade)	Funcionário do Campo#4	84,{
+new_5-3,95,30,4	duplicate(dificuldade)	Funcionário do Campo#5	84,{
+
+new_1-3,96,174,4	duplicate(checagem)	Funcionário de checagem::n1	85,{
+new_2-3,96,174,4	duplicate(checagem)	Funcionário de checagem::n2	85,{
+new_3-3,96,174,4	duplicate(checagem)	Funcionário de checagem::n3	85,{
+new_4-3,96,174,4	duplicate(checagem)	Funcionário de checagem::n4	85,{
+new_5-3,96,174,4	duplicate(checagem)	Funcionário de checagem::n5	85,{

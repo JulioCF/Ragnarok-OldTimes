@@ -1,0 +1,170 @@
+//===== Cronus Script ======================================== 
+//= Ayothaya Npcs
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.1.1
+//===== Descrição: =========================================== 
+//= Npcs da cidade de Ayothaya
+//= Tradução por Flint
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.1 Iniciado novamente o Npc 10% [Flint]
+//= 1.1.1 Corrigido palavras traduzindo incorretamente [Kamper]
+//============================================================
+
+ayothaya.gat,152,68,1	script	Aibakthing	843,{
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hmm! Hah!";
+	show "Então, oque você acha de Ayothaya? Você teve a chance de experimentar o Tom Yum Goong? Quando você estiver pronto, eu deverei te levar de volta para casa.";
+	next;
+	menu "Voltar para Alberta.",-,"Cancelar.",s_Cancel;
+
+	show "[Aibakthing]";
+	show "Você será bem vindo para voltar quando você quiser. Espero que nos veremos de novo logo. Obrigado~";
+	close2;
+	warp "alberta.gat",235,45;
+	end;	
+s_Cancel:
+	show "[Aibakthing]";
+	show "A, sim. Eu entendo que é dificil deixar este local tão maravilhoso. Não se preocupe e demore o quanto quiser.";
+	close;
+} 
+
+alberta.gat,247,42,3	script	Aibakthing	843,{
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hoo! Hah!";
+	show "Deixe-me levar você para um distante local espiritual, uma terra de mistérios exóticos, minha cidade natal, Ayothaya.";
+	next;
+	menu "Sobre a cidade de Ayothaya",-,"Ir para Ayothaya",s_Go,"Cancelar.",s_Cancel;
+
+	show "[Aibakthing]";
+	show "Nós Ayothayanos somos uma população que valoriza a paz e sinceridade. Nós nos esforçamos para liderar simplesmente, porém nobremente, vidas em harmonia com a natureza.";
+	next;
+	show "[Aibakthing]";
+	show "Nossos pratos tradicionais são mundialmente conhecidos. Não é surpresa, pois servimos pratos como Tom Yum Goong, feito de camarão, Limonada e Chillis, que possui um aroma e sabor além da imaginação.";
+	next;
+	show "[Aibakthing]";
+	show "Para aqueles que desejam por aventuras, existe uma velha história sobre o Tigre Sa-mhing, uma criatura maígna que assombra as ruinas dos nossos templos.";
+	next;
+	show "[Aibakthing]";
+	show "Hoo! Hahh! Hoo! Hahh!";
+	show "Nenhum homen pode resistir ao chamado desta terra maravilhosa! Rune-Midgardianos sempre são bem vindos!";
+	close;
+s_Cancel:
+	show "[Aibakthing]";
+	show "Você já sonhou com um maravilhoso lugar cheio de serenidade espiritual? Você devia estar sonhando com Ayothaya, meu amigo.";
+	close;
+s_Go:
+	show "[Aibakthing]";
+	show "A, você deve pagar 10,000 Zenys";
+	show "se deseja visitar Ayothaya.";
+	show "Se está pronto, podemos sair agora mesmo~";
+	next;
+	menu "Estou pronto, vamos lá!",-,"Não.",s_Cancel;
+
+	if(Zeny < 10000) goto s_NoZeny;
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hoo! Hah!";
+	show "Vamos indo! De volta para minha maravilhosa Ayothaya!";
+	close2;	
+	set Zeny, Zeny - 10000;
+	warp "ayothaya.gat",150,65;
+	end;
+s_NoZeny:
+	show "[Aibakthing]";
+	show "Me desculpe, mas você não possui 10,000 Zenys para viajar para Ayothaya. Tal preço não é nada comparado com a experiencia que te aguarda!";
+	close;
+}
+
+ayothaya.gat,203,169,3	script	Noi	839,{
+	show "[Noi]";
+	show "Bem-vindo à Ayothaya.";
+	show "Nossa maravilhosa vila foi construida acima da água, cercada pela densa floresta.";
+	next;
+	show "[Noi]";
+	show "Existem várias atrações turísticas nesta vila, que você não encontrará em lugar algum. Nossos mercados de peixes e nossa arquitetura única is é razão o suficiente para visitar Ayothaya.";
+	next;
+	show "[Noi]";
+	show "Por favor se sinta livre ";
+	show "para olhar ao redor.";
+	next;
+	menu "Localização de Construções.",s_Loc,"Remover marcas do meu mini-mapa.",s_Remo,"Cancelar.",-;
+
+	show "[Noi]";
+	show "Por favor aprecie";
+	show "suas viajens.";
+	close;
+s_Loc:
+	show "[Noi]";
+	show "Que local gostaria";
+	show "de visitar?";
+	next;
+	menu "Loja de Armas",s_Weap,"Loja de Ferramentas",s_Tool,"Taverna",s_Tavern,"Shrine",s_Shrine,"Local de Pesca",s_Fish,"Cancel",-;
+
+	show "[Noi]";
+	show "Se você deseja remover as marcas de localização do seu mini-mapa, por favor selecione o menu 'Remover marcas do mini-mapa'.";
+	close;
+
+s_Weap:
+	show "[Noi]";
+	show "Na nossa loja de armas,";
+	show "você irá encontrar grandes armas emprestadas pelos bravos marinheiros Ayothayanos.";
+	next;
+	show "[Noi]";
+	show "Nossa loja de armas é localizada no ^00FF00+^000000.";
+	viewpoint 1,166,90,1,0x00FF00;
+	close;
+
+s_Tool:
+	show "[Noi]";
+	show "Nós Ayothayanos sempre vemos se temos tudo que precisamos antes de ir viajar. Não machuca estar preparado, não é?";
+	next;
+	show "[Noi]";
+	show "Nossa loja de ferramentas";
+	show "é localizada em ^0000FF+^000000.";
+	viewpoint 1,128,86,2,0x0000FF;
+	close;
+
+s_Tavern:
+	show "[Noi]";
+	show "Uma das regras básicas de aventuras é a informação, ou pelo menos é oque dizem. Você pode conhecer pessoas de todas as localidades na Taverna. Eu tenho certeza que você pode conseguir algo útil lá.";
+	next;
+	show "[Noi]";
+	show "Claro, você deve";
+	show "dar uma passada na Taverna.";
+	show "É localizada em... ^FFFF00+^000000.";
+	viewpoint 1,229,70,3,0xFFFF00;
+	close;
+
+s_Shrine:
+	show "[Noi]";
+	show "Se deseja rezar para Deus, ou alcansar um estado de paz em sua mente, porque não visita nosso Shrine?";
+	next;
+	show "[Noi]";
+	show "Nosso Shrine";
+	show "é localizado em ^880088+^000000.";
+	viewpoint 1,207,284,4,0x880088;
+	close;
+s_Fish:
+	show "[Noi]";
+	show "Já que Ayothaya foi construida acima da superficie da água e tão perto da praia, é um dos locais favoritos para pescadores. Porque não vai pescar um jantar em nosso local de pesca?";
+	next;
+	show "[Noi]";
+	show "Nosso famoso";
+	show "LOCAL DE PESCA";
+	show "é localizado em ^AFAFAF+^000000.";
+	viewpoint 1,251,97,5,0xAFAFAF;
+	close;
+s_Remo:
+	viewpoint 2,166,90,1,0x00FF00;
+	viewpoint 2,128,86,2,0x0000FF;
+	viewpoint 2,229,70,3,0xFFFF00;
+	viewpoint 2,207,284,4,0x880088;
+	viewpoint 2,251,97,5,0xAFAFAF;
+	show "[Noi]";
+	show "Certo...";
+	show "Removi todas as marcas de seu mini-mapa.";
+	show "Obrigado *resmunga*.";
+	close;
+}

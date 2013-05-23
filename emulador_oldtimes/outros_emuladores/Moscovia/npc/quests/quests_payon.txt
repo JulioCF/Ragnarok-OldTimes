@@ -1,0 +1,272 @@
+//===== Cronus Script ======================================== 
+//= Quests de Payon
+//===== Por: =================================================
+//= kobra_k88
+//===== Versão Atual: ======================================== 
+//= 1.3
+//===== Descrição: =========================================== 
+//= Quests da cidade de Payon
+//===== Changelog: =========================================== 
+//= 1.3 Traduzido [Lucius~]
+//============================================================
+
+// Pretend Murdered quest
+payon,154,170,4	script	Granny	78,{
+	show "[Granny]";
+	if(countitem(1049) >= 4) goto L_Get;
+
+	show "Oh meu querido.  O que fazer... o que fazer........  Você viu que eu quero levar alguma roupas especiais para minha familia, mas eu não tenho os tecido certos.";
+	next;
+	show "[Granny]";
+	show ".....sigggghhhhhh........";
+	next;
+	show "[Granny]";
+	show "O que é isso? Cogumelos? Ah sim, eu lembrei agora, eu peguei eles no lado montanhoso de Payon.";
+	show "Ho ho, eu tenho alguns problemas de lembrar das coisas agora.";
+	next;
+	show "[Granny]";
+	show "O que eu disse antes? Oh sim! Eu preciso de alguns tecidos especiais para fazer alguma roupas para a minha familia.";
+	show "Se você conseguir alguma ^5555FF'Saia Virginal'^000000, me informe.";
+	emotion 20;
+	next;
+	show "[Granny]";
+	show "Eu preciso de ^5555FF'4 Saias Virginais'^000000 para fazer alguma roupas.  Eu serei muito agradecido se você me trazer algumas.";
+	close;
+
+L_Get:
+	show "Oh! Você tem 4 Saias Virginais.  Poderia me dar elas querido?";
+	next;
+	menu "Claro Granny",-,"Não!",M_No;
+			
+		show "[Granny]";
+		show "Abençoado seja seu jovem coração.  Agora eu posso fazer as roupas para minha familia.  Deixe eu lhe dar uma recompensa querido.";
+		emotion 14;
+		next;
+		additem 2293,1;
+		delitem 1049,4;
+		show "[Granny]";
+		show "Aqui está.  É algo que eu usei nos meus jovens dias de atriz.";
+		show "Eu mantive ela para lembrar dos meus dias de atriz, mas minha memória é velha de mais para isso, então isso não tem nenhuma utilidade mais.";
+		next;
+		show "[Granny]";
+		show "Eu estou certa que você achará divertido usar isso."; 
+		close;
+		
+	M_No:
+		show "[Granny]";
+		show "O meu Deus!!! Esses garotos de hoje não tem mais respeito e compreensão pelos mais velhos!";
+		emotion 32;
+		close;
+
+}
+
+// Ear Muffs Quest
+payon_in01,18,10,4	script	Senhora Desconhecida	75,{
+	show "[Senhora Desconhecida]";
+	show "Olá.";
+	next;
+	menu "Olá.",-,"Poderia me fazer um Aquecedor de Orelhas?",M_Muffs, "Cancelar",M_End;
+
+		show "[Senhora Desconhecida]";
+		show "Minha familia veio recentemente para Payon.";
+		show "Nós viemos de um lugar onde é clima é muito frio para começar um comério de venda de ^5555FF'Aquecedores de Orelha'^000000";
+		next;
+		show "[Senhora Desconhecida]";
+		show "Eu tentei continuar os negócios da minha familia aqui em Payon, mas o clima é muito quente e dificulta a venda.";
+		next;
+		show "[Senhora Desconhecida]";
+		show "Os 'Aquecedores de Orelhas' não são muito úteis aqui, mas se você pensa em ira para lugares de clime frio você precisa de 'Aquecedores de Orelhas'.";
+		next;
+		show "[Senhora Desconhecida]";
+		show "Tudo que eu preciso é:";
+		show "^5555FF1 Runi Amaldiçoado,";
+		show "1 Fone de Ouvido,";
+		show "200 Plumas,";
+		show "e 5,000 zeny ^000000 para que eu possa fazê-lo.";
+		next;
+		show "[Senhora Desconhecida]";
+		show "Com esses itens eu posso fazer o 'Aquecedores de Orelha'.  Acredite em mim, são os melhores e mais bem feitos e ficam bem em qualquer um!";
+		close;
+	
+	M_Muffs:
+		if((countitem(724)<1) || (countitem(5001)<1) || (countitem(949)<200) || (zeny<5000)) goto sL_NotEnuf;
+		show "[Senhora Desconhecida]";
+		show "Oh, Pelo que vejo, você tem os itens.  Só um momento...";
+		next;
+		show "[Senhora Desconhecida]";
+		show "... Isso vai aqui... e isso aqui...... cola ali... um pouquinho mais pra cá..........";
+		next;
+		additem 2283,1;
+		delitem 724,1;
+		delitem 5001,1;
+		delitem 949,200;
+		set Zeny, Zeny-5000;
+		show "[Senhora Desconhecida]";
+		show "Ah, aqui está! Os famosos Aquecedores de Orelha da minha familia.  Aproveite!";
+		close;
+
+		sL_NotEnuf:
+			show "[Senhora Desconhecida]";
+			show "Sintom muito, mas você não tem os itens necessário para que eu possa fabricar os Aquecedores de Orelha da minha familia.";
+			close;
+	M_End:
+		close;
+
+}
+
+// Oxygen Mask Quest
+payon_in02,25,71,4	script	Jovem#payon-quest	86,{
+	show "[Jovem]";
+	if(countitem(701) >= 5) goto L_GotOra;
+	show "Blahhhhhh! Eu... eu... EU NÃO CONSIGO pegar isso mais!! Seus fedores, ridiculos, BASTARDOS!!!";
+	emotion 6;
+	next;
+	menu "Continue.",M_Cont, "Terminar conversa.",M_End;
+	
+	M_Cont:
+		show "[Jovem]";
+		show "~Sigh~ Eu tive uma vida péssima.  Você ve, meus pais morreram quando eu ainda era jovem, então eu tive que trabalhar e me virar desde jovem.";
+		next;
+		show "[Jovem]";
+		show "Sim, voi difícil.  Mas depois de 10 anos de serviço pesado eu fui capaz de juntar um dinheiro e comprar uma casa própria!";
+		next;
+		show "[Jovem]";
+		show "Infelizmente não era muito dinheiro, então, não pude comprar a casa que realmente queria.";
+		show "Então, eu achei essa casa..... grande e barata.... então eu comprei sem pensar muito sobre essa decisão e.....";
+		next;
+		show "[Jovem]";
+		show "E como um mistério...... A casa se tornou um CÉU para os BESOUROS LADRÕES!!!";
+		emotion 23;
+		next;
+		show "[Jovem]";
+		show "Eu tentei de TUDO para me livrar deles! Usei Spray, pisei, eu atrai eles para fora com comida.........";
+		show "E como ultima opção.... Eu até tentei botar fogo na casa!!";
+		next;
+		show "[Jovem]";
+		show "Grrr! O que eu posso fazer para da um geito nessas criaturas????";
+		emotion 32;
+		next;
+		show "[Jovem]";
+		show "Eu ouvi falar de algo chamado ^3355FF'Armadilha para Insetos'^000000, é o que as pessoas de outros paises usas para lutar contra eles.....";
+		show "Mas será que isso funcionaria aqui?";
+		next;
+		show "[Jovem]";
+		show "Eu estou diposto a dar qualquer coisa para tentar.  Eu não tenho muito dinheiro para comprar a ^5555FF'5 Armadilhas de Inseto'^000000.";
+		show "Se você conseguir algumas 'Armadlihas de Inseto' me avise.";
+		close;
+
+	M_End:
+		show "[Jovem]";
+		show "Eu ja estou cansado dessa batalha que nunca termina...... Seus insetos @#$%¨&!!";
+		emotion 32;
+		close;
+
+L_GotOra:
+	show "ArrrGgghhh!! Não!... Não pode ser!..... Eu estou começando a ficar louco... ele estão começando a parecer legais... ArrrGgghhh!!... Nãoooooooooo!!";
+	emotion 23;
+	M_Menu:
+	next;
+	menu "Continue",M_Cont, "Mostrar as Armadilhas de Inseto",M_Show, "Entregar as Armadilhas de Inseto",M_Give, "Cancelar",M_End2;
+
+	M_Show:
+		show "[Jovem]";
+		show "Oooooohhhh..... isso.. isso é... isso é... Armadilha de Inseto...??? Se me der eu lhe darei um prêmio como gratificação!";
+		show "O que acha?? Negócio feito??";
+		goto M_Menu;
+
+	M_Give:
+		show "[Jovem]";
+		show "Muhahahahah!!! Finalmente, eu consegui uma.... Armadilha de Inseto! Estupidos e nojento Besouros Ladrões.... Vocês vão pagar por invadir MINHA CASA!!!";
+		emotion 29;
+		next;
+		show "[Jovem]";
+		show "..... Eh em... desculpe.  Eu perdi o controle.... Ah, deixe-me entregar seu presente......";	
+		emotion 4;
+		next;
+		additem 5004,1;
+		delitem 701,5;
+		show "[Jovem]";
+		show "Usando isso na boca, o ar que você respira é filtrado e assim você respira um ar mais puro.";
+		show "Eu consegui quando era um marujo. Eu não preciso mais dela.";
+		next;
+		show "[Jovem]";
+		show "Hehehehe!! Mal posso esperar para usar a Armadilha de Inseto!!!";
+		close;
+
+	M_End2:
+		show "[Jovem]";
+		show "Espere, e se eu não conseguir me livrar deles???... O unico geito seria começar a ama-los...... heh... heh... heh....";
+		emotion 4;
+		close;
+
+}
+
+// Derivuchi Cap(Hat of Petite Diablo), Helm of Angel
+payon_in01,56,12,4	script	Jovem	89,{
+	show "[Jovem]";
+	show "O que é isso?............";
+	next;
+	menu "Pode me fazer um item especial?",M_0, "Nada.",M_End;
+
+	M_0:
+		show "[Jovem]";
+		show "Eu vejo.... então me conhece huh? Ok, diga-me o que quer.";
+		next;
+		menu "-Elmo Angelical",sM_Angel, "-Chapéu de Deviruchi ",sM_Devir, "-Eu volto depois.",M_End;
+
+		sM_Angel:
+			show "[Jovem]";
+			show "Para o Elmo ANgelical você precisa:";
+			show "- ^5555FF1 Elmo (slotted)^000000.";
+			show "- ^5555FF1 Asa de Anjo^000000.";
+			show "- ^5555FF5 Presa de Hati^000000.";
+			set @HAT, 1;
+			next;
+			goto sL_GetHat;
+		sM_Devir:
+			show "[Jovem]";
+			show "Para o Chapéur de Deviruchi você precisa:";
+			show "- ^5555FF600 Pequeno Chifre Maligno^000000.";
+			show "- ^5555FF40 Garra de Grifo^000000.";
+			set @HAT, 2;
+
+			sL_GetHat:
+				show "[Jovem]";
+				show "Um momento!  Tenha certeza dos itens que dará para mim.";
+				show "Não faço diferença de equipamentos com ou sem card.";
+				show "Se não quer perder se precioso Card ou pedaço do equipamento, tenha certeza de que não esteja equipado.";
+				next;
+				show "[Jovem]";
+				show "Você tem tudo ai?";
+				menu "-Entregar os itens.",-, "Nunca.",M_End;
+
+				if(@HAT == 2) goto ssL_Devir;
+
+				ssL_Angel:
+					if(countitem(2229)<1 || countitem(2254)<1 || countitem(7036)<5) goto ssL_NotEnuf;
+					show "[Jovem]";
+					show "Aqui esta seu Elmo Angelical";
+					delitem 2229, 1;
+					delitem 2254, 1;
+					delitem 7036, 5;
+					additem 5025, 1;
+					close;
+				ssL_Devir:
+					if(countitem(1038)<600 || countitem(7048)<40) goto ssL_NotEnuf;
+					show "[Jovem]";
+					show "Aqui está seu Cahpéu de Deviruchi.";
+					delitem 1038, 600;
+					delitem 7048, 40;
+					additem 5038, 1;
+					close;
+				ssL_NotEnuf:
+					show "[Jovem]";
+					show "Você ainda não tem os itens necessário, volte quando tiver.";
+					close;
+
+	M_End:
+		show "[Jovem]";
+		show "Ok então.........";
+		close;
+
+}

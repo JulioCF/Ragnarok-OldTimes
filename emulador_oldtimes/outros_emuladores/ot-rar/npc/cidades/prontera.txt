@@ -1,0 +1,575 @@
+//= otRag ??
+prontera,54,240,5	script	Teodoro#prt	97,{
+	mes "[Teodoro]";
+	mes "Você sabia que o Fabre é a larva dos Creamys";
+	mes "Quando o Fabre amadurece, ele se fecha num Casulo.";
+	mes "Após permanecer no Casulo por algum tempo, ele torna-se um Creamy, uma espécie de borboleta, bem mais forte do que um Fabre comum.";
+	next;
+	mes "[Teodoro]";
+	mes "Sabe os Pecopecos?";
+	mes "Os Pickys são os filhotes de Pecopeco.";
+	mes "Eles são bem diferentes entre si.";
+	mes "Heheheheh, Os Pickys são bem mais bonitinhos, não acha?";
+	close;
+}
+
+prontera,78,150,3	script	Dailene#prt	90,{
+	mes "[Dailene]";
+	mes "Como a cidade está cheia hoje!";
+	mes "É isso que eu adoro em Prontera, você pode ver pessoas do mundo inteiro!";
+	mes "E claro, também ouvir novidades de toda Midgard!";
+	next;
+	if (select ("Conversar:Cancelar") == 1)
+	{
+		mes "[Dailene]";
+		mes "Eu não sei se você se interessa por vestidos... Hihihihi... Mas eu ouvi uma coisa Maravilhosa Hoje.";
+		mes "Era sobre vestidos tingidos!";
+		mes "Roupas, assim como a sua, só que de uma cor completamente nova!";
+		next;
+		mes "[Dailene]";
+		mes "Parece que se faz usando usando aquelas tinturas de morroc... Mas ela são tão caras...";
+		mes "E do mesmo jeito, acho que vai demorar muito até aparecer alguém que saiba como tingir as roupas.";
+	}
+	else
+	{
+		mes "[Dailene]";
+		mes "Foi você que clicou em mim, fofura.";
+		mes "Tem certeza que não quer ouvir umas fofocas?";
+	}
+	close;
+}
+
+prontera,106,115,6	script	Mulher#prt	91,{
+	mes "[Mulher]";
+	mes "Uma vez eu fui fazer um piquenique com a minha família e encontrei uma das coisas mais estranhas que já vi, um grande enxame de abelhas!";
+	next;
+	mes "[Mulher]";
+	mes "Claro que não era um enxame qualquer, né? Senão não teria nada de estranho... O mais estranho é que tinha uma Abelha Rainha que controlava as outras.";
+	mes "Estranho, não é? Eu acho, pelo menos. Quer dizer, imagine controlar seres humanos como aquela Rainha controlava as outras abelhas...";
+	close;
+}
+
+prontera,149,202,2	script	Cabiroba#prt	700,{
+	mes "[Cabiroba]";
+	mes "Odin é o mais poderoso dos Deuses, o todo-poderoso, o lorde dos Aesir.";
+	mes "Ele é um Deus guerreiro e muito Sábio.";
+	mes "Para conseguir sua sabedoria sem-limites, Odin bebeu da água do poço de Imir, e para isso teve de perder um de seus olhos. Isso mostra sua incrível coragem e determinação! Aquela estátua no centro da fonte é Odin.";
+	next;
+	mes "[Cabiroba]";
+	mes "Mas eu estou decepcionado com esse escultor! Seja quem for, ele poderia ter feito um trabalho melhor que esse!";
+	mes "A estátua está diferente do verdadeiro Deus Odin! Provavelmente o escultor é um metido a moderninho, e quis inventar um novo visual para nosso Deus";
+	next;
+	mes "[Cabiroba]";
+	mes "Olhe! Ele não está usando seu capacete de águia, não tem barba, e nem está montado em Sleipnir, seu poderoso cavalo de oito patas! Isso é um ultraje! Eu não sei como o Rei aprovou essa estátua como o principal monumento de nossa cidade!";
+	close;
+}
+
+prontera,160,133,2	script	Yuni#prt	102,{
+	mes "[Yuni]";
+	mes "Entre monstros da mesma forma, existem alguns mais ferozes que outros. Um exemplo são Porings e Poporings, que tem a mesma forma, mas forças diferentes.";
+	mes "É bom tomar cuidado ao atacar algum deles, pois você pode ser da mal.";
+	next;
+	mes "[Yuni]";
+	mes "Normalmente, você pode determinar qual é qual pela diferença de cores.";
+	mes "Como eu disse, tomar cuidado é sempre bom, então cheque os nomes dos inimigos antes de atacar.";
+	close;
+}
+
+prontera,101,288,5	script	Shuger#prt	98,{
+	mes "[Homem]";
+	mes "Existe um monstro rosado chamado ^000077Poring^000000 nos arredores da cidade que é um dos mais comuns em midgard.";
+	mes "Ele é bem bonitnho e inofensivo.";
+	mes "Nada de muito especial a respeito, certo? Porém, ao que parece, ele gosta de engolir itens que são deixados no chão.";
+	next;
+	mes "[Homem]";
+	mes "As pessoas costumam ficar enfezadas com isso. Não que seja muito preocupante, pois os Porings são muito fracos...";
+	mes "Já os ^000077Poporings^000000, que são Porings verdes, são mais fortes e resistentes. Tome cuidado ao provocá-los, porque comparados à porings normais eles são surpreendentemente fortes.";
+	close;
+	
+}
+
+prt_fild05,270,212,5	script	Encarregado do Esgoto	105,{
+	mes "[Encarregado dos Esgotos]";
+	if (!prt_esgoto)
+	{
+		mes "Desculpa, mas a entrada é permitida apenas àqueles alistados no Programa de Limpeza dos Esgotos de Prontera.";
+		mes "Você pode se alista na ^000077Cavalaria de Prontera^000000. Ele fica prédio localizado na parte noroeste da cidade.";
+	}
+	else
+	{
+		mes "Esta é a entrada para os esgotos.";
+		mes "Boa sorte!";
+		next;
+		if (select ("Entrar nos esgotos...:Não, obrigado.") == 1)
+		{
+			close2;
+			warp "prt_sewb1", 131, 247;
+			end;
+		}
+	}
+	close;	
+}
+	
+prt_in,88,105,2	script	Recrutador#prt	105,{
+	mes "[Recrutador]";
+	if (prt_esgoto)
+	{
+		mes "Agora você faz parte do programa de limpeza dos Esgotos de Prontera.";
+		mes "Quer que eu te mande para lá?";
+		next;
+		if (select ("Ir para a entrada dos esgotos.:Cancelar.") == 2) close;
+		close2;
+		warp "prt_fild05", 274, 208;
+		end;
+	}
+	mes "Deixa eu te mostra esta mensagem.";
+	mes "Trata-se de um memorando do Comando de Defesa da Capital do Reino de Midgard.";
+	mes "Diz aqui que o Comando está recrutando jovens corajosos, como você, para lutar contra a infestação de monstros nos esgotos da cidade de Prontera!!";
+	next;
+	switch (select ("Quero juntar-me às forças!:Que infestação?:Nem pensar."))
+	{
+		case 1:
+			mes "[Recrutador]";
+			mes "Você foi aceito pelo Comando.";
+			mes "Agradeço a você por sua iniciativa em defender a Capital de nosso Reino e fazer dela mais segura para seu povo.";
+			mes "Oferecemos aos voluntários estes itens, como uma pequena ajuda e agradecimento pelo seu esforços.";
+			mes "Aqui estão 3 Poções Vermelhas e 1 leite.";
+			mes "E no caso de quaisquer emergências... 1 Poção Laranja.";
+			getitem 501,3;
+			getitem 519,1;
+			getitem 502,1;
+			set prt_esgoto, 1;
+			next;
+			mes "[Recrutador]";
+			mes "Eu te mandarei imediatamente para a entrada dos esgotos. Boa sorte, e mais uma vez, obrigado.";
+			next;
+			warp "prt_fild05", 274, 208;
+			close;
+	
+		case 2:
+			mes "[Recrutador]";
+			mes "Você não está sabendo?";
+			mes "Acontece que os esgotos abaixo de nossa cidade são vítimas de uma grave infestação de parasitas e insetos de todos os tipos.";
+			next;
+			mes "[Recrutador]";
+			mes "Desde que os sinais desta epidemia se manifestaram, foi proibido à todos beber água de torneiras da cidade, para evitar infecções.";
+			mes "Portanto, a cidade está racionando sua água já há um bom tempo. Boa parte dos habitantes da cidade tem reclamado deste problema e estão cada vez mais insatisfeitos com as ações tomadas pelo governo.";
+			mes "Se não resolvermos esta crise, ninguém sabe o que pode acontecer!";
+			next;
+			mes "[Recrutador]";
+			mes "Portanto, já é hora de tomarmos medidas eficazes!";
+			mes "Cada inseto eliminado será de grande valia para a cidade de Prontera e para o futuro do reino de Midgard!";
+			mes "Nós precisamos de você! Aliste-se já!";
+			next;
+			if (select ("Quero me alistar!:Não quero fazer parte disso.") == 2)
+			{
+				mes "[Recrutador]";
+				mes ".....";
+				close;
+			}
+			else
+			{
+				mes "[Recrutador]";
+				mes "Você foi aceito pelo Comando.";
+				mes "Agradeço a você por sua iniciativa em defender a Capital de nosso Reino e fazer dela mais segura para seu povo.";
+				mes "Oferecemos aos voluntários estes itens, como uma pequena ajuda e agradecimento pelo seu esforços.";
+				mes "Aqui estão 3 Poções Vermelhas e 1 leite.";
+				mes "E no caso de quaisquer emergências... 1 Poção Laranja.";
+				getitem 501,3;
+				getitem 519,1;
+				getitem 502,1;
+				set prt_esgoto, 1;
+				next;
+				mes "[Recrutador]";
+				mes "Eu te mandarei imediatamente para a entrada dos esgotos. Boa sorte, e mais uma vez, obrigado.";
+				next;
+				warp "prt_fild05", 274, 208;
+				close;			
+			}
+
+		case 3:
+			mes "[Recrutador]";
+			mes ".....";
+			close;
+	}
+}
+
+prt_church,103,71,2	script	Kostario#prt	120,{
+	mes "[Kostario]";
+	mes "É muito bom poder ajudar ao próximo...";
+	mes "No entanto, não é só disso que vive um servo do Senhor. Nossa missão também é a de proteger o mundo dos amaldiçoados dos demônios.";
+	mes "Os Sarcerdotes devem ser capazes de lutar contra as legiões Malditas em nome do Senhor! Por isso, Temos habilidades que nos favorecem contra os servos do Mal. Quer saber mais sobre alguma delas?";
+	next;
+	goto K_menu;
+	
+	K_menu:
+	menu "Sobre 'Proteção Divina'.",protecaodivina,"Sobre 'Flagelo do Mal'",flagelodomal,"Sobre 'Diminuir Agilidade'.",diminuiragilidade,"Sobre 'Signum Crusis'.",signumcrusis,"Sobre 'Escudo Sagrado'.",escudosagrado,"Sobre 'Revelação'.",revelecao,"Sobre 'Teleporte'.",teleporte,"Na verdade, não.",naverdadenao;
+	
+	protecaodivina:
+	mes "[Kostario]";
+	mes "Para aumentar sua resistência aos ataques Malditos e de Dêmonios você precisa desta habilidade.";
+	mes "Esta é uma habilidade passiva, e portanto sem limite de tempo ou gasto de SP.";
+	next;
+	mes "[Kostario]";
+	mes "Subindo o nível da habilidade até 3, você pode aprender 'Flagelo do Mal', que aumenta o ataque contra os monstros Malditos e Dêmonios.";
+	mes "'Angelus' também pode ser usada para aumentar a defesa e 'Benção' para aumentar sua Força, Destreza e Inteligência temporariamente. Como você pode ver, temos muitas armas contra o mal...Hehehe.";
+	next;
+	goto K_menu;
+	
+	flagelodomal:
+	mes "[Kostario]";
+	mes "'Flagelo do Mal' aumenta o dan de ataques contra os monstros Malditos e Dêmonios.";
+	mes "Ele requer 'Proteção Divina' nível 3, e assim como esta, é uma habilidade passiva e sem gasto de SP.";
+	next;
+	mes "[Kostario]";
+	mes "Com nível 3 em 'Flagelo do Mal' você pode aprender 'Signum Crusis', que diminui a defesa destes monstros.";
+	next;
+	goto K_menu;
+	
+	diminuiragilidade:
+	mes "[Kostario]";
+	mes "Esta habilidade diminui a Agilidade dos inimigos, e com isso, diminui também a velocidade de ataque e esquiva deles.";
+	mes "Para aprendê-la é necessário pelo menos um ponto de habilidade em 'Aumentar Agilidade'.";
+	next;
+	goto K_menu;
+	
+	signumcrusis:
+	mes "[Kostario]";
+	mes "Esta habilidade diminui a Defesa de monstros de propriedade Maldita ou de Escuridão... Ela funciona numa área de alcance bem grande, quase todo o espaço da tela!";
+	mes "Porém, a chance de sucesso dela é pequena e costuma falhar bastante.";
+	mes "Lembre-se disso!";
+	next;
+	mes "[Kostario]";
+	mes "Para usar esta habilidade, é necessário ter 'Flagelo do Mal' em nível 3.";
+	next;
+	goto K_menu;
+	
+	escudosagrado:
+	mes "[Kostario]";
+	mes "Tendo maximizado 'Portal', você poderá aprender esta habilidade.";
+	mes "Ela permite que você crie um escudo protetor contra ataques de projéteis como flechas, pedras ou balas.";
+	next;
+	goto K_menu;
+	
+	revelecao:
+	mes "[Kostario]";
+	mes "Esta habilidade permite detectar monstros (e jogadores) escondidos.";
+	mes "Quando revelados, eles sofrerão um ataque de propriedade Sagrada.";
+	mes "Este ataque varia em poder de acordo com a Inteligência do Padre.";
+	mes "É um pré-requisito para aprender 'Teleporte' e 'Portal'.";
+	next;
+	goto K_menu;
+	
+	teleporte:
+	mes "[Kostario]";
+	mes "'Teleporte' é aprendida após obter-se 1 nível em 'Revelação'.";
+	mes "Em nível 1 ela perimite que você se teleporte para um lugar qualquer dentro do mapa em que você se encontrar.";
+	mes "Cuidado para não cair em algum lugar perigoso! No nível 2, 'Teleporte' permite mandar o personagem de volta ao Ponto de Início, onde ele salvou.";
+	next;
+	mes "[Kostario]";
+	mes "Depois de 'Teleporte', você pode aprender 'Portal' que permite teleportar outros personagens também, para áreas à sua escolha.";
+	next;
+	goto K_menu;
+	
+	naverdadenao:
+	mes "[Kostario]";
+	mes "Eu sempre estarei disposto a ajudá-lo.";
+	close;
+}
+
+prt_church,103,76,2	script	Hemera#prt	67,{
+	mes "[Hemera]";
+	mes "Olá! Sou a Hemera, pode me chamar de Hemy... Mas então. Você gostaria de fazer o bem para os outros? As habilidades do "+callfunc("otclassname",8,"P","M")+" são feitas para isso!";
+	mes "Se você se interessa por esta vocação, de ajudar e dedicar sua vida ao bem esta alheio, você pode ser um de nós!";
+	next;
+	mes "[Hemera]";
+	mes "Com os poderes divinos, podemos restaurar o corpo mais cansado ou acordar a força total de um aventureiro!";
+	mes "Fique à vontade, me pergunte o que quiser, viu? Meu conhecimento está à sua disposição. Sobre qual habilidade você quer saber mais?";
+	next;
+	
+	H_menu:
+	menu "Sobre 'Curar'.",sobrecurar,"Sobre 'Medicar'.",sobremedicar,"Sobre 'Aumentar Agilidade'.",sobreaumentaragilidade,"Sobre 'Angelus'.",angelus,"Sobre 'Benção'.",bencao,"Sobre 'Portal'.",portal,"Não me interesso muito por "+callfunc("otclassname",8,"P","M")+"...",naointeressa;
+	
+	sobrecurar:
+	mes "[Hemera]";
+	mes "'Curar' é uma habilidade que restaura o HP do alvo.";
+	mes "É uma das habilidades mais valiosas de um "+callfunc("otclassname",8,"S","M")+", e vital para proteger e ajudar ao próximo.";
+	mes "Os "+callfunc("otclassname",8,"P","M")+" têm uma evolução desta habilidade de nome 'Santuário', que possibilita curar mais de uma pessoa ao mesmo tempo.";
+	next;
+	mes "[Hemera]";
+	mes "Mas deixe eu te contar um segredo... Se usada em monstros Malditos, como os mortos-vivos... Ela causa dano!";
+	mes "Isso porque estes monstros são especialmente fracos contra poderes Sagrados. Só não se esqueça de aperta a tecla 'shift' ao 'curá-los'.";
+	next;
+	goto H_menu;
+	
+	sobremedicar:
+	mes "[Hemera]";
+	mes "'Medicar' é uma habilidade que pode retirar de um jogador algum estado especial, como tontura ou Maldição.";
+	mes "Para aprendê-la é necessário obeter primeiro 'Curar' nível 2.";
+	next;
+	goto H_menu;
+	
+	sobreaumentaragilidade:
+	mes "[Hemera]";
+	mes "Esta habilidade aumenta o número de pontos de Agilidade do jogador alvo beneficiando a velocidade dos ataques e a esquiva, além de fazer com que ele ande mais rápido.";
+	mes "Ela favorece especialmente os "+callfunc("otclassname",6,"P","M")+" e "+callfunc("otclassname",3,"P","M")+", que customam depender bastante da Agilidade nas batalhas.";
+	mes "Para aprendê-la, é necessário primeiro ter 'Curar' em nível 3.";
+	next;
+	goto H_menu;
+	
+	angelus:
+	mes "[Hemera]";
+	mes "Angelus é uma habilidade que aumenta a Defesa de um Grupo todo ao mesmo tempo, fazendo com que todos resistam melhor à ataques inimigos.";
+	mes "Mas, lembre-se que ela aumentará a defesa proporcionalmente à Vitalidade de cada jogador, então os efeitos serão diferentes pra cada um.";
+	next;
+	mes "[Hemera]";
+	mes "Para obter esta habilidade, o nível de Proteção Divina, uma habilidade que aumenta a Defesa do "+callfunc("otclassname",8,"S","M")+" contra monstros Malditos, deve ser pelo menos 3.";
+	mes "Tendo aprendido Angelus, você poderá obter uma habilidade muito valiosa quando se tornar um "+callfunc("otclassname",8,"S","M")+",,,";
+	mes "Esta habilidade chama-se Kyrie Eleison, e protege o jogador alvo de qualquer dano por um determinado número de ataques.";
+	next;
+	goto H_menu;
+	
+	bencao:
+	mes "[Hemera]";
+	mes "'Benção' aumenta temporariamente os pontos do jogador alvo em Força, Destreza e Inteligência.";
+	mes "É uma das habilidades mais valiosas tanto para você quanto para seus companheiros!";
+	next;
+	mes "[Hemera]";
+	mes "Assim como 'Angelus, para aprender 'Benção' é necessário ter algum nível em Proteção Divina (só que nível 5 e não 3).";
+	mes "Não se esqueça, 'Benção' pode ser muito útil para o próprio "+callfunc("otclassname",8,"S","M")+", já que com mais Inteligência, habilidades como 'Curar' serão mais poderosos...";
+	next;
+	goto H_menu;
+	
+	portal:
+	mes "[Hemera]";
+	mes "Para aprender a abrir um 'Portal', você precisa primeiro aprender 'Teleporte'.";
+	mes "Para aprender 'Teleporte' é necessário obter antes 'Revelação', que permite detectar monstros escondidos e tem apenas um nível de habilidade.";
+	mes "'Portal' é uma habilidade muito útil. Vou te explicar melhor como funciona.";
+	next;
+	mes "[Hemera]";
+	mes "Abrir um 'Portal' faz com que você possa se transportar entre locais muito, muito distantes num piscar de olhos.";
+	mes "Você pode escolher até 4 lugares (no nível 4 da habilidade) para onde abrir um portal. Um destes lugares será obrigatoriamente onde você salvou seu Ponto de Início.";
+	next;
+	mes "[Hemera]";
+	mes "Como se faz para 'marcar' um lugar como destino de um portal? É só digitar /memo no local que você desejar e ele será marcado.";
+	mes "Lembre-se que não é possível marcar um portal dentro de um calabouço.";
+	mes "E cuidado, pois esta habilidade gasta muito SP e dependendo da situação, isso pode te deixar em maus lençóis!";
+	next;
+	mes "[Hemera]";
+	mes "Ah! E o mais importante! É necessário usar a energia de uma Gema Azul para abrir um portal.";
+	mes "Se você não tiver uma Gema Azul para 'gastar', portal simplesmente não abre!";
+	next;
+	goto H_menu;
+	
+	naointeressa:
+	mes "[Hemera]";
+	mes "Independente do seu interesse, sempre estaremos aqui para ajuda-lo.";
+	close;
+	
+}
+
+prt_in,26,31,1	script	Tio#prt	54,{
+	mes "[Tio]";
+	mes "Você pode não acreditar em mim, mas eu vi uma coisa incrível nos ^000077Esgotos de Prontera^000000.";
+	mes "Eu já fui lá muitas vezes, pois sou um dos encarregados da manutenção das tubulações de lá... Conheço tudo como a palma da minha mão!";
+	mes "Eu vi a tal coisa na Quarto";
+	mes "Subsolo... Era um ^000077Besouro Ladrão^000000 brilhante! Era dourada e reluzia no escuro! Foi muito estranho!";
+	next;
+	mes "[Tio]";
+	mes "Um Besouro Ladrão Dourado, imagine só! Ela tinha uma luz mágica, acho que até Sagrada e era muito, muito forte!";
+	mes "Como pode um bicho tão repulsuvo e sujo ter uma luz dessas?";
+	close;
+}
+
+prt_in,173,24,2	script	Hubite#prt	85,{
+	mes "[Hubite]";
+	mes "Ei, colega! Cheque aqui e tome um drinque comigo! Eu tenho umas histórias boas pra te contar.";
+	mes "Sabe, eu já andei por todos os arredores de Prontera!";
+	mes "Lugares cheios de monstros, lugares cheios de itens. ótimos para treinar!";
+	next;
+	if (select ("E como você foi pra tantos lugares?:É? E daí?") == 1)
+	{
+		mes "[Hubite]";
+		mes "Ora, eu sou um cara muito talentoso! Eu já fiz de tudo!";
+		mes "Eu já viajei bastante por aí fazendo serviços para os aventureiros e para a cidade...";
+		mes "Fazendo o quê? Bem...hã...entregando coisas.";
+		mes "É... Eu sei que às vezes é um trabalho meio chato e sem graça, esse de fazer entregas.";
+		next;
+		mes "[Hubite]";
+		mes "Mas assim eu tenho a oportunidade de viajar bastante e conhecer novos lugares! É muito divertido!";
+		mes "Mas não pense que eu faço isso por diversão... Eu sou um cara muito dedicado, viu? Se você precisa entregar alguma coisa, eu sou seu homem!";
+		next;
+		mes "[Hubite]";
+		mes "Viajando por aí eu já achei alguns lugares bem estranhos e também fascinantes...";
+		mes "(É muito legal, porque eu sei que quase ninguém aqui sabe deles... Hehehe.)";
+		mes "Por exemplo, uma certa caverna que eu conheço... E também aquela floresta perigosíssima...";
+		next;
+		switch (select ("Que caverna?:Floresta perigosa? Hmmm.:Bem, eu preciso ir..."))
+		{
+			case 1:
+				mes "[Hubite]";
+				mes "Hmm... A caverna... Ela fica ao Norte daqui. Eu acompanhei alguns "+callfunc("otclassname",11,"P","M")+" até lá uma vez.";
+				next;
+				mes "[Hubite]";
+				mes "Embora existam muitos montros por lá, ouvi dizer que há ótimos tesouros também.";
+				mes "Quando eu estive lá, mesmo estando com aventureiros experientes, era difícil não se perder.";
+				next;
+				mes "[Hubite]";
+				mes "Chegou uma hora em que todos os caminhos pareciam dar no mesmo lugar. Estávamos sem muitas opções e ficando sem suprimentos.";
+				mes "Então, acabamos voltando... De mãos abanando, claro. Mas... Quem sabe eu volto lá algum dia.";
+				next;
+				if (select ("Como eu faço pra chegar lá?:Bom, a gente se vê por ai.") == 1)
+				{
+					mes "[Hubite]";
+					mes "O quê? Mas é aqui do lado! Você deveria conhecer...";
+					mes "É só sair da cidade pelo portão Norte. A caverna fica na parte de cima da floresta...";
+					close;
+				}
+				else
+				{
+					mes "[Hubite]";
+					mes "Tudo bem... Tome cuidado por aí.";
+					close;
+				}
+			
+			case 2:
+				mes "[Hubite]";
+				mes "Essa floresta fica à nordeste daqui. Existem algumas ruínas bem bonitas ali perto... Eu fui entregar um pacote para um "+callfunc("otclassname",8,"S","M")+" que mora lá uma vez.";
+				mes "Antes dessas ruínas, você vai ver a tal flotesta. Ela é cheia de texugos e macacos.";
+				next;
+				mes "[Hubite]";
+				mes "É bom tomar cuidado lá... Se você deixar cair algum item no chão, os Yoyos saem correndo pra pegá-lo. E o pior é que se você atacar um deles, eles vão se juntar contra você.";
+				next;
+				if (select ("Como se chega lá?:Ah, cansei dessa conversa...") == 1)
+				{
+					mes "[Hubite]";
+					mes "O caminho é um pouquinho complicado, mas se você seguir para o Norte e depois Leste, não tem como errar.";
+					mes "Só cuidado com algumas plantas que tem pelo caminho... Elas atacam qualquer um que chegar muito perto.";
+					close;
+				}
+				else
+				{
+					mes "[Hubite]";
+					mes "Tudo bem, então!... Lembre sempre de tomar cuidado quando viajar por aí.";
+					close;			
+				}
+				
+			case 3:
+				mes "[Hubite]";
+				mes "Tudo bem... Tome cuidado por aí.";
+				close;
+		}
+	}
+	else
+	{
+		mes "[Hubite]";
+		mes "Bem, se tiver alguma dúvida, venha falar comigo.";
+		close;	
+	}
+}
+
+prt_in,180,20,2	script	Garçom#prt	61,{
+	mes "[Garçom]";
+	mes "Olá, seja bem-vindo! Hehehe! A freguesia anda aumentando por aqui!";
+	mes "Este já foi um negócio bem difícil, sabe? Pelo menos os lucros sempre foram bons... Hehe, mas agora estão melhores...";
+	mes "A dificuldade? Ora, conseguir os ingredientes para a cozinha!";
+	next;
+	mes "[Garçom]";
+	mes "Como você deve saber, o aumento das hordas de monstros agressivos em torno das cidade do reino criou uma escassez na obetenção de certas matérias-primas e produtos...";
+	mes "Por isso, tentamos adaptar o menu do restaurante quando há falta de alimentos. Fazemos especiais ou inventamos pratos mais simples pra não perder a clientela.";
+	next;
+	mes "[Garçom]";
+	mes "Recentemente, contratamos alguns soldados e "+callfunc("otclassname",12,"P","M")+" para conseguir melhores ingrediente caçando alguns monstros.";
+	mes "Estes aqui são frescos e de ótima qualidade, por isso os pratos estão deliciosos. É pena que seja por pouco tempo, já que o estoque não deve durar...";
+	mes "Os sujeitos que contralei não trouxeram muito, e eu não quis nem reclamar... É que, além de estar cada vez mais difícil caçar monstros, esses caras eram bem mal-encarados...";
+	next;
+	mes "[Garçom]";
+	mes "Então, se estiver interessado, nossos pratos de hoje são:";
+	mes "'Carapaças de formiga ao molho' e 'Pernas de Gafanhoto fritas'...";
+	next;
+	goto G_menu;
+	
+	G_menu:
+	menu "'Carapaça de formiga ao molho'?",carapaca,"'Perna de Gafanhoto frita'?",frita,"Eu... acho que vou indo.",vouindo;
+
+	carapaca:
+	mes "[Garçom]";
+	mes "É uma deleciosa iguaria e um clássico local! É feito à partir das cascas das formigas do deserto sograt, ao sul daqui.";
+	mes "Essas formiga são bem grandes e ferozes, e o melhor lugar para caçá-las é no Formigueiro Infernal... O problema é que lá às vezes há formigas demais... Por isso, a maioria das pessoas tem medo de enfrentá-las...";
+	next;
+	mes "[Garçom]";
+	mes "Mesmo assim, a maioria das pessoas também gostam de um belo prato de formiga ao molho... E adoram reclamar se acaba meu estoque.";
+	next;
+	goto G_menu;
+	
+	frita:
+	mes "[Garçom]";
+	mes "Sim, as pernas de gafanhoto ficam especialmente boas fritas com azeite de olive... Uma delícia.";
+	mes "Só é pena que hoje os gafanhotos estejam tão agressivos... Mas ainda assim, não são tão difíceis de caçar. O problema é que eu sou meio covarde na hora de matar monstros, senão ia lá e ensinava uma lição a eles!";
+	next;
+	mes "[Garçom]";
+	mes "É, mas do jeito que vão as coisas logo, logo, vou ter que voltar a feazer pratos comuns de novo...";
+	next;
+	goto G_menu;
+	
+	vouindo:
+	mes "[Garçom]";
+	mes "Bem, tenha cuidado lá fora, e coma uma pouco da próxima vez!";
+	close;
+	
+}
+
+prt_in,177,18,2	script	Marin#prt	80,{
+	mes "[Marin]";
+	mes "A maioria das habilidades é maximizada no nível 10, e isso sãõ muitos pontos...";
+	next;
+	mes "[Marin]";
+	mes "Ao decidir que habilidades você vai usar, seja muito cuidadoso.";
+	mes "Pesquise a respeito delas, por que nem todas valem a pena ser maximizadas.";
+	next;
+	mes "[Marin]";
+	mes "Muitas vezes, abrimos mãos de certas habilidades por não temos pontos o bastante...";
+	mes "Por isso em certas classes é importante ir até o nível 50 de classe.";
+	next;
+	mes "[Marin]";
+	mes "Claro que versatilidade é algo importante, masé sempre bom pensar com que tipo de pessoas você vai estar acompanhado.";
+	mes "Minha dica é sempre a mesma:";
+	mes "Estude, estude, estude! Você não vai querer se arrepender depois...";
+	close;
+}
+
+prt_in,177,20,2	script	Tanhu#prt	97,{
+	mes "[Tanhu]";
+	mes "Então, você está cansado de só matar monstros?";
+	mes "Não aguenta mais ficar dentro de calabouços ou se perdendo nas florestas?";
+	mes "Pois você deveria ir no PVP!";
+	next;
+	mes "[Tanhu]";
+	mes "No PvP você pode enfrentar outras pessoas em replicas perfeitas de nossas cidades.";
+	mes "Já me disseram que PvP significa 'Player versus Players', mas como eu não sei ingles, continuei na mesma.";
+	mes "De qualquer maneira, eu te garanto que é muito divertido!";
+	next;
+	mes "[Tanhu]";
+	mes "Você devia ao menos";
+	mes "experimentar...";
+	close;
+}
+
+prt_in,175,50,2	script	Bibliotecária#prt	71,{
+	mes "[Bibliotecária Barbara]";
+	mes "Bem-vindo! Os dados nesta biblioteca estão separados pelos nomes dos monstros. Você pode ler livros e escritas de seu interesse aqui. Aqui também existem livros sobre as classes dos Ferreiros e Mercadores.";
+	mes "Ah! A próxima biblioteca também é muito interessante. Visite-a se puder.";
+	close;
+}
+
+prt_in,178,92,2	script	Bibliotecário Mestre#prt	57,{
+	mes "[Bibliotecário Mestre]";
+	mes "Em nossa biblioteca, os dados de todos os monstros existentes no reino de Midgard estão armazenados pelo lugar onde estes são encontrado, de forma a ser consultada fácil e rapidamente.";
+	mes "Existem milhares de livros que aventureiros do reino podem (e devem!) ler. Fique à vontade para procurar qual quer informação que desejar.";
+	next;
+	mes "[Bibliotecário Mestre]";
+	mes "Na próxima biblioteca, os dados dos montros estão separados por nome.";
+	mes "Se estiver interessado, dê uma olhada por lá!";
+	close;
+}
+	

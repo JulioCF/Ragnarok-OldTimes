@@ -1,0 +1,1065 @@
+//===== Cronus Script ======================================== 
+//= Script Alquimista
+//===== Por: =================================================
+//= nestor_zulueta (Fusion)
+//= converted by Darkchild
+//===== Versão Atual: ======================================== 
+//= 1.7/2.4a
+//===== Descrição: =========================================== 
+//= Muda a classe para Alquimista
+//===== Changelog: =========================================== 
+//= 1.4 Traduzido [Kosonome]
+//= 1.5 Quest Atualizada [Mehah]
+//= 1.6 Adaptado Classname Na Função F_BlockHigh [Mehah]
+//= 1.6a Corrigido o recebimentos dos manuáis [Kamper]
+//= 1.7 Corrigido respostas da quest de Nicholas Flamel [Page]
+//============================================================
+
+alde_alche,27,185,4	script	Parmry Gianino	744,{
+	callfunc "F_BlockHigh",Job_Merchant_High,"Mercador T.",Job_Creator,"Criador","Parmry Gianino";
+
+	show "[Parmry Gianino]";
+	if(BaseJob == Job_Merchant) goto L_Merc;
+	if(baseJob == Job_Alchem){
+		show "Olá companheiro Alquimista.  Como os negócios estão progredindo?  Espero que bem, boa sorte para você.";
+		close;
+	}
+	show "Bem vindo a União Alquimista.  Ah, minhas sinceras desculpas mas estou ocupado no momento.";
+	close;
+L_Merc:	
+	if(ALCH_Q == 1) goto L_Check;
+	if(ALCH_Q == 2) goto L_Test2;
+	if(ALCH_Q == 3) goto L_Test3;
+	if(ALCH_Q == 4) goto L_Test4;
+	if(ALCH_Q == 5) goto L_Test5;
+	if(ALCH_Q == 6) goto L_Test6;
+	if(ALCH_Q == 7) goto L_GoChange;
+	show "Bem vindo a União Alquimista.";
+	show "Como eu poderia ajudá-lo?";
+	next;
+	menu "Eu gostaria de aprender sobre alquímia.",-, "Eu quero virar um Alquimista.",L_Start, "Nada.",M_End;
+
+		show "[Parmry Gianino]";
+		show "Alquimistas estudam e criam novos materiais usando uma variedade de substâncias existentes.";
+		show "Eles pesquisam sobre os átomos químicos, e experimentam para mudar suas propriedades químicas.";
+		next;
+		show "[Parmry Gianino]";
+		show "A maioria das pessoas pensam que o objetivo final é criar ouro, mas esta não é a pura verdade.";
+		show "Eles podem fazer qualquer coisa, de simples remédios até novos materiais.";
+		next;
+		show "[Parmry Gianino]";
+		show "As vezes, até mesmo pesquisas sobre a criação da vida... mas este poderia ser considerado um território de Deus...";
+		show "Este é uma área muito complexa, todos somente pesquisam por enquanto.";
+		next;
+		show "[Parmry Gianino]";
+		show "Se você está interresado em virar um Alquimista, eu recomendo você ter muitas experiências adquiridas enquanto Mercador.";
+		show "Pois sendo um Mercador é uma grande oportunidade para aprender sobre os materiais enquanto você negocia eles.";
+		next;
+		show "[Parmry Gianino]";
+		show "Somente você pode decidir seu caminho.";
+		show "A estrada para se tornar um Alquimista é bem desafiadora.";
+		show "Você precisará se enfocar mais em experimentos e pesquisas do que seus negócios.";
+		close;
+	M_End:
+		show "[Parmry Gianino]";
+		show "Hmmm... Por favor, quando precisar de algo, somente peça.";
+		close;
+L_Start:
+	show "[Parmry Gianino]";
+	if(JobLevel < 40) goto L_LowLvl;
+	show "Estão era isso. Meu nome é Parmry Gianino da Associação dos Alquimistas.";
+	show "Prazer em conhecer você.";
+	next;
+	show "[Parmry Gianino]";
+	show "Se você se juntar a nossa União e passar nos treinamentos você será oficial reconhecido";
+	show "como um Alquimista e apto a ajudar em nossas pesquisas.";
+	next;
+	show "[Parmry Gianino]";
+	show "Porém nós não aceitamos qualquer um.";
+	show "Você deve ser dedicado, perseverante, e estar disposto a devotar a si mesmo as pesquisas.";
+	next;
+	show "[Parmry Gianino]";
+	show "Há alguns requerimentos para você poder se juntar a associação...";
+	show "porém discutiremos isto assim que você se inscrever.";
+	next;
+	show "[Parmry Gianino]";
+	show "Então, você gostaria de se inscrever?";
+	next;
+	menu "Eu gostaria de me inscrever.",M_Apply,"Eu farei mais tarde.",-;
+
+		show "[Parmry Gianino]";
+		show "Se você é um Mercador talentoso,";
+		show "você sempre será bem vindo aqui.";
+		show "Volte sempre.";
+		close;
+	M_Apply:
+		show "[Parmry Gianino]";
+		show "Preencha este formulário por favor...";
+		next;
+		show "*você preenche o formulário e o entrega de volta*";
+		next;
+		show "[Parmry Gianino]";
+		show "Muito bom.  Para você poder se juntar a União Alquimista você deve primeiramente pagar uma taxa de  ^5533FF50,000^000000 zeny.";
+		show "Você precisará também nos trazer alguns poucos itens.";
+		next;
+		show "[Parmry Gianino]";
+		show "Claro que se você nos trazer um ^5533FFGrimório Antigo^000000 e um ^5533FFMartelo de Ferreiro^000000";
+		show "você não terá que pagar a taxa.";
+		next;
+		show "[Parmry Gianino]";
+		show "Vamos ver... você precisará nos trazer ^5533FF100 Mini-Fornalhas^000000.";
+		show "Quando você conseguir as Mini-Fornalhas, venha me ver novamente.";
+		next;
+		show "[Parmry Gianino]";
+		show "Quando você voltar, eu também irei coletar a taxa de ^5533FF50,000^000000 zeny, então não se esqueça disso também.";
+		show "Vejo você brevemente...";
+		set JBLVL, JobLevel; // used to determine what item to get at the end
+		set ALCH_Q,1;
+		close;
+L_LowLvl:
+	show "Você deve ao menos estar no Nível de Classe 40 para virar um Alquimista.";
+	close;
+
+L_Check:
+	show "Oh, você voltou... vamos ver...";
+	next;
+	show "[Parmry Gianino]";
+	if(countitem(612) < 100) goto L_NoItems;
+	if(countitem(1005) && countitem(1006)) goto L_Skip;
+	if(zeny < 50000) goto L_NoZeny;
+ 	set zeny,zeny - 50000;
+	delitem 612, 100;
+	show "Você possui os 50,000 zeny...... Você também trouxe as 100 Mini-Fornalhas... Maravilhoso!";
+	show "Agora você está pronto para aprender o básico de ser um Alquimista.";
+	next;
+
+	L_Cont:
+	show "[Parmry Gianino]";
+	show "Porém antes disso... ^5533FFRasputin^000000 quer ver você...";
+	show "Hmm... Não tenho certeza do que poderia ser...";
+	next;
+	show "[Parmry Gianino]";
+	show "Você deve visitar ele agora.  Somente desça as escadas a minha direita.  Sua sala fica no canto mais a sudeste.";
+	set ALCH_Q,2;
+	close;
+
+	L_NoZeny:
+		show "Você ainda precisa pagar a taxa de ^FF553350,000^000000 zeny.";
+		show "Diga-me quando você tiver dinheiro o suficiente.";
+		close;
+	L_NoItems:
+		show "Como já foi mencionado anteriormente, você deve trazer ^FF3355100 Mini-Fornalhas^000000 para se juntar a União.";
+		show "Por favor, volte quando tiver conseguido as Mini-Fornalhas...";
+		close;
+L_Skip:
+	show "Oh, vejo que você tem um ^5533FFGrimório Antigo^000000 e um ^5533FFMartelo de Ferreiro^000000.....";
+	show "Isto significa que você não tem que pagar a taxa de entrada.";
+	next;
+	show "[Parmry Gianino]";
+	show "Excelente.  Agora somente me dê o Livro, Martelo e as 100 Mini-Fornalhas. Assim você estará pronto para aprender o básico sobre ser um Alquimista.";
+	next;
+	delitem 1005,1;
+	delitem 1006,1;
+ 	delitem 612, 100;
+	goto L_Cont;
+
+L_Test2:	
+	show "Vá visitar ^5533FFRasputin^000000 agora!";
+	close;
+L_Test3:	
+	show "Vá visitar ^5533FFDarwin^000000 agora!";
+	close;
+L_Test4:	
+	show "Vá visitar ^5533FFVan Helmont^000000 agora!";
+	close;
+L_Test5:	
+	show "Vá visitar ^5533FFNicholas Flamel^000000 agora!";
+	close;
+L_Test6:	
+	show "Volte para o ^5533FFNicholas Flamel^000000 agora!";
+	show "Ele ainda tem preparado mais um teste para você.";
+	close;
+L_GoChange:	
+	show "Nossa, você acabou todos estes testes? Perfeito! Agora você pode visitar o líder, ^5533FFVincent Carsciallo^000000.";
+	show "Ele é o que te transformará em um Alquimista.";
+	close;
+}
+
+
+//==================================================================================================//
+//					2nd Test: Math test :(
+//==================================================================================================//
+alde_alche,175,107,4	script	Rasputin Gregory	749,{
+	show "[Rasputin Gregory]";
+	if(baseJob == Job_Merchant) goto L_Merc;
+	show "Que é isso, kikikiki.  Você está curiosos sobre o que estou fazendo...?";
+	show "Eu somente falarei especialmente para você. Veja, eu... Kekeke..";
+	next;
+	show "[Rasputin Gregory]";
+	show "Estou pesquisando! Uma vez esta poção for completada... você será capaz de dominar um país inteiro!!";
+	next;
+	show "[Rasputin Gregory]";
+	show "Kikikikikekekekek.  É um segredo para as pessoas de Prontera.....";
+	close;
+L_Merc:
+	if(ALCH_Q == 2) goto L_Start;
+	if(ALCH_Q == 3) goto L_Done;
+	show "Kikikikikekekekeke.";
+	show "O que é?! Seu inútil!";
+	next;
+	show "[Rasputin Gregory]";
+	show "Um Mercador poderia ir embora e fazer seu comércio...";
+	show "Porque você viria em um local como este!?";
+	show "Você está procurando por algo para vender?";
+	next;
+	show "[Rasputin Gregory]";
+	show "Kikiki... saía, vá embora daqui.";
+	show "Não desperdice tempo... Kekeke.";
+	close;
+L_Start:
+	if(ALCH_Q2 == 1) goto L_ReTest;
+	if(JobLevel == 50) goto L_Skip;
+	show "Keke, outro idiota que falhou aqui dentro.";
+	show "Juntar-se a União?";
+	next;
+	show "[Rasputin Gregory]";
+	show "Eu não gostei... Eu NÃO gostei...!";
+	show "Todo lugar, todos se juntam a União e são chamados de Alquimista somente por saberem como misturar ervas!!!";
+	next;
+	show "[Rasputin Gregory]";
+	show "Kikiki, então por esse motivo uma entrevista é necessária!";
+	show "Eu planejo castigar todos os incompetentes e persegui-los!!";
+	next;
+	show "[Rasputin Gregory]";
+	show "Você está com uma cara de estúpido. Deve estar sendo pouco doido.";
+	show "Se você estava pensando que era somente mudar suas roupas, você pensou errado... Kekeke...";
+	next;
+	show "[Rasputin Gregory]";
+	show "Agora tente resolver estes problemas que eu der a você.";
+	show "Vamos ver o quão esperto você é.";
+	next;
+	set @score,0;
+
+	//set of question 1
+	q1:
+		show "[Rasputin Gregory]";
+		show "12+23+34+45 =?";
+		next;
+		digit @num;
+		if(@num == 114) set @score,@score+10;
+	q2:	
+		show "[Rasputin Gregory]";
+		show "1000-36-227-348 =?";
+		next;
+		digit @num;
+		if(@num == 389) set @score,@score+10;
+	q3:
+		show "[Rasputin Gregory]";
+		show "9765/3/5/7 =?";
+		next;
+		digit @num;
+		if(@num == 93) set @score,@score+10; 
+	q4:
+		show "[Rasputin Gregory]";
+		show "(2646/7) + (13*28) =?";
+		next;
+		digit @num;
+		if(@num == 742) set @score,@score+10;
+	q5:
+		show "[Rasputin Gregory]";
+		show "Com um desconto de 24%";
+		show "quanto vale 12 Poções Vermelhas,";
+		show "5 Asas de Mosca , e ";
+		show "1 Asa de Borboleta em zenys?";
+		next;
+		digit @num;
+		if(@num == 909) set @score,@score+10;
+	q6:
+		show "[Rasputin Gregory]";
+		show "Qual o peso total de 3 ";
+		show "Cimitarras,";
+		show "2 Elmos e 1 Casaco?";
+		next;
+		digit @num;
+		if(@num == 450) set @score,@score+10;
+	q7:	
+		show "[Rasputin Gregory]";
+		show "Qual a defesa total de";
+		show "uma Solidéu, um Capote, uma Máscara do Fantasma,";
+		show "um Laço, um Sobrepeliz,";
+		show "um par de Botas, e um Aquecedor de Orelha?";
+		next;
+		digit @num;
+		if(@num == 19) set @score,@score+10;
+	q8:	
+		show "[Rasputin Gregory]";
+		show "Se você comprar 5 Elmos com 24%";
+		show "de desconto e vender eles a 20%, quanto você";
+		show "ganharia em zenys?";
+		next;
+		digit @num;
+		if(@num == 8800) set @score,@score+10;
+		goto L_Total;
+
+L_ReTest:
+	show "O que? Você quer refazer o teste?";
+	show "Eu achei que tivesse mandado você ir embora.";
+	next;
+	show "[Rasputin Gregory]";
+	show "Bem, eu irei permitir você tentar mais uma vez...";
+	show "Eu perdoo você... Kekeke.";
+	show "Faça direito desta vez...";
+	next;
+	show "[Rasputin Gregory]";
+	show "Agora então, responda as minhas perguntas.";
+	show "Vamos ver o quão esperto você é.";
+	next;
+	set @score,0;
+
+	//set of question 2
+	q11:
+		show "[Rasputin Gregory]";
+		show "13+25+37+48=?";
+		next;
+		digit @num;
+		if(@num == 123) set @score,@score+10;
+	q12:
+		show "[Rasputin Gregory]";
+		show "1000-58-214-416 =?";
+		next;
+		digit @num;
+		if(@num == 312) set @score,@score+10;
+	q13:
+		show "[Rasputin Gregory]";
+		show "12*24*3=?";
+		next;
+		digit @num;
+		if(@num == 864) set @score,@score+10;
+	q14:
+		show "[Rasputin Gregory]";
+		show "10530/3/5/2=?";
+		next;
+		digit @num;
+		if(@num == 351) set @score,@score+10;
+	q15:
+		show "[Rasputin Gregory]";
+		show "(35*19) - (1792/7) =?";
+		next;
+		digit @num;
+		if(@num == 409) set @score,@score+10;
+	q16:
+		show "[Rasputin Gregory]";
+		show "(2368/8) + (24*17) = ?";
+		next;
+		digit @num;
+		if(@num == 704) set @score,@score+10;
+	q17:
+		show "[Rasputin Gregory]";
+		show "(2646/7) + (13*28)=?";
+		next;
+		digit @num;
+		if(@num == 742) set @score,@score+10;
+	q18:
+		show "[Rasputin Gregory]";
+		show "Se comprando estes itens com 24% de";
+		show "desconto, qual o preço total de";
+		show "15 Poções Verdes,";
+		show "6 Lupas e 4 Armadilhas?";
+		next;
+		digit @num;
+		if(@num == 934) set @score,@score+10;
+	q19:
+		show "[Rasputin Gregory]";
+		show "Qual o peso total de";
+		show "3 Sabres de Impacto,";
+		show "4 Barretes e 2 pares de Botas?";
+		next;
+		digit @num;
+		if(@num == 550) set @score,@score+10;
+	q20:
+		show "[Rasputin Gregory]";
+		show "Qual é o total de defesa de um";
+		show "Broquel, um Casaco, uma Máscara de Gás,";
+		show "um Laço Grande, um Laço, um Chapéu Chinês e";
+		show "um Óculos?";
+		next;
+		digit @num;
+		if(@num == 16) set @score,@score+10;
+	q21:
+		show "[Rasputin Gregory]";
+		show "Quantos zeny você tem de lucro";
+		show "se você comprar uma Malha com 24%";
+		show "de desconto";
+		show "e vender a mesma com 20% do preço normal?";
+		next;
+		digit @num;
+		if(@num == 2840) set @score,@score+10;
+L_Total:
+	show "[Rasputin Gregory]";
+	if(@score < 80) goto L_Failed;
+	set ALCH_Q,3;
+	set ALCH_Q2, 0;
+	show "Kikiki... Eu deixarei você ir.";
+	show "Faça algumas boas pesquisas e seja de alguma ajuda para o Rasputin... Kikiki!";
+	next;	
+	show "[Rasputin Gregory]";
+	show "Bem, agora vá! ^5533FFVá até Darwin^000000.";
+	show "Ele te ensinará como fazer os experimentos.";
+	show "Diga a ele que eu te enviei.";
+	next;
+	show "[Rasputin Gregory]";
+	show "Kikikikekeke.";
+	show "Não pense que já terminou!";
+	close;
+
+	L_Failed:
+		set ALCH_Q2,1;
+		show "...Kekeke, seu idiota!";
+		show "Eu me senti um idiota fazendo todas essas perguntas a você!";
+		show "VOCÊ ERROU TODAS ELAS!!!";
+		next;
+		show "[Rasputin Gregory]";
+		show "Como pode uma pessoa que nem ao menos respondeu uma destas perguntas PENSAR em se tornar um Alquimista!?";
+		show "Que? Você fez alguma certa?";
+		next;
+		show "[Rasputin Gregory]";
+		show "Estúpido! Se você ao menos errar uma, todas estarão erradas para um Alquimista!";
+		show "Saia! Deixe-me! Vá embora daqui!";
+		close;
+L_Done:
+	show "O que você está fazendo? Saia daqui.";
+	show "Vá ver ^5533FFDarwin^000000.";
+	show "Ele irá te ensinar como fazer os experimentos.";
+	show "Diga a ele que eu te enviei.";
+	next;
+	show "[Rasputin Gregory]";
+	show "Kikikikekeke.";
+	show "Não pense que já terminou!";
+	close;
+L_Skip:
+	show "Hmm... você tem um nível de classe bem alto... Eu irei ser legal hoje e deixar você passar.";
+	show "Você agora vá ver o ^5533FFDarwin^000000.";
+	show "Ele irá te ensinar como fazer os experimentos.";
+	show "Diga a ele que eu te enviei.";
+	set ALCH_Q,3;
+	set ALCH_Q2, 0;
+	close;
+}
+
+
+//==================================================================================================//
+//					3rd Test: Mix some medicine
+//==================================================================================================//
+alde_alche,13,15,8	script	Darwin	750,{
+	show "[Darwin]";
+	if(baseJob == Job_Merchant) goto L_Merc;
+L_Other:
+	show "Mas para perder ou ganhar...";
+	show "É sempre assim...";
+	next;
+	show "[Darwin]";
+	show "Tudo que eu posso ver com meus olhos amaldiçoados";
+	show "são ilusões do passado,";
+	show "Ahahahaha...";
+	next;
+	show "[Darwin]";
+	show "Não há coisas como o paraíso... há?";
+	show "Minha amada Harmona.... Aah....";
+	close;
+
+L_Merc:
+	if(ALCH_Q == 3) goto L_Start;
+	if(ALCH_Q == 4) goto L_Done;
+	goto L_Other;
+
+L_Start:
+	if(ALCH_Q2 == 1) goto L_Check;
+	show "...........";
+	show ".........";
+	show "....Quem é esse...";
+	next;
+	show "[Darwin]";
+	show "Um lobo? Ou um humano...";
+	show "Você deve estar procurando por algo também.";
+	next;
+	show "[Darwin]";
+	show "Se você tem algo precioso, tenha cuidado.";
+	show "Você pode perder alguma coisa a mais enquanto estiver atrás de outra...";
+	next;
+	show "[Darwin]";
+	show "..........";
+	next;
+	show "[Darwin]";
+	show "...mas o que trás você aqui?";
+	show "Vindo em um lugar como esse?";
+	next;
+	menu "Eu quero aprender como fazer experimentos.",M_Exp, "Diga-me mais sobre as flores.",M_Flow;
+
+	M_Flow:	
+		show "[Darwin]";
+		show ".......";
+		show "......";
+		show "...pense sobre suas coisas preciosas...";
+		next;
+		show "[Darwin]";
+		show ".... Há uma flor que eu vagamente me lembro....";
+		next;
+		show "[Darwin]";
+		show "Eu me envolvi pesquisando uma coisa...";
+		show "Para a única que eu amo...";
+		next;
+		show "[Darwin]";
+		show "Vamos dizer que era sobre um relacionamento entre lobo e flores...";
+		show "Eu não direi você os detalhes.";
+		next;
+		show "[Darwin]";
+		show "Mas sim... era uma flor.";
+		show "Com seu brilho, assim mesmo como diziam, a paradisíaca Flor da Ilusão."; // with its shine, it was said to  let you see paradise Illusion Flower...
+		next;
+		show "[Darwin]";
+		show "Eu fiz um homúnculo.";
+		show "Ninguém acreditou em mim. Eu criei vida de uma flor!!!";
+		show "Com minhas pesquisas!";
+		next;
+		show "[Darwin]";
+		show "Mas agora, nada sobrou...";
+		show "Tudo está terminado.";
+		show "A minha vida parou naquele instante..."; //Time has stopped at that moment in my life...
+		next;
+		show "[Darwin]";
+		show "Aargh... Harmona, nos lindos campos de flores,";
+		show "Aonde você foi parar...";
+		close;
+	M_Exp:
+		show "[Darwin]";
+		show "Você quer aprender alquimia...";
+		show "Todo conhecimento que eu possuo...";
+		show "Eu tive que tornar meus sonhos verdadeiros..."; //I made to make my dreams come true...
+		next;
+		show "[Darwin]";
+		show "Eu ensinarei você o básico...";
+		show "Mas você tem que determinar seus próprios desejos.";
+		next;
+		show "[Darwin]";
+		show "Então, aqui vai o básico.";
+		show "Isto é como se faz um remédio simples...";
+		show "Prepare os ingredientes...";
+		next;
+		show "[Darwin]";
+		show "^5533FF3 Vasilhas de Mistura";
+		show "3 Garrafas Vazias";
+		show "1 Erva Vermelha";
+		show "1 Erva Amarela";
+		show "1 Erva Branca^000000";
+		next;
+		show "[Darwin]";
+		show "Depois que você providenciar todos esses... venha aqui.";
+		set ALCH_Q2, 1;
+		close;
+
+L_Check:
+	show "...........";
+	show ".........";
+	show "...Quem é...?";
+	next;
+	show "[Darwin]";
+	show "Ah, você é aquele que queria aprender sobre alquimia...";
+	show "Então você providenciou os itens?";
+	next;
+	if(countitem(7134) < 3 || countitem(713) < 3 || countitem(507) < 1 || countitem(508) < 1 || countitem(509) < 1) goto L_NotEnuf;
+	delitem 7134,3;
+	delitem 713,3;
+	delitem 507,1;
+	delitem 508,1;
+	delitem 509,1;
+	show "[Darwin]";
+	show "Parece que você já tem tudo pronto.";
+	show "Como prometi, ensinar-lhe-ei como fazer o remédio.";
+	next;
+	show "[Darwin]";
+	show "Primeiramente, prepare a Vasilha de Mistura e coloque as ervas em cima, fazendo assim.";
+	show "E você, com cuidado, esmaga elas.";
+	next;
+	show "[Darwin]";
+	show "Coloque poucas quantidades de água limpa e misture até ela ficar grossa,";
+	show "então você adicionar mais ervas.";
+	next;
+	show "[Darwin]";
+	show "É assim que se faz. Quando você achar que já tem o suficiente de ervas,";
+	show "gentilmente coloque-o na Garrafa Vazia.";
+	next;
+	show "[Darwin]";
+	show "Aqui está, ficou completa.";
+	show "Dessa vez, faça como eu mostrei a você.";
+	show "Deverá ser fácil porque é realmente simples.";
+	next;
+	show "[Darwin]";
+	show "...mesmo assim, porque não tenta fazer um?"; //even though you don't have one?
+	next;
+	set @score,0;
+	menu "Preparar a Vasilha de Mistura",-, "Vestir a Vasilha de Mistura na cabeça.",M_0, "Chutar a Vasilhas de Mistura.",M_0;
+
+		set @score,@score+10;
+	M_0:
+
+	menu "Colocar areia na Vasilha de Mistura",M_1, "Colocar ervas na Vasilha de Mistura",-, "Colocar a harpa dentro da Vasilha de Mistura",M_1;
+
+		set @score,@score+10;
+	M_1:
+
+	menu "Esmagar as ervas.",-, "Esmagar a Vasilha de Mistura.",M_2, "Esmagar os pés de Darwin",M_2; //Smash the Tarosia's foots
+
+		set @score,@score+10;
+	M_2:
+
+	menu "Gotear a água.",M_3, "Beber a água.",M_3, "Colocar poucas quantidades de água.",-; //Pour in the water
+
+		set @score,@score+10;
+	M_3:
+
+	menu "Continuar esmagando as ervas.",-, "Continuar comendo as ervas.",M_4, "Continuar dançando e cantando.",M_4;
+
+		set @score,@score+10;
+	M_4:
+
+	menu "Colocar na panela e fritar.",M_5, "Colocar na Garrafa Vazia.",-, "Levantar a Vasilha de Mistura e beber.",M_5; //Put in the noodles and fried it
+
+		set @score,@score+10;
+	M_5:
+
+	show "[Darwin]";
+	if(@score < 60) goto L_Failed;
+	show "... Bom trabalho. Ficou muito bom considerando que é sua primeira vez...";
+	show "Como uma lembrança, pegue isso.";
+	additem 501,1;
+	additem 503,1;
+	additem 504,1;
+	set ALCH_Q,4;
+	set ALCH_Q2,0;
+	next;
+	show "[Darwin]";
+L_Done:
+	show "Vá até ^5533FFVan Helmont^000000 na próxima sala...";
+	show "Ele te ensinará a você mais detalhes.";
+	show "Vá aprender com ele.";
+	next;
+	show "[Darwin]";
+	show "Não se esqueça...";
+	show "Você deve proteger o que é realmente precioso para você...";
+	close;
+
+	L_Failed:
+		show "... Você estragou todos os ingredientes.";
+		show "... Vá buscar mais alguns.";
+		close;
+L_NotEnuf:
+	show "[Darwin]";
+	show "...Você deve ter esquecido de quais ingredientes trazer.";
+	show "Vou dizer de novo.";
+	show "Não os esqueça dessa vez.";
+	next;
+	show "[Darwin]";
+	show "^5533FF3 Vasilhas de Mistura";
+	show "3 Garrafas Vazias";
+	show "1 Erva Vermelha";
+	show "1 Erva Amarela";
+	show "1 Erva Branca^000000";
+	next;
+	show "[Darwin]";
+	show "Volte quando você estiver pronto...";
+	close;	
+}
+
+
+//==================================================================================================//
+//					4th Test: Learn from Morgenstein
+//==================================================================================================//
+alde_alche,79,19,4	script	Van Helmont	748,{
+	show "[Van Helmont]";
+	if(baseJob == Job_Merchant) goto L_Merc;
+L_Other:
+	show "Somente mais um pouco... sim, só mais um pouquinho...";
+	show "ARGH! Somente mais um pouco e eu poderia ter feito!";
+	next;
+	show "[Van Helmont]";
+	show "Porque, porque outra falha!?!?!?";
+	show "Nada estava errado!";
+	show "PORQUE! PORQUE!";
+	next;
+	show "[Van Helmont]";
+	show "Isto significa que eu terei que conseguir mais ingredientes...";
+	show "Mas eu deveria levar um dia inteiro para conseguir eles..."; //But I should be able to complete it one day....Heeh...
+	close;
+L_Merc:
+	if(ALCH_Q == 4) goto L_Start;
+	if(ALCH_Q == 5) goto L_Done;
+	goto L_Other;
+L_Start:
+	if(ALCH_Q2 == 1) goto L_Check;
+	show "Arrrrgh... Porque esta formula não continua...? O que há de errado?"; //Why does this formula just stop... What's wrong.
+	show "Teoricamente está tudo correto...";
+	show "Tenho certeza que é algum erro na fórmula o motivo disso...";
+	show "Em algum lugar...";
+	next;
+	show "[Van Helmont]";
+	show "É isto, eu despejo aqui e poderia funcionar... Mas aqui na solução da formula não faz nenhum sentindo..."; //That's it, I pour it here and it should stop... but this is the formula that solution doesn't stop flowing.
+	show "Como eu pude fazer tal erro... Quando foi que eu inverti esses...";
+	next;
+	show "[Van Helmont]";
+	show "Sim, achei. Eu preciso consertar esta parte.";
+	show "Não há necessidade de começar de novo.";
+	show "Eu somente tenho que consertar...";
+	show "....Mas, espera, espera.";
+	next;
+	show "[Van Helmont]";
+	show ".....................";
+	next;
+	show "[Van Helmont]";
+	show "....Quem é você?";
+	next;
+	menu "Eu quero me tornar um Alquimista.",-,".....",M_Bye;
+
+		show "[Van Helmont]";
+		show "Oh, entendo....";
+		show "Hahahaha, você quer aprender alquimia em um mundo como esse, que Mercador engraçado.... hmmm.";
+		next;
+		show "[Van Helmont]";
+		show "Bem, isso é bom, mas eu tenho um experimento urgente que eu devo fazer.";
+		show "Então não fique no caminho.";
+		next;
+		menu "Ensine me alguma coisa.",-,"..........",M_Bye;
+
+			show "[Van Helmont]";
+			show "Argh... eu não disse para não me atrapalhar?";
+			show "Porque você não consigue entender quando eu falo algo?!";
+			next;
+			show "[Van Helmont]";
+			show "Tudo bem, darei você uma tarefa.";
+			show "Vá estudar e volte. Vamos ver...";
+			show "O que poderia ser bom... Hmm...";
+			next;
+			show "[Van Helmont]";
+			show "Oh, já sei. Vá aprender do ^5533FFMorgenstein^000000. Aprenda como fazer um ^009500Antígeno^000000 e uma ^FF3355Mistura^000000.";
+			show "Você pode encontrar ele em ^5533FFGeffen^000000.";
+			next;
+			show "[Van Helmont]";
+			show "Você não precisa trazer o que você fizer. Mas só vá assistir como ele faz os remédios."; // You don't need to bring what you made. But just go watch how he makes medicine and stuff.
+			show "Entendeu?";
+			next;
+			show "[Van Helmont]";
+			show "Bem então, vejo você mais tarde.";
+			show "Você deveria ir o mais brevemente possível.";
+			set ALCH_Q2,1;
+			close;
+	M_Bye:
+		show "[Van Helmont]";
+		show "Se você não tem negócios aqui, vá embora! Já!!!";
+		close;
+L_Check:	
+	if(al_morgen != 1) goto L_NotRdy;
+	show "Sim, cortando o Tentáculo";
+	show "e misturando alguns Mucos Pegajosos,";
+	show "A solução de Jellopys no tubo de testes... Droga, aonde a Vasilha de Mistura foi parar?";
+	next;
+	show "[Van Helmont]";
+	show "Será que eu usei todas elas? Em uma hora como esse... Grrrrr. Creio que Nicolas tem algumas sobrando.";
+	show "Ganfunnit... que droga.";
+	show "....mas, espera, espera.";
+	next;
+	show "[Van Helmont]";
+	show "Ah, você é o Mercador de antes. Então, aprendeu algo?";
+	show "Eu não mandei você lá para brincar.";
+	next;
+	show "[Van Helmont]";
+	show "Deixe-me perguntar a você algumas perguntas. Responda com o que você aprendeu.";
+	next;
+	set @score,0;
+
+	Q_1a:
+		show "[Van Helmont]";
+		show "Que item é necessário para produzir o Antígeno?";
+		next;
+		menu "Pluma",-,"Muco Pegajoso",-,"Sangue de Animal",-;
+
+	Q_1b:
+		show "[Van Helmont]";
+		show "Quais desses itens não é necessário para a formação do Antígeno?";
+		next;
+		menu "Karvodailnirol",-,"Detrimindexta",Q_2a,"Álcool",Q_2a;
+
+			set @score,@score+10;
+
+	Q_2a:
+		show "[Van Helmont]";
+		show "Que item é necessário para fazer uma Mistura?";
+		next;
+		menu "Ração para Monstros",-,"Lábios Fossilizados",-,"Bandagem Estragada",-;
+
+	Q_2b:
+		show "[Van Helmont]";
+		show "Qual desses itens não é necessário no processo para fazer uma Mistura?";
+		next;
+		menu "Karvodailnirol",L_Result,"Detrimindexta",-,"Álcool",L_Result;
+
+			set @score,@score+10;
+
+L_Result:
+	show "[Van Helmont]";
+	if(@score < 20) goto L_Failed;
+	show "Hmmm, você aprendeu direito. Tudo bem, agora você sabe algo sobre remédios?";
+	show "Ahn?";
+	show "Eu sei, você deve ter muito o que dizer mas deixe-me continuar com meu experimento.";
+	next;
+	show "[Van Helmont]";
+	show "Saia e vá até o próximo aposento.  ^5533FFNicholas^000000 provavelmente tem mais o que ensinar a você do que eu.";
+	set ALCH_Q,5;
+	set ALCH_Q2,0;
+	close;
+
+	L_Failed:
+		show "...Seja sincero. Você não sabe,";
+		show "estou errado? Eu disse para você aprender direito com o Morgenstein...";
+		next;
+		show "[Van Helmont]";
+		show "Nem sequer pense em voltar antes de ter aprendido tudo com certeza!";
+		show "Pare de me atrapalhar e vá embora!";
+		close;
+L_NotRdy:
+	show "Eu não disse a você para visitar Morgenstein em Geffen!?!";
+	show "Ele é um homem sábio! Você deveria falar com ele!";
+	close;
+L_Done:
+	show "O que você está fazendo? Saia e vá até o próximo aposento.  ^5533FFNicholas^000000 provavelmente tem mais o que te ensinar do que eu.";
+	show "Eu não tenho mais negócios a tratar com você.";
+	close;
+
+}
+
+
+//==================================================================================================//
+//				Test 5 & 6: Word Scramble, Help the Baijin Bros.
+//==================================================================================================//
+alde_alche,145,19,4	script	Nicholas Flamel	57,{
+	show "[Nicholas Flamel]";
+	if(baseJob == Job_Merchant) goto L_Merc;
+L_Other:
+	show "Lorem ipsum dolor sit amet,";
+	show "consectetuer adipiscing elit.";
+	show "Vivamus sem. Sed metus lacus, viverra id, rutrum eget, rhoncus sit amet, lectus.";
+	show "Suspendisse sit amet urna in nisl frigilla faucibus.";
+	show "Nulla scelerisque eros....";
+	show "......resmungandoresmungando........";
+	close;
+L_Merc:
+	if(ALCH_Q == 5) goto L_Start;
+	if(ALCH_Q == 6) goto L_Start2;
+	if(ALCH_Q == 7) goto L_Done;
+	goto L_Other;
+L_Start:
+	if(ALCH_Q2 == 1) goto L_ReTest;
+	show "Ooh... você é o novo Mercador que quer se tornar um Alquimista?";
+	show "Mas você sabe... não todo mundo pode ser tornar um.";
+	next;
+	show "[Nicholas Flamel]";
+	show "A União não gosta daqueles que somente viram Alquimista sem um objetivo bem nítido.";
+	show "Então... para ver se você é capacitado, eu vou testar o quão inteligente você é.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Como você sabe, Alquimistas devem memoriza muitas equações,";	
+	show "equações químicas e muitas outras informações.";
+	show "Se você não é de um certo nível,";
+	show "vai ser bem complicado."; //it's actually pretty tough.
+	next;
+	show "[Nicholas Flamel]";
+	show "A idéia é previnir que Alquimistas desnecessários se juntem a União!";
+	next;
+	show "[Nicholas Flamel]";
+	show "Certo... Aqui vão as perguntas!";
+	show "Isto é para testar sua concentração então não fique confuso enquanto estiver olhando para os gráficos.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Encontre as palavras em um grupo de letras. As palavras têm que ser feitas usando todas ou algumas letras disponíveis que lhe são dados.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Você passa se a palavra estive 'Dentro' do quebra-cabeça.";
+	next;
+
+	Q_1:
+		set @score,0;
+		show "[Nicholas Flamel]";
+		show "s m i e x b w u n e n t a g l r";
+		next;
+		menu "tigre",-,"lobo",Q_2,"abobora",Q_2,"tropeçar",Q_2;
+
+			set @score,@score+10; 
+
+	Q_2:
+		show "[Nicholas Flamel]";
+		show "n i e g b o p r c o a u w r v";
+		next;
+		menu "golpe",Q_3,"provocar",Q_3,"vigor",-,"choque",Q_3,"abracadabra",Q_3;
+
+			set @score,@score+10; 
+
+	Q_3:
+		show "[Nicholas Flamel]";
+		show "l r m r l f e c t a v i n e t d e o";
+		next;
+		menu "alberta",Q_4,"latifoliate",-,"carmesim",Q_4,"borbo",Q_4,"sempre-verde",Q_4;
+
+			set @score,@score+10; 
+
+	Q_4:
+		show "[Nicholas Flamel] ";
+		show "r o e h n ç r o f m c a i n d p t ã t";
+		next;
+		menu "forjadormercador",L_Score,"poçãomercador",-,"descmercador",L_Score,"vendedormercador",L_Score;
+	
+			set @score,@score+10; 
+L_Score:
+	if(@score < 40) goto L_Failed;
+	set ALCH_Q,6;
+	set ALCH_Q2,0;
+	show "[Nicholas Flamel]";
+	show "Você parece que terminou.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Vamos ver.";
+	show "...Bom trabalho. Excelente.";
+	next;
+	show "[Nicholas Flamel]";
+	show "De alguma maneira você encontrou todas.";
+	show "Com este tipo de concentração, você poderia facilmente estar apto a ler os dicionários dos remédios.";
+	show "Vamos ver... o próximo é...";
+	next;
+	show "[Nicholas Flamel]";
+	show "Volte daqui a pouco.";
+	close;
+
+	L_Failed:
+		show "[Nicholas Flamel]";
+		show "Hmmm... Você falhou!";
+		show "Pegue seus óculos, talvez você consiga passar da próxima vez usando eles.";
+		set ALCH_Q2,1;
+		close;
+L_ReTest:
+	show "Hmmm, você voltou.";
+	show "Bem, veremos se você mudou..."; 
+	next;
+	goto Q_1;	
+
+L_Start2:
+	if(ALCH_Q2 > 0) goto L_Check2;
+	show "Próximo, você ter que ir a um lugar.";
+	show "Vá até ^5533FF'A Cidade Esquecida de Yuno'^000000 e encontre os irmãos ^FF3355Bain e Bajin^000000 que estão pesquisando alquimia com os sábios.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Vá ajudá-los e volte aqui. Pegue isto... vai ajudar você."; //it will help you get close to them
+	next;
+	additem 974,1;
+	additem 7068,5;
+	additem 7043,5;
+	additem 756,3;
+	additem 757,3;
+	show "[Nicholas Flamel]";
+	show "1 Mistura";
+	show "5 Madeira Queimada";
+	show "5 Areia Fina";
+	show "3 Minério de Oridecon";
+	show "3 Minério de Elunium";
+	set ALCH_Q2,1;
+	next;
+	show "[Nicholas Flamel]";
+	show "Tenha uma viagem segura.";
+	show "É Yuno. Venha em um piscar de olhos."; //Come back in one piece.
+	close;
+L_Check2:
+	if(ALCH_Q2 < 2) goto L_NotDone;
+	set ALCH_Q, 7;
+	set ALCH_Q2, 0;
+	show "Ooh! Muito bom ao ter vindo dessa longa viagem."; //Well done on such a long  trip.
+	show "Eu recebi a mensagem dizendo que os irmãos Bain e Bajin ficarão felizes com sua visita.";
+	next;
+	show "[Nicholas Flamel]";
+	show "Você tem que suceder em os ajudar.";
+	show "Se você for bom o suficiente em ajudar os irmãos... tudo bem, eu acho que você será aceito.";
+	next;
+	show "[Nicholas Flamel]";
+L_Done:
+	show "Vá até o Líder da União no segundo andar!";
+	show "Parabéns. Você irá mudar de classe em breve!";
+	close;
+
+	L_NotDone:
+		show "Os irmãos Bain e Bajin estão em Yuno esperando sua ajuda.";
+		close;
+
+}
+
+
+//==================================================================================================//
+//					Job Changer
+//==================================================================================================//
+alde_alche,101,184,4	script	Vincent Carsciallo	122,{
+	show "[Vincent Carsciallo]";
+	if(baseJob == Job_Merchant) goto L_Merc;
+	if(baseJob == Job_Alchem){
+		show "Como a alquimia prosegue? Tenha certeza em ser cuidadoso e pensar sobre segurança em todos os momentos.";
+		show "Eu não gostaria que você se explodisse ou qualquer coisa assim...";
+		close;
+	}
+	show "Hmmm? O que um cidadão faria em um local como este?";
+	next;
+	show "[Vincent Carsciallo]";
+	show "Não há nada do que se divertir. Não fique vagando e saia daqui.";
+	close;
+L_Merc:
+	if(ALCH_Q == 7) goto L_Change;
+	show "Hmmm? Um Mercador.";
+	show "Você está interresado em alquimia?";
+	next;
+	show "[Vincent Carsciallo]";
+	show "Esta é a União Alquimista.";
+	show "Nós pesquisamos muitas substâncias diferentes.";
+	show "Nosso objetivo é fazer alguma coisa nova sem o poder da magia.";
+	next;
+	show "[Vincent Carsciallo]";
+	show "Criar nova vida, e estudar como vive mais e não morrer...";
+	show "Nós também fazemos novos materiais a partir dos que já existem...";
+	show "Estas são algumas das coisas que fazemos.";
+	next;
+	show "[Vincent Carsciallo]";
+	show "Depois de ser um Mercador por um longo tempo";
+	show "você começa a se tornar interresado em tudo.";
+	show "Se você gosta de aprender alquimia também,";
+	show "tente fazer parte da nossa União.";
+	close;
+L_Change:
+	if(skillpoint){
+		show "Por favor, use todos seus pontos de habilidades antes de falar comigo.";
+		close;	
+	}
+	show "Ooh, certo. Você já junto-se e aprendeu o básico também. Muito bom.";
+	next;
+	set @gift,JBLVL;
+	callfunc "Job_Change",Job_Alchem;
+	callfunc "F_ClearJobVar";
+	emotion e_grat;
+	show "[Vincent Carsciallo]";
+	show "De agora em diante, você também é um membro reconhecido da União dos Alquimistas.";
+	show "Eu acredito que você aprendeu bastante...";
+	next;
+	if(@gift==50)
+		additem 7133,1;
+	else
+		additem 7127,1;
+	show "[Vincent Carsciallo]";
+	show "Aqui está uma pequena coisa.";
+	show "Use-o para começar com alguma pesquisa.";
+	next;
+	show "[Vincent Carsciallo]";
+	show "Eu verei você mais tarde então...";
+	show "Tenha orgulho de ser um Alquimista!";
+	close;
+
+}

@@ -1,0 +1,1752 @@
+//===== Cronus Script ======================================== 
+//= Ayothaya Npcs
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.4
+//===== Descrição: =========================================== 
+//= Npcs da cidade de Ayothaya
+//= Tradução por Flint
+//===== Changelog: =========================================== 
+//= 1.0 Iniciado o Npc [Kamper]
+//= 1.1 Iniciado novamente o Npc 10% [Flint]
+//= 1.1.1 Corrigido palavras traduzindo incorretamente [Kamper]
+//= 1.2 Corrigido erros em comandos [Kamper]
+//= 1.3 Continuação do npc, traduzido por Olivete [Kamper]
+//= 1.4 Retirado o npc Pescador [Kamper]
+//============================================================
+
+ayothaya,152,68,1	script	Aibakthing#ayo	843,{
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hmm! Hah!";
+	show "Então, oque você acha de Ayothaya? Você teve a chance de experimentar o Tom Yum Goong? Quando você estiver pronto, eu deverei te levar de volta para casa.";
+	next;
+	menu "Voltar para Alberta.",-,"Cancelar.",s_Cancel;
+
+	show "[Aibakthing]";
+	show "Você será bem vindo para voltar quando você quiser. Espero que nos veremos de novo logo. Obrigado~";
+	close2;
+	warp "alberta",235,45;
+	end;	
+s_Cancel:
+	show "[Aibakthing]";
+	show "A, sim. Eu entendo que é dificil deixar este local tão maravilhoso. Não se preocupe e demore o quanto quiser.";
+	close;
+} 
+
+alberta,247,42,3	script	Aibakthing#ayo2	843,{
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hoo! Hah!";
+	show "Deixe-me levar você para um distante local espiritual, uma terra de mistérios exóticos, minha cidade natal, Ayothaya.";
+	next;
+	menu "Sobre a cidade de Ayothaya",-,"Ir para Ayothaya",s_Go,"Cancelar.",s_Cancel;
+
+	show "[Aibakthing]";
+	show "Nós Ayothayanos somos uma população que valoriza a paz e sinceridade. Nós nos esforçamos para liderar simplesmente, porém nobremente, vidas em harmonia com a natureza.";
+	next;
+	show "[Aibakthing]";
+	show "Nossos pratos tradicionais são mundialmente conhecidos. Não é surpresa, pois servimos pratos como Tom Yum Goong, feito de camarão, Limonada e Chillis, que possui um aroma e sabor além da imaginação.";
+	next;
+	show "[Aibakthing]";
+	show "Para aqueles que desejam por aventuras, existe uma velha história sobre o Tigre Sa-mhing, uma criatura maígna que assombra as ruinas dos nossos templos.";
+	next;
+	show "[Aibakthing]";
+	show "Hoo! Hahh! Hoo! Hahh!";
+	show "Nenhum homen pode resistir ao chamado desta terra maravilhosa! Rune-Midgardianos sempre são bem vindos!";
+	close;
+s_Cancel:
+	show "[Aibakthing]";
+	show "Você já sonhou com um maravilhoso lugar cheio de serenidade espiritual? Você devia estar sonhando com Ayothaya, meu amigo.";
+	close;
+s_Go:
+	show "[Aibakthing]";
+	show "A, você deve pagar 10,000 Zenys";
+	show "se deseja visitar Ayothaya.";
+	show "Se está pronto, podemos sair agora mesmo~";
+	next;
+	menu "Estou pronto, vamos lá!",-,"Não.",s_Cancel;
+
+	if(Zeny < 10000) goto s_NoZeny;
+	show "[Aibakthing]";
+	show "Hoo! Hah! Hoo! Hah!";
+	show "Vamos indo! De volta para minha maravilhosa Ayothaya!";
+	close2;	
+	set Zeny, Zeny - 10000;
+	warp "ayothaya",150,65;
+	end;
+s_NoZeny:
+	show "[Aibakthing]";
+	show "Me desculpe, mas você não possui 10,000 Zenys para viajar para Ayothaya. Tal preço não é nada comparado com a experiencia que te aguarda!";
+	close;
+}
+
+ayothaya,203,169,3	script	Noi#ayo	839,{
+	show "[Noi]";
+	show "Bem-vindo à Ayothaya.";
+	show "Nossa maravilhosa vila foi construida acima da água, cercada pela densa floresta.";
+	next;
+	show "[Noi]";
+	show "Existem várias atrações turísticas nesta vila, que você não encontrará em lugar algum. Nossos mercados de peixes e nossa arquitetura única é razão o suficiente para visitar Ayothaya.";
+	next;
+	show "[Noi]";
+	show "Por favor se sinta livre ";
+	show "para olhar ao redor.";
+	next;
+	menu "Localização de Construções.",s_Loc,"Remover marcas do meu mini-mapa.",s_Remo,"Cancelar.",-;
+
+	show "[Noi]";
+	show "Por favor aprecie";
+	show "suas viajens.";
+	close;
+s_Loc:
+	show "[Noi]";
+	show "Que local gostaria";
+	show "de visitar?";
+	next;
+	menu "Loja de Armas",s_Weap,"Loja de Ferramentas",s_Tool,"Taverna",s_Tavern,"Shrine",s_Shrine,"Local de Pesca",s_Fish,"Cancel",-;
+
+	show "[Noi]";
+	show "Se você deseja remover as marcas de localização do seu mini-mapa, por favor selecione o menu 'Remover marcas do mini-mapa'.";
+	close;
+
+s_Weap:
+	show "[Noi]";
+	show "Na nossa loja de armas,";
+	show "você irá encontrar grandes armas emprestadas pelos bravos marinheiros Ayothayanos.";
+	next;
+	show "[Noi]";
+	show "Nossa loja de armas é localizada no ^00FF00+^000000.";
+	viewpoint 1,166,90,1,0x00FF00;
+	close;
+
+s_Tool:
+	show "[Noi]";
+	show "Nós Ayothayanos sempre vemos se temos tudo que precisamos antes de ir viajar. Não machuca estar preparado, não é?";
+	next;
+	show "[Noi]";
+	show "Nossa loja de ferramentas";
+	show "é localizada em ^0000FF+^000000.";
+	viewpoint 1,128,86,2,0x0000FF;
+	close;
+
+s_Tavern:
+	show "[Noi]";
+	show "Uma das regras básicas de aventuras é a informação, ou pelo menos é oque dizem. Você pode conhecer pessoas de todas as localidades na Taverna. Eu tenho certeza que você pode conseguir algo útil lá.";
+	next;
+	show "[Noi]";
+	show "Claro, você deve";
+	show "dar uma passada na Taverna.";
+	show "É localizada em... ^FFFF00+^000000.";
+	viewpoint 1,229,70,3,0xFFFF00;
+	close;
+
+s_Shrine:
+	show "[Noi]";
+	show "Se deseja rezar para Deus, ou alcansar um estado de paz em sua mente, porque não visita nosso Shrine?";
+	next;
+	show "[Noi]";
+	show "Nosso Shrine";
+	show "é localizado em ^880088+^000000.";
+	viewpoint 1,207,284,4,0x880088;
+	close;
+s_Fish:
+	show "[Noi]";
+	show "Já que Ayothaya foi construida acima da superficie da água e tão perto da praia, é um dos locais favoritos para pescadores. Porque não vai pescar um jantar em nosso local de pesca?";
+	next;
+	show "[Noi]";
+	show "Nosso famoso";
+	show "LOCAL DE PESCA";
+	show "é localizado em ^AFAFAF+^000000.";
+	viewpoint 1,251,97,5,0xAFAFAF;
+	close;
+s_Remo:
+	viewpoint 2,166,90,1,0x00FF00;
+	viewpoint 2,128,86,2,0x0000FF;
+	viewpoint 2,229,70,3,0xFFFF00;
+	viewpoint 2,207,284,4,0x880088;
+	viewpoint 2,251,97,5,0xAFAFAF;
+	show "[Noi]";
+	show "Certo...";
+	show "Removi todas as marcas de seu mini-mapa.";
+	show "Obrigado *resmunga*.";
+	close;
+}
+
+ayothaya,153,86,4	script	Thongpool	843,{
+	if(ayoshrimps == 1)goto s_Shrimp2;
+	if(tomyumgoong == 2)goto s_Shrimp;
+	show "[Thongpool]";
+	show "Bem vindo!";
+	show "Eu tenho o melhor camarão, pescado nas águas mais claras do mundo!";
+	close;
+s_Shrimp:
+	show "[Thongpool]";
+	show "Venham aventureiros,";
+	show "olhem! eu tenho";
+	show "muitos camarões!";
+	next;
+	show "[Thongpool]";
+	show "Você está procurando por";
+	show "camarão, não é mesmo? Quantos camarões";
+	show "você precisa? Vinte? Quarenta?";
+	next;
+	menu "Eu preciso de camarão para Tom Yum Goong.",s_Tom,"Err, eles parecem caros.",-;
+
+	show "[Thongpool]";
+	show "Que...?";
+	show "Você acha";
+	show "que é caro?";
+	show "Mas o fantástico gosto do";
+	show "Tom Yum Goong";
+	show "não tem preço!!";
+	close;
+s_Tom:
+	show "[Thongpool]";
+	show "Ah! Eu acho que a Senhora Mali me recomendou para você. Eu acho que isso também significa que você quer compra-los em balde?";
+	next;
+	show "[Thongpool]";
+	show "Já que,";
+	show "Você precisará de uma maior";
+	show "quantia de camarão para";
+	show "cozinhar Tom Yum Goong.";
+	next;
+	show "[Thongpool]";
+	show "Ó sim, você precisará de 20 camarões para o Tom Yum Goong de Senhora Mali.";
+	show "Vou até te dar um desconto:";
+	show "11,000 zenys por 20 camarões.";
+	show "O que você diz?";
+	next;
+	menu "Vou levá-los.",s_Take,"Eu poderia pegar 100 Jellopies por tudo isso!!!!!!",-;
+
+	show "[Thongpool]";
+	show "Bem bem bem...";
+	show "Você pode encher seu estômago com tantos Jellopies, mas eles não são tão gostosos quanto meu camarão!";
+	close;
+
+s_Take:
+	if(Zeny < 11000) goto s_NoZeny;
+	set Zeny, Zeny - 11000;
+	additem 567,20;
+	emotion e_no1;
+	show "[Thongpool]";
+	show "Bom, agora você tem o camarão mais fresco de toda a vila!";
+	show "É hora de você voltar e perguntar para Senhora Mali se ela pode cozinha-los para você.";
+	if(ayoshrimps < 1)set ayoshrimps,1;
+	close;
+
+s_NoZeny:
+	show "[Thongpool]";
+	show "Awww...";
+	show "Você não tem";
+	show "dinheiro suficiente.";
+	close;
+
+s_Shrimp2:
+	show "[Thongpool]";
+	show "Mmm...?";
+	show "Você precisa de mais camarão?";
+	show "Gostaria de comprar mais?";
+	next;
+	menu "Sim!",s_Take,"Não, obrigado.",-;
+
+	show "[Thongpool]";
+	show "Vejo...";
+	show "Se precisar de mais, me diga!";
+	close;
+}
+
+ayothaya,143,102,5	script	Senhor#ayo	842,{
+	show "[Habitante local]";
+	show "Ummm.";
+	show "Hmmmmm...";
+	show "Ummmmm...?";
+	next;
+	show "[Habitante local]";
+	show "Você deve vir de fora.";
+	show "Sim. Sim, certamente.";
+	next;	
+	show "[Habitante local]";
+	show "Você perguntou aonde eu estou indo? Pois vou para o local de pesca logo à frente. Isso é oque nós, velhos, fazemos: pescamos.";
+	next;
+	show "[Habitante local]";
+	show "Hmmm...";
+	show "Gostaria de ouvir algo interessante? Ouvi dizer que alguem encontrou um precioso anel dentro de um peixe que pegara neste local.";
+	next;
+	show "[Habitante local]";
+	show "Muitas pessoas vem encontrando objetos de valor dentro dos peixes pescados aqui.";
+	next;
+	show "[Habitante local]";
+	show "Se tiver sorte, pode até ficar milionário!";
+	show "Heh heh heh";
+	next;
+	show "[Habitante local]";
+	show "...!?";
+	show "Ah, entrei no mercado de peixes!";
+	show "^6A6A6A*droga*^000000 Parece que fui para o lado errado. O local de pesca é no lado oposto da vila!";
+	next;
+	show "[Habitante local]";
+	show "Já que estou aqui, não seria uma má ideia olhar ao redor. Toda comida marinha deste mercado é fresca e saborosa. Irá se arrepender se não provar a comida daqui nenhuma vez.";
+	close;
+}
+
+ayothaya,83,132,7	script	Dusit#ayo	843,{
+	if(ayodunquest == 1 || ayodunquest == 2 || ayodunquest == 3)goto s_Dun;
+	show "[Dusit]";
+	show "Oh...!";
+	show "Você deve ser um viajante.";
+	show "Tenho uma história que talvez você se interesse em ouvir.";
+	next;
+	menu "Me conte a história, por favor",s_What,"Conheço esta história...¬¬",-;
+
+	show "[Dusit]";
+	show "Você conhece?";
+	show "Então tome cuidado!";
+	show "Irá te devorar vivo!";
+	close;
+s_What:
+	show "[Dusit]";
+	show "Ayothaya tem uma longa história. Talvez pareça calma e pacifica agora, mas no passado nossa vila era aterrorizada por uma terrível criatura.";
+	next;
+	show "[Dusit]";
+	show "Essa besta é conhecida como ^6B1312O Tigre Sa-mhing ^000000, que costumava morar nas antigas ruínas.";
+	next;
+	show "[Dusit]";
+	show "O Tigre Sa-mhing é viciado no gosto de carne humana. É de nosso conhecimento que ele se transforma na forma de uma pessoa que ele comeu para seduzir a família desta pessoa e amigos.";
+	next;
+	show "[Dusit]";
+	show "O povo local ainda tem medo de que a criatura se transforme em alguem conhecido, e entre em suas casas e os comam.";
+	next;
+	show "[Dusit]";
+	show "Comtanto tem um meio de identificar o Tigre Sa-mhing. Já que é um tigre, não pode fazer algumas coisas que os humanos são ensinados à fazer, como acender um fósforo.";
+	next;
+	show "[Dusit]";
+	show "Então, se por acaso você ver um amigo agindo estranhamente derrepente, fale para ele acender um fósforo. Certifique-se de que ele não é o Tigre Sa-mhing.";
+	next;
+	show "[Dusit]";
+	show "Contanto...";
+	show "Não tenho certeza de que isto realmente funciona. Acho que a melhor coisa á fazer é correr por sua vida se você suspeita que alguem é este Tigre.";
+	next;
+	show "[Dusit]";
+	show "Você acredita";
+	show "na existência";
+	show "de tigres comedores de homens?";
+	next;
+	menu "Bem... Não",-,"Sim, e acho que são assustadores!",s_Yes;
+
+	show "[Dusit]";
+	show "Umm...";
+	show "Bem, meu avô me contou deste tigre quando eu era pequeno. Claro, eu não o vi ainda.";
+	next;
+	show "[Dusit]";
+	show "A coisa mais proxima do Tigre Sa-mthing que eu vi, foi um gatinho com um sininho amarrado no pescoço. Mas não ach que ele comia homens.";
+	close;
+s_Yes:
+	show "[Dusit]";
+	show "Então se o encontrar corra por sua vida!";
+	next;
+	show "[Dusit]";
+	show "Se está interessado na história dele, posso te apresentar à alguem que conhece a história.";
+	next;
+	show "[Dusit]";
+	show "Porque não fala com Boonthom? Ele é bem estranho, mas tem algo sobre ele...";
+	next;
+	show "[Dusit]";
+	show "...";
+	show "......";
+	next;
+	show "[Dusit]";
+	show "É...";
+	set ayodunquest,1;
+	close;
+s_Dun:
+	show "[Dusit]";
+	show "Como vai?";
+	show "Se está interessado no tigre, fale com Boonthom.";
+	next;
+	show "[Dusit]";
+	show "Mas fique alerta!";
+	show "O Tigre Sa-mhing pode estar mais próximo de você do que você pesna!";
+	close;
+}
+
+ayo_in01,181,193,4	script	Shaman	840,{
+       if(ayodot == 8)goto s_Check2;
+       if(ayodot == 7 && countitem(7285) > 0)goto s_ICheck;
+       if(ayodot == 6 && countitem(7285) > 0)goto s_Holier;
+       if(ayodunquest == 3)goto s_Lose;
+       if(ayodunquest == 2)goto s_Items;
+       if(ayodunquest == 1)goto s_Quest;
+       show "[Boonthom]";
+       show "Me desculpe, eu não posso falar com você.";
+       show "Eu estou muito ocupado agora.";
+       close;
+s_Quest:
+       show "[Boonthom]";
+       show "Você...!";
+       show "Não é...!";
+       show "Ooooooohhhhhhh!";
+       next;
+       show "[Boonthom]";
+       show "Oh...?";
+       next;
+       show "[Boonthom]";
+       show "...";
+       next;
+       show "[Boonthom]";
+       show "...";
+       show "......";
+       next;
+       show "[Boonthom]";
+       show "...";
+       show "......";
+       show ".........";
+       next;
+       show "[Boonthom]";
+       show "Esqueça.";
+       show "Hah! Perdi minha trilha de pensamentos.";
+       next;
+       show "[Boonthom]";
+       show "Então veio procurar ajuda? ...";
+       next;
+       show "[Boonthom]";
+       show "...";
+       next;
+       show "[Boonthom]";
+       show "...";
+       show "......";
+       next;
+       show "[Boonthom]";
+       show "...";
+       show "......";
+       show ".........";
+       next;
+       show "[Boonthom]";
+       show "Oque...!";
+       show "Eu vejo que você dread o tigre Sa-mhing! Eu não ouço nada sobre ele à um bom tempo...";
+       next;
+       show "[Boonthom]";
+       show "Há muito tempo atrás, o tigre Sa-mhing realmente invadiu a vila e comeu pessoas inocentes.";
+       next;
+       show "[Boonthom]";
+       show "Contando, seu terror foi levando ao fim quando ele foi capturado. Eu fui um dos responsaveis pela captura do Tigre Sa-mhing.";
+       next;
+       show "[Boonthom]";
+       show "Eu insisti em mata-lo, mas as outras pessoas tinham medo disso. Ao invés disso, o Tigre Sa-mhing foi trancado em uma caverna dentro das antigas ruinas.";
+       next;
+       show "[Boonthom]";
+       show "Acredito que foi há pelo menos 10 anos atrás. Talvez já esteja morto agora. Mas, ninguem sabe o quão poderoso o tigre realmente é. Ele pode estar vivo ainda.";
+       next;
+       show "[Boonthom]";
+       show "Não acho que devemos nos preocupar. Está trancado e deve permanecer assim.";
+       next;
+       menu "Quero explorar essas tais ruínas.",s_Explore,"Preso? Ainda bem! Estava com muito medo!",-;
+
+       show "[Boonthom]";
+       show "Hmmm...";
+       show "Não está com medo disto,";
+       show "não é?";
+       next;
+       show "[Boonthom]";
+       show "..........";
+       show "..........";
+       close;
+s_Explore:
+       show "[Boonthom]";
+       show "Você...";
+       show "Você é estranho.";
+       show "Quer explorar as ruínas. Todos os aventureiros desprezam  a segurança assim?";
+       next;
+       show "[Boonthom]";
+       show "A escolha é sua. Mas se lembre, é muito perigoso seguir o caminho para o centro do edifício.";
+       show "Normalmente, é proíbido.";
+       next;
+       show "[Boonthom]";
+       show "Mas se quiser entrar, Posso lhe dar algumas dicas.";
+       show "Gostaria de ouvir?";
+       next;
+       menu "Se é perigoso, não quero nem tentar",-,"Claro!",s_Sure;
+
+       show "[Boonthom]";
+       show "Você fez uma boa decisão.";
+       show "É melhor ter cuidado se quiser ficar vivo.";
+       close;
+s_Sure:
+       show "[Boonthom]";
+       show "Umm, tudo bem.";
+       show "Já que está tão interessado";
+       show "...";
+       next;
+       show "[Boonthom]";
+       show "Se deseja entrar no antigo edifício, você deve ter proteção contra espíritos malígnos.";
+       next;
+       show "[Boonthom]";
+       show "Existem muitos fanasmas e demônios na caverna, e eles irão atacar quem não possui poder sagrado... Como você.";
+       next;
+       show "[Boonthom]";
+       show "Eu posso te fazer um objeto que contem poder sagrado...";
+       show "Mas precisarei de alguns materiais.";
+       next;
+       show "[Boonthom]";
+       show "^4466771 Almofada de Alfinetes^000000,";
+       show "^4466771 Carretel^000000,";
+       show "^4466771 Casco de Inseto^000000 e";
+       show "^4466771 Água Benta^000000...";
+       show "Isso é tudo oque preciso.";
+       next;
+       show "[Boonthom]";
+       show "Por favor volte";
+       show "quando possuir todos os materiais.";
+       set ayodunquest,2;
+       close;
+
+s_Items:
+       if(countitem(7213) < 1 || countitem(7217) < 1 || countitem(7190) < 1 || countitem(523) < 1)goto s_NoItems; //Pin Cusion, Spool, Hard Back Shell, Holy Water
+       delitem 7213,1; //Pin Cusion
+       delitem 7217,1; //Spool
+       delitem 7190,1; //Hard Back Shell
+       delitem 523,1; //Holy Water
+       show "[Boonthom]";
+       show "Excelente!";
+       show "Agora que tenho tudo oque preciso vou fazer oque prometi...";
+       next;
+       show "[Boonthom]";
+       show "Ooooohmmmmm...";
+       next;
+       show "[Boonthom]";
+       show "Hmmmmmm...";
+       show "Hmmmmmmmmm.";
+       next;
+       show "[Boonthom]";
+       show "Pffff pffff...";
+       next;
+       set ayodunquest,3;
+       additem 7285,1; //Holy Threads
+       show "[Boonthom]";
+       show "Aqui está.";
+       show "Por favor pegue esta Linha Sagrada.";
+       show "Com isso você poderá entrar nas ruinas com menos preocupação.";
+       next;
+       show "[Boonthom]";
+       show "Se você perder isto...";
+       show "Me traga os materiais de novo, eu lhe farei outro.";
+       next;
+       show "[Boonthom]";
+       show "O edifício antigo consiste em dois andares. Antes de entrar no segundo andar do subterrâneo, por favor retorne aqui para que eu possa como entrar naquele lugar.";
+       close;
+
+s_NoItems:
+       show "[Boonthom]";
+       show "Erm... Eu preciso de...";
+       next;
+       show "[Boonthom]";
+       show "^4466771 Almofada de Alfinetes^000000,";
+       show "^4466771 Carretel^000000,";
+       show "^4466771 Casco de Inseto^000000 e";
+       show "^4466771 Água Benta^000000...";
+       next;
+       show "[Boonthom]";
+       show "Até mais tarde.";
+       close;
+
+s_Lose:
+       if(countitem(7285) > 0)goto s_NoItems2;
+       if(countitem(7213) < 1 || countitem(7217) < 1 || countitem(7190) < 1 || countitem(523) < 1)goto s_NoItems2; //Pin Cusion, Spool, Hard Back Shell, Holy Water
+       //Custom Dialogues
+       show "[Boonthom]";
+       show "Oh, você perdeu sua linha sagrada, mas possui todos os materiais!";
+       next;
+       show "[Boonthom]";
+       show "Quer que eu te faça outra?";
+       next;
+       menu "Sim, por favor.",s_Yes,"Não.",-;
+
+       show "[Boonthom]";
+       show "Até mais tarde então";
+       close;
+s_Yes:
+       if(countitem(7213) < 1 || countitem(7217) < 1 || countitem(7190) < 1 || countitem(523) < 1)goto s_NoItems2; //Pin Cusion, Spool, Hard Back Shell, Holy Water
+       delitem 7213,1; //Pin Cusion
+       delitem 7217,1; //Spool
+       delitem 7190,1; //Hard Back Shell
+       delitem 523,1; //Holy Water
+       additem 7285,1; //Holy Threads
+       show "[Boonthom]";
+       show "Pronto.";
+       show "Se perder mais uma, estarei aqui.";
+       next;
+       show "[Boonthom]";
+       show "Boa sorte.";
+       close;
+
+s_NoItems2:
+       show "[Boonthom]";
+       show "Se você perdeu sua linha sagrada, posso lhe fazr outra. Olhe os itens necessários:";
+       next;
+       show "[Boonthom]";
+       show "^4466771 Almofada de Alfinetes^000000,";
+       show "^4466771 Carretel^000000,";
+       show "^4466771 Casco de Inseto^000000 e";
+       show "^4466771 Água Benta^000000...";
+       next;
+       show "[Boonthom]";
+       show "Até mais tarde.";
+       close;
+s_Holier:
+       show "[" + strcharinfo(0) + "]";
+       show "Eu copiei esta";
+       show "mensagem enquanto explorava";
+       show "o calabouço. Será que";
+       show "você poderia dar uma olhada nisto?";
+       next;
+       show "[Stone Slate]";
+       show "Não entre no";
+       show "segundo piso subterrâneo";
+       show "...é perigo... Você irá";
+       show "...encontr... tigre...";
+       next;
+       show "[Stone Slate]";
+       show "Você deve matar... para poder fazer...";
+       show "Deve... para poder ir... para o segundo";
+       show "piso subterrâneo...";
+       show "Você precisa de mais... poder sagrado... para";
+       show "conseguir... Caso contrário, será";
+       show "impossivel...";
+       next;
+       show "[Boonthom]";
+       show "Isto foi escrito por um dos meus";
+       show "camaradas que entrou nas ruínas,";
+       show "por ter se arrependido em daixar o tigre";
+       show "viver, deixá-lo voltar.";
+       next;
+       show "[Boonthom]";
+       show "Se você foi capaz de encontrar este bilhete,";
+       show "você deve ter uma grande força de vontade";
+       show "para se aventurar pelas ruinas.";
+       next;
+       show "[Boonthom]";
+       show "Como você pode deduzir pelo bilhete";
+       show "o segundo nivel subterrâneo é";
+       show "muito muito perigoso. Você precisará";
+       show "de uma Linha Abençoada que contém muito";
+       show "mais Linha Sagrada.";
+       next;
+       show "[Boonthom]";
+       show "Agora, vá e me traga alguns materiais";
+       show "para que eu possa fazer uma Linha Sagrada";
+       show "ainda mais poderoso para você.";
+       next;
+       show "[Boonthom]";
+       show "^4466772 Águas Benta^000000,";
+       show "^4466771 Folha de Yggdrasil^000000,";
+       show "^4466772 Almofadas de Alfinetes^000000 e";
+       show "^4466772 Carretéis^000000.";
+       next;
+       show "[Boonthom]";
+       show "Fale comigo";
+       show "uma vez que você";
+       show "tenha todos os itens.";
+       set ayodot,7;
+       close;
+s_ICheck:
+       if(countitem(523) < 2 || countitem(610) < 1 || countitem(7213) < 2 || countitem(7217) < 2)goto s_NEnoughItems;
+       if(ayodot == 8)goto s_Process;
+       show "[Boonthom]";
+       show "Hmmm";
+       show "Você trouxe";
+       show "tudo. Você";
+       show "é do tibo bem entusiasmado,";
+       show "não é?";
+       next;
+       show "[Boonthom]";
+       show "Ooooohmmmmm...";
+       next;
+       show "[Boonthom]";
+       show "Hmmmmmm...";
+       show "Hmmmmmmmmm.";
+       next;
+       show "[Boonthom]";
+       show "Pffff pffff...";
+       next;
+s_Process:
+       if(countitem(523) < 2 || countitem(610) < 1 || countitem(7213) < 2 || countitem(7217) < 2)goto s_NEnoughItems;
+       delitem 523,2;
+       delitem 610,1;
+       delitem 7213,2;
+       delitem 7217,2;
+       additem 7287,1;
+       if(ayodot != 8)set ayodot,8;
+       show "[Boonthom]";
+       show "Aqui está.";
+       show "Por favor pegue esta Linha Abençoada.";
+       show "Com isto, você será capaz";
+       show "de entrar nas ruínas com menos preocupação.";
+       next;
+       show "[Boonthom]";
+       show "Mesmo se você perder isto, não se preocupe.";
+       show "Me traga os materiais, e";
+       show "eu te faço outro.";
+       close;
+s_NEnoughItems:
+       show "[Boonthom]";
+       show "Hmmm...?";
+       show "Eu não te disse";
+       show "do que eu preciso para fazer";
+       show "uma Linha Abençoada";
+       show "mais poderoso?";
+       next;
+       show "[Boonthom]";
+       show "^4466772 Águas Benta^000000,";
+       show "^4466771 Folha de Yggdrasil^000000,";
+       show "^4466772 Almofadas de Alfinetes^000000 e";
+       show "^4466772 Carretéis^000000.";
+       next;
+       show "[Boonthom]";
+       show "Volte aqui";
+       show "com estes itens";
+       show "e eu irei fazer";
+       show "uma Linha Abençoada";
+       show "mais poderoso para você.";
+       close;
+s_Check2:
+       if(countitem(7285) < 1)goto s_Lose;
+       if(countitem(7287) < 1)goto s_LoseThreads;
+       show "[Boonthom]";
+       show "Estes filamentos";
+       show "irão te proteger";
+       show "dos perigos";
+       show "espirituais, mas é com você";
+       show "para se defender dos ataques dos";
+       show "monstros, tudo bem?";
+       close;
+s_LoseThreads:
+//Custom Dialogues
+       show "[Boonthom]";
+       show "Eu consigo sentir a ausência de poder sagrado.";
+       show "você perdeu a Linha Abençoada não foi?";
+       next;
+       show "[Boonthom]";
+       show "mas está tudo bem, Eu posso te fazer um novo";
+       show "Então...você quer um?";
+       next;
+       menu "Claro!",s_ICheck,"Nah",-;
+
+       show "[Boonthom]";
+       show "Volte sempre!";
+       close;
+}
+
+ayo_fild01,129,197,7	script	Puraim#ayo	842,{
+       if(countitem(7285) > 0)goto s_Dungeon; //Holy Threads
+       show "[Puraim]";
+       show "Se eu fosse você, eu não ousaria pisar perto";
+       show "das ruínas.";
+       next;
+       show "[Puraim]";
+       show "Qualquer um que não tenha a proteção de um espírito sagrado será um prato cheiro para as criaturas malígnas que vivem lá. Você será morto muito rápido.";
+       next;
+       show "[Puraim]";
+       show "Volte aventureiro.";
+       show "Se você deseja explorar esta área é melhor me mostrar algum espírito sagrado.";
+       close;
+s_Dungeon:
+       show "[Puraim]";
+       show "Huh...?";
+       show "Eu sinto!";
+       show "Eu posso sentir o poder sagrado!";
+       show "Está vindo de você!";
+       next;
+       show "[Puraim]";
+       show "Eu acho que você pode ir adiante para as ruínas. Então, é isto que você deseja? Explorar esta área?";
+       next;
+       show "[Puraim]";
+       show "Eu gostaria de sujerir para você não entrar. até mesmo as pessoas locais temem este lugar.";
+       next;
+       show "[Puraim]";
+       show "Se o tigre Sa-mhing não estivesse por perto, ainda assim teriam os espíritos malígnos do local. Mesmo com a Linha Abençoada, este lugar ainda é perigoso.";
+       next;
+       show "[Puraim]";
+       show "Então, o que você fará? Aventureiro, você ainda quer explorar esta área? ";
+       next;
+       menu "Sim",s_Yes,"Não! Estou com muito medo dessas ruínas agora.",-;
+
+       show "[Puraim]";
+       show "Boa decisão!";
+       show "Como eu esperava, você é esperto o bastante para não botar sua vida em risco estupidamente.";
+       close;
+s_Yes:
+       show "[Puraim]";
+       show "Hmmm...";
+       show "Parece que vocês aventureiros são tentatos pela emoção do perigo, ou tem algum desejo de morte.";
+       next;
+       show "[Puraim]";
+       show "Bem, isso não é problema meu. Pois você já tem um espírito sagrado. Mesmo assim tenha cuidado. Você não deve ir ao segundo piso subterrâneo das ruínas.";
+       next;
+       show "[Puraim]";
+       show "Como vocês Rune-Midgardianos costuma dizer 'Curiosidade matou o gato' De qualquer forma... Vai nessa!";
+       next;
+       show "[Puraim]";
+       show "^3C2EE6Ele te empurra do penhasco e você cai como uma rocha.";
+       close2;
+       set @hpcheck,readparam(6)/10;
+       if(readparam(5) < @hpcheck)goto s_SetHp;
+       percentheal -10,0;
+s_Warp:
+       warp "ayo_fild02",30,135;
+       end;
+s_SetHp:
+       set @hpcheck2,readparam(5)-1;
+       heal -@hpcheck2,0;
+       goto s_Warp;
+}
+
+ayo_fild02,25,155,7	script	Aik#ayo	843,{
+       show "[Aik]";
+       show "Então, como foi sua expedição? Eu espero que os espíritos malígnos não te sigam para fora das ruínas, e assombrar seus sonhos.";
+       next;
+       show "[Aik]";
+       show "Quando você voltar,";
+       show "lembre-se de remover";
+       show "todo o mal de sua mente.";
+       show "Caso contrário você terá";
+       show "problemas mais tarde...";
+       next;
+       show "[Aik]";
+       show "Então, você gostaria";
+       show "de voltar?";
+       next;
+       menu "Sim",s_Yes,"Não, eu preciso dar mais uma olhada por aqui...",-;
+
+       show "[Aik]";
+       show "Ta bom.";
+       show "Tome cuidado.";
+       close;
+s_Yes:
+       show "[Aik]";
+       show "Ta certo...";
+       show "Lá vamos nós...";
+       next;
+       show "^3C2EE6ele te agarra de repente e te arremessa no ar!";
+       close2;
+       warp "ayo_fild01",115,200;
+       end;
+}
+
+ayothaya,193,171,3	script	Velho Homem#ayo	842,{
+       show "[Tham]";
+       show "Ah";
+       show "eu tenho este dejeso pela comida apimentada da Sra. Mali, especialmente o 'Tom Yum Goong' dela.";
+       next;
+       show "[Tham]";
+       show "Eu acho que é o prato mais delicioso de todo o mundo!";
+       close;
+}
+
+ayothaya,171,152,5	script	Garota#ayo	838,{
+       show "[Lalitha]";
+       show "Quando você for para Leste desta vila, você chegará a umas ruínas de um templo antigo. Ela é agora um antro cheio de monstros temíveis.";
+       next;
+       show "[Lalitha]";
+       show "Se você pretende se aventurar por estas ruínas, é melhor se preparar o máximo possivel!";
+       next;
+       show "[Lalitha]";
+       show "Ah...";
+       show "Onde estará meu BlaOnde estará meu cavaleiro negro~";
+       next;
+       show "[" + strcharinfo(0) + "]";
+       show "Você não quer dizer...";
+       show "Cavaleiro em armadura reluzente e cavalo branco?";
+       next;
+       show "[Lalitha]";
+       show "Hmm...?";
+       show "Bem...";
+       show "Eu ficarei com ambos!";
+       show "Hee hee~!";
+       close;
+}
+
+ayothaya,196,265,3	script	Einon#ayo	842,{
+       if(tomyumgoong == 5)goto s_Done;
+       if(tomyumgoong == 1 || tomyumgoong == 2 || tomyumgoong == 3 || tomyumgoong == 4)goto s_Resta;
+       show "[Einon]";
+       show "Você sabe qual é a cozinha";
+       show "mais popular";
+       show "desta vila?";
+       next;
+       show "[Einon]";
+       show "Ayothaya é mundialmente conhecida por sua cozinha regional, mas de todos os pratos Ayothayanos, '^3C2EE6Tom Yum Goong^000000' é o melhor.";
+       next;
+       show "[Einon]";
+       show "Tom Yum Goong é um tipo de sopa que é bem apimentada. Experimente-a uma só vez e você se surpreenderá com seu sabor profundo. Experimente-a um segunda vez e você se sentirá enfeitiçado por seu aroma tântrico..";
+       next;
+       show "[Einon]";
+       show "É realmente uma das comidas mais deliciosas do mundo!";
+       show "Todos no mundo vão querer experimentar isto pelo menos uma vez na vida. Portanto, você gostaria de experimentar um pouco?";
+       next;
+       menu "Claro.",s_Sure,"Não obrigado, Eu detesto comida apimentada.",-;
+
+       show "[Einon]";
+       show "Ah, eu vejo...";
+       show "Entretanto, quando você";
+       show "mudar de idéia,";
+       show "por favor retorne.";
+       close;
+
+s_Sure:
+       show "[Einon]";
+       show "Okay...!";
+       show "Quem seria melhor para preparar Tom Yum Goong pra você?";
+       show "Hmmmmm...";
+       next;
+       show "[Einon]";
+       show "Todos na vila sabem como fazê-lo, mas eu recomendo que você vá visitar a ^0000FFSenhora Mali^000000.";
+       next;
+       show "[Einon]";
+       show "Ela é a melhor cozinheira se tratando de Tom Yum Goong!";
+       show "Porque você não pede a ela que te prepare um pouco?";
+       set tomyumgoong,1;
+       close;
+s_Resta:
+       show "[Einon]";
+       show "Ah, você quer saber onde a ^0000FFSenhora Mali^000000 está?";
+       show "Bem, não existe muitos lugares para se cozinhar, digamos além de um restaurante, certo? Hahahah~";
+       close;
+s_Done:
+       show "[Einon]";
+       show " Ayothaya Dourada...";
+       show "apesar de eu ter crescido";
+       show "nesta vila,";
+       show "Eu ainda acho que minha vila";
+       show "é magnifica e bela.";
+       next;
+       show "[Einon]";
+       show "O que você acha?";
+       show "Você concorda comigo?";
+       close;
+}
+
+ayo_in01,145,163,4	script	Cozinheira#ayo	839,{
+       if(tomyumgoong == 5)goto s_Busy;
+       if(ayopause == 1)goto s_Pause;
+       if(ayopause == 2)goto s_Pause2;
+       if(tomyumgoong == 4)goto s_Chilee;
+       if(tomyumgoong == 3)goto s_Lemons;
+       if(tomyumgoong == 2)goto s_Shrimp;
+       show "[Senhora Mali]";
+       show "Olá!";
+       show "Eu me chamo Senhora Mali.";
+       show "Todos os meus pratos sempre surpreendem meus clientes com seu sabor profundo e seu aroma tentador.";
+       next;
+       show "[Senhora Mali]";
+       show "Eu me orgulho especialmente do meu ^3C2EE6Tom Yum Goong^000000, que é o melhor da vila. Eu acho que é meu destino cozinhar o melhor Tom Yum Goong já feito.";
+       if(tomyumgoong == 1)goto s_Quest;
+       close;
+s_Quest:
+       next;
+       show "[Senhora Mali]";
+       show "Ahh sim...";
+       show "Você quer que eu te faça um TomYum Goong, não é?";
+       next;
+       show "[Senhora Mali]";
+       show "Honestamente, eu tenho estado muito ocupada desde que abri este restaurante. Se você realmente quiser experimentar meu Tom Yum Goong, você poderia me fazer uma coisa?";
+       next;
+       menu "Claro!",s_Sure,"Eh.. sei não.",-;
+
+       show "[Senhora Mali]";
+       show "Eu sei que isso pode ser um pouco dificil de ser feito, mas vale a pena tentar se você quiser provar do melhor Tom Yum Goong.";
+       close;
+
+s_Sure:
+       show "[Senhora Mali]";
+       show "Primeiro, você poderia pegar pra mim os ingredientes para fazer o Tom Yum Goong? Eu vou precisar de alguns ^FF0000Camarões^000000, ^FF0000Pimentas Vermelhas^000000 e ^FF0000Limões^000000.";
+       next;
+       show "[Senhora Mali]";
+       show "Lembre-se, camarão é o ingrediente principal deste prato. Portanto, quanto mais fresco o camarão, melhor será o gosto de sua comida.";
+       next;
+       menu "Aonde eu os encontro então?",-;
+       show "[Senhora Mali]";
+       show "Eu esperava que você me perguntasse isso.";
+       show "Para shrimp, procure pela praia. Você verá muito deles lá.";
+       next;
+       show "[Senhora Mali]";
+       show "Entretanto você pode ter algum problema para encontrá-los, já que você nunca fez isso antes. Portanto simplesmente compre alguns shrimp do cara que vende os mais fescos da redondeza.";
+       next;
+       show "[Senhora Mali]";
+       show "Hmmm...";
+       show "Se você mencionar";
+       show "meu nome, aquele cara";
+       show "pode te dar um desconto.";
+       next;
+       show "[Senhora Mali]";
+       show "O nome dele é ^0000FFThongpool^000000.";
+       show "Ele vai estar em algum lugar da vila vendendo Camarão. Vá e peça a ele que te de 20 Camarões para fazer Tom Yum Goong.";
+       set tomyumgoong,2;
+       close;
+s_Shrimp:
+       if(countitem(567) > 19)goto s_EnoughShrimp;
+       show "[Senhora Mali]";
+       show "Você foi visitar ^0000FFThongpool^000000?";
+       show "Ele vai estar em algum lugar da vila vendendo Camarão. Vá e peça a ele que te de 20 Camarões para fazer Tom Yum Goong.";
+       close;
+
+s_EnoughShrimp:
+       delitem 567,20;
+       show "[Senhora Mali]";
+       show "Ah você voltou!";
+       show "Agora, deixe me ver";
+       show "o que você trouxe. Hmmm...";
+       show "Estes são...";
+       next;
+       set ayopause,1;
+       set ayoshrimps,0;
+       emotion e_no1;
+       show "[Senhora Mali]";
+       show "O camarão mais fresco que eu";
+       show "estava procurando!";
+       show "Com estes camarões frecos e grandes,";
+       show "eu posso cozinhar o melhor Tom Yum Goong";
+       show "pra você! Muito obrigado!";
+       next;
+       show "[Senhora Mali]";
+       show "Será a comida perfeita com a doçura natural do camarão, o amarguinho dos Limões e um pouco de molho de peixe!";
+       next;
+s_Pause:
+       show "[Senhora Mali]";
+       show "Oh... Certo";
+       show "Mas nós só temos camarão.";
+       show "agora se você me trazer alguns ^FF0000Limões^000000.";
+       next;
+       menu "Onde eu encontro Limões?",s_WLemon,"Eu odeio comida amarga, é melhor eu desistir!",-;
+
+       show "[Senhora Mali]";
+       show "Você é quem sabe.";
+       show "Mas lembre-se...";
+       show "Os camarões podem estragar enquando você descansa.";
+       close;
+
+s_WLemon:
+       show "[Senhora Mali]";
+       show "A alguns dias atrás, eu vi um bom";
+       show "Limoeiro enquanto eu caminhava.";
+       show "Mas esta árvore pertence a um ";
+       show "homem ordinário que não é um mercador de frutas.";
+       next;
+       show "[Senhora Mali]";
+       show "Eu não sei se ele vai te vender os limões, mas você pode tentar, eu acho.";
+       set ayopause,0;
+       set tomyumgoong,3;
+       close;
+s_Lemons:
+       if(countitem(568) > 9)goto s_EnoughLemon;
+       show "[Senhora Mali]";
+       show "Certo...";
+       show "Estou contando com você";
+       show "para me trazer os melhores Limões";
+       show "do homem que possui tal limoeiro.";
+       next;
+       show "[Senhora Mali]";
+       show "de alguma forma, você conseguiu";
+       show "aqueles Limões de alta qualidade";
+       show "para que eu possa fazer um Tom Yum Goong!";
+       close;
+s_EnoughLemon:
+       delitem 568,10;
+       emotion e_gasp;
+       show "[Senhora Mali]";
+       show "Bem vindo novamente!";
+       show "Wow, você voltou";
+       show "bem rápido! Okay, deixe me";
+       show "ver os limões que";
+       show "você trouxe.";
+       next;
+       set ayopause,2;
+       show "[Senhora Mali]";
+       show "Uau, ótimo!";
+       show "Estes limões estão realmente frescos!";
+       show "Como você conseguiu trazer todos eles";
+       show "sozinho? Obrigado pelo trabalho~";
+       next;
+s_Pause2:
+       show "[Senhora Mali]";
+       show "Agora, você deve ir comprar";
+       show "algumas ^FF0000Pimentas Vermelhas^000000 e mais";
+       show "alguns materiais no mercado.";
+       next;
+       show "[Senhora Mali]";
+       show "Quando você falar";
+       show "com os mercadores";
+       show "no mercado, eles";
+       show "vão querer saber o que você quer.";
+       next;
+       menu "Okay, eu já estarei de volta.",s_Okay,"Ah, Eu estou cansado agora. Deixe me descansar um pouco...",-;
+
+       show "[Senhora Mali]";
+       show "Você é quem sabe.";
+       show "Mas lembre-se...";
+       show "Os camarões podem estragar";
+       show "enquanto você descansa.";
+       close;
+s_Okay:
+       show "[Senhora Mali]";
+       show "Te vejo logo~";
+       set ayopause,0;
+       set tomyumgoong,4;
+       close;
+s_Chilee:
+       if(countitem(7286) > 29)goto s_EnoughChilee;
+       show "[Senhora Mali]";
+       show "Você conseguiu as Pimentas Vermelhas?";
+       show "Você deve falar com os mercadores lá do mercado, eles saberão o que você procura.";
+       close;
+s_EnoughChilee:
+       delitem 7286,30;
+       show "[Senhora Mali]";
+       show "Agora...";
+       show "Está tudo pronto!";
+       show "Antes de começarmos, deixe-me";
+       show "conferir os materiais.";
+       next;
+       show "[Senhora Mali]";
+       show "^FF0000Camarões^000000, ^FF0000Pimentas Vermelhas^000000, ^FF0000Limões^000000...";
+       show "Molho de peixe e outras pequenas";
+       show "coisas...";
+       next;
+       show "[Senhora Mali]";
+       show "Perfeito!";
+       show "Vamos começar?";
+       next;
+       misceffect 125;
+       show "^D0122C*Tuk*";
+       show "^6F1E6A*Tup*";
+       show "^357030*Puk*";
+       next;
+       misceffect 124;
+       show "^D10C3A*Chop chop*";
+       show "^DCB060*Tup tup tup*";
+       show "^8CA7BA*Pu pu*";
+       next;
+       misceffect 23;
+       misceffect 135;
+       show "^86733BTup tup ^396254chook";
+       show "^486354chop chop";
+       show "^BA0010Tup tup tup ^28842FPu pu";
+       next;
+       emotion e_omg;
+       misceffect 99;
+       misceffect 90;
+       show "Wah^050158ah^241999ahhh^0F48CBhaaaahhh^000000!";
+       next;
+       show "[Senhora Mali]";
+       show "...";
+       show "......";
+       show ".........";
+       next;
+       set tomyumgoong,5;
+       set ayoshrimps,0;
+       additem 566,10;
+       emotion e_no1;
+       show "[Senhora Mali]";
+       show "Aqui está o seu";
+       show "Tom Yum Goong!";
+       show "Ah~Este sabor,";
+       show "este aroma...Sim.";
+       show "Eu sei que fiz um bom trabalho.";
+       next;
+       show "[Senhora Mali]";
+       show "Você quer saber qual é o segredo do Tom Yum Goong? Não é simplesmente comida. Ela tem o poder para curá-lo, e te ajudar a ficar em melhor forma.";
+       next;
+       show "[Senhora Mali]";
+       show "Porque...";
+       show "Ela contém o";
+       show "poder de Deus.";
+       next;
+       show "[Senhora Mali]";
+       show "Okay...!";
+       show "Eu estou te dando";
+       show "10 Tom Yum Goong";
+       show "sem cobrar nada!";
+       next;
+       show "[Senhora Mali]";
+       show "Muito obrigado pelo trabalho";
+       show "que você teve para conseguir estes";
+       show "ingredientes. Me deixaria muito feliz";
+       show "se você compartilhasse o Tom Yum Goong com";
+       show "seus amigos.";
+       next;
+       show "[Senhora Mali]";
+       show "Compartilhe o sabor de Ayothaya, e";
+       show "deixe os saber o quão linda é";
+       show "nossa terra. Foi bom te ver,";
+       show "te cuida agora!";
+       close;
+s_Busy:
+       emotion e_wah;
+       show "[Senhora Mali]";
+       show "Ah...!";
+       show "Tão ocupada, tão ocupada!";
+       show "Meus clientes nunca se cansam";
+       show "do sabor do meu Tom Yum Goong!";
+       show "Heh heh heh~!";
+       close;
+}
+
+ayothaya,213,95,7	script	Mercador#ayo	841,{
+       if(tomyumgoong == 4)goto s_Chili;
+s_JumpBack:
+       show "[Merchant Thongdum]";
+       show "Olá!";
+       show "Já experimentou uma Pimenta Vermelha antes?";
+       next;
+       show "[Merchant Thongdum]";
+       show "Apesar de sua pequena aparência, ele possui um forte sabor. É também muito apimentado, portanto você deve ter cuidado ao comê-lo.";
+       next;
+       show "[Merchant Thongdum]";
+       show "As pessoas de Ayothaya gostam de comidas sensacionais com sabor distinto e picante. Na culinária de Ayothaya, nós usamos coisas como Pimentas Vermelhas, alho, raiz forte e Coentro.";
+       next;
+       show "[Merchant Thongdum]";
+       show "Eu vendo Pimentas Vermelhas,";
+       show "portanto se você precisar de algum,";
+       show "por favor fale comigo!";
+       close;
+s_Chili:
+       if(countitem(7286) > 29)goto s_JumpBack;
+       show "[Merchant Thongdum]";
+       show "Olá";
+       show "você está atrás";
+       show "de ingredientes para fazer";
+       show "Tom Yum Goong?";
+       next;
+       show "[Merchant Thongdum]";
+       show "Vejamos...";
+       show "Eu estou vendendo Pimentas Vermelhas,";
+       show "molho de peixe, e alguns";
+       show "temperos e aromatizantes";
+       show "que você precisará. Eu te vendo tudo";
+       show "por 2,000 zeny.";
+       next;
+       menu "Obrigado, eu vou levar",s_Take,"Isso é um absurdo cara!",-;
+
+       show "[Merchant Thongdum]";
+       show "Não diga isso.";
+       show "Meus preços são sempre";
+       show "razoáveis. Eu quero que saiba";
+       show "que eu sou um mercador respeitavel.";
+       close;
+
+s_Take:
+       if(Zeny < 2000) goto s_NoZeny;
+       set Zeny, Zeny - 2000;
+       additem 7286,30;
+       show "[Merchant Thongdum]";
+       show "Muito Obrigado.";
+       show "Eu espero que você goste do";
+       show "seu Tom Yum Goong~";
+       close;
+
+s_NoZeny:
+//custom dialogues
+       emotion e_wah;
+       show "[Merchant Thongdum]";
+       show "Aw, você não tem zeny suficiente.";
+       show "Por favor volte quando tiver!";
+       close;
+}
+
+ayothaya,121,240,7	script	Mr. Jun#ayo	842,1,1,{
+       show "[Mr. Jun]";
+       show "...";
+       close;
+OnTouch:
+       if(ayolemon == 2)end;
+       if(ayolemon == 1)goto s_Again;
+       if(tomyumgoong == 3)goto s_Lemon;
+       end;
+s_Lemon:
+       emotion e_hmm;
+       show "[Mr. Jun]";
+       show "Olá?";
+       show "você precisa";
+       show "de alguma ajuda...?";
+       next;
+       menu "Eu preciso de alguns Limões.",s_Quest,"Não obrigado.",-;
+
+       show "[Mr. Jun]";
+       show "Sinta se a vontade";
+       show "para me pedir ajuda";
+       show "sempre, okay?";
+       close;
+
+s_Quest:
+       show "[Mr. Jun]";
+       show "Umm...";
+       show "Limões?";
+       show "Como você pode ver, Eu tenho bastante";
+       show "limões em minha árvore.";
+       show "Você realmente precisa de alguns?";
+       next;
+       menu "Sim, eu te pagarei.",s_Pay,"Não obrigado..",-;
+
+       show "[Mr. Jun]";
+       show "Hmm...";
+       show "Agora o que eu possivelmente";
+       show "posso fazer";
+       show "com todos estes";
+       show "limões?";
+       close;
+
+s_Pay:
+       show "[Mr. Jun]";
+       show "Eu comecei a cuidar deste limoeiro como hobby, mas eu não esperava que desse uma leva de limão tão suculenta, e doce.";
+       next;
+       show "[Mr. Jun]";
+       show "Você acabou de dizer que me pagará pelos limões? Oh, você me confundiu. Eu não pretendo vender estes.";
+       next;
+       show "[Mr. Jun]";
+       show "Mas...";
+       show "Eu estou mais que disposto";
+       show "a dividir alguns com";
+       show "você, mas somente se você puder...";
+       next;
+       show "[Mr. Jun]";
+       show "Jogar um joguinho comigo!";
+       show "O que você acha? Eu estou tão entediado";
+       show "Mesmo um senho de idade como eu";
+       show "precisa se divertir!";
+       next;
+       show "[Mr. Jun]";
+       show "Hahahaha~!";
+       show "O que você me diz?";
+       show "Você gostaria de tentar?";
+       next;
+       menu "Claro, porque não!",s_Game,"Não, obrigado.",-;
+
+       show "[Mr. Jun]";
+       show "Ta com medo?";
+       show "Não tem como te enganar:";
+       show "Eu sou um dos melhores nos jogos!";
+       close;
+
+s_Again:
+//custom dialogues
+       show "[Mr. Jun]";
+       show "Oh, Você voltou!";
+       show "Você gostaria de tentar de novo?";
+       next;
+       menu "Sim, eu vou ganhar de você.",s_Game4,"Nah, só to de passagem.",-;
+
+       show "[Mr. Jun]";
+       show "Ha ha ha!";
+       show "Volte quando você achar que pode me ganhar.";
+       close;
+s_Game:
+       show "[Mr. Jun]";
+       show "Ótimo!";
+       show "O jogo que eu quero jogar é um jogo fácil de criança.";
+       next;
+       show "[Mr. Jun]";
+       show "^6B1312Pedra,";
+       show "^6B1312papel e tesoura!!";
+       show "Talvez você já tenha ouvido";
+       show "falar lá na sua terra.";
+       next;
+       show "[Mr. Jun]";
+       show "Nuh-uh, não me olhe assim.";
+       show "Eu sou um velho, e eu quero jogar este jogo e reviver minha juventude um pouco. Você entenderá quando for da minha idade.";
+       next;
+       show "[Mr. Jun]";
+       show "Certo, se você vencer";
+       show "^3C2EE63^000000 de ^3C2EE65^000000 partidas,";
+       show "Os limões são seus.";
+       show "Você está pronto?";
+       next;
+s_Game4:
+       show "[Mr. Jun]";
+       show "Okay...";
+       show "Como vocês crianças dizem,";
+       show "^6B1312vamos ir ao Extremo!";
+s_Game3:
+       next;
+       show "[Mr. Jun]";
+       show "Pedra!";
+       show "Papel!";
+       show "Tesoura!";
+s_Game2:
+       next;
+       menu "Pedra",s_Rock,"Papel",s_Paper,"Tesoura",s_Scissors;
+
+s_Rock:
+       set @npcvar,rand(1,3);
+       set @playervar,1;
+       next;
+       goto s_Play;
+s_Paper:
+       set @npcvar,rand(1,3);
+       set @playervar,2;
+       next;
+       goto s_Play;
+s_Scissors:
+       set @npcvar,rand(1,3);
+       set @playervar,3;
+       next;
+       goto s_Play;
+s_Play:
+       if(@playervar == 1 && @npcvar == 1)goto s_RockRock;
+       if(@playervar == 1 && @npcvar == 2)goto s_RockPaper;
+       if(@playervar == 1 && @npcvar == 3)goto s_RockScissors;
+       if(@playervar == 2 && @npcvar == 1)goto s_PaperRock;
+       if(@playervar == 2 && @npcvar == 2)goto s_PaperPaper;
+       if(@playervar == 2 && @npcvar == 3)goto s_PaperScissors;
+       if(@playervar == 3 && @npcvar == 1)goto s_ScissorsRock;
+       if(@playervar == 3 && @npcvar == 2)goto s_ScissorsPaper;
+       if(@playervar == 3 && @npcvar == 3)goto s_ScissorsScissors;
+s_RockRock:
+       emotion e_rock;
+       emotion 11,1;
+       goto s_Draw;
+s_RockPaper:
+       emotion e_paper;
+       emotion 11,1;
+       goto s_Lose;
+s_RockScissors:
+       emotion e_scissors;
+       emotion 11,1;
+       goto s_Win;
+s_PaperRock:
+       emotion e_rock;
+       emotion 12,1;
+       goto s_Win;
+s_PaperPaper:
+       emotion e_paper;
+       emotion 12,1;
+       goto s_Draw;
+s_PaperScissors:
+       emotion e_scissors;
+       emotion 12,1;
+       goto s_Lose;
+s_ScissorsRock:
+       emotion e_rock;
+       emotion 10,1;
+       goto s_Lose;
+s_ScissorsPaper:
+       emotion e_paper;
+       emotion 10,1;
+       goto s_Win;
+s_ScissorsScissors:
+       emotion e_scissors;
+       emotion 10,1;
+       goto s_Draw;
+s_Draw:
+       show "[Mr. Jun]";
+       show "Hmpf.";
+       show "É um empate";
+       show "Mais uma vez!";
+       show "Pedra! Papel!";
+       show "Tesoura!";
+       goto s_Game2;
+s_Lose:
+       show "[Mr. Jun]";
+       show "Sim...!";
+       show "Ó meu deus, sim!";
+       set @npcpoint,@npcpoint+1;
+       if(@npcpoint == 3)goto s_Lose2;
+       goto s_Game3;
+s_Win:
+       set @playerpoint,@playerpoint+1;
+       show "[Mr. Jun]";
+       if(@playerpoint == 1)show "Nãaao...! Não póde ser!";
+       if(@playerpoint == 2)show "O Que...? Eu não acredito! Bah...!";
+       if(@playerpoint == 3)show "Não! Sacrilégio!";
+       if(@playerpoint == 3)goto s_Win2;
+       goto s_Game3;
+s_Lose2:
+       if(ayolemon != 1)set ayolemon,1;
+//Custom Dialogues
+       next;
+       show "[Mr. Jun]";
+       show "Eu ganhei!";
+       show "Parece que eu posso acompanhar as crianças. Ha ha ha!";
+       next;
+       show "[Mr. Jun]";
+       show "Se você ainda quiser os limões eu topo mais um jogo. Portanto não hesite em voltar.";
+       set @playerpoint,0;
+       set @npcpoint,0;
+       close;
+s_Win2:
+       next;
+       show "[Mr. Jun]";
+       show "Você...venceu!";
+       show "Eu estou tão cansado.";
+       show "Eu acho que não posso mais competir com vocês jovens. Ha ha ha!";
+       next;
+       show "[Mr. Jun]";
+       show "Como prometido,";
+       show "eu irei dividir com você";
+       show "alguns dos meus limões.";
+       show "Pegue quantos você quiser!";
+       next;
+       set ayolemon,2;
+       additem 568,10;
+       show "^3C2EE6Você pegou";
+       show "^3C2EE610 limões da árvore.";
+       next;
+       emotion e_dots;
+       show "[Mr. Jun]";
+       show "Hmm...";
+       show "Parece que você precisa de muitos deles.";
+       show "Bom, por mim tudo bem. Eu me";
+       show "diverti com você.";
+       next;
+       show "[Mr. Jun]";
+       show "Não se esqueça disso:";
+       show "Não seja mesquinho, e sempre compartilhe";
+       show "o que você tem com os outros. Este";
+       show "é um dos valores mais importantes";
+       show "para os seres humanos.";
+       close;
+}
+
+ayothaya,197,188,5	script	Jovem#ayo2	841,{
+       show "[Kwan]";
+       show "Phew, hoje";
+       show "não está tãaaao quente?";
+       next;
+       show "[Kwan]";
+       show "Você deve ser";
+       show "de Rune-Midgard, huh?";
+       show "Eu tenho visto muitos turistas";
+       show "vindo pra cá recentemente.";
+       next;
+       show "[Kwan]";
+       show "É melhor você ser muito cuidadoso se";
+       show "você sair da vila.";
+       show "seja lá o que você faça, não vá nas ruinas do templo antigo na floresta.";
+       next;
+       show "[Kwan]";
+       show "Aquele lugar é muito perigoso para se visitar. Mesmo assim, eu ouvi que se você tiver algum tipo de amuleto, você pode entrar lá um pouco menos preocupado...";
+       next;
+       show "[Kwan]";
+       show "Bom, de qualquer forma, é uma boa idéia ficar longe daquele lugar. Eu espero que você goste de sua estada em Ayothaya, e tenha cuidado.";
+       close;
+}
+
+ayothaya,241,264,5	script	Jovem#ayo3	843,{
+
+       show "[Eik]";
+       show "Hey...";
+       show "Você parece muito forte";
+       show "Você quer me desafiar";
+       show "para uma competição?";
+       next;
+       menu "Claro!",s_Sure,"Nah~",-;
+
+       show "[Eik]";
+       show "O verdadeiro poder é desenvolvido depois de milhares de lutas com outras pessoas. Portanto, não tenha medo de lutar okay?";
+       close;
+
+s_Sure:
+       show "[Eik]";
+       show "Ow ow ow!";
+       show "Eu só estava";
+       show "brincando cara!";
+       next;
+       show "[Eik]";
+       show "Eu não sou tão rude assim para sair";
+       show "puxando briga com estranhos sem razão alguma!";
+       close;
+}
+
+ayothaya,213,142,5	script	Jovem#ayo4	843,{
+       show "[Detzi]";
+       show "Em Ayothaya, nós temos o nossa propria arte marcial tradicional. Nós, os jovens da vila, praticamos nossa arte tradicional para nos tornarmos mais fortes.";
+       next;
+       show "[Detzi]";
+       show "Porque você não aprende nossa arte marcial? Eu te garanto que ela irá te ajudar muito em suas viagens.";
+       close;
+}
+
+ayo_dun01,260,42,4	script	LocationActivator#ayo	139,4,0,{
+       if(ayodot > 5)end;
+       if(countitem(7285) > 0)goto s_Dots;
+       end;
+s_Dots:
+       show "- Linha Abençoada no seu bolso";
+       show "de repente começa a brilhar. Você sente";
+       show "a presença de algo proximo a você.";
+       if(ayodot == 0)goto s_0;
+       if(ayodot == 1)goto s_1;
+       if(ayodot == 2)goto s_2;
+       if(ayodot == 3)goto s_3;
+       if(ayodot == 4)goto s_4;
+       if(ayodot == 5)goto s_5;
+       end;
+
+s_0:
+       viewpoint 1,198,164,1,0xFF0000;
+       viewpoint 1,87,16,2,0xFF0000;
+       viewpoint 1,268,215,3,0xFF0000;
+       viewpoint 1,147,274,4,0xFF0000;
+       viewpoint 1,99,118,5,0xFF0000;
+       viewpoint 1,16,188,6,0xFF0000;
+       stopnpctimer;
+       close;
+s_1:
+       viewpoint 1,87,16,2,0xFF0000;
+       viewpoint 1,268,215,3,0xFF0000;
+       viewpoint 1,147,274,4,0xFF0000;
+       viewpoint 1,99,118,5,0xFF0000;
+       viewpoint 1,16,188,6,0xFF0000;
+       close;
+s_2:
+       viewpoint 1,268,215,3,0xFF0000;
+       viewpoint 1,147,274,4,0xFF0000;
+       viewpoint 1,99,118,5,0xFF0000;
+       viewpoint 1,16,188,6,0xFF0000;
+       close;
+s_3:
+       viewpoint 1,147,274,4,0xFF0000;
+       viewpoint 1,99,118,5,0xFF0000;
+       viewpoint 1,16,188,6,0xFF0000;
+       close;
+s_4:
+       viewpoint 1,99,118,5,0xFF0000;
+       viewpoint 1,16,188,6,0xFF0000;
+       close;
+s_5:
+       viewpoint 1,16,188,6,0xFF0000;
+       close;
+}
+
+ayo_dun01,198,164,4	script	#invayo1	111,{
+
+       if(countitem(7285) < 1)end;
+       if(ayodot == 0)goto s_First;
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a primeira parte da placa";
+       close;
+
+s_First:
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a primeira parte da placa";
+       next;
+       show "^3C2EE6Está escrito '^0000FFNão entre no segundo nivel subterrâneo.^3C2EE6' Você não é capaz de ler o resto da mensagem.";
+       set ayodot,1;
+       close;
+
+}
+
+ayo_dun01,87,16,4	script	#invayo2	111,{
+
+       if(countitem(7285) < 1)end;
+       if(ayodot == 1)goto s_First;
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a segunda parte da placa";
+       close;
+
+s_First:
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a segunda parte da placa";
+       next;
+       show "^3C2EE6Está escrito '^0000FF...é perigos... Você irá....^3C2EE6' Você não consegue ler o resto da mensagem.";
+       set ayodot,2;
+       close;
+
+}
+
+ayo_dun01,268,215,4	script	#invayo3	111,{
+
+       if(countitem(7285) < 1)end;
+       if(ayodot == 2)goto s_First;
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a terceira parte da placa";
+       close;
+
+s_First:
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a terceira parte da placa";
+       next;
+       show "^3C2EE6Esta escrito '^0000FF...encontrar...tigre....^3C2EE6' Você não consegue ler o resto da mensagem.";
+       set ayodot,3;
+       close;
+
+}
+
+ayo_dun01,147,274,4	script	#invayo4	111,{
+
+       if(countitem(7285) < 1)end;
+       if(ayodot == 3)goto s_First;
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a quarta parte da placa";
+       close;
+
+s_First:
+
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a quarta parte da placa";
+       next;
+       show "^3C2EE6Esta escrito '^0000FFVocê deve matar... para poder fazer... DEVE ... Para ir... o segundo nivel subterrâneo...^3C2EE6' Você não consegue ler o resto da mensagem.";
+       set ayodot,4;
+       close;
+
+}
+
+ayo_dun01,99,118,4	script	#invayo5	111,{
+       if(countitem(7285) < 1)end;
+       if(ayodot == 4)goto s_First;
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a quinta parte da placa";
+       close;
+s_First:
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser a quinta parte da placa";
+       next;
+       show "^3C2EE6Esta escrito '^0000FFSe você precisa de mais... Poder sagrado... para poder en...^3C2EE6' Você não consegue ler o resto da mensagem.";
+       set ayodot,5;
+       close;
+
+}
+
+ayo_dun01,16,188,4	script	#invayo6	111,{
+       if(countitem(7285) < 1)end;
+       if(ayodot == 5)goto s_First;
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser última parte da placa";
+       close;
+s_First:
+       show "^3C2EE6Você acha uma placa de pedra com letras gravadas nela. Parece ser última parte da placa";
+       next;
+       show "^3C2EE6Esta escrito '^0000FFCaso contrário é impossível...^3C2EE6' Você não consegue ler o resto da mensagem.";
+       set ayodot,6;
+       close;
+}
+
+ayo_dun01,24,283,4	script	#ayowarp	111,{
+       if(countitem(7287) < 1)goto s_NoEntry;
+       show "^3C2EE6A holy threads emana um poderoso senso de segurança e proteção. Com a proteção do sagrado,você inicia a sua caminhada para o segundo nivel..";
+       close2;
+       set @ayodunwarp,rand(1,2);
+       if(@ayodunwarp == 2)goto s_2;
+       warp "ayo_dun02",275,26;
+       end;
+s_2:
+       warp "ayo_dun02",24,26;
+       end;
+s_NoEntry:
+       show "^3C2EE6Você encontra o que parece ser a entrada para o segundo nível.Entretando você se sente tomado por um sentimento de horror. De alguma maneira você não consegue ir para baixo...";
+       close;
+}
+
+ayo_dun01,23,283,4	duplicate(#ayowarp)	#ayodupe1	111
+ayo_dun01,25,283,4	duplicate(#ayowarp)	#ayodupe2	111
+ayo_dun01,26,283,4	duplicate(#ayowarp)	#ayodupe3	111
+
+ayo_dun01,25,271,4	script	#ayokillscript	139,1,1,{
+       percentheal -100,0;
+       end;
+}
+
+ayo_dun01,25,274,4	duplicate(#ayokillscript)	#ayodupe4	139,1,1
+ayo_dun01,28,274,4	duplicate(#ayokillscript)	#ayodupe5	139,1,1
+ayo_dun01,28,271,4	duplicate(#ayokillscript)	#ayodupe6	139,1,1
+ayo_dun01,25,28,4	duplicate(#ayokillscript)	#ayodupe7	139,1,1
+ayo_dun01,25,25,4	duplicate(#ayokillscript)	#ayodupe8	139,1,1
+ayo_dun01,28,25,4	duplicate(#ayokillscript)	#ayodupe9	139,1,1
+ayo_dun01,28,28,4	duplicate(#ayokillscript)	#ayodupe10	139,1,1
+ayo_dun01,271,274,4	duplicate(#ayokillscript)	#ayodupe11	139,1,1
+ayo_dun01,271,271,4	duplicate(#ayokillscript)	#ayodupe12	139,1,1
+ayo_dun01,274,271,4	duplicate(#ayokillscript)	#ayodupe13	139,1,1
+ayo_dun01,274,274,4	duplicate(#ayokillscript)	#ayodupe14	139,1,1

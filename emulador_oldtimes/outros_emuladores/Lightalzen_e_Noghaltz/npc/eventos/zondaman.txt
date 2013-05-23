@@ -1,0 +1,44 @@
+//===== Cronus Script ======================================= 
+//= Empregado De Zondaman
+//===== By: ================================================== 
+//= [Muad_Dib] 1.0a
+//===== Versão Atual: ===================================== 
+//= 1.0a
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Mehah
+//============================================================
+
+prontera.gat,147,124,5	script	Empregado De Zondaman	874,{
+	cutin "zonda_01",2;
+	show "[Empregado De Zondaman]";
+	show "Bem vindo aos serviços de Zondaman.";
+	show "Pra onde eu posso levá-lo hoje?";
+	next;
+	menu "Bibilan Dungeon 3F -> 4000 z",-,"Clocktower 3F -> 4000 z",L1,"Glastheim Entrance -> 4000 z",L2,"Cancelar",M_END;
+
+	if (Zeny < 4000) goto L_Zeny;
+	set Zeny,Zeny-4000;
+	warp "iz_dun02.gat",235,210;
+	end;
+
+L1:
+	if (Zeny < 4000) goto L_Zeny;
+	set Zeny,Zeny-4000;
+	warp "c_tower3.gat",65,145;
+	end;
+
+L2:
+	if (Zeny < 4000) goto L_Zeny;
+	set Zeny,Zeny-4000;
+	warp "glast_01.gat",370,305;
+	end;
+
+L_Zeny:
+	show "[Empregado De Zondaman]";
+	show "Você não tem dinheiro suficiente.";
+	show "Por favor, Verifique a quantidade de dinheiro que você possui.";
+M_END:
+	close2;
+	cutin "",255;
+	close;
+}

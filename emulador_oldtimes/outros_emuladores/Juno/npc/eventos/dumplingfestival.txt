@@ -1,0 +1,111 @@
+//===== Cronus Script ======================================= 
+//= Imitação do festival de bolinho de massa
+//===== By: ================================================== 
+//= Massdriller
+//===== Versão Atual: ===================================== 
+//= 1.0
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Kindred
+//============================================================
+  
+payon.gat,93,81,4	script	Mestre Exorcista Fahae	834,{
+
+show "[Exorcista Fahae]";
+show "Olá jovem guerreiro! Eu sou Exorcista Fahae.";
+show "Estou à procura do Bacsojin há um tempo.";
+next;
+show "[Exorcista Fahae]";
+show "Acho que já é tempo de eu deixar um jovem concluir";
+show "minha busca. Eu tenho uns itens que ajudarão você na sua jornada.";
+next;
+menu "Eu desejo comprá-los",menu_1, "Não obrigado",finish;
+  
+menu_1:
+show "[Exorcista Fahae]";
+show "Eu só tenho apenas dois itens que podem ser úteis à você.";
+next;
+menu "Vinho de Realgar",wine, "Herva de Exorcismo",herb;
+  
+wine:
+show "[Exorcista Fahae]";
+show "Quantos você quer?";
+show "Lembre-se, apenas 5 por vez.";
+show "Cada um custa 20000z.";
+show "(Digite 0 para cancelar)";
+next;
+digit @input;
+if(@input<0) goto end;
+if(@input>5) goto sorry;
+if(Zeny< @input*20000) goto no_money;
+additem 682,@input;
+set Zeny,Zeny-20000*@input;
+show "[Exorcista Fahae]";
+show "Aqui está, espero que isso o ajude na sua jornada.";
+close;
+  
+sorry:
+show "[Exorcista Fahae]";
+show "Você deve ser um pagão... Este é o caminho de Deus para a bondade.";
+close;
+  
+finish:
+show "[Exorcista Fahae]";
+show "O caminho de acabar com o mal ainda está longe, siga-me no caminho de Deus.";
+close;
+  
+herb:
+show "[Exorcista Fahae]";
+show "Quantas você deseja?";
+show "Você só pode comprar 5 por vez.";
+show "Cada uma custa 10000z.";
+show "(Digite 0 para cancelar)";
+next;
+digit @input;
+if(@input<0) goto end;
+if(@input>5) goto sorry;
+if(Zeny< @input*10000) goto no_money;
+additem 683,@input;
+set Zeny,Zeny-10000*@input;
+show "[Exorcista Fahae]";
+show "Aqui está, espero que tenha sucesso na jornada.";
+close;
+
+no_money:
+show "[Exorcista Fahae]";
+show "Dinheiro não traz felicidade, mas ajuda à manter o templo e eu, então colete todos os itens que os monstros jogarem.";
+close;
+
+
+}
+  
+//////////////////////////////////////////////
+// Spawn de Monstros /\ Só para evento.     //
+//////////////////////////////////////////////
+  
+// ~Bolinho de massa~
+gef_fild00.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild07.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild04.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+gef_fild00.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild06.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild01.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild05.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+prt_fild08.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild04.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+moc_fild02.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild01.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild07.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+moc_fild03.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild06.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild05.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild02.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+pay_fild09.gat,0,0,0,0	monster	Bolinho de massa	1520,20,60000,66000
+  
+// ~Bacsojin~
+moc_fild03.gat,0,0,0,0	monster	Bacsojin	1518,1,60000,66000
+  
+// ~Chung E~
+moc_fild03.gat,0,0,0,0	monster	Chung E	1519,1,60000,66000
+moc_fild13.gat,0,0,0,0	monster	Chung E	1519,1,60000,66000
+pay_fild01.gat,0,0,0,0	monster	Chung E	1519,1,60000,66000
+  

@@ -1,0 +1,701 @@
+-	script	init_PM	-1,{
+OnInit:
+
+//|=> Nome do npc na janela.
+set $@pvpm_name$,"[Arena Memories]";	
+
+//|=> Deseja usar o Ranking Ratio como principal?
+set $@mainRanking, 1;		
+						
+//|=> Até onde o Ranking irá mostrar. [ Máximo 127 ]
+set $@showsRankUntil, 30;
+
+//|=> Modo PK. Está configurado para alterar automaticamente, mude se necessário.
+set $@PK_Mode, 0;
+
+//|=> Deseja que ao player entrar no pvp perca os buff?
+set $@breakBuffs, 0;
+
+//|=> Quando o player matar o outro, deve ganhar experiência?
+set $@getEXPoption,0;
+set $@getEXP,0;
+set $@lostEXP,0;
+
+//|=> Deseja ativar a contagem de pontos nos mapas da WoE?
+//|---> Nota 1: Não são enviandos sons/broadcast nos mapas da WoE.
+//|---> Nota 2: Opções de contagem.
+//|--> 0: Desativado.
+//|--> 1: Ativar contagem somente do PvP.
+//|--> 2: Ativar contagem somente do GvG.
+//|--> 3: Ativar ambos.
+set $@CountPointsInWoE,3;
+
+
+//|=> Configuração do Som e Announce!
+//|---> Nota 1: Os sons devem ser colocados na pasta data/wav em formato .wav
+//|---> Nota 2: Se desativar o som do UT, desativará o broadcast dele também.(2)
+//|--> 0 : Desativar Todas Opções.
+//|--> 1 : Ativar somente broadcast Global.
+//|--> 2 : Ativar somente sons/broadcast do Unreal Tournament.
+//|--> 3 : Ativar Ambos.
+set $@sound,1;
+set $@sound,1;
+
+//|=> Lista com o nomes dos Sons Unreal Tournament.
+set $@SoundList$[1],"First Blood";						  // |
+set $@SoundList$[2],"Double Kill";						  // |
+set $@SoundList$[3],"Triple Kill";						  // |
+set $@SoundList$[5],"Mega Kill";						  // |
+set $@SoundList$[10],"Ultra Kill";						  // |
+set $@SoundList$[15],"Killing Spree";						  // |
+set $@SoundList$[20],"Ownage";							  // |
+set $@SoundList$[25],"Holy Shit";						  // |
+set $@SoundList$[30],"God Like";						  // |
+set $@SoundList$[35],"Dominating";						  // |
+set $@SoundList$[40],"Unstoppable";						  // |
+set $@SoundList$[50],"Monster Kill";						  // |
+set $@SoundList$[51],"end";							  // |
+
+query_sql("select name from pvpm_data where leader=1 and type=0 limit 1",$@Player_Lider$);
+query_sql("select name from pvpm_data where leader=1 and type=2 limit 1",$@Guild_Lider$);
+
+	query_sql("select lang from pvpm_lang where lang=0 and lang=1",.@checkDefaultLang);
+	if(!.@checkDefaultLang && .@checkDefaultLang[1])
+	{
+	debugmes "[PvP Master Ultimate] NO DEFAULT LANGUAGE(LANG0)! LANG1 WAS SET AS DEFAULT!";
+	query_sql("update pvpm_lang set lang=lang-1");
+	}
+
+	query_sql("select count(lang) from pvpm_lang where id=0",.@c);
+	if(!.@c) debugmes "[PvP Master Ultimate] NO LANGUAGE DATA!";
+	for(set .@i,0;.@i<.@c;set .@i,.@i+1)
+	{
+	deletearray .@str$,82;
+	query_sql("select str from pvpm_lang where lang="+.@i,.@str$);
+	for(set .@y,0;.@y<82;set .@y,.@y+1) setd "$@PM_Lang"+.@i+"$["+.@y+"]",.@str$[.@y];
+	}
+
+OnReloadListMap:
+	deletearray $@IDPM,10;
+	deletearray $@mapPM$,10;
+	deletearray $@MapTypePM,10;
+	deletearray $@menu$,10;
+	query_sql("select * from pvpm_map order by id asc limit 10",$@IDPM,$@mapPM$,$@MapTypePM,$@mfPM);
+	setarray $@TypeArena$[0],"^CD5C5C<PvP>","^FF4500<PvP Baby>","^8B5742<GvG>","^0047AB<Evento>";
+	for(set .@j,0;.@j<=(getarraysize($@mapPM$)-1);set .@j,.@j+1)
+	{
+	set $@menu$[.@j],"^000000- Arena "+(.@j+1)+" "+$@TypeArena$[$@MapTypePM[.@j]];
+	setmapflag $@mapPM$[.@j],mf_noreturn;
+	setmapflag $@mapPM$[.@j],mf_nosave;
+	setmapflag $@mapPM$[.@j],mf_noteleport;
+	setmapflag $@mapPM$[.@j],mf_nowarpto;
+	setmapflag $@mapPM$[.@j],mf_nowarp;
+	setmapflag $@mapPM$[.@j],mf_nomemo;
+	setmapflag $@mapPM$[.@j],mf_nopenalty;
+	setmapflag $@mapPM$[.@j],mf_nobranch;
+	if(!$@MapTypePM[.@j] && !$@mfPM[.@j]) setmapflag $@mapPM$[.@j],mf_pvp; else
+	if(!$@MapTypePM[.@j]) setmapflag $@mapPM$[.@j],mf_pvp_noguild;
+	if($@MapTypePM[.@j]==2) setmapflag $@mapPM$[.@j],mf_gvg;
+	}
+}
+
+-	script	PM_source	-1,{
+
+	while(1)
+	{
+	mes $@pvpm_name$;
+	mes callfunc("getMesPM",1);
+	mes callfunc("getMesPM",2);
+	mes callfunc("getMesPM",3);
+	mes "^008B8B< PvP "+callfunc("getMesPM",4)+" - ^FFA500"+$@Player_Lider$+"^008B8B >";
+	mes "^008B8B< GvG "+callfunc("getMesPM",4)+" - ^FFA500"+$@Guild_Lider$+"^008B8B >";
+		switch(select("^FFA500- "+callfunc("getMesPM",5)+"^000000:- Ranking:- "+callfunc("getMesPM",6)+":- "+callfunc("getMesPM",7)+":- "+callfunc("getMesPM",79)))
+		{
+	case 1: 
+	for(set @i,0;@i<=(getarraysize($@IDPM)-1);set @i,@i+1) set @m$[@i]," ^0000FF["+getmapusers($@mapPM$[@i])+"]";
+			switch(getarraysize($@IDPM))
+			{
+		case 1: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0]));
+		case 2: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1]));
+		case 3: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2]));
+		case 4: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3]));
+		case 5: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4]));
+		case 6: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4],$@menu$[5]+@m$[5]));
+		case 7: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4],$@menu$[5]+@m$[5],$@menu$[6]+@m$[6]));
+		case 8: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4],$@menu$[5]+@m$[5],$@menu$[6]+@m$[6],$@menu$[7]+@m$[7]));
+		case 9: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4],$@menu$[5]+@m$[5],$@menu$[6]+@m$[6],$@menu$[7]+@m$[7],$@menu$[8]+@m$[8]));
+		case 10: callfunc("pvpm_func","Warp",1,select($@menu$[0]+@m$[0],$@menu$[1]+@m$[1],$@menu$[2]+@m$[2],$@menu$[3]+@m$[3],$@menu$[4]+@m$[4],$@menu$[5]+@m$[5],$@menu$[6]+@m$[6],$@menu$[7]+@m$[7],$@menu$[8]+@m$[8],$@menu$[9]+@m$[9]));
+			} mes "** ERROR ** CHECK THE pm_map TABLE"; close;
+
+	case 2:	
+			switch(select("- PvP:- PvP "+callfunc("getMesPM",8)+":- PvP (Ratio):- GvG:- GvG "+callfunc("getMesPM",8)+":- GvG (Ratio):- "+callfunc("getMesPM",9)))
+			{
+		case 1: callfunc "pvpm_func","Ranking1","kills",0,"PvP"; next; continue;
+		case 2: callfunc "pvpm_func","Ranking1","dies",0,"PvP (Mortes)"; next; continue;
+		case 3:	callfunc "pvpm_func","Ranking1","ratio",0,"PvP (Ratio)"; next; continue;
+		case 4:	callfunc "pvpm_func","Ranking1","kills",2,"GvG"; next; continue;
+		case 5:	callfunc "pvpm_func","Ranking1","dies",2,"GvG (Mortes)"; next; continue;
+		case 6: callfunc "pvpm_func","Ranking1","ratio",2,"GvG (Ratio)"; next; continue;		
+		case 7:
+				switch(select("- "+callfunc("getMesPM",9)+" PvP:- "+callfunc("getMesPM",9)+" PvP "+callfunc("getMesPM",8)+":- "+callfunc("getMesPM",9)+" PvP (Ratio):- "+callfunc("getMesPM",9)+" GvG:- "+callfunc("getMesPM",9)+" GvG "+callfunc("getMesPM",8)+":- "+callfunc("getMesPM",9)+" GvG (Ratio)"))
+				{
+			case 1:	callfunc "pvpm_func","Ranking2","kills",0; next; continue;
+			case 2:	callfunc "pvpm_func","Ranking2","dies",0; next; continue;
+			case 3:	callfunc "pvpm_func","Ranking2","ratio",0; next; continue;
+			case 4:	callfunc "pvpm_func","Ranking2","kills",2; next; continue;
+			case 5:	callfunc "pvpm_func","Ranking2","dies",2; next; continue;
+			case 6:	callfunc "pvpm_func","Ranking2","ratio",2; next; continue;
+				}
+			}
+	case 3:
+		next;
+		mes $@pvpm_name$;
+		mes callfunc("getMesPM",10);
+		mes callfunc("getMesPM",11);
+		mes callfunc("getMesPM",12);
+		next; continue;
+	case 4:
+		close;
+
+	case 5:
+		next;
+		mes $@pvpm_name$;
+		mes callfunc("getMesPM",80);
+		query_sql("select str from pvpm_lang where id=0",@lang$);
+		for(set @a,0;@a<getarraysize(@lang$);set @a,@a+1) mes @a+" = "+@lang$[@a];
+		input @inp;
+			if(@inp < 0 || @inp > (getarraysize(@lang$)-1))
+			{
+			mes callfunc("getMesPM",81);
+			next; continue;
+			} set PM_Lang,@inp;
+		next; continue;
+		}
+	}
+
+OnInit:
+	waitingroom "",0;
+OnTimer5000:
+	setarray .@RoomDisplay$,"[Arena Memories]","PvP "+$@PM_Lang0$[4]+" ["+$@Player_Lider$+"]","GvG "+$@PM_Lang0$[4]+" ["+$@Guild_Lider$+"]";
+	delwaitingroom;
+	waitingroom .@RoomDisplay$[rand(0,2)],0;
+	initnpctimer;
+}
+
+-	script	cmd	-1,{
+
+OnWhisperGlobal:
+
+		if(compare(@whispervar0$,"!warp"))
+		{
+		set @ArenaID,@whispervar1$;
+			if(!@ArenaID)
+			{
+			dispbottom callfunc("getMesPM",13);
+			end;
+			} callfunc("pvpm_func","Warp",0,@ArenaID);
+		}
+
+		if(compare(@whispervar0$,"!ranking"))
+		{  	if(compare(@whispervar0$,"2"))
+			{
+				if(compare(@whispervar1$,"pvp"))
+				{	if(compare(@whispervar2$,"ratio")) { callfunc "pvpm_func","Ranking2","ratio",0,"Ratio"; end; }
+					if(!compare(@whispervar2$,"die")) callfunc "pvpm_func","Ranking2","kills",0; else
+					callfunc "pvpm_func","Ranking2","dies",0;
+					end;
+				}
+
+				if(compare(@whispervar1$,"gvg"))
+				{	if(compare(@whispervar2$,"ratio")) { callfunc "pvpm_func","Ranking2","ratio",2,"Ratio"; end; }
+					if(!compare(@whispervar2$,"die")) callfunc "pvpm_func","Ranking2","kills",2; else
+					callfunc "pvpm_func","Ranking2","dies",2;
+					end;
+				}
+			}
+
+			if(compare(@whispervar1$,"pvp"))
+			{	if(compare(@whispervar2$,"ratio")) { callfunc "pvpm_func","Ranking1","ratio",0,"Ratio"; end; }
+				if(!compare(@whispervar2$,"die")) callfunc "pvpm_func","Ranking1","kills",0,"PvP"; else
+				callfunc "pvpm_func","Ranking1","dies",0,"PvP ( Mortes )";
+				end;
+			}
+
+			if(compare(@whispervar1$,"gvg"))
+			{	if(compare(@whispervar2$,"ratio")) { callfunc "pvpm_func","Ranking1","ratio",2,"Ratio"; end; }
+				if(!compare(@whispervar2$,"die")) callfunc "pvpm_func","Ranking1","kills",2,"GvG"; else
+				callfunc "pvpm_func","Ranking1","dies",2,"GvG";
+				end;
+			} 
+		}
+
+		if ( compare(@whispervar0$,"!exit") )
+		{
+		getmapxy(@map$,@x,@y,0);
+			for(set @i,0;@i!=getarraysize($@mapPM$);set @i,@i+1)
+			{
+				if (@map$ !=  $@mapPM$[@i]) continue;
+				dispbottom callfunc("getMesPM",14);
+				sleep2 5000;
+				warp getsavepoint(0),getsavepoint(1),getsavepoint(2);
+				end;
+			}
+		dispbottom callfunc("getMesPM",15);
+		end;
+		}
+
+		if (compare(@whispervar0$,"lider"))
+		{
+		if(compare(@whispervar0$,"pvp")) dispbottom "PvP "+callfunc("getMesPM",4)+": "+$@Player_Lider$; else
+		dispbottom "GvG "+callfunc("getMesPM",4)+": "+$@Guild_Lider$;
+		end;
+		}
+
+		if(compare(@whispervar0$,"!truncate") && getgmlevel()>=70)
+		{
+			if(compare(@whispervar1$,"pvp"))
+			{
+			query_sql("delete from pvpm_data where type=0");
+			dispbottom callfunc("getMesPM",16);
+			end;
+			}
+			if(compare(@whispervar1$,"gvg"))
+			{
+			query_sql("delete from pvpm_data where type=2");
+			dispbottom callfunc("getMesPM",16);
+			end;
+			} dispbottom callfunc("getMesPM",17);
+		}
+
+		if (compare(@whispervar0$,"!ban"))
+		{
+			if(@whispervar1$=="") { dispbottom callfunc("getMesPM",18); end; }
+			if(@whispervar2$=="") { dispbottom callfunc("getMesPM",19); end; }
+			if(@whispervar3$=="") { dispbottom callfunc("getMesPM",20); end; }
+			if(@whispervar2$=="showtime") 
+			{ query_sql("select ban from pvpm_data where name='"+@whispervar1$+"' limit 1",@showtime);
+			dispbottom callfunc("getMesPM",21)+" ["+@whispervar1$+"] ["+@showtime+" "+callfunc("getMesPM",27)+"]";
+			end;
+			}	if(@whispervar2$=="unban") 
+				{ query_sql("update pvpm_data set ban=0 where name='"+@whispervar1$+"' limit 1");
+				dispbottom callfunc("getMesPM",22)+@whispervar1$;
+				message @whispervar1$,callfunc("getMesPM",23);
+				end;
+				} set @time,@whispervar2$;
+			if(@time==0 && @whispervar2$!="unban" || @time==0 && @whispervar2$!="showtime") { dispbottom callfunc("getMesPM",24); end; }
+		set @id,0;
+		query_sql("select id from pvpm_data where name='"+@whispervar1$+"' and type="+@whispervar3$,@id);
+				if(!@id && @whispervar3$=="0" || !@id && @whispervar3$=="2") { dispbottom callfunc("getMesPM",25); end; }		
+		 set @bantime,0;
+		if(compare(@whispervar2$,"-")) query_sql("update pvpm_data set ban=ban"+@time+" where id="+@id+" limit 1"); else
+		query_sql("update pvpm_data set ban=ban+"+@time+" where id="+@id+" limit 1");
+		query_sql("select ban from pvpm_data where id="+@id+" limit 1",@bantime);
+		dispbottom callfunc("getMesPM",26)+" ("+@bantime+" "+callfunc("getMesPM",27)+")";
+		message @whispervar1$,callfunc("getMesPM",28)+" "+@bantime+" "+callfunc("getMesPM",27)+".";
+		warpchar "prontera",150,150,getcharid(0,@whispervar1$);
+		end;		
+		}
+
+		if (compare(@whispervar0$,"!map") && getgmlevel()>=70) 
+		{
+			if (compare(@whispervar1$,"add"))
+			{
+				if(getarraysize($@IDPM)>=10)
+				{
+				dispbottom callfunc("getMesPM",29);
+				dispbottom callfunc("getMesPM",30);
+				end;
+				} set @type,@whispervar3$;			
+					if(!@type && @whispervar3$==""||@type>2)
+					{
+					dispbottom callfunc("getMesPM",31);
+					dispbottom callfunc("getMesPM",32);
+					dispbottom callfunc("getMesPM",33);
+					end;
+					} set @mapcheck$,"";
+				query_sql("select map from pvpm_map where map='"+@whispervar2$+"' limit 1",@mapcheck$);
+				if(@mapcheck$!="")
+				{
+				dispbottom callfunc("getMesPM",34);
+				end;
+				} query_sql("insert into `pvpm_map` (id,map,type) values ("+(getarraysize($@IDPM)-1)+",'"+@whispervar2$+"',"+@type+")");
+			dispbottom callfunc("getMesPM",35)+" ("+@whispervar2$+")";
+			doevent "init_PM::OnReloadListMap";
+			}
+
+			if (compare(@whispervar1$,"del"))
+			{
+				if(getarraysize($@IDPM)<=1)
+				{
+				dispbottom callfunc("getMesPM",36);
+				end;
+				} query_sql("select map from pvpm_map where map='"+@whispervar2$+"'",@mapcheck$);
+					if(@mapcheck$=="")
+					{
+					dispbottom callfunc("getMesPM",37);
+					end;
+					} query_sql("delete from pvpm_map where map='"+@whispervar2$+"'");
+			dispbottom callfunc("getMesPM",38)+" ("+@whispervar2$+")";
+			doevent "init_PM::OnReloadListMap";
+			} 
+
+			if (compare(@whispervar1$,"list"))
+			{
+			for(set @i,0;@i<=(getarraysize($@IDPM)-1);set @i,@i+1) dispbottom "["+(@i+1)+"] "+$@mapPM$[@i];
+			end;
+			}
+		end;
+		}
+
+		if (compare(@whispervar0$,"!help"))
+		{
+			if(compare(@whispervar1$,"!warp")) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",40);
+			dispbottom "- !warp#1;!warp#2;...!warp#5 ..";
+			dispbottom callfunc("getMesPM",41);
+			end;
+			}
+
+			if(compare(@whispervar1$,"!ranking")) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",42);
+			dispbottom "- !ranking#pvp;!ranking#pvp#die;!ranking#gvg;!ranking#gvg#die;!ranking#ratio";
+			dispbottom "- !ranking2#pvp;!ranking2#pvp#die;!ranking2#gvg;!ranking2#gvg#die;!ranking2#ratio; (Mostra somente sua posição)";
+			dispbottom callfunc("getMesPM",43);;
+			end;
+			}
+
+			if(compare(@whispervar1$,"!pvplider") || compare(@whispervar1$,"!gvglider")) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",44);;
+			end;
+			}
+
+			if(compare(@whispervar1$,"!exit")) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",45);
+			end;
+			}
+
+			if(compare(@whispervar1$,"!ban") && getgmlevel()>=70) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",46);
+			dispbottom callfunc("getMesPM",47);
+			dispbottom callfunc("getMesPM",48);
+			dispbottom callfunc("getMesPM",49);
+			dispbottom callfunc("getMesPM",50);
+			end;
+			}
+
+			if(compare(@whispervar1$,"!map") && getgmlevel()>=70) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",51);
+			dispbottom callfunc("getMesPM",52);
+			dispbottom "- Type: 0 = Arena PvP; 1 = Arena PvP Baby; 2 Arena GvG;";
+			dispbottom callfunc("getMesPM",53);
+			end;
+			}
+
+			if(compare(@whispervar1$,"!truncate") && getgmlevel()>=70) {
+			dispbottom callfunc("getMesPM",39);
+			dispbottom callfunc("getMesPM",54);
+			dispbottom callfunc("getMesPM",55);
+			dispbottom callfunc("getMesPM",56);
+			end;
+			} dispbottom callfunc("getMesPM",57);
+		end;
+		}
+
+	dispbottom callfunc("getMesPM",58);
+	dispbottom callfunc("getMesPM",59);
+	dispbottom callfunc("getMesPM",60);
+	dispbottom callfunc("getMesPM",61);
+	dispbottom callfunc("getMesPM",62);
+	dispbottom callfunc("getMesPM",63);
+	dispbottom callfunc("getMesPM",64);
+	dispbottom callfunc("getMesPM",65);
+		if(getgmlevel()>=70)
+		{
+		dispbottom callfunc("getMesPM",66);
+		dispbottom callfunc("getMesPM",67);
+		dispbottom callfunc("getMesPM",68);
+		dispbottom callfunc("getMesPM",69);
+		}
+		
+}
+
+-	script	event#pvpm	-1,{
+OnInit:
+OnTimer60000:
+	query_sql("update pvpm_data set ban=ban-1 where ban>0");
+	initnpctimer;
+	end;
+
+OnPCKillEvent:
+	callfunc("pvpm_func","PCKillEvent");
+
+OnPCDieEvent:
+	callfunc("pvpm_func","PCDieEvent");
+
+OnPCLoadMapEvent:
+	callfunc("pvpm_func","PCLoadEvent");
+}
+
+function	script	pvpm_func	{
+
+		if (getarg(0) == "Ranking1")
+		{
+		deletearray @name$[0],getarraysize(@name$);
+		deletearray @points[0],getarraysize(@points);
+		query_sql "select name,"+getarg(1)+" from pvpm_data where type="+getarg(2)+" and "+getarg(1)+"!=0 order by "+getarg(1)+" desc limit 125",@name$,@points;
+		dispbottom "======= Ranking - "+getarg(3)+" =======";
+			for(set @i,0;@i != $@showsRankUntil;set @i,@i+1)
+			{
+			if(@name$[@i]=="") return;
+			dispbottom (@i+1)+"º | "+@name$[@i]+" | "+@points[@i];
+			} return;
+		}
+
+		if (getarg(0) == "Ranking2")
+		{
+		deletearray @name$[0],getarraysize(@name$);
+		deletearray @points[0],getarraysize(@points);
+		query_sql "select id,"+getarg(1)+" from pvpm_data where type="+getarg(2)+" order by "+getarg(1)+" desc limit 125",@id,@points;
+			for(set @i,0;@i <= 125;set @i,@i+1)
+			{
+				if (@id[@i] == getcharid(getarg(2)))
+				{
+				dispbottom "- "+strcharinfo(getarg(2))+" | "+(@i+1)+"º | "+@points[@i];
+				return;
+				}
+			}
+		dispbottom callfunc("getMesPM",70);
+		return;
+		}
+
+		if(getarg(0)=="Warp")
+		{
+			if(getarg(1))
+			{
+				if($@MapTypePM[(getarg(2)-1)]==2 && !getcharid(2))
+				{
+				mes $@pvpm_name$;
+				mes callfunc("getMesPM",71);
+				close;
+				}	if($@MapTypePM[(getarg(2)-1)]==1 && Upper!=2)
+					{
+					mes $@pvpm_name$;
+					mes callfunc("getMesPM",72);
+					close;
+					} if($@MapTypePM==0||$@MapTypePM==1) callfunc("pvpm_func","ban",0,1); else callfunc("pvpm_func","ban",2,1);
+			} else	{
+					getmapxy(@map$,@x,@y,0);
+						if($@mapPM$[(getarg(2)-1)]==@map$)
+						{
+						dispbottom "<!!!> "+callfunc("getMesPM",73);
+						end;
+						}	if($@MapTypePM[(getarg(2)-1)]==2)
+							{
+							dispbottom "<!!!> "+callfunc("getMesPM",71);
+							end;
+							}	if($@MapTypePM[(getarg(2)-1)]==1 && Upper!=2)
+								{
+								dispbottom "<!!!> "+callfunc("getMesPM",72);
+								end;
+								} if($@MapTypePM==0||$@MapTypePM==1) callfunc("pvpm_func","ban",0); else callfunc("pvpm_func","ban",2);
+					} set @MapIDx,(getarg(2)-1);
+		if($@breakBuffs) sc_end -1;
+		warp $@mapPM$[(getarg(2)-1)],0,0;
+		end;
+		}
+
+		if (getarg(0) == "ban")
+		{
+		set @bantime,0;
+		query_sql("select ban from pvpm_data where id="+getcharid(getarg(1))+" limit 1",@bantime);
+		if(!@bantime) return;
+			if(!getarg(2,0)) { dispbottom "<!!!> "+callfunc("getMesPM",74)+" "+@bantime+" "+callfunc("getMesPM",27)+"!"; end; } else 
+			{ mes "^FF7F50<!!!> ^FFA500"+callfunc("getMesPM",74)+" ^FF7F50"+@bantime+"^FFA500 "+callfunc("getMesPM",27)+"!"; close; }
+		}
+
+		if (getarg(0) == "Up")
+		{
+		if($@getEXPoption) callfunc("pvpm_func","getexp");
+		set @name$,"";
+		set @points,0;
+		query_sql("select name,"+getarg(1)+" from pvpm_data where id="+getcharid(getarg(2))+" and type="+getarg(2)+" limit 1",@name$,@points);
+			if (@name$=="")
+			{
+			query_sql("INSERT INTO pvpm_data (id,"+getarg(1)+",name,annc,type) values ("+getcharid(getarg(2))+",1,'"+strcharinfo(getarg(2))+"',"+getarg(3)+","+getarg(2)+")");
+			dispbottom "Score: 1";
+			end;
+			} query_sql("update pvpm_data set "+getarg(1)+"="+getarg(1)+"+1 where id="+getcharid(getarg(2)));
+		set @points,@points+1;
+				if($@mainRanking)
+				{
+				set @kills,0;
+				set @dies,0;
+				query_sql("select kills,dies from pvpm_data where id="+getcharid(getarg(2))+" and type="+getarg(2)+" limit 1",@kills,@dies);
+				query_sql("update pvpm_data set ratio="+(@kills-@dies)+" where id="+getcharid(getarg(2))+" and type="+getarg(2)+" limit 1");
+				set @points,@kills-@dies;
+				return;				
+				} return;
+		}
+
+		if (getarg(0) == "ChangeLeader")
+		{
+		set @L_name$,"";
+		set @L_points,0;
+		if(!$@mainRanking) query_sql("select name,kills from pvpm_data where leader=1 and type="+getarg(1)+" limit 1",@L_name$,@L_points); else
+		query_sql("select name,ratio from pvpm_data where leader=1 and type="+getarg(1)+" limit 1",@L_name$,@L_points);
+			if (@points > @L_points && @L_name$ != strcharinfo(getarg(1)))
+			{
+			query_sql("update pvpm_data set leader=0 where type="+getarg(1));
+			query_sql("update pvpm_data set leader=1 where id="+getcharid(getarg(1))+" and type="+getarg(1));
+			mapannounce @map$,strcharinfo(getarg(1))+" | "+callfunc("getMesPM",75)+" !",bc_map,0xFF7F50;
+			set $@Player_Lider$,"";
+			set $@Guild_Lider$,"";
+			query_sql("select name from pvpm_data where leader=1 and type=0 limit 1",$@Player_Lider$);
+			query_sql("select name from pvpm_data where leader=1 and type=2 limit 1",$@Guild_Lider$);
+			} return;
+		}
+
+		if (getarg(0) == "Annc")
+		{
+		set @points,0;
+		set @annc,0;
+		query_sql "select kills,annc from pvpm_data where id="+getcharid(getarg(1))+" and type="+getarg(1),@points,@annc;
+		if(!@annc) query_sql "update pvpm_data set annc=annc+"+getarg(2)+" where id="+getcharid(getarg(1))+" and type="+getarg(1);
+			if (@points >= @annc)
+			{
+			mapannounce @map$, strcharinfo(getarg(1))+" | "+@points+" "+callfunc("getMesPM",76)+"! ["+getarg(3)+"]",bc_map,0xFF7F50;
+			query_sql "update pvpm_data set annc=annc+"+getarg(2)+" where id="+getcharid(getarg(1))+" and type="+getarg(1);
+			if($@sound==1||$@sound==3) soundeffectall "Monster Kill.wav",0;
+			} if(!$@sound||$@sound==1) return;
+				if(getarg(3)=="PvP")
+				{
+					if(@noMoreSounds&&@withoutDying==@withoutDyingAnnc)
+					{
+					mapannounce @map$,strcharinfo(0)+" | "+$@SoundList$[@noMoreSounds]+"! [ "+@withoutDying+" "+callfunc("getMesPM",76)+" ]",bc_map,0xFF7F50;
+					soundeffectall $@SoundList$[@noMoreSounds]+".wav",0,@map$;
+					set @withoutDyingAnnc,@withoutDyingAnnc+5;
+					return;
+					}
+						if($@SoundList$[@withoutDying]=="end")
+						{
+						set @withoutDyingAnnc,@withoutDyingAnnc+5;
+						set @noMoreSounds,@withoutDying-1;
+						}
+							if($@SoundList$[@withoutDying]!=""&&!@noMoreSounds)
+							{
+							mapannounce @map$,strcharinfo(0)+" | "+$@SoundList$[@withoutDying]+" ! [ "+@withoutDying+" "+callfunc("getMesPM",76)+" ]",bc_map,0xFF7F50;
+							soundeffectall $@SoundList$[@withoutDying]+".wav",0,@map$;
+							}
+				} return;
+		}
+
+		if(getarg(0) == "PCKillEvent")
+		{
+		set @Live,1;
+				if(@RightWoEMap)
+				{
+				if($@CountPointsInWoE==1 || $@CountPointsInWoE==3) callfunc "pvpm_func","Up","kills",0,100;
+				dispbottom "Player Score: "+@points;
+				if($@CountPointsInWoE==2 || $@CountPointsInWoE==3) callfunc "pvpm_func","Up","kills",2,1000;
+				dispbottom "Guild Score: "+@points;
+				end;
+				} getmapxy(@map$,@x,@y,0);
+			if(@map$==$@mapPM$[@MapIDx] && $@MapTypePM[@MapIDx]>=0 && $@MapTypePM[@MapIDx]<=1 || $@PK_Mode)
+			{
+			set @withoutDying,@withoutDying+1;
+			callfunc("pvpm_func","Up","kills",0,100);
+			dispbottom "Player Score: "+@points;
+			callfunc("pvpm_func","ChangeLeader",0);
+			callfunc("pvpm_func","Annc",0,100,"PvP");
+			}
+				if(@map$==$@mapPM$[@MapIDx] && $@MapTypePM[@MapIDx]==2 && getcharid(2) || $@PK_Mode && getcharid(2))
+				{
+				callfunc("pvpm_func","Up","kills",2,1000);
+				dispbottom "Guild Score: "+@points;
+				callfunc("pvpm_func","ChangeLeader",2);
+				callfunc("pvpm_func","Annc",2,1000,"GvG");
+				} end;
+		}
+
+		if(getarg(0) == "PCDieEvent")
+		{
+		set @Live,0;
+				if(@RightWoEMap)
+				{
+				if($@CountPointsInWoE==1 || $@CountPointsInWoE==3) { callfunc "pvpm_func","Up","dies",0,100; if($@mainRanking) dispbottom "Player Score: "+@points; }
+				if($@CountPointsInWoE==2 || $@CountPointsInWoE==3) { callfunc "pvpm_func","Up","dies",2,1000; if($@mainRanking) dispbottom "Guild Score: "+@points; }
+				}
+			set @withoutDying,0;
+			set @noMoreSounds,0;
+			set @withoutDyingAnnc,0;
+			set @MapIDx,0;
+			set @RightWoEMap,0;
+		getmapxy(@map$,@x,@y,0);
+		if(@map$==$@mapPM$[@MapIDx] && $@MapTypePM[@MapIDx]>=0 && $@MapTypePM[@MapIDx]<=1 || $@PK_Mode) { callfunc "pvpm_func","Up","dies",0,100; if($@mainRanking) dispbottom "Player Score: "+@points; }
+		if(@map$==$@mapPM$[@MapIDx] && $@MapTypePM[@MapIDx]==2 && getcharid(2) || $@PK_Mode && getcharid(2)) { callfunc "pvpm_func","Up","dies",2,1000; if($@mainRanking) dispbottom "Guild Score: "+@points; }
+		end;
+		}
+
+		if(getarg(0) == "PCLoadEvent")
+		{
+		getmapxy(@map$,@x,@y,0);
+		if(getcastlename(@map$)=="") { set @RightWoEMap,0; end; }
+		if(agitcheck() || agitcheck2()) set @RightWoEMap,1;
+		end;
+		}
+
+		if(getarg(0) == "getexp")
+		{
+			if(@Live)
+			{
+			attachrid(killedrid);
+			set .@BaseLevel,BaseLevel;
+			attachrid(killerrid);
+			if($@getEXPoption==1) set @EXP,(($@getEXP*.@BaseLevel)/BaseLevel); else set @EXP,$@getEXP;
+			getexp @EXP,@EXP;
+			dispbottom callfunc("getMesPM",77)+" "+@EXP+" EXP.";
+			} else	{
+				if(BaseExp) set BaseExp,BaseExp-$@lostEXP;
+				if(JobExp) set JobExp,JobExp-$@lostEXP;
+				dispbottom callfunc("getMesPM",78)+" "+$@lostEXP+" EXP.";;
+				} return;
+		}
+}
+
+function	script	getMesPM	{ return getd("$@PM_Lang"+PM_Lang+"$["+getarg(0)+"]"); }
+
+prontera,148,181,6	duplicate(PM_source)	Arena Memories#1	868
+//================== WOE =====================
+
+//Necessário para ativar o sistema de contagem dos pontos na woe.
+//caso queira desativar algum mapa, retire-o daqui.
+aldeg_cas01	mapflag	loadevent
+aldeg_cas02	mapflag	loadevent
+aldeg_cas03	mapflag	loadevent
+aldeg_cas04	mapflag	loadevent
+gefg_cas01	mapflag	loadevent
+gefg_cas02	mapflag	loadevent
+gefg_cas03	mapflag	loadevent
+gefg_cas04	mapflag	loadevent
+gefg_cas05	mapflag	loadevent
+payg_cas01	mapflag	loadevent
+payg_cas02	mapflag	loadevent
+payg_cas03	mapflag	loadevent
+payg_cas04	mapflag	loadevent
+payg_cas05	mapflag	loadevent
+prtg_cas01	mapflag	loadevent
+prtg_cas02	mapflag	loadevent
+prtg_cas03	mapflag	loadevent
+prtg_cas04	mapflag	loadevent
+prtg_cas05	mapflag	loadevent
+
+pay_gld	mapflag	loadevent
+prt_gld	mapflag	loadevent
+gef_fild13	mapflag	loadevent
+alde_gld	mapflag	loadevent

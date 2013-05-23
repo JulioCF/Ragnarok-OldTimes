@@ -1,0 +1,565 @@
+//===== eAthena Script ======================================================================
+//= 1. Auctioneer
+//= 2. Auction Helping (Gives info only, but still good to have in)
+//===== Original By =========================================================================
+//= Fredzilla
+//===== Helped By ===========================================================================
+//= Not one quite yet, but you never know ;)
+//===== Current Version: ====================================================================
+//= 1.0 (Beta) < Thats means it is in testing
+//= 1.0b Traduzido para o português. [Reply.]
+//===== Compatible With: ====================================================================
+//= Any eAthena, that also has a script_athena.conf
+//= Cronus SVN
+//===== Description: ========================================================================
+//= Lets a people place items into an auction, max of 10 items per round
+//= People can bid on them item
+//= Then buy the items, and sellers pickup there money
+//===== Comments and Credits ===========================================================
+//= This script would not have been made possible if it was not for "Maeki Rika"
+//= My praise goes out to her for finding out all the things we can do with the
+//= current system that eAthena uses
+//=
+//= More comments are listed down the page, in a attempt to explain what is going on in each
+//= section of the script
+//=
+//= This script is currently in testing, and any loss of items will, not only need to be 
+//= reported inside the thread I made for this script, but be replaced by GM if proof was given :D
+//===========================================================================================
+
+prontera,153,193,5	script	Auctioneer#1	807,{
+	mes "[Leiloeiro]";
+	set @num,0;
+// These few line below are to recover item that would be lost due to a new auction starting
+L_RNameLoop:
+	if(strcharinfo(0)==$ANamesB$[@num] && $paidB[@num]==0) goto L_RBackup;
+	set @num,@num+1;
+	if(@num<10) goto L_RNameLoop;
+	if($Auction==1) goto L_Register;
+	if($Auction==2) goto L_Bid;
+	if($Auction==3) goto L_PayPickup;
+
+// After a server restart, and no auction value is set, it will run this
+// People who placed items in there before the restart should still be to retrieve there items
+
+	mes "Você está habilitado para vender e comprar coisas dentro do leilão, infelizmente nada foi iniciado, você precisa esperar para o leilão começar.";
+	mes "Nenhum item perdido vai ser devolvido, por favor lembre-se que o uso deste é por sua conta e risco";
+	next;
+	mes "[Leiloeiro]";
+	mes "Eu sinto muito se você vier a perder itens";
+	close;
+
+// If the Auction has started, it will run this, during this time items can be registered and registered items retrieved
+
+L_Register:
+	mes "Bem-vindo ao leilão, você pode registrar seus itens agora.";
+	next;
+	set @num,0;
+L_NameLoop:
+	if(strcharinfo(0)==$ANames$[@num]) goto L_Already;
+	set @num,@num+1;
+	if(@num<10) goto L_NameLoop;
+	if(getarraysize($AItems)==10) goto L_AFull;
+	menu "Eu quero registrar um item agora",L_IRegister,"Eu não quero deixar nenhum item",-;
+L_End:
+	mes "[Leiloeiro]";
+	mes "Ok, volte quando quiser";
+	close;
+L_IRegister:
+	mes "[Leiloeiro]";
+	mes "Listado abaixo está os 10 primeiros itens que você tem em você agora";
+	mes "O que você quer registrar?";
+	next;
+	set @array,0;
+	set @item,500;
+//	set @loopcount,0;
+L_ILoop:
+//	set @loopcount,@loopcount+1;
+//	debugmes @loopcount;
+	set @item,@item+1;
+	if(@item>=13005) goto L_Menu;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	set @item,@item+1;
+	if(countitem(@item)>0) set @item2[@array],@item;
+	if(countitem(@item)>0) set @array,@array+1;
+	if(@array==10) goto L_Menu;
+	goto L_ILoop;
+L_Menu:
+	menu getitemname(@item2[0]),-,getitemname(@item2[1]),-,getitemname(@item2[2]),-,getitemname(@item2[3]),-,getitemname(@item2[4]),-,getitemname(@item2[5]),-,getitemname(@item2[6]),-,getitemname(@item2[7]),-,getitemname(@item2[8]),-,getitemname(@item2[9]),-,"Próxima Página",L_WipeLoop;
+	set @setitem,@item2[@menu-1];
+	set @num,0;
+L_SorryLoop:
+	set @num,@num+1;
+	if(@menu==@num && @setitem == 0) goto L_Sorry;
+	if(@num==10) goto L_FinalReg;
+	goto L_SorryLoop;
+L_FinalReg:
+	mes "[Leiloeiro]";
+	mes "Por favor lembre que se estes itens contém cartas, ou é quebrado, estas características vão ser perdidas quando for posto pra leilão.";
+	mes "Isto também vale se você quiser seu item de volta, o seu item vai vir sem as características que tinha anteriormente";
+	mes " ";
+	mes "Então você quer registrar seu "+getitemname(@setitem);
+	next;
+	menu "Sim, por favor",-,"Não",L_End;
+	mes "[Leiloeiro]";
+	mes "Ok eu vou registrar este item agora";
+	next;
+	set @amount,1;
+	if(countitem(@setitem)==1) goto L_FinalInput;
+	mes "[Leiloeiro]";
+	mes "Espere um minuto, parece que você tem mais de uma unidade deste item, por favor coloque a quantidade que você quer pôr no leilão.";
+	next;
+	input @amount;
+	if(countitem(@setitem)<@amount) goto L_NotEnough;
+L_FinalInput:
+	set $AItems[$array],@setitem;
+	set $ANames$[$array],strcharinfo(0);
+	set $AAmount[$array],@amount;
+	set $array,$array+1;
+	delitem @setitem,@amount;
+	mes "[Leiloeiro]";
+	mes "Seu item foi armazenado, pronto pra venda, o leilão irá começar em breve, espere pelo anúncio.";
+	close;
+L_AFull:
+	mes "[Leiloeiro]";
+	mes "Oh, desculpe, parece que meu leilão está lotado neste primeiro ciclo, por favor tente na próxima.";
+	close;
+L_WipeLoop:
+	deletearray @item2[0],10;
+	set @array,0;
+	goto L_ILoop;
+L_Sorry:
+	mes "[Leiloeiro]";
+	mes "Parece que é tudo que você tem a me oferecer, volte quando você souber o que você quer vender.";
+	close;
+L_Already:
+	mes "[Leiloeiro]";
+	mes "Parece que você já tem um item registrado aqui, você gostaria de tê-lo de volta?";
+	next;
+	menu "Sim",-,"Não",L_End;
+	getitem $AItems[@num],$AAmount[@num];
+L_AItemsLoop:
+	set $AItems[@num],$AItems[@num+1];
+	set $ANames$[@num],$ANames$[@num+1];
+	set $AAmount[@num],$AAmount[@num+1];
+	set @num,@num+1;
+	if(@num<10) goto L_AItemsLoop;
+	set $array,$array-1;
+	set @num,0;
+	mes "[Leiloeiro]";
+	mes "Ok, todos os itens presentes e contados, tenha um bom dia.";
+	close;
+L_NotEnough:
+	mes "[Leiloeiro]";
+	mes "Parece que você não tem muitos "+getitemname(@setitem)+"'s";
+	close;
+// If the Auction has enterd phase 2, it will run this, during this time items you can bid on registered
+// No items can be retrieved during this time, they are now stuck
+
+L_Bid:
+	mes "Em que você gostaria de dar um lance?";
+	next;
+	set @num,0;
+L_MenuLoop:
+	set @menu$[@num],$AAmount[@num]+" x "+getitemname($AItems[@num])+" "+$bid[@num]+"z";
+	set @num,@num+1;
+	if($AItems[@num]!=0) goto L_MenuLoop;
+	menu 
+	@menu$[0],-,
+	@menu$[1],-,
+	@menu$[2],-,
+	@menu$[3],-,
+	@menu$[4],-,
+	@menu$[5],-,
+	@menu$[6],-,
+	@menu$[7],-,
+	@menu$[8],-,
+	@menu$[9],-;
+	mes "[Leiloeiro]";
+	set @num,@menu-1;
+	if(strcharinfo(0)==$ANames$[@num]) goto L_CantBid;
+L_ReBid:
+	mes "Você está dando um lance em "+$AAmount[@num]+" x "+getitemname($AItems[@num]);
+	mes "O lance atual está em "+$bid[@num]+"z";
+	mes "Foi feito por "+$bidders$[@num];
+	if($bidders$[@num]==strcharinfo(0)) goto L_AlreadyBid;
+	mes "Quando você quer ofertar?";
+	mes "(Use 0 para cancelar a operação)";
+	next;
+	input @bid;
+	if(@bid<=0) goto L_End;
+	if(zeny<@bid) goto L_LowZeny;
+	if(@bid<$bid[@num]) goto L_LowBid;
+	mes "[Leiloeiro]";
+	mes "Você está para ofertar "+@bid+"z para "+$AAmount[@num]+" x "+getitemname($AItems[@num]);
+	mes "Você está certo disso?";
+	next;
+	menu "Sim",-,"Não",L_End;
+	set $bid[@num],@bid;
+	set $bidders$[@num],strcharinfo(0);
+	mes "[Leiloeiro]";
+	mes "Seu lance foi dado";
+	close;
+L_LowZeny:
+	mes "[Leiloeiro]";
+	mes "Desculpe, você precisa me mostrar que tem recursos para poder pagar o lance caso você ganhe.";
+	mes "Por favor pegue mais dinheiro, ou dê um lance menor.";
+	close;
+L_CantBid:
+	mes "Desculpe, você não pode dar um lance em seus próprios itens";
+	close;
+L_LowBid:
+	mes "[Leiloeiro]";
+	mes "Seu lance parece ser menor do que o atual, tente dar um lance com um número maior de zeny";
+	next;
+	mes "[Leiloeiro]";
+	goto L_ReBid;
+L_AlreadyBid:
+	mes "Ei espere, este é você, você não pode dar um lance novamente.";
+	close;
+// If the Auction has entered phase 3, it will run this
+// During this time, items that have been bid on can be bought
+// Items not bid on can be picked back up by the seller
+// And if any of the items have been bought, and are paid for, seller can pick up their money
+
+L_PayPickup:
+	mes "O leilão agora acabou.";
+	mes "O que você gostaria de fazer?";
+	next;
+	menu "Checar os itens que vendi",-,"Checar os itens que ganhei",L_Won,"Nada",L_End;
+
+// Check starts here for if you have sold anything during this auction
+
+	set @num,0;
+L_SoldLoop:
+	if($ANames$[@num]==strcharinfo(0)) goto L_Sold;
+	set @num,@num+1;
+	if(@num<10) goto L_SoldLoop;
+	mes "[Leiloeiro]";
+	mes "Desculpe, parece que você pegou todos os seus itens, dinheiro";
+	mes "ou você não registrou nenhum item neste leilão.";
+	close;
+L_Sold:
+	mes "[Leiloeiro]";
+	if($paid[@num]==3) goto L_Returned;
+	mes "Ah, eu vejo aqui, você vendeu "+$AAmount[@num]+" x "+getitemname($AItems[@num]);
+	mes "Deixe-me ver para quem foi vendido...";
+	next;
+	if($bid[@num]==0) goto L_GiveBack;
+	if($paid[@num]==2) goto L_AlreadyPaid;
+	mes "[Leiloeiro]";
+	mes "Por "+$bid[@num]+"z "+$bidders$[@num]+" comprou isto de você";
+	if($paid[@num]!=1) goto L_NoMoney;
+	mes "Ele pagou certinho, então aqui está seu dinheiro.";
+	next;
+	set zeny,zeny+$bid[@num];
+	set $paid[@num],2;
+	goto L_End;
+L_AlreadyPaid:
+	mes "[Leiloeiro]";
+	mes "Hmm, parece que você já foi pago por este lote, não está tentando me enganar está?";
+	close;
+L_Returned:
+	mes "[Leiloeiro]";
+	mes "Parece que nós já devolvemos seu item";
+	close;
+L_GiveBack:
+	mes "[Leiloeiro]";
+	mes "Parece que ninguém quis seu(s) item(s)";
+	mes "Então você pode tê-los de volta agora";
+	getitem $AItems[@num],$AAmount[@num];
+	set $paid[@num],3;
+	close;
+L_NoMoney:
+	mes "Sinto lhe dizer mas ainda não pagaram por seu(s) item(s)";
+	mes "Você pode ir falar com ele agora, ou pode esperar.";
+	mes "Se não vierem pagar até o próximo Leilão iniciar, você pode voltar para pegar seu(s) item(s) de volta";
+	close;
+
+// Check starts here for if you won any items during this auction, futher options follow
+
+L_Won:
+	set @num,0;
+	mes "[Leiloeiro]";
+L_WonLoop:
+	if($bidders$[@num]==strcharinfo(0)) goto L_Winner;
+L_CarryOn:
+	set @num,@num+1;
+	if(@num<10) goto L_WonLoop;
+	mes "Sinto muito, você não ganhou nenhuma das ofertas, por favor tente na próxima vez";
+	close;
+L_Winner:
+	if($paid[@num]>0) goto L_CarryOn;
+	mes "Ora, parece que você ganhou um item";
+	mes "Você ganhou "+$AAmount[@num]+" x "+getitemname($AItems[@num]);
+	mes "E o seu lance foi "+$bid[@num]+"z para este lote";
+	mes "O que você deseja fazer agora?";
+	next;
+
+// At this point they can choose from 3 options, to Buy the current lot
+// see the next one they might have won, or give up that lot
+
+	menu "Comprar este lote",-,"Ver próximo lote ganho",L_CarryOn,"Renunciar este lote",L_Back;
+	if(zeny<$bid[@num]) goto L_2lowzeny;
+	set zeny,zeny-$bid[@num];
+	getitem $AItems[@num],$AAmount[@num];
+	set $paid[@num],1;
+	mes "[Leiloeiro]";
+	mes "Nossa transação está completada.";
+	mes "Vejo-o novamente em breve.";
+	close;
+L_2lowzeny:
+	mes "[Leiloeiro]";
+	mes "Desculpe, parece que você não tem zeny o suficiente, por favor adquira mais.";
+	close;
+L_Back:
+	mes "[Leiloeiro]";
+	mes "Você tem certeza que quer desistir deste lote?";
+	next;
+	menu "Sim",-,"Não",L_End;
+	set $bid[@num],0;
+	set $bidders$[@num],"ninguém";
+	mes "[Leiloeiro]";
+	mes "Está feito, você talvez que falar para "+$ANames$[@num]+" que ele pode vir e pegar seu(s) item(s)";
+	close;	
+	
+// All the times that will start the Auction
+
+OnClock0100:
+OnClock0400:
+OnClock0700:
+OnClock1000:
+OnClock1300:
+OnClock1600:
+OnClock1900:
+OnClock2200:
+// Starting Backup
+	copyarray $AItemsB[0],$AItems[0],10;
+	copyarray $ANamesB$[0],$ANames$[0],10;
+	copyarray $AAmountB[0],$AAmount[0],10;
+	copyarray $paidB[0],$paid[0],10;
+// End backup - Start Wiping
+	deletearray $paid[0],10;
+	deletearray $bid[0],10;
+	deletearray $bidders$[0],10;
+	deletearray $AItems[0],10;
+	deletearray $ANames$[0],10;
+	deletearray $AAmount[0],10;
+	set $array,0;
+// End Wiping - Begin Announce + Phase setting
+	announce "Tempo de registro foi iniciado, vá ao Leiloeiro para registrar seus itens",0;
+	cleararray $bidders$[0],"no-one",10;
+	set $Auction,1;
+	end;
+
+// All the times that will start the bidding section
+
+OnClock0200:
+OnClock0500:
+OnClock0800:
+OnClock1100:
+OnClock1400:
+OnClock1700:
+OnClock2000:
+OnClock2300:
+	if($Auction==0) end;
+	announce "Registration time has ended, time for the biding to begin",0;
+	set $Auction,2;
+	initnpctimer;
+	end;
+
+// All the times that will start the last phase, buying and seller, and item retrieval
+
+OnClock0300:
+OnClock0600:
+OnClock0900:
+OnClock1200:
+OnClock1500:
+OnClock1800:
+OnClock2100:
+OnClock0000:
+	if($Auction==0) end;
+	announce "Tempo de lances já acabou, vá ao Leiloeiro para pegar seus itens, ou dinheiro",0;
+	set $Auction,3;
+	end;
+
+// On the start of the server it will reset the Auction state, but not the items it contains
+// so people still have have a chance to retrieve there lost items
+
+OnInit:
+	copyarray $AItemsB[0],$AItems[0],10;
+	copyarray $ANamesB$[0],$ANames$[0],10;
+	copyarray $AAmountB[0],$AAmount[0],10;
+	copyarray $paidB[0],$paid[0],10;
+	deletearray $paid[0],10;
+	deletearray $bid[0],10;
+	deletearray $bidders$[0],10;
+	deletearray $AItems[0],10;
+	deletearray $ANames$[0],10;
+	deletearray $AAmount[0],10;
+	set $array,0;
+	set $Auction,0;
+	end;
+
+// All below is for anouncing the items in this auction, if there are none it will say so
+// and if there are none in there at the start of phase 2 it will reset the auctions state
+// This is to stop the auction ending message, and will only start again when it reachs phase 1 again
+
+OnTimer5000:
+	announce "Hoje no leilão nós tivemos",0;
+	end;
+OnTimer7000:
+	if($AItems[0]==0) setnpctimer 25001;
+	if($AAmount[0]==1) announce "Um(a) amável"+getitemname($AItems[0])+" deixado por "+$ANames$[0],0; 
+	if($AAmount[0]>1) announce $AAmount[0]+" amáveis "+getitemname($AItems[0])+" deixado por "+$ANames$[0],0;
+	end;
+OnTimer9000:
+	if($AItems[1]==0) setnpctimer 25001;
+	if($AAmount[1]==1) announce "Um(a) grande "+getitemname($AItems[1])+" deixado por "+$ANames$[1],0;
+	if($AAmount[1]>1) announce $AAmount[1]+" grandes "+getitemname($AItems[1])+" deixado por "+$ANames$[1],0;
+	end;
+OnTimer11000:
+	if($AItems[2]==0) setnpctimer 25001;
+	if($AAmount[2]==1) announce "Um(a) excelente "+getitemname($AItems[2])+" deixado por "+$ANames$[2],0;
+	if($AAmount[2]>1) announce $AAmount[2]+" excelentes "+getitemname($AItems[2])+" deixado por "+$ANames$[2],0;
+	end;
+OnTimer13000:
+	if($AItems[3]==0) setnpctimer 25001;
+	if($AAmount[3]==1) announce "Um super "+getitemname($AItems[3])+" deixado por "+$ANames$[3],0;
+	if($AAmount[3]>1) announce $AAmount[3]+" super's "+getitemname($AItems[3])+" deixado por "+$ANames$[3],0;
+	end;
+OnTimer15000:
+	if($AItems[4]==0) setnpctimer 25001;
+	if($AAmount[4]==1) announce "Um(a) ótimo(a) "+getitemname($AItems[4])+" deixado por "+$ANames$[4],0;
+	if($AAmount[4]>1) announce $AAmount[4]+" ótimos(as) "+getitemname($AItems[4])+" deixado por "+$ANames$[4],0;
+	end;
+OnTimer17000:
+	if($AItems[5]==0) setnpctimer 25001;
+	if($AAmount[5]==1) announce "Um(a) maravilhoso(a) "+getitemname($AItems[5])+" deixado por "+$ANames$[5],0;
+	if($AAmount[5]>1) announce $AAmount[5]+" maravilhosos(as) "+getitemname($AItems[5])+" deixado por "+$ANames$[5],0;
+	end;
+OnTimer19000:
+	if($AItems[6]==0) setnpctimer 25001;
+	if($AAmount[6]==1) announce "Um(a) lindo(a) "+getitemname($AItems[6])+" deixado por "+$ANames$[6],0;
+	if($AAmount[6]>1) announce $AAmount[6]+" lindos(as) "+getitemname($AItems[6])+" deixado por "+$ANames$[6],0;
+	end;
+OnTimer21000:
+	if($AItems[7]==0) setnpctimer 25001;
+	if($AAmount[7]==1) announce "Um(a) doce "+getitemname($AItems[7])+" deixado por "+$ANames$[7],0;
+	if($AAmount[7]>1) announce $AAmount[7]+" doces "+getitemname($AItems[7])+" deixado por "+$ANames$[7],0;
+	end;
+OnTimer23000:
+	if($AItems[8]==0) setnpctimer 25001;
+	if($AAmount[8]==1) announce "Um(a) espantoso(a) "+getitemname($AItems[8])+" deixado por "+$ANames$[8],0;
+	if($AAmount[8]>1) announce $AAmount[8]+" espantosos(as) "+getitemname($AItems[8])+" deixado por "+$ANames$[8],0;
+	end;
+OnTimer25000:
+	if($AItems[9]==0) end;
+	if($AAmount[9]==1) announce "Um(a) bom(a) "+getitemname($AItems[9])+" deixado por "+$ANames$[9],0;
+	if($AAmount[9]>1) announce $AAmount[9]+" bons(as) "+getitemname($AItems[9])+" deixado por "+$ANames$[9],0;
+OnTimer27000:
+	if($AItems[0]!=0) announce "Estes são todos os itens que nós temos neste ciclo, então dê seu lance",0;
+	if($AItems[0]==0) announce "Parece que nós não temos itens desta vez",0;
+	if($AItems[0]==0) set $Auction,0;
+	stopnpctimer;
+	setnpctimer 0;
+	end;
+
+// this is only be run if you own any items left over, not paid for, from the last auction, or the server failed, and items are left over
+
+L_RBackup:
+	mes "Parece que tiveram itens deixados no último leilão, aqui está você, pegue seus itens de volta";
+	next;
+	getitem $AItemsB[@num],$AAmountB[@num];
+L_BItemsLoop:
+	set $AItemsB[@num],$AItemsB[@num+1];
+	set $ANamesB$[@num],$ANamesB$[@num+1];
+	set $AAmountB[@num],$AAmountB[@num+1];
+	set @num,@num+1;
+	if(@num<10) goto L_BItemsLoop;
+	mes "[Leiloeiro]";
+	mes "Tenha um bom dia";
+	close;
+}
+
+// Only for display purposes, and telling people info about the auction
+// Can also be used for finding out what phase the auction is in
+
+prontera,158,193,3	script	Auction Helper#1	833,{
+	mes "[Ajudante Leiloeiro]";
+	set @num,0;
+	if($Auction==0 && $AItemsB[@num]!=0) goto L_ItemRecover;
+	if(($Auction==1 || $Auction ==2) && $AItems[@num]!=0) goto L_LLoop;
+	if($Auction==3 && $AItems[@num]!=0) goto L_Win;
+	mes "Ok, atualmente nós não temos nada no leilão.";
+	mes "Por favor retorne no horário correto.";
+	close;
+L_LLoop:
+	mes "Ok, atualmente nós temos :-";
+L_Loop:
+	mes $ANames$[@num]+" com "+$AAmount[@num]+" x "+getitemname($AItems[@num])+"('s)";
+	set @num,@num+1;
+	if($AItems[@num]==0) close;
+	if(@num<10) goto L_Loop;
+	close;
+L_ItemRecover:
+	mes "Parece que nós tivemos um problema, e o leilão foi encerrados prematuramente.";
+	mes "Então nós ainda temos :-";
+L_BLoop:
+	if($paid[@num]==0) mes $ANamesB$[@num]+" com "+$AAmountB[@num]+" x "+getitemname($AItemsB[@num])+"('s)";
+	set @num,@num+1;
+	if($AItems[@num]==0) close;
+	if(@num<10) goto L_BLoop;
+	close;
+L_Win:
+	mes "O leilão está no último estágio, agora você pode :-"; 
+	mes " * comprar seus itens";
+	mes " * pegar seu dinheiro";
+	mes "(ou se você não teve sorte)";
+	mes " * pegar itens não vendidos";
+	next;
+	mes "[Auction Helper]";
+	mes "Aqui está a lista de Vendedores e Ganhadores";
+	set @num,0;
+L_Loop2:
+	mes $ANames$[@num]+" com "+$AAmount[@num]+" "+getitemname($AItems[@num])+"('s), ganho por "+$bidders$[@num]+" por "+$bid[@num]+"z";
+	set @num,@num+1;
+	if($AItems[@num]==0) close;
+	if(@num<10) goto L_Loop2;
+	close;
+
+}

@@ -1,0 +1,102 @@
+//===== Cronus Script ======================================= 
+//= Dracula X
+//===== By: ================================================== 
+//= valaris (1.0)
+//===== Versão Atual: ===================================== 
+//= 1.0
+//===== Comentarios Adicionais: ================================= 
+//= Traduzido por Kindred
+//============================================================
+
+mag_dun02.gat,72,182,1	script	Dracula's Coffin::Dracula_Init	-1,{
+
+OnInit:
+	set $dracula_event,0;
+
+OnKilled:
+	MapAnnounce "mag_dun02.gat","A maldição do Dracula ergueu-se!",17;
+	set $dracula_event,0;
+	initnpctimer;
+
+OnTimer7200000:
+	if($dracula_event==0) 
+	stopnpctimer;
+	enablenpc "Dracula_Event";
+}
+
+mag_dun02.gat,72,182,1	script	Dracula's Coffin::Dracula_Event	801,{
+
+	if($dracula_event==1)
+	close;
+
+	set $dracula_event,1;
+	MapAnnounce "mag_dun02.gat","Conde Dracula : Quem me acordou do meu sono??",17;
+	npcskilleffect 21,10,66,175;
+	initnpctimer;
+
+OnTimer500:
+	npcskilleffect 21,10,74,187;
+
+OnTimer1000:
+	npcskilleffect 21,10,80,180;
+	
+OnTimer1500:
+	npcskilleffect 21,10,79,183;
+
+OnTimer2000:
+	npcskilleffect 21,10,66,175;
+
+OnTimer2500:
+	npcskilleffect 21,10,63,186;
+
+OnTimer3000:
+	npcskilleffect 21,10,75,186;
+
+OnTimer3500:
+	npcskilleffect 21,10,75,173;
+
+OnTimer4000:
+	npcskilleffect 21,10,80,170;
+
+OnTimer4500:
+	npcskilleffect 21,10,60,179;
+
+OnTimer5000:
+	npcskilleffect 21,10,74,187;
+
+OnTimer6000:
+	npcskilleffect 21,10,69,182;
+
+OnTimer6500:
+	npcskilleffect 21,10,80,180;
+
+OnTimer7000:
+	npcskilleffect 21,10,60,179;
+
+OnTimer7500:
+	npcskilleffect 21,10,66,175;
+
+OnTimer8000:
+	npcskilleffect 21,10,80,187;
+
+OnTimer8500:
+	npcskilleffect 21,10,75,186;
+
+OnTimer9000:
+	npcskilleffect 21,10,75,173;
+
+OnTimer9500:
+	npcskilleffect 21,10,80,170;
+
+OnTimer10000:
+	npcskilleffect 21,10,63,186;
+
+OnTimer10500:
+	npcskilleffect 21,10,74,187;
+
+OnTimer11000:
+	npcskilleffect 21,10,72,182;
+	monster "mag_dun02.gat",72,182,"Count Dracula",1389,1,"Dracula_Init::OnKilled";
+	stopnpctimer;
+	disablenpc "Dracula_Event";
+}

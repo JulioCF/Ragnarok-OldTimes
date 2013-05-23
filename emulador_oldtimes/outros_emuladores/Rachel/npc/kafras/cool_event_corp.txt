@@ -1,0 +1,233 @@
+//===== Cronus Script ==============================================
+//= Corp. Eventos Incríveis
+//===== Por: =======================================================
+//= Gepard
+//===== Versão Atual: ==============================================
+//= 1.0/1.2
+//===== Descrição: =================================================
+//= Corp. Eventos Incríveis (Salvar, Armazém e Aluguel de carrinho)
+//===== Comentários Adicionais: ====================================
+//= 1.0 Traduzido e convertido para Cronus [Nefir~]
+//==================================================================
+
+hugel,88,168,4	script	Corp. Eventos Incríveis#hugel	874,{
+
+	show "[Funcionário Corp. Eventos Incríveis]";
+	show "Bem-vindo ao Evento Incríveis!";
+	show "Nossos funcionários estão todos trabalhando";
+	show "para superar suas expectativas";
+	show "de qualidade dos serviços.";
+	show "O que posso fazer por você hoje?";
+	next;
+
+	switch(select("Salvar:Usar armazém:Alugar carrinho:Cancelar")){
+	case 1:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		show "Seu ponto de retorno";
+		show "foi salvo aqui";
+		show "na vila de Hugel.";
+		show "Obrigado por usar a";
+		show "Corp. Eventos Incríveis";
+		emotion e_thx;
+		savepoint "hugel",96,155;
+		close;
+	case 2:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		if(basicskillcheck() && getskilllv(1) < 6){
+			show "Desculpe, mas você";
+			show "precisa de pelo menos";
+			show "Habilidade Básicas Nível 6 para";
+			show "usar o Serviço de Armazém.";
+			emotion e_sry;
+			close;
+		}
+		if(Zeny < 40){
+			show "Desculpe, mas você não";
+			show "possuí zeny suficiente para";
+			show "o Serviço de Armazém. Nosso";
+			show "acesso ao armazém custa 40z.";
+			emotion e_cash;
+			close;
+		}
+		set Zeny, Zeny - 40;
+		set RESRVPTS, RESRVPTS + 4;
+		show "Vou abrir seu armazém";
+		show "Obrigado por usar a";
+		show "Corp. Eventos incríveis.";
+		show "Tenha um bom dia.";
+		close2;
+		openstorage;
+		end;
+	case 3:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		if(BaseClass != Job_Merchant){
+			show "Desculpe, mas o";
+			show "serviço de aluguel";
+			show "é disponível apenas para Mercadores,";
+			show "Ferreiros, Mestre-Ferreiros,";
+			show "Alquimista e Criadores.";
+			emotion e_sry;
+			close;
+		}
+		if(getskilllv(39) == 0){
+			show "Você só pode alugar carrinhos";
+			show "após possuir a habilidade Usar Carrinho.";
+			close;
+		}
+		if(checkcart() == 1){
+			show "Você já está";
+			show "com carrinho equipado.";
+			show "Infelizmente, nós não";
+			show "alugamos mais de um";
+			show "carrinho por vez.";
+			close;
+		}
+		if(countitem(7061)){
+			delitem 7061,1;
+			setcart;
+			close;
+		}
+		show "O alugel de carrinho";
+		show "custa 800 zeny. Gostaria";
+		show "de alugar um carrinho?";
+		next;
+		if(select("Alugar carrinho:Cancelar") == 1){
+			if(Zeny < 800){
+				show "[Funcionário Corp. Eventos Incríveis]";
+				show "Desculpe, mas você";
+				show "não possuí zeny suficiente";
+				show "para alugar um carrinho.";
+				show "O custo é de 800 zenys.";
+				emotion e_cash;
+				close;
+			} else {
+				set Zeny, Zeny - 800;
+				set RESRVPTS, RESRVPTS + 80;
+				setcart;
+				close;
+			}
+		}
+		close;
+	case 4:
+	default:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		show "Corp. Eventos Incríveis. Sempre";
+		show "providÊncia os melhores";
+		show "serviços para seus clientes.";
+		show "Você poderia ajudar a melhorar";
+		show "os serviços fornecendo sua opinião.";
+		show "Obrigado.";
+		close;
+	}
+}
+
+rachel,109,138,5	script	Corp. Eventos Incríveis#rachel	874,{
+
+	show "[Funcionário Corp. Eventos Incríveis]";
+	show "Bem-vindo ao Evento Incríveis!";
+	show "Nossos funcionários estão todos trabalhando";
+	show "para superar suas expectativas";
+	show "de qualidade dos serviços.";
+	show "O que posso fazer por você hoje?";
+	next;
+
+	switch(select("Salvar:Usar armazém:Alugar carrinho:Cancelar")){
+	case 1:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		show "Seu ponto de retorno";
+		show "foi salvo aqui";
+		show "na vila de Hugel.";
+		show "Obrigado por usar a";
+		show "Corp. Eventos Incríveis";
+		emotion e_thx;
+		savepoint "rachel",113,137;
+		close;
+	case 2:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		if(basicskillcheck() && getskilllv(1) < 6){
+			show "Desculpe, mas você";
+			show "precisa de pelo menos";
+			show "Habilidade Básicas Nível 6 para";
+			show "usar o Serviço de Armazém.";
+			emotion e_sry;
+			close;
+		}
+		if(Zeny < 40){
+			show "Desculpe, mas você não";
+			show "possuí zeny suficiente para";
+			show "o Serviço de Armazém. Nosso";
+			show "acesso ao armazém custa 40z.";
+			emotion e_cash;
+			close;
+		}
+		set Zeny, Zeny - 40;
+		set RESRVPTS, RESRVPTS + 4;
+		show "Vou abrir seu armazém";
+		show "Obrigado por usar a";
+		show "Corp. Eventos incríveis.";
+		show "Tenha um bom dia.";
+		close2;
+		openstorage;
+		end;
+	case 3:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		if(BaseClass != Job_Merchant){
+			show "Desculpe, mas o";
+			show "serviço de aluguel";
+			show "é disponível apenas para Mercadores,";
+			show "Ferreiros, Mestre-Ferreiros,";
+			show "Alquimista e Criadores.";
+			emotion e_sry;
+			close;
+		}
+		if(getskilllv(39) == 0){
+			show "Você só pode alugar carrinhos";
+			show "após possuir a habilidade Usar Carrinho.";
+			close;
+		}
+		if(checkcart() == 1){
+			show "Você já está";
+			show "com carrinho equipado.";
+			show "Infelizmente, nós não";
+			show "alugamos mais de um";
+			show "carrinho por vez.";
+			close;
+		}
+		if(countitem(7061)){
+			delitem 7061,1;
+			setcart;
+			close;
+		}
+		show "O alugel de carrinho";
+		show "custa 800 zeny. Gostaria";
+		show "de alugar um carrinho?";
+		next;
+		if(select("Alugar carrinho:Cancelar") == 1){
+			if(Zeny < 800){
+				show "[Funcionário Corp. Eventos Incríveis]";
+				show "Desculpe, mas você";
+				show "não possuí zeny suficiente";
+				show "para alugar um carrinho.";
+				show "O custo é de 800 zenys.";
+				emotion e_cash;
+				close;
+			} else {
+				set Zeny, Zeny - 800;
+				set RESRVPTS, RESRVPTS + 80;
+				setcart;
+				close;
+			}
+		}
+		close;
+	case 4:
+	default:
+		show "[Funcionário Corp. Eventos Incríveis]";
+		show "Corp. Eventos Incríveis. Sempre";
+		show "providência os melhores";
+		show "serviços para seus clientes.";
+		show "Você poderia ajudar a melhorar";
+		show "os serviços fornecendo sua opinião.";
+		show "Obrigado.";
+		close;
+	}
+}

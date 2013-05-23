@@ -1,0 +1,107 @@
+//===== Cronus Script ======================================== 
+//= Resetador 
+//===== Por: ================================================= 
+//= Kamper 
+//===== Versão Atual: ======================================== 
+//= 2.2 
+//===== Descrição: =========================================== 
+//= Npc que reseta Atributos, Habilidades e Personagem
+//= (Em inglês; Reset Boy)
+//===== Changelog: =========================================== 
+//= v1.0 Npc Criado [Kamper] 
+//= v1.1 Corrigido erro do Skill [Kamper] 
+//= v2.0 Editado e passado para inglês [old7] 
+//= v2.1 Passado novamente para o português [Kamper] 
+//= v2.2 Adicionado opção de escolher a Classe de Reset [Kamper] 
+//= v2.3 Corrigido o erro no job e @ResJobIn [Kamper]
+//============================================================ 
+prontera.gat,150,193,4	script	Resetador	48,{ 
+
+//============================-Configuração das Variaveis-================================== 
+set @ResetStats, 5000;  // Preço para resetar os Atributos (Default: 5000) 
+set @ResetSkills, 5000;  // Preço para resetar as Habilidades (Default: 5000) 
+set @ResetBoth, 9000;  // Preço para resetar Ambos (Default: 9000) 
+set @ResetChar, 1000000;  // Preço para resetar um Personagem (Default: 1000000) 
+set @CCost, 1;    // 1 para custo cumulativo de Reset, 0 custo fixo (Default: 1) 
+set @ResBaseLvl, 99;  // Nível de Base mínima para Resetar (Default: 99) 
+set @ResJobLvl, 70;  // Nível de Classe mínima para Resetar (Default: 70)  
+set @ResetBonus, 30;  // Valor do bônus dos Pontos de Atributos (Default: 30)    
+set @ResJobIn, 7; // ID do Classe de ínicio do Reset (Default: 7/Cavaleiro) 
+//========================================================================================== 
+
+set @Cost, (@CCost * (QuestReset * @ResetChar)) + @ResetChar; 
+show "[Resetador]"; 
+show "Eu sou o Resetador!"; 
+show "Resetar Atributos: "+ @ResetStats +"z"; 
+show "Resetar Habilidades: "+ @ResetSkills +"z"; 
+show "Resetar Ambos: "+ @ResetBoth +"z"; 
+show "Resetar Personagem: "+ @Cost +"z"; 
+next; 
+show "[Resetador]"; 
+show "Por favor, selecione o serviço que deseja."; 
+next; 
+menu "Resetar Atributos",L1,"Resetar Habilidades",L2,"Resetar Ambos",L3,"Resetar Personagem",L4,"Quantos resets tenho?",L5,"Cancelar",Lend; 
+
+L1: 
+ show "[Resetador]"; 
+ if (Zeny < @ResetStats) goto L_NoZeny; 
+ show "Bom, não fará efeito até você logar novamente!"; 
+ set Zeny,Zeny - @ResetStats; 
+ ResetStatus; 
+ set statuspoint, statuspoint + 53 + (@ResetBonus*QuestReset); 
+ close; 
+
+L2: 
+ show "[Resetador]"; 
+ if (Zeny < @ResetSkills) goto L_NoZeny; 
+ show "Bom, não fará efeito até você logar novamente!"; 
+ set Zeny,Zeny - @ResetSkills; 
+ ResetSkill; 
+ close; 
+
+L3: 
+ show "[Resetador]"; 
+ if (Zeny < @ResetBoth) goto L_NoZeny; 
+ show "Bom, não fará efeito até você logar novamente!"; 
+ set Zeny,zeny - @ResetBoth; 
+ ResetSkill; 
+ ResetStatus; 
+ set statuspoint, statuspoint + 53 + (@ResetBonus*QuestReset); 
+ close; 
+
+L4: 
+ if ((BaseLevel < @ResBaseLvl) || (JobLevel < @ResJobLvl) || (class < @ResJobIn)) goto L_Erro; 
+ if (Zeny < @ResetChar) goto L_NoZeny; 
+ set Zeny,Zeny - @ResetChar; 
+ setjob 0; 
+ resetlvl(1); 
+ set QuestReset, QuestReset + 1; 
+ set statuspoint, statuspoint + (@ResetBonus*QuestReset); 
+ show "[Resetador]"; 
+ show "Agora, você está de volta ao ínicio."; 
+ show "Volte novamente!"; 
+ close; 
+
+L5: 
+ show "[Resetador]"; 
+ show "Você tem "+ QuestReset +" Resets."; 
+ close; 
+
+L_NoZeny: 
+ show "[Resetador]"; 
+ show "Desculpe, mas você não tem os Zenys necessários."; 
+ close; 
+
+L_Erro: 
+ show "[Resetador]"; 
+ show "Para precisar resetar:"; 
+ show "Nível de Base "+ @ResBaseLvl +"."; 
+ show "Nível de Classe "+ @ResJobLvl +"."; 
+ show "Classe Avançada"; 
+ show "e "+ @Cost + "Zeny."; 
+ close; 
+
+Lend: 
+ show "Até mais!!."; 
+ close; 
+}

@@ -1,0 +1,316 @@
+//===== Cronus Script =======================================
+//= Quest da classe Espiritualista
+//===== Por: ================================================
+//= Page
+//===== Versão Atual: =======================================
+//= 1.2/1.1
+//===== Compatível com: =====================================
+//= Cronus rev 1400+
+//===== Descrição: ==========================================
+//= Quest para troca de classe
+//===== Comentários: ========================================
+//= Visite http://opensvn.csie.org/ricardopagestuff
+//===== Comentários adicionais: =============================
+//= 1.0 Traduzido	[Page]
+//= 1.1 Adaptado	[Page]
+//= 1.2 Revisado	[Page]
+//===========================================================
+
+morocc_in,174,30,7	script	Garotinho#sltest	716,{
+	if(SOUL_Q==1) goto L_Check;
+	if(SOUL_Q >= 2) goto L_Warp;
+	if(Class==Job_Soul_Linker) goto L_Thanks;
+	show "[Garotinho]";
+	show "*sniff sniff*";
+	next;
+	if((Class==Job_Taekwon) && (JobLevel>=40)) goto L_Taekwon;
+	show "O garotinho está chorando e";
+	show "não parece que você";
+	show "conseguirá o fazer parar.";
+	close;
+
+L_Thanks:
+	show "[Garotinho]";
+	show "Ei, obrigado por ter me ajudado";
+	show "aquela hora. ^_^";
+	close;
+
+L_Taekwon:
+	show "[Garotinho]";
+	show "Com lincença. *sniff*";
+	show "Suponho que você não possa me ajudar?";
+	next;
+	menu "Vá em frente...",L_Goon,"Não, estou ocupado.",L_No;
+
+L_No:
+	show "[Garotinho]";
+	show "Waaaaaaaaaaaaaah~";
+	close;
+
+L_Goon:
+	show "[Garotinho]";
+	show "Bom, eu estava fazendo umas";
+	show "compras pro meu papai, que é";
+	show "um alquimista, e no meu caminho pra casa";
+	show "um ladrão veio e levou minhas compras!";
+	next;
+	menu "Vou pegar suas coisas de volta.",-,"Awww, que peninha.",L_No;
+	show "[Garotinho]";
+	show "Sério!?";
+	show "Você vai fazer isso para mim?";
+	set SOUL_Q,1;
+	next;
+	show "[Garotinho]";
+	show "Ok, eu preciso de:";
+	show "^0000FF- 1 Rosa Eterna^000000";
+	show "^0000FF- 1 Diamente de 3 quilates^000000";
+	show "^0000FF- 1 Coração Imortal^000000";
+	next;
+	show "[Garotinho]";
+	show "Por favor, ache essas coisas rápido!";
+	close;
+
+L_Check:
+	if(countitem(748) < 1 || countitem(732) < 1 || countitem(929) < 1) goto L_Noitem;
+	delitem 748,1;
+	delitem 732,1;
+	delitem 929,1;
+	set SOUL_Q,2;
+	if(SkillPoint) goto L_Skill;
+	show "[Garotinho]";
+	show "Wow, muito obrigado!";
+	show "Você é muito útil, acho que conheço mais";
+	show "algumas pessoas que";
+	show "podem precisar de sua ajuda.";
+	next;
+	menu "Mostre-me o caminho.",L_Warp,"Umm... Não agora.",-;
+	show "[Garotinho]";
+	show "Tudo bem, volte quando mudar de idéia.";
+	close;
+
+L_Noitem:
+	show "[Garotinho]";
+	show "Awww... Você ainda não achou todos os meus itens.";
+	next;
+	show "[Garotinho]";
+	show "Lembre-se, são:";
+	show "^0000FF- 1 Rosa Eterna^000000";
+	show "^0000FF- 1 Diamante de 3 quilates^000000";
+	show "^0000FF- 1 Coração Imortal^000000";
+	next;
+	show "[Garotinho]";
+	show "Por favor, ache essas coisas rápido, estarei lhe esperando!";
+	close;
+
+L_Warp:
+	if(SkillPoint) goto L_Skill;
+	show "[Garotinho]";
+	show "Okay, lá vamos nós.";
+	close2;
+	warp "job_soul",30,30;
+	end;
+
+L_Skill:
+	show "[Garotinho]";
+	show "Parece que você ainda tem alguns pontos";
+	show "de habilidade sobrando. Eu não posso lhe teleportar";
+	show "até meus amigos antes que os use.";
+	close;
+}
+
+job_soul,30,35,2	script	Alma Perdida#1	827,{
+	if(SOUL_Q==2) goto L_Talk1;
+	show "[Alma Perdida]";
+	show "Eu disse tudo o que podia lhe dizer. Obrigado.";
+	close;
+
+L_Talk1:
+	show "[Alma Perdida]";
+	show "Bem-vindo ao plano perdido.";
+	show "Aqui é onde as almas dos";
+	show "que já se foram ficam se";
+	show "ainda não tiverem deixado";
+	show "ir o que acreditavam que tinham";
+	show "que terminar de fazer.";
+	next;
+	show "[Alma Perdida]";
+	show "Eu estou aqui pois queria ";
+	show "proteger as pessoas com";
+	show "fortes braços.";
+	next;
+	show "[Alma Perdida]";
+	show "Mesmo assim eles não eram fortes";
+	show "o bastante para eu me proteger";
+	show "e proteger àqueles que realmente amava...";
+	next;
+	show "[Alma Perdida]";
+	show "Então agora eu flutuo aqui na";
+	show "morte, relfetindo sobre o passado";
+	show "e como ele teria sido";
+	show "diferente se eu fosse forte.";
+	next;
+	show "[Alma Perdida]";
+	show "Mas com o tempo, eu decidi";
+	show "viver no passado.";
+	show "Apenas ações podem proteger";
+	show "aqueles à sua volta.";
+	next;
+	show "[Alma Perdida]";
+	show "Você!!";
+	show "Você parece-me forte.";
+	show "Eu devo lhe acompanhar, e adicionar";
+	show "minha força à sua para";
+	show "que você possa proteger os outros.";
+	set SOUL_Q,3;
+	next;
+	show "[Alma Perdida]";
+	show "Obrigado por me escutar.";
+	close;
+}
+
+job_soul,25,30,3	script	Alma Perdida#2	744,{
+	if(SOUL_Q==3) goto L_Talk2;
+	if(SOUL_Q < 3) goto L_Notyet2;
+	show "[Alma Perdida]";
+	show "Eu lhe disse tudo o que podia";
+	show "dizer. Obrigado.";
+	close;
+
+L_Notyet2:
+	show "[Alma Perdida]";
+	show "Por favor, fale com os outros antes.";
+	close;
+
+L_Talk2:
+	show "[Alma Perdida]";
+	show "Você parece saber onde está.";
+	next;
+	show "[Alma Perdida]";
+	show "Estou aqui por que queria";
+	show "curar os doentes e injuriados";
+	show "com minhas ervas e poções.";
+	next;
+	show "[Alma Perdida]";
+	show "Mas eu era inexperiente";
+	show "e acindentalmente misturei";
+	show "ingredientes que eu não devia ter misturado...";
+	next;
+	show "[Alma Perdida]";
+	show "Aqueles que eu tentava salvar,";
+	show "eu mesmo, famílias e";
+	show "a vizinhança morreram";
+	show "pela minha incompetência.";
+	next;
+	show "[Alma Perdida]";
+	show "Eu passei anos aqui furioso";
+	show "comigo mesmo por causa desse";
+	show "simples erro.";
+	next;
+	show "[Alma Perdida]";
+	show "Claro, muitas pessoas cometem";
+	show "erros, mas raramente nessa escala.";
+	show "E então devo seguí-lo, para";
+	show "uma voz que guia, lembrando-lhe";
+	show "que deve sempre repensar";
+	show "suas próprias ações.";
+	set SOUL_Q,4;
+	next;
+	show "[Alma Perdida]";
+	show "Obrigado por me escutar.";
+	close;
+}
+
+job_soul,30,25,0	script	Alma Perdida#3	754,{
+	if(SOUL_Q==4) goto L_Talk3;
+	if(SOUL_Q < 4) goto L_Notyet3;
+	show "[Alma Perdida]";
+	show "Eu lhe disse tudo que podia dizer. Obrigado.";
+	close;
+
+L_Notyet3:
+	show "[Alma Perdida]";
+	show "Por favor, converse com os outros antes.";
+	close;
+
+L_Talk3:
+	show "[Alma Perdida]";
+	show "Acho que chegou a hora da minha história...";
+	next;
+	show "[Alma Perdida]";
+	show "Estudar. Estudar. Estudar.";
+	show "Tudo que sempre fiz foi estudar.";
+	next;
+	show "[Alma Perdida]";
+	show "Oh! As coisas que aprnedi.";
+	show "Meu vocabulário era maior que o dos";
+	show "outros, eu sabia o nome de todas";
+	show "as plantas locais, eu até ajudei";
+	show "na escrita do código para";
+	show "o Guardião AI, Apocalypse.";
+	next;
+	show "[Alma Perdida]";
+	show "Mas em todo meu tempo estudando,";
+	show "não tive nenhum tempo para fazer";
+	show "amigos, e nunca passei tempo que";
+	show "fosse com a minha família.";
+	next;
+	show "[Alma Perdida]";
+	show "Não era, até o dia em que fiquei doente pela falta de descanso e";
+	show "ninguém veio para me socorrer, e então eu percebi quão sozinho eu era.";
+	next;
+	show "[Alma Perdida]";
+	show "Então eu gostaria de lhe acompanhar.";
+	show "Eu devo ser o gentil lembrete";
+	show "de que não importa quão importante";
+	show "algo é para você, você deve";
+	show "sempre ter tempo para seus amigos e família.";
+	set SOUL_Q,5;
+	next;
+	show "[Alma Perdida]";
+	show "Obrigado por me escutar.";
+	close;
+}
+
+job_soul,35,30,3	script	Garotinho#4	716,{
+	if(SOUL_Q < 5) goto L_Notyet4;
+	show "[Garotinho]";
+	show "Então você escutou os contos dos meus amigos?";
+	next;
+	show "[Garotinho]";
+	show "Eles não são más pessoas, apenas estiveram depressivos por um longo tempo.";
+	next;
+	show "[Garotinho]";
+	show "Mas o vigor deles parece ter sido rejuvenecido desde que conversaram com você.";
+	show "Nunca os vi tão cheios de vivacidade.";
+	next;
+	show "[Garotinho]";
+	show "Você parece ter um dom com pessoas, então com sua permissão,";
+	show "eu gostaria de transformá-lo num Espiritualista.";
+	next;
+	menu "Sim.",-,"Não.",L_Warpout;
+
+	show "[Garotinho]";
+	show "Muito bem.";
+	show "Agora você é um Espiritualista!";
+	setjob Job_Soul_Linker;
+	callfunc "F_ClearJobVar";
+	misceffect 247;
+	next;
+	show "[Garotinho]";
+	show "Por favor, tente ajudar os outros.";
+	next;
+	warp "morocc_in",175,31;
+	close;
+
+L_Warpout:
+	show "[Garotinho]";
+	show "Se mudar de idéia, venha e fale comigo.";
+	next;
+	warp "morocc_in",175,31;
+	close;
+
+L_Notyet4:
+	show "[Garotinho]";
+	show "Por favor, fale com os outros primeiro.";
+	close;	
+}

@@ -1,0 +1,94 @@
+//===== Cronus Script ======================================== 
+//= Kafras Dungeons
+//===== Por: =================================================
+//= Kamper
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Kafras das Dungeons
+//===== Changelog: =========================================== 
+//= 1.1 Iniciado o Npc [Kamper]
+//= 1.2 Corrigido erros no menu da Kafra da Ilha do Tesouro [Pudim]
+//============================================================
+moc_fild04.gat,230,329,3	script	Funcionária Kafra	115,{
+
+	cutin "kafra_03",2;
+	callfunc "F_Kafra",0,1,1;
+
+	M_Save:
+		savepoint "moc_fild04.gat",231,339;
+		callfunc "F_KafEnd",0,1;
+}
+moc_fild15.gat,264,260,3	script	Funcionária Kafra	115,{
+
+	cutin "kafra_03",2;
+	callfunc "F_Kafra",0,1,1;
+
+	M_Save:
+		savepoint "moc_fild15.gat",266,271;
+		callfunc "F_KafEnd",0,1;
+}
+izlu2dun.gat,106,58,8	script	Funcionária Kafra	115,{
+
+	cutin "kafra_03",2;
+	if(BaseJob==Job_Novice && job_merchant_q3>0) callfunc "F_MercKafra";
+	callfunc "F_Kafra",0,1,1;
+
+	M_Save:
+		savepoint "izlu2dun.gat",87,170;
+		callfunc "F_KafEnd",0,1;
+}
+prt_fild05.gat,290,224,1	script	Funcionária Kafra	114,{
+	cutin "kafra_04",2;
+	callfunc "F_Kafra",0,1,1;
+
+	M_Save:
+		savepoint "prt_fild05.gat",274,243;
+		callfunc "F_KafEnd",0,1;
+}
+mjolnir_02.gat,83,361,4	script	Funcionária Kafra	114,{
+	cutin "kafra_04",2;
+	callfunc "F_KafSetOrcCoal";
+	callfunc "F_Kafra",0,0,1;
+
+	M_Save:
+		savepoint "mjolnir_02.gat",98,352;
+		callfunc "F_KafEnd",0,1;
+}
+moc_ruins.gat,61,156,5	script	Funcionária Kafra	114,{
+	cutin "kafra_04",2;
+	callfunc "F_Kafra",0,1,1;
+
+	M_Save:
+		savepoint "moc_ruins.gat",41,141;
+		callfunc "F_KafEnd",0,1;
+}
+gef_fild10.gat,73,340,4	script	Funcionária Kafra	115,{
+	cutin "kafra_03",2;
+	callfunc "F_KafSetOrcCoal";
+	callfunc "F_Kafra",0,0,1;
+
+	M_Save:
+		savepoint "gef_fild10.gat",54,326;
+		callfunc "F_KafEnd",0,1;
+}
+function	script	F_KafSetOrcCoal	{
+	setarray @wrpD$[0], "Prontera", "Geffen";
+	setarray @wrpP[0], 3000, 3000;
+	set @wrpC$[0], @wrpD$[0]+" -> "+@wrpP[0];
+	set @wrpC$[1], @wrpD$[1]+" -> "+@wrpP[1];
+	set @wrpC$[2], "Cancel";
+	set @wrpC$[3], "";
+	set @wrpC$[4], "";
+	set @wrpC$[5], "";
+	set @wrpC$[6], "";
+	return;
+}
+alb2trea.gat,59,69,1	script	Funcionária Kafra	117,{
+	cutin "kafra_01",2;
+	callfunc "F_Kafra",0,0,1;
+
+	M_Save:
+		savepoint "alb2trea.gat",92,64;
+		callfunc "F_KafEnd",1,1;
+}

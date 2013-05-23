@@ -1,0 +1,83 @@
+//===== Cronus Script ========================================
+//= Guerra de Emperium Funções do Quarto do Tesouro
+//===== Por: =================================================
+//= jAthena - kalen (1.0)
+//= 1.1 por Akaru, ho|yAnge|X
+//===== Versão Atual: ========================================
+//= 1.4
+//===== Comentários Adicionais: ==============================
+//= Traduzido por emeeca
+//============================================================
+
+//================================================
+// Treasure Spawning Function
+//================================================
+function	script	F_GldTreas	{
+	
+	if(getarg(10) == 1) goto TreasureSpawn;
+	SetCastleData getarg(0)+".gat",4,0;
+	SetCastleData getarg(0)+".gat",5,0;
+	KillMonster getarg(0)+".gat","Treasure_"+getarg(1)+"::OnDied";
+	if (GetCastleData(getarg(0)+".gat",2) > 100) return;
+	if (GetCastleData(getarg(0)+".gat",1) == 0) return;
+//Old Formula for 20 Boxes at 100 pts:
+	//set getarg(2),GetCastleData(getarg(0)+".gat",2)/5+4;
+//New, correct formula for 25 boxes at 100 pts:
+	set getarg(2),GetCastleData(getarg(0)+".gat",2)/4;
+	if (getarg(2) <= 0) return;
+	set getarg(3), getarg(2);	//sets the counter variable = to the box number amount
+
+TreasureSpawn:
+
+	set getarg(4), getarg(5);	//sets the box id variable = to the box id
+	set $@temp, rand(4);
+	if ($@temp > 2) set getarg(4), getarg(4) + 1;
+	areamonster getarg(0)+".gat",getarg(6),getarg(7),getarg(8),getarg(9),"Treasure Chest",getarg(4),1,"Treasure_"+getarg(1)+"::OnDied";
+	set getarg(3), getarg(3) - 1;
+	if(getarg(3) <= 0) return;
+
+	set getarg(4), getarg(5);	//sets the box id variable = to the box id
+	set $@temp, rand(4);
+	if ($@temp > 2) set getarg(4), getarg(4) + 1;
+	areamonster getarg(0)+".gat",getarg(6),getarg(7),getarg(8),getarg(9),"Treasure Chest",getarg(4),1,"Treasure_"+getarg(1)+"::OnDied";
+	set getarg(3), getarg(3) - 1;
+	if(getarg(3) <= 0) return;
+
+	set getarg(4), getarg(5);	//sets the box id variable = to the box id
+	set $@temp, rand(4);
+	if ($@temp > 2) set getarg(4), getarg(4) + 1;
+	areamonster getarg(0)+".gat",getarg(6),getarg(7),getarg(8),getarg(9),"Treasure Chest",getarg(4),1,"Treasure_"+getarg(1)+"::OnDied";
+	set getarg(3), getarg(3) - 1;
+	if(getarg(3) <= 0) return;
+
+	set getarg(4), getarg(5);	//sets the box id variable = to the box id
+	set $@temp, rand(4);
+	if ($@temp > 2) set getarg(4), getarg(4) + 1;
+	areamonster getarg(0)+".gat",getarg(6),getarg(7),getarg(8),getarg(9),"Treasure Chest",getarg(4),1,"Treasure_"+getarg(1)+"::OnDied";
+	set getarg(3), getarg(3) - 1;
+	if(getarg(3) <= 0) return;
+
+	set getarg(4), getarg(5);	//sets the box id variable = to the box id
+	set $@temp, rand(4);
+	if ($@temp > 2) set getarg(4), getarg(4) + 1;
+	areamonster getarg(0)+".gat",getarg(6),getarg(7),getarg(8),getarg(9),"Treasure Chest",getarg(4),1,"Treasure_"+getarg(1)+"::OnDied";
+	set getarg(3), getarg(3) - 1;
+	if(getarg(3) > 0) goto TreasureSpawn;
+	return;
+}
+
+//==============================================================
+//  Treasure Room Switch 
+//===============================================================
+function	script	F_GldTreasSw	{
+	show " ";
+	show "Há pouco interruptor  aqui ";
+	show "Deseja liga-lo?";
+	next;
+	menu "Sim",M_1,"Não",-;
+	close;
+	
+	M_1:
+		warp getarg(0)+".gat",getarg(1),getarg(2);
+		return;
+}

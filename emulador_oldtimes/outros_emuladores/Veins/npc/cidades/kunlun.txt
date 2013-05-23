@@ -1,0 +1,293 @@
+//===== Cronus Script ======================================== 
+//= Kunlun Npcs
+//===== Por: =================================================
+//= TheBusinesS e vdg007
+//===== Versão Atual: ======================================== 
+//= 1.2
+//===== Descrição: =========================================== 
+//= Npcs das cidades de Kunlun
+//===== Changelog: =========================================== 
+//= 1.0 Traduzido o Npc [TheBusinesS]
+//= 1.1 Corrigido erros de escrita [vdg007]
+//= 1.2 Terminada a tradução [vdg007]
+//============================================================
+
+// Oficial de Relações Publicas de Kunlun
+alberta,245,69,4	script	Oficial de Kunlun#kun	776,{
+	show "[Waba]";
+	show "Olá você, eu viajei por toda kunlun a procura dos mistérios dessa terra.";
+	show "Eu convido todos a verem a diversidade existente em kunlun! Seja bem vindo e aproveite a sua estada!";
+	M_Menu:
+	next;
+	menu "Kunlun? O que é isso?",M_1, "Viajar pra Kunlun!",M_2, "Esquece.",M_End;
+
+	M_1:
+		show "[Waba]";
+		show "O reino de kunlun é mágico! Ele flutua no seu, erguido sobre uma pilastra de energia!";
+		next;
+		show "[Waba]";
+		show "Você certamente vai apreciar os mistérios da ilha-flutuante principal! Se um dia for, não esqueça de passar por lá!";
+		show "Kunlun tem certas especialidades como seus maravilhosos pêssegos cristalizados, não esqueça de prová-los.!";
+		goto M_Menu;
+	M_2:
+		show "[Waba]";
+		show "A viajem custa ^0000ff10,000 zeny^000000.  O preço é um pouco alto devido a natureza perigosa do passeio.";
+		show "De qualquer jeito, a volta ao navio é grátis. Pronto para ir?";
+		next;
+		menu "Vamos lá!",-, "Anh... Mudei de idéia.Desculpe!",M_End;
+		
+			if (Zeny < 10000) goto L_NoZeny;
+			set Zeny,Zeny-10000;
+			warp "gon_fild01",258,82;
+			end;
+		L_NoZeny:
+			show "[Waba]";
+			show "Parece que você quer muito ir, mas nós precisamos que seja pago ^0000ff10,000 zeny^000000 pela viajem. Desculpe.";
+			close;
+	M_End:
+		show "[Waba]";	
+		show "Por favor, fale comigo de novo quando quiser ir!Eu serei agradecido, ou melhor, honrado em guiá-lo pelo continente!";
+		close;
+
+}
+
+// Oficial de Relações Publicas de Kunlun
+gon_fild01,255,79,6	script	Oficial de Kunlun#kun2	776,{
+	show "[Waba]";
+	show "Nós estamos prontos para voltar assim que você quiser.";
+	next;
+	menu "ALBERTA.",-,"Vou esperar continuar aqui, obrigado.",M_End;
+
+		warp "alberta",243,68;
+		end;
+	M_End:
+		show "[Waba]";
+		show "Continue aproveitando!";
+		close;
+}
+
+// Oficial de Relações Publicas de Kunlun
+gon_fild01,187,239,4	script	Oficial de Kunlun#kun3	776,{
+	show "[Choseryu]";
+	show "Esse pilar de luz sagrado liga está ilha flutuante com o reino de kunlun. Não há tempo para conversa, continue seu caminho!.";
+	show "Eu espero que você tenha muitas experiências boas de kunlun antes de ir.";
+	close;
+}
+
+// Oficial de Relações Publicas de Kunlun
+gonryun,153,64,0	script	Oficial de Kunlun#kun4	776,{
+	show "[Choseryu]";
+	show "Se você está pronto para ir eu posso te mandar para o porto.";
+	next;
+	menu "Me mande para o porto.",-,"Vou esperar um pouco mais.",M_End;
+
+		show "[Choseryu]";
+		show "Volte sempre!";
+		next;
+		warp "gon_fild01",258,82;
+		close;
+	M_End:
+		show "[Choseryu]";
+		show "Veja tudo o que kunlun tema oferecer!";
+		close;
+}
+
+// Gerente do Hotel
+gon_in,153,35,4	script	Gerente do Hotel#kun5	702,{
+	show "[Mayouban]";
+	show "Bem vindo! Você é novo por aqui. Recentemente muitos estranhos vem vindo para nossa vila recentemente.";
+	show "Nós estamos com muito trabalho aqui.";
+	next;
+	show "[Mayouban]";
+	show "Muito, muito trabalho. Clientes sempre pedindo 'Eu quero isso' ou 'Quero aquilo'. Mas sempre temos para mais, alias não se acanhe para pedir algum tipo de serviço EXTRA, ok?";
+	next;
+	menu "Gostaria de algo para beber, vamos?.",-,"Vou andar por ai.",M_End;
+
+		show "[Mayouban]";
+		show "Ha, olha só você... já disse, temos muito trabalho. Há muito tempo não consigo sentar para conversa e tomar uma bebida.";
+		close;
+	M_End:
+		show "[Mayouban]";
+		show "Vá com Deus meu filho, e tome cuidado!.";
+		close;
+}
+
+// Kuhau
+gon_in,173,27,2	script	Kuhau#kun	774,{
+	show "[Kuhau]";
+	show "Este hotel vende as melhores bebidas! Não só fortes, mas são MARAVILHOSAS! Claro que são para adultos.";
+	next;
+	show "[Kuhau]";
+	show "E para as crianças? Nós temos um ótimo chá! Ta, não é tão bom assim, mas está ótimo para elas.";
+	close;
+}
+
+// Bêbado
+gon_in,165,16,4	script	Bêbado#kun	748,{
+	show "[Sorubun]";
+	show "ANh... Minha cabeça... dói! EU andei bebendo demais ontem.";
+	show "Bem que o gerente disse para eu parar de beber, mas se sabe, né? Ninguém é de ferro.";
+	emotion 19;
+	next;
+	show "[Sorubun]";
+	show "As bebidas daqui são realmente extremamente fortes, nunca vi algo assim.";
+	close;
+}
+
+// Garotinha
+gonryun,139,142,6	script	Garotinha#kun	772,{
+	show "[Sanfayon]";
+	show "................";
+	show "É ótimo ter novos visitantes, mas........ desde que....... eu fui roubada....................";
+	next;
+	show "[Sanfayon]";
+	show "Eu tenho medo de estranhos...";
+	emotion 16;
+	close;
+}
+
+// Guarda
+gonryun,113,135,6	script	Guarda#kun	780,{
+	show "[Guarda]";
+	show "Bem vindo a Kunlun. Essa é a casa do nosso governador, Sayoumun.";
+	next;
+	show "[Guarda]";
+	show "temos certeza que suas intenções são boas, mas cuidado, estamos de olho.";
+	next;
+	show "[Guarda]";
+	show "Mas esses problemas raramente acontecem, mas quando ocorrem... nós resolvemos os problemas!";
+	close;
+}
+
+// Guarda
+gonryun,113,127,6	script	Guarda#kun2	780,{
+	show "[Guarda]";
+	show "Bem vindo a Kunlun. Essa é a casa do nosso governador, Sayoumun.";
+	next;
+	show "[Guarda]";
+	show "Temos certeza que suas intenções são boas, mas cuidado, estamos de olho.";
+	next;
+	show "[Guarda]";
+	show "Mas esses problemas raramente acontecem, mas quando ocorrem... nós resolvemos os problemas!";
+	close;
+}
+
+// Esposa Idosa
+gon_in,18,27,4	script	Esposa Idosa#kun	771,{
+	show "[Sangufayon]";
+	show "Meu deus! Você parece um importante visitante estrangeiro. Você é ?";
+	next;
+	menu "Sim, Eu sou.",-,"Onde está o Prefeito de Kunlun?",M_End;
+
+		show "[Sangufayon]";
+		show "Nós não temos muito visistantes que veêm atrás do meu marido por isso é fácil achar ele. Hohohohoho!";
+		close;
+	M_End:
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		show "[Sangufayon]";
+		show "O dono da casa, hohohoho? Por que... ele está ali em cima no segundo andar se precisar falar com ele, hohohoho.";
+		close;
+}
+
+// Prefeito de Kunlun
+gon_in,17,93,4	script	Prefeito de Kunlun#kun	775,{
+	show "[Sayoumun]";
+	emotion 45;
+	show "Zzzzzzzzzzz.......";
+	next;
+	show "[Sayoumun]";
+	show "Huh, um visitante?! Anh... olá! Eu estava apenas, anh, meditando. Eu sou Sayoumun, prefeito de Kunlun. Bem vindo.";
+	next;
+	show "[Sayoumun]";
+	show "Tivemos muitos visitantes aqui, Desde que começaram a distribuir passagens para nossa ilha em Alberta.";
+	next;
+	show "[Sayoumun]";
+	show "Eu não gosto desses estranhos vindo aqui de repente. Eu os acho nojentos, mas são bons compradores e movimentam as finanças locais.";
+	next;
+	show "[Sayoumun]";
+	show "Estou preocupado com essas notícias de ladrões na cidade, não sei quem são, mas eles estão lá fora!";
+	close;
+}
+
+// Chen Wan Sok
+gonryun,119,111,4	script	Chen Wan Sok#kun	89,{
+	show "[Chen Wan Sok]";
+	show "A vila dos elfos é uma sociedade organizada. Amistosa, porem que segue regras!";
+	next;
+	show "[Chen Wan Sok]";
+	show "Quando um elfo te abençoa, você pode conseguir várias coisas nessa cidade. Sometishow there are those that cause mischief, but they are always dealt with.";
+	close;
+}
+
+// Homem Excluído
+gonryun,100,241,5	script	Homem Excluído#kun	733,{
+	emotion 9;
+	show "[Saunso]";
+	show "Vai embora, não quero falar!!!";
+	close;
+}
+
+// Ryan Chun Ho
+gonryun,268,88,4	script	Ryan Chun Ho#kun	776,{
+	show "[Ryan Chun Ho]";
+	show "Nós somos um povo indepentedente, que não se subemete a nenhum agressor! Essa é uma terra abençoada da qual nunca saíremos.";
+	next;
+	show "[Ryan Chun Ho]";
+	show "Nós acreditamos na vitória, essa é a nossa glória.";
+	close;
+}
+
+// Chon Munjin
+gonryun,181,161,4	script	Chon Munjin#kun	773,{
+	show "[Chon Munjin]";
+	show "Os homens de Kunlun precisam ser fortes e ousados! Mas como um homem não consegue achar uma esposa. Você não acha?";
+	next;
+	show "[Chon Munjin]";
+	show "Existem mais homens que mulheres e isso torna mais difícil ainda se conseguir uma mulher. Você não ficará impressionado se seu filho achar uma boa mulher no futuro?";
+	close;
+}
+
+// Hanyon Kyou
+gonryun,237,225,4	script	Hanyon Kyou#kun	776,{
+	show "[Hanyon Kyou]";
+	show "Como eu fui fazer isso?";
+	show "..............";
+	next;
+	show "[Hanyon Kyou]";
+	show "eu perdi minha faca da sorte! Agora provavelmente ela está perdida para sempre."; 
+	close;
+}
+
+// Gaiysonchoru
+gonryun,51,101,4	script	Gaiysonchoru#kun	778,{
+	show "[Gaiysonchoru]";
+	emotion 4;
+	show "..............";
+	next;
+	show "[Gaiysonchoru]";
+	show "Bem......... Estou preocupado.";
+	next;
+	show "[Gaiysonchoru]";
+	show "MUITO PREOCUPADO!	";
+	close;
+}
+
+// Soldado
+gonryun,166,196,4	script	Soldado#kun22	780,{
+	show "[Wagou]";
+	show "Você sabe o que é isso?";
+	next;
+	menu "Sim.",-, "Não, me desculpe.",M_End;
+
+		show "[Wagou]";
+		show "Só queria ter certeza se as pessoas sabem dos perigos depois da barreira.";
+		close;
+
+	M_End:
+		show "[Wagou]";
+		show "Muito tempo atrás, Isso foi uma grande barreira, Mas uma vez uma grande besta que passou por aqui rapidamente, destruiu tudo e saiu correndo atrás de mais destruição.";
+		next;
+		show "[Wagou]";
+		show "Só queria ter certeza se as pessoas sabem dos perigos depois da barreira.";
+		close;
+}

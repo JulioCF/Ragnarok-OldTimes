@@ -1,0 +1,34 @@
+//===== Cronus Script ========================================
+//= Guerra de Emperium Função da Caverna da Guild
+//===== Por: =================================================
+//= jAthena - kalen (1.0)
+//= 1.1 por Akaru, ho|yAnge|X, e Valaris
+//===== Versão Atual: ========================================
+//= 1.3/1.3
+//===== Descrição: ===========================================
+//= Warp para membros de Guild para Caverna da Guild
+//===== Comentários Adicionais: ==============================
+//= Traduzido por emeeca
+//============================================================
+
+//==================================================
+function	script	F_GldDunSw	{
+
+	show "[ Voz Misteriosa ]";
+	show " ' Somente os guerreiros bravos podem conduzir à base do clã .. '";
+	next;
+	show "(Há um interruptor por aqui.......   você gostaria de puxá-lo? )";
+	next;
+	menu "Sim",-,"Não",M_No;
+
+		set @GID, GetCastleData(getarg(0)+".gat",1);
+		if (@GID == 0 || getcharid(2) != @GID) goto L_NotGLead;
+		warp "gld_dun"+getarg(1)+".gat",getarg(2),getarg(3);
+		end;
+
+		L_NotGLead:
+			show "[ Voz Misteriosa ]";
+			show " ' ... parece que você não é bravo bastante... ' ";
+	M_No:
+		return;
+}

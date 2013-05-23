@@ -1,0 +1,566 @@
+//===== Cronus Script ======================================== 
+//= Bardos do Jogo (Oficial bRO)
+//===== Por: ================================================= 
+//= Page & Mehah
+//===== Versão Atual: ======================================== 
+//= 1.0
+//===== Descrição: =========================================== 
+// 1.0 Bardo de Geffen by [Page] & Prontera by [Mehah]
+//============================================================
+
+
+// Bardo de Geffen, segundo o bRO - by Page --------------------
+geffen,132,39,6	script	Bardo	51,{
+
+
+	if(bard_q1 == 1) goto L_BARDQ1;
+	show "[Bardo]";
+	show "^5555FFQual é o melhor dia para cantar? ";
+	show "La la la... é o dia da terra, do sol";
+	show "e da lua La la la... Eu perguntei,";
+	show "qual o melhor dia para cantar?";
+	show "La la la... Por quê? La la é";
+	show "porque eu posso cantar só um dia..";
+	show "Se me disser quando você vai";
+	show "cantar, eu lhe digo se posso";
+	show "cantar com você.^000000";
+	next;
+	show "[Bardo]";
+	show "^5555FFUm dia vamos fazer um dueto! La la";
+	show "la.. Bravo!!! Bra..^000000";
+	show "Eh? Você é...?";
+	show "Ah, você veio aqui porque quer";
+	show "esquecer do mundo rindo desse";
+	show "palhaço.";
+	show "Não é mesmo, meu jovem?";
+	menu "Errado, quem é você?",L_whois,"Ignoro-o",L_ignora;
+
+L_whois:
+	next;
+	show "["+strcharinfo(0)+"]";
+	set bard_q1,1;
+	show "Parece que você é novo por aqui...";
+	show "Quem é você...?";
+	show "Além disso, quem é você para me";
+	show "chamar de meu jovem?";
+	next;
+	show "[Errende]";
+	show "Errr... uau, dá um tempo. Eu não";
+	show "queria deixar ninguém chateado.";
+	show "Sou apenas mais um poeta andarilho.";
+	show "Eu sigo o caminho do vento por todo o mundo.";
+	show "Pode me chamar de ^5555FFErrende^000000,";
+	show "o poeta que quer alegrar a todos.";
+	next;
+	show "[Errende]";
+	show "Se me deixar, vou contar tudo";
+	show "que ouvi e vivi.";
+	show "Se me deixar, vou cantar uma";
+	show "canção para silenciar a sua dor.";
+	next;
+	menu "Então, conte uma história",L_HISTORY,"Então, cante",L_DANCE1,"Talvez uma outra hora",L_ignora2;
+
+L_BARDQ1:
+		show "[Errende]";
+		show "Bem-vindo de volta,";
+		show "" + strcharinfo(0) + ".";
+		show "O que posso fazer por você?";
+		show "Cantar e tocar?";
+		show "Ou contar uma história?";
+		next;
+		L_MAINMENU:
+		menu "Uma história",L_HISTORY,"Uma Canção",L_DANCE1,"Talvez uma outra hora",L_ignora2;
+
+
+L_HISTORY:
+		show "[Errende]";
+		show "Hmm, você gosta de histórias, hein?";
+		show "Que tipo de história você gosta?";
+		show "Posso contar qualquer coisa,";
+		show "desde que eu conheça.";
+		show "Só para você *Risos*";
+		next;
+		menu "Notícias ou um Boato",L_HISTORY1,"Cancelar.",L_HISTORY1_SAIR;
+
+L_HISTORY1:
+		set @SORT_HIST,rand(0,2);
+		if (@SORT_HIST == 0) goto L_HISTORY2;
+		if (@SORT_HIST == 1) goto L_HISTORY3;
+		if (@SORT_HIST == 2) goto L_HISTORY4;
+
+L_HISTORY2:
+		show "[Errende]";
+		show "Por acaso você já ouviu falar";
+		show "de Alberta?";
+		show "Tem um navio afundado perto de Alberta";
+		show "Uma agência de eventos";
+		show "transformou o navio em uma";
+		show "rota de expedição e estão";
+		show "faturando muito dinheiro com";
+		show "aquele navio. Você sabe";
+		show "disso, não é?";
+		show "De qualquer forma, ...";
+		next;
+		show "[Errende]";
+		show "... Quando o navio afundou";
+		show "perto de Alberta, foi";
+		show "encontrado por um dos";
+		show "Guardiões de Alberta.";
+		show "Ele também encontrou um";
+		show "bebê dentro de uma cabine.";
+		show "E ao lado do bebê que";
+		show "chorava, havia um órgão.";
+		next;
+		show "[Errende]";
+		show "As pessoas dizem que o bebê,";
+		show "o único que sobreviveu";
+		show "ao naufrágio, foi criado em";
+		show "Alberta. Há boatos que ele";
+		show "foi tratado com desprezo";
+		show "quando era jovem. Mas hoje,";
+		show "ele parece bem.";
+		show "Ah... nós estávamos falando";
+		show "do navio afundado.";
+		next;
+			show "[Errende]";
+			show "Eu não tenho certeza se ele";
+			show "era ou não um navio pirata,";
+			show "mas dizem que monstros";
+			show "esqueletos com roupa de pirata";
+			show "aparecem dentro do navio.";
+			show "Além do navio, as pessoas de";
+			show "Alberta estão bastante";
+			show "empolgadas com uma rota no";
+			show "oceano para a Ilha da Tartaruga";
+			show "que um aventureiro descobriu.";
+			next;
+			show "[Errende]";
+			show "Mas, ao mesmo tempo, há muitos";
+			show "boatos por trás disso.";
+			show "O segundo esquadrão da guarda";
+			show "de Alberta que foi explorar a";
+			show "Ilha da Tartaruga ainda não";
+			show "voltou e outro esquadrão de";
+			show "cavaleiros foi atrás deles";
+			show "para tentar encontrá-los...";
+			show "Está uma confusão...";
+			next;
+			show "[Errende]";
+			show "Seja como for, agora tem uma";
+			show "rota pelo oceano até a Ilha";
+			show "da Tartaruga! Então, eu fui";
+			show "para a ilha dar uma olhada.";
+			show "E acontece que encontrei o";
+			show "diário do aventureiro que";
+			show "descobriu a ilha. E havia uma";
+			show "pequena chave no diário.";
+			show "Então... Eu estava curioso";
+			show "e segui o que estava escrito";
+			show "no diário.";
+			next;
+			show "[Errende]";
+			show "Basicamente, eu sentia como";
+			show "se estivesse procurando um";
+			show "tesouro perdido...";
+			show "e precisava conhecer um";
+			show "espadachim que deseja";
+			show "encontrar a espada suprema.";
+			show "Também descobri uma coisa que";
+			show "pertencia ao espadachim. Foi";
+			show "a aventura mais fantástica";
+			show "e excitante que já tive.";
+			close;
+
+L_HISTORY3:
+			show "[Errende]";
+			show "Umm... então vamos falar sobre";
+			show "esta cidade, Geffen? Você já";
+			show "esteve no bar ou na estalagem?";
+			show "Preciso dizer que as atendentes";
+			show "são demais. A mais velha é";
+			show "bonita e graciosa, e a menor";
+			show "é divertida e elétrica...";
+			next;
+				show "[Errende]";
+				show "Ah, certo! Algumas vezes elas";
+				show "ficam possuídas pelo pai delas,";
+				show "que morreu. Eu fiquei tão supreso";
+				show "da última vez que vi isso...";
+				show "Mesmo agora, quando penso nisso,";
+				show "fico apavorado. Parece que o pai";
+				show "delas é obsessivo pelas filhas";
+				show "mesmo tendo partido para o além.";
+				next;
+				show "[Errende]";
+				show "Especialmente quando alguém tenta";
+				show "conversar com uma das garotas, o";
+				show "espírito dele reage de forma exagerada...";
+				show "Eu não sei bem por que, mas";
+				show "talvez ele pense que suas filhas";
+				show "são muito novas para casar... hein?";
+				show "Hahahahaha.....";
+				next;
+				show "[Errende]";
+				show "E... ah, sim. Tem um mercador";
+				show "atrás do bar. Você já o conhece?";
+				show "Esta área é mais fria do que";
+				show "Morroc, então eu comprei uma";
+				show "manta dele.";
+				show "Mas, olhe, não tem nem mesmo";
+				show "um fio direito. E também foi";
+				show "bastante cara...";
+				show "Por alguma razão, ele não";
+				show "parece ser confiável.";
+				next;
+				show "[Errende]";
+				show "É melhor ser cuidadoso com ele.";
+				show "Hum... tem uma cidade oculta";
+				show "chamada Geffenia debaixo da Torre";
+				show "de Geffen. Já esteve lá?";
+				show "Eu ouvi que é preciso fazer";
+				show "algo para entrar...";
+				show "Talvez eu devesse tentar";
+				show "alguma hora.";
+				next;
+				show "[Errende]";
+				show "Eu ouvi que Willian, o pai";
+				show "daquelas duas garotas que";
+				show "falei, foi para a Torre de";
+				show "Geffen com outras pessoas";
+				show "para subjugar os monstros";
+				show "que invadiram a Torre.";
+				show "Mas ele nunca voltou.";
+				show "Ah bem, eu imagino que";
+				show "seja uma boa história para";
+				show "aventureiros, mas quando";
+				show "lembro que ele deixou uma família.....";
+				next;
+				show "[Errende]";
+				show "Eu fico triste por elas.";
+				show "Eu sonho com um mundo onde";
+				show "todo mundo é feliz.";
+				close;
+
+L_HISTORY4:
+				show "[Errende]";
+				show "Certo, deixe-me contar uma";
+				show "história sobre Morroc.";
+				show "Morroc, a cidade do deserto.";
+				show "Espera-se que todo aventureiro";
+				show "experiente explore Morroc e o";
+				show "deserto ao redor da cidade.";
+				next;
+			show "[Errende]";
+			show "Particularmente, as Pirâmides";
+			show "e a Esfinge são os locais mais";
+			show "famosos de Morroc. E eu ouvi";
+			show "que tem um mercador vendendo";
+			show "Maças-Espadas para Sacerdotes";
+			show "e Sacerdotizas. Aliás, os";
+			show "Sacerdotes não podem ter";
+			show "nenhuma arma com lâmina";
+			next;
+			show "[Errende]";
+			show "Tem um oásis no meio de Morroc.";
+			show "Lá você verá uma senhora ou um";
+			show "velho simpático que lhe dará";
+			show "boas dicas de como descansar";
+			show "no deserto.";
+			next;
+			show "[Errende]";
+			show "Eu conheço uma menininha que";
+			show "pediu para o pai amansar um";
+			show "Munak para ela. Ela era tão";
+			show "teimosa... Conforme ouvia a";
+			show "conversa, me pareceu que o";
+			show "pai dela tinha alguma coisa";
+			show "a ver com o cara que se";
+			show "perdeu em Alberta...";
+			next;
+			show "[Errende]";
+			show "De qualquer forma, eu acabei";
+			show "ajudando o pai dela em uma";
+			show "missão. E ele me deu uma";
+			show "misteriosa caixa pelo favor.";
+			show "Quando eu a abri, havia";
+			show "dentro uma pena...";
+			show "Eu não descobri como ela";
+			show "funcionava, então eu a";
+			show "mantenho como um souvenir.";
+			next;
+			show "[Errende]";
+			show "Hum... eu fico pensando se o";
+			show "Sr. Pandger Mayer encontrou";
+			show "o caminho de volta para a sua";
+			show "cidade...";
+			close;
+
+L_HISTORY1_SAIR:
+			show "[Errende]";
+			show "Ah!!!! que pena.";
+			show "Mas prometa que vai passar por";
+			show "aqui de novo.";
+			show "Eu lhe contarei minhas aventuras.";
+			close;
+
+L_DANCE1:
+		show "[Errende]";
+		show "Oh, finalmente encontrei alguém";
+		show "que reconhece o meu talento!";
+		show "Você merece ouvir uma canção minha!";
+		show "Me diga, o que quer ouvir?";
+		show "Eu posso cantar o que quiser.";
+		next;
+L_MAINMENU2:
+		menu "Cante qualquer coisa que quiser.",L_DANCE_ANY,"Eu quero uma canção divertida.",L_DANCE_CRAZY,"Deixe para lá",L_DANCE_NOT;
+
+L_DANCE_ANY:
+		show "[Errende]";
+		if(Zeny < 500) goto L_DANCE_DONT_ANY;
+		show "Certo.";
+		set Zeny, Zeny - 500;
+		show "Vamos lá.";
+		set @SORT_BGMERRENDE,rand(0,1);
+		if (@SORT_BGMERRENDE == 0) {
+		soundeffect "bragis_poem.wav",0;
+		close2;
+		} else {
+		soundeffect "dont_forget_me_not.wav",0;
+		close;
+		}
+
+L_DANCE_DONT_ANY:
+		show "Ah hahaha, me desculpe, mas";
+		show "isso não é de graça. De";
+		show "algum jeito eu preciso ganhar";
+		show "dinheiro para viver, não é?";
+		close;
+
+L_DANCE_CRAZY:
+		show "[Errende]";
+		show "Uma canção divertida... uma";
+		show "canção divertida...";
+		show "Certo, ouça essa.";
+		next;
+		show "Valhala, onde o dourado brilha,";
+		show "que é chamado de quinto";
+		show "Glast Heim!";
+		show "Lá os guerreiros gloriosos";
+		show "são evocados por Odin.";
+		next;
+		show "Palácio da morte";
+		show "com teto de prata";
+		show "que é chamado de terceiro";
+		show "Valaskjalf!";
+		show "Lá os guerreiros gloriosos";
+		show "são evocados por Odin.";
+		next;
+		show "Há quinhentas portas em Valhala.";
+		show "E há quarenta portas mais.";
+		show "E todas abrem para o Lobo.";
+		show "Oitocentos guerreiros reunidos";
+		show "por vontade do deus";
+		show "passam pelas portas.";
+		next;
+		show "Guerreiros devotos que";
+		show "passaram por Yggdrasil,";
+		show "levados pelo destino";
+		show "com honra, deram";
+		show "as mãos às Valquírias.";
+		next;
+		show "Guerreiros mortos pelas armas,";
+		show "Guerreiros mortos pelas armas.";
+		show "A fama de seus nomes ecoará após a morte,";
+		show "e os levará ao Valhala.";
+		show "e os levará ao Valhala.";
+		close;
+
+L_DANCE_NOT:
+	show "[Errende]";
+	show "Claro, sem problema.";
+	show "Volte sempre.";
+	close;
+
+L_ignora:
+	next;
+	show "[Errende]";
+	show "Ah, não!!!";
+	show "Você não pode me ignorar assim!";
+	show "Se assim fizer, precisa saber";
+	show "que nada sabe sobre romance!";
+	close;
+
+L_ignora2:
+	show "[Errende]";
+	show "Eh!!!!";
+	show "Não faz mal ouvir uma canção de";
+	show "vez em quando...";
+	show "Mas, está bem, te vejo outra hora!";
+	close;
+
+}
+
+// Bardo de Prontera, segundo o bRO - by Mehah -----------------
+prt_fild08,175,374,3	script	Bardo	51,{
+	show "[Nelliorde]";
+	show "Este não é";
+	show "um dia agradável?";
+	show "Você me conhece,";
+	show "não?";
+	show "Oh, claro, claro...";
+	show "Como eu poderia";
+	show "esquecer dessa grade pessoa,";
+	show strcharinfo(0)+"?";
+	show "Que seja, hahahaha!";
+	next;
+	show "[Nelliorde]";
+	show "Então, não quer saber sobre mim?";
+	show "Fique à vontade pra me perguntar o que quiser! Sou o vagabundo que vai andar por esse mundo até o fim de seus dias, seu amigo que adora cantar sob a luz da lua...";
+	next;
+	switch(select("Quem é você?","Quais são as novas?","Você pode cantar?")){
+		case 1:
+			show "[Nelliorde]";
+			show "Ora, sou Nelliorde, o Bardo. Na verdade, meu nome verdadeiro é Elliorde.";
+			next;
+			show "[Nelliorde]";
+			show "No entanto, enquanto eu cantava numa Taverna, como sempre, um homem de longos cabelos loiros exigiu, com fúria, que eu mudasse o meu nome!";
+			next;
+			show "[Nelliorde]";
+			show "Nunca tinha visto tanta confusão e estardalhaço por alguém ter o mesmo nome que eu!";
+			next;
+			show "[Nelliorde]";
+			show "E assim, a pequena discussão foi resolvida e mudei o meu nome para Nelliorde.";
+			next;
+			show "[Nelliorde]";
+			show "Não pareço um covarde pra você, não é? Acredite que eu devia ter lutado pelo direito de manter o meu nome original?";
+			next;
+			show "[Nelliorde]";
+			show "Se for isso, se engana! É que, sendo um Bardo romântico que cultiva a paz, não acredito que a violência possa resolver nada...";
+			next;
+			show "^0099FFVendo que não vale a pena ouvir as mentiras de Nelliorde, você decide simplesmente ignorá-lo.";
+			next;
+			show "^0099FF...";
+			show "......";
+			next;
+			show "^0099FF...";
+			show "......";
+			show ".........";
+			next;
+			show "[Nelliorde]";
+			show "E foi assim que convenci o sábio e benevolente Rei Tristão III a construir um paraíso no qual os recém-casados pudessem... hein?";
+			show "Você ainda está ouvindo?!";
+			close;
+	
+		case 2:
+			show "[Nelliorde]";
+			show "Quer ouvir";
+			show "as notícias?";
+			show "Sobre o quê você";
+			show "quer saber?";
+			next;
+			switch(select("Sobre Prontera!","Sobre as áreas costeiras.","O deserto ainda está quente?","Como estão as fronteiras?")){
+				 case 1:
+				 	show "[Nelliorde]";
+				 	show "Quê?! Prontera?!";
+				 	show "Não vê que o portal frontal de Prontera está bem diante de nós?";
+				 	show "Você deverias pelo menos saber onde está, viajante.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "De qualquer forma, sei de uma coisa interessante sobre Prontera. Mas é segredo. Shh! Você é... Solteira?";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Se for, vá visitar a taverna.";
+				 	show "Encontrei um cara lá que me levou para um lugar legal. Ah, sim. Me levou para o lugar em que os solteiros se divertem mais...!";
+				 	close;
+				 
+				 case 2:
+				 	show "[Nelliorde]";
+				 	show "Áreas costeiras?";
+				 	show "Engraçado você perguntar. Sabe, tem Alberta e alguns outros lugares de onde se pode ver o mar.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "A sudoeste tem a Praia Kokomo. Mas acho que é perigoso demais ir lá só pra passear.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "A Praia Kokomo é uma grande extensão de areia. A água está cheia de animais marinhos, então você pode ser divertir catando Moluscos.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Mas tem sempre uns valentões nesse tipo de lugar. Uma vez, encontrei um marginal bem durão, com um cabelo ruívo espetado.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Ele estava mastigando alguma coisa, cuspia no chão. Esse palhaço conseguiu me intimidar e me fazer dar todos os meus Zenys!";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "*pfff...";
+				 	show "Este mundo é";
+				 	show "perigoso demais para";
+				 	show "um jovem e frágil Bardo.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "A propósito, parece que Alberta não mudou nada. O Navio Naufragado também continua o mesmo, com todos os Piratas Esqueletos e tudo o mais. Você sabe como é.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "A agência de eventos encarregada das expedições ao Navio Naufragado ainda está ganhando rios de dinheiro. Se você não tiver nada para fazer, por que não vai lá caçar monstros?";
+				 	close;
+				 	
+				 case 3:
+				 	show "[Nelliorde]";
+				 	show "Oh, claro que sim!";
+				 	show "Por que não estaria?";
+				 	show "O deserto é quente,";
+				 	show "sempre foi quente, e acho";
+				 	show "que sempre será...!";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Vermes gigantes ainda saltam do nada, assustando viajantes inocentes como eu, e os Arenosos continuam dando uma surra na gente!";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Mesmo que o deserto esteja cheio de monstros horríveis, a visão do mar, dali, é magnífica. Puxa, fico até com vontade de cantar.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Devo dizer que tem";
+				 	show "um lugar que você pode querer ver no deserto.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Estou falando da Guilda dos Mercenários. Dizem que está escondida atrás de uma tempestade de areia no Deserto de Morroc!";
+				 	show "Você já esteve lá antes?";
+				 	close;
+				 	
+				 case 4:
+				 	show "[Nelliorde]";
+				 	show "Bem, ao Norte fica a República de Schubaltzwald. Lá, você vai encontrar Juno, a 'Cidade dos Sábios'.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "O povo de lá diz que há somente um grande problema, um homem conhecido como 'Cientista Maluco'. Ele é anti-social, e cria muitas perturbações públicas com seus experimentos.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Parece que todos em Juno o odeiam de verdade. Até mesmo um dos donos da Loja de Utilidades implorou a um aventureiro que passava para deter a pesquisa desse Cientista!";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Mas eu tenho outra opinião sobre ele. Acho que não é uma boa idéia interromper o trabalho de cientista nenhum. Afinal, ele pode acabar descobrindo algo importante, mesmo que seus experimentos sejam um pouco arriscados.";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Falando de descobertas, você sabe como Juno flutua no ar, não sabe?";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Dizem que um pedaço do Coração de Ymir gera energia suficiente para manter a cidade inteira no ar. Não é incrível?";
+				 	next;
+				 	show "[Nelliorde]";
+				 	show "Ainda mais incrível é a notícia da descoberta do Livro de Ymir. Você pode lê-lo no Castelos dos Sábios em Juno. ouvi dizer que ele contém o segredo para encontrar uma Valquíria...";
+				 	close;
+			}
+		
+		case 3:
+			show "[Nelliorde]";
+			show "Se posso cantar, você pergunta?";
+			show "Claro que sim, e muito bem, se posso dizer. Que canção você gostaria de ouvir?";
+			next;
+			switch(select("Poema de Bragi","Caos Eterno","Mercenário ao Pôr-do-Sol")){
+				default:
+					show "[Nelliorde]";
+					show "Por favor, perdoe-me, mas não posso cantar de graça. O mundo é cruel e um frágil Bardo como eu precisa ganhar a vida de algum jeito...";
+					close;
+			}				
+	}
+
+}	

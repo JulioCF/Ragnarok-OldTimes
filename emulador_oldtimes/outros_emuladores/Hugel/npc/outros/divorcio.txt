@@ -1,0 +1,113 @@
+//===== eAthena Script ======================================= 
+//= Divorcing Deviruchi
+//===== By: ================================================== 
+//= Perkka, Scriptor, LightFighter
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= eAthena 1 +
+//===== Description: ========================================= 
+//=
+//===== Additional Comments: ================================= 
+//= Both players should be online to get divorced
+//= Fixed menu [Lupus]
+//= Tradução para português [Frozen Cirius]
+//============================================================ 
+
+
+nif_in,190,112,5	script	Deviruchi	1109,{
+	if (getpartnerid() == 0) {
+		show "[Deviruchi]";
+		show "Kekeke, humanos ficam sempre sozinhos no fim,";
+		show "O sentimento da solidão é apenas temporário.";
+		show "Se você se sente sozinho, porque não pegar um pet?";
+		show "Eu, o Deviruchi fiquei popular recentemete,como você sabe...";
+		close;
+	}
+	show "[Deviruchi]";
+	show "Você não parece bem...";
+	show "Qualquer coisa que você tenha feito faz você se sentir arrependido agora?";
+	show "Saiba que eu não quero ajudar pessoas felizes.";
+	show "Deviruchi não tem interesse";
+	show "nesse tipo de pessoas. Kekeke";
+	next;
+	show "[Deviruchi]";
+	show "Vamos deixar tudo de lado agora.";
+	show "Deixe-me lhe perguntar uma coisa: 	O que você sentiu no ato de seu casamento?";
+	show "Não pense em amor...";
+	show "Eu sei mais do que você imagina.";
+	show "Existem incontáveis problemas atras de um grande casamento.";
+	next;
+	show "[Deviruchi]";
+	show "Certo.";
+	show "Foi por sí só que você veio até mim.";
+	show "E eu sei que é seu instinto mudar de vida também.";
+	show "Mas você fez um juramento com seu cônjuge,";
+	show "De amá-lo até seu coração parar de bater...!";
+	next;
+	show "[Deviruchi]";
+	show "O método é simples!";
+	show "Casamento hoje em dia é quase que um contrato.";
+	show "Apenas peça um favor ao Deviruchi";
+	show "... Entendeu?";
+	show "Viva uma vida livre!!";
+	next;
+	show "[Deviruchi]";
+	show "Você não precisa do consentimento de seu parceiro,";
+	show "Você irá achar outro amor logo,";
+	show "Então porque não deixar seu parceiro atual?";
+	show "... Você quer minha ajuda?";
+	show "Eu posso cancelar seu casamento, você sabe...!";
+	next;
+	menu "Não, eu estou feliz assim",-,"Sim,eu quero uma nova vida",M_NewLife;
+
+	show "[Deviruchi]";
+	show "Hmmph, amores...amores!!";
+	show "Você irá voltar,";
+	show "para encontrar o Deviruchi algum dia!";
+	show "Você vai ver só o quanto sua \"felicidade\" vai durar!!";
+	close2;
+	warp "niflheim",169,162;
+	end;
+
+M_NewLife:
+	show "[Deviruchi]";
+	show "Bem, você não precisa de nada.";
+	show "Eu, preciso de seu coração e 2,500,000 zenys.";
+	show "Você quer sua vida como era antes do casamento?";
+	show "É isso então? Você vai cancelar seu contrato de casamento?";
+	next;
+	menu "...Eu preciso reconsiderar",-, "Estou te pagando para você me divorciar!",M_Divorce;
+	show "[Deviruchi]";
+	show "Chega de considerações. Todos ficaram sozinhos no final.";
+	show "Apenas prepare sua mente e mê de o dinheiro,";
+	show "então venha e olhe para mim...";
+	show "Kekekeke.....";
+	close;
+
+M_Divorce:
+	if (Zeny < 2500000) goto NoMoney;
+	set Zeny, Zeny - 2500000;
+	show "[Deviruchi]";
+	show "Antes de você mudar sua mente de novo eu vou preparar seu divórcio!!";
+	show "Isso pode levar algum tempo...";
+	show "Então não vá embora, fique bem aqui!";
+	next;
+	//ShowEffect "Deviruchi#Divorce" EF_MAGICROD   Dont know, what to do here >.>
+	//ShowEffect "" EF_DEVIL		       same
+	percentheal -100,-100;
+	divorce;
+	show "[Deviruchi]";
+	show "Kekeke, Você está livre agora!";
+	show "Jogue fora aqueles sentimentos inúteis!";
+	show "E agradeça o Deviruchi.....!";
+	close;
+
+NoMoney:
+	show "[Deviruchi]";
+	show "Eu não disse 2,500,000 zenys?";
+	show "Esse é o pagamento para o Deviruchi te ajudar.";
+	show "Se você não tem o dinheiro,";
+	show "você pode continuar com aquela vida inútil de casado... kekeke";
+	close;
+}

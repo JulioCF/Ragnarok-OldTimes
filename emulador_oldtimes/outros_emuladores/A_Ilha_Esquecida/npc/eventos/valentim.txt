@@ -1,0 +1,141 @@
+//===== Cronus Script ========================================
+//= Evento de São Valentim (Dia dos Namorados)
+//===== By: ================================================== 
+//= Muad_Dib(Prometheus Project)
+//===== Versão Atual: ========================================
+//= 1.0
+//===== Changelog: =========================================== 
+//= 1.0 Traduzido [Kamper/rdrake]
+//===== Comentarios Adicionais: ==============================
+//= Evento do Dia dos Namorados
+//= Script Reestruturado [Mehah]
+//============================================================
+
+// Stephen - Vendedor de Chocolate do Evento de Valentim -------
+alberta,26,243,4	script	Estefano	58,{
+	show "[Estefano]";
+	show "Adivinhe o que eu consegui?";
+	show "Um chocolate delicioso difícilmente encontrado em Rune-Midgard....";
+	next;
+	show "[Estefano]";
+	show "Chocolate!";
+	show "Está certo, voc6e não gosta de chocolate?.... Eu amo.";
+	show "E você está com sorte, porque eu estou vendendo eles por apenas 5,000 zeny cada pedaço!";
+	next;
+	switch(select("Eu quero algum chocolate!","Não, obrigado.")){
+	case 1:
+		show "[Estefano]";
+		show "Hah!";
+		show "Eu sabia disto!";
+		show "Mas eu não posso vender mais que 5 duma vez... mas, se você realmente precisar mais...";
+		show "Você pode voltar novamente.";
+		show "Então quantos você quer?";
+		next;
+		set @needmon,0;
+		digit @flag_num;
+		if (@flag_num == 0){
+			show "[Estefano]";
+			show "Você não quer nenhum chocolate?";
+			show "Parece que você não está em perfeito juízo.";
+			close;
+		}else
+		if (@flag_num > 5){
+			show "[Estefano]";
+			show "Desculpe-me, mas não posso lhe dar muitos.";
+			close;
+		}
+		set @needmon,@flag_num*5000;
+		if (Zeny < @needmon){
+			show "[Estefano]";
+			show "Desculpe-me, mas parece que você não tem recursos para comprar isto de mim.";
+			close;
+		}
+		set Zeny,Zeny - @needmon;
+		additem 558,@flag_num;
+		show "[Estefano]";
+		show "Aqui está!";
+		show "Você pode dar para alguém como presente, ou aprecialo você mesmo!";
+		show "Mmm....doce chocolate...";
+		show "Visite-me mais vezes...!";
+		close;
+	
+	case 2:
+		show "[Estefano]";
+		show "Você não quer nenhum chocolate?";
+		show "Eu estou te dizendo! Você vai se arrepender!";
+		show "É melhor você pegar alguns agora... você nunca mais vai encontrar um chocolate desses de novo!";
+		show "Pense nisso, e visite-me outra vez.";
+		close;
+		
+	}
+}
+
+// Jainie -- Dá informações sobre o Evento de São Valentim ------------------
+alberta,29,243,4	script	Jainie	53,{
+	show "[Jainie]";
+	show "Você sabe que? Os chocolates que meu namorado vende são meus!";
+	show "Eu mesma os faços.";
+	next;
+	show "[Jainie]";
+	show "Você sabe ... Em certos países, há uma tradição de presentiar um pessoa que você ame com chocolates...";
+	show "É chamado de, ^3355FFDia de São Valentim^000000 ou ^3355FFDia dos Namorados^000000.";
+	next;
+	show "[Jainie]";
+	show "Então eu dei a ele meus deliciosos chocolates...";
+	show "Ele cozinhou...";
+	show "E agora ele está vendendo para todos.";
+	show "Acho que ele está relamente se divertindo.";
+	show "Mas, me sinto orgulhosa quando alguém compra algo que fiz e gosta.";
+	next;
+	show "[Jainie]";
+	show "Seria ótimo se você comprasse alguns...";
+	show "Eu estarei fazendo chocolates por enquanto...";
+	close;
+}
+
+// Carl Orleans -- Vendedor de Chocolate do Evento de São Valentim --
+prt_castle,54,34,4	script	Carlos	47,{
+	show "[Carlos]";
+	show "Sim?";
+	next;
+	switch(select("Eu quero um Chocolate Caseiro...","Estou perdido, desculpe por incomodá-lo.")){
+	case 1:
+		show "[Carlos]";
+		show "Bem, vou verificar se você possuí os itens...";
+		next;
+		if (countitem(558) >=3){
+			delitem 558,3;
+			show "[Carlos]";
+			show "Você tem 3 predaços do chocolate mais puro, eu sei.";
+			show "Me dê eles...";
+			next;
+			show "Ok, agora eu irei apenas criar meus especiais chocolates caseiros se você prometer usá-los sabiamente.";
+			next;
+			show "....Hmmmmmm.....";
+			show "Certo...";
+			next;
+			show "Aqui.";
+			additem 559,1;
+			show "Eu espero que você de isso para alguem especial, porque é um chocolate especial.";
+			show "Como você sabe... somente eu posso fazê-los.";
+			next;
+			show "Divirta-se.";
+			close;
+		}
+		show "Me desculpe, mas você não tem chocolates necessários para o processo.";
+		close;
+
+	case 2:
+		show "[Carlos]";
+		show "Oh..bem, se você quiser que eu faça alguns de meus Chocolates Caseiros....";
+		show "Você precisará me dar pelo menos ^0000FF 3 Chocolates^000000.";
+		next;
+		show "[Carlos]";
+		show "Isso mesmo, apenas ^0000FF 3 Chocolates^000000";
+		show "Traga-os para mim e você irá ter um Chocolate Caseiro.";
+		next;
+		show "[Carlos]";
+		show "Vejo você.";
+		close;
+	}
+}

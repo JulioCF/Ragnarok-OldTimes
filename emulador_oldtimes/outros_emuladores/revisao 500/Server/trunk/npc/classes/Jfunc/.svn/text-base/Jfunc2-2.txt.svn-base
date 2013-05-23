@@ -1,0 +1,236 @@
+//===== Cronus Script ======================================== 
+//= Função Global das Classes
+//===== Por: =================================================
+//= massdriller
+//===== Versão Atual: ======================================== 
+//= 1.0b
+//===== Descrição: =========================================== 
+//= Checa as classes
+//===== Changelog: =========================================== 
+//= 1.0b Traduzido e adaptado para o Cronus [Pudim]
+//= 1.1b Corrigido alguns erros de português e desabilitado
+//= uma fala em inglês [Kamper]
+//============================================================
+
+//Alquimista
+function	script	Alc_check	{
+
+	if(BaseJob == Job_Alchem) goto L_Alch;
+	if(BaseJob == Job_Alchem || BaseJob == Job_Alchem) goto L_Other;
+	return;
+
+L_Other:	
+	show "Bem vindo à União dos "+callfunc("classname",18,"P","M")+".  Oh, Minhas desculpas mas eu estou ocupado agora.";
+	close;
+L_Alch:
+	show "Olá companheiro Alquimísta.  Como vão os negocios?  Bem eu espero, bem, boa sorte para você.";
+	close;
+}
+
+//Perguntas do Arruaceiro
+function	script	RogQ_check	{
+	savepoint "in_rogue.gat",366,114;
+	set @score, 0;
+	set ROGUE_Q, 1;
+	set @temp, rand(2);
+	if(@temp == 1) goto L_QSet2;
+
+	L_QSet1:
+		show "[Markie]";
+		show "1) Quanto é adicionado à taxa de esquiva que um "+callfunc("classname",6,"S","M")+" recebe quando ^5533FFaprimora^000000 a habilidade ^5533FFPerícia em Esquiva^000000?";
+		next;
+		menu "20",sM1_1, "30",-, "40",sM1_1, "160",sM1_1;
+
+			set @score, @score + 10;
+
+		sM1_1:
+
+		show "[Markie]";
+		show "2) Escolha um monstro qu não pode detectar um personagem durante Esconderijo ou Furtividade?";
+		next;
+		menu "Múmia",sM1_2, "Rabo-de-Verme",-, "Argos",sM1_2, "Esqueleto Soldado",sM1_2;
+
+			set @score, @score + 10;
+
+		sM1_2:
+
+		show "[Markie]";
+		show "3) Onde se localiza a guilda dos "+callfunc("classname",17,"P","M")+"?";
+		next;
+		menu "Comodo",sM1_3, "Praia de Cocomo",sM1_3, "Pharos, Ilha do Farol",-, "Morroc",sM1_3;
+
+			set @score, @score + 10;
+
+		sM1_3:
+
+		show "[Markie]";
+		show "4) Em qual das seguintes cidades, é possível se tornar um "+callfunc("classname",6,"S","M")+"?";
+		next;
+		menu "Comodo",sM1_4, "Lutie",sM1_4, "Alberta",sM1_4, "Morroc",-;
+
+			set @score, @score + 10;
+
+		sM1_4:
+
+		show "[Markie]";
+		show "5) Escolha a carta que ^FF3355não^000000 afeta o ^5533FFatributo DES^000000 de um personagem...";
+		next;
+		menu "Carta Rocker",sM1_5, "Carta Múmia",-, "Carta Zerom",sM1_5, "Carta Drops",sM1_5;
+
+			set @score, @score + 10;
+
+		sM1_5:
+
+		show "[Markie]";
+		show "6) O que você acha legal em ser um "+callfunc("classname",17,"S","M")+"?";
+		next;
+		menu "Ser um vagabundo",sM1_6, "Ser um hipócrita",sM1_6, "Ser um sem vergonha",sM1_6, "Ter uma excelente força de ataque",-;
+
+			set @score, @score + 10;
+
+		sM1_6:
+
+		show "[Markie]";
+		show "7) Em qual nível de classe um "+callfunc("classname",6,"S","M")+" pode se tornar um "+callfunc("classname",17,"S","M")+"?";
+		next;
+		menu "Nível 30",sM1_7, "Nível 35",sM1_7, "Nível 40",-, "Nível 50",-;
+
+			set @score, @score + 10;
+
+		sM1_7:
+
+		show "[Markie]";
+		show "8) Se você quiser colorir seu cabelo de uma cor diferente, onde você deve ir para fazer isto?";
+		next;
+		menu 	"Construção ao Sudoeste de Morroc",sM1_8, "Construção ao Sudoeste de  Prontera",-,
+			"Construção ao Sudeste de  Morroc",sM1_8, "Construção ao Nordeste de Prontera",sM1_8;
+
+			set @score, @score + 10;
+
+		sM1_8:
+
+		show "[Markie]";
+		show "9) Quais cogumelos você precisa furtar para se tornar um "+callfunc("classname",6,"S","M")+"?";
+		next;
+		menu "Cogumelos Borrachentos",-, "Cogumelos vermelhos",sM1_9, "Cogumelos Venenosos",-, "Cogumelos Pegajosos",sM1_9;
+
+			set @score, @score + 10;
+
+		sM1_9:
+
+		show "[Markie]";
+		show "10) Quais dessas cartas são ^FF3355inúteis^000000 para um "+callfunc("classname",17,"S","M")+"?";
+		next;
+		menu "Carta Sussurro",sM1_10, "Carta Salgueiro Ancião",-, "Carta Zerom",sM1_10, "Carta Matyr",sM1_10;
+
+			set @score, @score + 10;
+
+		sM1_10:
+		goto L_Score;
+
+
+	L_QSet2:
+		show "[Markie]";
+		show "1) Qual habilidade você deve aprender antes de aprender ^5533FFTúnel de Fuga^000000?";
+		next;
+		menu "Esconderijo",-, "Furto",sM2_1, "Perícia em Esquiva",sM2_1, "Golpe Fulminante",sM2_1;
+
+			set @score, @score + 10;
+
+		sM2_1:
+
+		show "[Markie]";
+		show "2) Quanto de disconto um "+callfunc("classname",17,"S","M")+" pode conseguir com ^5533FFExtorquir^000000 a mais que a habilidade de "+callfunc("classname",5,"S","M")+" ^5533FFDisconto^000000?";
+		next;
+		menu "3%",sM2_2, "2%",sM2_2, "1%",-, "0%",sM2_2;
+
+			set @score, @score + 10;
+
+		sM2_2:
+
+		show "[Markie]";
+		show "3) Qual é a descrição correta da habilidade ^5533FFAfanar^000000?";
+		next;
+		menu "Furtar itens de jogadores",sM2_3, "Furtar itens de monstros",sM2_3, "Furtar Zeny de monstros",-, "Furtat Zeny de jogadores",sM2_3;
+
+			set @score, @score + 10;
+
+		sM2_3:
+
+		show "[Markie]";
+		show "4) Quantos "+callfunc("classname",17,"P","M")+" são necessários para ativar a habilidade ^5533FFMalandragem^000000?";
+		next;
+		menu "1 Arruacerio + 2 "+callfunc("classname",12,"P","M")+"",sM2_4, "2 "+callfunc("classname",17,"P","M")+" + 1 "+callfunc("classname",6,"S","M")+"",sM2_4, "4 "+callfunc("classname",6,"P","M")+"",sM2_4, "2 ou + "+callfunc("classname",17,"P","M")+"",-;
+
+			set @score, @score + 10;
+
+		sM2_4:
+
+		show "[Markie]";
+		show "5) Depois de aumentar ^5533FFRemover Capacete^000000 para o nível 5, qual outra habilidade se tornará possível aprender?";
+		next;
+		menu "Envenenar",sM2_5, "Strip Tease",sM2_5, "Explosão Venenosa",sM2_5, "Remover Escudo",-;
+
+			set @score, @score + 10;
+
+		sM2_5:
+
+		show "[Markie]";
+		show "6) Escolha a habilidade que deixa você mover enquanto você permanece oculto?";
+		next;
+		menu "Esconderijo",sM2_6, "Recuar",sM2_6, "Tunel de Fuga",-, "Chutar Areia",sM2_6;
+
+			set @score, @score + 10;
+
+		sM2_6:
+
+		show "[Markie]";
+		show "7) Escolha a carta que aumenta a ^5533FFtaxa de precião^000000 ao seu dono?";
+		next;
+		menu "Andre",sM2_7, "Familiar",sM2_7, "Mumia",-, "Marina",sM2_7;
+
+			set @score, @score + 10;
+
+		sM2_7:
+
+		show "[Markie]";
+		show "8) Escolha o monstro que recebe mais dano quando atacado com uma arma com Carta Vadon?";
+		show "(Carta Vadon influencia 20% mais dano em monstro do elemento fogo)";
+		next;
+		menu 	"Vadon",sM2_8, "Deviruchi",sM2_8, "Salgueiro Ancião",-, "Bafomé",sM2_8;
+
+			set @score, @score + 10;
+
+		sM2_8:
+
+		show "[Markie]";
+		show "9) Quanto de SP o ^5533FFAtaque Duplo^000000 precisa quando usado com uma adaga?";
+		next;
+		menu "15 SP",sM2_9, "Não precisa de SP",-, "10 SP",sM2_9, "54 SP",sM2_9;
+
+			set @score, @score + 10;
+
+		sM2_9:
+
+		show "[Markie]";
+		show "10) Escolha a melhor adaga para ser usada no Tunel Submarino?";
+		next;
+		menu "Main-Gauche Trovejante",-, "Main-Gauche Glacial",sM2_10, "Main-Gauche Terrestre",sM2_10, "Main-Gauche Flamejante",sM2_10;
+
+			set @score, @score + 10;
+
+		sM2_10:
+
+
+	L_Score:
+		show "[Markie]";
+		show "Tudo bem, essas foram todas as perguntas que eu precisava saber.  Agora não foi tão ruim né?";
+		//show "I hope you don't mind, but I've been grading your answers.";
+		next;
+		show "[Markie]";
+		show "Eu gosto de dar a pontuação para as pessoas para elas saberem seus pontos.";
+		show "Parece que você conseguiu ^FF3355" + @score +"^000000/100 pontos............";
+		next;
+		show "[Markie]";
+		return;
+}

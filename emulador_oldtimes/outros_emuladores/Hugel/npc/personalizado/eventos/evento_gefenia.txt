@@ -1,0 +1,51 @@
+//===== Cronus Script ========================================
+//= Gefenia Warper Script
+//===== By: ================================================== 
+//= [Muad_Dib] 1.0a
+//===== Versão Atual: ========================================
+//= 1.0a
+//===== Compatível Com: ======================================
+//= RO Episode 6+
+//===== Comentarios Adicionais: ==============================
+//= Traduzido por Mehah
+//============================================================
+
+
+gefenia01,132,169,5	script	Explorador#1	740,{
+	show "[Explorer]";
+	show "Você realmente deseja voltar?";
+	next;
+	if( select("Sim.","Não.") == 1)
+		warp "gef_dun03.gat",	138,	117;
+	else{
+		show "Ok, não volte até que você realmente deseja sair deste lugar.";
+		close;
+	}
+	end;
+}
+
+gef_dun03.gat,131,118,6	script	Explorador#2	740,{
+	show "[Explorer]";
+	show "Oi...";
+	next;
+	show "[Explorer]";
+	show "Eu posso o enviar para ^FF3300Ruínas da cidade de Geffenia^000000... Você vai precisar de uma Chave!";
+	show "Você tem a Chave? Olhe como um cristal.";
+	next;
+	if( select("Sim, eu possuo a Chave.","Não, Eu irei procurar.") == 1){	
+		if (countitem(7025) < 1){ // Item: Lamento de Lúcifer
+			show "[Explorer]";
+			show "Desculpe. Você não tem a chave...";
+			close;
+		}
+		show "[Explorer]";
+		show "Bom, você adquiriu a chave certa! Então vamos!";
+		next;
+		warp "gefenia01.gat",	136,	166;
+		end;
+	}else{
+		show "[Explorer]";
+		show "Não volte até que você tenha a chave!";
+		close;
+	}
+}

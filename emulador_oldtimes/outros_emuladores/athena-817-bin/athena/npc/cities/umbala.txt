@@ -1,0 +1,84 @@
+//Payon City for Athena by Script&DB Team 
+um_in.gat,39,125,4	script	Umbala Healer	71,{
+	mes "[Umbala Healer]";
+	mes "Welcome. Do you need healing?";
+	next;
+	menu "Yes",UH1,"No Thanks",UH2;
+UH1:
+	mes "[Umbala Healer]";
+	mes "Very Well";
+	heal 30000,30000;
+	close;
+UH2:
+	mes "[Umbala Healer]"
+	mes "Well, if you ever need healing you know where we're at.";
+	close;
+}
+
+
+//-------------------------------------------------------------------------------------------------------------------------\\
+//                       Litle Quest NPC to enter the dungeon
+//                                 Fixed by Akaru
+//-------------------------------------------------------------------------------------------------------------------------\\
+umbala.gat,65,253,4	script	Tree Guardian	752,{ 
+   mes "[Tree Guardian]"; 
+   mes "Stop, stranger, here is the entrance to the ancient tree!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "I cannot allow you to enter, you look pretty weak!"; 
+   next; 
+   menu "Talk about tree",TALKTREE,"Talk about Umbala",TALKUMB,"Enter Dungeon",DUN,"Leave",Leave; 
+Leave:  
+ close; 
+TALKTREE: 
+   mes "[Tree Guardian]"; 
+   mes "The tree is an ancient relique of our culture!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "But recently some monsters overwhelmed the tree and are now"; 
+   mes "slowly killing the tree...like a poison...from inside.."; 
+   next; 
+   goto MENU; 
+TALKUMB: 
+   mes "[Tree Guardian]"; 
+   mes "We don't have many visitors in our small town.."; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "Most people don't find us or are just afraid of us!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "And now, we are even more unpopular, because of that damn beast!"; 
+   next; 
+   menu "What beast?",BEAST,"Leave",Leave; 
+   close; 
+BEAST: 
+   mes "[Tree Guardian]"; 
+   mes "The Werewolf of course!!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "He is sneaking around our town and killing our soldiers at night!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "Hey...if you could get rid of that beast!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "I'll let you in!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "From now on we can live in peace again, thanks to you!"; 
+   next; 
+   mes "[Tree Guardian]"; 
+   mes "You may enter the dungeon now!"; 
+   set umbdun,1;
+   close; 
+DUN: 
+   if (umbdun == 1) goto ALLOW;
+   mes "[Tree Guardian]"; 
+   mes "We do not permit weak people to enter!"; 
+   close; 
+ALLOW:
+   mes "[Tree Guardian]"; 
+   mes "Come on in, brave warrior!"; 
+   warp "um_dun01.gat",42,30; 
+   close; 
+}

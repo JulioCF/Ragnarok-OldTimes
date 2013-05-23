@@ -1,0 +1,313 @@
+//===== Cronus Script ======================================
+//= Ayothaya Quests (Quests de Ayothauya)
+//===== Por ================================================
+//= Flint
+//===== Versão =============================================
+//= 1.0
+//===== Commentários =======================================
+//= Lista de variaveis usadas
+//= @fishing - 	Ela checa se um peixe foi ou não pescado, 1/10 
+//=	       	de chance para pegar o anel se você tiver
+//=		começado a quest para recupera-lo.
+//=
+//= weddingring - Significa o começo da quest do anel de noivado 
+//=               e usado para ver o progresso da mesma.
+//=
+//= recoveredring - Significa que você pegou o anel, e não pode 
+//=		    simplesmente dropar o anel e pegar a quest
+//=		    mais uma vez para duplicar o premio.
+//=
+//= 1.0 - Lançamento deste arquivo traduzido e adaptado.
+//=========================================================
+
+ayo_dun02,277,178,1	script	OBB	139,4,4,{
+	if(AyoOBB==1 || weddingring!=3) end;
+	show "["+strcharinfo(0)+"]";
+	show "Huh o que é isso? Não são pegadas, isso é uma Caixa Azul Velha";
+	next;
+	set AyoOBB,1;
+	additem 603,1;
+	logmes "Q_AYOTH1: got OBB";
+	show "["+strcharinfo(0)+"]";
+	show "Acho que vou ficar com isso!";
+	close;
+}
+//Dungeon 1 foot prints x 5
+ayo_dun01,30,149,1	script	Clue#1	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Tem algumas pegadas aqui, elas se direcionam para o Oeste.";
+	set @footprints1,1;
+	close;
+}
+ayo_dun01,70,149,1	script	Clue#2	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Aqui tem mais pegadas, também se direcionam para o Oeste!";
+	set @footprints2,1;
+	close;
+}
+ayo_dun01,100,149,1	script	Clue#3	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais pegadas seguindo para o Oeste, de quem será que elas são?";
+	set @footprints3,1;
+	close;
+}
+ayo_dun01,190,149,1	script	Clue#4	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais pegadas, mas estas vão para o Norte.";
+	set @footprints4,1;
+	close;
+}
+ayo_dun01,261,263,1	script	Clue#5	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Mais algumas pegadas, essas parecem estar indo para aquele buraco.";
+	set @footprints5,1;
+	close;
+}
+
+//Dungeon 2 foot prints x 4 + 1 fake
+ayo_dun02,222,204,1	script	Clue#6	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Ainda sim mais pegadas, essas vão ou para o Sul, ou para o Oeste.";
+	set @footprints6,1;
+	close;
+}
+ayo_dun02,169,212,1	script	Clue#7	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Parece que tem pegadas indo para o Leste.";
+	set @footprints7,1;
+	close;
+}
+ayo_dun02,129,212,1	script	Clue#8	139,5,5,{
+	if(weddingring!=3) end;
+	npctalk "Muito bem, essas vão para o Norte ou para o Leste...";
+	set @footprints8,1;
+	close;
+}
+ayo_dun02,79,212,1	script	Clue#9	139,7,7,{
+	if(weddingring!=3) end;
+	npctalk "Estas são bem novas, estão indo para o Norte.";
+	set @footprints9,1;
+	close;
+}
+ayo_dun02,245,166,1	script	Clue#10	139,7,7,{
+	if(weddingring!=3) end;
+	npctalk "Parece que algo veio daqui para o Oeste.";
+	close;
+}
+
+ayothaya,233,105,7	script	Shuda	838,{
+	show "[Shuda]";
+	if(BaseLevel<50) {
+		show "Aonde está meu anel!?!";
+		close;
+	}
+	if(weddingring==2) goto L_Quest2;
+	if(weddingring==3) goto L_OnQ2;
+	if(weddingring==4) goto L_QuestComplete;
+	if(weddingring==5) goto L_QuestOver;
+	if(countitem(7288)>=1) goto L_RingFound;
+	show "Oh por favor me ajude, meu parceiro sumiu, mas só depois que perdi nosso ^FF0000Anel de COmpromisso^000000! Talvez você possa ^0000FFpesca-la^000000 para fora do mar.";
+	set weddingring,1;
+	close;
+L_RingFound:
+	show "Oh esse é meu anel!?!";
+	next;
+	show "[Shuda]";
+	show "Me devolva, por favor!";
+	next;
+	menu "Claro, aqui está",N_Yes,"Não! EU achei! É MEEEEEEU! T-T",-;
+	show "[Shuda]";
+	show "Pense o que quiser, mas este anel é meu. E sem ele não posso casar com meu amor.";
+	show "";
+	show "Aonde quer que ele esteja.";
+	close;
+N_Yes:
+	show "[Shuda]";
+	if(countitem(7288)<1) {
+		show "Go away, cheater!";
+		close;
+	}
+	delitem 7288,1;
+	show "Muito obrigado, agora que tenho isto posso ter meu parceiro de volta *penhorar o anel*.";
+	set weddingring,2;
+	next;
+	show "[Shuda]";
+	show "Volte quando puder, preciso de um favor.";
+	close;
+L_Quest2:
+	show "Meu parceiro sexual, ^FF0000Annon^000000 não que voltar para mim";
+	show "Talvez ele se perdeu....";
+	show "";
+	show "O encontre, lhe darei uma boa recompensa *bkt*";
+	next;
+	menu "Claro...",L_YesQ2,"Não... Ele voltará quando sentir fome.",-;
+	show "[Shuda]";
+	show "Sim, talvez esteja certo, mas ainda quero que alguem o encontre, estou com medo de algo ter acontecido com ele.";
+	close;
+L_YesQ2:
+	set weddingring,3;
+	show "[Shuda]";
+	show "Muito obrigado, Acho que alguem nesta cidade viu aonde ele foi,talvez consiga uma pista";
+	close;
+L_OnQ2:
+	show "Encontrou ele?";
+	show " ";
+	show "Por favor, se apresse.";
+	show "*chorando*";
+	close;
+L_QuestComplete:
+	show "O encontrou ?!?";
+	show "Aonde ele está???";
+	next;
+	show "Explique-se.";
+	next;
+	show "[Shuda]";
+	show "Eu pensei que ele era o meu amor.";
+	show "Nunca encontrarei alguem tão bom de cama quanto ele.";
+	show "*chorando*";
+	next;
+	set weddingring,5;
+	show "[Shuda]";
+	show "Entendo....";
+	close;
+L_QuestOver:
+	show "Olá, "+strcharinfo(0)+". Como vai seu pênis?";
+	close;
+}
+
+ayothaya,253,99,3	script	Pescador#1	843,{
+	show "[Dannai]";
+	show "Este local é conhecido por ter muitos peixes. Os peixes daqui tendem à comer qualquer coisa que eles encontram, facilitando muito meu trabalho de pega-los!";
+	next;
+	show "[Dannai]";
+	show "Estamos alugando varas de pesca. Toda vez que você pescar, vai precisar de ^4466771 Ração para Monstros^000000 para usar como isca, e pagar o alugel de ^44667750 Zenys^000000.";
+	next;
+	show "[Dannai]";
+	show "Você gostaria de";
+	show "tentar pegar um peixe?";
+	next;
+	menu "Sim",-,"Não!",L_No;
+	if(countitem(528) < 1 || zeny < 50) goto L_Fail;
+	delitem 528,1;
+	set zeny,zeny-50;
+	show "[Pescador]";
+	show "Tudo bem, dê o melhor de si.";
+	show "Vamos ver se pegou alguma coisa...";
+	next;
+	set @fishing, rand(1,10);
+	show "[Fisher Man]";
+	if(@fishing<4) goto L_Nothing;
+	if(@fishing<10) goto L_Fish;
+	if(@fishing==10) goto L_RingCheck;
+L_No:
+	show "[Dannai]";
+	show "Volte quando puder.";
+	close;
+L_Fail:
+	show "[Dannai]";
+	show "Umh... Você não tem os itens requeridos.";
+	show "Volte quando tiver a Ração para Monstros e 50 zenys.";
+	close;
+L_Nothing:
+	show "Você não pegou nada";
+	close;
+L_Fish:
+	additem 544,1;
+	show "Olhe só! Você pegou um peixe, muito bom!";
+	close;
+L_RingCheck:
+	if(weddingring!=1 || recoveredring==1) goto L_Fish;
+	show "Você pescou um ANEL de Compromisso!!!";
+	show "Bom, já que o pescou, acho que pode ficar com ele...";
+	next;
+	additem 7288,1;
+	show "[Pescador]";
+	show "Volte sempre!";
+	set weddingring,0;
+	set recoveredring,1;
+	close;
+}
+
+ayothaya,192,171,4	script	Old Man#1	824,{
+	show "[Tham]";
+	if(weddingring==3) goto L_OnQ2;
+	show "É um belo dia, não concorda?";
+	close;
+L_OnQ2:
+	show "O que?! Annon desapareceu? Acabei de ver ele há algums minutos atrás.";
+	next;
+	show "[Tham]";
+	show "Ele estava indo para o Calabouço de Ayothaya, eu achei que isso era meio estranho, e agora você diz que ele ainda não voltou?!?";
+	show "Acho que deveria segui-lo lá dentro, só em caso de algo ter acontecido com ele.";
+	next;
+	show "[Tham]";
+	show "Talvez ele deixou algo dentro do calabouço, algo que te leve até ele...";
+	show "Mas isso é só a minha opinião.";
+	next;
+	show "[Tham]";
+	show "Você pode chegar no calabouço através do templo, é um mapa à direita daqui, e abaixo da colina.";
+	close;
+}
+
+ayo_dun02,91,264,4	script	Cara#1	822,{
+	if(weddingring==4) goto L_QuestComplete;
+	if(weddingring==5) goto L_TalkedShuda;
+	if(weddingring==3 && @footprints1==1 && @footprints2==1 && @footprints3==1 && @footprints4==1 && @footprints5==1 && @footprints6==1 && @footprints7==1 && @footprints8==1 && @footprints9==1) goto L_Groom;
+	show "[Cara]";
+	show "Ela nunca me encontrará aqui... Nunca...";
+	close;
+L_Groom:
+	
+	show "[Annon]";
+	show "Me ajude, por favor...";
+	next;
+	show "["+strcharinfo(0)+"]";
+	show "^Parece estar gravemente ferido...";
+	next;
+	menu "Tratar os ferimentos",-,"Deixar ele agonizando sozinho",L_Go;
+	if(countitem(504) < 1) goto L_Need;
+	delitem 504,1;
+	show "[Annon]";
+	show "Quem é você?";
+	show "Te mandaram para me seguir?";
+	next;
+	show "[Annon]";
+	show "Eu vejo, minha ex-parceira te enviou aqui para ver se estou bem...";
+	show " ";
+	show "Fale para ela que estou bem, mas não posso seguir com o casamento.";
+	next;
+	show "[Annon]";
+	show "Não posso dar-lhe a razão, só fale para ela que a amo, mas não o suficiente para passar o resto de minha vida com ela.";
+	next;
+	show "[Annon]";
+	show "Espero que ela entenda.";
+	show " ";
+	show "umh..Acho que quer uma  recompensa não é?";
+	next;
+	show "[Annon]";
+	show "Posso te treinar, para você ficar mais experiente.";
+	show " ";
+	show "Então vamos lá.";
+	next;
+	set BaseExp,BaseExp+100000;
+	set weddingring,4;
+	show "[Annon]";
+	show "*Tempos depois* Pronto..Uff... Agora volte lá e conte para ela, mas por favor não a faça chorar.";
+	close;
+L_Need:
+	show "["+strcharinfo(0)+"]";
+	show "Preciso de uma poção branca para curá-lo";
+	close;
+L_Go:
+	show "["+strcharinfo(0)+"]";
+	show "Ah, alguém vai encontra-lo eventualmente, tenho coisas melhores à fazer.";
+	close;
+L_QuestComplete:
+	show "[Annon]";
+	show "Contou para Shuda?";
+	close;
+L_TalkedShuda:
+	show "[Annon]";
+	show "Ela reagiu bem?";
+	close;
+}

@@ -1,0 +1,106 @@
+//===== Cronus Script ======================================== 
+//= Quest Habilidade de Mago
+//===== Por: =================================================
+//= kobra_k88
+//= Matheus [Traduziu para PT(br)]
+//===== Versão Atual: ======================================== 
+//= 1.4
+//============================================================
+
+
+geffen_in,151,119,4	script	Mestre#3	71,{
+	show "[BLIZZARDRISS]";
+	if(baseClass == Job_Mage) goto L_Start;
+
+L_Other:
+	show "Qual será a mágica que aprenderei hojê??";
+	emotion 20;
+	close;
+
+L_Start:
+	if(ENRGYCOAT == 1) goto L_GetSkill;
+	if(getskilllv(157)>0) goto L_GotSkill;
+	show "Hey! Meu amigo! Eu vejo que és um mago. Se você olhar profundamente dentro de ti, você verá novas habilidades!";
+	next;
+	menu "'Habilidades escondidas?",M_0, "Terminar conversa.",M_End;
+
+	M_0:
+		show "[BLIZZARDRISS]";
+		show "Por muitos anos eu estudei as mais antigas magicas de geffen,e recentemente eu descobri um tipo magico totalmente utíl.";
+		next;
+		show "[BLIZZARDRISS]";
+		show "Este tipo de magia cria com sua energia um'campo magnético' que 'reveste' seu corpo como um protetor máagico, protegendo-o de ataques inimigos.";
+		next;
+		show "[BLIZZARDRISS]";
+		show "Sómente os magos de alto nível podemaprender este novo tipo de mágia.";
+		show "Essas pessoas devem se concentrar ao máximo para poderem memorizar esta incrivel magia que eu descobri.";
+		next;
+		show "[BLIZZARDRISS]";
+		show "Esta mágica eu puiz o nome de ^5555FF'Proteção Arcana'^000000!. Você gostaria de aprender?";
+		next;
+		menu "Wow!Claro!",sM_0, "hmm... não tenho interesse.",sM_End;
+
+		sM_0: 
+			show "[BLIZZARDRISS]";
+			show "Para te ensinar eu necessito que trague alguns itens:";
+			show "^5533FF 3 Bolinhas de Gude,";
+			show " 1 Diamante de 1Kilate,";
+			show " 5 Cascas,^000000";
+			show " and ^5533FF1 Casca Rija ^000000.";
+			next;
+			show "[BLIZZARDRISS]";
+			show "Você tambem necessitará de lvl 35 de classe, para eu poder te ensinar";
+			show "Os bruxos e sábios podem aprender com qualquer level pois são de nivel elevado.";
+			next;
+			show "[BLIZZARDRISS]";
+			show "Quando estiver totalmente treinado e com os itens volte aqui.";
+			set ENRGYCOAT, 1;
+			close;
+
+		sM_End:
+			show "[BLIZZARDRISS]";
+			show "Hmf! Não venha reclamando quando depois, por um grupo de esporos!!";
+			emotion 6;
+			close;
+
+	M_End:
+		show "[BLIZZARDRISS]";
+		show "Homem sábio...volte quando estiver pronto";
+		close;
+
+L_GetSkill:
+	if(BaseJob==Job_Mage && JobLevel < 35) goto L_JobLvl;
+	if(countitem(746)<3 || countitem(730)<1 || countitem(935)<5 || countitem(943)<1) goto L_Items;
+	delitem 746,3;
+	delitem 730,1;
+	delitem 935,5;
+	delitem 943,1;
+	show "Ohh,... Aqui estão todos itêns mesmos...Obrigado.";
+ 	next;
+	show "~Muitas horas depois ~";
+	next;
+	skill 157,1,0;
+	set ENRGYCOAT,0;
+ 	show "[BLIZZARDRISS]";
+ 	show "Agora você pode usar a minha magia...a incrivel proteção Arcana... saiba como utilizar..!";
+	emotion 21;
+ 	close;
+
+	L_JobLvl:
+		show "Você não me ouviu ?!? Você precisa de lvl 35 de classe para aprender a 'proteção Arcana'.";
+		emotion 1;
+		close;
+
+	L_Items:
+		show "Você não me ouviu ?!? Você precisa trazer todos esses itens:";
+		show "^5533FF 3 Bolinhas de gude,";
+		show " 1 Diamante de 1Kilate,";
+		show " 5 cascas,^000000";
+		show " and ^5533FF1 casca Rija^000000.";
+		emotion 1;
+		close;
+
+L_GotSkill:
+	show "Ola.A 'Proteção Arcana' é uma habilidade ótima nao? boa sorte na sua jornada";
+	close;
+}

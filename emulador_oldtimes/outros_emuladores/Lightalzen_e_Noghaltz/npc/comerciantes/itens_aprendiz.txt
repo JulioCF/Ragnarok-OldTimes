@@ -1,0 +1,155 @@
+//===== Cronus Script ======================================== 
+//= Novice Goods Exchanger
+//===== Por: =================================================
+//= ???, eAthena Team
+//===== Versão Atual: ======================================== 
+//= 1.1b
+//===== Descrição: =========================================
+//= Troca alguns loots por Poções Vermelhas.
+//===== Comentários Adicionais: ==============================
+//= 1.1b Tradução para o portugues [Max Chandler]
+//============================================================
+
+function	script	F_NMerch	{
+	show "["+getarg(0)+"]";
+	if((Weight*100)/MaxWeight >= 90){
+		show "Você excederá seu limite do peso se você trocar pelas Poções vermelhas.";
+		close;
+	}
+	show "Bom dia!";
+	show "Você tem alguma coleção de items como "+getitemname(getarg(1))+" ou "+getitemname(getarg(3))+" ?";
+	if(getarg(5))
+		show "...que tal "+getitemname(getarg(5))+"?..";
+	show "Sim, Eu preciso deles para algo.";
+	next;
+	show "["+getarg(0)+"]";
+	show "Claro que não lhe estou pedindo eles de graça!";
+	show "Que tal... se eu lhe der 1 Poçào Vermelha?";
+	show "Poção para "+getarg(2)+" "+getitemname(getarg(1))+" ou "+getarg(4)+" "+getitemname(getarg(3))+"?";
+	if(getarg(5))
+		show "Ou "+getarg(6)+" "+getitemname(getarg(5))+"?";
+	next;
+	switch (select("Claro!:Acho que voc está tentando me passar a perna...:Não, valeu")) {
+	case 1:
+		show "["+getarg(0)+"]";
+		show "Então, qual item você me trará?";
+		show ""+getitemname(getarg(1))+"?  "+getitemname(getarg(3))+"?";
+		if(getarg(5))
+			show "Ou "+getitemname(getarg(5))+"?";
+		next;
+		if(getarg(5))
+			set @i,select(""+getitemname(getarg(1))+"",""+getitemname(getarg(3))+"",""+getitemname(getarg(5))+"","Cancel");
+		else
+			set @i,select(""+getitemname(getarg(1))+"",""+getitemname(getarg(3))+"","Cancel");
+		if(@i==4 || (@i==3 && !getarg(5))) {
+			show "["+getarg(0)+"]";
+			show "Claro, Sem problema.";
+			close;
+		}
+		set @item,getarg(@i*2-1);
+		set @amount,getarg(@i*2);
+		set @have,countitem(@item);
+		if(@have < @amount) {
+			show "["+getarg(0)+"]";
+			show "Ei, onde estão os ";
+			show getitemname(@item)+" que você me prometeu?";
+			close;
+		}
+		show "["+getarg(0)+"]";
+		show "Ok, deixa me ver o que você me trouxe.";
+		next;
+		set @max,@have / @amount;
+		show "["+getarg(0)+"]";
+		show "Você tem o total de "+@have+" "+getitemname(@item)+"...";
+		show "Eu posso lhe dar";
+		show "o total de "+@max+" Poções vermelhas por estes itens.";
+		next;
+		show "["+getarg(0)+"]";
+		show "E então? Negócio fechado?";
+		next;
+		if(select("Deal.:No deal.")==2) {
+			show "["+getarg(0)+"]";
+			show "Bah~ deixa pra lá.";
+			show "Bah!";
+			close;
+		}
+		show "["+getarg(0)+"]";
+		show "Você sabe o número exato de poções vermelhas?";
+		show "Você receberá por "+getitemname(@item)+", certo?";
+		next;
+		show "["+getarg(0)+"]";
+		show "Você pode ficar com as poções vermelhas";
+		show "no minimo 1 e no maximo 100.";
+		show "Se você mudar de ideia, digite '0'";
+		show "para cancelar.";
+		while(1) {
+			next;
+			digit @val;
+			if(@val<0 || @val>100) {
+				show "["+getarg(0)+"]";
+				show "Oh oh, o número que você digitou";
+				show "Está errado.";
+				show "É melhor checar quantas poções";
+				show "vermelhas você pode pegar.";
+				continue;
+			}
+			break;
+		}
+		show "["+getarg(0)+"]";
+		if(@val == 0) {
+			show "O quee...que @#$% você quer";
+			show "me incomodando assim?";
+			show "Deixa pra lá, não farei negocio com gente";
+			show "novata.";
+			close;
+		}
+		if(@val > @max) {
+				show "Oh oh, o número que você digitou";
+				show "Está errado.";
+				show "É melhor checar quantas poções";
+				show "vermelhas você pode pegar.";
+			close;
+		}
+		delitem @item,@amount*@val;
+		additem 501,@val;
+		show "O que vamos nessa!";
+		show "Valeu, Foi um otimo negocio.";
+		close;
+	case 2:
+		show "["+getarg(0)+"]";
+		show "Você acha que lhe estou trapaceando?!";
+		show "Você deve saber o quão estúpido você esta sendo!";
+		next;
+		show "["+getarg(0)+"]";
+		show "Quando você verificar o preço destes itens,";
+		show "Eu estou perdendo negócios.";
+		show "Se você não esta interessado, beleza!";
+		close;
+	case 3:
+		show "["+getarg(0)+"]";
+		show "Hah, sem problemas.";
+		show "Bah!";
+		close;
+	}
+}
+
+prontera.gat,123,102,5	script	Merchant#1	85,{
+	callfunc "F_NMerch","Merchant",935,5,914,10,909,10;
+}
+
+geffen.gat,173,88,5	script	Merchant#2	85,{
+	callfunc "F_NMerch","Merchant",935,5,915,6,909,10;
+}
+
+morocc.gat,180,259,3	script	Merchant#3	85,{
+	callfunc "F_NMerch","Merchant",935,5,916,7,909,10;
+}
+
+aldebaran.gat,152,63,5	script	Merchant#4	85,{
+	callfunc "F_NMerch","Merchant",955,1,916,7,909,10;
+}
+
+payon.gat,200,134,5	script	Merchant#5	85,{
+	//we remove 3rd item, by adding 0,0
+	callfunc "F_NMerch","Merchant",902,6,909,10,0,0;
+}

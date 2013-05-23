@@ -1,0 +1,156 @@
+//===== Cronus Script ======================================== 
+//= Script Arqueiro
+//===== Por: =================================================
+//= Lupus
+//===== Versão Atual: ======================================== 
+//= 1.5
+//===== Descrição: =========================================== 
+//= Muda a classe para Arqueiro
+//===== Changelog: =========================================== 
+//= 1.5 Traduzido [DarkAngel]
+//============================================================
+
+// -- Archer Guildsman -- 
+payon_in02.gat,64,71,4	script	Guia de Arqueiro	59,{
+	callfunc "F_ToHigh",27,"High Archer",35,"Sniper",147,148,0,0,"Archer Guildsman";
+	show "[Guia de Arqueiro]";
+	if(BaseJob==Job_Novice && job_archer_q == 1) goto L_Check;
+	show "Bom dia. Posso ajudar você?";
+	next;
+	menu "Eu quero me tornar um "+callfunc("classname",3,"S","M")+".",M_0,"Quais são os requerimentos?",M_1,"Nada.",M_End;
+
+	M_0:
+		show "[Guia de Arqueiro]";
+		callfunc "Arc_check";
+		show "Muito bom. Você tem as habilidades necessárias para ser um "+callfunc("classname",3,"S","M")+"....";
+		next;
+		show "[Guia de Arqueiro]";
+		show "mas.... ";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Você tem que passar em um teste antes.  Eu espero que você não tenha pensado que tornar-se um "+callfunc("classname",3,"S","M")+" ia ser fácil. Ha ha!";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Um arco bem feito é essencial para um "+callfunc("classname",3,"S","M")+" bom, e madeira de qualidade alta é em troca essencial para um arco bem feito.";
+		show "Então sua missão será recolher galhos de qualidade para o teste.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Quanto mais alta a qualidade, maior sua pontuação.";
+		show "Você terá uma pontução ^ff0000de 25 pontos^000000 para poder ^ff0000passar no teste^000000.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Você pode achar madeira lutando contra ^0000ff'Salgueiros'^000000, um tipo de monstro de árvore achado fora de cidade na floresta de Payon.";
+		show "Eles deixam madeira na forma de^0000ff 'Troncos'^000000.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Há um total de 4 tipo diferente de troncos, cada com um valor de ponto diferente.  Junte uma variedade de tronco e os devolva aqui para eu classificar";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Eu tenho que advertir, os Salgueiros podem ser os monstros duros assim cuide-se e se lembre de descansar e usar seus artigos curativos. Boa Sorte!";
+		close;
+
+	M_1:
+		show "[Guia de Arqueiro]";
+		if(BaseJob == Job_Archer) goto sM_1a;
+		if(BaseJob != Job_Novice) goto sM_1b;
+		show "Deixe-me explicar à você as exigências para se tornar um "+callfunc("classname",3,"S","M")+":";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Antes de tudo, tem de conseguir nível 9 em classe e todas as habilidades básicas.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Depois, você terá que fazer uma prova que determinará se ou não você tem as habilidades para se tornar um "+callfunc("classname",3,"S","M")+".";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Esse são os requerimentos. Quando completar, você poderá desfrutar da vida de um aqueiro.";
+		close;
+
+		sM_1a:
+			show "Você já esqueceu como se torna um "+callfunc("classname",3,"S","M")+"?....";
+			emotion 1;
+			close;
+		sM_1b:
+			show "Não adianta eu lhe falar como se torna um "+callfunc("classname",3,"S","M")+" já que você tem outra profissão.";
+			close;	
+
+	M_End:
+		show "[Guia de Arqueiro]";
+		show "OK, cuide-se.";
+		close;
+
+L_Check:
+	show "Oh, Vejo que você voltou.";
+	next;
+	show "[Guia de Arqueiro]";	
+	if((CountItem(1066) == 0) && (CountItem(1067) == 0) && (CountItem(1068) == 0) && (Countitem(1019) == 0)) goto sL_NotRdy;
+	if(SkillPoint > 0) goto sL_SkPoints;
+	set @Trunk1, CountItem(1066)*5;
+	set @Trunk2, CountItem(1067)*3;
+	set @Trunk3, CountItem(1068)*2;
+	set @Trunk4, CountItem(1019);
+	set @TrunkTotal, @Trunk1 + @Trunk2 + @Trunk3 + @Trunk4;
+
+	show "Deixe-me ver.....";
+	next;
+	show "[Guia de Arqueiro]";
+	show "Você tem:";
+	show "^0000FF" +Countitem(1066)+ "^000000 Tronco De Alta Qualidade por ^ff0000" +@Trunk1+ "^000000 pontos,";
+	show "^0000FF" +Countitem(1067)+ "^000000 Tronco Sólidos por ^ff0000" +@Trunk2+ "^000000 pontos,";
+	show "^0000FF" +Countitem(1068)+ "^000000 Tronco Estéril por ^ff0000" +@Trunk3+ "^000000 pontos,";
+	show "^0000FF" +Countitem(1019)+ "^000000 Tronco por ^ff0000" +@Trunk4+ "^000000 pontos.....";
+	next;
+	show "[Guia de Arqueiro]";
+	show "Sua pontuação total foi: ^ff0000" +@TrunkTotal+"^000000";
+	next;
+	show "[Guia de Arqueiro]";
+	if(@TrunkTotal < 25) goto sL_Failed;
+
+	show "Muito Bom! Você passou no teste. Parabéns, agora você está qualificado para ser um "+callfunc("classname",3,"S","M")+".";
+	emotion 21;
+	next;
+	show "[Guia de Arqueiro]";
+	show "Agora transformarei você...";
+	next;
+	callfunc "Job_Change",Job_Archer;
+	callfunc "F_ClearJobVar";		// clears all job variables for the current player
+	show "[Guia de Arqueiro]";
+	show "Em troca dos troncos que você me trouxe lhe darei este Arco e algumas flechas.  Por favor pegue eles.";
+	next;
+	additem 1702,1;//Items: Bow_,
+	additem 1750,200;//Items: Arrow,
+	delitem 1066, countitem(1066);//Items: Fine-grained_Trunk,
+	delitem 1067, countitem(1067);//Items: Solid_Trunk,
+	delitem 1068, countitem(1068);//Items: Barren_Trunk,
+	delitem 1019, countitem(1019);//Items: Trunk,
+	show "[Guia de Arqueiro]";
+	show "Um "+callfunc("classname",3,"S","M")+" não tem uma vida agitada, é muito tranquila e cheia de paz.  Eu sei que você será um "+callfunc("classname",3,"S","M")+" excelente";
+	next;
+	show "[Guia de Arqueiro]";
+	show "Adeus e boa sorte em sua viagem.";
+	close;
+
+	sL_NotRdy:
+		show "O Que? Você não trouxe os troncos para mim classificar? Deixe-me explicar novamente, pois acho que você esqueceu...";
+		emotion 1;
+		next;
+		show "[Guia de Arqueiro]";
+		show "Há um total de ^5555FF4 tipos diferentes de tronco^000000 cada um com um valor diferente.";
+		show "Junte uma variedade de troncos e os traga aqui para eu classificar.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Você pode achar madeira lutando contra ^0000ff'Salgueiros'^000000, um tipo de monstro de árvore achado fora de cidade na floresta de Payon.";
+		close;
+	sL_SkPoints:
+		show "Você precisa usar seus pontos de abilidades antes de se tornar um "+callfunc("classname",3,"S","M")+".";
+		close;
+	sL_Failed:
+		show "Me desculpe mas sua pontuação é muito baixa.  Eu tenho pena de você, não passou no teste.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Felizmente, eu sou um pouco 'bonzinho', assim eu lhe darei outra chance  Vá e traga mais troncos da próxima vez.";
+		next;
+		show "[Guia de Arqueiro]";
+		show "Eles serão importantes para você para passar no teste.";
+		close;
+
+}
