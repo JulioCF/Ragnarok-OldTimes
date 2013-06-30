@@ -4,7 +4,7 @@ Cronus-Emulator Based
 --------------
 Estado da compilação atual:
 
-[![Build Status](https://secure.travis-ci.org/Cronus-Emulator/Cronus.png?branch=master)](https://secure.travis-ci.org/Cronus-Emulator/Cronus)
+[Build Status] Passing
 --------------
 
 Agradecimentos
